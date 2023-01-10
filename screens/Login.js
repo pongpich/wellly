@@ -52,7 +52,7 @@ class Login extends Component {
                             <TextInput
                                 style={styleEmil === true ? styles.emil : styles.errorEmail}
                                 returnKeyType={"next"}
-                                 autoFocus={true}
+                                autoFocus={true}
                                 placeholder="อีเมล"
                             />
                             <View style={styles.error}>
@@ -89,24 +89,25 @@ class Login extends Component {
                                     </TouchableOpacity>
 
                             }
-                         <View style={styles.inputPassword2}>
-                         <TextInput
-                                style={styleEmil === true ? styles.password : styles.errorPassword}
-                                placeholder="รหัสผ่านอย่างน้อย 8 หลัก"
-                                secureTextEntry={entry}
-                            />
-                         </View>
-                            <View style={styles.error}>
-                                {
-                                    styleEmil === false ?
-                                        textErrorEmail === 1 ?
-                                            <Text style={styles.errorText}>กรุณากรอกอีเมล</Text>
-                                            : textErrorEmail === 2 ?
-                                                <Text style={styles.errorText}>รูปแบบของอีเมลไม่ถูกต้อง</Text>
-                                                : null
-                                        : null
-                                }
+                            <View style={styles.inputPassword2}>
+                                <TextInput
+                                    style={styleEmil === true ? styles.password : styles.errorPassword}
+                                    placeholder="รหัสผ่านอย่างน้อย 8 หลัก"
+                                    secureTextEntry={entry}
+                                />
                             </View>
+
+                        </View>
+                        <View style={styles.error}>
+                            {
+                                styleEmil === false ?
+                                    textErrorEmail === 1 ?
+                                        <Text style={styles.errorText}>กรุณากรอกรหัสผ่าน</Text>
+                                        : textErrorEmail === 2 ?
+                                            <Text style={styles.errorText}>รหัสผ่านต้องมากกว่า 8 หลักขึ้นไป</Text>
+                                            : null
+                                    : null
+                            }
                         </View>
                         <Pressable style={styles.buttonLogin} >
                             <Text style={styles.textLogin}>ล็อกอิน</Text>
@@ -210,7 +211,7 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     password: {
-        width: "100%",
+        width: "90%",
         height: 56,
         borderWidth: 1,
         padding: 10,
@@ -237,26 +238,26 @@ const styles = StyleSheet.create({
         alignItems: "flex-end",
         position: "relative",
         zIndex: 1,
-    
+
     },
     inputPassword2: {
         width: "100%",
         alignItems: "center",
         position: "relative",
         zIndex: 1,
-    
+
     },
     entry: {
         position: "absolute",
         marginTop: 35,
         zIndex: 4,
-        width:"15%"
+        width: "15%"
     },
-/*     entryImage: {
-        alignItems: "flex-end",
-        position: "absolute",
-
-    }, */
+    /*     entryImage: {
+            alignItems: "flex-end",
+            position: "absolute",
+    
+        }, */
     buttonLogin: {
         marginTop: 20,
         width: "90%",
