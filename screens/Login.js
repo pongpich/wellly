@@ -2,16 +2,17 @@ import React, { Component } from 'react';
 import { View, StyleSheet, Pressable, SafeAreaView, Image, TouchableOpacity, TextInput, Text, Linking, KeyboardAvoidingView, Platform, Dimensions, Modal } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
-class Login extends Component {
 
+class Login extends Component {
+    
     constructor(props) {
         super(props);
         this.state = {
             entry: true, // เปิด-ปิด passWord
-            styleEmil: false, // เปลี่ยนสี borderColor Email [true,false]
-            textErrorEmail: 1, // สถานะข้อความ Email [1,2,null] 
-            stylePassword: false, // เปลี่ยนสี borderColor PassWord [true,false]
-            textErrorPassWord: 1 // สถานะข้อความ Password [1,2,null] 
+            styleEmil: true, // เปลี่ยนสี borderColor Email [true,false]
+            textErrorEmail: null, // สถานะข้อความ Email [1,2,null] 
+            stylePassword: true, // เปลี่ยนสี borderColor PassWord [true,false]
+            textErrorPassWord: null // สถานะข้อความ Password [1,2,null] 
 
         };
     }
@@ -186,6 +187,7 @@ const styles = StyleSheet.create({
         borderColor: "#93a8c1",
         color: "#2a323c",
         backgroundColor: "#FFFFFF",
+        fontFamily: "Prompt-Light"
     },
     errorEmail: {
         width: "90%",
@@ -197,6 +199,7 @@ const styles = StyleSheet.create({
         borderColor: "#D43A3A",
         color: "#2a323c",
         backgroundColor: "#FFFFFF",
+        fontFamily: "Prompt-Light"
     },
     error: {
         width: "90%",
@@ -204,7 +207,8 @@ const styles = StyleSheet.create({
     },
     errorText: {
         color: "#D43A3A",
-        alignItems: "flex-start"
+        alignItems: "flex-start",
+        fontFamily: "Prompt-Light"
     },
     inputEmil: {
         width: "100%",
@@ -220,6 +224,7 @@ const styles = StyleSheet.create({
         borderColor: "#93a8c1",
         color: "#2a323c",
         backgroundColor: "#FFFFFF",
+        fontFamily: "Prompt-Light"
     },
     errorPassword: {
         width: "90%",
@@ -232,6 +237,7 @@ const styles = StyleSheet.create({
         color: "#2a323c",
         position: "relative",
         zIndex: 1,
+        fontFamily: "Prompt-Light"
     },
     inputPassword: {
         width: "100%",
@@ -253,11 +259,6 @@ const styles = StyleSheet.create({
         zIndex: 4,
         width: "15%"
     },
-    /*     entryImage: {
-            alignItems: "flex-end",
-            position: "absolute",
-    
-        }, */
     buttonLogin: {
         marginTop: 20,
         width: "90%",
@@ -273,7 +274,8 @@ const styles = StyleSheet.create({
     },
     textLogin: {
         color: "#FFFFFF",
-        fontSize: 16
+        fontSize: 16,
+        fontFamily: "Prompt-Bold"
     },
     buttonForgotPassword: {
         marginTop: 10,
@@ -284,7 +286,8 @@ const styles = StyleSheet.create({
     },
     textForgotPassword: {
         color: "#3762FC",
-        fontSize: 16
+        fontSize: 16,
+        fontFamily: "Prompt-Bold"
     },
     buttonThi_eng: {
         flex: 1,
@@ -294,6 +297,7 @@ const styles = StyleSheet.create({
     textThi_eng: {
         fontSize: 16,
         color: "#697D96",
+        fontFamily: "Prompt-Light"
     }
 });
 
