@@ -52,7 +52,7 @@ class Login extends Component {
                             <TextInput
                                 style={styleEmil === true ? styles.emil : styles.errorEmail}
                                 returnKeyType={"next"}
-                                /*  autoFocus={true} */
+                                 autoFocus={true}
                                 placeholder="อีเมล"
                             />
                             <View style={styles.error}>
@@ -70,27 +70,32 @@ class Login extends Component {
                         </View>
 
                         <View style={styles.inputPassword}>
-                        {
-                                    entry === false ? 
-                                    <TouchableOpacity  style={styles.entry} onPress={() => this.handleChange("entry", true)}> 
-                                         <Image
-                                           /*  style={styles.entry} */
+                            {
+                                entry === false ?
+
+                                    <TouchableOpacity style={styles.entry} onPress={() => this.handleChange("entry", true)}>
+                                        <Image
                                             source={require('../assets/icon/entry_op.png')}
                                         />
                                     </TouchableOpacity>
+
                                     :
-                                    <TouchableOpacity  style={styles.entry} onPress={() => this.handleChange("entry", false)}>
-                                    <Image
-                                      /*  style={styles.entry} */
-                                       source={require('../assets/icon/entry_off.png')}
-                                   />
-                               </TouchableOpacity>
-                                }
-                        <TextInput
+
+                                    <TouchableOpacity style={styles.entry} onPress={() => this.handleChange("entry", false)}>
+                                        <Image
+                                            style={styles.entryImage}
+                                            source={require('../assets/icon/entry_off.png')}
+                                        />
+                                    </TouchableOpacity>
+
+                            }
+                         <View style={styles.inputPassword2}>
+                         <TextInput
                                 style={styleEmil === true ? styles.password : styles.errorPassword}
                                 placeholder="รหัสผ่านอย่างน้อย 8 หลัก"
                                 secureTextEntry={entry}
                             />
+                         </View>
                             <View style={styles.error}>
                                 {
                                     styleEmil === false ?
@@ -197,7 +202,6 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     errorText: {
-
         color: "#D43A3A",
         alignItems: "flex-start"
     },
@@ -206,7 +210,7 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     password: {
-        width: "90%",
+        width: "100%",
         height: 56,
         borderWidth: 1,
         padding: 10,
@@ -225,20 +229,34 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         borderColor: "#D43A3A",
         color: "#2a323c",
-        backgroundColor: "#FFFFFF",
+        position: "relative",
+        zIndex: 1,
     },
     inputPassword: {
         width: "100%",
+        alignItems: "flex-end",
+        position: "relative",
+        zIndex: 1,
+    
+    },
+    inputPassword2: {
+        width: "100%",
         alignItems: "center",
         position: "relative",
+        zIndex: 1,
+    
     },
     entry: {
         position: "absolute",
-        marginTop: 36,
+        marginTop: 35,
         zIndex: 4,
-        width: "80%",
-       alignItems:"flex-end"
+        width:"15%"
     },
+/*     entryImage: {
+        alignItems: "flex-end",
+        position: "absolute",
+
+    }, */
     buttonLogin: {
         marginTop: 20,
         width: "90%",
