@@ -46,7 +46,7 @@ class Login extends Component {
                         <View style={styles.circle_3} />
                         <Image
                             style={styles.tinyLogo}
-                            source={require('../assets/logo/Logo.png')}
+                            source={require('../assets/images/logo/Logo.png')}
                         />
                         <View style={styles.inputEmil}>
                             <TextInput
@@ -75,7 +75,7 @@ class Login extends Component {
 
                                     <TouchableOpacity style={styles.entry} onPress={() => this.handleChange("entry", true)}>
                                         <Image
-                                            source={require('../assets/icon/entry_op.png')}
+                                            source={require('../assets/images/icon/entry_op.png')}
                                         />
                                     </TouchableOpacity>
 
@@ -84,7 +84,7 @@ class Login extends Component {
                                     <TouchableOpacity style={styles.entry} onPress={() => this.handleChange("entry", false)}>
                                         <Image
                                             style={styles.entryImage}
-                                            source={require('../assets/icon/entry_off.png')}
+                                            source={require('../assets/images/icon/entry_off.png')}
                                         />
                                     </TouchableOpacity>
 
