@@ -4,7 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 
 class Login extends Component {
-    
+
     constructor(props) {
         super(props);
         this.state = {
@@ -12,10 +12,18 @@ class Login extends Component {
             styleEmil: true, // เปลี่ยนสี borderColor Email [true,false]
             textErrorEmail: null, // สถานะข้อความ Email [1,2,null] 
             stylePassword: true, // เปลี่ยนสี borderColor PassWord [true,false]
-            textErrorPassWord: null // สถานะข้อความ Password [1,2,null] 
-
+            textErrorPassWord: null, // สถานะข้อความ Password [1,2,null] 
+            modalVisible: false
         };
     }
+    /*     state = {
+            modalVisible: false
+          }; */
+
+    setModalVisible(visible) {
+        this.setState({ modalVisible: visible });
+    }
+
     /*     componentDidUpdate(prevProps) {
             const { entry } = this.state;
             if (prevProps.entry !== entry) {
@@ -32,14 +40,15 @@ class Login extends Component {
 
     render() {
 
-        const { entry, styleEmil, textErrorEmail, textErrorPassWord, stylePassword } = this.state;
+        const { entry, styleEmil, textErrorEmail, textErrorPassWord, stylePassword, modalVisible } = this.state;
         return (
             <LinearGradient
                 style={styles.container}
-                colors={['#59CBE4', '#59CBE4','white', 'white', 'white', 'white']}
+                colors={['#59CBE4', '#59CBE4', 'white', 'white', 'white', 'white']}
                 start={{ x: 1, y: 0 }}
                 end={{ x: 1, y: 1 }}
             >
+               
                 <SafeAreaView>
                     <View style={styles.view}>
                         <View style={styles.circle_1} />
@@ -110,10 +119,10 @@ class Login extends Component {
                                     : null
                             }
                         </View>
-                        <Pressable style={styles.buttonLogin} >
+                        <Pressable style={styles.buttonLogin} onPress={() => this.setModalVisible(true)} >
                             <Text style={styles.textLogin}>ล็อกอิน</Text>
                         </Pressable>
-                        <Pressable style={styles.buttonForgotPassword} >
+                        <Pressable style={styles.buttonForgotPassword} onPress={() => this.props.navigation.navigate("ForgotPassword")} >
                             <Text style={styles.textForgotPassword}>ลืมรหัสผ่าน?</Text>
                         </Pressable>
                     </View>
@@ -121,6 +130,27 @@ class Login extends Component {
                 <Pressable style={styles.buttonThi_eng} >
                     <Text style={styles.textThi_eng}>English?</Text>
                 </Pressable>
+                <View style={styles.centeredView}>
+                    <Modal
+                        animationType="slide"
+                        transparent={true}
+                        visible={modalVisible}
+                        onRequestClose={() => {
+                            Alert.alert("Modal has been closed.");
+                            setModalVisible(!modalVisible);
+                        }}
+                    >
+                        <View style={styles.centeredView}>
+                            <View style={styles.modalView}>
+                                <Text style={styles.modalText}>ไม่พบบัญชีผู้ใช้</Text>
+                                <Text style={styles.modalText2}>ตรวจสอบชื่อผู้ใช้ หรือรหัสผ่านอีกครั้ง หรือติดต่อแผนกบุคคล</Text>
+                                <Pressable style={styles.buttonLogin} onPress={() => this.setModalVisible(!modalVisible)} >
+                                    <Text style={styles.textLogin}>ตกลง</Text>
+                                </Pressable>
+                            </View>
+                        </View>
+                    </Modal>
+                </View>
             </LinearGradient>
 
         )
@@ -130,24 +160,18 @@ const deviceWidth = Math.round(Dimensions.get('window').width);
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent:"center",
+        justifyContent: "center",
         height: (deviceWidth > 900) ? "190%" : (deviceWidth > 675) ? "120%" : "100%",
-        width:"100%"
+        width: "100%"
 
     },
     view: {
-       
         alignItems: "center",
         opacity: 1,
-/*         alignItems: "center",
-        opacity: 1,
-        zIndex: 2,
-        justifyContent:"center",
-        display: "flex", */
     },
     tinyLogo: {
         opacity: 1,
-        marginTop:"40%",
+        marginTop: "40%",
     },
     circle_1: {
         marginTop: "20%",
@@ -294,12 +318,67 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: "flex-end",
-        marginBottom:30,
+        marginBottom: 30,
     },
     textThi_eng: {
         fontSize: 16,
         color: "#697D96",
         fontFamily: "Prompt-Light"
+    },
+    centeredView: {
+        flex: 1,
+        justifyContent: "flex-end",
+        alignItems: "center",
+
+    },
+    modalView: {
+        zIndex:3,
+        margin: 20,
+        backgroundColor: "white",
+        width: "100%",
+        height: "40%",
+        borderRadius: 20,
+        padding: 35,
+        alignItems: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 12
+        },
+        marginBottom: -50,
+        shadowOpacity: 0.58,
+        shadowRadius: 16,
+        elevation: 24
+    },
+    button: {
+        borderRadius: 20,
+        padding: 10,
+        elevation: 2
+    },
+    buttonOpen: {
+        backgroundColor: "#F194FF",
+    },
+    buttonClose: {
+        backgroundColor: "#2196F3",
+    },
+    textStyle: {
+        color: "white",
+        fontWeight: "bold",
+        textAlign: "center"
+    },
+    modalText: {
+        marginBottom: 15,
+        textAlign: "center",
+        fontWeight: "bold",
+        fontSize:20,
+        color:"#2A323C"
+
+    },
+    modalText2: {
+        marginBottom: 16,
+        textAlign: "center",
+        fontFamily: "Prompt-Light",
+        color:"#697D96"
     }
 });
 
