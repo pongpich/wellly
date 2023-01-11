@@ -16,12 +16,41 @@ class Login extends Component {
             modalVisible: false
         };
     }
-    /*     state = {
-            modalVisible: false
-          }; */
-
     setModalVisible(visible) {
         this.setState({ modalVisible: visible });
+    }
+
+    submitLogin() {
+        let name = true;
+        let email = "test@hom.com";
+        let password = "12345678";
+       
+            if (email === "") {
+                this.setState({
+                     styleEmil: false,
+                    textErrorEmail:1
+                 });
+            }else if (email !== "test@hom.com") {
+                this.setState({ styleEmil: false,
+                    textErrorEmail:2 });
+            }else if (password === "") {
+                this.setState({
+                    stylePassword:false,
+                    textErrorPassWord:1
+                 });
+            }else if (password.length < 8) {
+                this.setState({ stylePassword: false,
+                    textErrorPassWord:2 });
+            }else{
+                if (name === true) {
+                    this.props.navigation.navigate("Walkthrough")
+                }else{
+                    this.setModalVisible(true)
+                }
+            }
+        
+        
+      /*  */
     }
 
     /*     componentDidUpdate(prevProps) {
@@ -48,7 +77,7 @@ class Login extends Component {
                 start={{ x: 1, y: 0 }}
                 end={{ x: 1, y: 1 }}
             >
-               
+
                 <SafeAreaView>
                     <View style={styles.view}>
                         <View style={styles.circle_1} />
@@ -101,7 +130,7 @@ class Login extends Component {
                             }
                             <View style={styles.inputPassword2}>
                                 <TextInput
-                                    style={styleEmil === true ? styles.password : styles.errorPassword}
+                                    style={stylePassword === true ? styles.password : styles.errorPassword}
                                     placeholder="รหัสผ่านอย่างน้อย 8 หลัก"
                                     secureTextEntry={entry}
                                 />
@@ -110,16 +139,16 @@ class Login extends Component {
                         </View>
                         <View style={styles.error}>
                             {
-                                styleEmil === false ?
-                                    textErrorEmail === 1 ?
+                                stylePassword === false ?
+                                textErrorPassWord === 1 ?
                                         <Text style={styles.errorText}>กรุณากรอกรหัสผ่าน</Text>
-                                        : textErrorEmail === 2 ?
+                                        : textErrorPassWord === 2 ?
                                             <Text style={styles.errorText}>รหัสผ่านต้องมากกว่า 8 หลักขึ้นไป</Text>
                                             : null
                                     : null
                             }
                         </View>
-                        <Pressable style={styles.buttonLogin} onPress={() => this.setModalVisible(true)} >
+                        <Pressable style={styles.buttonLogin} onPress={() => this.submitLogin()} >
                             <Text style={styles.textLogin}>ล็อกอิน</Text>
                         </Pressable>
                         <Pressable style={styles.buttonForgotPassword} onPress={() => this.props.navigation.navigate("ForgotPassword")} >
@@ -142,9 +171,13 @@ class Login extends Component {
                     >
                         <View style={styles.centeredView}>
                             <View style={styles.modalView}>
+                                <Image
+                                    
+                                    source={require('../assets/images/icon/generic.png')}
+                                />
                                 <Text style={styles.modalText}>ไม่พบบัญชีผู้ใช้</Text>
                                 <Text style={styles.modalText2}>ตรวจสอบชื่อผู้ใช้ หรือรหัสผ่านอีกครั้ง หรือติดต่อแผนกบุคคล</Text>
-                                <Pressable style={styles.buttonLogin} onPress={() => this.setModalVisible(!modalVisible)} >
+                                <Pressable style={styles.buttonModel} onPress={() => this.setModalVisible(!modalVisible)} >
                                     <Text style={styles.textLogin}>ตกลง</Text>
                                 </Pressable>
                             </View>
@@ -332,14 +365,15 @@ const styles = StyleSheet.create({
 
     },
     modalView: {
-        zIndex:3,
+        zIndex: 3,
         margin: 20,
         backgroundColor: "white",
         width: "100%",
-        height: "40%",
+        height: "55%",
         borderRadius: 20,
         padding: 35,
         alignItems: "center",
+        justifyContent: "center",
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -350,16 +384,18 @@ const styles = StyleSheet.create({
         shadowRadius: 16,
         elevation: 24
     },
-    button: {
-        borderRadius: 20,
-        padding: 10,
-        elevation: 2
-    },
-    buttonOpen: {
-        backgroundColor: "#F194FF",
-    },
-    buttonClose: {
-        backgroundColor: "#2196F3",
+    buttonModel: {
+        width: "100%",
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 12,
+        paddingHorizontal: 32,
+        borderRadius: 4,
+        elevation: 3,
+        backgroundColor: '#3762FC',
+        borderRadius: 24,
+        height: 50,
+        marginBottom: 40
     },
     textStyle: {
         color: "white",
@@ -367,18 +403,21 @@ const styles = StyleSheet.create({
         textAlign: "center"
     },
     modalText: {
+        marginTop:20,
         marginBottom: 15,
         textAlign: "center",
         fontWeight: "bold",
-        fontSize:20,
-        color:"#2A323C"
+        fontSize: 20,
+        color: "#2A323C"
 
     },
     modalText2: {
+        width:"75%",
         marginBottom: 16,
         textAlign: "center",
         fontFamily: "Prompt-Light",
-        color:"#697D96"
+        color: "#697D96",
+        fontSize: 16,
     }
 });
 

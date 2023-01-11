@@ -2,13 +2,9 @@ import React, { Component } from 'react'
 import { Button, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator,CardStyleInterpolators } from '@react-navigation/stack';
-/* import {
-  createStackNavigator,
-  CardStyleInterpolators,
-} from '@react-navigation/stack';
- */
 import Login from '../screens/Login';
 import ForgotPassword from '../screens/ForgotPassword';
+import Walkthrough from '../screens/Walkthrough';
 
 
 const Stack = createStackNavigator();
@@ -20,6 +16,10 @@ function MyStack() {
      <Stack.Screen name="ForgotPassword" component={ForgotPassword}  options={{
         title: "",
         }}/>
+     <Stack.Screen name="Walkthrough" component={Walkthrough}   options={{
+        cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid,
+        headerShown: false,
+      }}/>
     </Stack.Navigator>
   );
 }
