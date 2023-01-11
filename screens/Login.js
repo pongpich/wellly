@@ -36,7 +36,7 @@ class Login extends Component {
         return (
             <LinearGradient
                 style={styles.container}
-                colors={['#59CBE4', '#59CBE4', 'white', 'white', 'white']}
+                colors={['#59CBE4', '#59CBE4','white', 'white', 'white', 'white']}
                 start={{ x: 1, y: 0 }}
                 end={{ x: 1, y: 1 }}
             >
@@ -53,7 +53,7 @@ class Login extends Component {
                             <TextInput
                                 style={styleEmil === true ? styles.emil : styles.errorEmail}
                                 returnKeyType={"next"}
-                                autoFocus={true}
+                               /*  autoFocus={true} */
                                 placeholder="อีเมล"
                             />
                             <View style={styles.error}>
@@ -126,33 +126,34 @@ class Login extends Component {
         )
     }
 }
-
+const deviceWidth = Math.round(Dimensions.get('window').width);
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        /*   alignItems: 'center', */
+        justifyContent:"center",
+        height: (deviceWidth > 900) ? "190%" : (deviceWidth > 675) ? "120%" : "100%",
+        width:"100%"
 
-    },
-    text: {
-        fontSize: 25,
-        fontWeight: '500',
-        marginTop: "50%",
-
-    },
-    tinyLogo: {
-        marginTop: "50%",
-        opacity: 1,
     },
     view: {
+       
         alignItems: "center",
+
+/*         alignItems: "center",
         opacity: 1,
         zIndex: 2,
+        justifyContent:"center",
+        display: "flex", */
+    },
+    tinyLogo: {
+        opacity: 1,
+        marginTop:"40%"
     },
     circle_1: {
-        marginTop: "30%",
+        marginTop: "20%",
         width: 400,
         height: 400,
-        backgroundColor: "rgba(255,255,255, 0.06)",
+        backgroundColor: "rgba(255,255,255, 0.1)",
         border: "solid 5px darkcyan",
         borderRadius: 500,
         left: -170,
@@ -160,17 +161,17 @@ const styles = StyleSheet.create({
         position: "absolute",
     },
     circle_2: {
-        marginTop: "30%",
+        marginTop: "20%",
         width: 400,
         height: 400,
-        backgroundColor: "rgba(255,255,255, 0.06);",
+        backgroundColor: "rgba(255,255,255, 0.1);",
         borderRadius: 500,
         right: -170,
         zIndex: 0,
         position: "absolute",
     },
     circle_3: {
-        marginTop: "50%",
+        marginTop: "40%",
         width: 600,
         height: 700,
         backgroundColor: "rgba(255,255,255,0.1);",
@@ -182,7 +183,7 @@ const styles = StyleSheet.create({
         height: 56,
         borderWidth: 1,
         padding: 10,
-        marginTop: "25%",
+        marginTop: "15%",
         borderRadius: 8,
         borderColor: "#93a8c1",
         color: "#2a323c",
