@@ -53,7 +53,7 @@ class Login extends Component {
                             <TextInput
                                 style={styleEmil === true ? styles.emil : styles.errorEmail}
                                 returnKeyType={"next"}
-                               /*  autoFocus={true} */
+                                autoFocus={true}
                                 placeholder="อีเมล"
                             />
                             <View style={styles.error}>
@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
     view: {
        
         alignItems: "center",
-
+        opacity: 1,
 /*         alignItems: "center",
         opacity: 1,
         zIndex: 2,
@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
     },
     tinyLogo: {
         opacity: 1,
-        marginTop:"40%"
+        marginTop:"40%",
     },
     circle_1: {
         marginTop: "20%",
@@ -293,7 +293,8 @@ const styles = StyleSheet.create({
     buttonThi_eng: {
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: "flex-end",
+        marginBottom:30,
     },
     textThi_eng: {
         fontSize: 16,
