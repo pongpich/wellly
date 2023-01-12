@@ -4,7 +4,8 @@ import { Alert, Modal, StyleSheet, Text, Image, Linking, Button, Pressable, View
 class ForgotPassword extends Component {
   render() {
     return (
-      <>
+      <View style={{flex: 1, padding: 10, backgroundColor: "#fff"}}>
+        <View>
         <View style={styles.forgotPasswordView}>
           <Image
             style={styles.entryImage}
@@ -17,20 +18,36 @@ class ForgotPassword extends Component {
         </View>
         <View style={styles.hrefView}>
           <Pressable style={styles.buttonContact} onPress={() => Linking.openURL('tel:086-899-9089')}>
-            <Text style={styles.textHref}>โทร{"\n"}086-899-9089</Text>
+            <Image
+              style={{ marginTop: 10, marginRight: 10 }}
+              source={require('../assets/images/icon/phone.png')}
+            />
+            <View>
+              <Text style={styles.textHref}>โทร</Text>
+              <Text style={styles.textForgotPass_2}>086-899-9089</Text>
+            </View>
           </Pressable>
         </View>
         <View style={styles.hrefView}>
           <Pressable style={styles.buttonContact} onPress={() => Linking.openURL('mailto:test@email.com')}>
-            <Text style={styles.textHref}>email{"\n"}test@email.com</Text>
+            <Image
+              style={{ marginTop: 10, marginRight: 10 }}
+              source={require('../assets/images/icon/email.png')}
+            />
+            <View><Text style={styles.textHref}>email</Text>
+              <Text style={styles.textForgotPass_2}>test@email.com</Text>
+            </View>
           </Pressable>
         </View>
-        <View style={styles.buttonView}>
+        </View>
+        <View style={{flex: 1 , justifyContent: "flex-end", marginBottom: 20}}>
+          <View style={styles.buttonView}>
           <Pressable style={styles.buttonNext} onPress={() => this.props.navigation.goBack()}>
             <Text style={styles.textNext}>กลับ</Text>
           </Pressable>
         </View>
-      </>
+          </View>
+      </View>
     )
   }
 }
@@ -38,14 +55,11 @@ class ForgotPassword extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    height: "100%",
-    alignItems: "center",
-
+    height: "100%"
   },
   forgotPasswordView: {
-    flex: 1,
     alignItems: "center",
-    justifyContent: "center",
+    paddingTop: "20%"
   },
   textForgotPass: {
     marginTop: 40,
@@ -56,7 +70,7 @@ const styles = StyleSheet.create({
     color: "#2A323C"
   },
   textHref: {
-    marginTop: 10,
+    marginTop: 5,
     marginBottom: 5,
     textAlign: "left",
     fontWeight: "bold",
@@ -64,7 +78,8 @@ const styles = StyleSheet.create({
     color: "#2A323C"
   },
   areaText: {
-    width: "100%"
+    width: "100%",
+    marginBottom: 40
   },
   textForgotPass_2: {
     fontFamily: "Prompt-Light",
@@ -76,6 +91,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
     marginBottom: 20,
+    justifyContent: "flex-end"
   },
   hrefView: {
     alignItems: "center",
@@ -95,14 +111,15 @@ const styles = StyleSheet.create({
   },
   buttonContact: {
     marginTop: 10,
+    flexDirection: "row",
     width: "90%",
     paddingVertical: 12,
     paddingHorizontal: 32,
     borderRadius: 4,
     elevation: 3,
     backgroundColor: '#E5EEF9',
-    borderRadius: 24,
-    height: 100,
+    borderRadius: 10,
+    height: 80,
   },
   textNext: {
     fontWeight: "bold",
