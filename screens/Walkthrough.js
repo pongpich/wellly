@@ -208,7 +208,7 @@ const styles = StyleSheet.create({
     buttonCross: {
         marginTop: 30,
         width: "90%",
-        height: 50
+        height: 50,
     },
     textCross: {
         fontWeight: "bold",

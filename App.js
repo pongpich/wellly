@@ -1,28 +1,34 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View,SafeAreaView } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Navigation from './navigation/index';
-import { useFonts } from 'expo-font';
+import useCachedResources from './hooks/useCachedResources';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+import Amplify from "@aws-amplify/core";
+import { awsConfig } from "./constants/defaultValues";
+import { configureStore } from './redux/store';
+
 /* import * as SplashScreen from 'expo-splash-screen'; */
 
 
 
+Amplify.configure(awsConfig);
 export default function App() {
-  const [fontsLoaded] = useFonts({
-    'Prompt-Light': require('./assets/fonts/Prompt-Light.ttf'),
-    'Prompt-Bold': require('./assets/fonts/Prompt-Bold.ttf'),
-    'Prompt-Medium': require('./assets/fonts/Prompt-Medium.ttf'),
-    'Prompt-Thin': require('./assets/fonts/Prompt-Thin.ttf'),
-  });
-  return (
-    <SafeAreaProvider>
-{/*     <Provider store={store}> */}
-      {/* <PersistGate persistor={persister}> */}
-        <Navigation  />
-     {/*  </PersistGate> */}
-      <StatusBar />
-  {/*   </Provider> */}
-  </SafeAreaProvider>
-  );
+  const isLoadingComplete = useCachedResources();
+  const { store, persister } = configureStore();
+  if (!isLoadingComplete) {
+    return null;
+  } else {
+    return (
+      <SafeAreaProvider>
+        <Provider store={store}>
+          <PersistGate persistor={persister}>
+            <Navigation />
+          </PersistGate>
+          <StatusBar />
+        </Provider>
+      </SafeAreaProvider>
+    );
+  }
 }
-

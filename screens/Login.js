@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Pressable, SafeAreaView, Image, TouchableOpacity, TextInput, Text, Linking, KeyboardAvoidingView, Platform, Dimensions, Modal } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-
+import { loginUser } from "../redux/auth";
+import { connect } from 'react-redux'
 
 class Login extends Component {
 
@@ -13,19 +14,37 @@ class Login extends Component {
             textErrorEmail: null, // สถานะข้อความ Email [1,2,null] 
             stylePassword: true, // เปลี่ยนสี borderColor PassWord [true,false]
             textErrorPassWord: null, // สถานะข้อความ Password [1,2,null] 
-            modalVisible: false
+            modalStatusLogin: false,
+            email: null,
+            password: null,
         };
     }
     setModalVisible(visible) {
-        this.setState({ modalVisible: visible });
+        this.setState({ modalStatusLogin: visible });
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        const { status } = this.props;
+        if ((prevProps.status !==  status) && (status === "success")) {
+            this.props.navigation.navigate("Walkthrough")
+        }
+        if ((prevProps.status !==  status) && (status === "fail") &&  (status === "no_user")) {
+            this.setState({
+                modalStatusLogin: true
+            });
+        }
+
     }
 
     submitLogin() {
-        let name = true;
+        const {email,password} = this.state;
+        this.props.loginUser(email, password)
+
+   /*      let name = true;
         let email = "test@hom.com";
-        let password = "12345678";
+        let password = "12345678"; */
        
-            if (email === "") {
+         /*    if (email === "") {
                 this.setState({
                      styleEmil: false,
                     textErrorEmail:1
@@ -48,7 +67,7 @@ class Login extends Component {
                     this.setModalVisible(true)
                 }
             }
-        
+         */
         
       /*  */
     }
@@ -69,7 +88,8 @@ class Login extends Component {
 
     render() {
 
-        const { entry, styleEmil, textErrorEmail, textErrorPassWord, stylePassword, modalVisible } = this.state;
+        const { entry, styleEmil, textErrorEmail, textErrorPassWord, stylePassword, modalStatusLogin } = this.state;
+
         return (
             <LinearGradient
                 style={styles.container}
@@ -90,6 +110,7 @@ class Login extends Component {
                         <View style={styles.inputEmil}>
                             <TextInput
                                 style={styleEmil === true ? styles.emil : styles.errorEmail}
+                                onChangeText={(text) => this.handleChange("email", text)}
                                 returnKeyType={"next"}
                                 autoFocus={true}
                                 placeholder="อีเมล"
@@ -131,6 +152,7 @@ class Login extends Component {
                             <View style={styles.inputPassword2}>
                                 <TextInput
                                     style={stylePassword === true ? styles.password : styles.errorPassword}
+                                    onChangeText={(text) => this.handleChange("password", text)}
                                     placeholder="รหัสผ่านอย่างน้อย 8 หลัก"
                                     secureTextEntry={entry}
                                 />
@@ -163,10 +185,10 @@ class Login extends Component {
                     <Modal
                         animationType="slide"
                         transparent={true}
-                        visible={modalVisible}
+                        visible={modalStatusLogin}
                         onRequestClose={() => {
                             Alert.alert("Modal has been closed.");
-                            setModalVisible(!modalVisible);
+                            setModalVisible(!modalStatusLogin);
                         }}
                     >
                         <View style={styles.centeredView}>
@@ -177,7 +199,7 @@ class Login extends Component {
                                 />
                                 <Text style={styles.modalText}>ไม่พบบัญชีผู้ใช้</Text>
                                 <Text style={styles.modalText2}>ตรวจสอบชื่อผู้ใช้ หรือรหัสผ่านอีกครั้ง หรือติดต่อแผนกบุคคล</Text>
-                                <Pressable style={styles.buttonModel} onPress={() => this.setModalVisible(!modalVisible)} >
+                                <Pressable style={styles.buttonModel} onPress={() => this.setModalVisible(!modalStatusLogin)} >
                                     <Text style={styles.textLogin}>ตกลง</Text>
                                 </Pressable>
                             </View>
@@ -422,4 +444,17 @@ const styles = StyleSheet.create({
 });
 
 
-export default Login;
+
+
+const mapStateToProps = ({ authUser }) => {
+    const { user, status} = authUser;
+    return { user, status };
+  };
+  
+  const mapActionsToProps = { loginUser };
+  
+  
+  export default connect(
+    mapStateToProps,
+    mapActionsToProps
+  )(Login);
