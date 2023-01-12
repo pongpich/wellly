@@ -39,21 +39,16 @@ class Login extends Component {
 
     submitLogin() {
         const {email,password} = this.state;
-        this.props.loginUser(email, password)
-
-   /*      let name = true;
-        let email = "test@hom.com";
-        let password = "12345678"; */
-       
-         /*    if (email === "") {
+        let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+            if ((email === "") || (email === null)) {
                 this.setState({
                      styleEmil: false,
                     textErrorEmail:1
                  });
-            }else if (email !== "test@hom.com") {
+            }else if (reg.test(email) === false) {
                 this.setState({ styleEmil: false,
                     textErrorEmail:2 });
-            }else if (password === "") {
+            }else if ((password === " ") || (password === null)) {
                 this.setState({
                     stylePassword:false,
                     textErrorPassWord:1
@@ -62,13 +57,9 @@ class Login extends Component {
                 this.setState({ stylePassword: false,
                     textErrorPassWord:2 });
             }else{
-                if (name === true) {
-                    this.props.navigation.navigate("Walkthrough")
-                }else{
-                    this.setModalVisible(true)
-                }
+                this.props.loginUser(email, password)
             }
-         */
+        
         
       /*  */
     }

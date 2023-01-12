@@ -59,7 +59,7 @@ function* loginUserSaga({ payload }) {
     );
 
     if (loginResult && loginResult.results) {
-      console.log("loginResult.results",loginResult.results);
+      console.log("loginResult",loginResult.results);
       if (loginResult.results.message === "success") {
 
         yield put({
