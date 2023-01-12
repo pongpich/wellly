@@ -25,10 +25,11 @@ class Login extends Component {
 
     componentDidUpdate(prevProps, prevState) {
         const { status } = this.props;
+        const {modalStatusLogin} = this.state;
         if ((prevProps.status !==  status) && (status === "success")) {
             this.props.navigation.navigate("Walkthrough")
         }
-        if ((prevProps.status !==  status) && (status === "fail") &&  (status === "no_user")) {
+        if ((prevProps.status !==  status) && (status === "fail")) {
             this.setState({
                 modalStatusLogin: true
             });

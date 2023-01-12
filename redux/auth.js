@@ -120,7 +120,7 @@ export function reducer(state = INIT_STATE, action) {
     case types.LOGIN_USER_FAIL:
       return {
         ...state,
-        status: action.payload.message,
+        status: "fail",
       };
     default:
       return { ...state };
