@@ -104,7 +104,8 @@ class Login extends Component {
                                 style={styleEmil === true ? styles.emil : styles.errorEmail}
                                 onChangeText={(text) => this.handleChange("email", text)}
                                 returnKeyType={"next"}
-                                autoFocus={true}
+                                keyboardType="decimal-pad"
+                               /*  autoFocus={true} */
                                 placeholder="อีเมล"
                             />
                             <View style={styles.error}>
@@ -365,7 +366,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: "flex-end",
-        marginBottom: 30,
+        marginBottom: -30,
     },
     textThi_eng: {
         fontSize: 16,
