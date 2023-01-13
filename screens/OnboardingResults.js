@@ -16,11 +16,11 @@ class OnboardingResults extends Component {
                 <View style={styles.areaViewIcon}>
                     <Image source={require('../assets/images/icon/generic_A.png')} />
                     <Text style={styles.text_1}>คุณมีสุขภาพร่างกาย</Text>
-                    <Pressable style={styles.buttonStatus}>
+                    <Pressable style={styles.buttonStatusA}>
                         <Text style={styles.textStatus}>ปกติดี</Text>
                     </Pressable>
                     <View style={styles.areaViewText}>
-                        <Text style={styles.text_2}>การคุมอาหารและออกกำลังกายตามโปรแกรม จะช่วยรักษาสุขภาพให้ดียิ่งขึ้น</Text>
+                        <Text style={styles.text_2}>การคุมอาหารและออกกำลังกายตามโปรแกรม {"\n"}จะช่วยรักษาสุขภาพให้ดียิ่งขึ้น</Text>
                     </View>
                 </View>
                 <View style={styles.areaViewButton}>
@@ -36,19 +36,133 @@ class OnboardingResults extends Component {
         return(
             <LinearGradient
             style={styles.container}
-            colors={['#22B967', '#FFFFFF','#FFFFFF']}
+            colors={['#D89E08', '#FFFFFF','#FFFFFF']}
             start={{ x: 1, y: 0 }}
             end={{ x: 1, y: 1 }}
         >
             <SafeAreaView style={styles.areaView}>
                 <View style={styles.areaViewIcon}>
-                    <Image source={require('../assets/images/icon/generic_A.png')} />
-                    <Text style={styles.text_1}>คุณมีสุขภาพร่างกาย</Text>
-                    <Pressable style={styles.buttonStatus}>
-                        <Text style={styles.textStatus}>ปกติดี</Text>
+                    <Image source={require('../assets/images/icon/generic_B.png')} />
+                    <Text style={styles.text_1}>คุณมีแนวโน้มเป็น</Text>
+                    <Pressable style={styles.buttonStatusB1}>
+                        <Text style={styles.textStatus}>ภาวะก่อนเบาหวาน</Text>
                     </Pressable>
                     <View style={styles.areaViewText}>
-                        <Text style={styles.text_2}>การคุมอาหารและออกกำลังกายตามโปรแกรม จะช่วยรักษาสุขภาพให้ดียิ่งขึ้น</Text>
+                        <Text style={styles.text_2}>การคุมอาหารและออกกำลังกายตามโปรแกรม  จะช่วยลดความเสี่ยงภาวะก่อนเบาหวาน และทำให้สุขภาพดีขึ้นได้</Text>
+                    </View>
+                </View>
+                <View style={styles.areaViewButton}>
+                    <Pressable style={styles.buttonGuidance}  >
+                        <Text style={styles.textGuidance}>รับคำแนะนำจากเรา</Text>
+                    </Pressable>
+                </View>
+            </SafeAreaView>
+        </LinearGradient>
+        )
+    }
+
+    onboarding_B2() {
+        return(
+            <LinearGradient
+            style={styles.container}
+            colors={['#D89E08', '#FFFFFF','#FFFFFF']}
+            start={{ x: 1, y: 0 }}
+            end={{ x: 1, y: 1 }}
+        >
+            <SafeAreaView style={styles.areaView}>
+                <View style={styles.areaViewIcon}>
+                    <Image source={require('../assets/images/icon/generic_B.png')} />
+                    <Text style={styles.text_1}>คุณมีแนวโน้มเป็น</Text>
+                    <Pressable style={styles.buttonStatusB2}>
+                        <Text style={styles.textStatus}>ภาวะก่อนเบาหวานและความดันสูง</Text>
+                    </Pressable>
+                    <View style={styles.areaViewText}>
+                        <Text style={styles.text_2}>การคุมอาหารและออกกำลังกายตามโปรแกรม จะช่วยลดความเสี่ยงภาวะก่อนเบาหวาน และทำให้สุขภาพดีขึ้นได้</Text>
+                    </View>
+                </View>
+                <View style={styles.areaViewButton}>
+                    <Pressable style={styles.buttonGuidance}  >
+                        <Text style={styles.textGuidance}>รับคำแนะนำจากเรา</Text>
+                    </Pressable>
+                </View>
+            </SafeAreaView>
+        </LinearGradient>
+        )
+    }
+
+    onboarding_D1() {
+        return(
+            <LinearGradient
+            style={styles.container}
+            colors={['#D89E08', '#FFFFFF','#FFFFFF']}
+            start={{ x: 1, y: 0 }}
+            end={{ x: 1, y: 1 }}
+        >
+            <SafeAreaView style={styles.areaView}>
+                <View style={styles.areaViewIcon}>
+                    <Image source={require('../assets/images/icon/generic_B.png')} />
+                    <Text style={styles.text_1}>คุณมีแนวโน้มเป็น</Text>
+                    <Pressable style={styles.buttonStatusB1}>
+                        <Text style={styles.textStatus}>ภาวะความดันสูง</Text>
+                    </Pressable>
+                    <View style={styles.areaViewText}>
+                        <Text style={styles.text_2}>การคุมอาหารและออกกำลังกายตามโปรแกรม จะช่วยลดความเสี่ยงจากความดันโลหิตสูงลง อีกทั้งทำให้สุขภาพดีขึ้นได้</Text>
+                    </View>
+                </View>
+                <View style={styles.areaViewButton}>
+                    <Pressable style={styles.buttonGuidance}  >
+                        <Text style={styles.textGuidance}>รับคำแนะนำจากเรา</Text>
+                    </Pressable>
+                </View>
+            </SafeAreaView>
+        </LinearGradient>
+        )
+    }
+    onboarding_C1() {
+        return(
+            <LinearGradient
+            style={styles.container}
+            colors={['#F06A12', '#FFFFFF','#FFFFFF']}
+            start={{ x: 1, y: 0 }}
+            end={{ x: 1, y: 1 }}
+        >
+            <SafeAreaView style={styles.areaView}>
+                <View style={styles.areaViewIcon}>
+                    <Image source={require('../assets/images/icon/generic_C.png')} />
+                    <Text style={styles.text_1}>คุณมีแนวโน้มเป็น</Text>
+                    <Pressable style={styles.buttonStatusC1}>
+                        <Text style={styles.textStatus}>ภาวะเบาหวาน</Text>
+                    </Pressable>
+                    <View style={styles.areaViewText}>
+                        <Text style={styles.text_2}>การคุมอาหารและออกกำลังกายตามโปรแกรมจะช่วยลดความเสี่ยงภาวะเบาหวานและทำให้สุขภาพดีขึ้นได้</Text>
+                    </View>
+                </View>
+                <View style={styles.areaViewButton}>
+                    <Pressable style={styles.buttonGuidance}  >
+                        <Text style={styles.textGuidance}>รับคำแนะนำจากเรา</Text>
+                    </Pressable>
+                </View>
+            </SafeAreaView>
+        </LinearGradient>
+        )
+    }
+    onboarding_C2() {
+        return(
+            <LinearGradient
+            style={styles.container}
+            colors={['#F06A12', '#FFFFFF','#FFFFFF']}
+            start={{ x: 1, y: 0 }}
+            end={{ x: 1, y: 1 }}
+        >
+            <SafeAreaView style={styles.areaView}>
+                <View style={styles.areaViewIcon}>
+                    <Image source={require('../assets/images/icon/generic_C.png')} />
+                    <Text style={styles.text_1}>คุณมีแนวโน้มเป็น</Text>
+                    <Pressable style={styles.buttonStatusC2}>
+                        <Text style={styles.textStatus}>ภาวะเบาหวานและความดันสูง</Text>
+                    </Pressable>
+                    <View style={styles.areaViewText}>
+                        <Text style={styles.text_2}>การคุมอาหารและออกกำลังกายตามโปรแกรม จะช่วยลดความเสี่ยงภาวะเบาหวานและลดความดันโลหิตลง อีกทั้งทำให้สุขภาพดีขึ้นได้</Text>
                     </View>
                 </View>
                 <View style={styles.areaViewButton}>
@@ -65,7 +179,7 @@ class OnboardingResults extends Component {
         return (
             <>
                 {
-                    this.onboarding_A1()
+                    this.onboarding_C2()
                 }
             </>
         )
@@ -94,7 +208,7 @@ const styles = StyleSheet.create({
         fontSize: 24,
         fontFamily: "Prompt-Bold",
     },
-    buttonStatus: {
+    buttonStatusA: {
         width: "auto",
         alignItems: 'center',
         justifyContent: 'center',
@@ -107,14 +221,73 @@ const styles = StyleSheet.create({
         borderRadius: 24,
         height: 50
     },
+    buttonStatusB1: {
+        width: "auto",
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 0,
+        paddingHorizontal: 30,
+        marginTop: 20,
+        borderRadius: 4,
+        elevation: 3,
+        backgroundColor: '#D89E08',
+        borderRadius: 24,
+        height: 50
+    },
+    buttonStatusB2: {
+        width: "70%",
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 0,
+        paddingHorizontal:10,
+        marginTop: 20,
+        borderRadius: 4,
+        elevation: 3,
+        backgroundColor: '#D89E08',
+        borderRadius: 100,
+        height: "auto",
+        paddingTop:10,
+        paddingBottom:10
+        
+    },
+    buttonStatusC1: {
+        width: "70%",
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 0,
+        paddingHorizontal:10,
+        marginTop: 20,
+        borderRadius: 4,
+        elevation: 3,
+        backgroundColor: '#F06A12',
+        borderRadius: 100,
+        height: "auto",
+        paddingTop:10,
+        paddingBottom:10
+        
+    },
+    buttonStatusC2: {
+        width: "auto",
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 0,
+        paddingHorizontal: 20,
+        marginTop: 20,
+        borderRadius: 4,
+        elevation: 3,
+        backgroundColor: '#F06A12',
+        borderRadius: 24,
+        height: 50
+    },
     textStatus: {
         color: "#FFFFFF",
         fontSize: 24,
         fontFamily: "Prompt-Bold",
+        textAlign:"center"
     },
     areaViewText: {
-        width: "70%",
-        alignItems: "center"
+        width: "75%",
+        alignItems: "center",
     },
     text_2: {
         marginTop: 30,
