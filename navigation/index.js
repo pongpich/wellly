@@ -29,10 +29,10 @@ function MyStack() {
       screenOptions={{
         headerTintColor: "#3762FC", // ใส่ icon สี ปุ่ม BackTitle
       }}>
-{/*       <Stack.Screen name="OnboardingResults" component={OnboardingResults} options={{
+      <Stack.Screen name="OnboardingResults" component={OnboardingResults} options={{
         cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid,
         headerShown: false,
-      }} /> */}
+      }} />
       <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
       <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{
         title: "",
