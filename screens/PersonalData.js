@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Pressable, SafeAreaView, Image, TouchableOpacity, TextInput, Text, Linking, KeyboardAvoidingView, Platform, Dimensions, Modal } from 'react-native';
+import { View, StyleSheet, Pressable, SafeAreaView, Image, ScrollView,TouchableOpacity, TextInput, Text, Linking, KeyboardAvoidingView, Platform, Dimensions, Modal } from 'react-native';
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
 
 var radio_sex = [
@@ -166,15 +166,13 @@ const styles = StyleSheet.create({
         right: 0
     },
     areaViewButton: {
-        alignItems:"center",
-        backgroundColor: "red",
+        flex: 1,
+        justifyContent: 'flex-end',
+        marginTop:50,
         width:"100%",
-       justifyContent:"flex-end",
-
+        alignItems:"center",
     },
     buttonBlue: {
-       
-        marginTop:50,
         justifyContent:"flex-end",
         width: "90%",
         alignItems: 'center',
@@ -185,7 +183,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#3762FC',
         borderRadius: 24,
         height: 50,
-      /*   marginBottom: 40, */
+        marginBottom: 20,
     },
     buttonGrey: {
         width: "90%",
@@ -197,7 +195,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#C2D2E7',
         borderRadius: 24,
         height: 50,
-
+        marginBottom: 20,
     },
     textButtonWhite: {
         color: "#FFFFFF",
