@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Pressable, SafeAreaView, Image, ScrollView,TouchableOpacity, TextInput, Text, Linking, KeyboardAvoidingView, Platform, Dimensions, Modal } from 'react-native';
+import { View, StyleSheet, Pressable, SafeAreaView, Image, ScrollView, TouchableOpacity, TextInput, Text, Linking, KeyboardAvoidingView, Platform, Dimensions, Modal } from 'react-native';
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
+import { personal } from "../redux/personalUser";
+import { connect } from 'react-redux'
+
 
 var radio_sex = [
     { label: 'ชาย   ', value: "ชาย" },
@@ -18,7 +21,17 @@ class PersonalData extends Component {
         this.state = {
             sex: null, // เปิด-ปิด passWord
             age: null,
-            exercise: null
+            weight: null,
+            height: null,
+            exercise: null,
+            statusAge: true,
+            statusTextAge: null,
+            statusWeight: true,
+            statusTextWeight: null,
+            statusHeight: true,
+            statusTextHeight: null,
+            /* statusBotton: false */
+
         };
     }
 
@@ -27,8 +40,6 @@ class PersonalData extends Component {
 
         if (fieldName === "age") {
             let reg = /^([a-z0-9])+$/i;
-
-
             if (reg.test(text)) {
                 this.setState({
                     [fieldName]: text
@@ -45,15 +56,70 @@ class PersonalData extends Component {
             })
         }
 
+
+    }
+
+    submitLogin() {
+        const { sex, age, weight, height, exercise } = this.state;
+   
+        if ((age === null) || (age === "null")) {
+            this.setState({
+                statusAge: false,
+                statusTextAge: 0
+            })
+        } else if ((age < 18) || (age > 65)) {
+            this.setState({
+                statusAge: false,
+                statusTextAge: 1
+            })
+        } else if ((weight === null) || (weight === "")) {
+            this.setState({
+                statusWeight: false,
+                statusTextWeight: 0
+            })
+        } else if ((weight < 30) || (weight > 250)) {
+            this.setState({
+                statusWeight: false,
+                statusTextWeight: 1
+            })
+            console.log("555");
+        } else if ((height === null) || (height === "")) {
+            this.setState({
+                statusHeight: false,
+                statusTextHeight: 0
+            })
+        } else if ((height < 100) || (height > 280)) {
+            this.setState({
+                statusHeight: false,
+                statusTextHeight: 1
+            })
+
+        } else {
+            this.setState({
+                statusAge: true,
+                statusTextAge: null,
+                statusWeight: true,
+                statusTextWeight: null,
+                statusHeight: true,
+                statusTextHeight: null
+            });
+            this.props.personal(sex, age, weight, height, exercise); 
+
+        }
+    
     }
 
 
+
+
+
+
     render() {
-        const { sex, age, exercise } = this.state;
-        console.log('exercise', exercise);
+        const { sex, age, weight, height, exercise, statusAge, statusTextAge, statusWeight, statusTextWeight, statusHeight, statusTextHeight } = this.state;
+        console.log(" this.props", this.props.dataUser);
         return (
             <SafeAreaView style={styles.container}>
-               <View style={styles.areaView}>
+                <View style={styles.areaView}>
                     <Text style={styles.textHead}>กรอกข้อมูลส่วนตัวเพื่อการคำนวณโปรแกรมที่แม่นยำ</Text>
                     <Text style={styles.textInputHead}>เพศ</Text>
                     <RadioForm
@@ -68,32 +134,61 @@ class PersonalData extends Component {
                     <View style={styles.viewRightTnput}>
                         <Text style={styles.textRightTnput}>ปี</Text>
                         <TextInput
-                            style={styles.input}
+                            style={statusAge === true ? styles.input : styles.inputError}
                             onChangeText={(text) => this.handleChange("age", text)}
                             placeholder="ระบุอายุ"
                             value={age}
                             keyboardType="numeric"
                         />
+                        {
+                            statusTextAge === 0 ?
+                                <Text style={styles.errorText}>กรุณากรอกตามความเป็นจริง</Text> :
+                                statusTextAge === 1 ?
+                                    <Text style={styles.errorText}>โปรแกรมรองรับผู้ใช้ที่มีอายุระหว่าง 18-65 ปี เท่านั้น</Text>
+                                    : null
+                        }
+
+
                     </View>
                     <Text style={styles.textInputHead}>น้ำหนัก</Text>
                     <View style={styles.viewRightTnput}>
                         <Text style={styles.textRightTnput}>กิโลกรัม</Text>
                         <TextInput
-                            style={styles.input}
-                            /*  onChangeText={(text) => this.handleChange("password", text)} */
+                            style={statusWeight === true ? styles.input : styles.inputError}
+                            onChangeText={(text) => this.handleChange("weight", text)}
                             placeholder="0"
                             keyboardType="numeric"
                         />
+                        {
+                            statusTextWeight === 0 ?
+                                <Text style={styles.errorText}>กรุณากรอกค่าตั้งแต่ 1 ขึ้นไป</Text>
+                                :
+                                statusTextWeight === 1 ?
+                                    <Text style={styles.errorText}>โปรแกรมรองรับผู้ใช้ที่มีน้ำหนักระหว่าง 30-250  {"\n"}กิโลกรัม เท่านั้น</Text>
+                                    : null
+                        }
+
+
                     </View>
                     <Text style={styles.textInputHead}>ส่วนสูง</Text>
                     <View style={styles.viewRightTnput}>
                         <Text style={styles.textRightTnput}>เซนติเมตร</Text>
                         <TextInput
-                            style={styles.input}
-                            /*  onChangeText={(text) => this.handleChange("password", text)} */
+                            style={statusHeight === true ? styles.input : styles.inputError}
+                            onChangeText={(text) => this.handleChange("height", text)}
                             placeholder="0"
                             keyboardType="numeric"
                         />
+                        {
+                            statusTextHeight === 0 ?
+                                <Text style={styles.errorText}>กรุณากรอกค่าตั้งแต่ 100 ขึ้นไป</Text>
+                                :
+                                statusTextHeight === 1 ?
+                                    <Text style={styles.errorText}>โปรแกรมรองรับผู้ใช้ที่มีส่วนสูงระหว่าง 100-280 {"\n"}เซนติเมตร เท่านั้น</Text>
+                                    : null
+                        }
+
+
                     </View>
                     <Text style={styles.textInputHead}>ออกกำลังกายบ่อยแค่ไหน</Text>
                     <RadioForm style={styles.radioStyle}
@@ -106,9 +201,18 @@ class PersonalData extends Component {
                     />
                 </View>
                 <View style={styles.areaViewButton}>
-                    <Pressable style={styles.buttonBlue}  >
-                        <Text style={styles.textButtonWhite}>ถัดไป</Text>
-                    </Pressable>
+                    {
+                        (sex !== null) && (age !== null) && (weight !== null) && (height !== null) && (exercise !== null) ?
+                            <Pressable style={styles.buttonBlue} onPress={() => this.submitLogin()} >
+                                <Text style={styles.textButtonWhite}>ถัดไป</Text>
+                            </Pressable>
+                            :
+                            <Pressable s style={styles.buttonGrey} onPress={() => this.submitLogin()} >
+                                <Text style={styles.textButtonGrey}>ถัดไป</Text>
+                            </Pressable>
+                    }
+
+
                 </View>
 
             </SafeAreaView>
@@ -119,13 +223,13 @@ class PersonalData extends Component {
 const deviceWidth = Math.round(Dimensions.get('window').width);
 const styles = StyleSheet.create({
     container: {
-        flex:1,
+        flex: 1,
         backgroundColor: "#FFFFFF",
         alignItems: "center",
     },
     areaView: {
-        padding:10,
-        
+        padding: 10,
+
     },
     textHead: {
         fontWeight: "bold",
@@ -155,6 +259,23 @@ const styles = StyleSheet.create({
         position: "relative",
 
     },
+    inputError: {
+        height: 56,
+        borderWidth: 1,
+        padding: 10,
+        borderRadius: 8,
+        borderColor: "#D43A3A",
+        color: "#2A323C",
+        backgroundColor: "#FFFFFF",
+        fontFamily: "Prompt-Light",
+        position: "relative",
+
+    },
+    errorText: {
+        color: "#D43A3A",
+        alignItems: "flex-start",
+        fontFamily: "Prompt-Light"
+    },
     textRightTnput: {
         position: "absolute",
         fontSize: 16,
@@ -168,12 +289,12 @@ const styles = StyleSheet.create({
     areaViewButton: {
         flex: 1,
         justifyContent: 'flex-end',
-        marginTop:50,
-        width:"100%",
-        alignItems:"center",
+        marginTop: 50,
+        width: "100%",
+        alignItems: "center",
     },
     buttonBlue: {
-        justifyContent:"flex-end",
+        justifyContent: "flex-end",
         width: "90%",
         alignItems: 'center',
         paddingVertical: 12,
@@ -208,4 +329,24 @@ const styles = StyleSheet.create({
         fontFamily: "Prompt-Bold",
     }
 });
-export default PersonalData;
+
+
+/* const mapStateToProps = ({ personalData }) => {
+    const { sex,age,weight,height,exercise } = personalData;
+    return { sex,age,weight,height,exercise };
+}; */
+
+
+
+const mapStateToProps = ({ personalDataUser }) => {
+    const { dataUser } = personalDataUser;
+    return { dataUser };
+  };
+  
+  const mapActionsToProps = { personal };
+  
+  
+  export default connect(
+    mapStateToProps,
+    mapActionsToProps
+  )(PersonalData);

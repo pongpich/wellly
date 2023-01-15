@@ -5,6 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import hardSet from 'redux-persist/lib/stateReconciler/hardSet';
 
 import { reducer as authUser} from './auth';
+import { reducer as personalDataUser } from './personalUser';
 
 
 
@@ -15,7 +16,8 @@ const persistConfig = {
 };
 
 const reducers = combineReducers({
-  authUser
+  authUser,
+  personalDataUser,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducers)

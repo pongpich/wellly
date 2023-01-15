@@ -34,7 +34,6 @@ class Login extends Component {
                 modalStatusLogin: true
             });
         }
-
     }
 
     submitLogin() {
