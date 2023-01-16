@@ -24,7 +24,7 @@ class Login extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        const { status } = this.props;
+        const { status ,user} = this.props;
         const {modalStatusLogin} = this.state;
         if ((prevProps.status !==  status) && (status === "success")) {
             this.props.navigation.navigate("Walkthrough")
@@ -57,9 +57,10 @@ class Login extends Component {
                     textErrorPassWord:2 });
             }else{
                 this.props.loginUser(email, password)
+                console.log("submitLogin");
             }
         
-        
+      
       /*  */
     }
 
@@ -78,9 +79,7 @@ class Login extends Component {
     }
 
     render() {
-
         const { entry, styleEmil, textErrorEmail, textErrorPassWord, stylePassword, modalStatusLogin } = this.state;
-
         return (
             <LinearGradient
                 style={styles.container}
@@ -102,9 +101,8 @@ class Login extends Component {
                             <TextInput
                                 style={styleEmil === true ? styles.emil : styles.errorEmail}
                                 onChangeText={(text) => this.handleChange("email", text)}
-                                returnKeyType={"next"}
-                                keyboardType="decimal-pad"
-                               /*  autoFocus={true} */
+                                keyboardType="email-address"
+                                autoFocus={true}
                                 placeholder="อีเมล"
                             />
                             <View style={styles.error}>

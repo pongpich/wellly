@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { View, StyleSheet, Pressable, SafeAreaView, Image, ScrollView, TouchableOpacity, TextInput, Text, Linking, KeyboardAvoidingView, Platform, Dimensions, Modal } from 'react-native';
+import { healt } from "../redux/personalUser";
+import { connect } from 'react-redux';
 
 class HealthData extends Component {
     constructor(props) {
@@ -10,25 +12,71 @@ class HealthData extends Component {
             bpm: null,
             mmHGS: null,
             mmHGD: null,
-            statusDl: true,
+            statusMdDl: true,
             statusTextmg_dL: true,
+            statusMg: true,
             statusTextMg: true,
+            statusBpm:true,
             statusTextBpm: true,
+            statusMmGH1:true,
             statusTextMmHG1: true,
+            statusMmGH2:true,
             statusTextMmHG2: true,
         };
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        const { healtDataUser } = this.props;
+        if (prevProps.healtDataUser !==  healtDataUser) {
+            this.props.navigation.navigate("OnboardingResults");
+        }
     }
 
     handleChange(fieldName, text) {
         this.setState({
             [fieldName]: text
         })
+    }
 
-
+    submit() {  
+        const {mgDL, mg, bpm, mmHGS, mmHGD} = this.state;
+        if ((mgDL < 4) || (mgDL > 1000)) {
+            this.setState({
+                statusMdDl: false,
+                statusTextmg_dL: false
+            })
+        } else if ((mg < 3.5) || (mg > 19)) {
+            this.setState({
+                statusMg: false,
+                statusTextMg: false,
+            })
+        } else if ((bpm < 40) || (bpm > 160)) {
+            this.setState({
+                statusBpm:false,
+                statusTextBpm: false,
+            })
+        } else if ((bpm < 40) || (bpm > 190)) {
+            this.setState({
+                statusTextMmHG1: false,
+                statusMmGH2:false,
+            })
+        }else if ((mmHGS < 40) || (mmHGS > 190)) {
+            this.setState({
+                statusTextMmHG1: false,
+                statusMmGH1:false,
+            })
+        }else if ((mmHGD < 40) || (mmHGD > 170)) {
+            this.setState({
+                statusTextMmHG2: false,
+                statusMmGH2:false,
+            })
+        } else{
+            this.props.healt(mgDL, mg, bpm, mmHGS, mmHGD); 
+        } 
     }
 
     render() {
-        const { mgDL, mg, bpm, mmHGS, mmHGD, statusDl, statusTextmg_dL, statusTextMg, statusTextBpm, statusTextMmHG1, statusTextMmHG2 } = this.state;
+        const { mgDL, mg, bpm, mmHGS, mmHGD, statusMdDl, statusTextmg_dL,statusMg, statusTextMg,statusBpm, statusTextBpm,statusMmGH1, statusTextMmHG1, statusMmGH2,statusTextMmHG2 } = this.state;
         return (
             <SafeAreaView style={styles.container}>
                 <View style={styles.areaView}>
@@ -39,7 +87,7 @@ class HealthData extends Component {
                             <View style={styles.viewRightTnput}>
                                 <Text style={styles.textRightTnput}>mg/dL</Text>
                                 <TextInput
-                                    style={statusDl === true ? styles.input : styles.inputError}
+                                    style={statusMdDl === true ? styles.input : styles.inputError}
                                     onChangeText={(text) => this.handleChange("mgDL", text)}
                                     placeholder="0"
                                     keyboardType="numeric"
@@ -55,7 +103,7 @@ class HealthData extends Component {
                             <View style={styles.viewRightTnput}>
                                 <Text style={styles.textRightTnput}>mg%</Text>
                                 <TextInput
-                                    style={statusDl === true ? styles.input : styles.inputError}
+                                    style={statusMg === true ? styles.input : styles.inputError}
                                     onChangeText={(text) => this.handleChange("mg", text)}
                                     placeholder="0"
                                     keyboardType="numeric"
@@ -71,7 +119,7 @@ class HealthData extends Component {
                             <View style={styles.viewRightTnput}>
                                 <Text style={styles.textRightTnput}>bpm</Text>
                                 <TextInput
-                                    style={statusDl === true ? styles.input : styles.inputError}
+                                    style={statusBpm === true ? styles.input : styles.inputError}
                                     onChangeText={(text) => this.handleChange("bpm", text)}
                                     placeholder="0"
                                     keyboardType="numeric"
@@ -88,7 +136,7 @@ class HealthData extends Component {
                             <View style={styles.viewRightTnput}>
                                 <Text style={styles.textRightTnput}>mmHG</Text>
                                 <TextInput
-                                    style={statusDl === true ? styles.input : styles.inputError}
+                                    style={statusMmGH1 === true ? styles.input : styles.inputError}
                                     onChangeText={(text) => this.handleChange("mmHGS", text)}
                                     placeholder="0"
 
@@ -105,7 +153,7 @@ class HealthData extends Component {
                             <View style={styles.viewRightTnput}>
                                 <Text style={styles.textRightTnput}>mmHG</Text>
                                 <TextInput
-                                    style={statusDl === true ? styles.input : styles.inputError}
+                                    style={statusMmGH2 === true ? styles.input : styles.inputError}
                                     onChangeText={(text) => this.handleChange("mmHGD", text)}
                                     placeholder="0"
                                     keyboardType="numeric"
@@ -121,11 +169,11 @@ class HealthData extends Component {
                         <View style={styles.areaViewButton}>
                             {
                                 (mgDL !== null) && (mg !== null) && (bpm !== null) && (mmHGS !== null) && (mmHGD !== null) ?
-                                    <Pressable style={styles.buttonBlue} onPress={() => this.submitLogin()} >
+                                    <Pressable style={styles.buttonBlue} onPress={() => this.submit()} >
                                         <Text style={styles.textButtonWhite}>ถัดไป</Text>
                                     </Pressable>
                                     :
-                                    <Pressable s style={styles.buttonGrey} >
+                                    <Pressable s style={styles.buttonGrey} onPress={() => this.submit()} >
                                         <Text style={styles.textButtonGrey}>ถัดไป</Text>
                                     </Pressable>
                             }
@@ -146,12 +194,10 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     areaView: {
-        /*         padding: 10, */
         width: "100%",
     },
     areaViewPag: {
         padding: 10,
-        /*  width: "100%", */
     },
     textHead: {
         fontWeight: "bold",
@@ -258,4 +304,14 @@ const styles = StyleSheet.create({
     }
 });
 
-export default HealthData;
+const mapStateToProps = ({ personalDataUser }) => {
+    const { healtDataUser } = personalDataUser;
+    return { healtDataUser };
+  };
+  
+  const mapActionsToProps = { healt };
+  
+  export default connect(
+    mapStateToProps,
+    mapActionsToProps
+  )(HealthData);

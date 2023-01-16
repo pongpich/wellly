@@ -30,11 +30,16 @@ class PersonalData extends Component {
             statusTextWeight: null,
             statusHeight: true,
             statusTextHeight: null,
-            /* statusBotton: false */
-
         };
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        const { dataUser } = this.props;
+        if (prevProps.dataUser !==  dataUser) {
+            this.props.navigation.navigate("HealthData");
+        }
+        
+    }
 
     handleChange(fieldName, text) {
 
@@ -48,7 +53,6 @@ class PersonalData extends Component {
                 this.setState({
                     [fieldName]: null
                 })
-                console.log("กรุณาใส่เเค่ตัวเลข");
             }
         } else {
             this.setState({
@@ -61,7 +65,6 @@ class PersonalData extends Component {
 
     submit() {
         const { sex, age, weight, height, exercise } = this.state;
-   
         if ((age === null) || (age === "null")) {
             this.setState({
                 statusAge: false,
@@ -82,7 +85,6 @@ class PersonalData extends Component {
                 statusWeight: false,
                 statusTextWeight: 1
             })
-            console.log("555");
         } else if ((height === null) || (height === "")) {
             this.setState({
                 statusHeight: false,
@@ -104,20 +106,13 @@ class PersonalData extends Component {
                 statusTextHeight: null
             });
             this.props.personal(sex, age, weight, height, exercise); 
-            
-            this.props.navigation.navigate("HealthData");
+
         }
 
     }
 
-
-
-
-
-
     render() {
         const { sex, age, weight, height, exercise, statusAge, statusTextAge, statusWeight, statusTextWeight, statusHeight, statusTextHeight } = this.state;
-        console.log(" this.props", this.props.dataUser);
         return (
             <SafeAreaView style={styles.container}>
                 <View style={styles.areaView}>
@@ -208,7 +203,7 @@ class PersonalData extends Component {
                                 <Text style={styles.textButtonWhite}>ถัดไป</Text>
                             </Pressable>
                             :
-                            <Pressable s style={styles.buttonGrey} >
+                            <Pressable s style={styles.buttonGrey} /* onPress={() =>  this.props.navigation.navigate("HealthData")} */ >
                                 <Text style={styles.textButtonGrey}>ถัดไป</Text>
                             </Pressable>
                     }
@@ -328,12 +323,6 @@ const styles = StyleSheet.create({
         fontFamily: "Prompt-Bold",
     }
 });
-
-
-/* const mapStateToProps = ({ personalData }) => {
-    const { sex,age,weight,height,exercise } = personalData;
-    return { sex,age,weight,height,exercise };
-}; */
 
 
 

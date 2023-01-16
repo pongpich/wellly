@@ -1,8 +1,15 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Pressable, SafeAreaView, Image, TouchableOpacity, TextInput, Text, Linking, KeyboardAvoidingView, Platform, Dimensions, Modal } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import { personal,healt } from "../redux/personalUser";
+import { connect } from 'react-redux';
 
 class OnboardingResults extends Component {
+
+    componentDidMount() {
+        const { dataUser,healtDataUser} = this.props;
+        console.log("data",dataUser,healtDataUser);
+    }
 
     onboarding_A1() {
         return(
@@ -176,6 +183,7 @@ class OnboardingResults extends Component {
     }
 
     render() {
+
         return (
             <>
                 {
@@ -324,4 +332,16 @@ const styles = StyleSheet.create({
 
 });
 
-export default OnboardingResults;
+
+const mapStateToProps = ({ personalDataUser }) => {
+    const { dataUser,healtDataUser } = personalDataUser;
+    return { dataUser,healtDataUser};
+  };
+  
+  const mapActionsToProps = { personal,healt };
+  
+  
+  export default connect(
+    mapStateToProps,
+    mapActionsToProps
+  )(OnboardingResults);

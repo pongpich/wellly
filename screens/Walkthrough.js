@@ -97,7 +97,7 @@ class Walkthrough extends Component {
                 <View style={styles.buttonView}>
                 <Pressable style={styles.buttonCross} />
                     
-                    <Pressable style={styles.buttonNext} onPress={() => this.handleChange("stepNext", 1)} >
+                    <Pressable style={styles.buttonNext} onPress={() => this.props.navigation.navigate("PersonalData")} >
                         <Text style={styles.textNext}>เริ่มกันเลย!</Text>
                     </Pressable>
                 </View>

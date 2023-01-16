@@ -5,6 +5,7 @@ import { Auth, API } from "aws-amplify";
 
 export const types = {
   PERSONAL_USER: "PERSONAL_USER",
+  HEALT_USER: "HEALT_USER",
 };
 
 
@@ -21,6 +22,17 @@ export const personal = (sex, age, weight, height, exercise) => ({
   },
 });
 
+export const healt = (mgDL, mg, bpm, mmHGS, mmHGD) => ({
+  type: types.HEALT_USER,
+  payload: {
+    mgDL,
+    mg,
+    bpm,
+    mmHGS,
+    mmHGD
+  },
+});
+
 
 
 /* END OF SAGA Section */
@@ -28,7 +40,8 @@ export const personal = (sex, age, weight, height, exercise) => ({
 /* REDUCER Section */
 
 const INIT_STATE = {
-  dataUser: null
+  dataUser: null,
+  healtDataUser:null
 };
 
 export function reducer(state = INIT_STATE, action) {
@@ -37,6 +50,11 @@ export function reducer(state = INIT_STATE, action) {
       return {
         ...state,
         dataUser: action.payload,
+      };
+      case types.HEALT_USER:
+      return {
+        ...state,
+        healtDataUser: action.payload,
       };
     default:
       return { ...state };
