@@ -59,7 +59,7 @@ class PersonalData extends Component {
 
     }
 
-    submitLogin() {
+    submit() {
         const { sex, age, weight, height, exercise } = this.state;
    
         if ((age === null) || (age === "null")) {
@@ -204,7 +204,7 @@ class PersonalData extends Component {
                 <View style={styles.areaViewButton}>
                     {
                         (sex !== null) && (age !== null) && (weight !== null) && (height !== null) && (exercise !== null) ?
-                            <Pressable style={styles.buttonBlue} onPress={() => this.submitLogin()} >
+                            <Pressable style={styles.buttonBlue} onPress={() => this.submit()} >
                                 <Text style={styles.textButtonWhite}>ถัดไป</Text>
                             </Pressable>
                             :
