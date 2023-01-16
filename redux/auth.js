@@ -32,7 +32,6 @@ const loginUserSagaAsync = async (
 ) => {
   console.log("loginUserSagaAsync");
   try {
-    console.log("loginUserSagaAsync_1");
     const apiResult = await API.get("planforfit", "/login", {
       queryStringParameters: {
         email: email,
@@ -41,7 +40,6 @@ const loginUserSagaAsync = async (
     });
     return apiResult
   } catch (error) {
-    console.log("loginUserSagaAsync_2");
     return { error, messsage: error.message };
   }
 };
@@ -62,7 +60,7 @@ function* loginUserSaga({ payload }) {
     );
 
     if (loginResult && loginResult.results) {
-      console.log("loginResult",loginResult.results);
+/*       console.log("loginResult",loginResult.results); */
       if (loginResult.results.message === "success") {
 
         yield put({

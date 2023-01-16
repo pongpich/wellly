@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Button, View, Image, TouchableOpacity } from 'react-native';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
-import { createStackNavigator, CardStyleInterpolators, TransitionSpecs } from '@react-navigation/stack';
+import { createStackNavigator, CardStyleInterpolators, TransitionSpecs, TransitionPresets } from '@react-navigation/stack';
 import Login from '../screens/Login';
 import ForgotPassword from '../screens/ForgotPassword';
 import Walkthrough from '../screens/Walkthrough';
@@ -31,7 +31,6 @@ function MyStack() {
       screenOptions={{
         headerTintColor: "#3762FC", // ใส่ icon สี ปุ่ม BackTitle
       }}>
-
       <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
       <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{
         title: "",
@@ -48,15 +47,10 @@ function MyStack() {
         ),
       }} />
       <Stack.Screen name="Walkthrough" component={Walkthrough} options={{
-        cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid,
-        headerShown: false,
-      }} />
-      <Stack.Screen name="OnboardingResults" component={OnboardingResults} options={{
-        cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid,
+        ...TransitionPresets.FadeFromBottomAndroid,
         headerShown: false,
       }} />
       <Stack.Screen name="PersonalData" component={PersonalData} options={{
-        cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid,
         headerShadowVisible: false,
         title: "",
         headerLeft: () => (
@@ -71,7 +65,8 @@ function MyStack() {
       }} />
       <Stack.Screen name="HealthData" component={HealthData} options={{
         cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid,
-        headerShadowVisible: false,
+        ...TransitionPresets.FadeFromBottomAndroid,
+        headerBackTitle: true,
         title: "",
         headerLeft: () => (
           <View style={{ paddingLeft: 15 }}>
@@ -82,6 +77,14 @@ function MyStack() {
             </TouchableOpacity>
           </View>
         ),
+      }} />
+      <Stack.Screen name="OnboardingResults" component={OnboardingResults} options={{
+        ...TransitionPresets.FadeFromBottomAndroid,
+        title: "",
+        headerShown: false,
+        headerShadowVisible: false,
+        gestureEnabled: false,
+        cardOverlayEnabled: false,
       }} />
     </Stack.Navigator>
   );
