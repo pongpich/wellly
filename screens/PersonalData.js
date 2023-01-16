@@ -104,9 +104,10 @@ class PersonalData extends Component {
                 statusTextHeight: null
             });
             this.props.personal(sex, age, weight, height, exercise); 
-
+            
+            this.props.navigation.navigate("HealthData");
         }
-    
+
     }
 
 
@@ -207,14 +208,11 @@ class PersonalData extends Component {
                                 <Text style={styles.textButtonWhite}>ถัดไป</Text>
                             </Pressable>
                             :
-                            <Pressable s style={styles.buttonGrey} onPress={() => this.submitLogin()} >
+                            <Pressable s style={styles.buttonGrey} >
                                 <Text style={styles.textButtonGrey}>ถัดไป</Text>
                             </Pressable>
                     }
-
-
                 </View>
-
             </SafeAreaView>
         )
     }
@@ -229,6 +227,7 @@ const styles = StyleSheet.create({
     },
     areaView: {
         padding: 10,
+        width:"100%",
 
     },
     textHead: {

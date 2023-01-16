@@ -7,6 +7,7 @@ import ForgotPassword from '../screens/ForgotPassword';
 import Walkthrough from '../screens/Walkthrough';
 import OnboardingResults from '../screens/OnboardingResults';
 import PersonalData from '../screens/PersonalData';
+import HealthData from '../screens/HealthData';
 
 
 const Stack = createStackNavigator();
@@ -31,7 +32,7 @@ function MyStack() {
         headerTintColor: "#3762FC", // ใส่ icon สี ปุ่ม BackTitle
       }}>
 
-{/*       <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+      <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
       <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{
         title: "",
         //headerBackTitle: true, //ซ่อนข้อความในของ ios
@@ -53,8 +54,22 @@ function MyStack() {
       <Stack.Screen name="OnboardingResults" component={OnboardingResults} options={{
         cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid,
         headerShown: false,
-      }} /> */}
+      }} />
       <Stack.Screen name="PersonalData" component={PersonalData} options={{
+        cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid,
+        headerShadowVisible: false,
+        title: "",
+        headerLeft: () => (
+          <View style={{ paddingLeft: 15 }}>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Image
+                source={require('../assets/images/icon/caret.png')}
+              />
+            </TouchableOpacity>
+          </View>
+        ),
+      }} />
+      <Stack.Screen name="HealthData" component={HealthData} options={{
         cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid,
         headerShadowVisible: false,
         title: "",
