@@ -8,6 +8,7 @@ import Walkthrough from '../screens/Walkthrough';
 import OnboardingResults from '../screens/OnboardingResults';
 import PersonalData from '../screens/PersonalData';
 import HealthData from '../screens/HealthData';
+import OnboardingName from '../screens/OnboardingName';
 
 
 const Stack = createStackNavigator();
@@ -33,6 +34,20 @@ function MyStack() {
       }}>
       <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
       <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{
+        title: "",
+        //headerBackTitle: true, //ซ่อนข้อความในของ ios
+        headerShadowVisible: false, // applied here
+        headerLeft: () => (
+          <View style={{ paddingLeft: 15 }}>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Image
+                source={require('../assets/images/icon/caret.png')}
+              />
+            </TouchableOpacity>
+          </View>
+        ),
+      }} />
+      <Stack.Screen name="OnboardingName" component={OnboardingName} options={{
         title: "",
         //headerBackTitle: true, //ซ่อนข้อความในของ ios
         headerShadowVisible: false, // applied here

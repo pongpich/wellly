@@ -24,12 +24,12 @@ class Login extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        const { status ,user} = this.props;
-        const {modalStatusLogin} = this.state;
-        if ((prevProps.status !==  status) && (status === "success")) {
+        const { status, user } = this.props;
+        const { modalStatusLogin } = this.state;
+        if ((prevProps.status !== status) && (status === "success")) {
             this.props.navigation.navigate("Walkthrough")
         }
-        if ((prevProps.status !==  status) && (status === "fail")) {
+        if ((prevProps.status !== status) && (status === "fail")) {
             this.setState({
                 modalStatusLogin: true
             });
@@ -37,31 +37,35 @@ class Login extends Component {
     }
 
     submitLogin() {
-        const {email,password} = this.state;
+        const { email, password } = this.state;
         let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
-            if ((email === "") || (email === null)) {
-                this.setState({
-                     styleEmil: false,
-                    textErrorEmail:1
-                 });
-            }else if (reg.test(email) === false) {
-                this.setState({ styleEmil: false,
-                    textErrorEmail:2 });
-            }else if ((password === " ") || (password === null)) {
-                this.setState({
-                    stylePassword:false,
-                    textErrorPassWord:1
-                 });
-            }else if (password.length < 8) {
-                this.setState({ stylePassword: false,
-                    textErrorPassWord:2 });
-            }else{
-                this.props.loginUser(email, password)
-                console.log("submitLogin");
-            }
-        
-      
-      /*  */
+        if ((email === "") || (email === null)) {
+            this.setState({
+                styleEmil: false,
+                textErrorEmail: 1
+            });
+        } else if (reg.test(email) === false) {
+            this.setState({
+                styleEmil: false,
+                textErrorEmail: 2
+            });
+        } else if ((password === " ") || (password === null)) {
+            this.setState({
+                stylePassword: false,
+                textErrorPassWord: 1
+            });
+        } else if (password.length < 8) {
+            this.setState({
+                stylePassword: false,
+                textErrorPassWord: 2
+            });
+        } else {
+            this.props.loginUser(email, password)
+            console.log("submitLogin");
+        }
+
+
+        /*  */
     }
 
     /*     componentDidUpdate(prevProps) {
@@ -152,7 +156,7 @@ class Login extends Component {
                         <View style={styles.error}>
                             {
                                 stylePassword === false ?
-                                textErrorPassWord === 1 ?
+                                    textErrorPassWord === 1 ?
                                         <Text style={styles.errorText}>กรุณากรอกรหัสผ่าน</Text>
                                         : textErrorPassWord === 2 ?
                                             <Text style={styles.errorText}>รหัสผ่านต้องมากกว่า 8 หลักขึ้นไป</Text>
@@ -166,6 +170,13 @@ class Login extends Component {
                         <Pressable style={styles.buttonForgotPassword} onPress={() => this.props.navigation.navigate("ForgotPassword")} >
                             <Text style={styles.textForgotPassword}>ลืมรหัสผ่าน?</Text>
                         </Pressable>
+                        <Pressable style={styles.buttonForgotPassword} onPress={() => this.props.navigation.navigate("OnboardingName")} >
+                            <Text style={styles.textForgotPassword}>test</Text>
+                        </Pressable>
+                        <Pressable style={styles.buttonForgotPassword} onPress={() => this.props.navigation.navigate("PersonalData")} >
+                            <Text style={styles.textForgotPassword}>PersonalData</Text>
+                        </Pressable>
+
                     </View>
                 </SafeAreaView>
                 <Pressable style={styles.buttonThi_eng} >
@@ -184,7 +195,7 @@ class Login extends Component {
                         <View style={styles.centeredView}>
                             <View style={styles.modalView}>
                                 <Image
-                                    
+
                                     source={require('../assets/images/icon/generic.png')}
                                 />
                                 <Text style={styles.modalText}>ไม่พบบัญชีผู้ใช้</Text>
@@ -415,7 +426,7 @@ const styles = StyleSheet.create({
         textAlign: "center"
     },
     modalText: {
-        marginTop:20,
+        marginTop: 20,
         marginBottom: 15,
         textAlign: "center",
         fontWeight: "bold",
@@ -424,7 +435,7 @@ const styles = StyleSheet.create({
 
     },
     modalText2: {
-        width:"75%",
+        width: "75%",
         marginBottom: 16,
         textAlign: "center",
         fontFamily: "Prompt-Light",
@@ -437,14 +448,14 @@ const styles = StyleSheet.create({
 
 
 const mapStateToProps = ({ authUser }) => {
-    const { user, status} = authUser;
+    const { user, status } = authUser;
     return { user, status };
-  };
-  
-  const mapActionsToProps = { loginUser };
-  
-  
-  export default connect(
+};
+
+const mapActionsToProps = { loginUser };
+
+
+export default connect(
     mapStateToProps,
     mapActionsToProps
-  )(Login);
+)(Login);
