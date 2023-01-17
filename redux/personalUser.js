@@ -22,14 +22,14 @@ export const personal = (sex, age, weight, height, exercise) => ({
   },
 });
 
-export const healt = (mgDL, mg, bpm, mmHGS, mmHGD) => ({
+export const healt = (fpg,hba1c,sbp,dbp,exercise) => ({
   type: types.HEALT_USER,
   payload: {
-    mgDL,
-    mg,
-    bpm,
-    mmHGS,
-    mmHGD
+    fpg,
+    hba1c,
+    sbp,
+    dbp,
+    exercise
   },
 });
 
