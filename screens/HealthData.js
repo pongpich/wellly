@@ -16,20 +16,102 @@ class HealthData extends Component {
             statusTextmg_dL: true,
             statusMg: true,
             statusTextMg: true,
-            statusBpm:true,
+            statusBpm: true,
             statusTextBpm: true,
-            statusMmGH1:true,
+            statusMmGH1: true,
             statusTextMmHG1: true,
-            statusMmGH2:true,
+            statusMmGH2: true,
             statusTextMmHG2: true,
+            fpg: null,
+            hba1c: null,
+            sbp: null,
+            dbp: null,
+            exercise: null,
         };
     }
+    componentDidMount() {
+        const { dataUser } = this.props;
+        const exer = dataUser.exercise;
+        //  ออกกำลังกาย
 
+        if (exer === "ประจำ") {
+            this.setState({
+                exercise: "Y"
+            })
+        } else {
+            this.setState({
+                exercise: "N"
+            })
+        }
+
+    }
     componentDidUpdate(prevProps, prevState) {
-        const { healtDataUser } = this.props;
-        if (prevProps.healtDataUser !==  healtDataUser) {
+        const { healtDataUser, dataUser } = this.props;
+        const { mgDL, mg, mmHGS, mmHGD } = this.state;
+
+        if (prevProps.healtDataUser !== healtDataUser) {
             this.props.navigation.navigate("OnboardingResults");
         }
+
+        //  เบาหวาน fpg
+        if (prevState.mgDL !== mgDL) {
+            if (mgDL <= 100) {
+                this.setState({
+                    fpg: "N"
+                })
+            } else if ((mgDL >= 101) && (mgDL <= 125)) {
+                this.setState({
+                    fpg: "Pre"
+                })
+            } else {
+                this.setState({
+                    fpg: "Y"
+                })
+            }
+        }
+        //  เบาหวาน hba1c
+        if (prevState.mg !== mg) {
+            if (mg <= 5.7) {
+                this.setState({
+                    hba1c: "N"
+                })
+            } else if ((mg >= 5.8) && (mg <= 6.4)) {
+                this.setState({
+                    hba1c: "Pre"
+                })
+            } else {
+                this.setState({
+                    hba1c: "Y"
+                })
+            }
+        }
+
+        //  คาวมดัน sbp
+        if (prevState.mmHGS !== mmHGS) {
+            if (mmHGS < 129) {
+                this.setState({
+                    sbp: "N"
+                })
+            } else {
+                this.setState({
+                    sbp: "Y"
+                })
+            }
+        }
+        //  คาวมดัน dbp
+
+        if (prevState.mmHGD !== mmHGD) {
+            if (mmHGD <= 84) {
+                this.setState({
+                    dbp: "N"
+                })
+            } else if (mmHGD >= 85) {
+                this.setState({
+                    dbp: "Y"
+                })
+            }
+        }
+
     }
 
     handleChange(fieldName, text) {
@@ -38,8 +120,8 @@ class HealthData extends Component {
         })
     }
 
-    submit() {  
-        const {mgDL, mg, bpm, mmHGS, mmHGD} = this.state;
+    submit() {
+        const { mgDL, mg, bpm, mmHGS, mmHGD,fpg,hba1c,sbp,dbp,exercise} = this.state;
         if ((mgDL < 4) || (mgDL > 1000)) {
             this.setState({
                 statusMdDl: false,
@@ -52,31 +134,33 @@ class HealthData extends Component {
             })
         } else if ((bpm < 40) || (bpm > 160)) {
             this.setState({
-                statusBpm:false,
+                statusBpm: false,
                 statusTextBpm: false,
             })
         } else if ((bpm < 40) || (bpm > 190)) {
             this.setState({
                 statusTextMmHG1: false,
-                statusMmGH2:false,
+                statusMmGH2: false,
             })
-        }else if ((mmHGS < 40) || (mmHGS > 190)) {
+        } else if ((mmHGS < 40) || (mmHGS > 190)) {
             this.setState({
                 statusTextMmHG1: false,
-                statusMmGH1:false,
+                statusMmGH1: false,
             })
-        }else if ((mmHGD < 40) || (mmHGD > 170)) {
+        } else if ((mmHGD < 40) || (mmHGD > 170)) {
             this.setState({
                 statusTextMmHG2: false,
-                statusMmGH2:false,
+                statusMmGH2: false,
             })
-        } else{
-            this.props.healt(mgDL, mg, bpm, mmHGS, mmHGD); 
-        } 
+        } else {
+            this.props.healt(fpg,hba1c,sbp,dbp,exercise); 
+        }
     }
 
     render() {
-        const { mgDL, mg, bpm, mmHGS, mmHGD, statusMdDl, statusTextmg_dL,statusMg, statusTextMg,statusBpm, statusTextBpm,statusMmGH1, statusTextMmHG1, statusMmGH2,statusTextMmHG2 } = this.state;
+        const { mgDL, mg, bpm, mmHGS,fpg,hba1c,sbp,dbp,exercise, mmHGD, statusMdDl, statusTextmg_dL, statusMg, statusTextMg, statusBpm, statusTextBpm, statusMmGH1, statusTextMmHG1, statusMmGH2, statusTextMmHG2 } = this.state;
+console.log("AA",fpg,hba1c,sbp,dbp,exercise);
+
         return (
             <SafeAreaView style={styles.container}>
                 <View style={styles.areaView}>
@@ -173,7 +257,7 @@ class HealthData extends Component {
                                         <Text style={styles.textButtonWhite}>ถัดไป</Text>
                                     </Pressable>
                                     :
-                                    <Pressable s style={styles.buttonGrey} onPress={() => this.submit()} >
+                                    <Pressable s style={styles.buttonGrey} /* onPress={() =>  this.props.navigation.navigate("OnboardingResults")} */ >
                                         <Text style={styles.textButtonGrey}>ถัดไป</Text>
                                     </Pressable>
                             }
@@ -305,13 +389,13 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = ({ personalDataUser }) => {
-    const { healtDataUser } = personalDataUser;
-    return { healtDataUser };
-  };
-  
-  const mapActionsToProps = { healt };
-  
-  export default connect(
+    const { healtDataUser, dataUser } = personalDataUser;
+    return { healtDataUser, dataUser };
+};
+
+const mapActionsToProps = { healt };
+
+export default connect(
     mapStateToProps,
     mapActionsToProps
-  )(HealthData);
+)(HealthData);

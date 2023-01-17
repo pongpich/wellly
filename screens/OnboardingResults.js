@@ -10,60 +10,66 @@ class OnboardingResults extends Component {
         super(props);
         this.state = {
             resultsUser: null,
-            diabetes: null,
-            hypertension: null,
-            exercise: null
+            diabetes: null, //โรคเบาหวาน
+            hypertension: null, //ความดันสุง
+            exercise: null  //ออกกำลังกาย
         };
     }
     componentDidMount() {
-        const { dataUser, healtDataUser } = this.props;
-        const fpg = healtDataUser.mgDL;
-        const hba1c = healtDataUser.mg;
-        const sbp = healtDataUser.mmHGS;
-        const dbp = healtDataUser.mmHGD;
-        const exer = dataUser.exercise;
-        console.log("componentDidMount",fpg, hba1c, sbp,dbp,exer);
-        //  เบาหวาน
-        if ((fpg < 100) && (hba1c < 5.7)) {
+        const {fpg,hba1c,sbp, dbp,exercise} = this.props.healtDataUser; // การเรียงค่า  (fpg = mg/dL) ,(hba1c = mg) ,(sbp = mmHG), (dbp = mmHG)
+        //  เบาหวาน fpg ,hba1c
+        console.log("componentDidMount",fpg,hba1c,sbp, dbp,exercise);
+        if ((fpg === "N") && (hba1c === "N")) {
             this.setState({
                 diabetes: "N"
             })
-        } else if ((fpg > 101) && (fpg < 125) && (hba1c > 5.8) && (hba1c < 6.4)) {
+        }else if ((fpg === "Pre") && (hba1c === "Pre")) {
             this.setState({
                 diabetes: "Pre"
             })
-        } else if ((fpg > 126) && (hba1c > 6.5)) {
+        }else if ((fpg === "Pre") && (hba1c === "Y")) {
+            this.setState({
+                diabetes: "Y"
+            })
+        }else if ((fpg === "Y") && (hba1c === "Pre")) {
+            this.setState({
+                diabetes: "Y"
+            })
+        }else if ((fpg === "N") && (hba1c === "Pre")) {
+            this.setState({
+                diabetes: "Pre"
+            })
+        }else if ((fpg === "Pre") && (hba1c === "N")) {
+            this.setState({
+                diabetes: "Pre"
+            })
+        }else if ((fpg === "N") && (hba1c === "Y")) {
+            this.setState({
+                diabetes: "Y"
+            })
+        }else if ((fpg === "Y") && (hba1c === "N")) {
+            this.setState({
+                diabetes: "Y"
+            })
+        }else if ((fpg === "Y") && (hba1c === "Y")) {
             this.setState({
                 diabetes: "Y"
             })
         }
 
-        //  คาวมดัน
-        if ((sbp > 40) && (sbp < 129) && (dbp > 40) && (dbp < 84)) {
+        // ความดัน sbp, dbp
+        if ((sbp === "N") && (dbp === "N")) {
             this.setState({
                 hypertension: "N"
             })
-        } else if ((sbp > 130) && (dbp > 85)) {
+        }else {
             this.setState({
                 hypertension: "Y"
             })
         }
-
-        //  ออกกำลังกาย
-        if (exer === "ประจำ") {
-            this.setState({
-                exercise: "Y"
-            })
-        } else {
-            this.setState({
-                exercise: "N"
-            })
-        }
-/*         this.setState({
-            diabetes:"N",
-            hypertension:"Y",
-            exercise: "Y"
-        }) */
+        this.setState({
+            exercise: exercise
+        })
 
     }
 
@@ -73,33 +79,53 @@ class OnboardingResults extends Component {
 console.log("componentDidUpdate",diabetes, hypertension, exercise);
         if ((prevState.diabetes !== diabetes) && (prevState.hypertension !== hypertension) && (prevState.exercise !== exercise)) {
            
-            if ((diabetes === "N") &&  (hypertension === "N")) {
+           
+            if ((diabetes === "N") &&  (hypertension === "N")) {  //A1 & A2
                 this.setState({
                     resultsUser: "A1"
                 })
-            }else if ((diabetes === "Pre") &&  (hypertension === "N") && (exercise === "N")) {
+            }else if ((diabetes === "Pre") &&  (hypertension === "N") && (exercise === "N")) { //B1 
                 this.setState({
                     resultsUser: "B1"
                 })
-            }else if ((diabetes === "Pre") &&  (hypertension === "Y") && (exercise === "N")) {
+            }else if ((diabetes === "Pre") &&  (hypertension === "Y") && (exercise === "N")) { // B2
                 this.setState({
                     resultsUser: "B2"
                 })
-            }else if ((diabetes === "Y") &&  (hypertension === "N") && (exercise === "N")) {
+            }else if ((diabetes === "Pre") &&  (hypertension === "N") && (exercise === "Y")) { // B3
+                this.setState({
+                    resultsUser: "B1"
+                })
+            }else if ((diabetes === "Pre") &&  (hypertension === "Y") && (exercise === "Y")) { // B4
+                this.setState({
+                    resultsUser: "B2"
+                })
+            }else if ((diabetes === "Y") &&  (hypertension === "N") && (exercise === "N")) { //C1
                 this.setState({
                     resultsUser: "C1"
                 })
-            }else if ((diabetes === "Y") &&  (hypertension === "Y") && (exercise === "N")) {
+            }else if ((diabetes === "Y") &&  (hypertension === "Y") && (exercise === "N")) { //C2
                 this.setState({
                     resultsUser: "C2"
                 })
-            }else if ((diabetes === "N") &&  (hypertension === "Y") && (exercise === "Y")) {
+            }else if ((diabetes === "Y") &&  (hypertension === "N") && (exercise === "Y")) { // C3
+                this.setState({
+                    resultsUser: "C1"
+                })
+            }else if ((diabetes === "Y") &&  (hypertension === "Y") && (exercise === "Y")) { // C4
+                this.setState({
+                    resultsUser: "C2"
+                })
+            }else if ((diabetes === "N") &&  (hypertension === "Y") && (exercise === "N")) { //D1
+                this.setState({
+                    resultsUser: "D1"
+                })
+            }else if ((diabetes === "N") &&  (hypertension === "Y") && (exercise === "Y")) { //D1
                 this.setState({
                     resultsUser: "D1"
                 })
             }
         }
-
     }
 
     onboarding_A1() {

@@ -38,7 +38,7 @@ class PersonalData extends Component {
         if (prevProps.dataUser !==  dataUser) {
             this.props.navigation.navigate("HealthData");
         }
-        
+
     }
 
     handleChange(fieldName, text) {
