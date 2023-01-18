@@ -113,6 +113,7 @@ class PersonalData extends Component {
 
     render() {
         const { sex, age, weight, height, exercise, statusAge, statusTextAge, statusWeight, statusTextWeight, statusHeight, statusTextHeight } = this.state;
+        console.log("username",this.props.username);
         return (
             <SafeAreaView style={styles.container}>
                 <View style={styles.areaView}>
@@ -327,8 +328,8 @@ const styles = StyleSheet.create({
 
 
 const mapStateToProps = ({ personalDataUser }) => {
-    const { dataUser } = personalDataUser;
-    return { dataUser };
+    const { dataUser,username } = personalDataUser;
+    return { dataUser,username };
   };
   
   const mapActionsToProps = { personal };

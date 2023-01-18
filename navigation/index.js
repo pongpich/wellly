@@ -32,7 +32,7 @@ function MyStack() {
       screenOptions={{
         headerTintColor: "#3762FC", // ใส่ icon สี ปุ่ม BackTitle
       }}>
-      <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+{/*       <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
       <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{
         title: "",
         //headerBackTitle: true, //ซ่อนข้อความในของ ios
@@ -46,7 +46,11 @@ function MyStack() {
             </TouchableOpacity>
           </View>
         ),
-      }} />
+      }} />*/}
+      <Stack.Screen name="Walkthrough" component={Walkthrough} options={{
+        ...TransitionPresets.FadeFromBottomAndroid,
+        headerShown: false,
+      }} /> 
       <Stack.Screen name="OnboardingName" component={OnboardingName} options={{
         title: "",
         //headerBackTitle: true, //ซ่อนข้อความในของ ios
@@ -60,10 +64,6 @@ function MyStack() {
             </TouchableOpacity>
           </View>
         ),
-      }} />
-      <Stack.Screen name="Walkthrough" component={Walkthrough} options={{
-        ...TransitionPresets.FadeFromBottomAndroid,
-        headerShown: false,
       }} />
       <Stack.Screen name="PersonalData" component={PersonalData} options={{
         headerShadowVisible: false,

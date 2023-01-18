@@ -1,23 +1,59 @@
 import React from 'react';
 import { StyleSheet, Text, View, TextInput, SafeAreaView, Pressable, Switch } from 'react-native';
+import {  getProfanity  } from "../redux/get";
+import {userName } from "../redux/personalUser";
+import { connect } from 'react-redux';
 
-export default class OnboardingName extends React.Component {
+ class OnboardingName extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             name: '',
             switchOn: false,
-            isFocused: false
+            isFocused: false,
+            errorInput: false,
+            words:null
         };
     }
 
+    componentDidMount() {
+        this.props.getProfanity();
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        const { profanity } = this.props;
+        if ((prevProps.profanity !== profanity) && (profanity !== "loading")) {
+            let profanities =  profanity.profanities;
+            const keyWord = [];
+            const map1 = profanities.map((val, i ) => {
+                keyWord.push(val.word);
+            });
+            this.setState({
+                words: keyWord
+            })
+        }
+    }
+
+    submit() {
+        const {name,words} = this.state;
+        const result =  words.filter(word => word == name);
+        
+        if (result && result.length  > 0) {
+            this.setState({
+                errorInput:true
+            }) 
+        }else {
+            this.props.userName(name);
+            this.props.navigation.navigate("PersonalData")
+        }
+     
+    }
+
     render() {
-        const { name, switchOn, isFocused } = this.state;
-        const handleFocus = () => this.setState({isFocused: true})
-        const handleBlur = () => this.setState({isFocused: false})
-
-        console.log(isFocused);
-
+        const { name, switchOn, isFocused, errorInput,word } = this.state;
+        const handleFocus = () => this.setState({ isFocused: true })
+        const handleBlur = () => this.setState({ isFocused: false })
+       /*  console.log("word",word); */
         return (
             <SafeAreaView style={{ flex: 1, backgroundColor: "#FFFFFF" }}>
                 <View style={{ justifyContent: "center", textAlign: "center", flex: 1, paddingHorizontal: 20 }}>
@@ -25,26 +61,25 @@ export default class OnboardingName extends React.Component {
                         <Text style={{ fontFamily: "Prompt-Bold", fontSize: 24, justifyContent: "center", marginBottom: 10 }}>อยากให้เราเรียกคุณว่าอะไร?</Text>
                     </View>
 
-                    <TextInput style={{
-                        height: 56,
-                        borderWidth: 1,
-                        paddingLeft: 10,
-                        borderRadius: 8,
-                        borderColor: isFocused ? "#3762FC" : "#C2D2E7",
-                        color: "#2A323C",
-                        backgroundColor: "#FFFFFF",
-                        fontFamily: "Prompt-Light",
-                        position: "relative",
-                        alignContent: "center"
-                    }}
-                        onFocus={handleFocus}
-                        onBlur={handleBlur}
-                        numberOfLines={6}
-                        maxLength={50}
-                        placeholder='ชื่อของคุณ'
-                        onChangeText={(name) => this.setState({ name })}
-
-                    />
+                    <View>
+                        <TextInput style={
+                            errorInput === true ? styles.inputError :  isFocused === true ? styles.inputIsFocused: styles.input}
+                            onFocus={handleFocus}
+                            onBlur={handleBlur}
+                            numberOfLines={6}
+                            maxLength={50}
+                            placeholder='ชื่อของคุณ'
+                            autoCapitalize='none'
+                            onChangeText={(name) => this.setState({ name })}
+                        />
+                        <View style={styles.error}>
+                            {
+                                errorInput === true ?
+                                    <Text style={styles.errorText}>ชื่อต้องเป็นคำที่สุภาพ</Text>
+                                    : null
+                            }
+                        </View>
+                    </View>
                     <Text style={{ textAlign: "right" }}>
                         {name.length}/50
                     </Text>
@@ -70,7 +105,7 @@ export default class OnboardingName extends React.Component {
                                 <Text style={styles.textButtonWhite}>ถัดไป</Text>
                             </Pressable>
                             :
-                            <Pressable s style={styles.buttonGrey} /* onPress={() =>  this.props.navigation.navigate("HealthData")} */ >
+                            <Pressable s style={styles.buttonGrey} >
                                 <Text style={styles.textButtonGrey}>ถัดไป</Text>
                             </Pressable>
                     }
@@ -91,6 +126,47 @@ const styles = StyleSheet.create({
         marginTop: 20,
         width: "100%",
         alignItems: "center",
+    },
+    input: {
+        height: 56,
+        borderWidth: 1,
+        paddingLeft: 10,
+        borderRadius: 8,
+        borderColor: "#C2D2E7",
+        color: "#2A323C",
+        backgroundColor: "#FFFFFF",
+        fontFamily: "Prompt-Light",
+        position: "relative",
+        alignContent: "center"
+    },
+    inputIsFocused: {
+        height: 56,
+        borderWidth: 1,
+        paddingLeft: 10,
+        borderRadius: 8,
+        borderColor: "#3762FC",
+        color: "#2A323C",
+        backgroundColor: "#FFFFFF",
+        fontFamily: "Prompt-Light",
+        position: "relative",
+        alignContent: "center"
+    },
+    inputError: {
+        height: 56,
+        borderWidth: 1,
+        paddingLeft: 10,
+        borderRadius: 8,
+        borderColor: "#D43A3A",
+        color: "#2A323C",
+        backgroundColor: "#FFFFFF",
+        fontFamily: "Prompt-Light",
+        position: "relative",
+        alignContent: "center"
+    },
+    errorText: {
+        color: "#D43A3A",
+        alignItems: "flex-start",
+        fontFamily: "Prompt-Light"
     },
     buttonBlue: {
         justifyContent: "flex-end",
@@ -128,3 +204,19 @@ const styles = StyleSheet.create({
         fontFamily: "Prompt-Bold",
     }
 })
+
+const mapStateToProps = ({ getData,personalDataUser }) => {
+    const {profanity } = getData;
+    const { username } = personalDataUser;
+    return { profanity };
+};
+
+const mapActionsToProps = { getProfanity,userName};
+
+
+export default connect(
+    mapStateToProps,
+    mapActionsToProps
+)(OnboardingName);
+
+

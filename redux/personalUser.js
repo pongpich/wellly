@@ -6,6 +6,7 @@ import { Auth, API } from "aws-amplify";
 export const types = {
   PERSONAL_USER: "PERSONAL_USER",
   HEALT_USER: "HEALT_USER",
+  NAME_USER: "NAME_USER",
 };
 
 
@@ -32,6 +33,12 @@ export const healt = (fpg,hba1c,sbp,dbp,exercise) => ({
     exercise
   },
 });
+export const userName = (name) => ({
+  type: types.NAME_USER,
+  payload: {
+    name,
+  },
+});
 
 
 
@@ -41,7 +48,9 @@ export const healt = (fpg,hba1c,sbp,dbp,exercise) => ({
 
 const INIT_STATE = {
   dataUser: null,
-  healtDataUser:null
+  healtDataUser:null,
+  profanity: null,
+  username: null
 };
 
 export function reducer(state = INIT_STATE, action) {
@@ -55,6 +64,11 @@ export function reducer(state = INIT_STATE, action) {
       return {
         ...state,
         healtDataUser: action.payload,
+      };
+      case types.NAME_USER:
+      return {
+        ...state,
+        username: action.payload,
       };
     default:
       return { ...state };

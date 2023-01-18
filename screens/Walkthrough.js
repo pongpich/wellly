@@ -97,7 +97,7 @@ class Walkthrough extends Component {
                 <View style={styles.buttonView}>
                 <Pressable style={styles.buttonCross} />
                     
-                    <Pressable style={styles.buttonNext} onPress={() => this.props.navigation.navigate("PersonalData")} >
+                    <Pressable style={styles.buttonNext} onPress={() => this.props.navigation.navigate("OnboardingName")} >
                         <Text style={styles.textNext}>เริ่มกันเลย!</Text>
                     </Pressable>
                 </View>

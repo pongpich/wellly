@@ -108,6 +108,7 @@ class Login extends Component {
                                 keyboardType="email-address"
                                 autoFocus={true}
                                 placeholder="อีเมล"
+                                autoCapitalize='none'
                             />
                             <View style={styles.error}>
                                 {
@@ -170,13 +171,6 @@ class Login extends Component {
                         <Pressable style={styles.buttonForgotPassword} onPress={() => this.props.navigation.navigate("ForgotPassword")} >
                             <Text style={styles.textForgotPassword}>ลืมรหัสผ่าน?</Text>
                         </Pressable>
-                        <Pressable style={styles.buttonForgotPassword} onPress={() => this.props.navigation.navigate("OnboardingName")} >
-                            <Text style={styles.textForgotPassword}>test</Text>
-                        </Pressable>
-                        <Pressable style={styles.buttonForgotPassword} onPress={() => this.props.navigation.navigate("PersonalData")} >
-                            <Text style={styles.textForgotPassword}>PersonalData</Text>
-                        </Pressable>
-
                     </View>
                 </SafeAreaView>
                 <Pressable style={styles.buttonThi_eng} >
