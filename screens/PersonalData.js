@@ -38,7 +38,7 @@ class PersonalData extends Component {
 
     componentDidUpdate(prevProps, prevState) {
         const { dataUser } = this.props;
-        if (prevProps.dataUser !==  dataUser) {
+        if (prevProps.dataUser !== dataUser) {
             this.props.navigation.navigate("HealthData");
         }
 
@@ -64,18 +64,17 @@ class PersonalData extends Component {
         }
     }
 
-     handleFocus = (fieldName, text) => {
-         console.log("handleFocus",fieldName, text);
-         this.setState({ 
+    handleFocus = (fieldName, text) => {
+        this.setState({
             [fieldName]: text
-          })
-     }
-     handleBlur = (fieldName, text) => {
-         this.setState({ 
+        })
+    }
+    handleBlur = (fieldName, text) => {
+        this.setState({
             [fieldName]: text
-          })
-     }
-    
+        })
+    }
+
     submit() {
         const { sex, age, weight, height, exercise } = this.state;
         if ((age === null) || (age === "null")) {
@@ -118,7 +117,7 @@ class PersonalData extends Component {
                 statusHeight: true,
                 statusTextHeight: null
             });
-            this.props.personal(sex, age, weight, height, exercise); 
+            this.props.personal(sex, age, weight, height, exercise);
 
         }
 
@@ -126,8 +125,8 @@ class PersonalData extends Component {
 
     render() {
         const { sex, age, weight, height, exercise, statusAge, statusTextAge, statusWeight, statusTextWeight, statusHeight, statusTextHeight,
-            isFocusedAge,isFocusedWeight ,isFocusedHeight} = this.state;
-        console.log("isFocusedAge",isFocusedAge);
+            isFocusedAge, isFocusedWeight, isFocusedHeight } = this.state;
+        console.log("isFocusedAge", isFocusedAge);
         return (
             <SafeAreaView style={styles.container}>
                 <View style={styles.areaView}>
@@ -145,10 +144,10 @@ class PersonalData extends Component {
                     <View style={styles.viewRightTnput}>
                         <Text style={styles.textRightTnput}>ปี</Text>
                         <TextInput
-                           onFocus={(text) => this.handleFocus("isFocusedAge", true)}
-                           onBlur={(text) => this.handleBlur("isFocusedAge", false)}
-                            style={statusAge === true ? isFocusedAge === true ? styles.inputIsFocused: styles.input : styles.inputError}
-                           
+                            onFocus={(text) => this.handleFocus("isFocusedAge", true)}
+                            onBlur={(text) => this.handleBlur("isFocusedAge", false)}
+                            style={statusAge === true ? isFocusedAge === true ? styles.inputIsFocused : styles.input : styles.inputError}
+
                             onChangeText={(text) => this.handleChange("age", text)}
                             placeholder="ระบุอายุ"
                             value={age}
@@ -168,9 +167,9 @@ class PersonalData extends Component {
                     <View style={styles.viewRightTnput}>
                         <Text style={styles.textRightTnput}>กิโลกรัม</Text>
                         <TextInput
-                         onFocus={(text) => this.handleFocus("isFocusedWeight", true)}
-                         onBlur={(text) => this.handleBlur("isFocusedWeight", false)}
-                            style={statusWeight === true ?  isFocusedWeight === true ? styles.inputIsFocused: styles.input  : styles.inputError}
+                            onFocus={(text) => this.handleFocus("isFocusedWeight", true)}
+                            onBlur={(text) => this.handleBlur("isFocusedWeight", false)}
+                            style={statusWeight === true ? isFocusedWeight === true ? styles.inputIsFocused : styles.input : styles.inputError}
                             onChangeText={(text) => this.handleChange("weight", text)}
                             placeholder="0"
                             keyboardType="numeric"
@@ -190,9 +189,9 @@ class PersonalData extends Component {
                     <View style={styles.viewRightTnput}>
                         <Text style={styles.textRightTnput}>เซนติเมตร</Text>
                         <TextInput
-                          onFocus={(text) => this.handleFocus("isFocusedHeight", true)}
-                          onBlur={(text) => this.handleBlur("isFocusedHeight", false)}
-                            style={statusHeight === true ? isFocusedHeight === true ? styles.inputIsFocused: styles.input  : styles.inputError}
+                            onFocus={(text) => this.handleFocus("isFocusedHeight", true)}
+                            onBlur={(text) => this.handleBlur("isFocusedHeight", false)}
+                            style={statusHeight === true ? isFocusedHeight === true ? styles.inputIsFocused : styles.input : styles.inputError}
                             onChangeText={(text) => this.handleChange("height", text)}
                             placeholder="0"
                             keyboardType="numeric"
@@ -244,7 +243,7 @@ const styles = StyleSheet.create({
     },
     areaView: {
         padding: 10,
-        width:"100%",
+        width: "100%",
 
     },
     textHead: {
@@ -361,14 +360,14 @@ const styles = StyleSheet.create({
 
 
 const mapStateToProps = ({ personalDataUser }) => {
-    const { dataUser,username } = personalDataUser;
-    return { dataUser,username };
-  };
-  
-  const mapActionsToProps = { personal };
-  
-  
-  export default connect(
+    const { dataUser, username } = personalDataUser;
+    return { dataUser, username };
+};
+
+const mapActionsToProps = { personal };
+
+
+export default connect(
     mapStateToProps,
     mapActionsToProps
-  )(PersonalData);
+)(PersonalData);

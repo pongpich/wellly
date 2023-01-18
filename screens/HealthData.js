@@ -27,6 +27,12 @@ class HealthData extends Component {
             sbp: null,
             dbp: null,
             exercise: null,
+            isFocusedMgDL: null,
+            isFocusedMg: null,
+            isFocusedBpm: null,
+            isFocusedMmHGS: null,
+            isFocusedMmHGD: null,
+
         };
     }
     componentDidMount() {
@@ -120,8 +126,20 @@ class HealthData extends Component {
         })
     }
 
+    handleFocus = (fieldName, text) => {
+        this.setState({
+            [fieldName]: text
+        })
+    }
+    handleBlur = (fieldName, text) => {
+        this.setState({
+            [fieldName]: text
+        })
+    }
+
+
     submit() {
-        const { mgDL, mg, bpm, mmHGS, mmHGD,fpg,hba1c,sbp,dbp,exercise} = this.state;
+        const { mgDL, mg, bpm, mmHGS, mmHGD, fpg, hba1c, sbp, dbp, exercise } = this.state;
         if ((mgDL < 4) || (mgDL > 1000)) {
             this.setState({
                 statusMdDl: false,
@@ -153,13 +171,15 @@ class HealthData extends Component {
                 statusMmGH2: false,
             })
         } else {
-            this.props.healt(fpg,hba1c,sbp,dbp,exercise); 
+            this.props.healt(fpg, hba1c, sbp, dbp, exercise);
         }
     }
 
     render() {
-        const { mgDL, mg, bpm, mmHGS,fpg,hba1c,sbp,dbp,exercise, mmHGD, statusMdDl, statusTextmg_dL, statusMg, statusTextMg, statusBpm, statusTextBpm, statusMmGH1, statusTextMmHG1, statusMmGH2, statusTextMmHG2 } = this.state;
-console.log("AA",fpg,hba1c,sbp,dbp,exercise);
+        const { mgDL, mg, bpm, mmHGS, fpg, hba1c, sbp, dbp, exercise, mmHGD, statusMdDl, statusTextmg_dL, statusMg, statusTextMg, statusBpm,
+            statusTextBpm, statusMmGH1, statusTextMmHG1, statusMmGH2, statusTextMmHG2,
+            isFocusedMgDL, isFocusedMg, isFocusedBpm, isFocusedMmHGS, isFocusedMmHGD } = this.state;
+
 
         return (
             <SafeAreaView style={styles.container}>
@@ -171,7 +191,9 @@ console.log("AA",fpg,hba1c,sbp,dbp,exercise);
                             <View style={styles.viewRightTnput}>
                                 <Text style={styles.textRightTnput}>mg/dL</Text>
                                 <TextInput
-                                    style={statusMdDl === true ? styles.input : styles.inputError}
+                                    onFocus={(text) => this.handleFocus("isFocusedMgDL", true)}
+                                    onBlur={(text) => this.handleBlur("isFocusedMgDL", false)}
+                                    style={statusMdDl === true ? isFocusedMgDL === true ? styles.inputIsFocused : styles.input : styles.inputError}
                                     onChangeText={(text) => this.handleChange("mgDL", text)}
                                     placeholder="0"
                                     keyboardType="numeric"
@@ -187,7 +209,9 @@ console.log("AA",fpg,hba1c,sbp,dbp,exercise);
                             <View style={styles.viewRightTnput}>
                                 <Text style={styles.textRightTnput}>mg%</Text>
                                 <TextInput
-                                    style={statusMg === true ? styles.input : styles.inputError}
+                                    onFocus={(text) => this.handleFocus("isFocusedMg", true)}
+                                    onBlur={(text) => this.handleBlur("isFocusedMg", false)}
+                                    style={statusMg === true ? isFocusedMg === true ? styles.inputIsFocused : styles.input : styles.inputError}
                                     onChangeText={(text) => this.handleChange("mg", text)}
                                     placeholder="0"
                                     keyboardType="numeric"
@@ -203,7 +227,9 @@ console.log("AA",fpg,hba1c,sbp,dbp,exercise);
                             <View style={styles.viewRightTnput}>
                                 <Text style={styles.textRightTnput}>bpm</Text>
                                 <TextInput
-                                    style={statusBpm === true ? styles.input : styles.inputError}
+                                    onFocus={(text) => this.handleFocus("isFocusedBpm", true)}
+                                    onBlur={(text) => this.handleBlur("isFocusedBpm", false)}
+                                    style={statusBpm === true ? isFocusedBpm === true ? styles.inputIsFocused : styles.input : styles.inputError}
                                     onChangeText={(text) => this.handleChange("bpm", text)}
                                     placeholder="0"
                                     keyboardType="numeric"
@@ -220,7 +246,9 @@ console.log("AA",fpg,hba1c,sbp,dbp,exercise);
                             <View style={styles.viewRightTnput}>
                                 <Text style={styles.textRightTnput}>mmHG</Text>
                                 <TextInput
-                                    style={statusMmGH1 === true ? styles.input : styles.inputError}
+                                    onFocus={(text) => this.handleFocus("isFocusedMmHGS", true)}
+                                    onBlur={(text) => this.handleBlur("isFocusedMmHGS", false)}
+                                    style={statusMmGH1 === true ? isFocusedMmHGS === true ? styles.inputIsFocused : styles.input : styles.inputError}
                                     onChangeText={(text) => this.handleChange("mmHGS", text)}
                                     placeholder="0"
 
@@ -237,7 +265,9 @@ console.log("AA",fpg,hba1c,sbp,dbp,exercise);
                             <View style={styles.viewRightTnput}>
                                 <Text style={styles.textRightTnput}>mmHG</Text>
                                 <TextInput
-                                    style={statusMmGH2 === true ? styles.input : styles.inputError}
+                                    onFocus={(text) => this.handleFocus("isFocusedMmHGD", true)}
+                                    onBlur={(text) => this.handleBlur("isFocusedMmHGD", false)}
+                                    style={statusMmGH2 === true ? isFocusedMmHGD === true ? styles.inputIsFocused : styles.input : styles.inputError}
                                     onChangeText={(text) => this.handleChange("mmHGD", text)}
                                     placeholder="0"
                                     keyboardType="numeric"
@@ -316,6 +346,18 @@ const styles = StyleSheet.create({
         fontFamily: "Prompt-Light",
         position: "relative",
 
+    },
+    inputIsFocused: {
+        height: 56,
+        borderWidth: 1,
+        paddingLeft: 10,
+        borderRadius: 8,
+        borderColor: "#3762FC",
+        color: "#2A323C",
+        backgroundColor: "#FFFFFF",
+        fontFamily: "Prompt-Light",
+        position: "relative",
+        alignContent: "center"
     },
     inputError: {
         height: 56,
