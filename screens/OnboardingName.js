@@ -6,12 +6,17 @@ export default class OnboardingName extends React.Component {
         super(props);
         this.state = {
             name: '',
-            switchOn: false
+            switchOn: false,
+            isFocused: false
         };
     }
 
     render() {
-        const { name, switchOn } = this.state;
+        const { name, switchOn, isFocused } = this.state;
+        const handleFocus = () => this.setState({isFocused: true})
+        const handleBlur = () => this.setState({isFocused: false})
+
+        console.log(isFocused);
 
         return (
             <SafeAreaView style={{ flex: 1, backgroundColor: "#FFFFFF" }}>
@@ -23,17 +28,17 @@ export default class OnboardingName extends React.Component {
                     <TextInput style={{
                         height: 56,
                         borderWidth: 1,
-                        paddingTop: 15,
                         paddingLeft: 10,
                         borderRadius: 8,
-                        borderColor: "#C2D2E7",
+                        borderColor: isFocused ? "#3762FC" : "#C2D2E7",
                         color: "#2A323C",
                         backgroundColor: "#FFFFFF",
                         fontFamily: "Prompt-Light",
                         position: "relative",
                         alignContent: "center"
                     }}
-                        multiline={true}
+                        onFocus={handleFocus}
+                        onBlur={handleBlur}
                         numberOfLines={6}
                         maxLength={50}
                         placeholder='ชื่อของคุณ'
