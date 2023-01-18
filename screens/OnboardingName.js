@@ -6,22 +6,33 @@ export default class OnboardingName extends React.Component {
         super(props);
         this.state = {
             name: '',
-            switchOn: false,
-            setSwitchOn: false
+            switchOn: false
         };
     }
 
     render() {
-        const { name, switchOn, setSwitchOn } = this.state;
+        const { name, switchOn } = this.state;
 
         return (
             <SafeAreaView style={{ flex: 1, backgroundColor: "#FFFFFF" }}>
-                <View>
+                <View style={{ justifyContent: "center", textAlign: "center", flex: 1, paddingHorizontal: 20 }}>
                     <View>
-                        <Text style={{ fontWeight: "bold", justifyContent: "center" }}>อยากให้เราเรียกคุณว่าอะไร?</Text>
+                        <Text style={{ fontFamily: "Prompt-Bold", fontSize: 24, justifyContent: "center", marginBottom: 10 }}>อยากให้เราเรียกคุณว่าอะไร?</Text>
                     </View>
 
-                    <TextInput
+                    <TextInput style={{
+                        height: 56,
+                        borderWidth: 1,
+                        paddingTop: 15,
+                        paddingLeft: 10,
+                        borderRadius: 8,
+                        borderColor: "#C2D2E7",
+                        color: "#2A323C",
+                        backgroundColor: "#FFFFFF",
+                        fontFamily: "Prompt-Light",
+                        position: "relative",
+                        alignContent: "center"
+                    }}
                         multiline={true}
                         numberOfLines={6}
                         maxLength={50}
@@ -33,8 +44,7 @@ export default class OnboardingName extends React.Component {
                         {name.length}/50
                     </Text>
                 </View>
-
-                <View>
+                <View style={{ flexDirection: "row", justifyContent: "space-between", paddingHorizontal: 20 }}>
                     <Text>ฉันยอมรับ
                         <Text style={{ color: 'blue' }}
                             onPress={() => Linking.openURL('http://google.com')}>
@@ -44,11 +54,10 @@ export default class OnboardingName extends React.Component {
                     </Text>
                     <Switch
                         value={switchOn}
-                        onValueChange={(value) => this.setState({ setSwitchOn: value })}
+                        onValueChange={(value) => this.setState({ switchOn: value })}
                         trackColor={{ false: "#ff0000", true: "#0000ff" }}
                     />
                 </View>
-
                 <View style={styles.areaViewButton}>
                     {
                         (name.length > 0) && (switchOn == true) ?
@@ -63,15 +72,18 @@ export default class OnboardingName extends React.Component {
                 </View>
             </SafeAreaView>
 
-
         )
     }
 }
 const styles = StyleSheet.create({
-    areaViewButton: {
+    container: {
         flex: 1,
+        backgroundColor: "#FFFFFF",
+        alignItems: "center",
+    },
+    areaViewButton: {
         justifyContent: 'flex-end',
-        marginTop: 50,
+        marginTop: 20,
         width: "100%",
         alignItems: "center",
     },
