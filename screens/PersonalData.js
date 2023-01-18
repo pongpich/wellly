@@ -30,6 +30,9 @@ class PersonalData extends Component {
             statusTextWeight: null,
             statusHeight: true,
             statusTextHeight: null,
+            isFocusedAge: false,
+            isFocusedWeight: false,
+            isFocusedHeight: false,
         };
     }
 
@@ -59,10 +62,20 @@ class PersonalData extends Component {
                 [fieldName]: text
             })
         }
-
-
     }
 
+     handleFocus = (fieldName, text) => {
+         console.log("handleFocus",fieldName, text);
+         this.setState({ 
+            [fieldName]: text
+          })
+     }
+     handleBlur = (fieldName, text) => {
+         this.setState({ 
+            [fieldName]: text
+          })
+     }
+    
     submit() {
         const { sex, age, weight, height, exercise } = this.state;
         if ((age === null) || (age === "null")) {
@@ -112,8 +125,9 @@ class PersonalData extends Component {
     }
 
     render() {
-        const { sex, age, weight, height, exercise, statusAge, statusTextAge, statusWeight, statusTextWeight, statusHeight, statusTextHeight } = this.state;
-        console.log("username",this.props.username);
+        const { sex, age, weight, height, exercise, statusAge, statusTextAge, statusWeight, statusTextWeight, statusHeight, statusTextHeight,
+            isFocusedAge,isFocusedWeight ,isFocusedHeight} = this.state;
+        console.log("isFocusedAge",isFocusedAge);
         return (
             <SafeAreaView style={styles.container}>
                 <View style={styles.areaView}>
@@ -131,7 +145,10 @@ class PersonalData extends Component {
                     <View style={styles.viewRightTnput}>
                         <Text style={styles.textRightTnput}>ปี</Text>
                         <TextInput
-                            style={statusAge === true ? styles.input : styles.inputError}
+                           onFocus={(text) => this.handleFocus("isFocusedAge", true)}
+                           onBlur={(text) => this.handleBlur("isFocusedAge", false)}
+                            style={statusAge === true ? isFocusedAge === true ? styles.inputIsFocused: styles.input : styles.inputError}
+                           
                             onChangeText={(text) => this.handleChange("age", text)}
                             placeholder="ระบุอายุ"
                             value={age}
@@ -151,7 +168,9 @@ class PersonalData extends Component {
                     <View style={styles.viewRightTnput}>
                         <Text style={styles.textRightTnput}>กิโลกรัม</Text>
                         <TextInput
-                            style={statusWeight === true ? styles.input : styles.inputError}
+                         onFocus={(text) => this.handleFocus("isFocusedWeight", true)}
+                         onBlur={(text) => this.handleBlur("isFocusedWeight", false)}
+                            style={statusWeight === true ?  isFocusedWeight === true ? styles.inputIsFocused: styles.input  : styles.inputError}
                             onChangeText={(text) => this.handleChange("weight", text)}
                             placeholder="0"
                             keyboardType="numeric"
@@ -171,7 +190,9 @@ class PersonalData extends Component {
                     <View style={styles.viewRightTnput}>
                         <Text style={styles.textRightTnput}>เซนติเมตร</Text>
                         <TextInput
-                            style={statusHeight === true ? styles.input : styles.inputError}
+                          onFocus={(text) => this.handleFocus("isFocusedHeight", true)}
+                          onBlur={(text) => this.handleBlur("isFocusedHeight", false)}
+                            style={statusHeight === true ? isFocusedHeight === true ? styles.inputIsFocused: styles.input  : styles.inputError}
                             onChangeText={(text) => this.handleChange("height", text)}
                             placeholder="0"
                             keyboardType="numeric"
@@ -253,6 +274,18 @@ const styles = StyleSheet.create({
         fontFamily: "Prompt-Light",
         position: "relative",
 
+    },
+    inputIsFocused: {
+        height: 56,
+        borderWidth: 1,
+        paddingLeft: 10,
+        borderRadius: 8,
+        borderColor: "#3762FC",
+        color: "#2A323C",
+        backgroundColor: "#FFFFFF",
+        fontFamily: "Prompt-Light",
+        position: "relative",
+        alignContent: "center"
     },
     inputError: {
         height: 56,
