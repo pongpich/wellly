@@ -4,49 +4,49 @@ import { Alert, Modal, StyleSheet, Text, Image, Linking, Button, Pressable, View
 class ForgotPassword extends Component {
   render() {
     return (
-      <View style={{flex: 1, padding: 10, backgroundColor: "#fff"}}>
+      <View style={{ flex: 1, padding: 10, backgroundColor: "#fff" }}>
         <View>
-        <View style={styles.forgotPasswordView}>
-          <Image
-            style={styles.entryImage}
-            source={require('../assets/images/icon/contextual.png')}
-          />
-          <Text style={styles.textForgotPass}>ลืมรหัสผ่าน</Text>
-        </View>
-        <View style={styles.areaText}>
-          <Text style={styles.textForgotPass_2}>ติดต่อฝ่ายบุคคลบริษัทของคุณ{"\n"}เพื่อทำการตั้งค่ารหัสผ่านใหม่</Text>
-        </View>
-        <View style={styles.hrefView}>
-          <Pressable style={styles.buttonContact} onPress={() => Linking.openURL('tel:086-899-9089')}>
+          <View style={styles.forgotPasswordView}>
             <Image
-              style={{ marginTop: 10, marginRight: 10 }}
-              source={require('../assets/images/icon/phone.png')}
+              style={styles.entryImage}
+              source={require('../assets/images/icon/contextual.png')}
             />
-            <View>
-              <Text style={styles.textHref}>โทร</Text>
-              <Text style={styles.textForgotPass_2}>086-899-9089</Text>
-            </View>
-          </Pressable>
-        </View>
-        <View style={styles.hrefView}>
-          <Pressable style={styles.buttonContact} onPress={() => Linking.openURL('mailto:test@email.com')}>
-            <Image
-              style={{ marginTop: 10, marginRight: 10 }}
-              source={require('../assets/images/icon/email.png')}
-            />
-            <View><Text style={styles.textHref}>email</Text>
-              <Text style={styles.textForgotPass_2}>test@email.com</Text>
-            </View>
-          </Pressable>
-        </View>
-        </View>
-        <View style={{flex: 1 , justifyContent: "flex-end", marginBottom: 20}}>
-          <View style={styles.buttonView}>
-          <Pressable style={styles.buttonNext} onPress={() => this.props.navigation.goBack()}>
-            <Text style={styles.textNext}>กลับ</Text>
-          </Pressable>
-        </View>
+            <Text style={styles.textForgotPass}>ลืมรหัสผ่าน</Text>
           </View>
+          <View style={styles.areaText}>
+            <Text style={styles.textForgotPass_2}>ติดต่อฝ่ายบุคคลบริษัทของคุณ{"\n"}เพื่อทำการตั้งค่ารหัสผ่านใหม่</Text>
+          </View>
+          <View style={styles.hrefView}>
+            <Pressable style={styles.buttonContact} onPress={() => Linking.openURL('tel:086-899-9089')}>
+              <Image
+                style={{ marginTop: 10, marginRight: 10 }}
+                source={require('../assets/images/icon/phone.png')}
+              />
+              <View>
+                <Text style={styles.textHref}>โทร</Text>
+                <Text style={styles.textForgotPass_2}>086-899-9089</Text>
+              </View>
+            </Pressable>
+          </View>
+          <View style={styles.hrefView}>
+            <Pressable style={styles.buttonContact} onPress={() => Linking.openURL('mailto:test@email.com')}>
+              <Image
+                style={{ marginTop: 10, marginRight: 10 }}
+                source={require('../assets/images/icon/email.png')}
+              />
+              <View><Text style={styles.textHref}>อีเมล</Text>
+                <Text style={styles.textForgotPass_2}>test@email.com</Text>
+              </View>
+            </Pressable>
+          </View>
+        </View>
+        <View style={{ flex: 1, justifyContent: "flex-end", marginBottom: 20 }}>
+          <View style={styles.buttonView}>
+            <Pressable style={styles.buttonNext} onPress={() => this.props.navigation.goBack()}>
+              <Text style={styles.textNext}>กลับ</Text>
+            </Pressable>
+          </View>
+        </View>
       </View>
     )
   }

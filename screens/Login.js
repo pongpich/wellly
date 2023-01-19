@@ -38,8 +38,8 @@ class Login extends Component {
 
     submitLogin() {
         const { email, password } = this.state;
-        let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
-        if ((email === "") || (email === null)) {
+        /* let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/; */
+       /*  if ((email === "") || (email === null)) {
             this.setState({
                 styleEmil: false,
                 textErrorEmail: 1
@@ -49,7 +49,7 @@ class Login extends Component {
                 styleEmil: false,
                 textErrorEmail: 2
             });
-        } else if ((password === " ") || (password === null)) {
+        } else  */if ((password === " ") || (password === null)) {
             this.setState({
                 stylePassword: false,
                 textErrorPassWord: 1
@@ -77,13 +77,45 @@ class Login extends Component {
         } */
 
     handleChange(fieldName, text) {
+        let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+        this.setState({
+            styleEmil: true,
+            textErrorEmail: null
+        });
+        if (fieldName === "email") {
+            if ((text === "") || (text === null)) {
+                this.setState({
+                    styleEmil: false,
+                    textErrorEmail: 1
+                });
+            } else if (reg.test(text) === false) {
+                this.setState({
+                    styleEmil: false,
+                    textErrorEmail: 2
+                });
+            } else {
+                this.setState({
+                    [fieldName]: text
+                })
+            }
+        } else {
+            this.setState({
+                [fieldName]: text
+            })
+        }
+
+    }
+
+    handleChangeEntry(fieldName, text) {
         this.setState({
             [fieldName]: text
         })
     }
 
     render() {
-        const { entry, styleEmil, textErrorEmail, textErrorPassWord, stylePassword, modalStatusLogin } = this.state;
+        const { entry, styleEmil, textErrorEmail, textErrorPassWord, stylePassword, modalStatusLogin, password } = this.state;
+
+
         return (
             <LinearGradient
                 style={styles.container}
@@ -106,6 +138,7 @@ class Login extends Component {
                                 style={styleEmil === true ? styles.emil : styles.errorEmail}
                                 onChangeText={(text) => this.handleChange("email", text)}
                                 keyboardType="email-address"
+                                returnKeyType={"next"}
                                 autoFocus={true}
                                 placeholder="อีเมล"
                                 autoCapitalize='none'
@@ -128,31 +161,31 @@ class Login extends Component {
                             {
                                 entry === false ?
 
-                                    <TouchableOpacity style={styles.entry} onPress={() => this.handleChange("entry", true)}>
+                                    <TouchableOpacity style={styles.entry} onPress={() => this.handleChangeEntry("entry", true)}>
                                         <Image
-                                            source={require('../assets/images/icon/entry_op.png')}
+                                            source={require('../assets/images/icon/entry_off.png')}
                                         />
                                     </TouchableOpacity>
 
                                     :
 
-                                    <TouchableOpacity style={styles.entry} onPress={() => this.handleChange("entry", false)}>
+                                    <TouchableOpacity style={styles.entry} onPress={() => this.handleChangeEntry("entry", false)}>
                                         <Image
                                             style={styles.entryImage}
-                                            source={require('../assets/images/icon/entry_off.png')}
+                                            source={require('../assets/images/icon/entry_op.png')}
                                         />
                                     </TouchableOpacity>
 
                             }
                             <View style={styles.inputPassword2}>
                                 <TextInput
-                                    style={stylePassword === true ? styles.password : styles.errorPassword}
+                                    style={stylePassword === true ? entry === true ? (password === null) || (password === '') ? styles.passwordEntryLength : styles.passwordEntry : styles.password : styles.errorPassword}
                                     onChangeText={(text) => this.handleChange("password", text)}
-                                    placeholder="รหัสผ่านอย่างน้อย 8 หลัก"
+                                    placeholder={(password === null) || (password === '') ? "รหัสผ่านอย่างน้อย 8 หลัก" : null}
                                     secureTextEntry={entry}
+
                                 />
                             </View>
-
                         </View>
                         <View style={styles.error}>
                             {
@@ -174,7 +207,7 @@ class Login extends Component {
                     </View>
                 </SafeAreaView>
                 <Pressable style={styles.buttonThi_eng} >
-                    <Text style={styles.textThi_eng}>English?</Text>
+                    <Text style={styles.textThi_eng}>English</Text>
                 </Pressable>
                 <View style={styles.centeredView}>
                     <Modal
@@ -291,9 +324,45 @@ const styles = StyleSheet.create({
     },
     password: {
         width: "90%",
+        paddingRight: 40,
         height: 56,
         borderWidth: 1,
-        padding: 10,
+        paddingLeft: 10,
+        paddingRight: 40,
+        justifyContent: "center",
+        marginTop: 20,
+        borderRadius: 8,
+        borderColor: "#93a8c1",
+        color: "#2a323c",
+        backgroundColor: "#FFFFFF",
+        fontFamily: "Prompt-Light",
+        zIndex: 0,
+    },
+    passwordEntry: {
+        width: "90%",
+        height: 56,
+        paddingRight: 40,
+        borderWidth: 1,
+        paddingLeft: 5,
+        paddingTop: 15,
+        justifyContent: "center",
+        fontSize: 60,
+        marginTop: 20,
+        borderRadius: 8,
+        letterSpacing: -17,
+        borderColor: "#93a8c1",
+        color: "#2a323c",
+        backgroundColor: "#FFFFFF",
+        fontFamily: "Prompt-Light"
+    },
+    passwordEntryLength: {
+        width: "90%",
+        height: 56,
+        borderWidth: 1,
+        paddingLeft: 10,
+        paddingRight: 40,
+        /* paddingTop: 20, */
+        justifyContent: "center",
         marginTop: 20,
         borderRadius: 8,
         borderColor: "#93a8c1",
@@ -305,7 +374,7 @@ const styles = StyleSheet.create({
         width: "90%",
         height: 56,
         borderWidth: 1,
-        padding: 10,
+        /* padding: 10, */
         marginTop: 20,
         borderRadius: 8,
         borderColor: "#D43A3A",
@@ -315,17 +384,18 @@ const styles = StyleSheet.create({
         fontFamily: "Prompt-Light"
     },
     inputPassword: {
+
         width: "100%",
         alignItems: "flex-end",
         position: "relative",
-        zIndex: 1,
+        zIndex: 0,
 
     },
     inputPassword2: {
         width: "100%",
         alignItems: "center",
         position: "relative",
-        zIndex: 1,
+        zIndex: 0,
 
     },
     entry: {
@@ -333,6 +403,9 @@ const styles = StyleSheet.create({
         marginTop: 35,
         zIndex: 4,
         width: "15%"
+    },
+    entryImage: {
+        zIndex: 4
     },
     buttonLogin: {
         marginTop: 20,
