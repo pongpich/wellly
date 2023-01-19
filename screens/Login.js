@@ -344,12 +344,11 @@ const styles = StyleSheet.create({
         paddingRight: 40,
         borderWidth: 1,
         paddingLeft: 5,
-        paddingTop: 15,
-        justifyContent: "center",
-        fontSize: 50,
+        paddingTop: 8,
+        fontSize: 40,
         marginTop: 20,
         borderRadius: 8,
-        letterSpacing: -15,
+        /* letterSpacing: -15, */
         borderColor: "#93a8c1",
         color: "#2a323c",
         backgroundColor: "#FFFFFF",
@@ -361,12 +360,13 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         paddingLeft: 10,
         paddingRight: 40,
-        /* paddingTop: 20, */
+        paddingTop: 5,
         justifyContent: "center",
         marginTop: 20,
         borderRadius: 8,
         borderColor: "#93a8c1",
         color: "#2a323c",
+
         backgroundColor: "#FFFFFF",
         fontFamily: "Prompt-Light"
     },
@@ -384,7 +384,6 @@ const styles = StyleSheet.create({
         fontFamily: "Prompt-Light"
     },
     inputPassword: {
-
         width: "100%",
         alignItems: "flex-end",
         position: "relative",
