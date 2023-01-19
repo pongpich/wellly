@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, StyleSheet, Pressable, SafeAreaView, Image, TouchableOpacity, TextInput, Text, Linking, KeyboardAvoidingView, Platform, Dimensions, Modal } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { loginUser } from "../redux/auth";
+import Components from '../constants/components';
 import { connect } from 'react-redux'
 
 class Login extends Component {
@@ -115,6 +116,7 @@ class Login extends Component {
     render() {
         const { entry, styleEmil, textErrorEmail, textErrorPassWord, stylePassword, modalStatusLogin, password } = this.state;
 
+        console.log("Colors", Components);
 
         return (
             <LinearGradient
@@ -147,9 +149,9 @@ class Login extends Component {
                                 {
                                     styleEmil === false ?
                                         textErrorEmail === 1 ?
-                                            <Text style={styles.errorText}>กรุณากรอกอีเมล</Text>
+                                            <Text style={Components.textErrorInput}>กรุณากรอกอีเมล</Text>
                                             : textErrorEmail === 2 ?
-                                                <Text style={styles.errorText}>รูปแบบของอีเมลไม่ถูกต้อง</Text>
+                                                <Text style={Components.textErrorInput}>รูปแบบของอีเมลไม่ถูกต้อง</Text>
                                                 : null
                                         : null
                                 }
@@ -191,15 +193,15 @@ class Login extends Component {
                             {
                                 stylePassword === false ?
                                     textErrorPassWord === 1 ?
-                                        <Text style={styles.errorText}>กรุณากรอกรหัสผ่าน</Text>
+                                        <Text style={Components.textErrorInput}>กรุณากรอกรหัสผ่าน</Text>
                                         : textErrorPassWord === 2 ?
-                                            <Text style={styles.errorText}>รหัสผ่านต้องมากกว่า 8 หลักขึ้นไป</Text>
+                                            <Text style={Components.textErrorInput}>รหัสผ่านต้องมากกว่า 8 หลักขึ้นไป</Text>
                                             : null
                                     : null
                             }
                         </View>
-                        <Pressable style={styles.buttonLogin} onPress={() => this.submitLogin()} >
-                            <Text style={styles.textLogin}>ล็อกอิน</Text>
+                        <Pressable style={Components.buttonLogin} onPress={() => this.submitLogin()} >
+                            <Text style={Components.textButtonLogin}>ล็อกอิน</Text>
                         </Pressable>
                         <Pressable style={styles.buttonForgotPassword} onPress={() => this.props.navigation.navigate("ForgotPassword")} >
                             <Text style={styles.textForgotPassword}>ลืมรหัสผ่าน?</Text>
@@ -374,7 +376,9 @@ const styles = StyleSheet.create({
         width: "90%",
         height: 56,
         borderWidth: 1,
-        /* padding: 10, */
+        paddingLeft: 10,
+        paddingRight: 40,
+        paddingTop: 5,
         marginTop: 20,
         borderRadius: 8,
         borderColor: "#D43A3A",
