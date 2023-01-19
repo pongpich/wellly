@@ -346,10 +346,10 @@ const styles = StyleSheet.create({
         paddingLeft: 5,
         paddingTop: 15,
         justifyContent: "center",
-        fontSize: 60,
+        fontSize: 50,
         marginTop: 20,
         borderRadius: 8,
-        letterSpacing: -17,
+        letterSpacing: -15,
         borderColor: "#93a8c1",
         color: "#2a323c",
         backgroundColor: "#FFFFFF",
@@ -400,7 +400,7 @@ const styles = StyleSheet.create({
     },
     entry: {
         position: "absolute",
-        marginTop: 35,
+        marginTop: 36,
         zIndex: 4,
         width: "15%"
     },
