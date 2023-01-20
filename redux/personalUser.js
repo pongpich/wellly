@@ -7,6 +7,7 @@ export const types = {
   PERSONAL_USER: "PERSONAL_USER",
   HEALT_USER: "HEALT_USER",
   NAME_USER: "NAME_USER",
+  LENG_APP: "LENG_APP",
 };
 
 
@@ -23,7 +24,7 @@ export const personal = (sex, age, weight, height, exercise) => ({
   },
 });
 
-export const healt = (fpg,hba1c,sbp,dbp,exercise) => ({
+export const healt = (fpg, hba1c, sbp, dbp, exercise) => ({
   type: types.HEALT_USER,
   payload: {
     fpg,
@@ -39,6 +40,12 @@ export const userName = (name) => ({
     name,
   },
 });
+export const lengThEn = (leng) => ({
+  type: types.LENG_APP,
+  payload: {
+    leng,
+  },
+});
 
 
 
@@ -48,9 +55,10 @@ export const userName = (name) => ({
 
 const INIT_STATE = {
   dataUser: null,
-  healtDataUser:null,
+  healtDataUser: null,
   profanity: null,
-  username: null
+  username: null,
+  leng: "th",
 };
 
 export function reducer(state = INIT_STATE, action) {
@@ -60,12 +68,17 @@ export function reducer(state = INIT_STATE, action) {
         ...state,
         dataUser: action.payload,
       };
-      case types.HEALT_USER:
+    case types.HEALT_USER:
       return {
         ...state,
         healtDataUser: action.payload,
       };
-      case types.NAME_USER:
+    case types.NAME_USER:
+      return {
+        ...state,
+        username: action.payload,
+      };
+    case types.LENG_APP:
       return {
         ...state,
         username: action.payload,

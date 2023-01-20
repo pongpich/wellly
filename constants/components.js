@@ -1,6 +1,8 @@
 import colors from './colors';
+import { StyleSheet } from 'react-native';
 
-export default {
+
+export default StyleSheet.create({
     // อื่น
     buttonLogin: {
         marginTop: 20,
@@ -25,4 +27,11 @@ export default {
         fontSize: 16,
         fontFamily: "Prompt-Bold"
     },
-};
+    textForgotPassword: {
+        color: "#3762FC",
+        fontSize: 16,
+        fontFamily: "Prompt-Bold",
+    },
+});
+
+

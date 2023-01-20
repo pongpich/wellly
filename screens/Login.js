@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { View, StyleSheet, Pressable, SafeAreaView, Image, TouchableOpacity, TextInput, Text, Linking, KeyboardAvoidingView, Platform, Dimensions, Modal } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { loginUser } from "../redux/auth";
-import Components from '../constants/components';
-import { connect } from 'react-redux'
+import ComponentsStyle from '../constants/components';
+import { connect } from 'react-redux';
 
 class Login extends Component {
 
@@ -116,7 +116,7 @@ class Login extends Component {
     render() {
         const { entry, styleEmil, textErrorEmail, textErrorPassWord, stylePassword, modalStatusLogin, password } = this.state;
 
-        console.log("Colors", Components);
+        console.log("Colors", ComponentsStyle);
 
         return (
             <LinearGradient
@@ -193,18 +193,18 @@ class Login extends Component {
                             {
                                 stylePassword === false ?
                                     textErrorPassWord === 1 ?
-                                        <Text style={Components.textErrorInput}>กรุณากรอกรหัสผ่าน</Text>
+                                        <Text style={ComponentsStyle.textErrorInput}>กรุณากรอกรหัสผ่าน</Text>
                                         : textErrorPassWord === 2 ?
-                                            <Text style={Components.textErrorInput}>รหัสผ่านต้องมากกว่า 8 หลักขึ้นไป</Text>
+                                            <Text style={ComponentsStyle.textErrorInput}>รหัสผ่านต้องมากกว่า 8 หลักขึ้นไป</Text>
                                             : null
                                     : null
                             }
                         </View>
-                        <Pressable style={Components.buttonLogin} onPress={() => this.submitLogin()} >
-                            <Text style={Components.textButtonLogin}>ล็อกอิน</Text>
+                        <Pressable style={ComponentsStyle.buttonLogin} onPress={() => this.submitLogin()} >
+                            <Text style={ComponentsStyle.textButtonLogin}>ล็อกอิน</Text>
                         </Pressable>
                         <Pressable style={styles.buttonForgotPassword} onPress={() => this.props.navigation.navigate("ForgotPassword")} >
-                            <Text style={styles.textForgotPassword}>ลืมรหัสผ่าน?</Text>
+                            <Text style={ComponentsStyle.textForgotPassword}>ลืมรหัสผ่าน?</Text>
                         </Pressable>
                     </View>
                 </SafeAreaView>

@@ -17,14 +17,15 @@ export default function useCachedResources() {
         await Font.loadAsync({
           ...Ionicons.font,
           ...FontAwesome.font,
-          'Prompt-Thin': require('../assets/fonts/Prompt-Thin.ttf'),
-          'Prompt-Light': require('../assets/fonts/Prompt-Light.ttf'),
-          'Prompt-Medium': require('../assets/fonts/Prompt-Medium.ttf'),
-          'Prompt-Bold': require('../assets/fonts/Prompt-Bold.ttf'),
-          'Roboto-Thin': require('../assets/fonts/Roboto-Thin.ttf'),
-          'Roboto-Light': require('../assets/fonts/Roboto-Light.ttf'),
-          'Roboto-Medium': require('../assets/fonts/Roboto-Medium.ttf'),
-          'Roboto-Bold': require('../assets/fonts/Roboto-Bold.ttf'),
+          'IBMPlexSansThai-Bold': require('../assets/fonts/IBMPlexSansThai-Bold.ttf'),
+          'IBMPlexSansThai-ExtraLight': require('../assets/fonts/IBMPlexSansThai-ExtraLight.ttf'),
+          'IBMPlexSansThai-Light': require('../assets/fonts/IBMPlexSansThai-Light.ttf'),
+          'IBMPlexSansThai-Medium': require('../assets/fonts/IBMPlexSansThai-Medium.ttf'),
+          'IBMPlexSansThai-Regular': require('../assets/fonts/IBMPlexSansThai-Regular.ttf'),
+          'IBMPlexSansThai-SemiBold': require('../assets/fonts/IBMPlexSansThai-SemiBold.ttf'),
+          'IBMPlexSansThai-Text': require('../assets/fonts/IBMPlexSansThai-Text.ttf'),
+          'IBMPlexSansThai-Thin': require('../assets/fonts/IBMPlexSansThai-Thin.ttf'),
+
         });
       } catch (e) {
         // We might want to provide this error information to an error reporting service
