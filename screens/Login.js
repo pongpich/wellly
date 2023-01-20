@@ -56,7 +56,7 @@ class Login extends Component {
                 stylePassword: false,
                 textErrorPassWord: 1
             });
-        } else if (password.length <= 8) {
+        } else if (password.length < 7) {
             this.setState({
                 stylePassword: false,
                 textErrorPassWord: 2
@@ -73,13 +73,11 @@ class Login extends Component {
     handleChange(fieldName, text) {
         const { email, password } = this.state;
         let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
-        this.setState({
-            styleEmil: true,
-            textErrorEmail: null,
-            stylePassword: true,
-            textErrorPassWord: null
-        });
         if (fieldName === "email") {
+            this.setState({
+                styleEmil: true,
+                textErrorEmail: null,
+            });
             if (reg.test(email) === false) {
                 this.setState({
                     styleEmil: false,
@@ -93,7 +91,11 @@ class Login extends Component {
         }
 
         if (fieldName === "password") {
-            if (password && password.length <= 8) {
+            this.setState({
+                stylePassword: true,
+                textErrorPassWord: null
+            });
+            if (password && password.length < 7) {
                 this.setState({
                     stylePassword: false,
                     textErrorPassWord: 2
@@ -118,7 +120,7 @@ class Login extends Component {
     render() {
         const { entry, styleEmil, textErrorEmail, textErrorPassWord, stylePassword, modalStatusLogin, password, email } = this.state;
 
-        console.log("email", email, password);
+        console.log("email", styleEmil);
 
         return (
             <LinearGradient
