@@ -57,6 +57,18 @@ export default StyleSheet.create({
         fontSize: fontSize16,
         fontFamily: "IBMPlexSansThai-Regular",
     },
+    inputIsFocused: {
+        width: "100%",
+        height: 56,
+        borderWidth: 2,
+        padding: 16,
+        borderRadius: 8,
+        borderColor: colors.persianBlue,
+        color: colors.grey1,
+        backgroundColor: colors.white,
+        fontSize: fontSize16,
+        fontFamily: "IBMPlexSansThai-Regular",
+    },
     textInputError: {
         width: "100%",
         height: 56,
