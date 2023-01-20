@@ -32,13 +32,13 @@ function MyStack() {
       screenOptions={{
         headerTintColor: "#3762FC", // ใส่ icon สี ปุ่ม BackTitle
       }}>
-      <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+      {/* <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} /> */}
       <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{
         title: "",
         //headerBackTitle: true, //ซ่อนข้อความในของ ios
         headerShadowVisible: false, // applied here
         headerLeft: () => (
-          <View style={{ paddingLeft: 15 }}>
+          <View style={{ paddingLeft: 16 }}>
             <TouchableOpacity onPress={() => navigation.goBack()}>
               <Image
                 source={require('../assets/images/icon/caret.png')}
@@ -56,7 +56,7 @@ function MyStack() {
         //headerBackTitle: true, //ซ่อนข้อความในของ ios
         headerShadowVisible: false, // applied here
         headerLeft: () => (
-          <View style={{ paddingLeft: 15 }}>
+          <View style={{ paddingLeft: 16 }}>
             <TouchableOpacity onPress={() => navigation.goBack()}>
               <Image
                 source={require('../assets/images/icon/caret.png')}
@@ -69,7 +69,7 @@ function MyStack() {
         headerShadowVisible: false,
         title: "",
         headerLeft: () => (
-          <View style={{ paddingLeft: 15 }}>
+          <View style={{ paddingLeft: 16 }}>
             <TouchableOpacity onPress={() => navigation.goBack()}>
               <Image
                 source={require('../assets/images/icon/caret.png')}
@@ -81,10 +81,10 @@ function MyStack() {
       <Stack.Screen name="HealthData" component={HealthData} options={{
         cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid,
         ...TransitionPresets.FadeFromBottomAndroid,
-        headerBackTitle: true,
+        headerShadowVisible: false,
         title: "",
         headerLeft: () => (
-          <View style={{ paddingLeft: 15 }}>
+          <View style={{ paddingLeft: 16 }}>
             <TouchableOpacity onPress={() => navigation.goBack()}>
               <Image
                 source={require('../assets/images/icon/caret.png')}

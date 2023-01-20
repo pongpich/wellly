@@ -26,4 +26,5 @@ export default {
   mayaBlue: '#E9F8F0',
   mayaBlue60: '#9BE0EF',
   mayaBlue20: '#DEF5FA',
+  neutralGrey6: '#E5EEF9',
 };
