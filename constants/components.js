@@ -2,6 +2,7 @@ import colors from './colors';
 import { StyleSheet, Dimensions } from 'react-native';
 
 const deviceWidth = Math.round(Dimensions.get('window').width);
+
 const fontSize16 = 16;
 const fontSize20 = 20;
 const fontSize40 = 40;
@@ -12,6 +13,7 @@ export default StyleSheet.create({
     fontSize16,
     fontSize20,
     fontSize40,
+
     fontRegular16: {
         fontSize: fontSize16,
         fontFamily: "IBMPlexSansThai-Regular",
@@ -42,6 +44,7 @@ export default StyleSheet.create({
         marginTop: "15%"
 
     },
+    //
     textInput: {
         width: "100%",
         height: 56,

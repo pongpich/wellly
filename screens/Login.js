@@ -41,76 +41,70 @@ class Login extends Component {
     submitLogin() {
         const { email, password } = this.state;
         let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
-        /*  if ((email === "") || (email === null)) {
-             this.setState({
-                 styleEmil: false,
-                 textErrorEmail: 1
-             });
-         } else if (reg.test(email) === false) {
-             this.setState({
-                 styleEmil: false,
-                 textErrorEmail: 2
-             });
-         } else if ((password === " ") || (password === null)) {
-             this.setState({
-                 stylePassword: false,
-                 textErrorPassWord: 1
-             });
-         } else if (password.length < 8) {
-             this.setState({
-                 stylePassword: false,
-                 textErrorPassWord: 2
-             });
-         } else {
-             this.props.loginUser(email, password)
-             console.log("submitLogin");
-         }
-  */
-        if ((password === null)) {
+        if ((email === "") || (email === null)) {
             this.setState({
                 styleEmil: false,
-                textErrorEmail: 1,
+                textErrorEmail: 1
+            });
+        } else if (reg.test(email) === false) {
+            this.setState({
+                styleEmil: false,
+                textErrorEmail: 2
+            });
+        } else if ((password === " ") || (password === null)) {
+            this.setState({
+                stylePassword: false,
+                textErrorPassWord: 1
+            });
+        } else if (password.length <= 8) {
+            this.setState({
                 stylePassword: false,
                 textErrorPassWord: 2
             });
+        } else {
+            this.props.loginUser(email, password)
+
         }
+
+
 
     }
 
-    /*     componentDidUpdate(prevProps) {
-            const { entry } = this.state;
-            if (prevProps.entry !== entry) {
-              
-            }
-    
-        } */
-
     handleChange(fieldName, text) {
+        const { email, password } = this.state;
         let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
         this.setState({
             styleEmil: true,
-            textErrorEmail: null
+            textErrorEmail: null,
+            stylePassword: true,
+            textErrorPassWord: null
         });
         if (fieldName === "email") {
-            if ((text === "") || (text === null)) {
-                this.setState({
-                    styleEmil: false,
-                    textErrorEmail: 1
-                });
-            } else if (reg.test(text) === false) {
+            if (reg.test(email) === false) {
                 this.setState({
                     styleEmil: false,
                     textErrorEmail: 2
                 });
-            } else {
-                this.setState({
-                    [fieldName]: text
-                })
+
             }
-        } else {
             this.setState({
                 [fieldName]: text
             })
+        }
+
+        if (fieldName === "password") {
+            if (password && password.length <= 8) {
+                this.setState({
+                    stylePassword: false,
+                    textErrorPassWord: 2
+                });
+
+            }
+
+            this.setState({
+                [fieldName]: text
+            })
+
         }
 
     }
@@ -122,9 +116,9 @@ class Login extends Component {
     }
 
     render() {
-        const { entry, styleEmil, textErrorEmail, textErrorPassWord, stylePassword, modalStatusLogin, password } = this.state;
+        const { entry, styleEmil, textErrorEmail, textErrorPassWord, stylePassword, modalStatusLogin, password, email } = this.state;
 
-        console.log("Colors", ComponentsStyle);
+        console.log("email", email, password);
 
         return (
             <LinearGradient
@@ -215,6 +209,7 @@ class Login extends Component {
                             <Text style={styles.textForgotPassword}>ลืมรหัสผ่าน?</Text>
                         </Pressable>
                     </View>
+
                     <View style={ComponentsStyle.viewStyle_2}>
                         <Pressable style={styles.buttonThi_eng} >
                             <Text style={styles.textThi_eng}>English</Text>
@@ -305,7 +300,7 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         borderColor: colors.grey4,
         color: "#2a323c",
-        backgroundColor: "red",
+        backgroundColor: ComponentsStyle.white,
         fontSize: 16,
         fontFamily: "IBMPlexSansThai-Regular",
         zIndex: 0,
@@ -316,13 +311,14 @@ const styles = StyleSheet.create({
         paddingRight: 45,
         borderWidth: 1,
         paddingLeft: 5,
-        paddingTop: 16,
         marginTop: 16,
+        paddingTop: 8,
         borderRadius: 8,
+        justifyContent: "center",
         borderColor: colors.grey4,
         color: colors.grey1,
         backgroundColor: colors.white,
-        fontSize: 40,
+        fontSize: ComponentsStyle.fontSize20,
         fontFamily: "IBMPlexSansThai-Regular",
     },
     passwordEntryLength: {
@@ -336,9 +332,9 @@ const styles = StyleSheet.create({
         marginTop: 16,
         borderRadius: 8,
         borderColor: colors.grey4,
-        color: "#2a323c",
-        backgroundColor: "#FFFFFF",
-        fontSize: 16,
+        color: colors.grey1,
+        backgroundColor: colors.white,
+        fontSize: ComponentsStyle.fontSize16,
         fontFamily: "IBMPlexSansThai-Regular",
     },
     errorPassword: {
@@ -351,10 +347,10 @@ const styles = StyleSheet.create({
         marginTop: 16,
         borderRadius: 8,
         borderColor: colors.negative1,
-        color: colors.negative1,
+        color: colors.grey1,
         position: "relative",
         zIndex: 1,
-        fontSize: 16,
+        fontSize: ComponentsStyle.fontSize16,
         fontFamily: "IBMPlexSansThai-Regular",
     },
     textViewError: {
@@ -390,7 +386,7 @@ const styles = StyleSheet.create({
     },
     textForgotPassword: {
         color: colors.persianBlue,
-        fontSize: 16,
+        fontSize: ComponentsStyle.fontSize16,
         fontFamily: "IBMPlexSansThai-Bold",
     },
     buttonThi_eng: {
@@ -398,7 +394,7 @@ const styles = StyleSheet.create({
         justifyContent: "flex-end",
     },
     textThi_eng: {
-        fontSize: 16,
+        fontSize: ComponentsStyle.fontSize16,
         color: colors.grey2,
         fontFamily: "IBMPlexSansThai-Regular",
     },
@@ -442,7 +438,7 @@ const styles = StyleSheet.create({
     modalText: {
         marginTop: 24,
         textAlign: "center",
-        fontSize: 20,
+        fontSize: ComponentsStyle.fontSize20,
         color: colors.grey1,
         fontFamily: "IBMPlexSansThai-Bold",
     },
@@ -452,7 +448,7 @@ const styles = StyleSheet.create({
         textAlign: "center",
         fontFamily: "IBMPlexSansThai-Regular",
         color: colors.grey2,
-        fontSize: 16,
+        fontSize: ComponentsStyle.fontSize16,
     }
 });
 
