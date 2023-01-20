@@ -1,12 +1,72 @@
 import colors from './colors';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 
-
+const deviceWidth = Math.round(Dimensions.get('window').width);
 export default StyleSheet.create({
     // อื่น
-    buttonLogin: {
-        marginTop: 20,
-        width: "90%",
+    container: {
+        flex: 1,
+        justifyContent: "center",
+        width: "100%",
+        paddingHorizontal: 16
+    },
+    viewStyle: {
+        width: "100%",
+        height: "100%",
+        justifyContent: "space-between"
+    },
+    viewStyle_1: {
+        alignItems: "center",
+        width: "100%",
+    },
+    viewStyle_2: {
+        width: "100%",
+        alignItems: "center",
+        paddingBottom: 36
+    },
+    viewInput: {
+        width: "100%",
+        alignItems: "center",
+        marginTop: "15%"
+
+    },
+    textInput: {
+        width: "100%",
+        height: 56,
+        borderWidth: 1,
+        padding: 16,
+        borderRadius: 8,
+        borderColor: colors.grey4,
+        color: colors.grey1,
+        backgroundColor: colors.white,
+        fontSize: 16,
+        fontFamily: "IBMPlexSansThai-Regular",
+    },
+    textInputError: {
+        width: "100%",
+        height: 56,
+        borderWidth: 2,
+        padding: 16,
+        borderRadius: 8,
+        borderColor: colors.negative1,
+        color: colors.grey1,
+        backgroundColor: colors.white,
+        fontSize: 16,
+        fontFamily: "IBMPlexSansThai-Regular",
+    },
+    viewTextError: {
+        width: "100%",
+        marginTop: 8,
+    },
+    textError: {
+        width: "100%",
+        color: colors.negative1,
+        fontSize: 16,
+        fontFamily: "IBMPlexSansThai-Regular",
+    },
+    button: {
+        marginTop: 16,
+        width: "100%",
         alignItems: 'center',
         justifyContent: 'center',
         paddingVertical: 12,
@@ -17,21 +77,11 @@ export default StyleSheet.create({
         borderRadius: 24,
         height: 50
     },
-    textButtonLogin: {
+    textButton: {
         color: colors.white,
         fontSize: 16,
-        fontFamily: "Prompt-Bold"
-    },
-    textErrorInput: {
-        color: "#3762FC",
-        fontSize: 16,
-        fontFamily: "Prompt-Bold"
-    },
-    textForgotPassword: {
-        color: "#3762FC",
-        fontSize: 16,
-        fontFamily: "Prompt-Bold",
-    },
+        fontFamily: "IBMPlexSansThai-Bold",
+    }
 });
 
 

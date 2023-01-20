@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, StyleSheet, Pressable, SafeAreaView, Image, TouchableOpacity, TextInput, Text, Linking, KeyboardAvoidingView, Platform, Dimensions, Modal } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { loginUser } from "../redux/auth";
+import colors from '../constants/colors';
 import ComponentsStyle from '../constants/components';
 import { connect } from 'react-redux';
 
@@ -39,34 +40,41 @@ class Login extends Component {
 
     submitLogin() {
         const { email, password } = this.state;
-        /* let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/; */
-       /*  if ((email === "") || (email === null)) {
+        let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+        /*  if ((email === "") || (email === null)) {
+             this.setState({
+                 styleEmil: false,
+                 textErrorEmail: 1
+             });
+         } else if (reg.test(email) === false) {
+             this.setState({
+                 styleEmil: false,
+                 textErrorEmail: 2
+             });
+         } else if ((password === " ") || (password === null)) {
+             this.setState({
+                 stylePassword: false,
+                 textErrorPassWord: 1
+             });
+         } else if (password.length < 8) {
+             this.setState({
+                 stylePassword: false,
+                 textErrorPassWord: 2
+             });
+         } else {
+             this.props.loginUser(email, password)
+             console.log("submitLogin");
+         }
+  */
+        if ((password === null)) {
             this.setState({
                 styleEmil: false,
-                textErrorEmail: 1
-            });
-        } else if (reg.test(email) === false) {
-            this.setState({
-                styleEmil: false,
-                textErrorEmail: 2
-            });
-        } else  */if ((password === " ") || (password === null)) {
-            this.setState({
-                stylePassword: false,
-                textErrorPassWord: 1
-            });
-        } else if (password.length < 8) {
-            this.setState({
+                textErrorEmail: 1,
                 stylePassword: false,
                 textErrorPassWord: 2
             });
-        } else {
-            this.props.loginUser(email, password)
-            console.log("submitLogin");
         }
 
-
-        /*  */
     }
 
     /*     componentDidUpdate(prevProps) {
@@ -120,14 +128,14 @@ class Login extends Component {
 
         return (
             <LinearGradient
-                style={styles.container}
+                style={ComponentsStyle.container}
                 colors={['#59CBE4', '#59CBE4', 'white', 'white', 'white', 'white']}
                 start={{ x: 1, y: 0 }}
                 end={{ x: 1, y: 1 }}
             >
 
-                <SafeAreaView>
-                    <View style={styles.view}>
+                <SafeAreaView style={ComponentsStyle.viewStyle}>
+                    <View style={ComponentsStyle.viewStyle_1}>
                         <View style={styles.circle_1} />
                         <View style={styles.circle_2} />
                         <View style={styles.circle_3} />
@@ -135,9 +143,9 @@ class Login extends Component {
                             style={styles.tinyLogo}
                             source={require('../assets/images/logo/Logo.png')}
                         />
-                        <View style={styles.inputEmil}>
+                        <View style={ComponentsStyle.viewInput}>
                             <TextInput
-                                style={styleEmil === true ? styles.emil : styles.errorEmail}
+                                style={styleEmil === true ? ComponentsStyle.textInput : ComponentsStyle.textInputError}
                                 onChangeText={(text) => this.handleChange("email", text)}
                                 keyboardType="email-address"
                                 returnKeyType={"next"}
@@ -145,18 +153,17 @@ class Login extends Component {
                                 placeholder="อีเมล"
                                 autoCapitalize='none'
                             />
-                            <View style={styles.error}>
+                            <View style={ComponentsStyle.viewTextError}>
                                 {
                                     styleEmil === false ?
                                         textErrorEmail === 1 ?
-                                            <Text style={Components.textErrorInput}>กรุณากรอกอีเมล</Text>
+                                            <Text style={ComponentsStyle.textError}>กรุณากรอกอีเมล</Text>
                                             : textErrorEmail === 2 ?
-                                                <Text style={Components.textErrorInput}>รูปแบบของอีเมลไม่ถูกต้อง</Text>
+                                                <Text style={ComponentsStyle.textError}>รูปแบบของอีเมลไม่ถูกต้อง</Text>
                                                 : null
                                         : null
                                 }
                             </View>
-
                         </View>
 
                         <View style={styles.inputPassword}>
@@ -188,29 +195,35 @@ class Login extends Component {
 
                                 />
                             </View>
+                            <View style={ComponentsStyle.viewTextError}>
+                                {
+                                    stylePassword === false ?
+                                        textErrorPassWord === 1 ?
+                                            <Text style={ComponentsStyle.textError}>กรุณากรอกรหัสผ่าน</Text>
+                                            : textErrorPassWord === 2 ?
+                                                <Text style={ComponentsStyle.textError}>รหัสผ่านต้องมากกว่า 8 หลักขึ้นไป</Text>
+                                                : null
+                                        : null
+                                }
+                            </View>
                         </View>
-                        <View style={styles.error}>
-                            {
-                                stylePassword === false ?
-                                    textErrorPassWord === 1 ?
-                                        <Text style={ComponentsStyle.textErrorInput}>กรุณากรอกรหัสผ่าน</Text>
-                                        : textErrorPassWord === 2 ?
-                                            <Text style={ComponentsStyle.textErrorInput}>รหัสผ่านต้องมากกว่า 8 หลักขึ้นไป</Text>
-                                            : null
-                                    : null
-                            }
-                        </View>
-                        <Pressable style={ComponentsStyle.buttonLogin} onPress={() => this.submitLogin()} >
-                            <Text style={ComponentsStyle.textButtonLogin}>ล็อกอิน</Text>
+
+                        <Pressable style={ComponentsStyle.button} onPress={() => this.submitLogin()} >
+                            <Text style={ComponentsStyle.textButton}>ล็อกอิน</Text>
                         </Pressable>
                         <Pressable style={styles.buttonForgotPassword} onPress={() => this.props.navigation.navigate("ForgotPassword")} >
-                            <Text style={ComponentsStyle.textForgotPassword}>ลืมรหัสผ่าน?</Text>
+                            <Text style={styles.textForgotPassword}>ลืมรหัสผ่าน?</Text>
+                        </Pressable>
+                    </View>
+                    <View style={ComponentsStyle.viewStyle_2}>
+                        <Pressable style={styles.buttonThi_eng} >
+                            <Text style={styles.textThi_eng}>English</Text>
                         </Pressable>
                     </View>
                 </SafeAreaView>
-                <Pressable style={styles.buttonThi_eng} >
-                    <Text style={styles.textThi_eng}>English</Text>
-                </Pressable>
+
+
+
                 <View style={styles.centeredView}>
                     <Modal
                         animationType="slide"
@@ -224,14 +237,16 @@ class Login extends Component {
                         <View style={styles.centeredView}>
                             <View style={styles.modalView}>
                                 <Image
-
+                                    style={styles.imageGeneric}
                                     source={require('../assets/images/icon/generic.png')}
                                 />
                                 <Text style={styles.modalText}>ไม่พบบัญชีผู้ใช้</Text>
                                 <Text style={styles.modalText2}>ตรวจสอบชื่อผู้ใช้ หรือรหัสผ่านอีกครั้ง หรือติดต่อแผนกบุคคล</Text>
-                                <Pressable style={styles.buttonModel} onPress={() => this.setModalVisible(!modalStatusLogin)} >
-                                    <Text style={styles.textLogin}>ตกลง</Text>
-                                </Pressable>
+                                <View style={styles.buttonView}>
+                                    <Pressable style={ComponentsStyle.button} onPress={() => this.setModalVisible(!modalStatusLogin)} >
+                                        <Text style={ComponentsStyle.textButton}>ตกลง</Text>
+                                    </Pressable>
+                                </View>
                             </View>
                         </View>
                     </Modal>
@@ -243,20 +258,11 @@ class Login extends Component {
 }
 const deviceWidth = Math.round(Dimensions.get('window').width);
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: "center",
-        height: (deviceWidth > 900) ? "190%" : (deviceWidth > 675) ? "120%" : "100%",
-        width: "100%"
 
-    },
-    view: {
-        alignItems: "center",
-        opacity: 1,
-    },
     tinyLogo: {
         opacity: 1,
         marginTop: "40%",
+        marginBottom: "5%"
     },
     circle_1: {
         marginTop: "20%",
@@ -287,112 +293,78 @@ const styles = StyleSheet.create({
         borderRadius: 500,
         position: "absolute",
     },
-    emil: {
-        width: "90%",
-        height: 56,
-        borderWidth: 1,
-        padding: 10,
-        marginTop: "15%",
-        borderRadius: 8,
-        borderColor: "#93a8c1",
-        color: "#2a323c",
-        backgroundColor: "#FFFFFF",
-        fontFamily: "Prompt-Light"
-    },
-    errorEmail: {
-        width: "90%",
-        height: 56,
-        borderWidth: 1,
-        padding: 10,
-        marginTop: "25%",
-        borderRadius: 8,
-        borderColor: "#D43A3A",
-        color: "#2a323c",
-        backgroundColor: "#FFFFFF",
-        fontFamily: "Prompt-Light"
-    },
-    error: {
-        width: "90%",
-        marginTop: 10,
-    },
-    errorText: {
-        color: "#D43A3A",
-        alignItems: "flex-start",
-        fontFamily: "Prompt-Light"
-    },
-    inputEmil: {
-        width: "100%",
-        alignItems: "center"
-    },
     password: {
-        width: "90%",
+        width: "100%",
         paddingRight: 40,
         height: 56,
         borderWidth: 1,
-        paddingLeft: 10,
-        paddingRight: 40,
+        paddingLeft: 16,
+        paddingRight: 45,
         justifyContent: "center",
-        marginTop: 20,
+        marginTop: 16,
         borderRadius: 8,
-        borderColor: "#93a8c1",
+        borderColor: colors.grey4,
         color: "#2a323c",
-        backgroundColor: "#FFFFFF",
-        fontFamily: "Prompt-Light",
+        backgroundColor: "red",
+        fontSize: 16,
+        fontFamily: "IBMPlexSansThai-Regular",
         zIndex: 0,
     },
     passwordEntry: {
-        width: "90%",
+        width: "100%",
         height: 56,
-        paddingRight: 40,
+        paddingRight: 45,
         borderWidth: 1,
         paddingLeft: 5,
-        paddingTop: 8,
-        fontSize: 40,
-        marginTop: 20,
+        paddingTop: 16,
+        marginTop: 16,
         borderRadius: 8,
-        /* letterSpacing: -15, */
-        borderColor: "#93a8c1",
-        color: "#2a323c",
-        backgroundColor: "#FFFFFF",
-        fontFamily: "Prompt-Light"
+        borderColor: colors.grey4,
+        color: colors.grey1,
+        backgroundColor: colors.white,
+        fontSize: 40,
+        fontFamily: "IBMPlexSansThai-Regular",
     },
     passwordEntryLength: {
-        width: "90%",
+        width: "100%",
         height: 56,
         borderWidth: 1,
-        paddingLeft: 10,
-        paddingRight: 40,
+        paddingLeft: 16,
+        paddingRight: 45,
         paddingTop: 5,
         justifyContent: "center",
-        marginTop: 20,
+        marginTop: 16,
         borderRadius: 8,
-        borderColor: "#93a8c1",
+        borderColor: colors.grey4,
         color: "#2a323c",
-
         backgroundColor: "#FFFFFF",
-        fontFamily: "Prompt-Light"
+        fontSize: 16,
+        fontFamily: "IBMPlexSansThai-Regular",
     },
     errorPassword: {
-        width: "90%",
+        width: "100%",
         height: 56,
-        borderWidth: 1,
-        paddingLeft: 10,
-        paddingRight: 40,
+        borderWidth: 2,
+        paddingLeft: 16,
+        paddingRight: 45,
         paddingTop: 5,
-        marginTop: 20,
+        marginTop: 16,
         borderRadius: 8,
-        borderColor: "#D43A3A",
-        color: "#2a323c",
+        borderColor: colors.negative1,
+        color: colors.negative1,
         position: "relative",
         zIndex: 1,
-        fontFamily: "Prompt-Light"
+        fontSize: 16,
+        fontFamily: "IBMPlexSansThai-Regular",
+    },
+    textViewError: {
+        paddingTop: 8
     },
     inputPassword: {
         width: "100%",
         alignItems: "flex-end",
         position: "relative",
-        zIndex: 0,
-
+        /*   marginTop: 8 */
     },
     inputPassword2: {
         width: "100%",
@@ -403,53 +375,32 @@ const styles = StyleSheet.create({
     },
     entry: {
         position: "absolute",
-        marginTop: 36,
+        marginTop: 34,
         zIndex: 4,
-        width: "15%"
+        width: "12%"
     },
     entryImage: {
         zIndex: 4
     },
-    buttonLogin: {
-        marginTop: 20,
-        width: "90%",
-        alignItems: 'center',
-        justifyContent: 'center',
-        paddingVertical: 12,
-        paddingHorizontal: 32,
-        borderRadius: 4,
-        elevation: 3,
-        backgroundColor: '#3762FC',
-        borderRadius: 24,
-        height: 50
-    },
-    textLogin: {
-        color: "#FFFFFF",
-        fontSize: 16,
-        fontFamily: "Prompt-Bold"
-    },
     buttonForgotPassword: {
-        marginTop: 10,
+        marginTop: 16,
         alignItems: 'center',
         justifyContent: 'center',
         height: 50,
-        color: "#3762FC"
     },
     textForgotPassword: {
-        color: "#3762FC",
+        color: colors.persianBlue,
         fontSize: 16,
-        fontFamily: "Prompt-Bold"
+        fontFamily: "IBMPlexSansThai-Bold",
     },
     buttonThi_eng: {
-        flex: 1,
         alignItems: 'center',
         justifyContent: "flex-end",
-        marginBottom: -30,
     },
     textThi_eng: {
         fontSize: 16,
-        color: "#697D96",
-        fontFamily: "Prompt-Light"
+        color: colors.grey2,
+        fontFamily: "IBMPlexSansThai-Regular",
     },
     centeredView: {
         flex: 1,
@@ -458,13 +409,16 @@ const styles = StyleSheet.create({
 
     },
     modalView: {
+        position: "relative",
         zIndex: 3,
-        margin: 20,
         backgroundColor: "white",
         width: "100%",
-        height: "55%",
-        borderRadius: 20,
-        padding: 35,
+        paddingHorizontal: 16,
+        height: 372,
+        paddingTop: 32,
+        borderTopLeftRadius: 24,
+        borderTopRightRadius: 24,
+        marginTop: 0,
         alignItems: "center",
         justifyContent: "center",
         shadowColor: "#000",
@@ -472,44 +426,32 @@ const styles = StyleSheet.create({
             width: 0,
             height: 12
         },
-        marginBottom: -50,
+        marginBottom: 0,
         shadowOpacity: 0.58,
         shadowRadius: 16,
         elevation: 24
     },
-    buttonModel: {
-        width: "100%",
-        alignItems: 'center',
-        justifyContent: 'center',
-        paddingVertical: 12,
-        paddingHorizontal: 32,
-        borderRadius: 4,
-        elevation: 3,
-        backgroundColor: '#3762FC',
-        borderRadius: 24,
-        height: 50,
-        marginBottom: 40
-    },
-    textStyle: {
-        color: "white",
-        fontWeight: "bold",
-        textAlign: "center"
-    },
-    modalText: {
-        marginTop: 20,
-        marginBottom: 15,
-        textAlign: "center",
-        fontWeight: "bold",
-        fontSize: 20,
-        color: "#2A323C"
+    imageGeneric: {
+        position: "relative",
 
     },
-    modalText2: {
-        width: "75%",
-        marginBottom: 16,
+    buttonView: {
+        width: "100%",
+        marginBottom: 50
+    },
+    modalText: {
+        marginTop: 24,
         textAlign: "center",
-        fontFamily: "Prompt-Light",
-        color: "#697D96",
+        fontSize: 20,
+        color: colors.grey1,
+        fontFamily: "IBMPlexSansThai-Bold",
+    },
+    modalText2: {
+        width: "90%",
+        marginTop: 8,
+        textAlign: "center",
+        fontFamily: "IBMPlexSansThai-Regular",
+        color: colors.grey2,
         fontSize: 16,
     }
 });
