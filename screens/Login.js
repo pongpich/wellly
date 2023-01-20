@@ -130,13 +130,16 @@ class Login extends Component {
 
                 <SafeAreaView style={ComponentsStyle.viewStyle}>
                     <View style={ComponentsStyle.viewStyle_1}>
-                        <View style={styles.circle_1} />
-                        <View style={styles.circle_2} />
-                        <View style={styles.circle_3} />
-                        <Image
-                            style={styles.tinyLogo}
-                            source={require('../assets/images/logo/Logo.png')}
-                        />
+                        <View style={styles.viewtinyLogo}>
+                            <View style={styles.circle_1} />
+                            <View style={styles.circle_2} />
+                            <View style={styles.circle_3} />
+                            <Image
+                                style={styles.tinyLogo}
+                                source={require('../assets/images/logo/Logo.png')}
+                            />
+                        </View>
+
                         <View style={ComponentsStyle.viewInput}>
                             <TextInput
                                 style={styleEmil === true ? ComponentsStyle.textInput : ComponentsStyle.textInputError}
@@ -254,6 +257,9 @@ class Login extends Component {
 const deviceWidth = Math.round(Dimensions.get('window').width);
 const styles = StyleSheet.create({
 
+    viewtinyLogo: {
+        alignItems: "center"
+    },
     tinyLogo: {
         opacity: 1,
         marginTop: "40%",

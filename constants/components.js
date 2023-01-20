@@ -22,20 +22,25 @@ export default StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         width: "100%",
-        paddingHorizontal: 16
+        paddingHorizontal: 16,
+    },
+    containerWhite: {
+        flex: 1,
+        justifyContent: "center",
+        width: "100%",
+        backgroundColor: colors.white
     },
     viewStyle: {
         width: "100%",
         height: "100%",
+        paddingHorizontal: 16,
         justifyContent: "space-between"
     },
     viewStyle_1: {
-        alignItems: "center",
         width: "100%",
     },
     viewStyle_2: {
         width: "100%",
-        alignItems: "center",
         paddingBottom: 36
     },
     viewInput: {
