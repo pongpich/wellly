@@ -2,8 +2,20 @@ import colors from './colors';
 import { StyleSheet, Dimensions } from 'react-native';
 
 const deviceWidth = Math.round(Dimensions.get('window').width);
+const fontSize16 = 16;
+const fontSize20 = 20;
+const fontSize40 = 40;
+
+
 export default StyleSheet.create({
     // อื่น
+    fontSize16,
+    fontSize20,
+    fontSize40,
+    fontRegular16: {
+        fontSize: fontSize16,
+        fontFamily: "IBMPlexSansThai-Regular",
+    },
     container: {
         flex: 1,
         justifyContent: "center",
@@ -39,7 +51,7 @@ export default StyleSheet.create({
         borderColor: colors.grey4,
         color: colors.grey1,
         backgroundColor: colors.white,
-        fontSize: 16,
+        fontSize: fontSize16,
         fontFamily: "IBMPlexSansThai-Regular",
     },
     textInputError: {
@@ -51,7 +63,7 @@ export default StyleSheet.create({
         borderColor: colors.negative1,
         color: colors.grey1,
         backgroundColor: colors.white,
-        fontSize: 16,
+        fontSize: fontSize16,
         fontFamily: "IBMPlexSansThai-Regular",
     },
     viewTextError: {
@@ -61,7 +73,7 @@ export default StyleSheet.create({
     textError: {
         width: "100%",
         color: colors.negative1,
-        fontSize: 16,
+        fontSize: fontSize16,
         fontFamily: "IBMPlexSansThai-Regular",
     },
     button: {
@@ -79,7 +91,7 @@ export default StyleSheet.create({
     },
     textButton: {
         color: colors.white,
-        fontSize: 16,
+        fontSize: fontSize16,
         fontFamily: "IBMPlexSansThai-Bold",
     }
 });
