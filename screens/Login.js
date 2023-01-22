@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Pressable, SafeAreaView, Image, TouchableOpacity, TextInput, Text, Linking, KeyboardAvoidingView, Platform, Dimensions, Modal } from 'react-native';
+import { View, StyleSheet, Pressable, SafeAreaView, Image, TouchableOpacity, TextInput, Text, Linking, KeyboardAvoidingView, Platform, Dimensions } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { loginUser } from "../redux/auth";
 import colors from '../constants/colors';
 import ComponentsStyle from '../constants/components';
 import { connect } from 'react-redux';
+import Modal from "react-native-modal";
 
 class Login extends Component {
 
@@ -16,24 +17,22 @@ class Login extends Component {
             textErrorEmail: null, // สถานะข้อความ Email [1,2,null] 
             stylePassword: true, // เปลี่ยนสี borderColor PassWord [true,false]
             textErrorPassWord: null, // สถานะข้อความ Password [1,2,null] 
-            modalStatusLogin: false,
             email: null,
             password: null,
+            isModalVisible: false
         };
     }
-    setModalVisible(visible) {
-        this.setState({ modalStatusLogin: visible });
-    }
+
 
     componentDidUpdate(prevProps, prevState) {
         const { status, user } = this.props;
-        const { modalStatusLogin } = this.state;
+        const { isModalVisible } = this.state;
         if ((prevProps.status !== status) && (status === "success")) {
             this.props.navigation.navigate("Walkthrough")
         }
         if ((prevProps.status !== status) && (status === "fail")) {
             this.setState({
-                modalStatusLogin: true
+                isModalVisible: !isModalVisible
             });
         }
     }
@@ -83,7 +82,6 @@ class Login extends Component {
                     styleEmil: false,
                     textErrorEmail: 2
                 });
-
             }
             this.setState({
                 [fieldName]: text
@@ -100,13 +98,10 @@ class Login extends Component {
                     stylePassword: false,
                     textErrorPassWord: 2
                 });
-
             }
-
             this.setState({
                 [fieldName]: text
             })
-
         }
 
     }
@@ -117,8 +112,16 @@ class Login extends Component {
         })
     }
 
+    toggleModal = (isModalVisible) => {
+
+        this.setState({
+            isModalVisible: !isModalVisible
+        })
+    };
+
+
     render() {
-        const { entry, styleEmil, textErrorEmail, textErrorPassWord, stylePassword, modalStatusLogin, password, email } = this.state;
+        const { entry, styleEmil, textErrorEmail, textErrorPassWord, stylePassword, password, email, isModalVisible } = this.state;
 
         console.log("email", styleEmil);
 
@@ -223,16 +226,12 @@ class Login extends Component {
                 </SafeAreaView>
 
 
-
                 <View style={styles.centeredView}>
-                    <Modal
-                        animationType="slide"
-                        transparent={true}
-                        visible={modalStatusLogin}
-                        onRequestClose={() => {
-                            Alert.alert("Modal has been closed.");
-                            setModalVisible(!modalStatusLogin);
-                        }}
+                    <Pressable title="Show modal" onPress={() => this.toggleModal(isModalVisible)} />
+
+                    <Modal isVisible={isModalVisible}
+
+                        style={{ margin: 0 }}
                     >
                         <View style={styles.centeredView}>
                             <View style={styles.modalView}>
@@ -243,7 +242,7 @@ class Login extends Component {
                                 <Text style={styles.modalText}>ไม่พบบัญชีผู้ใช้</Text>
                                 <Text style={styles.modalText2}>ตรวจสอบชื่อผู้ใช้ หรือรหัสผ่านอีกครั้ง หรือติดต่อแผนกบุคคล</Text>
                                 <View style={styles.buttonView}>
-                                    <Pressable style={ComponentsStyle.button} onPress={() => this.setModalVisible(!modalStatusLogin)} >
+                                    <Pressable style={ComponentsStyle.button} onPress={() => this.toggleModal(isModalVisible)} >
                                         <Text style={ComponentsStyle.textButton}>ตกลง</Text>
                                     </Pressable>
                                 </View>
