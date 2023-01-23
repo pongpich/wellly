@@ -22,7 +22,7 @@ export default StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         width: "100%",
-        paddingHorizontal: 16,
+
     },
     containerWhite: {
         flex: 1,
@@ -33,15 +33,16 @@ export default StyleSheet.create({
     viewStyle: {
         width: "100%",
         height: "100%",
-        paddingHorizontal: 16,
         justifyContent: "space-between"
     },
     viewStyle_1: {
         width: "100%",
+        paddingHorizontal: 16,
     },
     viewStyle_2: {
         width: "100%",
-        paddingBottom: 36
+        paddingHorizontal: 16,
+
     },
     viewInput: {
         width: "100%",
@@ -97,7 +98,7 @@ export default StyleSheet.create({
         fontFamily: "IBMPlexSansThai-Regular",
     },
     button: {
-        marginTop: 16,
+
         width: "100%",
         alignItems: 'center',
         justifyContent: 'center',

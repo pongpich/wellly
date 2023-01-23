@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
   },
   viewButton: {
     width: "100%",
-
+    marginBottom: 40,
   }
 });
 

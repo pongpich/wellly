@@ -210,12 +210,14 @@ class Login extends Component {
                             </View>
                         </View>
 
-                        <Pressable style={ComponentsStyle.button} onPress={() => this.submitLogin()} >
-                            <Text style={ComponentsStyle.textButton}>ล็อกอิน</Text>
-                        </Pressable>
-                        <Pressable style={styles.buttonForgotPassword} onPress={() => this.props.navigation.navigate("ForgotPassword")} >
-                            <Text style={styles.textForgotPassword}>ลืมรหัสผ่าน?</Text>
-                        </Pressable>
+                        <View style={styles.buttonTop}>
+                            <Pressable style={ComponentsStyle.button} onPress={() => this.submitLogin()} >
+                                <Text style={ComponentsStyle.textButton}>ล็อกอิน</Text>
+                            </Pressable>
+                            <Pressable style={styles.buttonForgotPassword} onPress={() => this.props.navigation.navigate("ForgotPassword")} >
+                                <Text style={styles.textForgotPassword}>ลืมรหัสผ่าน?</Text>
+                            </Pressable>
+                        </View>
                     </View>
 
                     <View style={ComponentsStyle.viewStyle_2}>
@@ -344,6 +346,9 @@ const styles = StyleSheet.create({
         fontSize: ComponentsStyle.fontSize16,
         fontFamily: "IBMPlexSansThai-Regular",
     },
+    buttonTop: {
+        marginTop: 16
+    },
     errorPassword: {
         width: "100%",
         height: 56,
@@ -370,6 +375,7 @@ const styles = StyleSheet.create({
         /*   marginTop: 8 */
     },
     inputPassword2: {
+
         width: "100%",
         alignItems: "center",
         position: "relative",
@@ -399,6 +405,7 @@ const styles = StyleSheet.create({
     buttonThi_eng: {
         alignItems: 'center',
         justifyContent: "flex-end",
+        marginBottom: 36,
     },
     textThi_eng: {
         fontSize: ComponentsStyle.fontSize16,
