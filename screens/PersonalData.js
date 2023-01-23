@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Pressable, SafeAreaView, Image, ScrollView, TouchableOpacity, TextInput, Text, Linking, KeyboardAvoidingView, Platform, Dimensions, Modal } from 'react-native';
+import { View, StyleSheet, Pressable, SafeAreaView, Image, ScrollView, TouchableOpacity, TextInput, Text, Linking, KeyboardAvoidingView, Platform, Dimensions, Modal, InputAccessoryView, Button, Keyboard } from 'react-native';
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
 import { personal } from "../redux/personalUser";
 import { connect } from 'react-redux'
+/* import { Button } from 'react-native-paper'; */
 
 
 var radio_sex = [
@@ -115,7 +116,8 @@ class PersonalData extends Component {
                 statusWeight: true,
                 statusTextWeight: null,
                 statusHeight: true,
-                statusTextHeight: null
+                statusTextHeight: null,
+                info: ""
             });
             this.props.personal(sex, age, weight, height, exercise);
 
@@ -127,6 +129,7 @@ class PersonalData extends Component {
         const { sex, age, weight, height, exercise, statusAge, statusTextAge, statusWeight, statusTextWeight, statusHeight, statusTextHeight,
             isFocusedAge, isFocusedWeight, isFocusedHeight } = this.state;
         console.log("isFocusedAge", isFocusedAge);
+
         return (
             <SafeAreaView style={styles.container}>
                 <View style={styles.areaView}>
@@ -152,7 +155,16 @@ class PersonalData extends Component {
                             placeholder="ระบุอายุ"
                             value={age}
                             keyboardType="numeric"
+                            inputAccessoryViewID="textInput1"
+                            ref={(input) => { this.textInput1 = input; }}
                         />
+                        <InputAccessoryView nativeID="textInput1" >
+                            <View style={styles.accessory}>
+                                <Button title="^" />
+                                <Button title="v" onPress={() => { this.textInput2.focus(); }} />
+                                <Button title="เสร็จ" onPress={Keyboard.dismiss} />
+                            </View>
+                        </InputAccessoryView>
                         {
                             statusTextAge === 0 ?
                                 <Text style={styles.errorText}>กรุณากรอกตามความเป็นจริง</Text> :
@@ -160,8 +172,6 @@ class PersonalData extends Component {
                                     <Text style={styles.errorText}>โปรแกรมรองรับผู้ใช้ที่มีอายุระหว่าง 18-65 ปี เท่านั้น</Text>
                                     : null
                         }
-
-
                     </View>
                     <Text style={styles.textInputHead}>น้ำหนัก</Text>
                     <View style={styles.viewRightTnput}>
@@ -173,7 +183,16 @@ class PersonalData extends Component {
                             onChangeText={(text) => this.handleChange("weight", text)}
                             placeholder="0"
                             keyboardType="numeric"
+                            inputAccessoryViewID="textInput2"
+                            ref={(input) => { this.textInput2 = input; }}
                         />
+                        <InputAccessoryView nativeID="textInput2" >
+                            <View style={styles.accessory}>
+                                <Button title="^" onPress={() => { this.textInput1.focus(); }} />
+                                <Button title="v" onPress={() => { this.textInput3.focus(); }} />
+                                <Button title="เสร็จ" onPress={Keyboard.dismiss} />
+                            </View>
+                        </InputAccessoryView>
                         {
                             statusTextWeight === 0 ?
                                 <Text style={styles.errorText}>กรุณากรอกค่าตั้งแต่ 1 ขึ้นไป</Text>
@@ -195,7 +214,16 @@ class PersonalData extends Component {
                             onChangeText={(text) => this.handleChange("height", text)}
                             placeholder="0"
                             keyboardType="numeric"
+                            inputAccessoryViewID="textInput3"
+                            ref={(input) => { this.textInput3 = input; }}
                         />
+                        <InputAccessoryView nativeID="textInput3" >
+                            <View style={styles.accessory}>
+                                <Button title="^" onPress={() => { this.textInput2.focus(); }} />
+                                <Button title="v" />
+                                <Button title="เสร็จ" onPress={Keyboard.dismiss} />
+                            </View>
+                        </InputAccessoryView>
                         {
                             statusTextHeight === 0 ?
                                 <Text style={styles.errorText}>กรุณากรอกค่าตั้งแต่ 100 ขึ้นไป</Text>
@@ -236,6 +264,15 @@ class PersonalData extends Component {
 
 const deviceWidth = Math.round(Dimensions.get('window').width);
 const styles = StyleSheet.create({
+    accessory: {
+        width: Dimensions.get('window').width,
+        height: 48,
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        backgroundColor: '#F8F8F8',
+        paddingHorizontal: 8
+    },
     container: {
         flex: 1,
         backgroundColor: "#FFFFFF",
@@ -270,7 +307,7 @@ const styles = StyleSheet.create({
         borderColor: "#93a8c1",
         color: "#2A323C",
         backgroundColor: "#FFFFFF",
-        fontFamily: "Prompt-Light",
+        /*  fontFamily: "Prompt-Light", */
         position: "relative",
 
     },
@@ -282,7 +319,7 @@ const styles = StyleSheet.create({
         borderColor: "#3762FC",
         color: "#2A323C",
         backgroundColor: "#FFFFFF",
-        fontFamily: "Prompt-Light",
+        /* fontFamily: "Prompt-Light", */
         position: "relative",
         alignContent: "center"
     },
@@ -294,14 +331,14 @@ const styles = StyleSheet.create({
         borderColor: "#D43A3A",
         color: "#2A323C",
         backgroundColor: "#FFFFFF",
-        fontFamily: "Prompt-Light",
+        /*  fontFamily: "Prompt-Light", */
         position: "relative",
 
     },
     errorText: {
         color: "#D43A3A",
         alignItems: "flex-start",
-        fontFamily: "Prompt-Light"
+        /*      fontFamily: "Prompt-Light" */
     },
     textRightTnput: {
         position: "absolute",
@@ -348,12 +385,12 @@ const styles = StyleSheet.create({
     textButtonWhite: {
         color: "#FFFFFF",
         fontSize: 16,
-        fontFamily: "Prompt-Bold",
+        /*       fontFamily: "Prompt-Bold", */
     },
     textButtonGrey: {
         color: "#93A8C1",
         fontSize: 16,
-        fontFamily: "Prompt-Bold",
+        /* fontFamily: "Prompt-Bold", */
     }
 });
 

@@ -1,10 +1,10 @@
 import React from 'react';
 import { StyleSheet, Text, View, TextInput, SafeAreaView, Pressable, Switch } from 'react-native';
-import {  getProfanity  } from "../redux/get";
-import {userName } from "../redux/personalUser";
+import { getProfanity } from "../redux/get";
+import { userName } from "../redux/personalUser";
 import { connect } from 'react-redux';
 
- class OnboardingName extends React.Component {
+class OnboardingName extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -12,7 +12,7 @@ import { connect } from 'react-redux';
             switchOn: false,
             isFocused: false,
             errorInput: false,
-            words:null
+            words: null
         };
     }
 
@@ -22,38 +22,40 @@ import { connect } from 'react-redux';
 
     componentDidUpdate(prevProps, prevState) {
         const { profanity } = this.props;
-        if ((prevProps.profanity !== profanity) && (profanity !== "loading")) {
-            let profanities =  profanity.profanities;
-            const keyWord = [];
-            const map1 = profanities.map((val, i ) => {
-                keyWord.push(val.word);
-            });
-            this.setState({
-                words: keyWord
-            })
-        }
+        /*  if ((prevProps.profanity !== profanity) && (profanity !== "loading")) {
+             let profanities =  profanity && profanity.profanities;
+             const keyWord = [];
+             const map1 = profanities.map((val, i ) => {
+                 keyWord.push(val.word);
+             });
+             this.setState({
+                 words: keyWord
+             })
+         } */
     }
 
     submit() {
-        const {name,words} = this.state;
-        const result =  words.filter(word => word == name);
-        
-        if (result && result.length  > 0) {
+        const { name, words } = this.state;
+/*         const result = words.filter(word => word == name);
+
+        if (result && result.length > 0) {
             this.setState({
-                errorInput:true
-            }) 
-        }else {
+                errorInput: true
+            })
+        } else {
             this.props.userName(name);
             this.props.navigation.navigate("PersonalData")
-        }
-     
+        } */
+
+        this.props.userName(name);
+        this.props.navigation.navigate("PersonalData")
     }
 
     render() {
-        const { name, switchOn, isFocused, errorInput,word } = this.state;
+        const { name, switchOn, isFocused, errorInput, word } = this.state;
         const handleFocus = () => this.setState({ isFocused: true })
         const handleBlur = () => this.setState({ isFocused: false })
-       /*  console.log("word",word); */
+        /*  console.log("word",word); */
         return (
             <SafeAreaView style={{ flex: 1, backgroundColor: "#FFFFFF" }}>
                 <View style={{ justifyContent: "center", textAlign: "center", flex: 1, paddingHorizontal: 20 }}>
@@ -63,7 +65,7 @@ import { connect } from 'react-redux';
 
                     <View>
                         <TextInput style={
-                            errorInput === true ? styles.inputError :  isFocused === true ? styles.inputIsFocused: styles.input}
+                            errorInput === true ? styles.inputError : isFocused === true ? styles.inputIsFocused : styles.input}
                             onFocus={handleFocus}
                             onBlur={handleBlur}
                             numberOfLines={6}
@@ -205,13 +207,13 @@ const styles = StyleSheet.create({
     }
 })
 
-const mapStateToProps = ({ getData,personalDataUser }) => {
-    const {profanity } = getData;
+const mapStateToProps = ({ getData, personalDataUser }) => {
+    const { profanity } = getData;
     const { username } = personalDataUser;
     return { profanity };
 };
 
-const mapActionsToProps = { getProfanity,userName};
+const mapActionsToProps = { getProfanity, userName };
 
 
 export default connect(
