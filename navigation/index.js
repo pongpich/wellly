@@ -50,21 +50,22 @@ function MyStack() {
       }} />
       <Stack.Screen name="Walkthrough" component={Walkthrough} options={{
         headerShown: false,
-      }} /> */}
+      }} /> 
       <Stack.Screen name="OnboardingName" component={OnboardingName} options={{
         title: "",
         //headerBackTitle: true, //ซ่อนข้อความในของ ios
-        headerShadowVisible: false, // applied here
+      headerShadowVisible: false, // applied here
         headerLeft: () => (
-          <View style={{ paddingLeft: 16 }}>
-            <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Image
-                source={require('../assets/images/icon/caret.png')}
-              />
-            </TouchableOpacity>
-          </View>
-        ),
+      <View style={{ paddingLeft: 16 }}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Image
+            source={require('../assets/images/icon/caret.png')}
+          />
+        </TouchableOpacity>
+      </View>
+      ),
       }} />
+      */}
       <Stack.Screen name="PersonalData" component={PersonalData} options={{
         headerShadowVisible: false,
         title: "",

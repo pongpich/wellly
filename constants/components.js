@@ -5,6 +5,7 @@ const deviceWidth = Math.round(Dimensions.get('window').width);
 
 const fontSize16 = 16;
 const fontSize20 = 20;
+const fontSize24 = 24;
 const fontSize40 = 40;
 
 
@@ -12,6 +13,7 @@ export default StyleSheet.create({
     // อื่น
     fontSize16,
     fontSize20,
+    fontSize24,
     fontSize40,
 
     fontRegular16: {
