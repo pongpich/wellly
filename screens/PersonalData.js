@@ -236,8 +236,8 @@ class PersonalData extends Component {
                             <InputAccessoryView nativeID="textInput1" >
                                 <View style={styles.inputAccessory}>
                                     <View style={styles.chevronIcon}>
-                                        <Feather name="chevron-up" size={24} color="#C2D2E7" style={{ marginRight: 16 }} />
-                                        <Feather name="chevron-down" size={24} color="#3762FC" onPress={() => { this.textInput2.focus(); }} />
+                                        <Feather name="chevron-up" size={24} color={colors.grey4} style={{ marginRight: 16 }} />
+                                        <Feather name="chevron-down" size={24} color={colors.persianBlue} onPress={() => { this.textInput2.focus(); }} />
                                     </View>
                                     <View>
                                         <Pressable onPress={Keyboard.dismiss} >
@@ -270,8 +270,8 @@ class PersonalData extends Component {
                             <InputAccessoryView nativeID="textInput2" >
                                 <View style={styles.inputAccessory}>
                                     <View style={styles.chevronIcon}>
-                                        <Feather name="chevron-up" size={24} color="#3762FC" style={{ marginRight: 16 }} onPress={() => { this.textInput1.focus(); }} />
-                                        <Feather name="chevron-down" size={24} color="#3762FC" onPress={() => { this.textInput3.focus(); }} />
+                                        <Feather name="chevron-up" size={24} color={colors.persianBlue} style={{ marginRight: 16 }} onPress={() => { this.textInput1.focus(); }} />
+                                        <Feather name="chevron-down" size={24} color={colors.persianBlue} onPress={() => { this.textInput3.focus(); }} />
                                     </View>
                                     <View>
                                         <Pressable onPress={Keyboard.dismiss} >
@@ -307,8 +307,8 @@ class PersonalData extends Component {
                             <InputAccessoryView nativeID="textInput3" >
                                 <View style={styles.inputAccessory}>
                                     <View style={styles.chevronIcon}>
-                                        <Feather name="chevron-up" size={24} color="#3762FC" style={{ marginRight: 16 }} onPress={() => { this.textInput2.focus(); }} />
-                                        <Feather name="chevron-down" size={24} color="#C2D2E7" />
+                                        <Feather name="chevron-up" size={24} color={colors.persianBlue} style={{ marginRight: 16 }} onPress={() => { this.textInput2.focus(); }} />
+                                        <Feather name="chevron-down" size={24} color={colors.grey4} />
                                     </View>
                                     <View>
                                         <Pressable onPress={Keyboard.dismiss} >
