@@ -104,11 +104,8 @@ export default class Walkthrough extends Component {
 
                         </> :
                         <>
-                            {/*   <Pressable style={styles.buttonCross} onPress={() => this.handleChange("swiperIndex", swiperIndex + 1)} >
-                                <Text style={styles.textCross}>ข้าม</Text>
-                            </Pressable> */}
-                            <Pressable style={ComponentsStyle.button} onPress={() => this.handleChange("stepNext", swiperIndex)} >
-                                <Text style={ComponentsStyle.textButton} >ถัดไป</Text>
+                            <Pressable style={ComponentsStyle.button} onPress={() => this.props.navigation.navigate("OnboardingName")} >
+                                <Text style={ComponentsStyle.textButton} >เริ่มกันเลย!</Text>
                             </Pressable>
                         </>}
                 </View>
