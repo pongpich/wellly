@@ -72,37 +72,42 @@ class Login extends Component {
     handleChange(fieldName, text) {
         const { email, password } = this.state;
         let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
-        if (fieldName === "email") {
+
+        this.setState({
+            styleEmil: true,
+            textErrorEmail: null,
+        });
+        if (reg.test(email) === false) {
             this.setState({
-                styleEmil: true,
-                textErrorEmail: null,
+                styleEmil: false,
+                textErrorEmail: 2
             });
-            if (reg.test(email) === false) {
-                this.setState({
-                    styleEmil: false,
-                    textErrorEmail: 2
-                });
-            }
+        }
+        this.setState({
+            email: text
+        })
+    }
+
+    handleChangePass(text) {
+        const { email, password } = this.state;
+
+
+
+        this.setState({
+            stylePassword: true,
+            textErrorPassWord: null
+        });
+        if (password && password.length < 7) {
             this.setState({
-                [fieldName]: text
-            })
+                stylePassword: false,
+                textErrorPassWord: 2
+            });
         }
 
-        if (fieldName === "password") {
-            this.setState({
-                stylePassword: true,
-                textErrorPassWord: null
-            });
-            if (password && password.length < 7) {
-                this.setState({
-                    stylePassword: false,
-                    textErrorPassWord: 2
-                });
-            }
-            this.setState({
-                [fieldName]: text
-            })
-        }
+        this.setState({
+            password: text
+        })
+
 
     }
 
@@ -123,7 +128,7 @@ class Login extends Component {
     render() {
         const { entry, styleEmil, textErrorEmail, textErrorPassWord, stylePassword, password, email, isModalVisible } = this.state;
 
-        console.log("email", styleEmil);
+        console.log("email", password);
 
         return (
             <LinearGradient
@@ -147,12 +152,13 @@ class Login extends Component {
 
                         <View style={ComponentsStyle.viewInput}>
                             <TextInput
-                                style={styleEmil === true ? ComponentsStyle.textInput : ComponentsStyle.textInputError}
-                                onChangeText={(text) => this.handleChange("email", text)}
+                                style={styleEmil === true ? ComponentsStyle.input : ComponentsStyle.inputError}
+                                onChangeText={(text) => this.handleChange(text)}
                                 keyboardType="email-address"
                                 returnKeyType={"next"}
                                 autoFocus={true}
                                 placeholder="อีเมล"
+                                value={email}
                                 autoCapitalize='none'
                             />
                             <View style={ComponentsStyle.viewTextError}>
@@ -191,10 +197,10 @@ class Login extends Component {
                             <View style={styles.inputPassword2}>
                                 <TextInput
                                     style={stylePassword === true ? entry === true ? (password === null) || (password === '') ? styles.passwordEntryLength : styles.passwordEntry : styles.password : styles.errorPassword}
-                                    onChangeText={(text) => this.handleChange("password", text)}
+                                    onChangeText={(text) => this.handleChangePass(text)}
                                     placeholder={(password === null) || (password === '') ? "รหัสผ่านอย่างน้อย 8 หลัก" : null}
-                                    secureTextEntry={entry}
-
+                                    autoCapitalize='none'
+                                    value={password}
                                 />
                             </View>
                             <View style={ComponentsStyle.viewTextError}>
@@ -265,6 +271,7 @@ const styles = StyleSheet.create({
     },
     tinyLogo: {
         opacity: 1,
+
         marginTop: "40%",
         marginBottom: "5%"
     },
@@ -299,7 +306,6 @@ const styles = StyleSheet.create({
     },
     password: {
         width: "100%",
-        paddingRight: 40,
         height: 56,
         borderWidth: 1,
         paddingLeft: 16,
@@ -308,7 +314,7 @@ const styles = StyleSheet.create({
         marginTop: 16,
         borderRadius: 8,
         borderColor: colors.grey4,
-        color: "#2a323c",
+        color: colors.grey1,
         backgroundColor: ComponentsStyle.white,
         fontSize: 16,
         fontFamily: "IBMPlexSansThai-Regular",
@@ -317,11 +323,11 @@ const styles = StyleSheet.create({
     passwordEntry: {
         width: "100%",
         height: 56,
+        paddingLeft: 16,
         paddingRight: 45,
         borderWidth: 1,
-        paddingLeft: 5,
         marginTop: 16,
-        paddingTop: 8,
+
         borderRadius: 8,
         justifyContent: "center",
         borderColor: colors.grey4,
@@ -336,8 +342,6 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         paddingLeft: 16,
         paddingRight: 45,
-        paddingTop: 5,
-        justifyContent: "center",
         marginTop: 16,
         borderRadius: 8,
         borderColor: colors.grey4,

@@ -124,7 +124,6 @@ const styles = StyleSheet.create({
     slide1: {
         justifyContent: 'center',
         alignItems: 'center',
-
     },
     boxView: {
         justifyContent: 'center',
@@ -132,13 +131,10 @@ const styles = StyleSheet.create({
         marginBottom: 20
     },
     swiperBox: {
-        /*         backgroundColor: "red", */
         height: 490,
         width: "100%",
         justifyContent: 'center',
         alignItems: 'center',
-
-
     },
     welllyView: {
         position: "relative",
@@ -159,7 +155,6 @@ const styles = StyleSheet.create({
         fontFamily: "IBMPlexSansThai-Bold",
         fontSize: 20,
         color: colors.grey1
-
     },
     areaText: {
         width: "70%",
@@ -177,8 +172,6 @@ const styles = StyleSheet.create({
         while: "100%",
         alignItems: "center",
         marginLeft: -8,
-
-
     },
     circleActive: {
         textAlign: "center",
@@ -203,12 +196,13 @@ const styles = StyleSheet.create({
         alignItems: "center",
         paddingHorizontal: 16,
         width: "100%",
-        marginBottom: 20,
+        marginBottom: 40,
     },
     buttonCross: {
         marginTop: 16,
         width: "100%",
         height: 50,
+
     },
     textCross: {
         fontFamily: "IBMPlexSansThai-Bold",

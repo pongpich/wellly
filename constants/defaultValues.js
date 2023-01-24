@@ -36,8 +36,8 @@ const dev = {
       {
         name: "planforfit",
         endpoint: process.env.REACT_APP_STAGE === 'dev'
-        ? "https://api.planforfit.com/course_dev"
-        : "http://localhost:3003", //หรือ "http://localhost:3003" สำหรับเทสบน emulator
+          ? "https://api.planforfit.com/course_dev"
+          : "http://localhost:3003", //หรือ "http://localhost:3003" สำหรับเทสบน emulator
         region: "ap-southeast-1"
       }
     ]

@@ -51,11 +51,12 @@ export default StyleSheet.create({
 
     },
     //
-    textInput: {
+    input: {
         width: "100%",
         height: 56,
         borderWidth: 1,
-        padding: 16,
+        /*   padding: 16, */
+        paddingHorizontal: 16,
         borderRadius: 8,
         borderColor: colors.grey4,
         color: colors.grey1,
@@ -67,7 +68,8 @@ export default StyleSheet.create({
         width: "100%",
         height: 56,
         borderWidth: 2,
-        padding: 16,
+        /*         padding: 16, */
+        paddingHorizontal: 16,
         borderRadius: 8,
         borderColor: colors.persianBlue,
         color: colors.grey1,
@@ -75,11 +77,12 @@ export default StyleSheet.create({
         fontSize: fontSize16,
         fontFamily: "IBMPlexSansThai-Regular",
     },
-    textInputError: {
+    inputError: {
         width: "100%",
         height: 56,
         borderWidth: 2,
-        padding: 16,
+        /*  padding: 16, */
+        paddingHorizontal: 16,
         borderRadius: 8,
         borderColor: colors.negative1,
         color: colors.grey1,
@@ -98,7 +101,6 @@ export default StyleSheet.create({
         fontFamily: "IBMPlexSansThai-Regular",
     },
     button: {
-
         width: "100%",
         alignItems: 'center',
         justifyContent: 'center',
@@ -112,6 +114,22 @@ export default StyleSheet.create({
     },
     textButton: {
         color: colors.white,
+        fontSize: fontSize16,
+        fontFamily: "IBMPlexSansThai-Bold",
+    },
+    buttonGrey: {
+        width: "100%",
+        alignItems: 'center',
+        paddingVertical: 12,
+        paddingHorizontal: 32,
+        borderRadius: 4,
+        elevation: 3,
+        backgroundColor: colors.grey4,
+        borderRadius: 24,
+        height: 50,
+    },
+    textButtonGrey: {
+        color: colors.grey3,
         fontSize: fontSize16,
         fontFamily: "IBMPlexSansThai-Bold",
     }
