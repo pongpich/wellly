@@ -183,16 +183,12 @@ class PersonalData extends Component {
                 info: ""
             });
             this.props.personal(sex, age, weight, height, exercise);
-
         }
-
     }
 
     render() {
         const { sexIndex, sex, age, weight, height, exercise, statusAge, statusTextAge, statusWeight, statusTextWeight, statusHeight, statusTextHeight,
             isFocusedAge, isFocusedWeight, isFocusedHeight } = this.state;
-
-        console.log("statusTextHeight", statusTextHeight);
 
         return (
             <SafeAreaView style={styles.container}>
