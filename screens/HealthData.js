@@ -355,19 +355,20 @@ class HealthData extends Component {
 
                             </View>
                         </View>
-                        <View style={styles.areaViewButton}>
-                            {
-                                (mgDL !== null) && (mg !== null) && (bpm !== null) && (mmHGS !== null) && (mmHGD !== null) ?
-                                    <Pressable style={styles.buttonBlue} onPress={() => this.submit()} >
-                                        <Text style={styles.textButtonWhite}>ถัดไป</Text>
-                                    </Pressable>
-                                    :
-                                    <Pressable s style={styles.buttonGrey} /* onPress={() =>  this.props.navigation.navigate("OnboardingResults")} */ >
-                                        <Text style={styles.textButtonGrey}>ถัดไป</Text>
-                                    </Pressable>
-                            }
-                        </View>
+
                     </ScrollView>
+                </View>
+                <View style={styles.areaViewButton}>
+                    {
+                        (mgDL !== null) && (mg !== null) && (bpm !== null) && (mmHGS !== null) && (mmHGD !== null) ?
+                            <Pressable style={styles.buttonBlue} onPress={() => this.submit()} >
+                                <Text style={styles.textButtonWhite}>ถัดไป</Text>
+                            </Pressable>
+                            :
+                            <Pressable s style={styles.buttonGrey} /* onPress={() =>  this.props.navigation.navigate("OnboardingResults")} */ >
+                                <Text style={styles.textButtonGrey}>ถัดไป</Text>
+                            </Pressable>
+                    }
                 </View>
             </SafeAreaView>
         )
@@ -483,7 +484,7 @@ const styles = StyleSheet.create({
     areaViewButton: {
         flex: 1,
         justifyContent: 'flex-end',
-        marginTop: 50,
+        marginTop: 0,
         width: "100%",
         alignItems: "center",
     },

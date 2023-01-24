@@ -360,19 +360,20 @@ class PersonalData extends Component {
                             </View>
                         </View>
                     </View>
+
+                    <View style={styles.areaViewButton}>
+                        {
+                            (sex !== null) && (age !== null) && (weight !== null) && (height !== null) && (exercise !== null) ?
+                                <Pressable style={ComponentsStyle.button} onPress={() => this.submit()} >
+                                    <Text style={ComponentsStyle.textButton}>ถัดไป</Text>
+                                </Pressable>
+                                :
+                                <Pressable s style={ComponentsStyle.buttonGrey} /* onPress={() =>  this.props.navigation.navigate("HealthData")} */ >
+                                    <Text style={ComponentsStyle.textButtonGrey}>ถัดไป</Text>
+                                </Pressable>
+                        }
+                    </View>
                 </ScrollView>
-                <View style={styles.areaViewButton}>
-                    {
-                        (sex !== null) && (age !== null) && (weight !== null) && (height !== null) && (exercise !== null) ?
-                            <Pressable style={styles.buttonBlue} onPress={() => this.submit()} >
-                                <Text style={styles.textButtonWhite}>ถัดไป</Text>
-                            </Pressable>
-                            :
-                            <Pressable s style={styles.buttonGrey} /* onPress={() =>  this.props.navigation.navigate("HealthData")} */ >
-                                <Text style={styles.textButtonGrey}>ถัดไป</Text>
-                            </Pressable>
-                    }
-                </View>
             </SafeAreaView>
         )
     }
@@ -405,9 +406,10 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     areaView: {
+        flex: 1,
         paddingHorizontal: 16,
         width: "100%",
-        marginBottom: 57
+        height: "100%"
     },
     textHead: {
         fontWeight: "bold",
@@ -463,47 +465,13 @@ const styles = StyleSheet.create({
         fontFamily: "IBMPlexSansThai-Regular"
     },
     areaViewButton: {
-        flex: 1,
         justifyContent: 'flex-end',
-        marginTop: 50,
+        marginTop: 49,
         width: "100%",
         alignItems: "center",
+        paddingHorizontal: 16,
+        marginBottom: 40,
     },
-    buttonBlue: {
-        justifyContent: "flex-end",
-        width: "90%",
-        alignItems: 'center',
-        paddingVertical: 12,
-        paddingHorizontal: 32,
-        borderRadius: 4,
-        elevation: 3,
-        backgroundColor: '#3762FC',
-        borderRadius: 24,
-        height: 50,
-        marginBottom: 20,
-    },
-    buttonGrey: {
-        width: "90%",
-        alignItems: 'center',
-        paddingVertical: 12,
-        paddingHorizontal: 32,
-        borderRadius: 4,
-        elevation: 3,
-        backgroundColor: '#C2D2E7',
-        borderRadius: 24,
-        height: 50,
-        marginBottom: 20,
-    },
-    textButtonWhite: {
-        color: "#FFFFFF",
-        fontSize: ComponentsStyle.fontSize16,
-        fontFamily: "IBMPlexSansThai-Bold",
-    },
-    textButtonGrey: {
-        color: "#93A8C1",
-        fontSize: ComponentsStyle.fontSize16,
-        fontFamily: "IBMPlexSansThai-Bold",
-    }
 });
 
 
