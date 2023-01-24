@@ -379,7 +379,8 @@ class PersonalData extends Component {
     }
 }
 
-const deviceWidth = Math.round(Dimensions.get('window').width);
+const deviceHeight = Math.round(Dimensions.get('window').height);
+console.log("deviceHeight", deviceHeight);
 const styles = StyleSheet.create({
     inputAccessory: {
         width: Dimensions.get('window').width,
@@ -396,8 +397,8 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start'
     },
     textDoneButton: {
-        fontFamily: "IBMPlexSansThai-Medium",
-        color: "#3762FC",
+        fontFamily: "IBMPlexSansThai-Regular",
+        color: colors.persianBlue,
         fontSize: ComponentsStyle.fontSize16
     },
     container: {
