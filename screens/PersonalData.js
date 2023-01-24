@@ -229,7 +229,7 @@ class PersonalData extends Component {
                                 onChangeText={(text) => this.handleChange("age", text)}
                                 placeholder="ระบุอายุ"
                                 value={age}
-                                keyboardType="numeric"
+                                keyboardType="number-pad"
                                 inputAccessoryViewID="textInput1"
                                 ref={(input) => { this.textInput1 = input; }}
                             />
