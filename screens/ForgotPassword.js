@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Alert, Modal, SafeAreaView, StyleSheet, Text, Image, Linking, Button, Pressable, View } from "react-native";
+import { Alert, Modal, SafeAreaView, StyleSheet, Text, Image, Linking, Dimensions, Pressable, View } from "react-native";
 import colors from '../constants/colors';
 import ComponentsStyle from '../constants/components';
 
@@ -98,10 +98,12 @@ class ForgotPassword extends Component {
     )
   }
 }
-
+const devicehHeight = Math.round(Dimensions.get('window').height);
+//        marginTop: (devicehHeight > 668) ? "20%" : "10%",
 const styles = StyleSheet.create({
   imageContextual: {
-    marginTop: 24,
+    marginTop: (devicehHeight > 668) ? 28 : 10,
+    /*  marginTop: 24, */
     width: "100%",
     alignItems: "center"
   },
@@ -120,7 +122,8 @@ const styles = StyleSheet.create({
   },
   hrefViewTel: {
     width: "100%",
-    marginTop: 40,
+    marginTop: (devicehHeight > 668) ? 40 : 30,
+    /*  marginTop: 40, */
     backgroundColor: colors.neutralGrey6,
     borderRadius: 8,
     flexDirection: "row"
