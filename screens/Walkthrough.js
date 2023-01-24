@@ -4,8 +4,6 @@ import ComponentsStyle from '../constants/components';
 import colors from '../constants/colors';
 import Swiper from 'react-native-swiper'
 
-
-
 export default class Walkthrough extends Component {
 
     constructor(props) {
@@ -22,15 +20,24 @@ export default class Walkthrough extends Component {
         })
     }
 
+    onSwipe = (index) => {
 
+        this.setState({
+            swiperIndex: index
+        })
+    }
 
-
-
-
-    step_1() {
+    swiper() {
+        const { swiperIndex } = this.state;
         return (
-            <>
-                <View style={styles.welllyView}>
+            <Swiper style={styles.wrapper} showsButtons={false} showsPagination={false}
+                index={swiperIndex}
+                loop={false}
+                bounces={false}
+                automaticallyAdjustContentInsets={true}
+                onIndexChanged={this.onSwipe}
+            >
+                <View style={styles.slide1} >
                     <Image
                         style={styles.entryImage}
                         source={require('../assets/images/icon/walkthrough_1.png')}
@@ -39,27 +46,8 @@ export default class Walkthrough extends Component {
                     <View style={styles.areaText}>
                         <Text style={styles.textWellly_2}>แอพพัฒนาสุขภาพ ส่วนบุคคลที่จะช่วยแนะนำคุณทีละขั้นตอน</Text>
                     </View>
-                    <View style={styles.circle}>
-                        <View style={styles.circle_1} />
-                        <View style={styles.circle_2} />
-                        <View style={styles.circle_2} />
-                    </View>
                 </View>
-                <View style={styles.buttonView}>
-                    <Pressable style={styles.buttonNext} onPress={() => this.handleChange("stepNext", 2)}>
-                        <Text style={styles.textNext}>ถัดไป</Text>
-                    </Pressable>
-                    <Pressable style={styles.buttonCross} onPress={() => this.handleChange("stepNext", 3)} >
-                        <Text style={styles.textCross}>ข้าม</Text>
-                    </Pressable>
-                </View>
-            </>
-        )
-    }
-    step_2() {
-        return (
-            <>
-                <View style={styles.welllyView}>
+                <View style={styles.slide1} >
                     <Image
                         style={styles.entryImage}
                         source={require('../assets/images/icon/walkthrough_2.png')}
@@ -68,110 +56,62 @@ export default class Walkthrough extends Component {
                     <View style={styles.areaText}>
                         <Text style={styles.textWellly_2}>ปรับเปลี่ยนวิธีคิด, โภชนาการ และ เริ่มต้นออกกำลังกาย</Text>
                     </View>
-                    <View style={styles.circle}>
-                        <View style={styles.circle_2} />
-                        <View style={styles.circle_1} />
-                        <View style={styles.circle_2} />
-                    </View>
                 </View>
-                <View style={styles.buttonView}>
-                    <Pressable style={styles.buttonNext} onPress={() => this.handleChange("stepNext", 3)} >
-                        <Text style={styles.textNext} >ถัดไป</Text>
-                    </Pressable>
-                    <Pressable style={styles.buttonCross} onPress={() => this.handleChange("stepNext", 3)} >
-                        <Text style={styles.textCross}>ข้าม</Text>
-                    </Pressable>
-                </View>
-            </>
-        )
-    }
-    step_3() {
-        return (
-            <>
-                <View style={styles.welllyView}>
-
+                <View style={styles.slide1}>
+                    <Image
+                        style={styles.entryImage}
+                        source={require('../assets/images/icon/walkthrough_3.png')}
+                    />
                     <Text style={styles.textWellly}>ในแบบที่เหมาะสม</Text>
                     <View style={styles.areaText}>
                         <Text style={styles.textWellly_2}>กับสถานะสุขภาพของคุณเอง ได้อย่างสนุก และท้าทาย เริ่มกันเลย!</Text>
                     </View>
-                    <View style={styles.circle}>
-                        <View style={styles.circle_2} />
-                        <View style={styles.circle_2} />
-                        <View style={styles.circle_1} />
-                    </View>
                 </View>
-                <View style={styles.buttonView}>
-                    <Pressable style={styles.buttonCross} />
 
-                    <Pressable style={styles.buttonNext} onPress={() => this.props.navigation.navigate("OnboardingName")} >
-                        <Text style={styles.textNext}>เริ่มกันเลย!</Text>
-                    </Pressable>
-                </View>
-            </>
-        )
-    }
-
-
-
-
-    swiper() {
-        const { swiperIndex } = this.state;
-        return (
-            <Swiper style={styles.wrapper} showsButtons={true}
-                index={3}
-                onIndexChanged={(index) => {
-                    /*   this.handleChange("swiperIndex", index) */
-                    console.log("Index", index);
-                }/*  this.handleChange("swiperIndex", index) */}
-            >
-
-                <View style={styles.slide1} >
-                    <Text style={styles.text}>Hello Swiper 1</Text>
-                </View>
-                <View style={styles.slide2}>
-                    <Text style={styles.text}>Beautiful 2</Text>
-                </View>
-                <View style={styles.slide3}>
-                    <Text style={styles.text}>And simple 3</Text>
-                </View>
             </Swiper >
 
         )
     }
 
-    _onMomentumScrollEnd = (e) => {
-        this.setState({
-            swiperIndex: e
-        })
 
-    }
 
     render() {
-
         const { swiperIndex } = this.state;
-        console.log("swiperIndex", swiperIndex);
-
         return (
-            <SafeAreaView style={styles.container} >
-                <View></View>
-                <Swiper style={styles.wrapper} showsButtons={true}
-                    /*   index={swiperIndex} */
-                    onIndexChanged={(index) => {
-                        this._onMomentumScrollEnd(index)
-                    }}
-                >
+            <SafeAreaView style={styles.container}>
+                <View style={styles.boxView}>
+                    <View style={styles.swiperBox}>
+                        {
+                            this.swiper()
+                        }
 
-                    <View style={styles.slide1} index={0}>
-                        <Text style={styles.text}>Hello Swiper 1</Text>
                     </View>
-                    <View style={styles.slide2} index={1}>
-                        <Text style={styles.text}>Beautiful 2</Text>
+                    <View style={styles.circle}>
+                        <View style={swiperIndex == "0" ? styles.circleActive : styles.circleDot} />
+                        <View style={swiperIndex == "1" ? styles.circleActive : styles.circleDot} />
+                        <View style={swiperIndex == "2" ? styles.circleActive : styles.circleDot} />
                     </View>
-                    <View style={styles.slide3} index={2}>
-                        <Text style={styles.text}>And simple 3</Text>
-                    </View>
-                </Swiper >
+                </View>
+                <View style={styles.buttonView}>
+                    {swiperIndex < 2 ?
+                        <>
+                            <Pressable style={ComponentsStyle.button} onPress={() => this.handleChange("swiperIndex", swiperIndex + 1)} >
+                                <Text style={ComponentsStyle.textButton} >ถัดไป</Text>
+                            </Pressable>
+                            <Pressable style={styles.buttonCross} onPress={() => this.handleChange("swiperIndex", 2)} >
+                                <Text style={styles.textCross}>ข้าม</Text>
+                            </Pressable>
 
+                        </> :
+                        <>
+                            {/*   <Pressable style={styles.buttonCross} onPress={() => this.handleChange("swiperIndex", swiperIndex + 1)} >
+                                <Text style={styles.textCross}>ข้าม</Text>
+                            </Pressable> */}
+                            <Pressable style={ComponentsStyle.button} onPress={() => this.handleChange("stepNext", swiperIndex)} >
+                                <Text style={ComponentsStyle.textButton} >ถัดไป</Text>
+                            </Pressable>
+                        </>}
+                </View>
             </SafeAreaView >
         )
     }
@@ -179,30 +119,29 @@ export default class Walkthrough extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        justifyContent: "space-between"
     },
-    wrapper: {},
+    wrapper: {
+        marginTop: "20%",
+    },
     slide1: {
-        flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#9DD6EB'
-    },
-    slide2: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#97CAE5'
-    },
-    slide3: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#92BBD9'
-    },
 
+    },
+    boxView: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: 20
+    },
     swiperBox: {
-        height: "100%",
+        /*         backgroundColor: "red", */
+        height: 490,
         width: "100%",
+        justifyContent: 'center',
+        alignItems: 'center',
+
+
     },
     welllyView: {
         position: "relative",
@@ -214,33 +153,34 @@ const styles = StyleSheet.create({
         marginTop: "18%"
     },
     entryImage: {
-        textAlign: "center"
+        /*   textAlign: "center" */
     },
 
     textWellly: {
         marginTop: 40,
         textAlign: "center",
-        fontWeight: "bold",
+        fontFamily: "IBMPlexSansThai-Bold",
         fontSize: 20,
         color: "#2A323C"
+
     },
     areaText: {
         width: "70%",
     },
     textWellly_2: {
-        marginTop: 20,
+        marginTop: 8,
         fontFamily: "IBMPlexSansThai-Regular",
         color: "#2A323C",
         fontSize: 16,
         textAlign: "center",
     },
     circle: {
-        marginTop: "80%",
+        marginTop: 16,
         flexDirection: "row",
         while: "100%",
         alignItems: "center",
         marginLeft: -8,
-        position: "absolute",
+
 
     },
     circle2: {
@@ -255,7 +195,7 @@ const styles = StyleSheet.create({
         textAlign: "center",
         width: 8,
         height: 8,
-        backgroundColor: colors.persianBlue60,
+        backgroundColor: colors.persianBlue,
         border: "solid 5px darkcyan",
         borderRadius: 100,
         marginLeft: 8,
@@ -271,19 +211,19 @@ const styles = StyleSheet.create({
     },
 
     buttonView: {
-
         alignItems: "center",
         paddingHorizontal: 16,
         width: "100%",
-        /* marginBottom: 40, */
+        marginBottom: 20,
     },
     buttonCross: {
         marginTop: 16,
         width: "100%",
         height: 50,
+
     },
     textCross: {
-        fontWeight: "bold",
+        fontFamily: "IBMPlexSansThai-Bold",
         fontSize: 16,
         color: colors.persianBlue,
         textAlign: "center",
