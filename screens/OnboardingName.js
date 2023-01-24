@@ -64,7 +64,7 @@ class OnboardingName extends React.Component {
             <SafeAreaView style={styles.container}>
                 <View style={{ justifyContent: "center", textAlign: "center", flex: 1, paddingHorizontal: 16 }}>
                     <View>
-                        <Text style={{ fontFamily: "IBMPlexSansThai-Bold", fontSize: 24, justifyContent: "center", marginBottom: 10 }}>อยากให้เราเรียกคุณว่าอะไร?</Text>
+                        <Text style={styles.whatName}>อยากให้เราเรียกคุณว่าอะไร?</Text>
                     </View>
 
                     <View>
@@ -86,11 +86,11 @@ class OnboardingName extends React.Component {
                             }
                         </View>
                     </View>
-                    <Text style={{ textAlign: "right" }}>
+                    <Text style={{ textAlign: "right", marginTop: 8 }}>
                         {name.length}/50
                     </Text>
                 </View>
-                <View style={{ flexDirection: "row", justifyContent: "space-between", paddingHorizontal: 20 }}>
+                <View style={styles.acceptSwitch}>
                     <View>
                         <Text style={styles.accept}>ฉันยอมรับ
                             <Text style={{ color: 'blue' }}
@@ -148,12 +148,22 @@ const styles = StyleSheet.create({
         alignItems: "center",
         marginBottom: 40,
     },
+    acceptSwitch: {
+        width: "100%",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        paddingHorizontal: 20
+    },
     accept: {
         width: "90%",
 
     },
-    switch: {
-        /*   fontSize: 50 */
+
+    whatName: {
+        fontFamily: "IBMPlexSansThai-Bold",
+        fontSize: 24,
+        justifyContent: "center",
+        marginBottom: 24
     }
 
 
