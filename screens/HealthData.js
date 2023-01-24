@@ -56,11 +56,84 @@ class HealthData extends Component {
     }
     componentDidUpdate(prevProps, prevState) {
         const { healtDataUser, dataUser } = this.props;
-        const { mgDL, mg, mmHGS, mmHGD } = this.state;
+        const { mgDL, mg, bpm, mmHGS, mmHGD } = this.state;
 
         if (prevProps.healtDataUser !== healtDataUser) {
             this.props.navigation.navigate("OnboardingResults");
         }
+
+        //เช็ค Variation
+        if (prevState.mgDL != mgDL) {
+            if ((mgDL < 4) || (mgDL > 1000)) {
+                this.setState({
+                    statusMdDl: false,
+                    statusTextmg_dL: false
+                })
+            } else {
+                this.setState({
+                    statusMdDl: true,
+                    statusTextmg_dL: true
+                })
+            }
+        }
+
+        if (prevState.mg != mg) {
+            if ((mg < 3.5) || (mg > 19)) {
+                this.setState({
+                    statusMg: false,
+                    statusTextMg: false,
+                })
+            } else {
+                this.setState({
+                    statusMg: true,
+                    statusTextMg: true,
+                })
+            }
+        }
+        if (prevState.bpm != bpm) {
+            if ((bpm < 40) || (bpm > 160)) {
+                this.setState({
+                    statusBpm: false,
+                    statusTextBpm: false,
+                })
+            } else {
+                this.setState({
+                    statusBpm: true,
+                    statusTextBpm: true,
+                })
+            }
+        }
+        if (prevState.mmHGS != mmHGS) {
+            if ((mmHGS < 40) || (mmHGS > 190)) {
+                this.setState({
+                    statusTextMmHG1: false,
+                    statusMmGH1: false,
+                })
+            } else {
+                this.setState({
+                    statusTextMmHG1: true,
+                    statusMmGH1: true,
+                })
+            }
+        }
+
+        if (prevState.mmHGD != mmHGD) {
+            if ((mmHGD < 40) || (mmHGD > 170)) {
+                this.setState({
+                    statusTextMmHG2: false,
+                    statusMmGH2: false,
+                })
+            } else {
+                this.setState({
+                    statusTextMmHG2: true,
+                    statusMmGH2: true,
+                })
+            }
+        }
+
+
+
+
 
         //  เบาหวาน fpg
         if (prevState.mgDL !== mgDL) {
@@ -157,11 +230,6 @@ class HealthData extends Component {
             this.setState({
                 statusBpm: false,
                 statusTextBpm: false,
-            })
-        } else if ((bpm < 40) || (bpm > 190)) {
-            this.setState({
-                statusTextMmHG1: false,
-                statusMmGH2: false,
             })
         } else if ((mmHGS < 40) || (mmHGS > 190)) {
             this.setState({
