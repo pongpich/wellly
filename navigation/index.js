@@ -48,7 +48,7 @@ function MyStack() {
           </View>
         ),
       }} />
-
+ */}
       <Stack.Screen name="Walkthrough" component={Walkthrough} options={{
         headerShown: false,
       }} />
@@ -67,7 +67,7 @@ function MyStack() {
           </View>
         ),
       }} />
- */}
+
       <Stack.Screen name="PersonalData" component={PersonalData} options={{
         headerShadowVisible: false,
         title: "",

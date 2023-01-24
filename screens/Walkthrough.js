@@ -21,7 +21,7 @@ export default class Walkthrough extends Component {
     }
 
     onSwipe = (index) => {
-
+        this.refs.swiper.scrollBy(index - 1);
         this.setState({
             swiperIndex: index
         })
@@ -36,6 +36,8 @@ export default class Walkthrough extends Component {
                 bounces={false}
                 automaticallyAdjustContentInsets={true}
                 onIndexChanged={this.onSwipe}
+                ref={'swiper'}
+
             >
                 <View style={styles.slide1} >
                     <Image
