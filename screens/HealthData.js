@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, Pressable, SafeAreaView, Image, ScrollView, TouchableOpacity, TextInput, Text, Linking, KeyboardAvoidingView, Platform, Dimensions, Modal } from 'react-native';
+import { View, StyleSheet, Pressable, SafeAreaView, Image, ScrollView, TouchableOpacity, TextInput, Text, Linking, KeyboardAvoidingView, Platform, Dimensions, Modal, InputAccessoryView, Keyboard } from 'react-native';
+import { Feather } from '@expo/vector-icons';
 import { healt } from "../redux/personalUser";
 import { connect } from 'react-redux';
 
@@ -37,7 +38,7 @@ class HealthData extends Component {
     }
     componentDidMount() {
         const { dataUser } = this.props;
-        const exer = dataUser.exercise;
+        const exer = dataUser && dataUser.exercise;
         //  ออกกำลังกาย
 
         if (exer === "ประจำ") {
@@ -184,7 +185,7 @@ class HealthData extends Component {
         return (
             <SafeAreaView style={styles.container}>
                 <View style={styles.areaView}>
-                    <ScrollView>
+                    <ScrollView keyboardShouldPersistTaps="always">
                         <View style={styles.areaViewPag}>
                             <Text style={styles.textHead}>ข้อมูลสุขภาพ</Text>
                             <Text style={styles.textInputHead}>น้ำตาลในเลือด</Text>
@@ -197,7 +198,22 @@ class HealthData extends Component {
                                     onChangeText={(text) => this.handleChange("mgDL", text)}
                                     placeholder="0"
                                     keyboardType="numeric"
+                                    inputAccessoryViewID="textInput1"
+                                    ref={(input) => { this.textInput1 = input; }}
                                 />
+                                <InputAccessoryView nativeID="textInput1" >
+                                    <View style={styles.inputAccessory}>
+                                        <View style={styles.chevronIcon}>
+                                            <Feather name="chevron-up" size={24} color="#C2D2E7" style={{ marginRight: 16 }} />
+                                            <Feather name="chevron-down" size={24} color="#3762FC" onPress={() => { this.textInput2.focus(); }} />
+                                        </View>
+                                        <View>
+                                            <Pressable onPress={Keyboard.dismiss} >
+                                                <Text style={styles.textDoneButton}>เสร็จ</Text>
+                                            </Pressable>
+                                        </View>
+                                    </View>
+                                </InputAccessoryView>
                                 {
                                     statusTextmg_dL === false ?
                                         <Text style={styles.errorText}>กรุณากรอกค่าตั้งแต่ 4 - 1000 mg/dlL.</Text>
@@ -215,7 +231,22 @@ class HealthData extends Component {
                                     onChangeText={(text) => this.handleChange("mg", text)}
                                     placeholder="0"
                                     keyboardType="numeric"
+                                    inputAccessoryViewID="textInput2"
+                                    ref={(input) => { this.textInput2 = input; }}
                                 />
+                                <InputAccessoryView nativeID="textInput2" >
+                                    <View style={styles.inputAccessory}>
+                                        <View style={styles.chevronIcon}>
+                                            <Feather name="chevron-up" size={24} color="#3762FC" style={{ marginRight: 16 }} onPress={() => { this.textInput1.focus(); }} />
+                                            <Feather name="chevron-down" size={24} color="#3762FC" onPress={() => { this.textInput3.focus(); }} />
+                                        </View>
+                                        <View>
+                                            <Pressable onPress={Keyboard.dismiss} >
+                                                <Text style={styles.textDoneButton}>เสร็จ</Text>
+                                            </Pressable>
+                                        </View>
+                                    </View>
+                                </InputAccessoryView>
                                 {
                                     statusTextMg === false ?
                                         <Text style={styles.errorText}>กรุณากรอกค่าตั้งแต่ 3.5 - 19 mg%</Text>
@@ -233,7 +264,22 @@ class HealthData extends Component {
                                     onChangeText={(text) => this.handleChange("bpm", text)}
                                     placeholder="0"
                                     keyboardType="numeric"
+                                    inputAccessoryViewID="textInput3"
+                                    ref={(input) => { this.textInput3 = input; }}
                                 />
+                                <InputAccessoryView nativeID="textInput3" >
+                                    <View style={styles.inputAccessory}>
+                                        <View style={styles.chevronIcon}>
+                                            <Feather name="chevron-up" size={24} color="#3762FC" style={{ marginRight: 16 }} onPress={() => { this.textInput2.focus(); }} />
+                                            <Feather name="chevron-down" size={24} color="#3762FC" onPress={() => { this.textInput4.focus(); }} />
+                                        </View>
+                                        <View>
+                                            <Pressable onPress={Keyboard.dismiss} >
+                                                <Text style={styles.textDoneButton}>เสร็จ</Text>
+                                            </Pressable>
+                                        </View>
+                                    </View>
+                                </InputAccessoryView>
                                 {
                                     statusTextBpm === false ?
                                         <Text style={styles.errorText}>กรุณากรอกค่าตั้งแต่ 40-160 bpm</Text>
@@ -251,9 +297,23 @@ class HealthData extends Component {
                                     style={statusMmGH1 === true ? isFocusedMmHGS === true ? styles.inputIsFocused : styles.input : styles.inputError}
                                     onChangeText={(text) => this.handleChange("mmHGS", text)}
                                     placeholder="0"
-
                                     keyboardType="numeric"
+                                    inputAccessoryViewID="textInput4"
+                                    ref={(input) => { this.textInput4 = input; }}
                                 />
+                                <InputAccessoryView nativeID="textInput4" >
+                                    <View style={styles.inputAccessory}>
+                                        <View style={styles.chevronIcon}>
+                                            <Feather name="chevron-up" size={24} color="#3762FC" style={{ marginRight: 16 }} onPress={() => { this.textInput3.focus(); }} />
+                                            <Feather name="chevron-down" size={24} color="#3762FC" onPress={() => { this.textInput5.focus(); }} />
+                                        </View>
+                                        <View>
+                                            <Pressable onPress={Keyboard.dismiss} >
+                                                <Text style={styles.textDoneButton}>เสร็จ</Text>
+                                            </Pressable>
+                                        </View>
+                                    </View>
+                                </InputAccessoryView>
                                 {
                                     statusTextMmHG1 === false ?
                                         <Text style={styles.errorText}>กรุณากรอกค่าตั้งแต่ 40 - 190 mmHG</Text>
@@ -271,7 +331,22 @@ class HealthData extends Component {
                                     onChangeText={(text) => this.handleChange("mmHGD", text)}
                                     placeholder="0"
                                     keyboardType="numeric"
+                                    inputAccessoryViewID="textInput5"
+                                    ref={(input) => { this.textInput5 = input; }}
                                 />
+                                <InputAccessoryView nativeID="textInput5" >
+                                    <View style={styles.inputAccessory}>
+                                        <View style={styles.chevronIcon}>
+                                            <Feather name="chevron-up" size={24} color="#3762FC" style={{ marginRight: 16 }} onPress={() => { this.textInput4.focus(); }} />
+                                            <Feather name="chevron-down" size={24} color="#C2D2E7" />
+                                        </View>
+                                        <View>
+                                            <Pressable onPress={Keyboard.dismiss} >
+                                                <Text style={styles.textDoneButton}>เสร็จ</Text>
+                                            </Pressable>
+                                        </View>
+                                    </View>
+                                </InputAccessoryView>
                                 {
                                     statusTextMmHG2 === false ?
                                         <Text style={styles.errorText}>กรุณากรอกค่าตั้งแต่ 40 - 170 mmHG</Text>
@@ -306,6 +381,25 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: "#FFFFFF",
         alignItems: "center",
+    },
+    inputAccessory: {
+        width: Dimensions.get('window').width,
+        height: 42,
+        flexDirection: 'row',
+        //justifyContent: 'flex-end',
+        alignItems: 'center',
+        backgroundColor: '#F3F7FB',
+        paddingHorizontal: 16
+    },
+    chevronIcon: {
+        flexDirection: 'row',
+        flex: 1,
+        justifyContent: 'flex-start'
+    },
+    textDoneButton: {
+        fontFamily: "IBMPlexSansThai-Medium",
+        color: "#3762FC",
+        fontSize: 16
     },
     areaView: {
         width: "100%",
@@ -343,7 +437,7 @@ const styles = StyleSheet.create({
         borderColor: "#93a8c1",
         color: "#2A323C",
         backgroundColor: "#FFFFFF",
-        fontFamily: "Prompt-Light",
+        fontFamily: "IBMPlexSansThai-Medium",
         position: "relative",
 
     },
@@ -355,7 +449,7 @@ const styles = StyleSheet.create({
         borderColor: "#3762FC",
         color: "#2A323C",
         backgroundColor: "#FFFFFF",
-        fontFamily: "Prompt-Light",
+        fontFamily: "IBMPlexSansThai-Medium",
         position: "relative",
         alignContent: "center"
     },
@@ -367,14 +461,14 @@ const styles = StyleSheet.create({
         borderColor: "#D43A3A",
         color: "#2A323C",
         backgroundColor: "#FFFFFF",
-        fontFamily: "Prompt-Light",
+        fontFamily: "IBMPlexSansThai-Medium",
         position: "relative",
 
     },
     errorText: {
         color: "#D43A3A",
         alignItems: "flex-start",
-        fontFamily: "Prompt-Light"
+        fontFamily: "IBMPlexSansThai-Medium"
     },
     textRightTnput: {
         position: "absolute",
@@ -421,12 +515,12 @@ const styles = StyleSheet.create({
     textButtonWhite: {
         color: "#FFFFFF",
         fontSize: 16,
-        fontFamily: "Prompt-Bold",
+        fontFamily: "IBMPlexSansThai-Bold",
     },
     textButtonGrey: {
         color: "#93A8C1",
         fontSize: 16,
-        fontFamily: "Prompt-Bold",
+        fontFamily: "IBMPlexSansThai-Bold",
     }
 });
 
