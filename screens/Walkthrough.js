@@ -85,10 +85,12 @@ export default class Walkthrough extends Component {
                             this.swiper()
                         }
                     </View>
-                    <View style={styles.circle}>
-                        <View style={swiperIndex == "0" ? styles.circleActive : styles.circleDot} />
-                        <View style={swiperIndex == "1" ? styles.circleActive : styles.circleDot} />
-                        <View style={swiperIndex == "2" ? styles.circleActive : styles.circleDot} />
+                    <View>
+                        <View style={styles.circle}>
+                            <View style={swiperIndex == "0" ? styles.circleActive : styles.circleDot} />
+                            <View style={swiperIndex == "1" ? styles.circleActive : styles.circleDot} />
+                            <View style={swiperIndex == "2" ? styles.circleActive : styles.circleDot} />
+                        </View>
                     </View>
                 </View>
                 <View style={styles.buttonView}>
@@ -114,8 +116,8 @@ export default class Walkthrough extends Component {
 }
 
 
-const deviceWidth = Math.round(Dimensions.get('window').width);
-console.log("deviceWidth", deviceWidth);
+const devicehHeight = Math.round(Dimensions.get('window').height);
+console.log("deviceWidth", devicehHeight);
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -123,15 +125,15 @@ const styles = StyleSheet.create({
     },
     wrapper: {
         /*    marginTop: (deviceWidth > 668) ? "5%" : "20%", */
-        /*  marginTop: (deviceWidth > 370) ? "20%" : "50%", */
-        marginTop: "20%",
+        marginTop: (devicehHeight > 668) ? "20%" : "10%",
+        /*     marginTop: "10%", */
     },
     slide1: {
         justifyContent: 'center',
         alignItems: 'center',
     },
     boxView: {
-        justifyContent: 'center',
+
         alignItems: 'center',
         marginBottom: 20
     },
@@ -172,9 +174,10 @@ const styles = StyleSheet.create({
         textAlign: "center",
     },
     circle: {
-        marginTop: 16,
+        marginTop: (devicehHeight > 668) ? 16 : "-7%",
         flexDirection: "row",
         while: "100%",
+        justifyContent: "center",
         alignItems: "center",
         marginLeft: -8,
     },
@@ -199,14 +202,16 @@ const styles = StyleSheet.create({
 
     buttonView: {
         alignItems: "center",
+        justifyContent: "flex-end",
         paddingHorizontal: 16,
         width: "100%",
-        marginBottom: 40,
+        paddingBottom: 40,
+        /*  flex: 1 */
     },
     buttonCross: {
         marginTop: 16,
         width: "100%",
-        height: 50,
+        /*         marginBottom: 40 */
 
     },
     textCross: {
