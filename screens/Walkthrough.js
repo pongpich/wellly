@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
         textAlign: "center",
         fontFamily: "IBMPlexSansThai-Bold",
         fontSize: 20,
-        color: "#2A323C"
+        color: colors.grey1
 
     },
     areaText: {
@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
     textWellly_2: {
         marginTop: 8,
         fontFamily: "IBMPlexSansThai-Regular",
-        color: "#2A323C",
+        color: colors.grey1,
         fontSize: 16,
         textAlign: "center",
     },
@@ -179,14 +179,6 @@ const styles = StyleSheet.create({
         marginLeft: -8,
 
 
-    },
-    circle2: {
-        height: 50,
-        while: "100%",
-        position: "absolute",
-        flexDirection: "row",
-        marginTop: 16,
-        backgroundColor: "red"
     },
     circleActive: {
         textAlign: "center",
@@ -217,14 +209,12 @@ const styles = StyleSheet.create({
         marginTop: 16,
         width: "100%",
         height: 50,
-
     },
     textCross: {
         fontFamily: "IBMPlexSansThai-Bold",
         fontSize: 16,
         color: colors.persianBlue,
         textAlign: "center",
-
     },
 
 
