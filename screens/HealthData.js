@@ -405,6 +405,7 @@ const styles = StyleSheet.create({
         fontSize: ComponentsStyle.fontSize16
     },
     areaView: {
+        flex: 1,
         width: "100%",
     },
     areaViewPag: {
