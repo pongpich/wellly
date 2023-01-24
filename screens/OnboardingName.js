@@ -1,10 +1,11 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput, SafeAreaView, Pressable, Switch } from 'react-native';
+import { StyleSheet, Text, View, TextInput, SafeAreaView, Pressable } from 'react-native';
 import { getProfanity } from "../redux/get";
 import colors from '../constants/colors';
 import ComponentsStyle from '../constants/components';
 import { userName } from "../redux/personalUser";
 import { connect } from 'react-redux';
+import { Switch } from 'react-native-switch';
 
 class OnboardingName extends React.Component {
     constructor(props) {
@@ -90,17 +91,31 @@ class OnboardingName extends React.Component {
                     </Text>
                 </View>
                 <View style={{ flexDirection: "row", justifyContent: "space-between", paddingHorizontal: 20 }}>
-                    <Text>ฉันยอมรับ
-                        <Text style={{ color: 'blue' }}
-                            onPress={() => Linking.openURL('http://google.com')}>
-                            เงื่อนไขและข้อตกลง
+                    <View>
+                        <Text style={styles.accept}>ฉันยอมรับ
+                            <Text style={{ color: 'blue' }}
+                                onPress={() => Linking.openURL('http://google.com')}>
+                                เงื่อนไขและข้อตกลง
+                            </Text>
+                            การใช้งาน WELLLY
                         </Text>
-                        การใช้งาน{"\n"} WELLLY
-                    </Text>
+                    </View>
                     <Switch
                         value={switchOn}
                         onValueChange={(value) => this.setState({ switchOn: value })}
-                        trackColor={{ false: "#ff0000", true: "#0000ff" }}
+                        backgroundActive={colors.persianBlue}
+                        backgroundInactive={colors.grey4}
+                        style={styles.switch}
+                        renderActiveText={false}
+                        renderInActiveText={false}
+                        innerCircleStyle={{ alignItems: "center", justifyContent: "center" }}
+                        circleSize={30}
+                        barHeight={35}
+                        switchLeftPx={2.5}
+                        switchRightPx={2.5}
+                        switchWidthMultiplier={2}
+                        switchBorderRadius={30}
+                        circleBorderWidth={0}
                     />
                 </View>
                 <View style={styles.areaViewButton}>
@@ -133,6 +148,13 @@ const styles = StyleSheet.create({
         alignItems: "center",
         marginBottom: 40,
     },
+    accept: {
+        width: "90%",
+
+    },
+    switch: {
+        /*   fontSize: 50 */
+    }
 
 
 

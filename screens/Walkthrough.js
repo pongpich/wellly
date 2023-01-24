@@ -84,7 +84,6 @@ export default class Walkthrough extends Component {
                         {
                             this.swiper()
                         }
-
                     </View>
                     <View style={styles.circle}>
                         <View style={swiperIndex == "0" ? styles.circleActive : styles.circleDot} />
