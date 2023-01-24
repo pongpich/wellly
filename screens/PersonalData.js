@@ -31,10 +31,79 @@ class PersonalData extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
+        const { sex, age, weight, height, exercise, statusAge } = this.state;
         const { dataUser } = this.props;
+
+
+        // เช็ค ค่าที่กรอก age, weight, height,
+        // อายุ
+        if (prevState.age !== age) {
+            if ((age == 1)) {
+                this.setState({
+                    statusAge: false,
+                    statusTextAge: 0
+                })
+            } else if ((age < 18) || (age > 65)) {
+                this.setState({
+                    statusAge: false,
+                    statusTextAge: 1
+                })
+            } else {
+                this.setState({
+                    statusAge: true,
+                    statusTextAge: null
+                })
+            }
+        }
+
+        // น้ำหนัก
+        if (prevState.weight !== weight) {
+            if (weight == 0) {
+                this.setState({
+                    statusWeight: false,
+                    statusTextWeight: 0
+                })
+            } else if ((weight < 30) || (weight > 250)) {
+                this.setState({
+                    statusWeight: false,
+                    statusTextWeight: 1
+                })
+            } else {
+                this.setState({
+                    statusWeight: true,
+                    statusTextWeight: null
+                })
+            }
+        }
+
+        // ส่วนสุง
+        if (prevState.height !== height) {
+            console.log("height", height);
+            if (height == 1) {
+                this.setState({
+                    statusHeight: false,
+                    statusTextHeight: 0
+                })
+            } else if ((height < 99) || (height > 281)) {
+                this.setState({
+                    statusHeight: false,
+                    statusTextHeight: 1
+                })
+            } else {
+                this.setState({
+                    statusHeight: true,
+                    statusTextHeight: null
+                })
+            }
+        }
+
+
+
+
         if (prevProps.dataUser !== dataUser) {
             this.props.navigation.navigate("HealthData");
         }
+
 
     }
 
@@ -46,6 +115,7 @@ class PersonalData extends Component {
                 this.setState({
                     [fieldName]: text
                 })
+
             } else {
                 this.setState({
                     [fieldName]: null
@@ -121,7 +191,8 @@ class PersonalData extends Component {
     render() {
         const { sexIndex, sex, age, weight, height, exercise, statusAge, statusTextAge, statusWeight, statusTextWeight, statusHeight, statusTextHeight,
             isFocusedAge, isFocusedWeight, isFocusedHeight } = this.state;
-        console.log("isFocusedAge", sexIndex);
+
+        console.log("statusTextHeight", statusTextHeight);
 
         return (
             <SafeAreaView style={styles.container}>
