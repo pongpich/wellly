@@ -200,6 +200,7 @@ class Login extends Component {
                                     onChangeText={(text) => this.handleChangePass(text)}
                                     placeholder={(password === null) || (password === '') ? "รหัสผ่านอย่างน้อย 8 หลัก" : null}
                                     autoCapitalize='none'
+                                    secureTextEntry={entry}
                                     value={password}
                                 />
                             </View>
