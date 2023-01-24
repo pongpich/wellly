@@ -20,8 +20,8 @@ export default function useCachedResources() {
           'IBMPlexSansThai-Bold': require('../assets/fonts/IBMPlexSansThai-Bold.ttf'), // ตัวหน้า ที่ใช้
           'IBMPlexSansThai-ExtraLight': require('../assets/fonts/IBMPlexSansThai-ExtraLight.ttf'),
           'IBMPlexSansThai-Light': require('../assets/fonts/IBMPlexSansThai-Light.ttf'),
-          'IBMPlexSansThai-Medium': require('../assets/fonts/IBMPlexSansThai-Medium.ttf'), //ตัวบาง ที่ใช้
-          'IBMPlexSansThai-Regular': require('../assets/fonts/IBMPlexSansThai-Regular.ttf'),
+          'IBMPlexSansThai-Medium': require('../assets/fonts/IBMPlexSansThai-Medium.ttf'),
+          'IBMPlexSansThai-Regular': require('../assets/fonts/IBMPlexSansThai-Regular.ttf'),//ตัวบาง ที่ใช้
           'IBMPlexSansThai-SemiBold': require('../assets/fonts/IBMPlexSansThai-SemiBold.ttf'),
           'IBMPlexSansThai-Text': require('../assets/fonts/IBMPlexSansThai-Text.ttf'),
           'IBMPlexSansThai-Thin': require('../assets/fonts/IBMPlexSansThai-Thin.ttf'),

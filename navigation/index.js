@@ -67,7 +67,7 @@ function MyStack() {
           </View>
         ),
       }} />
- */}
+ 
       <Stack.Screen name="PersonalData" component={PersonalData} options={{
         headerShadowVisible: false,
         title: "",
@@ -81,7 +81,7 @@ function MyStack() {
           </View>
         ),
       }} />
-
+*/}
       <Stack.Screen name="HealthData" component={HealthData} options={{
         headerShadowVisible: false,
         title: "",

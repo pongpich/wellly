@@ -192,7 +192,7 @@ class PersonalData extends Component {
 
         return (
             <SafeAreaView style={styles.container}>
-                <ScrollView style={styles.areaView}>
+                <ScrollView style={styles.areaView} keyboardShouldPersistTaps="always">
                     <View>
                         <Text style={styles.textHead}>กรอกข้อมูลส่วนตัวเพื่อการคำนวณโปรแกรมที่แม่นยำ</Text>
                         <Text style={styles.textInputHead}>เพศ</Text>
@@ -406,11 +406,17 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     areaView: {
+
         flex: 1,
         paddingHorizontal: 16,
         width: "100%",
-        height: "100%"
+        /*    height: "100%" */
     },
+    scrollView: {
+        flex: 1,
+        justifyContent: "space-between"
+    },
+
     textHead: {
         fontWeight: "bold",
         fontFamily: "IBMPlexSansThai-Bold",

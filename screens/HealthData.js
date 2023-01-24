@@ -206,8 +206,8 @@ class HealthData extends Component {
                                 <InputAccessoryView nativeID="textInput1" >
                                     <View style={styles.inputAccessory}>
                                         <View style={styles.chevronIcon}>
-                                            <Feather name="chevron-up" size={24} color={colors.persianBlue} style={{ marginRight: 16 }} />
-                                            <Feather name="chevron-down" size={24} color={colors.grey4} onPress={() => { this.textInput2.focus(); }} />
+                                            <Feather name="chevron-up" size={24} color={colors.grey4} style={{ marginRight: 16 }} />
+                                            <Feather name="chevron-down" size={24} color={colors.persianBlue} onPress={() => { this.textInput2.focus(); }} />
                                         </View>
                                         <View>
                                             <Pressable onPress={Keyboard.dismiss} >
@@ -240,7 +240,7 @@ class HealthData extends Component {
                                     <View style={styles.inputAccessory}>
                                         <View style={styles.chevronIcon}>
                                             <Feather name="chevron-up" size={24} color={colors.persianBlue} style={{ marginRight: 16 }} onPress={() => { this.textInput1.focus(); }} />
-                                            <Feather name="chevron-down" size={24} color={colors.grey4} onPress={() => { this.textInput3.focus(); }} />
+                                            <Feather name="chevron-down" size={24} color={colors.persianBlue} onPress={() => { this.textInput3.focus(); }} />
                                         </View>
                                         <View>
                                             <Pressable onPress={Keyboard.dismiss} >
@@ -273,7 +273,7 @@ class HealthData extends Component {
                                     <View style={styles.inputAccessory}>
                                         <View style={styles.chevronIcon}>
                                             <Feather name="chevron-up" size={24} color={colors.persianBlue} style={{ marginRight: 16 }} onPress={() => { this.textInput2.focus(); }} />
-                                            <Feather name="chevron-down" size={24} color={colors.grey4} onPress={() => { this.textInput4.focus(); }} />
+                                            <Feather name="chevron-down" size={24} color={colors.persianBlue} onPress={() => { this.textInput4.focus(); }} />
                                         </View>
                                         <View>
                                             <Pressable onPress={Keyboard.dismiss} >
@@ -307,7 +307,7 @@ class HealthData extends Component {
                                     <View style={styles.inputAccessory}>
                                         <View style={styles.chevronIcon}>
                                             <Feather name="chevron-up" size={24} color={colors.persianBlue} style={{ marginRight: 16 }} onPress={() => { this.textInput3.focus(); }} />
-                                            <Feather name="chevron-down" size={24} color={colors.grey4} onPress={() => { this.textInput5.focus(); }} />
+                                            <Feather name="chevron-down" size={24} color={colors.persianBlue} onPress={() => { this.textInput5.focus(); }} />
                                         </View>
                                         <View>
                                             <Pressable onPress={Keyboard.dismiss} >
