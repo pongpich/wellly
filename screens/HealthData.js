@@ -3,6 +3,8 @@ import { View, StyleSheet, Pressable, SafeAreaView, Image, ScrollView, Touchable
 import { Feather } from '@expo/vector-icons';
 import { healt } from "../redux/personalUser";
 import { connect } from 'react-redux';
+import ComponentsStyle from '../constants/components';
+import colors from '../constants/colors';
 
 class HealthData extends Component {
     constructor(props) {
@@ -194,7 +196,7 @@ class HealthData extends Component {
                                 <TextInput
                                     onFocus={(text) => this.handleFocus("isFocusedMgDL", true)}
                                     onBlur={(text) => this.handleBlur("isFocusedMgDL", false)}
-                                    style={statusMdDl === true ? isFocusedMgDL === true ? styles.inputIsFocused : styles.input : styles.inputError}
+                                    style={statusMdDl === true ? isFocusedMgDL === true ? ComponentsStyle.inputIsFocused : ComponentsStyle.input : ComponentsStyle.inputError}
                                     onChangeText={(text) => this.handleChange("mgDL", text)}
                                     placeholder="0"
                                     keyboardType="numeric"
@@ -204,8 +206,8 @@ class HealthData extends Component {
                                 <InputAccessoryView nativeID="textInput1" >
                                     <View style={styles.inputAccessory}>
                                         <View style={styles.chevronIcon}>
-                                            <Feather name="chevron-up" size={24} color="#C2D2E7" style={{ marginRight: 16 }} />
-                                            <Feather name="chevron-down" size={24} color="#3762FC" onPress={() => { this.textInput2.focus(); }} />
+                                            <Feather name="chevron-up" size={24} color={colors.persianBlue} style={{ marginRight: 16 }} />
+                                            <Feather name="chevron-down" size={24} color={colors.grey4} onPress={() => { this.textInput2.focus(); }} />
                                         </View>
                                         <View>
                                             <Pressable onPress={Keyboard.dismiss} >
@@ -216,7 +218,7 @@ class HealthData extends Component {
                                 </InputAccessoryView>
                                 {
                                     statusTextmg_dL === false ?
-                                        <Text style={styles.errorText}>กรุณากรอกค่าตั้งแต่ 4 - 1000 mg/dlL.</Text>
+                                        <Text style={ComponentsStyle.textError}>กรุณากรอกค่าตั้งแต่ 4 - 1000 mg/dlL.</Text>
                                         : null
                                 }
 
@@ -227,7 +229,7 @@ class HealthData extends Component {
                                 <TextInput
                                     onFocus={(text) => this.handleFocus("isFocusedMg", true)}
                                     onBlur={(text) => this.handleBlur("isFocusedMg", false)}
-                                    style={statusMg === true ? isFocusedMg === true ? styles.inputIsFocused : styles.input : styles.inputError}
+                                    style={statusMg === true ? isFocusedMg === true ? ComponentsStyle.inputIsFocused : ComponentsStyle.input : ComponentsStyle.inputError}
                                     onChangeText={(text) => this.handleChange("mg", text)}
                                     placeholder="0"
                                     keyboardType="numeric"
@@ -237,8 +239,8 @@ class HealthData extends Component {
                                 <InputAccessoryView nativeID="textInput2" >
                                     <View style={styles.inputAccessory}>
                                         <View style={styles.chevronIcon}>
-                                            <Feather name="chevron-up" size={24} color="#3762FC" style={{ marginRight: 16 }} onPress={() => { this.textInput1.focus(); }} />
-                                            <Feather name="chevron-down" size={24} color="#3762FC" onPress={() => { this.textInput3.focus(); }} />
+                                            <Feather name="chevron-up" size={24} color={colors.persianBlue} style={{ marginRight: 16 }} onPress={() => { this.textInput1.focus(); }} />
+                                            <Feather name="chevron-down" size={24} color={colors.grey4} onPress={() => { this.textInput3.focus(); }} />
                                         </View>
                                         <View>
                                             <Pressable onPress={Keyboard.dismiss} >
@@ -249,7 +251,7 @@ class HealthData extends Component {
                                 </InputAccessoryView>
                                 {
                                     statusTextMg === false ?
-                                        <Text style={styles.errorText}>กรุณากรอกค่าตั้งแต่ 3.5 - 19 mg%</Text>
+                                        <Text style={ComponentsStyle.textError}>กรุณากรอกค่าตั้งแต่ 3.5 - 19 mg%</Text>
                                         : null
                                 }
 
@@ -260,7 +262,7 @@ class HealthData extends Component {
                                 <TextInput
                                     onFocus={(text) => this.handleFocus("isFocusedBpm", true)}
                                     onBlur={(text) => this.handleBlur("isFocusedBpm", false)}
-                                    style={statusBpm === true ? isFocusedBpm === true ? styles.inputIsFocused : styles.input : styles.inputError}
+                                    style={statusBpm === true ? isFocusedBpm === true ? ComponentsStyle.inputIsFocused : ComponentsStyle.input : ComponentsStyle.inputError}
                                     onChangeText={(text) => this.handleChange("bpm", text)}
                                     placeholder="0"
                                     keyboardType="numeric"
@@ -270,8 +272,8 @@ class HealthData extends Component {
                                 <InputAccessoryView nativeID="textInput3" >
                                     <View style={styles.inputAccessory}>
                                         <View style={styles.chevronIcon}>
-                                            <Feather name="chevron-up" size={24} color="#3762FC" style={{ marginRight: 16 }} onPress={() => { this.textInput2.focus(); }} />
-                                            <Feather name="chevron-down" size={24} color="#3762FC" onPress={() => { this.textInput4.focus(); }} />
+                                            <Feather name="chevron-up" size={24} color={colors.persianBlue} style={{ marginRight: 16 }} onPress={() => { this.textInput2.focus(); }} />
+                                            <Feather name="chevron-down" size={24} color={colors.grey4} onPress={() => { this.textInput4.focus(); }} />
                                         </View>
                                         <View>
                                             <Pressable onPress={Keyboard.dismiss} >
@@ -282,7 +284,7 @@ class HealthData extends Component {
                                 </InputAccessoryView>
                                 {
                                     statusTextBpm === false ?
-                                        <Text style={styles.errorText}>กรุณากรอกค่าตั้งแต่ 40-160 bpm</Text>
+                                        <Text style={ComponentsStyle.textError}>กรุณากรอกค่าตั้งแต่ 40-160 bpm</Text>
                                         : null
                                 }
 
@@ -294,7 +296,7 @@ class HealthData extends Component {
                                 <TextInput
                                     onFocus={(text) => this.handleFocus("isFocusedMmHGS", true)}
                                     onBlur={(text) => this.handleBlur("isFocusedMmHGS", false)}
-                                    style={statusMmGH1 === true ? isFocusedMmHGS === true ? styles.inputIsFocused : styles.input : styles.inputError}
+                                    style={statusMmGH1 === true ? isFocusedMmHGS === true ? ComponentsStyle.inputIsFocused : ComponentsStyle.input : ComponentsStyle.inputError}
                                     onChangeText={(text) => this.handleChange("mmHGS", text)}
                                     placeholder="0"
                                     keyboardType="numeric"
@@ -304,8 +306,8 @@ class HealthData extends Component {
                                 <InputAccessoryView nativeID="textInput4" >
                                     <View style={styles.inputAccessory}>
                                         <View style={styles.chevronIcon}>
-                                            <Feather name="chevron-up" size={24} color="#3762FC" style={{ marginRight: 16 }} onPress={() => { this.textInput3.focus(); }} />
-                                            <Feather name="chevron-down" size={24} color="#3762FC" onPress={() => { this.textInput5.focus(); }} />
+                                            <Feather name="chevron-up" size={24} color={colors.persianBlue} style={{ marginRight: 16 }} onPress={() => { this.textInput3.focus(); }} />
+                                            <Feather name="chevron-down" size={24} color={colors.grey4} onPress={() => { this.textInput5.focus(); }} />
                                         </View>
                                         <View>
                                             <Pressable onPress={Keyboard.dismiss} >
@@ -316,7 +318,7 @@ class HealthData extends Component {
                                 </InputAccessoryView>
                                 {
                                     statusTextMmHG1 === false ?
-                                        <Text style={styles.errorText}>กรุณากรอกค่าตั้งแต่ 40 - 190 mmHG</Text>
+                                        <Text style={ComponentsStyle.textError}>กรุณากรอกค่าตั้งแต่ 40 - 190 mmHG</Text>
                                         : null
                                 }
 
@@ -327,7 +329,7 @@ class HealthData extends Component {
                                 <TextInput
                                     onFocus={(text) => this.handleFocus("isFocusedMmHGD", true)}
                                     onBlur={(text) => this.handleBlur("isFocusedMmHGD", false)}
-                                    style={statusMmGH2 === true ? isFocusedMmHGD === true ? styles.inputIsFocused : styles.input : styles.inputError}
+                                    style={statusMmGH2 === true ? isFocusedMmHGD === true ? ComponentsStyle.inputIsFocused : ComponentsStyle.input : ComponentsStyle.inputError}
                                     onChangeText={(text) => this.handleChange("mmHGD", text)}
                                     placeholder="0"
                                     keyboardType="numeric"
@@ -337,8 +339,8 @@ class HealthData extends Component {
                                 <InputAccessoryView nativeID="textInput5" >
                                     <View style={styles.inputAccessory}>
                                         <View style={styles.chevronIcon}>
-                                            <Feather name="chevron-up" size={24} color="#3762FC" style={{ marginRight: 16 }} onPress={() => { this.textInput4.focus(); }} />
-                                            <Feather name="chevron-down" size={24} color="#C2D2E7" />
+                                            <Feather name="chevron-up" size={24} color={colors.persianBlue} style={{ marginRight: 16 }} onPress={() => { this.textInput4.focus(); }} />
+                                            <Feather name="chevron-down" size={24} color={colors.grey4} />
                                         </View>
                                         <View>
                                             <Pressable onPress={Keyboard.dismiss} >
@@ -349,26 +351,26 @@ class HealthData extends Component {
                                 </InputAccessoryView>
                                 {
                                     statusTextMmHG2 === false ?
-                                        <Text style={styles.errorText}>กรุณากรอกค่าตั้งแต่ 40 - 170 mmHG</Text>
+                                        <Text style={ComponentsStyle.textError}>กรุณากรอกค่าตั้งแต่ 40 - 170 mmHG</Text>
                                         : null
                                 }
 
                             </View>
                         </View>
+                        <View style={styles.areaViewButton}>
+                            {
+                                (mgDL !== null) && (mg !== null) && (bpm !== null) && (mmHGS !== null) && (mmHGD !== null) ?
+                                    <Pressable style={ComponentsStyle.button} onPress={() => this.submit()} >
+                                        <Text style={ComponentsStyle.textButton}>ถัดไป</Text>
+                                    </Pressable>
+                                    :
+                                    <Pressable s style={ComponentsStyle.buttonGrey} /* onPress={() =>  this.props.navigation.navigate("OnboardingResults")} */ >
+                                        <Text style={ComponentsStyle.textButtonGrey}>ถัดไป</Text>
+                                    </Pressable>
+                            }
+                        </View>
 
                     </ScrollView>
-                </View>
-                <View style={styles.areaViewButton}>
-                    {
-                        (mgDL !== null) && (mg !== null) && (bpm !== null) && (mmHGS !== null) && (mmHGD !== null) ?
-                            <Pressable style={styles.buttonBlue} onPress={() => this.submit()} >
-                                <Text style={styles.textButtonWhite}>ถัดไป</Text>
-                            </Pressable>
-                            :
-                            <Pressable s style={styles.buttonGrey} /* onPress={() =>  this.props.navigation.navigate("OnboardingResults")} */ >
-                                <Text style={styles.textButtonGrey}>ถัดไป</Text>
-                            </Pressable>
-                    }
                 </View>
             </SafeAreaView>
         )
@@ -380,7 +382,7 @@ const deviceWidth = Math.round(Dimensions.get('window').width);
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#FFFFFF",
+        backgroundColor: colors.white,
         alignItems: "center",
     },
     inputAccessory: {
@@ -389,7 +391,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         //justifyContent: 'flex-end',
         alignItems: 'center',
-        backgroundColor: '#F3F7FB',
+        backgroundColor: colors.grey7,
         paddingHorizontal: 16
     },
     chevronIcon: {
@@ -398,131 +400,57 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start'
     },
     textDoneButton: {
-        fontFamily: "IBMPlexSansThai-Medium",
-        color: "#3762FC",
-        fontSize: 16
+        fontFamily: "IBMPlexSansThai-Regular",
+        color: colors.persianBlue,
+        fontSize: ComponentsStyle.fontSize16
     },
     areaView: {
         width: "100%",
     },
     areaViewPag: {
-        padding: 10,
+        paddingHorizontal: 16
     },
     textHead: {
-        fontWeight: "bold",
-        fontSize: 24,
-        color: "#2A323C"
+        fontFamily: "IBMPlexSansThai-Bold",
+        fontSize: ComponentsStyle.fontSize24,
+        color: colors.grey1
     },
     textHeadMmHG: {
-        marginTop: 20,
-        fontWeight: "bold",
-        fontSize: 20,
-        color: "#3762FC",
+        marginTop: 24,
+        marginBottom: -16,
+        fontSize: ComponentsStyle.fontSize20,
+        color: colors.persianBlue,
     },
     textInputHead: {
-        marginTop: 10,
-        marginBottom: 10,
-        fontWeight: "bold",
-        fontSize: 16,
-        color: "#2A323C",
+        marginTop: 24,
+        marginBottom: 8,
+        fontFamily: "IBMPlexSansThai-Bold",
+        fontSize: ComponentsStyle.fontSize16,
+        color: colors.grey1,
     },
     viewRightTnput: {
         position: "relative",
 
     },
-    input: {
-        height: 56,
-        borderWidth: 1,
-        padding: 10,
-        borderRadius: 8,
-        borderColor: "#93a8c1",
-        color: "#2A323C",
-        backgroundColor: "#FFFFFF",
-        fontFamily: "IBMPlexSansThai-Medium",
-        position: "relative",
 
-    },
-    inputIsFocused: {
-        height: 56,
-        borderWidth: 1,
-        paddingLeft: 10,
-        borderRadius: 8,
-        borderColor: "#3762FC",
-        color: "#2A323C",
-        backgroundColor: "#FFFFFF",
-        fontFamily: "IBMPlexSansThai-Medium",
-        position: "relative",
-        alignContent: "center"
-    },
-    inputError: {
-        height: 56,
-        borderWidth: 1,
-        padding: 10,
-        borderRadius: 8,
-        borderColor: "#D43A3A",
-        color: "#2A323C",
-        backgroundColor: "#FFFFFF",
-        fontFamily: "IBMPlexSansThai-Medium",
-        position: "relative",
-
-    },
-    errorText: {
-        color: "#D43A3A",
-        alignItems: "flex-start",
-        fontFamily: "IBMPlexSansThai-Medium"
-    },
     textRightTnput: {
         position: "absolute",
-        fontSize: 16,
+        fontSize: ComponentsStyle.fontSize16,
         textAlign: "right",
         paddingRight: 20,
-        color: "#2A323C",
+        color: colors.grey1,
         marginTop: 16,
         zIndex: 1,
         right: 0
     },
     areaViewButton: {
-        flex: 1,
+        paddingHorizontal: 16,
         justifyContent: 'flex-end',
-        marginTop: 0,
+        marginTop: 49,
+        marginBottom: 40,
         width: "100%",
         alignItems: "center",
     },
-    buttonBlue: {
-        justifyContent: "flex-end",
-        width: "90%",
-        alignItems: 'center',
-        paddingVertical: 12,
-        paddingHorizontal: 32,
-        borderRadius: 4,
-        elevation: 3,
-        backgroundColor: '#3762FC',
-        borderRadius: 24,
-        height: 50,
-        marginBottom: 30,
-    },
-    buttonGrey: {
-        width: "90%",
-        alignItems: 'center',
-        paddingVertical: 12,
-        paddingHorizontal: 32,
-        borderRadius: 4,
-        elevation: 3,
-        backgroundColor: '#C2D2E7',
-        borderRadius: 24,
-        height: 50,
-        marginBottom: 30,
-    },
-    textButtonWhite: {
-        color: "#FFFFFF",
-        fontSize: 16,
-        fontFamily: "IBMPlexSansThai-Bold",
-    },
-    textButtonGrey: {
-        color: "#93A8C1",
-        fontSize: 16,
-        fontFamily: "IBMPlexSansThai-Bold",
-    }
 });
 
 const mapStateToProps = ({ personalDataUser }) => {

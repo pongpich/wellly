@@ -10,7 +10,6 @@ export default {
   grey6: '#93A8C1',
   grey7: '#F3F7FB',
   white: '#FFFFFF',
-  backdrop: '#2A323C',
   negative1: '#D43A3A',
   negative2: '#F6D8D8',
   negative3: '#FBEBEB',
