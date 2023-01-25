@@ -41,14 +41,15 @@ export default class Walkthrough extends Component {
     swiper() {
         const { swiperIndex } = this.state;
         return (
-            <Swiper style={styles.wrapper} showsButtons={false} showsPagination={false}
+            <Swiper style={styles.wrapper} showsButtons={false} showsPagination={true}
                 index={swiperIndex}
                 loop={false}
                 bounces={false}
                 automaticallyAdjustContentInsets={true}
                 onIndexChanged={this.onSwipe}
                 ref={'swiper'}
-
+                dot={<View style={{ backgroundColor: 'rgba(0,0,0,.2)', width: 8, height: 8, borderRadius: 4, marginLeft: 3, marginRight: 3, marginTop: 3, marginBottom: 40, }} />}
+                activeDot={<View style={{ backgroundColor: '#007aff', width: 8, height: 8, borderRadius: 4, marginLeft: 3, marginRight: 3, marginTop: 3, marginBottom: 40, }} />}
             >
                 <View style={styles.slide1} >
                     <Image
@@ -132,13 +133,13 @@ export default class Walkthrough extends Component {
                         this.swiper()
                     }
                 </View>
-                <View style={styles.boxView}>
+                {/* <View style={styles.boxView}>
                     <View style={styles.circle}>
                         <View style={swiperIndex == "0" ? styles.circleActive : styles.circleDot} />
                         <View style={swiperIndex == "1" ? styles.circleActive : styles.circleDot} />
                         <View style={swiperIndex == "2" ? styles.circleActive : styles.circleDot} />
                     </View>
-                </View>
+                </View> */}
                 <View style={styles.buttonView}>
                     {swiperIndex < 2 ?
                         <>
@@ -150,11 +151,11 @@ export default class Walkthrough extends Component {
                             </Pressable>
 
                         </> :
-                        <>
+                        <View style={{ flex: 1, justifyContent: "flex-end", marginBottom: 28 }}>
                             <Pressable style={ComponentsStyle.button} onPress={() => this.props.navigation.navigate("OnboardingName")} >
                                 <Text style={ComponentsStyle.textButton} >เริ่มกันเลย!</Text>
                             </Pressable>
-                        </>}
+                        </View>}
                 </View>
             </SafeAreaView >
         )
@@ -243,10 +244,10 @@ const styles = StyleSheet.create({
 
     buttonView: {
         paddingHorizontal: 16,
-        marginBottom: 40
+        height: 120
     },
     buttonCross: {
-        marginTop: 16,
+        marginTop: 21,
         width: "100%",
     },
     textCross: {
