@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { View, StyleSheet, Pressable, SafeAreaView, Image, ScrollView, TouchableOpacity, TextInput, Text, Linking, KeyboardAvoidingView, Platform, Dimensions, Modal, InputAccessoryView, Keyboard } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { healt } from "../redux/personalUser";
@@ -255,7 +256,7 @@ class HealthData extends Component {
         return (
             <SafeAreaView style={styles.container}>
                 <View style={styles.areaView}>
-                    <KeyboardAvoidingView behavior={Platform.OS === "ios" ? 'padding' : "height"}>
+                    <KeyboardAwareScrollView keyboardShouldPersistTaps='always'> 
                         <ScrollView keyboardShouldPersistTaps="always">
                             <View style={styles.areaViewPag}>
                                 <Text style={styles.textHead}>ข้อมูลสุขภาพ</Text>
@@ -439,7 +440,7 @@ class HealthData extends Component {
                                 }
                             </View>
                         </ScrollView>
-                    </KeyboardAvoidingView>
+                    </KeyboardAwareScrollView>
                 </View>
             </SafeAreaView >
         )

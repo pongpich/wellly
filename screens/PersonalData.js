@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { View, StyleSheet, Pressable, SafeAreaView, Image, ScrollView, TouchableOpacity, TextInput, Text, Linking, KeyboardAvoidingView, Platform, Dimensions, Modal, InputAccessoryView, Button, Keyboard } from 'react-native';
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
 import { personal } from "../redux/personalUser";
@@ -192,7 +193,7 @@ class PersonalData extends Component {
 
         return (
             <SafeAreaView style={styles.container}>
-                <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === "ios" ? 'padding' : "height"}>
+                <KeyboardAwareScrollView keyboardShouldPersistTaps='always'> 
                     <ScrollView style={styles.areaView} keyboardShouldPersistTaps="always">
                         <View>
                             <Text style={styles.textHead}>กรอกข้อมูลส่วนตัวเพื่อการคำนวณโปรแกรมที่แม่นยำ</Text>
@@ -375,7 +376,7 @@ class PersonalData extends Component {
                             }
                         </View>
                     </ScrollView>
-                </KeyboardAvoidingView>
+                </KeyboardAwareScrollView>
             </SafeAreaView>
         )
     }
