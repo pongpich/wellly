@@ -48,8 +48,8 @@ export default class Walkthrough extends Component {
                 automaticallyAdjustContentInsets={true}
                 onIndexChanged={this.onSwipe}
                 ref={'swiper'}
-                dot={<View style={{ backgroundColor: 'rgba(0,0,0,.2)', width: 8, height: 8, borderRadius: 4, marginLeft: 3, marginRight: 3, marginTop: 3, marginBottom: 40, }} />}
-                activeDot={<View style={{ backgroundColor: '#007aff', width: 8, height: 8, borderRadius: 4, marginLeft: 3, marginRight: 3, marginTop: 3, marginBottom: 40, }} />}
+                dot={<View style={{ backgroundColor: 'rgba(0,0,0,.2)', width: 8, height: 8, borderRadius: 4, marginLeft: 3, marginRight: 3, marginTop: 3, marginBottom: 70, }} />}
+                activeDot={<View style={{ backgroundColor: '#007aff', width: 8, height: 8, borderRadius: 4, marginLeft: 3, marginRight: 3, marginTop: 3, marginBottom: 70, }} />}
             >
                 <View style={styles.slide1} >
                     <Image
@@ -87,41 +87,6 @@ export default class Walkthrough extends Component {
         )
 
     }
-    /* 
-        <SafeAreaView style={styles.container}>
-        <View style={styles.boxView}>
-            <View style={styles.swiperBox}>
-                {
-                    this.swiper()
-                }
-            </View>
-            <View style={styles.circle}>
-                <View style={swiperIndex == "0" ? styles.circleActive : styles.circleDot} />
-                <View style={swiperIndex == "1" ? styles.circleActive : styles.circleDot} />
-                <View style={swiperIndex == "2" ? styles.circleActive : styles.circleDot} />
-            </View>
-    
-            <View style={styles.buttonView}>
-                {swiperIndex < 2 ?
-                    <>
-                        <Pressable style={ComponentsStyle.button} onPress={() => this.handleChange("swiperIndex", null)} >
-                            <Text style={ComponentsStyle.textButton} >ถัดไป</Text>
-                        </Pressable>
-                        <Pressable style={styles.buttonCross} onPress={() => this.handleChange("swiperIndex", 2)} >
-                            <Text style={styles.textCross}>ข้าม</Text>
-                        </Pressable>
-    
-                    </> :
-                    <>
-                        <Pressable style={ComponentsStyle.button} onPress={() => this.props.navigation.navigate("OnboardingName")} >
-                            <Text style={ComponentsStyle.textButton} >เริ่มกันเลย!</Text>
-                        </Pressable>
-                    </>}
-            </View>
-        </View >
-    
-    </SafeAreaView > */
-
 
 
     render() {

@@ -112,7 +112,7 @@ export default StyleSheet.create({
         elevation: 3,
         backgroundColor: colors.persianBlue,
         borderRadius: 24,
-        height: 50
+        height: 48
     },
     textButton: {
         color: colors.white,

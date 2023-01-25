@@ -152,11 +152,12 @@ const styles = StyleSheet.create({
         width: "100%",
         flexDirection: "row",
         justifyContent: "space-between",
-        paddingHorizontal: 20
+        paddingHorizontal: 16,
     },
     accept: {
         width: "90%",
-
+        fontFamily: "IBMPlexSansThai-Regular",
+        fontSize: 16
     },
 
     whatName: {
