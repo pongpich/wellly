@@ -40,7 +40,6 @@ export default class Walkthrough extends Component {
 
     swiper() {
         const { swiperIndex } = this.state;
-        console.log("swiperIndex", swiperIndex);
         return (
             <Swiper style={styles.wrapper} showsButtons={false} showsPagination={false}
                 index={swiperIndex}
@@ -131,16 +130,13 @@ export default class Walkthrough extends Component {
 
 
 const devicehHeight = Math.round(Dimensions.get('window').height);
-console.log("deviceWidth", devicehHeight);
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: "space-between"
     },
     wrapper: {
-        /*    marginTop: (deviceWidth > 668) ? "5%" : "20%", */
         marginTop: (devicehHeight > 668) ? "20%" : "10%",
-        /*     marginTop: "10%", */
     },
     slide1: {
         justifyContent: 'center',
