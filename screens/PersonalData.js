@@ -192,188 +192,190 @@ class PersonalData extends Component {
 
         return (
             <SafeAreaView style={styles.container}>
-                <ScrollView style={styles.areaView} keyboardShouldPersistTaps="always">
-                    <View>
-                        <Text style={styles.textHead}>กรอกข้อมูลส่วนตัวเพื่อการคำนวณโปรแกรมที่แม่นยำ</Text>
-                        <Text style={styles.textInputHead}>เพศ</Text>
-                        <View style={styles.radioFormView}>
-                            <View style={styles.radioFormIcon}>
-                                <TouchableOpacity onPress={() => this.handleFocus("sex", "ชาย")}>
-                                    <Image
-                                        style={styles.iconRadio}
-                                        source={sex == "ชาย" ? require('../assets/images/icon/radioActive.png') : require('../assets/images/icon/radio.png')}
-                                    />
-                                </TouchableOpacity>
+                <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === "ios" ? 'padding' : "height"}>
+                    <ScrollView style={styles.areaView} keyboardShouldPersistTaps="always">
+                        <View>
+                            <Text style={styles.textHead}>กรอกข้อมูลส่วนตัวเพื่อการคำนวณโปรแกรมที่แม่นยำ</Text>
+                            <Text style={styles.textInputHead}>เพศ</Text>
+                            <View style={styles.radioFormView}>
+                                <View style={styles.radioFormIcon}>
+                                    <TouchableOpacity onPress={() => this.handleFocus("sex", "ชาย")}>
+                                        <Image
+                                            style={styles.iconRadio}
+                                            source={sex == "ชาย" ? require('../assets/images/icon/radioActive.png') : require('../assets/images/icon/radio.png')}
+                                        />
+                                    </TouchableOpacity>
 
-                                <Text style={styles.radioFormText}>ชาย</Text>
+                                    <Text style={styles.radioFormText}>ชาย</Text>
+                                </View>
+                                <View style={styles.radioFormIcon2}>
+                                    <TouchableOpacity onPress={() => this.handleFocus("sex", "หญิง")}>
+                                        <Image
+                                            style={styles.iconRadio}
+                                            source={sex == "หญิง" ? require('../assets/images/icon/radioActive.png') : require('../assets/images/icon/radio.png')}
+                                        />
+                                    </TouchableOpacity>
+                                    <Text style={styles.radioFormText}>หญิง</Text>
+                                </View>
                             </View>
-                            <View style={styles.radioFormIcon2}>
-                                <TouchableOpacity onPress={() => this.handleFocus("sex", "หญิง")}>
-                                    <Image
-                                        style={styles.iconRadio}
-                                        source={sex == "หญิง" ? require('../assets/images/icon/radioActive.png') : require('../assets/images/icon/radio.png')}
-                                    />
-                                </TouchableOpacity>
-                                <Text style={styles.radioFormText}>หญิง</Text>
+
+                            <Text style={styles.textInputHead}>อายุ</Text>
+                            <View style={styles.viewRightTnput}>
+                                <Text style={styles.textRightTnput}>ปี</Text>
+                                <TextInput
+                                    onFocus={(text) => this.handleFocus("isFocusedAge", true)}
+                                    onBlur={(text) => this.handleBlur("isFocusedAge", false)}
+                                    style={statusAge === true ? isFocusedAge === true ? ComponentsStyle.inputIsFocused : ComponentsStyle.input : ComponentsStyle.inputError}
+
+                                    onChangeText={(text) => this.handleChange("age", text)}
+                                    placeholder="ระบุอายุ"
+                                    value={age}
+                                    keyboardType="number-pad"
+                                    inputAccessoryViewID="textInput1"
+                                    ref={(input) => { this.textInput1 = input; }}
+                                />
+                                <InputAccessoryView nativeID="textInput1" >
+                                    <View style={styles.inputAccessory}>
+                                        <View style={styles.chevronIcon}>
+                                            <Feather name="chevron-up" size={24} color={colors.grey4} style={{ marginRight: 16 }} />
+                                            <Feather name="chevron-down" size={24} color={colors.persianBlue} onPress={() => { this.textInput2.focus(); }} />
+                                        </View>
+                                        <View>
+                                            <Pressable onPress={Keyboard.dismiss} >
+                                                <Text style={styles.textDoneButton}>เสร็จ</Text>
+                                            </Pressable>
+                                        </View>
+                                    </View>
+                                </InputAccessoryView>
+                                {
+                                    statusTextAge === 0 ?
+                                        <Text style={ComponentsStyle.textError}>กรุณากรอกตามความเป็นจริง</Text> :
+                                        statusTextAge === 1 ?
+                                            <Text style={ComponentsStyle.textError}>โปรแกรมรองรับผู้ใช้ที่มีอายุระหว่าง 18-65 ปี เท่านั้น</Text>
+                                            : null
+                                }
+                            </View>
+                            <Text style={styles.textInputHead}>น้ำหนัก</Text>
+                            <View style={styles.viewRightTnput}>
+                                <Text style={styles.textRightTnput}>กิโลกรัม</Text>
+                                <TextInput
+                                    onFocus={(text) => this.handleFocus("isFocusedWeight", true)}
+                                    onBlur={(text) => this.handleBlur("isFocusedWeight", false)}
+                                    style={statusWeight === true ? isFocusedWeight === true ? ComponentsStyle.inputIsFocused : ComponentsStyle.input : ComponentsStyle.inputError}
+                                    onChangeText={(text) => this.handleChange("weight", text)}
+                                    placeholder="0"
+                                    keyboardType="numeric"
+                                    inputAccessoryViewID="textInput2"
+                                    ref={(input) => { this.textInput2 = input; }}
+                                />
+                                <InputAccessoryView nativeID="textInput2" >
+                                    <View style={styles.inputAccessory}>
+                                        <View style={styles.chevronIcon}>
+                                            <Feather name="chevron-up" size={24} color={colors.persianBlue} style={{ marginRight: 16 }} onPress={() => { this.textInput1.focus(); }} />
+                                            <Feather name="chevron-down" size={24} color={colors.persianBlue} onPress={() => { this.textInput3.focus(); }} />
+                                        </View>
+                                        <View>
+                                            <Pressable onPress={Keyboard.dismiss} >
+                                                <Text style={styles.textDoneButton}>เสร็จ</Text>
+                                            </Pressable>
+                                        </View>
+                                    </View>
+                                </InputAccessoryView>
+                                {
+                                    statusTextWeight === 0 ?
+                                        <Text style={ComponentsStyle.textError}>กรุณากรอกค่าตั้งแต่ 1 ขึ้นไป</Text>
+                                        :
+                                        statusTextWeight === 1 ?
+                                            <Text style={ComponentsStyle.textError}>โปรแกรมรองรับผู้ใช้ที่มีน้ำหนักระหว่าง 30-250  กิโลกรัม เท่านั้น</Text>
+                                            : null
+                                }
+
+
+                            </View>
+                            <Text style={styles.textInputHead}>ส่วนสูง</Text>
+                            <View style={styles.viewRightTnput}>
+                                <Text style={styles.textRightTnput}>เซนติเมตร</Text>
+                                <TextInput
+                                    onFocus={(text) => this.handleFocus("isFocusedHeight", true)}
+                                    onBlur={(text) => this.handleBlur("isFocusedHeight", false)}
+                                    style={statusHeight === true ? isFocusedHeight === true ? ComponentsStyle.inputIsFocused : ComponentsStyle.input : ComponentsStyle.inputError}
+                                    onChangeText={(text) => this.handleChange("height", text)}
+                                    placeholder="0"
+                                    keyboardType="numeric"
+                                    inputAccessoryViewID="textInput3"
+                                    ref={(input) => { this.textInput3 = input; }}
+                                />
+                                <InputAccessoryView nativeID="textInput3" >
+                                    <View style={styles.inputAccessory}>
+                                        <View style={styles.chevronIcon}>
+                                            <Feather name="chevron-up" size={24} color={colors.persianBlue} style={{ marginRight: 16 }} onPress={() => { this.textInput2.focus(); }} />
+                                            <Feather name="chevron-down" size={24} color={colors.grey4} />
+                                        </View>
+                                        <View>
+                                            <Pressable onPress={Keyboard.dismiss} >
+                                                <Text style={styles.textDoneButton}>เสร็จ</Text>
+                                            </Pressable>
+                                        </View>
+                                    </View>
+                                </InputAccessoryView>
+                                {
+                                    statusTextHeight === 0 ?
+                                        <Text style={ComponentsStyle.textError}>กรุณากรอกค่าตั้งแต่ 100 ขึ้นไป</Text>
+                                        :
+                                        statusTextHeight === 1 ?
+                                            <Text style={ComponentsStyle.textError}>โปรแกรมรองรับผู้ใช้ที่มีส่วนสูงระหว่าง 100-280 {"\n"}เซนติเมตร เท่านั้น</Text>
+                                            : null
+                                }
+
+
+                            </View>
+                            <Text style={styles.textInputHead}>ออกกำลังกายบ่อยแค่ไหน</Text>
+                            <View style={styles.radioFormView}>
+                                <View style={styles.radioFormIcon}>
+                                    <TouchableOpacity onPress={() => this.handleFocus("exercise", "ประจำ")}>
+                                        <Image
+                                            style={styles.iconRadio}
+                                            source={exercise == "ประจำ" ? require('../assets/images/icon/radioActive.png') : require('../assets/images/icon/radio.png')}
+                                        />
+                                    </TouchableOpacity>
+
+                                    <Text style={styles.radioFormText}>ประจำ</Text>
+                                </View>
+                                <View style={styles.radioFormIcon2}>
+                                    <TouchableOpacity onPress={() => this.handleFocus("exercise", "บางครั้ง")}>
+                                        <Image
+                                            style={styles.iconRadio}
+                                            source={exercise == "บางครั้ง" ? require('../assets/images/icon/radioActive.png') : require('../assets/images/icon/radio.png')}
+                                        />
+                                    </TouchableOpacity>
+                                    <Text style={styles.radioFormText}>บางครั้ง</Text>
+                                </View>
+                                <View style={styles.radioFormIcon2}>
+                                    <TouchableOpacity onPress={() => this.handleFocus("exercise", "ไม่เลย")}>
+                                        <Image
+                                            style={styles.iconRadio}
+                                            source={exercise == "ไม่เลย" ? require('../assets/images/icon/radioActive.png') : require('../assets/images/icon/radio.png')}
+                                        />
+                                    </TouchableOpacity>
+                                    <Text style={styles.radioFormText}>ไม่เลย</Text>
+                                </View>
                             </View>
                         </View>
 
-                        <Text style={styles.textInputHead}>อายุ</Text>
-                        <View style={styles.viewRightTnput}>
-                            <Text style={styles.textRightTnput}>ปี</Text>
-                            <TextInput
-                                onFocus={(text) => this.handleFocus("isFocusedAge", true)}
-                                onBlur={(text) => this.handleBlur("isFocusedAge", false)}
-                                style={statusAge === true ? isFocusedAge === true ? ComponentsStyle.inputIsFocused : ComponentsStyle.input : ComponentsStyle.inputError}
-
-                                onChangeText={(text) => this.handleChange("age", text)}
-                                placeholder="ระบุอายุ"
-                                value={age}
-                                keyboardType="number-pad"
-                                inputAccessoryViewID="textInput1"
-                                ref={(input) => { this.textInput1 = input; }}
-                            />
-                            <InputAccessoryView nativeID="textInput1" >
-                                <View style={styles.inputAccessory}>
-                                    <View style={styles.chevronIcon}>
-                                        <Feather name="chevron-up" size={24} color={colors.grey4} style={{ marginRight: 16 }} />
-                                        <Feather name="chevron-down" size={24} color={colors.persianBlue} onPress={() => { this.textInput2.focus(); }} />
-                                    </View>
-                                    <View>
-                                        <Pressable onPress={Keyboard.dismiss} >
-                                            <Text style={styles.textDoneButton}>เสร็จ</Text>
-                                        </Pressable>
-                                    </View>
-                                </View>
-                            </InputAccessoryView>
+                        <View style={styles.areaViewButton}>
                             {
-                                statusTextAge === 0 ?
-                                    <Text style={ComponentsStyle.textError}>กรุณากรอกตามความเป็นจริง</Text> :
-                                    statusTextAge === 1 ?
-                                        <Text style={ComponentsStyle.textError}>โปรแกรมรองรับผู้ใช้ที่มีอายุระหว่าง 18-65 ปี เท่านั้น</Text>
-                                        : null
-                            }
-                        </View>
-                        <Text style={styles.textInputHead}>น้ำหนัก</Text>
-                        <View style={styles.viewRightTnput}>
-                            <Text style={styles.textRightTnput}>กิโลกรัม</Text>
-                            <TextInput
-                                onFocus={(text) => this.handleFocus("isFocusedWeight", true)}
-                                onBlur={(text) => this.handleBlur("isFocusedWeight", false)}
-                                style={statusWeight === true ? isFocusedWeight === true ? ComponentsStyle.inputIsFocused : ComponentsStyle.input : ComponentsStyle.inputError}
-                                onChangeText={(text) => this.handleChange("weight", text)}
-                                placeholder="0"
-                                keyboardType="numeric"
-                                inputAccessoryViewID="textInput2"
-                                ref={(input) => { this.textInput2 = input; }}
-                            />
-                            <InputAccessoryView nativeID="textInput2" >
-                                <View style={styles.inputAccessory}>
-                                    <View style={styles.chevronIcon}>
-                                        <Feather name="chevron-up" size={24} color={colors.persianBlue} style={{ marginRight: 16 }} onPress={() => { this.textInput1.focus(); }} />
-                                        <Feather name="chevron-down" size={24} color={colors.persianBlue} onPress={() => { this.textInput3.focus(); }} />
-                                    </View>
-                                    <View>
-                                        <Pressable onPress={Keyboard.dismiss} >
-                                            <Text style={styles.textDoneButton}>เสร็จ</Text>
-                                        </Pressable>
-                                    </View>
-                                </View>
-                            </InputAccessoryView>
-                            {
-                                statusTextWeight === 0 ?
-                                    <Text style={ComponentsStyle.textError}>กรุณากรอกค่าตั้งแต่ 1 ขึ้นไป</Text>
+                                (sex !== null) && (age !== null) && (weight !== null) && (height !== null) && (exercise !== null) ?
+                                    <Pressable style={ComponentsStyle.button} onPress={() => this.submit()} >
+                                        <Text style={ComponentsStyle.textButton}>ถัดไป</Text>
+                                    </Pressable>
                                     :
-                                    statusTextWeight === 1 ?
-                                        <Text style={ComponentsStyle.textError}>โปรแกรมรองรับผู้ใช้ที่มีน้ำหนักระหว่าง 30-250  กิโลกรัม เท่านั้น</Text>
-                                        : null
+                                    <Pressable s style={ComponentsStyle.buttonGrey} /* onPress={() =>  this.props.navigation.navigate("HealthData")} */ >
+                                        <Text style={ComponentsStyle.textButtonGrey}>ถัดไป</Text>
+                                    </Pressable>
                             }
-
-
                         </View>
-                        <Text style={styles.textInputHead}>ส่วนสูง</Text>
-                        <View style={styles.viewRightTnput}>
-                            <Text style={styles.textRightTnput}>เซนติเมตร</Text>
-                            <TextInput
-                                onFocus={(text) => this.handleFocus("isFocusedHeight", true)}
-                                onBlur={(text) => this.handleBlur("isFocusedHeight", false)}
-                                style={statusHeight === true ? isFocusedHeight === true ? ComponentsStyle.inputIsFocused : ComponentsStyle.input : ComponentsStyle.inputError}
-                                onChangeText={(text) => this.handleChange("height", text)}
-                                placeholder="0"
-                                keyboardType="numeric"
-                                inputAccessoryViewID="textInput3"
-                                ref={(input) => { this.textInput3 = input; }}
-                            />
-                            <InputAccessoryView nativeID="textInput3" >
-                                <View style={styles.inputAccessory}>
-                                    <View style={styles.chevronIcon}>
-                                        <Feather name="chevron-up" size={24} color={colors.persianBlue} style={{ marginRight: 16 }} onPress={() => { this.textInput2.focus(); }} />
-                                        <Feather name="chevron-down" size={24} color={colors.grey4} />
-                                    </View>
-                                    <View>
-                                        <Pressable onPress={Keyboard.dismiss} >
-                                            <Text style={styles.textDoneButton}>เสร็จ</Text>
-                                        </Pressable>
-                                    </View>
-                                </View>
-                            </InputAccessoryView>
-                            {
-                                statusTextHeight === 0 ?
-                                    <Text style={ComponentsStyle.textError}>กรุณากรอกค่าตั้งแต่ 100 ขึ้นไป</Text>
-                                    :
-                                    statusTextHeight === 1 ?
-                                        <Text style={ComponentsStyle.textError}>โปรแกรมรองรับผู้ใช้ที่มีส่วนสูงระหว่าง 100-280 {"\n"}เซนติเมตร เท่านั้น</Text>
-                                        : null
-                            }
-
-
-                        </View>
-                        <Text style={styles.textInputHead}>ออกกำลังกายบ่อยแค่ไหน</Text>
-                        <View style={styles.radioFormView}>
-                            <View style={styles.radioFormIcon}>
-                                <TouchableOpacity onPress={() => this.handleFocus("exercise", "ประจำ")}>
-                                    <Image
-                                        style={styles.iconRadio}
-                                        source={exercise == "ประจำ" ? require('../assets/images/icon/radioActive.png') : require('../assets/images/icon/radio.png')}
-                                    />
-                                </TouchableOpacity>
-
-                                <Text style={styles.radioFormText}>ประจำ</Text>
-                            </View>
-                            <View style={styles.radioFormIcon2}>
-                                <TouchableOpacity onPress={() => this.handleFocus("exercise", "บางครั้ง")}>
-                                    <Image
-                                        style={styles.iconRadio}
-                                        source={exercise == "บางครั้ง" ? require('../assets/images/icon/radioActive.png') : require('../assets/images/icon/radio.png')}
-                                    />
-                                </TouchableOpacity>
-                                <Text style={styles.radioFormText}>บางครั้ง</Text>
-                            </View>
-                            <View style={styles.radioFormIcon2}>
-                                <TouchableOpacity onPress={() => this.handleFocus("exercise", "ไม่เลย")}>
-                                    <Image
-                                        style={styles.iconRadio}
-                                        source={exercise == "ไม่เลย" ? require('../assets/images/icon/radioActive.png') : require('../assets/images/icon/radio.png')}
-                                    />
-                                </TouchableOpacity>
-                                <Text style={styles.radioFormText}>ไม่เลย</Text>
-                            </View>
-                        </View>
-                    </View>
-
-                    <View style={styles.areaViewButton}>
-                        {
-                            (sex !== null) && (age !== null) && (weight !== null) && (height !== null) && (exercise !== null) ?
-                                <Pressable style={ComponentsStyle.button} onPress={() => this.submit()} >
-                                    <Text style={ComponentsStyle.textButton}>ถัดไป</Text>
-                                </Pressable>
-                                :
-                                <Pressable s style={ComponentsStyle.buttonGrey} /* onPress={() =>  this.props.navigation.navigate("HealthData")} */ >
-                                    <Text style={ComponentsStyle.textButtonGrey}>ถัดไป</Text>
-                                </Pressable>
-                        }
-                    </View>
-                </ScrollView>
+                    </ScrollView>
+                </KeyboardAvoidingView>
             </SafeAreaView>
         )
     }

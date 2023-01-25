@@ -255,192 +255,193 @@ class HealthData extends Component {
         return (
             <SafeAreaView style={styles.container}>
                 <View style={styles.areaView}>
-                    <ScrollView keyboardShouldPersistTaps="always">
-                        <View style={styles.areaViewPag}>
-                            <Text style={styles.textHead}>ข้อมูลสุขภาพ</Text>
-                            <Text style={styles.textInputHead}>น้ำตาลในเลือด</Text>
-                            <View style={styles.viewRightTnput}>
-                                <Text style={styles.textRightTnput}>mg/dL</Text>
-                                <TextInput
-                                    onFocus={(text) => this.handleFocus("isFocusedMgDL", true)}
-                                    onBlur={(text) => this.handleBlur("isFocusedMgDL", false)}
-                                    style={statusMdDl === true ? isFocusedMgDL === true ? ComponentsStyle.inputIsFocused : ComponentsStyle.input : ComponentsStyle.inputError}
-                                    onChangeText={(text) => this.handleChange("mgDL", text)}
-                                    placeholder="0"
-                                    keyboardType="numeric"
-                                    inputAccessoryViewID="textInput1"
-                                    ref={(input) => { this.textInput1 = input; }}
-                                />
-                                <InputAccessoryView nativeID="textInput1" >
-                                    <View style={styles.inputAccessory}>
-                                        <View style={styles.chevronIcon}>
-                                            <Feather name="chevron-up" size={24} color={colors.grey4} style={{ marginRight: 16 }} />
-                                            <Feather name="chevron-down" size={24} color={colors.persianBlue} onPress={() => { this.textInput2.focus(); }} />
+                    <KeyboardAvoidingView behavior={Platform.OS === "ios" ? 'padding' : "height"}>
+                        <ScrollView keyboardShouldPersistTaps="always">
+                            <View style={styles.areaViewPag}>
+                                <Text style={styles.textHead}>ข้อมูลสุขภาพ</Text>
+                                <Text style={styles.textInputHead}>น้ำตาลในเลือด</Text>
+                                <View style={styles.viewRightTnput}>
+                                    <Text style={styles.textRightTnput}>mg/dL</Text>
+                                    <TextInput
+                                        onFocus={(text) => this.handleFocus("isFocusedMgDL", true)}
+                                        onBlur={(text) => this.handleBlur("isFocusedMgDL", false)}
+                                        style={statusMdDl === true ? isFocusedMgDL === true ? ComponentsStyle.inputIsFocused : ComponentsStyle.input : ComponentsStyle.inputError}
+                                        onChangeText={(text) => this.handleChange("mgDL", text)}
+                                        placeholder="0"
+                                        keyboardType="numeric"
+                                        inputAccessoryViewID="textInput1"
+                                        ref={(input) => { this.textInput1 = input; }}
+                                    />
+                                    <InputAccessoryView nativeID="textInput1" >
+                                        <View style={styles.inputAccessory}>
+                                            <View style={styles.chevronIcon}>
+                                                <Feather name="chevron-up" size={24} color={colors.grey4} style={{ marginRight: 16 }} />
+                                                <Feather name="chevron-down" size={24} color={colors.persianBlue} onPress={() => { this.textInput2.focus(); }} />
+                                            </View>
+                                            <View>
+                                                <Pressable onPress={Keyboard.dismiss} >
+                                                    <Text style={styles.textDoneButton}>เสร็จ</Text>
+                                                </Pressable>
+                                            </View>
                                         </View>
-                                        <View>
-                                            <Pressable onPress={Keyboard.dismiss} >
-                                                <Text style={styles.textDoneButton}>เสร็จ</Text>
-                                            </Pressable>
-                                        </View>
-                                    </View>
-                                </InputAccessoryView>
-                                {
-                                    statusTextmg_dL === false ?
-                                        <Text style={ComponentsStyle.textError}>กรุณากรอกค่าตั้งแต่ 4 - 1000 mg/dlL.</Text>
-                                        : null
-                                }
+                                    </InputAccessoryView>
+                                    {
+                                        statusTextmg_dL === false ?
+                                            <Text style={ComponentsStyle.textError}>กรุณากรอกค่าตั้งแต่ 4 - 1000 mg/dlL.</Text>
+                                            : null
+                                    }
 
+                                </View>
+                                <Text style={styles.textInputHead}>ค่าน้ำตาลเฉลี่ยสะสมในเลือด (HbA1c)</Text>
+                                <View style={styles.viewRightTnput}>
+                                    <Text style={styles.textRightTnput}>mg%</Text>
+                                    <TextInput
+                                        onFocus={(text) => this.handleFocus("isFocusedMg", true)}
+                                        onBlur={(text) => this.handleBlur("isFocusedMg", false)}
+                                        style={statusMg === true ? isFocusedMg === true ? ComponentsStyle.inputIsFocused : ComponentsStyle.input : ComponentsStyle.inputError}
+                                        onChangeText={(text) => this.handleChange("mg", text)}
+                                        placeholder="0"
+                                        keyboardType="numeric"
+                                        inputAccessoryViewID="textInput2"
+                                        ref={(input) => { this.textInput2 = input; }}
+                                    />
+                                    <InputAccessoryView nativeID="textInput2" >
+                                        <View style={styles.inputAccessory}>
+                                            <View style={styles.chevronIcon}>
+                                                <Feather name="chevron-up" size={24} color={colors.persianBlue} style={{ marginRight: 16 }} onPress={() => { this.textInput1.focus(); }} />
+                                                <Feather name="chevron-down" size={24} color={colors.persianBlue} onPress={() => { this.textInput3.focus(); }} />
+                                            </View>
+                                            <View>
+                                                <Pressable onPress={Keyboard.dismiss} >
+                                                    <Text style={styles.textDoneButton}>เสร็จ</Text>
+                                                </Pressable>
+                                            </View>
+                                        </View>
+                                    </InputAccessoryView>
+                                    {
+                                        statusTextMg === false ?
+                                            <Text style={ComponentsStyle.textError}>กรุณากรอกค่าตั้งแต่ 3.5 - 19 mg%</Text>
+                                            : null
+                                    }
+
+                                </View>
+                                <Text style={styles.textInputHead}>อัตราการเต้นของหัวใจขณะพัก</Text>
+                                <View style={styles.viewRightTnput}>
+                                    <Text style={styles.textRightTnput}>bpm</Text>
+                                    <TextInput
+                                        onFocus={(text) => this.handleFocus("isFocusedBpm", true)}
+                                        onBlur={(text) => this.handleBlur("isFocusedBpm", false)}
+                                        style={statusBpm === true ? isFocusedBpm === true ? ComponentsStyle.inputIsFocused : ComponentsStyle.input : ComponentsStyle.inputError}
+                                        onChangeText={(text) => this.handleChange("bpm", text)}
+                                        placeholder="0"
+                                        keyboardType="numeric"
+                                        inputAccessoryViewID="textInput3"
+                                        ref={(input) => { this.textInput3 = input; }}
+                                    />
+                                    <InputAccessoryView nativeID="textInput3" >
+                                        <View style={styles.inputAccessory}>
+                                            <View style={styles.chevronIcon}>
+                                                <Feather name="chevron-up" size={24} color={colors.persianBlue} style={{ marginRight: 16 }} onPress={() => { this.textInput2.focus(); }} />
+                                                <Feather name="chevron-down" size={24} color={colors.persianBlue} onPress={() => { this.textInput4.focus(); }} />
+                                            </View>
+                                            <View>
+                                                <Pressable onPress={Keyboard.dismiss} >
+                                                    <Text style={styles.textDoneButton}>เสร็จ</Text>
+                                                </Pressable>
+                                            </View>
+                                        </View>
+                                    </InputAccessoryView>
+                                    {
+                                        statusTextBpm === false ?
+                                            <Text style={ComponentsStyle.textError}>กรุณากรอกค่าตั้งแต่ 40-160 bpm</Text>
+                                            : null
+                                    }
+
+                                </View>
+                                <Text style={styles.textHeadMmHG}>ความดันโลหิต</Text>
+                                <Text style={styles.textInputHead}>Systolic (ค่าสูงสุด)</Text>
+                                <View style={styles.viewRightTnput}>
+                                    <Text style={styles.textRightTnput}>mmHG</Text>
+                                    <TextInput
+                                        onFocus={(text) => this.handleFocus("isFocusedMmHGS", true)}
+                                        onBlur={(text) => this.handleBlur("isFocusedMmHGS", false)}
+                                        style={statusMmGH1 === true ? isFocusedMmHGS === true ? ComponentsStyle.inputIsFocused : ComponentsStyle.input : ComponentsStyle.inputError}
+                                        onChangeText={(text) => this.handleChange("mmHGS", text)}
+                                        placeholder="0"
+                                        keyboardType="numeric"
+                                        inputAccessoryViewID="textInput4"
+                                        ref={(input) => { this.textInput4 = input; }}
+                                    />
+                                    <InputAccessoryView nativeID="textInput4" >
+                                        <View style={styles.inputAccessory}>
+                                            <View style={styles.chevronIcon}>
+                                                <Feather name="chevron-up" size={24} color={colors.persianBlue} style={{ marginRight: 16 }} onPress={() => { this.textInput3.focus(); }} />
+                                                <Feather name="chevron-down" size={24} color={colors.persianBlue} onPress={() => { this.textInput5.focus(); }} />
+                                            </View>
+                                            <View>
+                                                <Pressable onPress={Keyboard.dismiss} >
+                                                    <Text style={styles.textDoneButton}>เสร็จ</Text>
+                                                </Pressable>
+                                            </View>
+                                        </View>
+                                    </InputAccessoryView>
+                                    {
+                                        statusTextMmHG1 === false ?
+                                            <Text style={ComponentsStyle.textError}>กรุณากรอกค่าตั้งแต่ 40 - 190 mmHG</Text>
+                                            : null
+                                    }
+
+                                </View>
+                                <Text style={styles.textInputHead}>Diastolic (ค่าต่ำสุด)</Text>
+                                <View style={styles.viewRightTnput}>
+                                    <Text style={styles.textRightTnput}>mmHG</Text>
+                                    <TextInput
+                                        onFocus={(text) => this.handleFocus("isFocusedMmHGD", true)}
+                                        onBlur={(text) => this.handleBlur("isFocusedMmHGD", false)}
+                                        style={statusMmGH2 === true ? isFocusedMmHGD === true ? ComponentsStyle.inputIsFocused : ComponentsStyle.input : ComponentsStyle.inputError}
+                                        onChangeText={(text) => this.handleChange("mmHGD", text)}
+                                        placeholder="0"
+                                        keyboardType="numeric"
+                                        inputAccessoryViewID="textInput5"
+                                        ref={(input) => { this.textInput5 = input; }}
+                                    />
+                                    <InputAccessoryView nativeID="textInput5" >
+                                        <View style={styles.inputAccessory}>
+                                            <View style={styles.chevronIcon}>
+                                                <Feather name="chevron-up" size={24} color={colors.persianBlue} style={{ marginRight: 16 }} onPress={() => { this.textInput4.focus(); }} />
+                                                <Feather name="chevron-down" size={24} color={colors.grey4} />
+                                            </View>
+                                            <View>
+                                                <Pressable onPress={Keyboard.dismiss} >
+                                                    <Text style={styles.textDoneButton}>เสร็จ</Text>
+                                                </Pressable>
+                                            </View>
+                                        </View>
+                                    </InputAccessoryView>
+                                    {
+                                        statusTextMmHG2 === false ?
+                                            <Text style={ComponentsStyle.textError}>กรุณากรอกค่าตั้งแต่ 40 - 170 mmHG</Text>
+                                            : null
+                                    }
+
+                                </View>
                             </View>
-                            <Text style={styles.textInputHead}>ค่าน้ำตาลเฉลี่ยสะสมในเลือด (HbA1c)</Text>
-                            <View style={styles.viewRightTnput}>
-                                <Text style={styles.textRightTnput}>mg%</Text>
-                                <TextInput
-                                    onFocus={(text) => this.handleFocus("isFocusedMg", true)}
-                                    onBlur={(text) => this.handleBlur("isFocusedMg", false)}
-                                    style={statusMg === true ? isFocusedMg === true ? ComponentsStyle.inputIsFocused : ComponentsStyle.input : ComponentsStyle.inputError}
-                                    onChangeText={(text) => this.handleChange("mg", text)}
-                                    placeholder="0"
-                                    keyboardType="numeric"
-                                    inputAccessoryViewID="textInput2"
-                                    ref={(input) => { this.textInput2 = input; }}
-                                />
-                                <InputAccessoryView nativeID="textInput2" >
-                                    <View style={styles.inputAccessory}>
-                                        <View style={styles.chevronIcon}>
-                                            <Feather name="chevron-up" size={24} color={colors.persianBlue} style={{ marginRight: 16 }} onPress={() => { this.textInput1.focus(); }} />
-                                            <Feather name="chevron-down" size={24} color={colors.persianBlue} onPress={() => { this.textInput3.focus(); }} />
-                                        </View>
-                                        <View>
-                                            <Pressable onPress={Keyboard.dismiss} >
-                                                <Text style={styles.textDoneButton}>เสร็จ</Text>
-                                            </Pressable>
-                                        </View>
-                                    </View>
-                                </InputAccessoryView>
+                            <View style={styles.areaViewButton}>
                                 {
-                                    statusTextMg === false ?
-                                        <Text style={ComponentsStyle.textError}>กรุณากรอกค่าตั้งแต่ 3.5 - 19 mg%</Text>
-                                        : null
+                                    (mgDL !== null) && (mg !== null) && (bpm !== null) && (mmHGS !== null) && (mmHGD !== null) ?
+                                        <Pressable style={ComponentsStyle.button} onPress={() => this.submit()} >
+                                            <Text style={ComponentsStyle.textButton}>ถัดไป</Text>
+                                        </Pressable>
+                                        :
+                                        <Pressable s style={ComponentsStyle.buttonGrey} /* onPress={() =>  this.props.navigation.navigate("OnboardingResults")} */ >
+                                            <Text style={ComponentsStyle.textButtonGrey}>ถัดไป</Text>
+                                        </Pressable>
                                 }
-
                             </View>
-                            <Text style={styles.textInputHead}>อัตราการเต้นของหัวใจขณะพัก</Text>
-                            <View style={styles.viewRightTnput}>
-                                <Text style={styles.textRightTnput}>bpm</Text>
-                                <TextInput
-                                    onFocus={(text) => this.handleFocus("isFocusedBpm", true)}
-                                    onBlur={(text) => this.handleBlur("isFocusedBpm", false)}
-                                    style={statusBpm === true ? isFocusedBpm === true ? ComponentsStyle.inputIsFocused : ComponentsStyle.input : ComponentsStyle.inputError}
-                                    onChangeText={(text) => this.handleChange("bpm", text)}
-                                    placeholder="0"
-                                    keyboardType="numeric"
-                                    inputAccessoryViewID="textInput3"
-                                    ref={(input) => { this.textInput3 = input; }}
-                                />
-                                <InputAccessoryView nativeID="textInput3" >
-                                    <View style={styles.inputAccessory}>
-                                        <View style={styles.chevronIcon}>
-                                            <Feather name="chevron-up" size={24} color={colors.persianBlue} style={{ marginRight: 16 }} onPress={() => { this.textInput2.focus(); }} />
-                                            <Feather name="chevron-down" size={24} color={colors.persianBlue} onPress={() => { this.textInput4.focus(); }} />
-                                        </View>
-                                        <View>
-                                            <Pressable onPress={Keyboard.dismiss} >
-                                                <Text style={styles.textDoneButton}>เสร็จ</Text>
-                                            </Pressable>
-                                        </View>
-                                    </View>
-                                </InputAccessoryView>
-                                {
-                                    statusTextBpm === false ?
-                                        <Text style={ComponentsStyle.textError}>กรุณากรอกค่าตั้งแต่ 40-160 bpm</Text>
-                                        : null
-                                }
-
-                            </View>
-                            <Text style={styles.textHeadMmHG}>ความดันโลหิต</Text>
-                            <Text style={styles.textInputHead}>Systolic (ค่าสูงสุด)</Text>
-                            <View style={styles.viewRightTnput}>
-                                <Text style={styles.textRightTnput}>mmHG</Text>
-                                <TextInput
-                                    onFocus={(text) => this.handleFocus("isFocusedMmHGS", true)}
-                                    onBlur={(text) => this.handleBlur("isFocusedMmHGS", false)}
-                                    style={statusMmGH1 === true ? isFocusedMmHGS === true ? ComponentsStyle.inputIsFocused : ComponentsStyle.input : ComponentsStyle.inputError}
-                                    onChangeText={(text) => this.handleChange("mmHGS", text)}
-                                    placeholder="0"
-                                    keyboardType="numeric"
-                                    inputAccessoryViewID="textInput4"
-                                    ref={(input) => { this.textInput4 = input; }}
-                                />
-                                <InputAccessoryView nativeID="textInput4" >
-                                    <View style={styles.inputAccessory}>
-                                        <View style={styles.chevronIcon}>
-                                            <Feather name="chevron-up" size={24} color={colors.persianBlue} style={{ marginRight: 16 }} onPress={() => { this.textInput3.focus(); }} />
-                                            <Feather name="chevron-down" size={24} color={colors.persianBlue} onPress={() => { this.textInput5.focus(); }} />
-                                        </View>
-                                        <View>
-                                            <Pressable onPress={Keyboard.dismiss} >
-                                                <Text style={styles.textDoneButton}>เสร็จ</Text>
-                                            </Pressable>
-                                        </View>
-                                    </View>
-                                </InputAccessoryView>
-                                {
-                                    statusTextMmHG1 === false ?
-                                        <Text style={ComponentsStyle.textError}>กรุณากรอกค่าตั้งแต่ 40 - 190 mmHG</Text>
-                                        : null
-                                }
-
-                            </View>
-                            <Text style={styles.textInputHead}>Diastolic (ค่าต่ำสุด)</Text>
-                            <View style={styles.viewRightTnput}>
-                                <Text style={styles.textRightTnput}>mmHG</Text>
-                                <TextInput
-                                    onFocus={(text) => this.handleFocus("isFocusedMmHGD", true)}
-                                    onBlur={(text) => this.handleBlur("isFocusedMmHGD", false)}
-                                    style={statusMmGH2 === true ? isFocusedMmHGD === true ? ComponentsStyle.inputIsFocused : ComponentsStyle.input : ComponentsStyle.inputError}
-                                    onChangeText={(text) => this.handleChange("mmHGD", text)}
-                                    placeholder="0"
-                                    keyboardType="numeric"
-                                    inputAccessoryViewID="textInput5"
-                                    ref={(input) => { this.textInput5 = input; }}
-                                />
-                                <InputAccessoryView nativeID="textInput5" >
-                                    <View style={styles.inputAccessory}>
-                                        <View style={styles.chevronIcon}>
-                                            <Feather name="chevron-up" size={24} color={colors.persianBlue} style={{ marginRight: 16 }} onPress={() => { this.textInput4.focus(); }} />
-                                            <Feather name="chevron-down" size={24} color={colors.grey4} />
-                                        </View>
-                                        <View>
-                                            <Pressable onPress={Keyboard.dismiss} >
-                                                <Text style={styles.textDoneButton}>เสร็จ</Text>
-                                            </Pressable>
-                                        </View>
-                                    </View>
-                                </InputAccessoryView>
-                                {
-                                    statusTextMmHG2 === false ?
-                                        <Text style={ComponentsStyle.textError}>กรุณากรอกค่าตั้งแต่ 40 - 170 mmHG</Text>
-                                        : null
-                                }
-
-                            </View>
-                        </View>
-                        <View style={styles.areaViewButton}>
-                            {
-                                (mgDL !== null) && (mg !== null) && (bpm !== null) && (mmHGS !== null) && (mmHGD !== null) ?
-                                    <Pressable style={ComponentsStyle.button} onPress={() => this.submit()} >
-                                        <Text style={ComponentsStyle.textButton}>ถัดไป</Text>
-                                    </Pressable>
-                                    :
-                                    <Pressable s style={ComponentsStyle.buttonGrey} /* onPress={() =>  this.props.navigation.navigate("OnboardingResults")} */ >
-                                        <Text style={ComponentsStyle.textButtonGrey}>ถัดไป</Text>
-                                    </Pressable>
-                            }
-                        </View>
-
-                    </ScrollView>
+                        </ScrollView>
+                    </KeyboardAvoidingView>
                 </View>
-            </SafeAreaView>
+            </SafeAreaView >
         )
     }
 }
@@ -489,6 +490,7 @@ const styles = StyleSheet.create({
         marginBottom: -16,
         fontSize: ComponentsStyle.fontSize20,
         color: colors.persianBlue,
+        fontFamily: "IBMPlexSansThai-Bold"
     },
     textInputHead: {
         marginTop: 24,
