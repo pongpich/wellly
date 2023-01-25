@@ -84,7 +84,42 @@ export default class Walkthrough extends Component {
             </Swiper >
 
         )
+
     }
+    /* 
+        <SafeAreaView style={styles.container}>
+        <View style={styles.boxView}>
+            <View style={styles.swiperBox}>
+                {
+                    this.swiper()
+                }
+            </View>
+            <View style={styles.circle}>
+                <View style={swiperIndex == "0" ? styles.circleActive : styles.circleDot} />
+                <View style={swiperIndex == "1" ? styles.circleActive : styles.circleDot} />
+                <View style={swiperIndex == "2" ? styles.circleActive : styles.circleDot} />
+            </View>
+    
+            <View style={styles.buttonView}>
+                {swiperIndex < 2 ?
+                    <>
+                        <Pressable style={ComponentsStyle.button} onPress={() => this.handleChange("swiperIndex", null)} >
+                            <Text style={ComponentsStyle.textButton} >ถัดไป</Text>
+                        </Pressable>
+                        <Pressable style={styles.buttonCross} onPress={() => this.handleChange("swiperIndex", 2)} >
+                            <Text style={styles.textCross}>ข้าม</Text>
+                        </Pressable>
+    
+                    </> :
+                    <>
+                        <Pressable style={ComponentsStyle.button} onPress={() => this.props.navigation.navigate("OnboardingName")} >
+                            <Text style={ComponentsStyle.textButton} >เริ่มกันเลย!</Text>
+                        </Pressable>
+                    </>}
+            </View>
+        </View >
+    
+    </SafeAreaView > */
 
 
 
@@ -92,18 +127,16 @@ export default class Walkthrough extends Component {
         const { swiperIndex } = this.state;
         return (
             <SafeAreaView style={styles.container}>
+                <View style={styles.swiperBox}>
+                    {
+                        this.swiper()
+                    }
+                </View>
                 <View style={styles.boxView}>
-                    <View style={styles.swiperBox}>
-                        {
-                            this.swiper()
-                        }
-                    </View>
-                    <View>
-                        <View style={styles.circle}>
-                            <View style={swiperIndex == "0" ? styles.circleActive : styles.circleDot} />
-                            <View style={swiperIndex == "1" ? styles.circleActive : styles.circleDot} />
-                            <View style={swiperIndex == "2" ? styles.circleActive : styles.circleDot} />
-                        </View>
+                    <View style={styles.circle}>
+                        <View style={swiperIndex == "0" ? styles.circleActive : styles.circleDot} />
+                        <View style={swiperIndex == "1" ? styles.circleActive : styles.circleDot} />
+                        <View style={swiperIndex == "2" ? styles.circleActive : styles.circleDot} />
                     </View>
                 </View>
                 <View style={styles.buttonView}>
@@ -136,36 +169,32 @@ const styles = StyleSheet.create({
         justifyContent: "space-between"
     },
     wrapper: {
-        marginTop: (devicehHeight > 668) ? "20%" : "10%",
+        marginTop: (devicehHeight > 668) ? "30%" : "10%",
     },
     slide1: {
+        width: "100%",
+        maxHeight: "100%",
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    entryImage: {
+        width: 280,
+        height: 280
     },
     boxView: {
-
         alignItems: 'center',
-        marginBottom: 20
+
     },
     swiperBox: {
-        height: 490,
-        width: "100%",
-        justifyContent: 'center',
-        alignItems: 'center',
+        flex: 1
+
+
     },
     welllyView: {
         position: "relative",
         height: "100%",
 
     },
-    viewImage: {
-        alignItems: "center",
-        marginTop: "18%"
-    },
-    entryImage: {
-        /*   textAlign: "center" */
-    },
-
     textWellly: {
         marginTop: 40,
         textAlign: "center",
@@ -184,12 +213,14 @@ const styles = StyleSheet.create({
         textAlign: "center",
     },
     circle: {
-        marginTop: (devicehHeight > 668) ? 16 : "-7%",
+
+        marginTop: (devicehHeight > 668) ? -84 : -49,
         flexDirection: "row",
         while: "100%",
         justifyContent: "center",
         alignItems: "center",
         marginLeft: -8,
+
     },
     circleActive: {
         textAlign: "center",
@@ -211,18 +242,12 @@ const styles = StyleSheet.create({
     },
 
     buttonView: {
-        alignItems: "center",
-        justifyContent: "flex-end",
         paddingHorizontal: 16,
-        width: "100%",
-        paddingBottom: 40,
-        /*  flex: 1 */
+        marginBottom: 40
     },
     buttonCross: {
         marginTop: 16,
         width: "100%",
-        /*         marginBottom: 40 */
-
     },
     textCross: {
         fontFamily: "IBMPlexSansThai-Bold",
