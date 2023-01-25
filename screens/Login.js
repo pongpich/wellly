@@ -26,7 +26,7 @@ class Login extends Component {
 
     componentDidUpdate(prevProps, prevState) {
         const { status, user } = this.props;
-        const { isModalVisible } = this.state;
+        const { isModalVisible, email, password } = this.state;
         if ((prevProps.status !== status) && (status === "success")) {
             this.props.navigation.navigate("Walkthrough")
         }
@@ -34,6 +34,36 @@ class Login extends Component {
             this.setState({
                 isModalVisible: !isModalVisible
             });
+        }
+
+        if (prevState.email != email) {
+            console.log("email", email);
+            let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+            if (reg.test(email) === false) {
+                this.setState({
+                    styleEmil: false,
+                    textErrorEmail: 2
+                });
+            } else {
+                this.setState({
+                    styleEmil: true,
+                    textErrorEmail: null,
+                });
+            }
+        }
+
+        if (prevState.password != password) {
+            if (password && password.length < 8) {
+                this.setState({
+                    stylePassword: false,
+                    textErrorPassWord: 2
+                });
+            } else {
+                this.setState({
+                    stylePassword: true,
+                    textErrorPassWord: null
+                });
+            }
         }
     }
 
@@ -70,46 +100,13 @@ class Login extends Component {
     }
 
     handleChange(fieldName, text) {
-        const { email, password } = this.state;
-        let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
 
         this.setState({
-            styleEmil: true,
-            textErrorEmail: null,
-        });
-        if (reg.test(email) === false) {
-            this.setState({
-                styleEmil: false,
-                textErrorEmail: 2
-            });
-        }
-        this.setState({
-            email: text
+            [fieldName]: text
         })
     }
 
-    handleChangePass(text) {
-        const { email, password } = this.state;
 
-
-
-        this.setState({
-            stylePassword: true,
-            textErrorPassWord: null
-        });
-        if (password && password.length < 7) {
-            this.setState({
-                stylePassword: false,
-                textErrorPassWord: 2
-            });
-        }
-
-        this.setState({
-            password: text
-        })
-
-
-    }
 
     handleChangeEntry(fieldName, text) {
         this.setState({
@@ -128,7 +125,7 @@ class Login extends Component {
     render() {
         const { entry, styleEmil, textErrorEmail, textErrorPassWord, stylePassword, password, email, isModalVisible } = this.state;
 
-        console.log("email", password);
+
 
         return (
             <LinearGradient
@@ -156,7 +153,7 @@ class Login extends Component {
                         <View style={ComponentsStyle.viewInput}>
                             <TextInput
                                 style={styleEmil === true ? ComponentsStyle.input : ComponentsStyle.inputError}
-                                onChangeText={(text) => this.handleChange(text)}
+                                onChangeText={(text) => this.handleChange("email", text)}
                                 keyboardType="email-address"
                                 returnKeyType={"next"}
                                 autoFocus={true}
@@ -200,7 +197,7 @@ class Login extends Component {
                             <View style={styles.inputPassword2}>
                                 <TextInput
                                     style={stylePassword === true ? entry === true ? (password === null) || (password === '') ? styles.passwordEntryLength : styles.passwordEntry : styles.password : styles.errorPassword}
-                                    onChangeText={(text) => this.handleChangePass(text)}
+                                    onChangeText={(text) => this.handleChange("password", text)}
                                     placeholder={(password === null) || (password === '') ? "รหัสผ่านอย่างน้อย 8 หลัก" : null}
                                     autoCapitalize='none'
                                     secureTextEntry={entry}
