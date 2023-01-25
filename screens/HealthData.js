@@ -256,7 +256,7 @@ class HealthData extends Component {
         return (
             <SafeAreaView style={styles.container}>
                 <View style={styles.areaView}>
-                    <KeyboardAwareScrollView keyboardShouldPersistTaps='always'> 
+                    <KeyboardAwareScrollView keyboardShouldPersistTaps='always'>
                         <ScrollView keyboardShouldPersistTaps="always">
                             <View style={styles.areaViewPag}>
                                 <Text style={styles.textHead}>ข้อมูลสุขภาพ</Text>
@@ -273,19 +273,22 @@ class HealthData extends Component {
                                         inputAccessoryViewID="textInput1"
                                         ref={(input) => { this.textInput1 = input; }}
                                     />
-                                    <InputAccessoryView nativeID="textInput1" >
-                                        <View style={styles.inputAccessory}>
-                                            <View style={styles.chevronIcon}>
-                                                <Feather name="chevron-up" size={24} color={colors.grey4} style={{ marginRight: 16 }} />
-                                                <Feather name="chevron-down" size={24} color={colors.persianBlue} onPress={() => { this.textInput2.focus(); }} />
+                                    {
+                                        (Platform.OS === 'ios') &&
+                                        <InputAccessoryView nativeID="textInput1" >
+                                            <View style={styles.inputAccessory}>
+                                                <View style={styles.chevronIcon}>
+                                                    <Feather name="chevron-up" size={24} color={colors.grey4} style={{ marginRight: 16 }} />
+                                                    <Feather name="chevron-down" size={24} color={colors.persianBlue} onPress={() => { this.textInput2.focus(); }} />
+                                                </View>
+                                                <View>
+                                                    <Pressable onPress={Keyboard.dismiss} >
+                                                        <Text style={styles.textDoneButton}>เสร็จ</Text>
+                                                    </Pressable>
+                                                </View>
                                             </View>
-                                            <View>
-                                                <Pressable onPress={Keyboard.dismiss} >
-                                                    <Text style={styles.textDoneButton}>เสร็จ</Text>
-                                                </Pressable>
-                                            </View>
-                                        </View>
-                                    </InputAccessoryView>
+                                        </InputAccessoryView>
+                                    }
                                     {
                                         statusTextmg_dL === false ?
                                             <Text style={ComponentsStyle.textError}>กรุณากรอกค่าตั้งแต่ 4 - 1000 mg/dlL.</Text>
@@ -306,19 +309,23 @@ class HealthData extends Component {
                                         inputAccessoryViewID="textInput2"
                                         ref={(input) => { this.textInput2 = input; }}
                                     />
-                                    <InputAccessoryView nativeID="textInput2" >
-                                        <View style={styles.inputAccessory}>
-                                            <View style={styles.chevronIcon}>
-                                                <Feather name="chevron-up" size={24} color={colors.persianBlue} style={{ marginRight: 16 }} onPress={() => { this.textInput1.focus(); }} />
-                                                <Feather name="chevron-down" size={24} color={colors.persianBlue} onPress={() => { this.textInput3.focus(); }} />
+                                    {
+                                        (Platform.OS === 'ios') &&
+                                        <InputAccessoryView nativeID="textInput2" >
+                                            <View style={styles.inputAccessory}>
+                                                <View style={styles.chevronIcon}>
+                                                    <Feather name="chevron-up" size={24} color={colors.persianBlue} style={{ marginRight: 16 }} onPress={() => { this.textInput1.focus(); }} />
+                                                    <Feather name="chevron-down" size={24} color={colors.persianBlue} onPress={() => { this.textInput3.focus(); }} />
+                                                </View>
+                                                <View>
+                                                    <Pressable onPress={Keyboard.dismiss} >
+                                                        <Text style={styles.textDoneButton}>เสร็จ</Text>
+                                                    </Pressable>
+                                                </View>
                                             </View>
-                                            <View>
-                                                <Pressable onPress={Keyboard.dismiss} >
-                                                    <Text style={styles.textDoneButton}>เสร็จ</Text>
-                                                </Pressable>
-                                            </View>
-                                        </View>
-                                    </InputAccessoryView>
+                                        </InputAccessoryView>
+                                    }
+
                                     {
                                         statusTextMg === false ?
                                             <Text style={ComponentsStyle.textError}>กรุณากรอกค่าตั้งแต่ 3.5 - 19 mg%</Text>
@@ -339,19 +346,22 @@ class HealthData extends Component {
                                         inputAccessoryViewID="textInput3"
                                         ref={(input) => { this.textInput3 = input; }}
                                     />
-                                    <InputAccessoryView nativeID="textInput3" >
-                                        <View style={styles.inputAccessory}>
-                                            <View style={styles.chevronIcon}>
-                                                <Feather name="chevron-up" size={24} color={colors.persianBlue} style={{ marginRight: 16 }} onPress={() => { this.textInput2.focus(); }} />
-                                                <Feather name="chevron-down" size={24} color={colors.persianBlue} onPress={() => { this.textInput4.focus(); }} />
+                                    {
+                                        (Platform.OS === 'ios') &&
+                                        <InputAccessoryView nativeID="textInput3" >
+                                            <View style={styles.inputAccessory}>
+                                                <View style={styles.chevronIcon}>
+                                                    <Feather name="chevron-up" size={24} color={colors.persianBlue} style={{ marginRight: 16 }} onPress={() => { this.textInput2.focus(); }} />
+                                                    <Feather name="chevron-down" size={24} color={colors.persianBlue} onPress={() => { this.textInput4.focus(); }} />
+                                                </View>
+                                                <View>
+                                                    <Pressable onPress={Keyboard.dismiss} >
+                                                        <Text style={styles.textDoneButton}>เสร็จ</Text>
+                                                    </Pressable>
+                                                </View>
                                             </View>
-                                            <View>
-                                                <Pressable onPress={Keyboard.dismiss} >
-                                                    <Text style={styles.textDoneButton}>เสร็จ</Text>
-                                                </Pressable>
-                                            </View>
-                                        </View>
-                                    </InputAccessoryView>
+                                        </InputAccessoryView>
+                                    }
                                     {
                                         statusTextBpm === false ?
                                             <Text style={ComponentsStyle.textError}>กรุณากรอกค่าตั้งแต่ 40-160 bpm</Text>
@@ -373,19 +383,23 @@ class HealthData extends Component {
                                         inputAccessoryViewID="textInput4"
                                         ref={(input) => { this.textInput4 = input; }}
                                     />
-                                    <InputAccessoryView nativeID="textInput4" >
-                                        <View style={styles.inputAccessory}>
-                                            <View style={styles.chevronIcon}>
-                                                <Feather name="chevron-up" size={24} color={colors.persianBlue} style={{ marginRight: 16 }} onPress={() => { this.textInput3.focus(); }} />
-                                                <Feather name="chevron-down" size={24} color={colors.persianBlue} onPress={() => { this.textInput5.focus(); }} />
+
+                                    {
+                                        (Platform.OS === 'ios') &&
+                                        <InputAccessoryView nativeID="textInput4" >
+                                            <View style={styles.inputAccessory}>
+                                                <View style={styles.chevronIcon}>
+                                                    <Feather name="chevron-up" size={24} color={colors.persianBlue} style={{ marginRight: 16 }} onPress={() => { this.textInput3.focus(); }} />
+                                                    <Feather name="chevron-down" size={24} color={colors.persianBlue} onPress={() => { this.textInput5.focus(); }} />
+                                                </View>
+                                                <View>
+                                                    <Pressable onPress={Keyboard.dismiss} >
+                                                        <Text style={styles.textDoneButton}>เสร็จ</Text>
+                                                    </Pressable>
+                                                </View>
                                             </View>
-                                            <View>
-                                                <Pressable onPress={Keyboard.dismiss} >
-                                                    <Text style={styles.textDoneButton}>เสร็จ</Text>
-                                                </Pressable>
-                                            </View>
-                                        </View>
-                                    </InputAccessoryView>
+                                        </InputAccessoryView>
+                                    }
                                     {
                                         statusTextMmHG1 === false ?
                                             <Text style={ComponentsStyle.textError}>กรุณากรอกค่าตั้งแต่ 40 - 190 mmHG</Text>
@@ -406,19 +420,23 @@ class HealthData extends Component {
                                         inputAccessoryViewID="textInput5"
                                         ref={(input) => { this.textInput5 = input; }}
                                     />
-                                    <InputAccessoryView nativeID="textInput5" >
-                                        <View style={styles.inputAccessory}>
-                                            <View style={styles.chevronIcon}>
-                                                <Feather name="chevron-up" size={24} color={colors.persianBlue} style={{ marginRight: 16 }} onPress={() => { this.textInput4.focus(); }} />
-                                                <Feather name="chevron-down" size={24} color={colors.grey4} />
+
+                                    {
+                                        (Platform.OS === 'ios') &&
+                                        <InputAccessoryView nativeID="textInput5" >
+                                            <View style={styles.inputAccessory}>
+                                                <View style={styles.chevronIcon}>
+                                                    <Feather name="chevron-up" size={24} color={colors.persianBlue} style={{ marginRight: 16 }} onPress={() => { this.textInput4.focus(); }} />
+                                                    <Feather name="chevron-down" size={24} color={colors.grey4} />
+                                                </View>
+                                                <View>
+                                                    <Pressable onPress={Keyboard.dismiss} >
+                                                        <Text style={styles.textDoneButton}>เสร็จ</Text>
+                                                    </Pressable>
+                                                </View>
                                             </View>
-                                            <View>
-                                                <Pressable onPress={Keyboard.dismiss} >
-                                                    <Text style={styles.textDoneButton}>เสร็จ</Text>
-                                                </Pressable>
-                                            </View>
-                                        </View>
-                                    </InputAccessoryView>
+                                        </InputAccessoryView>
+                                    }
                                     {
                                         statusTextMmHG2 === false ?
                                             <Text style={ComponentsStyle.textError}>กรุณากรอกค่าตั้งแต่ 40 - 170 mmHG</Text>

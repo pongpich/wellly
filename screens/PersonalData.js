@@ -193,7 +193,7 @@ class PersonalData extends Component {
 
         return (
             <SafeAreaView style={styles.container}>
-                <KeyboardAwareScrollView keyboardShouldPersistTaps='always'> 
+                <KeyboardAwareScrollView keyboardShouldPersistTaps='always'>
                     <ScrollView style={styles.areaView} keyboardShouldPersistTaps="always">
                         <View>
                             <Text style={styles.textHead}>กรอกข้อมูลส่วนตัวเพื่อการคำนวณโปรแกรมที่แม่นยำ</Text>
@@ -235,19 +235,22 @@ class PersonalData extends Component {
                                     inputAccessoryViewID="textInput1"
                                     ref={(input) => { this.textInput1 = input; }}
                                 />
-                                <InputAccessoryView nativeID="textInput1" >
-                                    <View style={styles.inputAccessory}>
-                                        <View style={styles.chevronIcon}>
-                                            <Feather name="chevron-up" size={24} color={colors.grey4} style={{ marginRight: 16 }} />
-                                            <Feather name="chevron-down" size={24} color={colors.persianBlue} onPress={() => { this.textInput2.focus(); }} />
+                                {
+                                    (Platform.OS === 'ios') &&
+                                    <InputAccessoryView nativeID="textInput1" >
+                                        <View style={styles.inputAccessory}>
+                                            <View style={styles.chevronIcon}>
+                                                <Feather name="chevron-up" size={24} color={colors.grey4} style={{ marginRight: 16 }} />
+                                                <Feather name="chevron-down" size={24} color={colors.persianBlue} onPress={() => { this.textInput2.focus(); }} />
+                                            </View>
+                                            <View>
+                                                <Pressable onPress={Keyboard.dismiss} >
+                                                    <Text style={styles.textDoneButton}>เสร็จ</Text>
+                                                </Pressable>
+                                            </View>
                                         </View>
-                                        <View>
-                                            <Pressable onPress={Keyboard.dismiss} >
-                                                <Text style={styles.textDoneButton}>เสร็จ</Text>
-                                            </Pressable>
-                                        </View>
-                                    </View>
-                                </InputAccessoryView>
+                                    </InputAccessoryView>
+                                }
                                 {
                                     statusTextAge === 0 ?
                                         <Text style={ComponentsStyle.textError}>กรุณากรอกตามความเป็นจริง</Text> :
@@ -269,19 +272,23 @@ class PersonalData extends Component {
                                     inputAccessoryViewID="textInput2"
                                     ref={(input) => { this.textInput2 = input; }}
                                 />
-                                <InputAccessoryView nativeID="textInput2" >
-                                    <View style={styles.inputAccessory}>
-                                        <View style={styles.chevronIcon}>
-                                            <Feather name="chevron-up" size={24} color={colors.persianBlue} style={{ marginRight: 16 }} onPress={() => { this.textInput1.focus(); }} />
-                                            <Feather name="chevron-down" size={24} color={colors.persianBlue} onPress={() => { this.textInput3.focus(); }} />
+
+                                {
+                                    (Platform.OS === 'ios') &&
+                                    <InputAccessoryView nativeID="textInput2" >
+                                        <View style={styles.inputAccessory}>
+                                            <View style={styles.chevronIcon}>
+                                                <Feather name="chevron-up" size={24} color={colors.persianBlue} style={{ marginRight: 16 }} onPress={() => { this.textInput1.focus(); }} />
+                                                <Feather name="chevron-down" size={24} color={colors.persianBlue} onPress={() => { this.textInput3.focus(); }} />
+                                            </View>
+                                            <View>
+                                                <Pressable onPress={Keyboard.dismiss} >
+                                                    <Text style={styles.textDoneButton}>เสร็จ</Text>
+                                                </Pressable>
+                                            </View>
                                         </View>
-                                        <View>
-                                            <Pressable onPress={Keyboard.dismiss} >
-                                                <Text style={styles.textDoneButton}>เสร็จ</Text>
-                                            </Pressable>
-                                        </View>
-                                    </View>
-                                </InputAccessoryView>
+                                    </InputAccessoryView>
+                                }
                                 {
                                     statusTextWeight === 0 ?
                                         <Text style={ComponentsStyle.textError}>กรุณากรอกค่าตั้งแต่ 1 ขึ้นไป</Text>
@@ -306,19 +313,23 @@ class PersonalData extends Component {
                                     inputAccessoryViewID="textInput3"
                                     ref={(input) => { this.textInput3 = input; }}
                                 />
-                                <InputAccessoryView nativeID="textInput3" >
-                                    <View style={styles.inputAccessory}>
-                                        <View style={styles.chevronIcon}>
-                                            <Feather name="chevron-up" size={24} color={colors.persianBlue} style={{ marginRight: 16 }} onPress={() => { this.textInput2.focus(); }} />
-                                            <Feather name="chevron-down" size={24} color={colors.grey4} />
+
+                                {
+                                    (Platform.OS === 'ios') &&
+                                    <InputAccessoryView nativeID="textInput3" >
+                                        <View style={styles.inputAccessory}>
+                                            <View style={styles.chevronIcon}>
+                                                <Feather name="chevron-up" size={24} color={colors.persianBlue} style={{ marginRight: 16 }} onPress={() => { this.textInput2.focus(); }} />
+                                                <Feather name="chevron-down" size={24} color={colors.grey4} />
+                                            </View>
+                                            <View>
+                                                <Pressable onPress={Keyboard.dismiss} >
+                                                    <Text style={styles.textDoneButton}>เสร็จ</Text>
+                                                </Pressable>
+                                            </View>
                                         </View>
-                                        <View>
-                                            <Pressable onPress={Keyboard.dismiss} >
-                                                <Text style={styles.textDoneButton}>เสร็จ</Text>
-                                            </Pressable>
-                                        </View>
-                                    </View>
-                                </InputAccessoryView>
+                                    </InputAccessoryView>
+                                }
                                 {
                                     statusTextHeight === 0 ?
                                         <Text style={ComponentsStyle.textError}>กรุณากรอกค่าตั้งแต่ 100 ขึ้นไป</Text>
