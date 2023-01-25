@@ -41,15 +41,15 @@ export default class Walkthrough extends Component {
     swiper() {
         const { swiperIndex } = this.state;
         return (
-            <Swiper style={styles.wrapper} showsButtons={false} showsPagination={true}
+            <Swiper style={styles.wrapper} showsButtons={false} showsPagination={false}
                 index={swiperIndex}
                 loop={false}
                 bounces={false}
                 automaticallyAdjustContentInsets={true}
                 onIndexChanged={this.onSwipe}
                 ref={'swiper'}
-                dot={<View style={{ backgroundColor: 'rgba(0,0,0,.2)', width: 8, height: 8, borderRadius: 4, marginLeft: 3, marginRight: 3, marginTop: 3, marginBottom: 70, }} />}
-                activeDot={<View style={{ backgroundColor: '#007aff', width: 8, height: 8, borderRadius: 4, marginLeft: 3, marginRight: 3, marginTop: 3, marginBottom: 70, }} />}
+            /*   dot={<View style={{ backgroundColor: 'rgba(0,0,0,.2)', width: 8, height: 8, borderRadius: 4, marginLeft: 3, marginRight: 3, marginTop: 3, marginBottom: 70, }} />}
+              activeDot={<View style={{ backgroundColor: '#007aff', width: 8, height: 8, borderRadius: 4, marginLeft: 3, marginRight: 3, marginTop: 3, marginBottom: 70, }} />} */
             >
                 <View style={styles.slide1} >
                     <Image
@@ -98,13 +98,13 @@ export default class Walkthrough extends Component {
                         this.swiper()
                     }
                 </View>
-                {/* <View style={styles.boxView}>
+                <View style={styles.boxView}>
                     <View style={styles.circle}>
                         <View style={swiperIndex == "0" ? styles.circleActive : styles.circleDot} />
                         <View style={swiperIndex == "1" ? styles.circleActive : styles.circleDot} />
                         <View style={swiperIndex == "2" ? styles.circleActive : styles.circleDot} />
                     </View>
-                </View> */}
+                </View>
                 <View style={styles.buttonView}>
                     {swiperIndex < 2 ?
                         <>
@@ -129,6 +129,7 @@ export default class Walkthrough extends Component {
 
 
 const devicehHeight = Math.round(Dimensions.get('window').height);
+console.log("devicehHeight", devicehHeight);
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -180,7 +181,7 @@ const styles = StyleSheet.create({
     },
     circle: {
 
-        marginTop: (devicehHeight > 668) ? -84 : -49,
+        marginTop: (devicehHeight < 668) ? -59 : (devicehHeight < 801) ? -166 : -94,
         flexDirection: "row",
         while: "100%",
         justifyContent: "center",
