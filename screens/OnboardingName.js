@@ -91,32 +91,33 @@ class OnboardingName extends React.Component {
                     </Text>
                 </View>
                 <View style={styles.acceptSwitch}>
-                    <View>
-                        <Text style={styles.accept}>ฉันยอมรับ
-                            <Text style={{ color: 'blue' }}
-                                onPress={() => Linking.openURL('http://google.com')}>
-                                เงื่อนไขและข้อตกลง
-                            </Text>
-                            การใช้งาน WELLLY
+                    <Text style={styles.accept}>ฉันยอมรับ
+                        <Text style={{ color: 'blue' }}
+                            onPress={() => Linking.openURL('http://google.com')}>
+                            เงื่อนไขและข้อตกลง
                         </Text>
+                        การใช้งาน WELLLY
+                    </Text>
+                    <View style={styles.viewsWitch}>
+                        <Switch
+                            value={switchOn}
+                            onValueChange={(value) => this.setState({ switchOn: value })}
+                            backgroundActive={colors.persianBlue}
+                            backgroundInactive={colors.grey4}
+                            style={styles.switch}
+                            renderActiveText={false}
+                            renderInActiveText={false}
+                            innerCircleStyle={{ alignItems: "center", justifyContent: "center" }}
+                            circleSize={30}
+                            barHeight={35}
+                            switchLeftPx={2.5}
+                            switchRightPx={2.5}
+                            switchWidthMultiplier={2}
+                            switchBorderRadius={30}
+                            circleBorderWidth={0}
+
+                        />
                     </View>
-                    <Switch
-                        value={switchOn}
-                        onValueChange={(value) => this.setState({ switchOn: value })}
-                        backgroundActive={colors.persianBlue}
-                        backgroundInactive={colors.grey4}
-                        style={styles.switch}
-                        renderActiveText={false}
-                        renderInActiveText={false}
-                        innerCircleStyle={{ alignItems: "center", justifyContent: "center" }}
-                        circleSize={30}
-                        barHeight={35}
-                        switchLeftPx={2.5}
-                        switchRightPx={2.5}
-                        switchWidthMultiplier={2}
-                        switchBorderRadius={30}
-                        circleBorderWidth={0}
-                    />
                 </View>
                 <View style={styles.areaViewButton}>
                     {
@@ -149,15 +150,22 @@ const styles = StyleSheet.create({
         marginBottom: 40,
     },
     acceptSwitch: {
-        width: "100%",
+
         flexDirection: "row",
-        justifyContent: "space-between",
-        paddingHorizontal: 16,
+        paddingLeft: 16,
+        paddingRight: 40,
+
+
+    },
+    switch: {
+        /* marginLeft: 16, */
+
     },
     accept: {
         width: "90%",
         fontFamily: "IBMPlexSansThai-Regular",
-        fontSize: 16
+        fontSize: 16,
+        color: colors.grey1,
     },
 
     whatName: {
