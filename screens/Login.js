@@ -144,10 +144,13 @@ class Login extends Component {
                             <View style={styles.circle_1} />
                             <View style={styles.circle_2} />
                             <View style={styles.circle_3} />
-                            <Image
-                                style={styles.tinyLogo}
-                                source={require('../assets/images/logo/Logo.png')}
-                            />
+                            <View style={styles.tinyLogo}>
+                                <Image
+                                    style={styles.logoImage}
+                                    source={require('../assets/images/logo/Logo3x.png')}
+                                />
+                            </View>
+
                         </View>
 
                         <View style={ComponentsStyle.viewInput}>
@@ -272,9 +275,12 @@ const styles = StyleSheet.create({
     },
     tinyLogo: {
         opacity: 1,
-
         marginTop: "40%",
         marginBottom: "5%"
+    },
+    logoImage: {
+        width: 200,
+        height: 80
     },
     circle_1: {
         marginTop: "20%",
