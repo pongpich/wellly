@@ -9,6 +9,7 @@ import OnboardingResults from '../screens/OnboardingResults';
 import PersonalData from '../screens/PersonalData';
 import HealthData from '../screens/HealthData';
 import OnboardingName from '../screens/OnboardingName';
+import '../languages/i18n'; //ใช้สำหรับ 2ภาษา
 
 
 const Stack = createStackNavigator();

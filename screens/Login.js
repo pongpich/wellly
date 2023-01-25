@@ -6,6 +6,8 @@ import colors from '../constants/colors';
 import ComponentsStyle from '../constants/components';
 import { connect } from 'react-redux';
 import Modal from "react-native-modal";
+import i18next from 'i18next';
+import { withTranslation } from 'react-i18next';
 
 class Login extends Component {
 
@@ -124,7 +126,7 @@ class Login extends Component {
 
     render() {
         const { entry, styleEmil, textErrorEmail, textErrorPassWord, stylePassword, password, email, isModalVisible } = this.state;
-
+        const { t } = this.props;
 
 
         return (
@@ -157,7 +159,7 @@ class Login extends Component {
                                 keyboardType="email-address"
                                 returnKeyType={"next"}
                                 autoFocus={true}
-                                placeholder="อีเมล"
+                                placeholder={t('email')}
                                 value={email}
                                 autoCapitalize='none'
                             />
@@ -198,7 +200,7 @@ class Login extends Component {
                                 <TextInput
                                     style={stylePassword === true ? entry === true ? (password === null) || (password === '') ? styles.passwordEntryLength : styles.passwordEntry : styles.password : styles.errorPassword}
                                     onChangeText={(text) => this.handleChange("password", text)}
-                                    placeholder={(password === null) || (password === '') ? "รหัสผ่านอย่างน้อย 8 หลัก" : null}
+                                    placeholder={(password === null) || (password === '') ? t('atleast8char') : null}
                                     autoCapitalize='none'
                                     secureTextEntry={entry}
                                     value={password}
@@ -219,18 +221,25 @@ class Login extends Component {
 
                         <View style={styles.buttonTop}>
                             <Pressable style={ComponentsStyle.button} onPress={() => this.submitLogin()} >
-                                <Text style={ComponentsStyle.textButton}>ล็อกอิน</Text>
+                                <Text style={ComponentsStyle.textButton}>{t('login')}</Text>
                             </Pressable>
                             <Pressable style={styles.buttonForgotPassword} onPress={() => this.props.navigation.navigate("ForgotPassword")} >
-                                <Text style={styles.textForgotPassword}>ลืมรหัสผ่าน?</Text>
+                                <Text style={styles.textForgotPassword}>{t('forgot_password')}?</Text>
                             </Pressable>
                         </View>
                     </View>
 
                     <View style={ComponentsStyle.viewStyle_2}>
-                        <Pressable style={styles.buttonThi_eng} >
-                            <Text style={styles.textThi_eng}>English</Text>
-                        </Pressable>
+                        {
+                            (i18next.language === 'th') ?
+                                <Pressable style={styles.buttonThi_eng} onPress={() => i18next.changeLanguage("en")} >
+                                    <Text style={styles.textThi_eng}>English</Text>
+                                </Pressable>
+                                :
+                                <Pressable style={styles.buttonThi_eng} onPress={() => i18next.changeLanguage("th")}  >
+                                    <Text style={styles.textThi_eng}>ภาษาไทย</Text>
+                                </Pressable>
+                        }
                     </View>
                 </SafeAreaView>
 
@@ -488,4 +497,4 @@ const mapActionsToProps = { loginUser };
 export default connect(
     mapStateToProps,
     mapActionsToProps
-)(Login);
+)(withTranslation()(Login));

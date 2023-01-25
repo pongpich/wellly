@@ -1,0 +1,8 @@
+{
+    "translation": {
+        "email": "Email",
+        "atleast8char": "Atleast 8 characters",
+        "login": "Login",
+        "forgot_password": "Forgot password"
+    }
+}
