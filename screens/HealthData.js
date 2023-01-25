@@ -32,11 +32,11 @@ class HealthData extends Component {
             sbp: null,
             dbp: null,
             exercise: null,
-            isFocusedMgDL: null,
-            isFocusedMg: null,
-            isFocusedBpm: null,
-            isFocusedMmHGS: null,
-            isFocusedMmHGD: null,
+            isFocusedMgDL: false,
+            isFocusedMg: false,
+            isFocusedBpm: false,
+            isFocusedMmHGS: false,
+            isFocusedMmHGD: false,
 
         };
     }
