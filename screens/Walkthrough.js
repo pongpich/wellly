@@ -15,20 +15,32 @@ export default class Walkthrough extends Component {
     }
 
     handleChange(fieldName, text) {
-        this.setState({
+        /*  this.refs.swiper.scrollBy(text); */
+        /* this.setState({
             [fieldName]: text
-        })
+        }) */
+        if (text == null) {
+            this.refs.swiper.scrollBy(1);
+        } else {
+            /*  this.setState({
+                 [fieldName]: text
+             }) */
+            this.refs.swiper.scrollBy(2);
+        }
+
     }
 
     onSwipe = (index) => {
-        this.refs.swiper.scrollBy(index - 1);
+
         this.setState({
             swiperIndex: index
         })
+        /*  this.refs.swiper.scrollBy(1); */
     }
 
     swiper() {
         const { swiperIndex } = this.state;
+        console.log("swiperIndex", swiperIndex);
         return (
             <Swiper style={styles.wrapper} showsButtons={false} showsPagination={false}
                 index={swiperIndex}
@@ -98,7 +110,7 @@ export default class Walkthrough extends Component {
                 <View style={styles.buttonView}>
                     {swiperIndex < 2 ?
                         <>
-                            <Pressable style={ComponentsStyle.button} onPress={() => this.handleChange("swiperIndex", swiperIndex + 1)} >
+                            <Pressable style={ComponentsStyle.button} onPress={() => this.handleChange("swiperIndex", null)} >
                                 <Text style={ComponentsStyle.textButton} >ถัดไป</Text>
                             </Pressable>
                             <Pressable style={styles.buttonCross} onPress={() => this.handleChange("swiperIndex", 2)} >
