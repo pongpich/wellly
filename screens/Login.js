@@ -133,7 +133,7 @@ class Login extends Component {
         return (
             <LinearGradient
                 style={ComponentsStyle.container}
-                colors={['#59CBE4', '#59CBE4', 'white', 'white', 'white', 'white']}
+                colors={['#59CBE4', 'white', 'white']}
                 start={{ x: 1, y: 0 }}
                 end={{ x: 1, y: 1 }}
             >
