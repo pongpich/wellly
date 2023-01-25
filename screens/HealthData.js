@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { KeyboardAccessoryNavigation } from 'react-native-keyboard-accessory';
 import { View, StyleSheet, Pressable, SafeAreaView, Image, ScrollView, TouchableOpacity, TextInput, Text, Linking, KeyboardAvoidingView, Platform, Dimensions, Modal, InputAccessoryView, Keyboard } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { healt } from "../redux/personalUser";
@@ -214,6 +215,25 @@ class HealthData extends Component {
         })
     }
 
+    onNextInput() {
+        const { isFocusedMgDL, isFocusedMg, isFocusedBpm, isFocusedMmHGS, isFocusedMmHGD } = this.state; //เรียงจาก input1 ไป input5
+        //เช็คว่าปัจจุบันอยู่ input เท่าไหร่ และ สั่ง focus ไปตัวถัดไป
+        if (isFocusedMgDL) { this.textInput2.focus(); };
+        if (isFocusedMg) { this.textInput3.focus(); };
+        if (isFocusedBpm) { this.textInput4.focus(); };
+        if (isFocusedMmHGS) { this.textInput5.focus(); };
+        if (isFocusedMmHGD) { }; //ไม่ต้องทำอะไรเพราะอยู่ inputตัวสุดท้ายแล้ว
+    }
+
+    onPreviousInput() {
+        const { isFocusedMgDL, isFocusedMg, isFocusedBpm, isFocusedMmHGS, isFocusedMmHGD } = this.state; //เรียงจาก input1 ไป input5
+        //เช็คว่าปัจจุบันอยู่ input เท่าไหร่ และ สั่ง focus ตัวก่อนหน้า
+        if (isFocusedMgDL) { }; //ไม่ต้องทำอะไรเพราะอยู่ inputตัวแรกสุด
+        if (isFocusedMg) { this.textInput1.focus(); };
+        if (isFocusedBpm) { this.textInput2.focus(); };
+        if (isFocusedMmHGS) { this.textInput3.focus(); };
+        if (isFocusedMmHGD) { this.textInput4.focus(); };
+    }
 
     submit() {
         const { mgDL, mg, bpm, mmHGS, mmHGD, fpg, hba1c, sbp, dbp, exercise } = this.state;
@@ -459,6 +479,17 @@ class HealthData extends Component {
                             </View>
                         </ScrollView>
                     </KeyboardAwareScrollView>
+                    {
+                        (Platform.OS === "android") &&
+                        <KeyboardAccessoryNavigation
+                            androidAdjustResize
+                            doneButtonTitle="เสร็จ"
+                            onNext={() => this.onNextInput()}
+                            onPrevious={() => this.onPreviousInput()}
+                            nextDisabled={isFocusedMmHGD}
+                            previousDisabled={isFocusedMgDL}
+                        />
+                    }
                 </View>
             </SafeAreaView >
         )
