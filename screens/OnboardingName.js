@@ -5,7 +5,9 @@ import colors from '../constants/colors';
 import ComponentsStyle from '../constants/components';
 import { userName } from "../redux/personalUser";
 import { connect } from 'react-redux';
+import { withTranslation } from 'react-i18next';
 import { Switch } from 'react-native-switch';
+import { t } from 'i18next';
 
 class OnboardingName extends React.Component {
     constructor(props) {
@@ -25,7 +27,6 @@ class OnboardingName extends React.Component {
 
     componentDidUpdate(prevProps, prevState) {
         const { profanity } = this.props;
-        console.log("profanity", profanity);
         if ((prevProps.profanity !== profanity) && (profanity !== "loading")) {
             let profanities = profanity && profanity.profanities;
             const keyWord = [];
@@ -60,11 +61,12 @@ class OnboardingName extends React.Component {
         const handleFocus = () => this.setState({ isFocused: true })
         const handleBlur = () => this.setState({ isFocused: false })
         /*  console.log("word",word); */
+        const { t } = this.props;
         return (
             <SafeAreaView style={styles.container}>
                 <View style={{ justifyContent: "center", textAlign: "center", flex: 1, paddingHorizontal: 16 }}>
                     <View>
-                        <Text style={styles.whatName}>อยากให้เราเรียกคุณว่าอะไร?</Text>
+                        <Text style={styles.whatName}>{t('what_do_we_call_you')}</Text>
                     </View>
 
                     <View>
@@ -74,14 +76,14 @@ class OnboardingName extends React.Component {
                             onBlur={handleBlur}
                             numberOfLines={6}
                             maxLength={50}
-                            placeholder='ชื่อของคุณ'
+                            placeholder={t('your_name')}
                             autoCapitalize='none'
                             onChangeText={(name) => this.setState({ name })}
                         />
                         <View style={styles.error}>
                             {
                                 errorInput === true ?
-                                    <Text style={ComponentsStyle.errorText}>ชื่อต้องเป็นคำที่สุภาพ</Text>
+                                    <Text style={ComponentsStyle.errorText}>{t('name_must_be_polite')}</Text>
                                     : null
                             }
                         </View>
@@ -91,12 +93,12 @@ class OnboardingName extends React.Component {
                     </Text>
                 </View>
                 <View style={styles.acceptSwitch}>
-                    <Text style={styles.accept}>ฉันยอมรับ
+                    <Text style={styles.accept}>{t('i_accept')}
                         <Text style={{ color: 'blue' }}
                             onPress={() => Linking.openURL('http://google.com')}>
-                            เงื่อนไขและข้อตกลง
+                            {t('terms_and_conditions')}
                         </Text>
-                        การใช้งาน WELLLY
+                        {t('use_of_wellly')}
                     </Text>
                     <View style={styles.viewsWitch}>
                         <Switch
@@ -123,11 +125,11 @@ class OnboardingName extends React.Component {
                     {
                         (name.length > 0) && (switchOn == true) ?
                             <Pressable style={ComponentsStyle.button} onPress={() => this.submit()} >
-                                <Text style={ComponentsStyle.textButton}>ถัดไป</Text>
+                                <Text style={ComponentsStyle.textButton}>{t('next')}</Text>
                             </Pressable>
                             :
                             <Pressable s style={ComponentsStyle.buttonGrey} >
-                                <Text style={ComponentsStyle.textButtonGrey}>ถัดไป</Text>
+                                <Text style={ComponentsStyle.textButtonGrey}>{t('next')}</Text>
                             </Pressable>
                     }
                 </View>
@@ -191,6 +193,6 @@ const mapActionsToProps = { getProfanity, userName };
 export default connect(
     mapStateToProps,
     mapActionsToProps
-)(OnboardingName);
+)(withTranslation()(OnboardingName));
 
 

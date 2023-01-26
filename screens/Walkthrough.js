@@ -2,9 +2,12 @@ import React, { Component } from 'react';
 import { AppRegistry, View, StyleSheet, Pressable, SafeAreaView, Image, Text, Dimensions, TouchableOpacity } from 'react-native';
 import ComponentsStyle from '../constants/components';
 import colors from '../constants/colors';
-import Swiper from 'react-native-swiper'
+import Swiper from 'react-native-swiper';
+import i18next from 'i18next';
+import { connect } from 'react-redux';
+import { withTranslation } from 'react-i18next';
 
-export default class Walkthrough extends Component {
+class Walkthrough extends Component {
 
     constructor(props) {
         super(props);
@@ -40,6 +43,8 @@ export default class Walkthrough extends Component {
 
     swiper() {
         const { swiperIndex } = this.state;
+        const { t } = this.props;
+
         return (
             <Swiper style={styles.wrapper} showsButtons={false} showsPagination={false}
                 index={swiperIndex}
@@ -56,9 +61,9 @@ export default class Walkthrough extends Component {
                         style={styles.entryImage}
                         source={require('../assets/images/icon/walkthrough_1.png')}
                     />
-                    <Text style={styles.textWellly}>ยินดีต้อนรับสู่ Wellly</Text>
+                    <Text style={styles.textWellly}>{t('welcome_to_Wellly')}</Text>
                     <View style={styles.areaText}>
-                        <Text style={styles.textWellly_2}>แอพพัฒนาสุขภาพ ส่วนบุคคลที่จะช่วยแนะนำคุณทีละขั้นตอน</Text>
+                        <Text style={styles.textWellly_2}>{t('health_app')}</Text>
                     </View>
                 </View>
                 <View style={styles.slide1} >
@@ -66,9 +71,9 @@ export default class Walkthrough extends Component {
                         style={styles.entryImage}
                         source={require('../assets/images/icon/walkthrough_2.png')}
                     />
-                    <Text style={styles.textWellly}>พาสุขภาพไปในทางที่ดีขึ้น</Text>
+                    <Text style={styles.textWellly}>{t('health_better_way')}</Text>
                     <View style={styles.areaText}>
-                        <Text style={styles.textWellly_2}>ปรับเปลี่ยนวิธีคิด, โภชนาการ และ เริ่มต้นออกกำลังกาย</Text>
+                        <Text style={styles.textWellly_2}>{t('start_exercising')}</Text>
                     </View>
                 </View>
                 <View style={styles.slide1}>
@@ -76,9 +81,9 @@ export default class Walkthrough extends Component {
                         style={styles.entryImage}
                         source={require('../assets/images/icon/walkthrough_3.png')}
                     />
-                    <Text style={styles.textWellly}>ในแบบที่เหมาะสม</Text>
+                    <Text style={styles.textWellly}>{t('proper_way')}</Text>
                     <View style={styles.areaText}>
-                        <Text style={styles.textWellly_2}>กับสถานะสุขภาพของคุณเอง ได้อย่างสนุก และท้าทาย เริ่มกันเลย!</Text>
+                        <Text style={styles.textWellly_2}>{t('lets_get_started')}</Text>
                     </View>
                 </View>
 
@@ -91,6 +96,7 @@ export default class Walkthrough extends Component {
 
     render() {
         const { swiperIndex } = this.state;
+        const { t } = this.props;
         return (
             <SafeAreaView style={styles.container}>
                 <View style={styles.swiperBox}>
@@ -109,16 +115,16 @@ export default class Walkthrough extends Component {
                     {swiperIndex < 2 ?
                         <>
                             <Pressable style={ComponentsStyle.button} onPress={() => this.handleChange("swiperIndex", null)} >
-                                <Text style={ComponentsStyle.textButton} >ถัดไป</Text>
+                                <Text style={ComponentsStyle.textButton} >{t('next')}</Text>
                             </Pressable>
                             <Pressable style={styles.buttonCross} onPress={() => this.handleChange("swiperIndex", 2)} >
-                                <Text style={styles.textCross}>ข้าม</Text>
+                                <Text style={styles.textCross}>{t('cross')}</Text>
                             </Pressable>
 
                         </> :
                         <View style={{ flex: 1, justifyContent: "flex-end", marginBottom: 28 }}>
                             <Pressable style={ComponentsStyle.button} onPress={() => this.props.navigation.navigate("OnboardingName")} >
-                                <Text style={ComponentsStyle.textButton} >เริ่มกันเลย!</Text>
+                                <Text style={ComponentsStyle.textButton} >{t('lets_start')}</Text>
                             </Pressable>
                         </View>}
                 </View>
@@ -129,7 +135,6 @@ export default class Walkthrough extends Component {
 
 
 const devicehHeight = Math.round(Dimensions.get('window').height);
-console.log("devicehHeight", devicehHeight);
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -226,4 +231,10 @@ const styles = StyleSheet.create({
 
 });
 
-AppRegistry.registerComponent('myproject', () => Walkthrough)
+/* export default Walkthrough; */
+
+
+export default connect(
+    null,
+    null
+)(withTranslation()(Walkthrough));

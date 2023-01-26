@@ -8,6 +8,7 @@ import { Feather } from '@expo/vector-icons';
 import { connect } from 'react-redux'
 import colors from '../constants/colors';
 import ComponentsStyle from '../constants/components';
+import { withTranslation } from 'react-i18next';
 /* import { Button } from 'react-native-paper'; */
 
 class PersonalData extends Component {
@@ -207,14 +208,14 @@ class PersonalData extends Component {
     render() {
         const { sexIndex, sex, age, weight, height, exercise, statusAge, statusTextAge, statusWeight, statusTextWeight, statusHeight, statusTextHeight,
             isFocusedAge, isFocusedWeight, isFocusedHeight } = this.state;
-
+        const { t } = this.props;
         return (
             <SafeAreaView style={styles.container}>
                 <View style={{ flex: 1, width: "100%" }}>
                     <KeyboardAwareScrollView keyboardShouldPersistTaps='always'>
                         <ScrollView style={styles.areaView} keyboardShouldPersistTaps="always">
                             <View>
-                                <Text style={styles.textHead}>กรอกข้อมูลส่วนตัวเพื่อการคำนวณโปรแกรมที่แม่นยำ</Text>
+                                <Text style={styles.textHead}>{t('personal_information')}</Text>
                                 <Text style={styles.textInputHead}>เพศ</Text>
                                 <View style={styles.radioFormView}>
                                     <View style={styles.radioFormIcon}>
@@ -538,4 +539,4 @@ const mapActionsToProps = { personal };
 export default connect(
     mapStateToProps,
     mapActionsToProps
-)(PersonalData);
+)(withTranslation()(PersonalData));

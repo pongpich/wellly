@@ -167,9 +167,9 @@ class Login extends Component {
                                 {
                                     styleEmil === false ?
                                         textErrorEmail === 1 ?
-                                            <Text style={ComponentsStyle.textError}>กรุณากรอกอีเมล</Text>
+                                            <Text style={ComponentsStyle.textError}>{t('please_enter_email')}</Text>
                                             : textErrorEmail === 2 ?
-                                                <Text style={ComponentsStyle.textError}>รูปแบบของอีเมลไม่ถูกต้อง</Text>
+                                                <Text style={ComponentsStyle.textError}>{t('invalid_email_format')}</Text>
                                                 : null
                                         : null
                                 }
@@ -210,9 +210,9 @@ class Login extends Component {
                                 {
                                     stylePassword === false ?
                                         textErrorPassWord === 1 ?
-                                            <Text style={ComponentsStyle.textError}>กรุณากรอกรหัสผ่าน</Text>
+                                            <Text style={ComponentsStyle.textError}>{t('please_enter_password')}</Text>
                                             : textErrorPassWord === 2 ?
-                                                <Text style={ComponentsStyle.textError}>รหัสผ่านต้องมากกว่า 8 หลักขึ้นไป</Text>
+                                                <Text style={ComponentsStyle.textError}>{t('atleast8char')}</Text>
                                                 : null
                                         : null
                                 }
@@ -257,11 +257,11 @@ class Login extends Component {
                                     style={styles.imageGeneric}
                                     source={require('../assets/images/icon/generic.png')}
                                 />
-                                <Text style={styles.modalText}>ไม่พบบัญชีผู้ใช้</Text>
-                                <Text style={styles.modalText2}>ตรวจสอบชื่อผู้ใช้ หรือรหัสผ่านอีกครั้ง หรือติดต่อแผนกบุคคล</Text>
+                                <Text style={styles.modalText}>{t('user_account_not_found')}</Text>
+                                <Text style={styles.modalText2}>{t('check_username')}</Text>
                                 <View style={styles.buttonView}>
                                     <Pressable style={ComponentsStyle.button} onPress={() => this.toggleModal(isModalVisible)} >
-                                        <Text style={ComponentsStyle.textButton}>ตกลง</Text>
+                                        <Text style={ComponentsStyle.textButton}>{t('agree')}</Text>
                                     </Pressable>
                                 </View>
                             </View>
