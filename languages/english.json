@@ -1,8 +1,11 @@
 {
-    "translation": {
-        "email": "Email",
-        "atleast8char": "Atleast 8 characters",
-        "login": "Login",
-        "forgot_password": "Forgot password"
-    }
+  "translation": {
+    "email": "Email",
+    "atleast8char": "Atleast 8 characters",
+    "login": "Login",
+    "forgot_password": "Forgot password",
+    "contact_hr": "ติดต่อฝ่ายบุคคลบริษัทของคุณเพื่อทำการตั้งค่ารหัสผ่านใหม่",
+    "tel": "Tel",
+    "go_back": "go back"
+  }
 }
