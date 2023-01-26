@@ -7,6 +7,7 @@ import { healt } from "../redux/personalUser";
 import { connect } from 'react-redux';
 import ComponentsStyle from '../constants/components';
 import colors from '../constants/colors';
+import { withTranslation } from 'react-i18next';
 
 class HealthData extends Component {
     constructor(props) {
@@ -271,6 +272,7 @@ class HealthData extends Component {
         const { mgDL, mg, bpm, mmHGS, fpg, hba1c, sbp, dbp, exercise, mmHGD, statusMdDl, statusTextmg_dL, statusMg, statusTextMg, statusBpm,
             statusTextBpm, statusMmGH1, statusTextMmHG1, statusMmGH2, statusTextMmHG2,
             isFocusedMgDL, isFocusedMg, isFocusedBpm, isFocusedMmHGS, isFocusedMmHGD } = this.state;
+        const { t } = this.props;
 
 
         return (
@@ -279,8 +281,8 @@ class HealthData extends Component {
                     <KeyboardAwareScrollView keyboardShouldPersistTaps='always'>
                         <ScrollView keyboardShouldPersistTaps="always">
                             <View style={styles.areaViewPag}>
-                                <Text style={styles.textHead}>ข้อมูลสุขภาพ</Text>
-                                <Text style={styles.textInputHead}>น้ำตาลในเลือด</Text>
+                                <Text style={styles.textHead}>{t('health_information')}</Text>
+                                <Text style={styles.textInputHead}>{t('blood_sugar')}</Text>
                                 <View style={styles.viewRightTnput}>
                                     <Text style={styles.textRightTnput}>mg/dL</Text>
                                     <TextInput
@@ -303,7 +305,7 @@ class HealthData extends Component {
                                                 </View>
                                                 <View>
                                                     <Pressable onPress={Keyboard.dismiss} >
-                                                        <Text style={styles.textDoneButton}>เสร็จ</Text>
+                                                        <Text style={styles.textDoneButton}>{t('finish')}</Text>
                                                     </Pressable>
                                                 </View>
                                             </View>
@@ -311,12 +313,12 @@ class HealthData extends Component {
                                     }
                                     {
                                         statusTextmg_dL === false ?
-                                            <Text style={ComponentsStyle.textError}>กรุณากรอกค่าตั้งแต่ 4 - 1000 mg/dlL.</Text>
+                                            <Text style={ComponentsStyle.textError}>{t('please_enter_value_4_1000')}</Text>
                                             : null
                                     }
 
                                 </View>
-                                <Text style={styles.textInputHead}>ค่าน้ำตาลเฉลี่ยสะสมในเลือด (HbA1c)</Text>
+                                <Text style={styles.textInputHead}>{t('mean_cumulative_blood_sugar')} (HbA1c)</Text>
                                 <View style={styles.viewRightTnput}>
                                     <Text style={styles.textRightTnput}>mg%</Text>
                                     <TextInput
@@ -339,7 +341,7 @@ class HealthData extends Component {
                                                 </View>
                                                 <View>
                                                     <Pressable onPress={Keyboard.dismiss} >
-                                                        <Text style={styles.textDoneButton}>เสร็จ</Text>
+                                                        <Text style={styles.textDoneButton}>{t('finish')}</Text>
                                                     </Pressable>
                                                 </View>
                                             </View>
@@ -348,12 +350,12 @@ class HealthData extends Component {
 
                                     {
                                         statusTextMg === false ?
-                                            <Text style={ComponentsStyle.textError}>กรุณากรอกค่าตั้งแต่ 3.5 - 19 mg%</Text>
+                                            <Text style={ComponentsStyle.textError}>{t('please_enter_value_3_5_19')}</Text>
                                             : null
                                     }
 
                                 </View>
-                                <Text style={styles.textInputHead}>อัตราการเต้นของหัวใจขณะพัก</Text>
+                                <Text style={styles.textInputHead}>{t('heart_rate')}</Text>
                                 <View style={styles.viewRightTnput}>
                                     <Text style={styles.textRightTnput}>bpm</Text>
                                     <TextInput
@@ -376,7 +378,7 @@ class HealthData extends Component {
                                                 </View>
                                                 <View>
                                                     <Pressable onPress={Keyboard.dismiss} >
-                                                        <Text style={styles.textDoneButton}>เสร็จ</Text>
+                                                        <Text style={styles.textDoneButton}>{t('finish')}</Text>
                                                     </Pressable>
                                                 </View>
                                             </View>
@@ -384,13 +386,13 @@ class HealthData extends Component {
                                     }
                                     {
                                         statusTextBpm === false ?
-                                            <Text style={ComponentsStyle.textError}>กรุณากรอกค่าตั้งแต่ 40-160 bpm</Text>
+                                            <Text style={ComponentsStyle.textError}>{t('please_enter_value_40_160')}</Text>
                                             : null
                                     }
 
                                 </View>
-                                <Text style={styles.textHeadMmHG}>ความดันโลหิต</Text>
-                                <Text style={styles.textInputHead}>Systolic (ค่าสูงสุด)</Text>
+                                <Text style={styles.textHeadMmHG}>{t('blood_pressure')}</Text>
+                                <Text style={styles.textInputHead}>Systolic ({t('maximum_value')})</Text>
                                 <View style={styles.viewRightTnput}>
                                     <Text style={styles.textRightTnput}>mmHG</Text>
                                     <TextInput
@@ -414,7 +416,7 @@ class HealthData extends Component {
                                                 </View>
                                                 <View>
                                                     <Pressable onPress={Keyboard.dismiss} >
-                                                        <Text style={styles.textDoneButton}>เสร็จ</Text>
+                                                        <Text style={styles.textDoneButton}>{t('finish')}</Text>
                                                     </Pressable>
                                                 </View>
                                             </View>
@@ -422,12 +424,12 @@ class HealthData extends Component {
                                     }
                                     {
                                         statusTextMmHG1 === false ?
-                                            <Text style={ComponentsStyle.textError}>กรุณากรอกค่าตั้งแต่ 40 - 190 mmHG</Text>
+                                            <Text style={ComponentsStyle.textError}>{t('please_enter_value_40_190')}</Text>
                                             : null
                                     }
 
                                 </View>
-                                <Text style={styles.textInputHead}>Diastolic (ค่าต่ำสุด)</Text>
+                                <Text style={styles.textInputHead}>Diastolic ({t('lowest_value')})</Text>
                                 <View style={styles.viewRightTnput}>
                                     <Text style={styles.textRightTnput}>mmHG</Text>
                                     <TextInput
@@ -451,7 +453,7 @@ class HealthData extends Component {
                                                 </View>
                                                 <View>
                                                     <Pressable onPress={Keyboard.dismiss} >
-                                                        <Text style={styles.textDoneButton}>เสร็จ</Text>
+                                                        <Text style={styles.textDoneButton}>{t('finish')}</Text>
                                                     </Pressable>
                                                 </View>
                                             </View>
@@ -459,7 +461,7 @@ class HealthData extends Component {
                                     }
                                     {
                                         statusTextMmHG2 === false ?
-                                            <Text style={ComponentsStyle.textError}>กรุณากรอกค่าตั้งแต่ 40 - 170 mmHG</Text>
+                                            <Text style={ComponentsStyle.textError}>{t('please_enter_value_40_170')}</Text>
                                             : null
                                     }
 
@@ -469,11 +471,11 @@ class HealthData extends Component {
                                 {
                                     (mgDL !== null) && (mg !== null) && (bpm !== null) && (mmHGS !== null) && (mmHGD !== null) ?
                                         <Pressable style={ComponentsStyle.button} onPress={() => this.submit()} >
-                                            <Text style={ComponentsStyle.textButton}>ถัดไป</Text>
+                                            <Text style={ComponentsStyle.textButton}>{t('next')}</Text>
                                         </Pressable>
                                         :
-                                        <Pressable s style={ComponentsStyle.buttonGrey} /* onPress={() =>  this.props.navigation.navigate("OnboardingResults")} */ >
-                                            <Text style={ComponentsStyle.textButtonGrey}>ถัดไป</Text>
+                                        <Pressable s style={ComponentsStyle.buttonGrey}  >
+                                            <Text style={ComponentsStyle.textButtonGrey}>{t('next')}</Text>
                                         </Pressable>
                                 }
                             </View>
@@ -584,4 +586,4 @@ const mapActionsToProps = { healt };
 export default connect(
     mapStateToProps,
     mapActionsToProps
-)(HealthData);
+)(withTranslation()(HealthData));

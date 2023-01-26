@@ -49,6 +49,18 @@
     "often_exercise": "ออกกำลังกายบ่อยแค่ไหน",
     "regular": "ประจำ",
     "sometimes": "บางครั้ง",
-    "not_all": "ไม่เลย"
+    "not_all": "ไม่เลย",
+    "health_information": "ข้อมูลสุขภาพ",
+    "blood_sugar": "น้ำตาลในเลือด",
+    "please_enter_value_4_1000": "กรุณากรอกค่าตั้งแต่ 4 - 1000 mg/dlL.",
+    "mean_cumulative_blood_sugar": "ค่าน้ำตาลเฉลี่ยสะสมในเลือด",
+    "please_enter_value_3_5_19": "กรุณากรอกค่าตั้งแต่ 3.5 - 19 mg%",
+    "heart_rate": "อัตราการเต้นของหัวใจขณะพัก",
+    "please_enter_value_40_160": "กรุณากรอกค่าตั้งแต่ 40-160 bpm",
+    "blood_pressure": "ความดันโลหิต",
+    "maximum_value": "ค่าสูงสุด",
+    "please_enter_value_40_190": "กรุณากรอกค่าตั้งแต่ 40 - 190 mmHG",
+    "lowest_value": "ค่าต่ำสุด",
+    "please_enter_value_40_170": "กรุณากรอกค่าตั้งแต่ 40 - 170 mmHG"
   }
 }
