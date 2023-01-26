@@ -9,6 +9,7 @@ import { connect } from 'react-redux'
 import colors from '../constants/colors';
 import ComponentsStyle from '../constants/components';
 import { withTranslation } from 'react-i18next';
+
 /* import { Button } from 'react-native-paper'; */
 
 class PersonalData extends Component {
@@ -209,6 +210,7 @@ class PersonalData extends Component {
         const { sexIndex, sex, age, weight, height, exercise, statusAge, statusTextAge, statusWeight, statusTextWeight, statusHeight, statusTextHeight,
             isFocusedAge, isFocusedWeight, isFocusedHeight } = this.state;
         const { t } = this.props;
+        console.log("sex", sex);
         return (
             <SafeAreaView style={styles.container}>
                 <View style={{ flex: 1, width: "100%" }}>
@@ -216,39 +218,39 @@ class PersonalData extends Component {
                         <ScrollView style={styles.areaView} keyboardShouldPersistTaps="always">
                             <View>
                                 <Text style={styles.textHead}>{t('personal_information')}</Text>
-                                <Text style={styles.textInputHead}>เพศ</Text>
+                                <Text style={styles.textInputHead}>{t('sex')}</Text>
                                 <View style={styles.radioFormView}>
                                     <View style={styles.radioFormIcon}>
-                                        <TouchableOpacity onPress={() => this.handleFocus("sex", "ชาย")}>
+                                        <TouchableOpacity onPress={() => this.handleFocus("sex", t('man'))}>
                                             <Image
                                                 style={styles.iconRadio}
-                                                source={sex == "ชาย" ? require('../assets/images/icon/radioActive.png') : require('../assets/images/icon/radio.png')}
+                                                source={(sex == "ชาย") || (sex == "Man") ? require('../assets/images/icon/radioActive.png') : require('../assets/images/icon/radio.png')}
                                             />
                                         </TouchableOpacity>
 
-                                        <Text style={styles.radioFormText}>ชาย</Text>
+                                        <Text style={styles.radioFormText}>{t('man')}</Text>
                                     </View>
                                     <View style={styles.radioFormIcon2}>
-                                        <TouchableOpacity onPress={() => this.handleFocus("sex", "หญิง")}>
+                                        <TouchableOpacity onPress={() => this.handleFocus("sex", t('female'))}>
                                             <Image
                                                 style={styles.iconRadio}
-                                                source={sex == "หญิง" ? require('../assets/images/icon/radioActive.png') : require('../assets/images/icon/radio.png')}
+                                                source={(sex == "หญิง") || (sex == "Female") ? require('../assets/images/icon/radioActive.png') : require('../assets/images/icon/radio.png')}
                                             />
                                         </TouchableOpacity>
-                                        <Text style={styles.radioFormText}>หญิง</Text>
+                                        <Text style={styles.radioFormText}>{t('female')}</Text>
                                     </View>
                                 </View>
 
-                                <Text style={styles.textInputHead}>อายุ</Text>
+                                <Text style={styles.textInputHead}>{t('age')}</Text>
                                 <View style={styles.viewRightTnput}>
-                                    <Text style={styles.textRightTnput}>ปี</Text>
+                                    <Text style={styles.textRightTnput}>{t('year')}</Text>
                                     <TextInput
                                         onFocus={(text) => this.handleFocus("isFocusedAge", true)}
                                         onBlur={(text) => this.handleBlur("isFocusedAge", false)}
                                         style={statusAge === true ? isFocusedAge === true ? ComponentsStyle.inputIsFocused : ComponentsStyle.input : ComponentsStyle.inputError}
 
                                         onChangeText={(text) => this.handleChange("age", text)}
-                                        placeholder="ระบุอายุ"
+                                        placeholder={t('specify_age')}
                                         value={age}
                                         keyboardType="number-pad"
                                         inputAccessoryViewID="textInput1"
@@ -264,7 +266,7 @@ class PersonalData extends Component {
                                                 </View>
                                                 <View>
                                                     <Pressable onPress={Keyboard.dismiss} >
-                                                        <Text style={styles.textDoneButton}>เสร็จ</Text>
+                                                        <Text style={styles.textDoneButton}>{t('finish')}</Text>
                                                     </Pressable>
                                                 </View>
                                             </View>
@@ -272,15 +274,15 @@ class PersonalData extends Component {
                                     }
                                     {
                                         statusTextAge === 0 ?
-                                            <Text style={ComponentsStyle.textError}>กรุณากรอกตามความเป็นจริง</Text> :
+                                            <Text style={ComponentsStyle.textError}>{t('please_fill_truth')}</Text> :
                                             statusTextAge === 1 ?
-                                                <Text style={ComponentsStyle.textError}>โปรแกรมรองรับผู้ใช้ที่มีอายุระหว่าง 18-65 ปี เท่านั้น</Text>
+                                                <Text style={ComponentsStyle.textError}>{t('age_between_18_65')}</Text>
                                                 : null
                                     }
                                 </View>
-                                <Text style={styles.textInputHead}>น้ำหนัก</Text>
+                                <Text style={styles.textInputHead}>{t('weight')}</Text>
                                 <View style={styles.viewRightTnput}>
-                                    <Text style={styles.textRightTnput}>กิโลกรัม</Text>
+                                    <Text style={styles.textRightTnput}>{t('kg')}</Text>
                                     <TextInput
                                         onFocus={(text) => this.handleFocus("isFocusedWeight", true)}
                                         onBlur={(text) => this.handleBlur("isFocusedWeight", false)}
@@ -302,7 +304,7 @@ class PersonalData extends Component {
                                                 </View>
                                                 <View>
                                                     <Pressable onPress={Keyboard.dismiss} >
-                                                        <Text style={styles.textDoneButton}>เสร็จ</Text>
+                                                        <Text style={styles.textDoneButton}>{t('finish')}</Text>
                                                     </Pressable>
                                                 </View>
                                             </View>
@@ -310,18 +312,18 @@ class PersonalData extends Component {
                                     }
                                     {
                                         statusTextWeight === 0 ?
-                                            <Text style={ComponentsStyle.textError}>กรุณากรอกค่าตั้งแต่ 1 ขึ้นไป</Text>
+                                            <Text style={ComponentsStyle.textError}>{t('please_enter_value_1')}</Text>
                                             :
                                             statusTextWeight === 1 ?
-                                                <Text style={ComponentsStyle.textError}>โปรแกรมรองรับผู้ใช้ที่มีน้ำหนักระหว่าง 30-250  กิโลกรัม เท่านั้น</Text>
+                                                <Text style={ComponentsStyle.textError}>{t('weight_between_30_250')}</Text>
                                                 : null
                                     }
 
 
                                 </View>
-                                <Text style={styles.textInputHead}>ส่วนสูง</Text>
+                                <Text style={styles.textInputHead}>{t('height')}</Text>
                                 <View style={styles.viewRightTnput}>
-                                    <Text style={styles.textRightTnput}>เซนติเมตร</Text>
+                                    <Text style={styles.textRightTnput}>{t('cm')}</Text>
                                     <TextInput
                                         onFocus={(text) => this.handleFocus("isFocusedHeight", true)}
                                         onBlur={(text) => this.handleBlur("isFocusedHeight", false)}
@@ -343,7 +345,7 @@ class PersonalData extends Component {
                                                 </View>
                                                 <View>
                                                     <Pressable onPress={Keyboard.dismiss} >
-                                                        <Text style={styles.textDoneButton}>เสร็จ</Text>
+                                                        <Text style={styles.textDoneButton}>{t('finish')}</Text>
                                                     </Pressable>
                                                 </View>
                                             </View>
@@ -351,16 +353,16 @@ class PersonalData extends Component {
                                     }
                                     {
                                         statusTextHeight === 0 ?
-                                            <Text style={ComponentsStyle.textError}>กรุณากรอกค่าตั้งแต่ 100 ขึ้นไป</Text>
+                                            <Text style={ComponentsStyle.textError}>{t('please_enter_value_100')}</Text>
                                             :
                                             statusTextHeight === 1 ?
-                                                <Text style={ComponentsStyle.textError}>โปรแกรมรองรับผู้ใช้ที่มีส่วนสูงระหว่าง 100-280 {"\n"}เซนติเมตร เท่านั้น</Text>
+                                                <Text style={ComponentsStyle.textError}>{t('height_between_100_280')}</Text>
                                                 : null
                                     }
 
 
                                 </View>
-                                <Text style={styles.textInputHead}>ออกกำลังกายบ่อยแค่ไหน</Text>
+                                <Text style={styles.textInputHead}>{t('often_exercise')}</Text>
                                 <View style={styles.radioFormView}>
                                     <View style={styles.radioFormIcon}>
                                         <TouchableOpacity onPress={() => this.handleFocus("exercise", "ประจำ")}>
@@ -370,7 +372,7 @@ class PersonalData extends Component {
                                             />
                                         </TouchableOpacity>
 
-                                        <Text style={styles.radioFormText}>ประจำ</Text>
+                                        <Text style={styles.radioFormText}>{t('regular')}</Text>
                                     </View>
                                     <View style={styles.radioFormIcon2}>
                                         <TouchableOpacity onPress={() => this.handleFocus("exercise", "บางครั้ง")}>
@@ -379,7 +381,7 @@ class PersonalData extends Component {
                                                 source={exercise == "บางครั้ง" ? require('../assets/images/icon/radioActive.png') : require('../assets/images/icon/radio.png')}
                                             />
                                         </TouchableOpacity>
-                                        <Text style={styles.radioFormText}>บางครั้ง</Text>
+                                        <Text style={styles.radioFormText}>{t('sometimes')}</Text>
                                     </View>
                                     <View style={styles.radioFormIcon2}>
                                         <TouchableOpacity onPress={() => this.handleFocus("exercise", "ไม่เลย")}>
@@ -388,7 +390,7 @@ class PersonalData extends Component {
                                                 source={exercise == "ไม่เลย" ? require('../assets/images/icon/radioActive.png') : require('../assets/images/icon/radio.png')}
                                             />
                                         </TouchableOpacity>
-                                        <Text style={styles.radioFormText}>ไม่เลย</Text>
+                                        <Text style={styles.radioFormText}>{t('not_all')}</Text>
                                     </View>
                                 </View>
                             </View>
@@ -397,11 +399,11 @@ class PersonalData extends Component {
                                 {
                                     (sex !== null) && (age !== null) && (weight !== null) && (height !== null) && (exercise !== null) ?
                                         <Pressable style={ComponentsStyle.button} onPress={() => this.submit()} >
-                                            <Text style={ComponentsStyle.textButton}>ถัดไป</Text>
+                                            <Text style={ComponentsStyle.textButton}>{t('next')}</Text>
                                         </Pressable>
                                         :
                                         <Pressable s style={ComponentsStyle.buttonGrey} /* onPress={() =>  this.props.navigation.navigate("HealthData")} */ >
-                                            <Text style={ComponentsStyle.textButtonGrey}>ถัดไป</Text>
+                                            <Text style={ComponentsStyle.textButtonGrey}>{t('next')}</Text>
                                         </Pressable>
                                 }
                             </View>
@@ -425,7 +427,7 @@ class PersonalData extends Component {
 }
 
 const deviceHeight = Math.round(Dimensions.get('window').height);
-console.log("deviceHeight", deviceHeight);
+
 const styles = StyleSheet.create({
     inputAccessory: {
         width: Dimensions.get('window').width,

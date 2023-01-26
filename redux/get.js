@@ -27,7 +27,7 @@ const getProfanitySagaAsync = async () => {
       }
 
     });
-    console.log("apiResult", apiResult);
+    // console.log("apiResult", apiResult);
     return apiResult
   } catch (error) {
     return { error, messsage: error.message };
