@@ -5,6 +5,8 @@ import { personal, healt } from "../redux/personalUser";
 import { connect } from 'react-redux';
 import ComponentsStyle from '../constants/components';
 import colors from '../constants/colors';
+import { withTranslation } from 'react-i18next';
+import { t } from 'i18next';
 
 class OnboardingResults extends Component {
 
@@ -131,6 +133,7 @@ class OnboardingResults extends Component {
     }
 
     onboarding_A1() {
+        const { t } = this.props;
         return (
             <LinearGradient
                 style={styles.container}
@@ -141,17 +144,17 @@ class OnboardingResults extends Component {
                 <SafeAreaView style={styles.areaView}>
                     <View style={styles.areaViewIcon}>
                         <Image source={require('../assets/images/icon/generic_A.png')} />
-                        <Text style={styles.text_1}>คุณมีสุขภาพร่างกาย</Text>
+                        <Text style={styles.text_1}>{t('physical_health')}</Text>
                         <Pressable style={styles.buttonStatusA}>
-                            <Text style={styles.textStatus}>ปกติดี</Text>
+                            <Text style={styles.textStatus}>{t('fine')}</Text>
                         </Pressable>
                         <View style={styles.areaViewText}>
-                            <Text style={styles.text_2}>การคุมอาหารและออกกำลังกายตามโปรแกรม {"\n"}จะช่วยรักษาสุขภาพให้ดียิ่งขึ้น</Text>
+                            <Text style={styles.text_2}>{t('diet_exercise_program')}</Text>
                         </View>
                     </View>
                     <View style={styles.areaViewButton}>
                         <Pressable style={ComponentsStyle.button}  >
-                            <Text style={ComponentsStyle.textButton}>รับคำแนะนำจากเรา</Text>
+                            <Text style={ComponentsStyle.textButton}>{t('get_advice')}</Text>
                         </Pressable>
                     </View>
                 </SafeAreaView>
@@ -159,6 +162,7 @@ class OnboardingResults extends Component {
         )
     }
     onboarding_B1() {
+        const { t } = this.props;
         return (
             <LinearGradient
                 style={styles.container}
@@ -169,17 +173,17 @@ class OnboardingResults extends Component {
                 <SafeAreaView style={styles.areaView}>
                     <View style={styles.areaViewIcon}>
                         <Image source={require('../assets/images/icon/generic_B.png')} />
-                        <Text style={styles.text_1}>คุณมีแนวโน้มเป็น</Text>
+                        <Text style={styles.text_1}>{t('you_tend')}</Text>
                         <Pressable style={styles.buttonStatusB1}>
-                            <Text style={styles.textStatus}>ภาวะก่อนเบาหวาน</Text>
+                            <Text style={styles.textStatus}>{t('pre_diabetes')}</Text>
                         </Pressable>
                         <View style={styles.areaViewText}>
-                            <Text style={styles.text_2}>การคุมอาหารและออกกำลังกายตามโปรแกรม  จะช่วยลดความเสี่ยงภาวะก่อนเบาหวาน และทำให้สุขภาพดีขึ้นได้</Text>
+                            <Text style={styles.text_2}>{t('pre_diabetes_exercise_program')}</Text>
                         </View>
                     </View>
                     <View style={styles.areaViewButton}>
                         <Pressable style={ComponentsStyle.button}  >
-                            <Text style={ComponentsStyle.textButton}>รับคำแนะนำจากเรา</Text>
+                            <Text style={ComponentsStyle.textButton}>{t('get_advice')}</Text>
                         </Pressable>
                     </View>
                 </SafeAreaView>
@@ -188,6 +192,7 @@ class OnboardingResults extends Component {
     }
 
     onboarding_B2() {
+        const { t } = this.props;
         return (
             <LinearGradient
                 style={styles.container}
@@ -198,17 +203,17 @@ class OnboardingResults extends Component {
                 <SafeAreaView style={styles.areaView}>
                     <View style={styles.areaViewIcon}>
                         <Image source={require('../assets/images/icon/generic_B.png')} />
-                        <Text style={styles.text_1}>คุณมีแนวโน้มเป็น</Text>
+                        <Text style={styles.text_1}>{t('you_tend')}</Text>
                         <Pressable style={styles.buttonStatusB2}>
-                            <Text style={styles.textStatus}>ภาวะก่อนเบาหวานและความดันสูง</Text>
+                            <Text style={styles.textStatus}>{t('pre_diabetes_high_blood_pressure')}</Text>
                         </Pressable>
                         <View style={styles.areaViewText}>
-                            <Text style={styles.text_2}>การคุมอาหารและออกกำลังกายตามโปรแกรม จะช่วยลดความเสี่ยงภาวะก่อนเบาหวาน และทำให้สุขภาพดีขึ้นได้</Text>
+                            <Text style={styles.text_2}>{t('pre_diabetes_high_blood_pressure_exercise_program')}</Text>
                         </View>
                     </View>
                     <View style={styles.areaViewButton}>
                         <Pressable style={ComponentsStyle.button}  >
-                            <Text style={ComponentsStyle.textButton}>รับคำแนะนำจากเรา</Text>
+                            <Text style={ComponentsStyle.textButton}>{t('get_advice')}</Text>
                         </Pressable>
                     </View>
                 </SafeAreaView>
@@ -217,6 +222,7 @@ class OnboardingResults extends Component {
     }
 
     onboarding_C1() {
+        const { t } = this.props;
         return (
             <LinearGradient
                 style={styles.container}
@@ -227,17 +233,17 @@ class OnboardingResults extends Component {
                 <SafeAreaView style={styles.areaView}>
                     <View style={styles.areaViewIcon}>
                         <Image source={require('../assets/images/icon/generic_C.png')} />
-                        <Text style={styles.text_1}>คุณมีแนวโน้มเป็น</Text>
+                        <Text style={styles.text_1}>{t('you_tend')}</Text>
                         <Pressable style={styles.buttonStatusC1}>
-                            <Text style={styles.textStatus}>ภาวะเบาหวาน</Text>
+                            <Text style={styles.textStatus}>{t('diabetes_mellitus')}</Text>
                         </Pressable>
                         <View style={styles.areaViewText}>
-                            <Text style={styles.text_2}>การคุมอาหารและออกกำลังกายตามโปรแกรมจะช่วยลดความเสี่ยงภาวะเบาหวานและทำให้สุขภาพดีขึ้นได้</Text>
+                            <Text style={styles.text_2}>{t('diabetes_mellitus_exercise_program')}</Text>
                         </View>
                     </View>
                     <View style={styles.areaViewButton}>
                         <Pressable style={ComponentsStyle.button}  >
-                            <Text style={ComponentsStyle.textButton}>รับคำแนะนำจากเรา</Text>
+                            <Text style={ComponentsStyle.textButton}>{t('get_advice')}</Text>
                         </Pressable>
                     </View>
                 </SafeAreaView>
@@ -245,6 +251,7 @@ class OnboardingResults extends Component {
         )
     }
     onboarding_C2() {
+        const { t } = this.props;
         return (
             <LinearGradient
                 style={styles.container}
@@ -255,17 +262,17 @@ class OnboardingResults extends Component {
                 <SafeAreaView style={styles.areaView}>
                     <View style={styles.areaViewIcon}>
                         <Image source={require('../assets/images/icon/generic_C.png')} />
-                        <Text style={styles.text_1}>คุณมีแนวโน้มเป็น</Text>
+                        <Text style={styles.text_1}>{t('you_tend')}</Text>
                         <Pressable style={styles.buttonStatusC2}>
-                            <Text style={styles.textStatus}>ภาวะเบาหวานและความดันสูง</Text>
+                            <Text style={styles.textStatus}>{t('diabetes_high_blood_pressure')}</Text>
                         </Pressable>
                         <View style={styles.areaViewText}>
-                            <Text style={styles.text_2}>การคุมอาหารและออกกำลังกายตามโปรแกรม จะช่วยลดความเสี่ยงภาวะเบาหวานและลดความดันโลหิตลง อีกทั้งทำให้สุขภาพดีขึ้นได้</Text>
+                            <Text style={styles.text_2}>{t('diabetes_high_blood_pressure_exercise_program')}</Text>
                         </View>
                     </View>
                     <View style={styles.areaViewButton}>
                         <Pressable style={ComponentsStyle.button}  >
-                            <Text style={ComponentsStyle.textButton}>รับคำแนะนำจากเรา</Text>
+                            <Text style={ComponentsStyle.textButton}>{t('get_advice')}</Text>
                         </Pressable>
                     </View>
                 </SafeAreaView>
@@ -274,6 +281,7 @@ class OnboardingResults extends Component {
     }
 
     onboarding_D1() {
+        const { t } = this.props;
         return (
             <LinearGradient
                 style={styles.container}
@@ -284,17 +292,17 @@ class OnboardingResults extends Component {
                 <SafeAreaView style={styles.areaView}>
                     <View style={styles.areaViewIcon}>
                         <Image source={require('../assets/images/icon/generic_B.png')} />
-                        <Text style={styles.text_1}>คุณมีแนวโน้มเป็น</Text>
+                        <Text style={styles.text_1}>{t('you_tend')}</Text>
                         <Pressable style={styles.buttonStatusB1}>
-                            <Text style={styles.textStatus}>ภาวะความดันสูง</Text>
+                            <Text style={styles.textStatus}>{t('hypertension')}</Text>
                         </Pressable>
                         <View style={styles.areaViewText}>
-                            <Text style={styles.text_2}>การคุมอาหารและออกกำลังกายตามโปรแกรม จะช่วยลดความเสี่ยงจากความดันโลหิตสูงลง อีกทั้งทำให้สุขภาพดีขึ้นได้</Text>
+                            <Text style={styles.text_2}>{t('hypertension_exercise_program')}</Text>
                         </View>
                     </View>
                     <View style={styles.areaViewButton}>
                         <Pressable style={ComponentsStyle.button}  >
-                            <Text style={ComponentsStyle.textButton}>รับคำแนะนำจากเรา</Text>
+                            <Text style={ComponentsStyle.textButton}>{t('get_advice')}</Text>
                         </Pressable>
                     </View>
                 </SafeAreaView>
@@ -303,8 +311,9 @@ class OnboardingResults extends Component {
     }
 
     render() {
-        // const { resultsUser } = this.state;
-        let resultsUser = "D1";
+        const { resultsUser } = this.state;
+
+
         return (
             <>
                 {
@@ -434,7 +443,7 @@ const styles = StyleSheet.create({
     },
     areaViewText: {
         marginTop: 16,
-        width: "80%",
+        paddingHorizontal: 24,
         alignItems: "center",
     },
     text_2: {
@@ -469,4 +478,4 @@ const mapActionsToProps = { personal, healt };
 export default connect(
     mapStateToProps,
     mapActionsToProps
-)(OnboardingResults);
+)(withTranslation()(OnboardingResults));
