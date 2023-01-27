@@ -4,15 +4,29 @@ import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator, CardStyleInterpolators, TransitionSpecs, TransitionPresets } from '@react-navigation/stack';
 import Login from '../screens/Login';
 import ForgotPassword from '../screens/ForgotPassword';
+import { connect } from 'react-redux';
 import Walkthrough from '../screens/Walkthrough';
 import OnboardingResults from '../screens/OnboardingResults';
 import PersonalData from '../screens/PersonalData';
 import HealthData from '../screens/HealthData';
 import OnboardingName from '../screens/OnboardingName';
 import '../languages/i18n'; //ใช้สำหรับ 2ภาษา
+import i18next from 'i18next';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { useRoute } from '@react-navigation/native';
+import colors from '../constants/colors';
+import Home from '../screens/Home';
+import Nutrition from '../screens/Nutrition/Nutrition';
+import Exercise from '../screens/Nutrition/Exercise';
+import Activity from '../screens/Nutrition/Activity';
+import Page1 from '../screens/Nutrition/Page1';
+import Page2 from '../screens/Nutrition/Page2';
+
 
 
 const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
 const config = {
   animation: 'spring',
   config: {
@@ -24,16 +38,163 @@ const config = {
     restSpeedThreshold: 0.01,
   },
 };
+const HomeStack = createNativeStackNavigator();
+
+
+function HomeStackScreen() {
+  return (
+    <HomeStack.Navigator>
+      <HomeStack.Screen name="Home" component={Home}
+        options={{
+
+          /*           title: "Ho",
+                    headerShown: false,
+                    headerShadowVisible: false,
+                    gestureEnabled: false,
+                    cardOverlayEnabled: false, */
+        }} />
+      <HomeStack.Screen name="Page1" component={Page1} />
+    </HomeStack.Navigator>
+  );
+}
+
+
+const NutritionStack = createNativeStackNavigator();
+
+function NutritionStackScreen() {
+  return (
+    <HomeStack.Navigator>
+      <NutritionStack.Screen name="Nutrition" component={Nutrition} />
+      <NutritionStack.Screen name="Page2" component={Page2} />
+    </HomeStack.Navigator>
+  );
+}
+
+
+
+const ExerciseStack = createNativeStackNavigator();
+
+function ExerciseStackScreen() {
+  return (
+    <HomeStack.Navigator>
+      <ExerciseStack.Screen name="Exercise" component={Exercise} />
+    </HomeStack.Navigator>
+  );
+}
+const ActivityStack = createNativeStackNavigator();
+
+function ActivityStackScreen() {
+  const route = useRoute();
+  console.log(route.name);
+  return (
+    <HomeStack.Navigator>
+      <ActivityStack.Screen name="Activity" component={Activity} />
+    </HomeStack.Navigator>
+  );
+}
+
+
+
+
+
+function MyHome() {
+
+  /* const { t } = this.props.withTranslation; */
+
+  const languages = i18next.languages[0];
+
+
+
+  return (
+    <Tab.Navigator /* screenOptions={{ headerShown: false, }} */
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName;
+
+          if (route.name === 'Home') {
+            iconName = focused ?
+              <Image
+                style={{ width: 24, height: 24 }}
+                source={require('../assets/images/icon/menuHomeActive.png')}
+              /> :
+              <Image
+                style={{ width: 24, height: 24 }}
+                source={require('../assets/images/icon/menuHome.png')}
+              />;
+          } else if (route.name === 'Nutrition') {
+            iconName = focused ?
+              <Image
+                style={{ width: 24, height: 24 }}
+                source={require('../assets/images/icon/menuNutritionActive.png')}
+              /> :
+              <Image
+                style={{ width: 24, height: 24 }}
+                source={require('../assets/images/icon/menuNutrition.png')}
+              />;
+          } else if (route.name === 'Exercise') {
+            iconName = focused ?
+
+              <Image
+                style={{ width: 24, height: 24 }}
+                source={require('../assets/images/icon/menuExerciseActive.png')}
+              /> :
+              <Image
+                style={{ width: 24, height: 24 }}
+                source={require('../assets/images/icon/menuExercise.png')}
+              />;
+          } else if (route.name === 'Activity') {
+            iconName = focused ?
+              <Image
+                style={{ width: 24, height: 24 }}
+                source={require('../assets/images/icon/menuActivityActive.png')}
+              /> :
+              <Image
+                style={{ width: 24, height: 24 }}
+                source={require('../assets/images/icon/menuActivity.png')}
+              />;
+          }
+          // You can return any component that you like here!
+          return iconName;
+        },
+        tabBarActiveTintColor: colors.persianBlue,
+        tabBarInactiveTintColor: colors.grey3,
+      })}>
+      <Tab.Screen name="Home" component={HomeStackScreen}
+        options={{
+          title: languages === "th" ? "หน้าแรก" : "Home",
+        }}
+      //  <Octicons name="home" size={24} color="black" />
+      />
+      <Tab.Screen name="Nutrition" component={NutritionStackScreen}
+        options={{
+          title: languages === "th" ? "โภชนาการ" : "Nutrition",
+        }} />
+      <Tab.Screen name="Exercise" component={ExerciseStackScreen}
+        options={{
+          title: languages === "th" ? "ออกกำลังกาย" : "Exercise",
+          tabBarIcon: ({ size, color }) => (
+            <Image
+              style={{ width: 24, height: 24 }}
+              source={require('../assets/images/icon/menuExercise.png')}
+            />
+          )
+        }} />
+      <Tab.Screen name="Activity" component={ActivityStackScreen}
+        options={{
+          title: languages === "th" ? "กิจกรรม" : "Activity",
+        }} />
+    </Tab.Navigator >
+  );
+}
 
 function MyStack() {
   const navigation = useNavigation();
-
   return (
     <Stack.Navigator
       screenOptions={{
         headerTintColor: "#3762FC", // ใส่ icon สี ปุ่ม BackTitle
       }}>
-      {/*    <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+      {/*       <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
       <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{
         title: "",
         //headerBackTitle: true, //ซ่อนข้อความในของ ios
@@ -48,12 +209,10 @@ function MyStack() {
             </TouchableOpacity>
           </View>
         ),
-      }} /> 
-
+      }} />
       <Stack.Screen name="Walkthrough" component={Walkthrough} options={{
         headerShown: false,
       }} />
-*/}
       <Stack.Screen name="OnboardingName" component={OnboardingName} options={{
         title: "",
         //headerBackTitle: true, //ซ่อนข้อความในของ ios
@@ -68,7 +227,6 @@ function MyStack() {
           </View>
         ),
       }} />
-
       <Stack.Screen name="PersonalData" component={PersonalData} options={{
         headerShadowVisible: false,
         title: "",
@@ -82,7 +240,6 @@ function MyStack() {
           </View>
         ),
       }} />
-
       <Stack.Screen name="HealthData" component={HealthData} options={{
         headerShadowVisible: false,
         title: "",
@@ -95,7 +252,8 @@ function MyStack() {
             </TouchableOpacity>
           </View>
         ),
-      }} />
+      }} /> */}
+
       <Stack.Screen name="OnboardingResults" component={OnboardingResults} options={{
         title: "",
         headerShown: false,
@@ -103,17 +261,31 @@ function MyStack() {
         gestureEnabled: false,
         cardOverlayEnabled: false,
       }} />
+      <Stack.Screen name="Home" component={MyHome} options={{
+        headerShown: false,
+      }} />
     </Stack.Navigator>
   );
 }
 
 
-export default class index extends Component {
+
+
+class Index extends Component {
   render() {
+
     return (
       <NavigationContainer >
         <MyStack />
+
       </NavigationContainer>
     )
   }
 }
+
+export default Index;
+
+/* export default connect(
+  null,
+  null
+)(withTranslation()(Index)); */

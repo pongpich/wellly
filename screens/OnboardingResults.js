@@ -22,7 +22,7 @@ class OnboardingResults extends Component {
     componentDidMount() {
         const { fpg, hba1c, sbp, dbp, exercise } = this.props.healtDataUser; // การเรียงค่า  (fpg = mg/dL) ,(hba1c = mg) ,(sbp = mmHG), (dbp = mmHG)
         //  เบาหวาน fpg ,hba1c
-        console.log("componentDidMount", fpg, hba1c, sbp, dbp, exercise);
+        /*  console.log("componentDidMount", fpg, hba1c, sbp, dbp, exercise); */
         if ((fpg === "N") && (hba1c === "N")) {
             this.setState({
                 diabetes: "N"
@@ -80,10 +80,8 @@ class OnboardingResults extends Component {
     componentDidUpdate(prevProps, prevState) {
         const { diabetes, hypertension, exercise } = this.state;
 
-        console.log("componentDidUpdate", diabetes, hypertension, exercise);
+        /*  console.log("componentDidUpdate", diabetes, hypertension, exercise); */
         if ((prevState.diabetes !== diabetes) && (prevState.hypertension !== hypertension) && (prevState.exercise !== exercise)) {
-
-
             if ((diabetes === "N") && (hypertension === "N")) {  //A1 & A2
                 this.setState({
                     resultsUser: "A1"
@@ -153,7 +151,7 @@ class OnboardingResults extends Component {
                         </View>
                     </View>
                     <View style={styles.areaViewButton}>
-                        <Pressable style={ComponentsStyle.button}  >
+                        <Pressable style={ComponentsStyle.button} onPress={() => this.props.navigation.navigate("Home")} >
                             <Text style={ComponentsStyle.textButton}>{t('get_advice')}</Text>
                         </Pressable>
                     </View>
@@ -182,7 +180,7 @@ class OnboardingResults extends Component {
                         </View>
                     </View>
                     <View style={styles.areaViewButton}>
-                        <Pressable style={ComponentsStyle.button}  >
+                        <Pressable style={ComponentsStyle.button} onPress={() => this.props.navigation.navigate("Home")}>
                             <Text style={ComponentsStyle.textButton}>{t('get_advice')}</Text>
                         </Pressable>
                     </View>
@@ -212,7 +210,7 @@ class OnboardingResults extends Component {
                         </View>
                     </View>
                     <View style={styles.areaViewButton}>
-                        <Pressable style={ComponentsStyle.button}  >
+                        <Pressable style={ComponentsStyle.button} onPress={() => this.props.navigation.navigate("Home")} >
                             <Text style={ComponentsStyle.textButton}>{t('get_advice')}</Text>
                         </Pressable>
                     </View>
@@ -242,7 +240,7 @@ class OnboardingResults extends Component {
                         </View>
                     </View>
                     <View style={styles.areaViewButton}>
-                        <Pressable style={ComponentsStyle.button}  >
+                        <Pressable style={ComponentsStyle.button} onPress={() => this.props.navigation.navigate("Home")}>
                             <Text style={ComponentsStyle.textButton}>{t('get_advice')}</Text>
                         </Pressable>
                     </View>
@@ -271,7 +269,7 @@ class OnboardingResults extends Component {
                         </View>
                     </View>
                     <View style={styles.areaViewButton}>
-                        <Pressable style={ComponentsStyle.button}  >
+                        <Pressable style={ComponentsStyle.button} onPress={() => this.props.navigation.navigate("Home")} >
                             <Text style={ComponentsStyle.textButton}>{t('get_advice')}</Text>
                         </Pressable>
                     </View>
@@ -301,7 +299,7 @@ class OnboardingResults extends Component {
                         </View>
                     </View>
                     <View style={styles.areaViewButton}>
-                        <Pressable style={ComponentsStyle.button}  >
+                        <Pressable style={ComponentsStyle.button} onPress={() => this.props.navigation.navigate("Home")} >
                             <Text style={ComponentsStyle.textButton}>{t('get_advice')}</Text>
                         </Pressable>
                     </View>

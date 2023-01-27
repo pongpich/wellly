@@ -39,7 +39,7 @@ class Login extends Component {
         }
 
         if (prevState.email != email) {
-            console.log("email", email);
+
             let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
             if (reg.test(email) === false) {
                 this.setState({
