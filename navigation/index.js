@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, View, Image, TouchableOpacity } from 'react-native';
+import { Button, View, Image, TouchableOpacity, Dimensions } from 'react-native';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator, CardStyleInterpolators, TransitionSpecs, TransitionPresets } from '@react-navigation/stack';
 import Login from '../screens/Login';
@@ -115,7 +115,7 @@ function MyHome() {
 
   const languages = i18next.languages[0];
 
-
+  const devicehHeight = Math.round(Dimensions.get('window').height);
 
   return (
     <Tab.Navigator
@@ -181,14 +181,16 @@ function MyHome() {
           shadowOpacity: 0.32,
           shadowRadius: 5.46,
           elevation: 9,
-          height: 90,
+          /* height: 70, */
+          height: (devicehHeight < 668) ? 70 : (devicehHeight < 801) ? 70 : 100,
           borderTopLeftRadius: 16,
           borderTopRightRadius: 16,
           backgroundColor: colors.white,
         },
         tabBarLabelStyle: {
-          /*  marginTop: 8, */
           fontSize: 12,
+          /*       marginTop: 16, */
+          paddingBottom: 10,
           fontFamily: "IBMPlexSansThai-Regular",
         },
         tabBarActiveTintColor: colors.persianBlue,
