@@ -20,6 +20,7 @@ import Home from '../screens/Home';
 import Nutrition from '../screens/Nutrition/Nutrition';
 import Exercise from '../screens/Nutrition/Exercise';
 import Activity from '../screens/Nutrition/Activity';
+import Add from '../screens/Nutrition/Add';
 import Page1 from '../screens/Nutrition/Page1';
 import Page2 from '../screens/Nutrition/Page2';
 
@@ -84,11 +85,22 @@ function ExerciseStackScreen() {
 const ActivityStack = createNativeStackNavigator();
 
 function ActivityStackScreen() {
-  const route = useRoute();
-  console.log(route.name);
+
   return (
     <HomeStack.Navigator>
       <ActivityStack.Screen name="Activity" component={Activity} />
+    </HomeStack.Navigator>
+  );
+}
+
+
+const AddStack = createNativeStackNavigator();
+
+function AddStackScreen() {
+
+  return (
+    <HomeStack.Navigator>
+      <AddStack.Screen name="Add" component={Activity} />
     </HomeStack.Navigator>
   );
 }
@@ -106,8 +118,9 @@ function MyHome() {
 
 
   return (
-    <Tab.Navigator /* screenOptions={{ headerShown: false, }} */
+    <Tab.Navigator
       screenOptions={({ route }) => ({
+        headerShown: false,
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
 
@@ -156,6 +169,28 @@ function MyHome() {
           // You can return any component that you like here!
           return iconName;
         },
+        tabBarStyle: {
+          /*   borderTopWidth: -50,
+            elevation: 0, */
+          paddingTop: 16,
+          shadowColor: "#000",
+          shadowOffset: {
+            width: 0,
+            height: 4,
+          },
+          shadowOpacity: 0.32,
+          shadowRadius: 5.46,
+          elevation: 9,
+          height: 90,
+          borderTopLeftRadius: 16,
+          borderTopRightRadius: 16,
+          backgroundColor: colors.white,
+        },
+        tabBarLabelStyle: {
+          /*  marginTop: 8, */
+          fontSize: 12,
+          fontFamily: "IBMPlexSansThai-Regular",
+        },
         tabBarActiveTintColor: colors.persianBlue,
         tabBarInactiveTintColor: colors.grey3,
       })}>
@@ -163,21 +198,26 @@ function MyHome() {
         options={{
           title: languages === "th" ? "หน้าแรก" : "Home",
         }}
+
       //  <Octicons name="home" size={24} color="black" />
       />
       <Tab.Screen name="Nutrition" component={NutritionStackScreen}
         options={{
           title: languages === "th" ? "โภชนาการ" : "Nutrition",
         }} />
+      <Tab.Screen name="Add" component={AddStackScreen}
+        options={{
+          title: '',
+          tabBarIcon: ({ size, color }) => (
+            <Image
+              style={{ width: 80, height: 80 }}
+              source={require('../assets/images/icon/Add.png')}
+            />
+          )
+        }} />
       <Tab.Screen name="Exercise" component={ExerciseStackScreen}
         options={{
           title: languages === "th" ? "ออกกำลังกาย" : "Exercise",
-          tabBarIcon: ({ size, color }) => (
-            <Image
-              style={{ width: 24, height: 24 }}
-              source={require('../assets/images/icon/menuExercise.png')}
-            />
-          )
         }} />
       <Tab.Screen name="Activity" component={ActivityStackScreen}
         options={{
@@ -194,7 +234,7 @@ function MyStack() {
       screenOptions={{
         headerTintColor: "#3762FC", // ใส่ icon สี ปุ่ม BackTitle
       }}>
-      {/*       <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+      <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
       <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{
         title: "",
         //headerBackTitle: true, //ซ่อนข้อความในของ ios
@@ -252,7 +292,7 @@ function MyStack() {
             </TouchableOpacity>
           </View>
         ),
-      }} /> */}
+      }} />
 
       <Stack.Screen name="OnboardingResults" component={OnboardingResults} options={{
         title: "",
@@ -261,6 +301,7 @@ function MyStack() {
         gestureEnabled: false,
         cardOverlayEnabled: false,
       }} />
+
       <Stack.Screen name="Home" component={MyHome} options={{
         headerShown: false,
       }} />
