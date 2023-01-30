@@ -40,8 +40,6 @@ function* getProfanitySaga({ }) {
     const apiResult = yield call(
       getProfanitySagaAsync
     );
-
-    console.log("apiResult 55", apiResult.results);
     yield put({
       type: types.GET_PROFANITY_SUCCESS,
       payload: apiResult.results

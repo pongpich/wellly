@@ -27,6 +27,7 @@ class OnboardingName extends React.Component {
 
     componentDidUpdate(prevProps, prevState) {
         const { profanity } = this.props;
+        const { name, words } = this.state;
         if ((prevProps.profanity !== profanity) && (profanity !== "loading")) {
             let profanities = profanity && profanity.profanities;
             const keyWord = [];
@@ -37,25 +38,35 @@ class OnboardingName extends React.Component {
                 words: keyWord
             })
         }
+        if ((prevState.name !== name)) {
+            let result = false;
+            for (let i = 0; i < words.length; i++) {
+                if (name.includes(words[i])) {
+                    result = true
+                }
+            }
+
+            //result === true คือมีคำหยาบ
+            if (result) {
+                this.setState({
+                    errorInput: true
+                })
+            } else {
+                this.setState({
+                    errorInput: false
+                })
+            }
+        }
     }
 
     submit() {
-        const { name, words } = this.state;
-        /*  const result = words.filter(word => word == name); */
-        const result = words.includes(name);
+        const { name, errorInput } = this.state;
 
-        console.log(result);
-        if (result == true) {
-            this.setState({
-                errorInput: true
-            })
-        } else {
+        if (!errorInput && name) {
             this.props.userName(name);
             this.props.navigation.navigate("PersonalData")
         }
 
-        /* this.props.userName(name); */
-        /*         this.props.navigation.navigate("PersonalData") */
     }
 
     render() {
@@ -77,7 +88,7 @@ class OnboardingName extends React.Component {
                             onFocus={handleFocus}
                             onBlur={handleBlur}
                             numberOfLines={6}
-                            maxLength={50}
+                            maxLength={30}
                             placeholder={t('your_name')}
                             autoCapitalize='none'
                             onChangeText={(name) => this.setState({ name })}
@@ -91,8 +102,8 @@ class OnboardingName extends React.Component {
                                 : <Text style={ComponentsStyle.textError}></Text>
                         }
 
-                        <Text style={{ textAlign: "right", marginTop: 8 }}>
-                            {name.length}/50
+                        <Text style={{ textAlign: "right", marginTop: 6 }}>
+                            {name.length}/30
                         </Text>
 
                     </View>
@@ -129,7 +140,7 @@ class OnboardingName extends React.Component {
                 </View>
                 <View style={styles.areaViewButton}>
                     {
-                        (name.length > 0) && (switchOn == true) ?
+                        (name.length > 0) && (switchOn == true) && (!errorInput) ?
                             <Pressable style={ComponentsStyle.button} onPress={() => this.submit()} >
                                 <Text style={ComponentsStyle.textButton}>{t('next')}</Text>
                             </Pressable>

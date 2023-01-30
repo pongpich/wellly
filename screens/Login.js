@@ -21,7 +21,9 @@ class Login extends Component {
             textErrorPassWord: null, // สถานะข้อความ Password [1,2,null] 
             email: null,
             password: null,
-            isModalVisible: false
+            isModalVisible: false,
+            isFocused: false,
+            isFocused2: false
         };
     }
 
@@ -41,7 +43,7 @@ class Login extends Component {
         if (prevState.email != email) {
 
             let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
-            if (reg.test(email) === false) {
+            if (email && reg.test(email) === false) {
                 this.setState({
                     styleEmil: false,
                     textErrorEmail: 2
@@ -125,9 +127,12 @@ class Login extends Component {
 
 
     render() {
-        const { entry, styleEmil, textErrorEmail, textErrorPassWord, stylePassword, password, email, isModalVisible } = this.state;
+        const { entry, styleEmil, textErrorEmail, textErrorPassWord, stylePassword, password, email, isModalVisible, isFocused, isFocused2 } = this.state;
         const { t } = this.props;
-
+        const handleFocus = () => this.setState({ isFocused: true })
+        const handleBlur = () => this.setState({ isFocused: false })
+        const handleFocus2 = () => this.setState({ isFocused2: true })
+        const handleBlur2 = () => this.setState({ isFocused2: false })
 
         return (
             <LinearGradient
@@ -151,14 +156,23 @@ class Login extends Component {
                             </View>
 
                         </View>
-
                         <View style={ComponentsStyle.viewInput}>
                             <TextInput
-                                style={styleEmil === true ? ComponentsStyle.input : ComponentsStyle.inputError}
+                                style={
+                                    styleEmil ?
+                                        isFocused ?
+                                            ComponentsStyle.inputIsFocused
+                                            :
+                                            ComponentsStyle.input
+                                        :
+                                        ComponentsStyle.inputError
+                                }
                                 onChangeText={(text) => this.handleChange("email", text)}
                                 keyboardType="email-address"
                                 returnKeyType={"next"}
                                 autoFocus={true}
+                                onFocus={handleFocus}
+                                onBlur={handleBlur}
                                 placeholder={t('email')}
                                 value={email}
                                 autoCapitalize='none'
@@ -198,12 +212,31 @@ class Login extends Component {
                             }
                             <View style={styles.inputPassword2}>
                                 <TextInput
-                                    style={stylePassword === true ? entry === true ? (password === null) || (password === '') ? styles.passwordEntryLength : styles.passwordEntry : styles.password : styles.errorPassword}
+                                    style={{
+                                        width: "100%",
+                                        height: 56,
+                                        borderWidth: stylePassword ? isFocused2 ? 2 : 1 : 2,
+                                        paddingLeft: 16,
+                                        paddingRight: 45,
+                                        justifyContent: "center",
+                                        marginTop: 16,
+                                        borderRadius: 8,
+                                        color: colors.grey1,
+                                        backgroundColor: ComponentsStyle.white,
+                                        fontFamily: "IBMPlexSansThai-Regular",
+                                        zIndex: 0,
+                                        borderColor: stylePassword ? isFocused2 ? colors.persianBlue : colors.grey4 : colors.negative1,
+                                        fontSize: (entry && password) ? 25 : 16,
+                                        letterSpacing: (entry && password) ? -5 : 'normal',
+                                        paddingTop: (entry && password) ? 10 : 0
+                                    }}
                                     onChangeText={(text) => this.handleChange("password", text)}
                                     placeholder={(password === null) || (password === '') ? t('atleast8char') : null}
                                     autoCapitalize='none'
                                     secureTextEntry={entry}
                                     value={password}
+                                    onFocus={handleFocus2}
+                                    onBlur={handleBlur2}
                                 />
                             </View>
                             <View style={ComponentsStyle.viewTextError}>
@@ -275,7 +308,6 @@ class Login extends Component {
 }
 const deviceWidth = Math.round(Dimensions.get('window').width);
 const styles = StyleSheet.create({
-
     viewtinyLogo: {
         alignItems: "center"
     },
@@ -317,70 +349,8 @@ const styles = StyleSheet.create({
         borderRadius: 500,
         position: "absolute",
     },
-    password: {
-        width: "100%",
-        height: 56,
-        borderWidth: 1,
-        paddingLeft: 16,
-        paddingRight: 45,
-        justifyContent: "center",
-        marginTop: 16,
-        borderRadius: 8,
-        borderColor: colors.grey4,
-        color: colors.grey1,
-        backgroundColor: ComponentsStyle.white,
-        fontSize: 16,
-        fontFamily: "IBMPlexSansThai-Regular",
-        zIndex: 0,
-    },
-    passwordEntry: {
-        width: "100%",
-        height: 56,
-        paddingLeft: 16,
-        paddingRight: 45,
-        borderWidth: 1,
-        marginTop: 16,
-
-        borderRadius: 8,
-        justifyContent: "center",
-        borderColor: colors.grey4,
-        color: colors.grey1,
-        backgroundColor: colors.white,
-        fontSize: ComponentsStyle.fontSize20,
-        fontFamily: "IBMPlexSansThai-Regular",
-    },
-    passwordEntryLength: {
-        width: "100%",
-        height: 56,
-        borderWidth: 1,
-        paddingLeft: 16,
-        paddingRight: 45,
-        marginTop: 16,
-        borderRadius: 8,
-        borderColor: colors.grey4,
-        color: colors.grey1,
-        backgroundColor: colors.white,
-        fontSize: ComponentsStyle.fontSize16,
-        fontFamily: "IBMPlexSansThai-Regular",
-    },
     buttonTop: {
         marginTop: 16
-    },
-    errorPassword: {
-        width: "100%",
-        height: 56,
-        borderWidth: 2,
-        paddingLeft: 16,
-        paddingRight: 45,
-        paddingTop: 5,
-        marginTop: 16,
-        borderRadius: 8,
-        borderColor: colors.negative1,
-        color: colors.grey1,
-        position: "relative",
-        zIndex: 1,
-        fontSize: ComponentsStyle.fontSize16,
-        fontFamily: "IBMPlexSansThai-Regular",
     },
     textViewError: {
         paddingTop: 8
