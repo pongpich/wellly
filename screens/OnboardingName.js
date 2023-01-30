@@ -80,17 +80,21 @@ class OnboardingName extends React.Component {
                             autoCapitalize='none'
                             onChangeText={(name) => this.setState({ name })}
                         />
-                        <View style={styles.error}>
-                            {
-                                errorInput === true ?
-                                    <Text style={ComponentsStyle.errorText}>{t('name_must_be_polite')}</Text>
-                                    : null
-                            }
-                        </View>
                     </View>
-                    <Text style={{ textAlign: "right", marginTop: 8 }}>
-                        {name.length}/50
-                    </Text>
+                    <View style={styles.error}>
+
+                        {
+                            errorInput === true ?
+                                <Text style={ComponentsStyle.textError}>{t('name_must_be_polite')}</Text>
+                                : <Text style={ComponentsStyle.textError}></Text>
+                        }
+
+                        <Text style={{ textAlign: "right", marginTop: 8 }}>
+                            {name.length}/50
+                        </Text>
+
+                    </View>
+
                 </View>
                 <View style={styles.acceptSwitch}>
                     <Text style={styles.accept}>{t('i_accept')}
@@ -162,6 +166,11 @@ const styles = StyleSheet.create({
     switch: {
         /* marginLeft: 16, */
 
+    },
+    error: {
+        marginTop: 8,
+        marginRight: 32,
+        flexDirection: "row"
     },
     accept: {
         width: "90%",
