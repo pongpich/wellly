@@ -41,9 +41,11 @@ class OnboardingName extends React.Component {
 
     submit() {
         const { name, words } = this.state;
-        const result = words.filter(word => word == name);
+        /*  const result = words.filter(word => word == name); */
+        const result = words.includes(name);
 
-        if (result && result.length > 0) {
+        console.log(result);
+        if (result == true) {
             this.setState({
                 errorInput: true
             })
