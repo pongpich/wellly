@@ -8,6 +8,7 @@ import { Feather } from '@expo/vector-icons';
 import { connect } from 'react-redux'
 import colors from '../constants/colors';
 import ComponentsStyle from '../constants/components';
+import { validatePersonalAge, validatePersonalWeight, validatePersonalHeight } from '../constants/functionComponents';
 import { withTranslation } from 'react-i18next';
 
 /* import { Button } from 'react-native-paper'; */
@@ -42,67 +43,32 @@ class PersonalData extends Component {
         // เช็ค ค่าที่กรอก age, weight, height,
         // อายุ
         if (prevState.age !== age) {
-            if ((age == 1)) {
-                this.setState({
-                    statusAge: false,
-                    statusTextAge: 0
-                })
-            } else if ((age < 18) || (age > 65)) {
-                this.setState({
-                    statusAge: false,
-                    statusTextAge: 1
-                })
-            } else {
-                this.setState({
-                    statusAge: true,
-                    statusTextAge: null
-                })
-            }
+            let vaData = validatePersonalAge(age);
+            this.setState({
+                statusAge: vaData.statusAge,
+                statusTextAge: vaData.statusTextAge
+            })
         }
 
         // น้ำหนัก
         if (prevState.weight !== weight) {
-            if (weight == 0) {
-                this.setState({
-                    statusWeight: false,
-                    statusTextWeight: 0
-                })
-            } else if ((weight < 30) || (weight > 250)) {
-                this.setState({
-                    statusWeight: false,
-                    statusTextWeight: 1
-                })
-            } else {
-                this.setState({
-                    statusWeight: true,
-                    statusTextWeight: null
-                })
-            }
+            let vaData = validatePersonalWeight(weight);
+            this.setState({
+                statusWeight: vaData.statusWeight,
+                statusTextWeight: vaData.statusTextWeight
+            })
         }
 
         // ส่วนสุง
         if (prevState.height !== height) {
-            console.log("height", height);
-            if (height == 1) {
-                this.setState({
-                    statusHeight: false,
-                    statusTextHeight: 0
-                })
-            } else if ((height < 99) || (height > 281)) {
-                this.setState({
-                    statusHeight: false,
-                    statusTextHeight: 1
-                })
-            } else {
-                this.setState({
-                    statusHeight: true,
-                    statusTextHeight: null
-                })
-            }
+            validatePersonalHeight
+            let vaData = validatePersonalHeight(height);
+            this.setState({
+                statusHeight: vaData.statusHeight,
+                statusTextHeight: vaData.statusTextHeight
+            })
+
         }
-
-
-
 
         if (prevProps.dataUser !== dataUser) {
             this.props.navigation.navigate("HealthData");
@@ -160,57 +126,21 @@ class PersonalData extends Component {
     }
 
     submit() {
-        const { sex, age, weight, height, exercise } = this.state;
-        if ((age === null) || (age === "null")) {
-            this.setState({
-                statusAge: false,
-                statusTextAge: 0
-            })
-        } else if ((age < 18) || (age > 65)) {
-            this.setState({
-                statusAge: false,
-                statusTextAge: 1
-            })
-        } else if ((weight === null) || (weight === "")) {
-            this.setState({
-                statusWeight: false,
-                statusTextWeight: 0
-            })
-        } else if ((weight < 30) || (weight > 250)) {
-            this.setState({
-                statusWeight: false,
-                statusTextWeight: 1
-            })
-        } else if ((height === null) || (height === "")) {
-            this.setState({
-                statusHeight: false,
-                statusTextHeight: 0
-            })
-        } else if ((height < 100) || (height > 280)) {
-            this.setState({
-                statusHeight: false,
-                statusTextHeight: 1
-            })
+        const { sex, age, weight, height, exercise, statusAge, statusWeight, statusHeight } = this.state;
 
-        } else {
-            this.setState({
-                statusAge: true,
-                statusTextAge: null,
-                statusWeight: true,
-                statusTextWeight: null,
-                statusHeight: true,
-                statusTextHeight: null,
-                info: ""
-            });
+        console.log("statusAge", statusAge, statusWeight, statusHeight);
+        if ((age !== "") && (age !== null) && (weight !== "") && (weight !== null) && (height !== "") && (height !== null) && (statusAge == true) && statusWeight == true && statusHeight == true) {
+
             this.props.personal(sex, age, weight, height, exercise);
         }
+
     }
 
     render() {
         const { sexIndex, sex, age, weight, height, exercise, statusAge, statusTextAge, statusWeight, statusTextWeight, statusHeight, statusTextHeight,
             isFocusedAge, isFocusedWeight, isFocusedHeight } = this.state;
         const { t } = this.props;
-        console.log("sex", sex);
+        console.log("sex", statusTextAge);
         return (
             <SafeAreaView style={styles.container}>
                 <View style={{ flex: 1, width: "100%" }}>
