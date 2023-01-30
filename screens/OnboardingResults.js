@@ -7,6 +7,7 @@ import ComponentsStyle from '../constants/components';
 import colors from '../constants/colors';
 import { withTranslation } from 'react-i18next';
 import { t } from 'i18next';
+import { statusDiabetes, statusHypertension, statusResultsUser } from '../constants/functionComponents';
 
 class OnboardingResults extends Component {
 
@@ -21,56 +22,21 @@ class OnboardingResults extends Component {
     }
     componentDidMount() {
         const { fpg, hba1c, sbp, dbp, exercise } = this.props.healtDataUser; // การเรียงค่า  (fpg = mg/dL) ,(hba1c = mg) ,(sbp = mmHG), (dbp = mmHG)
-        //  เบาหวาน fpg ,hba1c
-        /*  console.log("componentDidMount", fpg, hba1c, sbp, dbp, exercise); */
-        if ((fpg === "N") && (hba1c === "N")) {
-            this.setState({
-                diabetes: "N"
-            })
-        } else if ((fpg === "Pre") && (hba1c === "Pre")) {
-            this.setState({
-                diabetes: "Pre"
-            })
-        } else if ((fpg === "Pre") && (hba1c === "Y")) {
-            this.setState({
-                diabetes: "Y"
-            })
-        } else if ((fpg === "Y") && (hba1c === "Pre")) {
-            this.setState({
-                diabetes: "Y"
-            })
-        } else if ((fpg === "N") && (hba1c === "Pre")) {
-            this.setState({
-                diabetes: "Pre"
-            })
-        } else if ((fpg === "Pre") && (hba1c === "N")) {
-            this.setState({
-                diabetes: "Pre"
-            })
-        } else if ((fpg === "N") && (hba1c === "Y")) {
-            this.setState({
-                diabetes: "Y"
-            })
-        } else if ((fpg === "Y") && (hba1c === "N")) {
-            this.setState({
-                diabetes: "Y"
-            })
-        } else if ((fpg === "Y") && (hba1c === "Y")) {
-            this.setState({
-                diabetes: "Y"
-            })
-        }
+
+        // เบาหวาน fpg, hba1c
+        let stDi = statusDiabetes(fpg, hba1c)
+        this.setState({
+            diabetes: stDi.diabetes
+        })
+
+
 
         // ความดัน sbp, dbp
-        if ((sbp === "N") && (dbp === "N")) {
-            this.setState({
-                hypertension: "N"
-            })
-        } else {
-            this.setState({
-                hypertension: "Y"
-            })
-        }
+        let stHy = statusHypertension(sbp, dbp)
+        this.setState({
+            hypertension: stHy.hypertension
+        })
+
         this.setState({
             exercise: exercise
         })
@@ -79,54 +45,11 @@ class OnboardingResults extends Component {
 
     componentDidUpdate(prevProps, prevState) {
         const { diabetes, hypertension, exercise } = this.state;
-
-        /*  console.log("componentDidUpdate", diabetes, hypertension, exercise); */
         if ((prevState.diabetes !== diabetes) && (prevState.hypertension !== hypertension) && (prevState.exercise !== exercise)) {
-            if ((diabetes === "N") && (hypertension === "N")) {  //A1 & A2
-                this.setState({
-                    resultsUser: "A1"
-                })
-            } else if ((diabetes === "Pre") && (hypertension === "N") && (exercise === "N")) { //B1 
-                this.setState({
-                    resultsUser: "B1"
-                })
-            } else if ((diabetes === "Pre") && (hypertension === "Y") && (exercise === "N")) { // B2
-                this.setState({
-                    resultsUser: "B2"
-                })
-            } else if ((diabetes === "Pre") && (hypertension === "N") && (exercise === "Y")) { // B3
-                this.setState({
-                    resultsUser: "B1"
-                })
-            } else if ((diabetes === "Pre") && (hypertension === "Y") && (exercise === "Y")) { // B4
-                this.setState({
-                    resultsUser: "B2"
-                })
-            } else if ((diabetes === "Y") && (hypertension === "N") && (exercise === "N")) { //C1
-                this.setState({
-                    resultsUser: "C1"
-                })
-            } else if ((diabetes === "Y") && (hypertension === "Y") && (exercise === "N")) { //C2
-                this.setState({
-                    resultsUser: "C2"
-                })
-            } else if ((diabetes === "Y") && (hypertension === "N") && (exercise === "Y")) { // C3
-                this.setState({
-                    resultsUser: "C1"
-                })
-            } else if ((diabetes === "Y") && (hypertension === "Y") && (exercise === "Y")) { // C4
-                this.setState({
-                    resultsUser: "C2"
-                })
-            } else if ((diabetes === "N") && (hypertension === "Y") && (exercise === "N")) { //D1
-                this.setState({
-                    resultsUser: "D1"
-                })
-            } else if ((diabetes === "N") && (hypertension === "Y") && (exercise === "Y")) { //D1
-                this.setState({
-                    resultsUser: "D1"
-                })
-            }
+            let stRe = statusResultsUser(diabetes, hypertension, exercise)
+            this.setState({
+                resultsUser: stRe.resultsUser
+            })
         }
     }
 

@@ -191,3 +191,57 @@ export function statusExercise(exer) {
         return { exercise: "N" }
     }
 }
+export function statusDiabetes(fpg, hba1c) {
+    if ((fpg === "N") && (hba1c === "N")) {
+        return { diabetes: "N" }
+    } else if ((fpg === "Pre") && (hba1c === "Pre")) {
+        return { diabetes: "Pre" }
+    } else if ((fpg === "Pre") && (hba1c === "Y")) {
+        return { diabetes: "Y" }
+    } else if ((fpg === "Y") && (hba1c === "Pre")) {
+        return { diabetes: "Y" }
+    } else if ((fpg === "N") && (hba1c === "Pre")) {
+        return { diabetes: "Pre" }
+    } else if ((fpg === "Pre") && (hba1c === "N")) {
+        return { diabetes: "Pre" }
+    } else if ((fpg === "N") && (hba1c === "Y")) {
+        return { diabetes: "Y" }
+    } else if ((fpg === "Y") && (hba1c === "N")) {
+        return { diabetes: "Y" }
+    } else if ((fpg === "Y") && (hba1c === "Y")) {
+        return { diabetes: "Y" }
+    }
+}
+export function statusHypertension(sbp, dbp) {
+    if ((sbp === "N") && (dbp === "N")) {
+        return { hypertension: "N" }
+    } else {
+        return { hypertension: "Y" }
+    }
+}
+
+export function statusResultsUser(diabetes, hypertension, exercise) {
+    if ((diabetes === "N") && (hypertension === "N")) {  //A1 & A2
+        return { resultsUser: "A1" }
+    } else if ((diabetes === "Pre") && (hypertension === "N") && (exercise === "N")) { //B1 
+        return { resultsUser: "B1" }
+    } else if ((diabetes === "Pre") && (hypertension === "Y") && (exercise === "N")) { // B2
+        return { resultsUser: "B2" }
+    } else if ((diabetes === "Pre") && (hypertension === "N") && (exercise === "Y")) { // B3
+        return { resultsUser: "B1" }
+    } else if ((diabetes === "Pre") && (hypertension === "Y") && (exercise === "Y")) { // B4
+        return { resultsUser: "B2" }
+    } else if ((diabetes === "Y") && (hypertension === "N") && (exercise === "N")) { //C1
+        return { resultsUser: "C1" }
+    } else if ((diabetes === "Y") && (hypertension === "Y") && (exercise === "N")) { //C2
+        return { resultsUser: "C2" }
+    } else if ((diabetes === "Y") && (hypertension === "N") && (exercise === "Y")) { // C3
+        return { resultsUser: "C1" }
+    } else if ((diabetes === "Y") && (hypertension === "Y") && (exercise === "Y")) { // C4
+        return { resultsUser: "C2" }
+    } else if ((diabetes === "N") && (hypertension === "Y") && (exercise === "N")) { //D1
+        return { resultsUser: "D1" }
+    } else if ((diabetes === "N") && (hypertension === "Y") && (exercise === "Y")) { //D1
+        return { resultsUser: "D1" }
+    }
+}
