@@ -104,6 +104,90 @@ export function validatePersonalHeight(height) {
     }
 }
 
-export function validate1(e) {
-    return e;
+export function validateMgDL(mgDL) {
+    if ((mgDL < 4) || (mgDL > 1000)) {
+        return { statusMdDl: false, statusTextmg_dL: false }
+
+    } else {
+        return { statusMdDl: true, statusTextmg_dL: true }
+    }
+}
+
+export function validateMg(mg) {
+    if ((mg < 3.5) || (mg > 19)) {
+        return { statusMg: false, statusTextMg: false }
+
+    } else {
+        return { statusMg: true, statusTextMg: true }
+    }
+}
+
+export function validateBpm(bpm) {
+    if ((bpm < 40) || (bpm > 160)) {
+        return { statusBpm: false, statusTextBpm: false }
+
+    } else {
+        return { statusBpm: true, statusTextBpm: true }
+    }
+}
+
+export function validateMmHGS(mmHGS) {
+    if ((mmHGS < 40) || (mmHGS > 190)) {
+        return { statusTextMmHG1: false, statusMmGH1: false }
+
+    } else {
+        return { statusTextMmHG1: true, statusMmGH1: true }
+    }
+}
+
+export function validateMmHGD(mmHGD) {
+    if ((mmHGD < 40) || (mmHGD > 170)) {
+        return { statusMmGH2: false, statusTextMmHG2: false }
+
+    } else {
+        return { statusMmGH2: true, statusTextMmHG2: true }
+    }
+}
+
+export function statusFpg(mgDL) {
+    if (mgDL <= 100) {
+        return { fpg: "N" }
+    } else if ((mgDL >= 101) && (mgDL <= 125)) {
+        return { fpg: "Pre" }
+    } else {
+        return { fpg: "Y" }
+    }
+}
+
+export function statusHba1c(mg) {
+    if (mg <= 5.7) {
+        return { hba1c: "N" }
+    } else if ((mg >= 5.8) && (mg <= 6.4)) {
+        return { hba1c: "Pre" }
+
+    } else {
+        return { hba1c: "Y" }
+    }
+}
+
+export function statusSbp(mmHGS) {
+    if (mmHGS <= 129) {
+        return { sbp: "N" }
+    } else {
+        return { sbp: "Y" }
+    }
+}
+export function statusDbp(mmHGD) {
+    if (mmHGD <= 84) {
+        return { dbp: "N" }
+    } else if (mmHGD >= 85) {
+        return { dbp: "Y" }
+    }
+}
+export function statusExercise(exer) {
+    if (exer === "ประจำ") {
+        return { exercise: "Y" }
+    } else {
+        return { exercise: "N" }
+    }
 }

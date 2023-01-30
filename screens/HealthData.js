@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import ComponentsStyle from '../constants/components';
 import colors from '../constants/colors';
 import { withTranslation } from 'react-i18next';
+import { validateMgDL, validateMg, validateBpm, validateMmHGS, validateMmHGD, statusFpg, statusHba1c, statusSbp, statusDbp, statusExercise } from '../constants/functionComponents';
 
 class HealthData extends Component {
     constructor(props) {
@@ -46,15 +47,10 @@ class HealthData extends Component {
         const exer = dataUser && dataUser.exercise;
         //  ออกกำลังกาย
 
-        if (exer === "ประจำ") {
-            this.setState({
-                exercise: "Y"
-            })
-        } else {
-            this.setState({
-                exercise: "N"
-            })
-        }
+        let st = statusExercise(exer);
+        this.setState({
+            exercise: st.exercise
+        })
 
     }
     componentDidUpdate(prevProps, prevState) {
@@ -67,71 +63,43 @@ class HealthData extends Component {
 
         //เช็ค Variation
         if (prevState.mgDL != mgDL) {
-            if ((mgDL < 4) || (mgDL > 1000)) {
-                this.setState({
-                    statusMdDl: false,
-                    statusTextmg_dL: false
-                })
-            } else {
-                this.setState({
-                    statusMdDl: true,
-                    statusTextmg_dL: true
-                })
-            }
+            let va = validateMgDL(mgDL)
+            this.setState({
+                statusMdDl: va.statusMdDl,
+                statusTextmg_dL: va.statusTextmg_dL
+            })
         }
 
         if (prevState.mg != mg) {
-            if ((mg < 3.5) || (mg > 19)) {
-                this.setState({
-                    statusMg: false,
-                    statusTextMg: false,
-                })
-            } else {
-                this.setState({
-                    statusMg: true,
-                    statusTextMg: true,
-                })
-            }
+            let va = validateMg(mg)
+            this.setState({
+                statusMg: va.statusMg,
+                statusTextMg: va.statusTextMg
+            })
         }
+
         if (prevState.bpm != bpm) {
-            if ((bpm < 40) || (bpm > 160)) {
-                this.setState({
-                    statusBpm: false,
-                    statusTextBpm: false,
-                })
-            } else {
-                this.setState({
-                    statusBpm: true,
-                    statusTextBpm: true,
-                })
-            }
+            let va = validateBpm(bpm);
+            this.setState({
+                statusBpm: va.statusBpm,
+                statusTextBpm: va.statusTextBpm,
+            })
         }
+
         if (prevState.mmHGS != mmHGS) {
-            if ((mmHGS < 40) || (mmHGS > 190)) {
-                this.setState({
-                    statusTextMmHG1: false,
-                    statusMmGH1: false,
-                })
-            } else {
-                this.setState({
-                    statusTextMmHG1: true,
-                    statusMmGH1: true,
-                })
-            }
+            let va = validateMmHGS(mmHGS)
+            this.setState({
+                statusMmGH1: va.statusMmGH1,
+                statusTextMmHG1: va.statusTextMmHG1,
+            })
         }
 
         if (prevState.mmHGD != mmHGD) {
-            if ((mmHGD < 40) || (mmHGD > 170)) {
-                this.setState({
-                    statusTextMmHG2: false,
-                    statusMmGH2: false,
-                })
-            } else {
-                this.setState({
-                    statusTextMmHG2: true,
-                    statusMmGH2: true,
-                })
-            }
+            let va = validateMmHGD(mmHGD)
+            this.setState({
+                statusMmGH2: va.statusMmGH2,
+                statusTextMmHG2: va.statusTextMmHG2
+            })
         }
 
 
@@ -140,61 +108,34 @@ class HealthData extends Component {
 
         //  เบาหวาน fpg
         if (prevState.mgDL !== mgDL) {
-            if (mgDL <= 100) {
-                this.setState({
-                    fpg: "N"
-                })
-            } else if ((mgDL >= 101) && (mgDL <= 125)) {
-                this.setState({
-                    fpg: "Pre"
-                })
-            } else {
-                this.setState({
-                    fpg: "Y"
-                })
-            }
+            let st = statusFpg(mgDL);
+            this.setState({
+                fpg: st.fpg
+            })
         }
         //  เบาหวาน hba1c
         if (prevState.mg !== mg) {
-            if (mg <= 5.7) {
-                this.setState({
-                    hba1c: "N"
-                })
-            } else if ((mg >= 5.8) && (mg <= 6.4)) {
-                this.setState({
-                    hba1c: "Pre"
-                })
-            } else {
-                this.setState({
-                    hba1c: "Y"
-                })
-            }
+            let st = statusHba1c(mg)
+            this.setState({
+                hba1c: st.hba1c
+            })
+
         }
 
         //  คาวมดัน sbp
         if (prevState.mmHGS !== mmHGS) {
-            if (mmHGS < 129) {
-                this.setState({
-                    sbp: "N"
-                })
-            } else {
-                this.setState({
-                    sbp: "Y"
-                })
-            }
+            let st = statusSbp(mmHGS)
+            this.setState({
+                sbp: st.sbp
+            })
         }
         //  คาวมดัน dbp
 
         if (prevState.mmHGD !== mmHGD) {
-            if (mmHGD <= 84) {
-                this.setState({
-                    dbp: "N"
-                })
-            } else if (mmHGD >= 85) {
-                this.setState({
-                    dbp: "Y"
-                })
-            }
+            let st = statusDbp(mmHGD)
+            this.setState({
+                dbp: st.dbp
+            })
         }
 
     }
@@ -227,7 +168,7 @@ class HealthData extends Component {
     }
 
     onPreviousInput() {
-        const { isFocusedMgDL, isFocusedMg, isFocusedBpm, isFocusedMmHGS, isFocusedMmHGD } = this.state; //เรียงจาก input1 ไป input5
+        const { isFocusedMgDL, isFocusedMg, isFocusedBpm, isFocusedMmHGS, isFocusedMmHGD, statusMmGH1, statusMmGH2 } = this.state; //เรียงจาก input1 ไป input5
         //เช็คว่าปัจจุบันอยู่ input เท่าไหร่ และ สั่ง focus ตัวก่อนหน้า
         if (isFocusedMgDL) { }; //ไม่ต้องทำอะไรเพราะอยู่ inputตัวแรกสุด
         if (isFocusedMg) { this.textInput1.focus(); };
@@ -237,33 +178,10 @@ class HealthData extends Component {
     }
 
     submit() {
-        const { mgDL, mg, bpm, mmHGS, mmHGD, fpg, hba1c, sbp, dbp, exercise } = this.state;
-        if ((mgDL < 4) || (mgDL > 1000)) {
-            this.setState({
-                statusMdDl: false,
-                statusTextmg_dL: false
-            })
-        } else if ((mg < 3.5) || (mg > 19)) {
-            this.setState({
-                statusMg: false,
-                statusTextMg: false,
-            })
-        } else if ((bpm < 40) || (bpm > 160)) {
-            this.setState({
-                statusBpm: false,
-                statusTextBpm: false,
-            })
-        } else if ((mmHGS < 40) || (mmHGS > 190)) {
-            this.setState({
-                statusTextMmHG1: false,
-                statusMmGH1: false,
-            })
-        } else if ((mmHGD < 40) || (mmHGD > 170)) {
-            this.setState({
-                statusTextMmHG2: false,
-                statusMmGH2: false,
-            })
-        } else {
+        const { mgDL, mg, bpm, mmHGS, mmHGD, fpg, hba1c, sbp, dbp, exercise, statusMdDl, statusMg, statusBpm, statusMmGH1, statusMmGH2 } = this.state;
+
+        if ((mgDL !== null) && (mgDL !== "") && (mg !== null) && (mg !== "") && (bpm !== null) && (bpm !== "") && (mmHGS !== null) && (mmHGS !== "") && (mmHGD !== null) && (mmHGD !== "") &&
+            (statusMdDl === true) && (statusMg === true) && (statusBpm === true) && (statusMmGH1 === true) && (statusMmGH2)) {
             this.props.healt(fpg, hba1c, sbp, dbp, exercise);
         }
     }
