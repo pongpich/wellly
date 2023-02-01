@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, TextInput, SafeAreaView, Pressable } from 'reac
 import { getProfanity } from "../redux/get";
 import colors from '../constants/colors';
 import ComponentsStyle from '../constants/components';
-import { updateDisplayName } from "../redux/personalUser";
+import { updateDisplayName } from "../redux/auth";
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 import { Switch } from 'react-native-switch';
@@ -26,14 +26,17 @@ class OnboardingName extends React.Component {
         const display_name = user && user.display_name;
 
         this.props.getProfanity();
-        /*  if (display_name) {
-             this.props.navigation.navigate("PersonalData")
-         } */
+        if (display_name) {
+            this.props.navigation.navigate("PersonalData")
+        }
     }
 
     componentDidUpdate(prevProps, prevState) {
-        const { profanity } = this.props;
+        const { profanity, statusUpdateDisplayName } = this.props;
         const { name, words } = this.state;
+        if ((prevProps.statusUpdateDisplayName !== statusUpdateDisplayName) && (statusUpdateDisplayName === "success")) {
+            this.props.navigation.navigate("PersonalData");
+        }
         if ((prevProps.profanity !== profanity) && (profanity !== "loading")) {
             let profanities = profanity && profanity.profanities;
             const keyWord = [];
@@ -71,7 +74,6 @@ class OnboardingName extends React.Component {
 
         if (!errorInput && name) {
             this.props.updateDisplayName(user.user_id, name);
-            //this.props.navigation.navigate("PersonalData")
         }
 
     }
@@ -210,11 +212,10 @@ const styles = StyleSheet.create({
 
 })
 
-const mapStateToProps = ({ getData, personalDataUser, authUser }) => {
+const mapStateToProps = ({ getData, authUser }) => {
     const { profanity } = getData;
-    const { display_name } = personalDataUser;
-    const { user } = authUser;
-    return { profanity, display_name, user };
+    const { user, statusUpdateDisplayName } = authUser;
+    return { profanity, user, statusUpdateDisplayName };
 };
 
 const mapActionsToProps = { getProfanity, updateDisplayName };
