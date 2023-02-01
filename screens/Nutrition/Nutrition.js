@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, StyleSheet, Animated, Image, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, Animated, Image, ImageBackground, Dimensions } from 'react-native';
 import colors from '../../constants/colors';
 import ComponentsStyle from '../../constants/components';
 import { AntDesign } from '@expo/vector-icons';
@@ -48,20 +48,28 @@ const Nutrition = () => {
                             <View style={styles.missionData}>
                                 <Text style={styles.missionHead}>เริ่มต้นดีมีชัยไปกว่าครึ่ง ARE U READY ??</Text>
                                 <Text style={styles.missionContent}>
-
-                                    การเลือกอาหารและโภชนาการถือเป็นเรื่องสำคัญอย่างมากสำหรับผู้ที่ออกกำลังกาย
+                                    การเลือกอาหารและโภชนาการถือเป็นเรื่องสำคัญอย่างมากสำหรับผู้ที่ออก
                                 </Text>
+                                {/*  <View style={styles.notifiedRed}>
+                                    <Text style={styles.notifiedTextRed}>
+                                        วันสุดท้าย
+                                    </Text>
+                                </View> */}
+                                <View style={styles.notifiedYellow}>
+                                    <Text style={styles.notifiedTextYellow}>
+                                        ภารกิจที่ยังทำไม่เสร็จ
+                                    </Text>
+                                </View>
                             </View>
 
                         </View>
                     ))}
                 </View>
             </Animated.ScrollView>
-
+            <Text style={styles.nutritionText}>โภชนาการ</Text>
             <Animated.View opacity={headerHeight} style={[styles.header]}>
-
                 <View style={styles.imageView}>
-                    <Image
+                    <ImageBackground
                         style={{ height: "100%", width: "100%", zIndex: 0 }}
                         source={require('../../assets/images/logo/Sample.png')}
                     />
@@ -83,14 +91,27 @@ const styles = StyleSheet.create({
         backgroundColor: colors.neutralGrey6
     },
     fill2: {
-        marginTop: 100,
+        marginTop: 107,
         flex: 1,
         zIndex: 1,
-        marginBottom: 35
+
+
+    },
+
+    nutritionText: {
+        marginHorizontal: 16,
+        fontFamily: "IBMPlexSansThai-Bold",
+        fontSize: ComponentsStyle.fontSize24,
+        color: colors.grey1,
+        marginHorizontal: 16,
+        marginTop: 60,
+        opacity: 1,
+        zIndex: 10,
+        position: 'absolute'
 
     },
     row: {
-        maxHeight: 150,
+        maxHeight: 160,
         height: "auto",
         marginBottom: 16,
         marginHorizontal: 16,
@@ -103,7 +124,7 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         paddingHorizontal: 16,
         flexDirection: "row",
-        marginBottom: 20,
+        marginBottom: 16,
     },
     mission: {
         fontFamily: "IBMPlexSansThai-Bold",
@@ -153,7 +174,41 @@ const styles = StyleSheet.create({
         marginTop: (deviceHeight > 688) ? "52%" : "35%",
         opacity: 1
 
-    }
+    },
+    notifiedRed: {
+        marginTop: 8,
+        justifyContent: "center",
+        alignItems: "center",
+        width: 71,
+        height: 25,
+        borderRadius: 16,
+        backgroundColor: colors.negative2,
+        paddingHorizontal: 8,
+        paddingVertical: 3,
+
+    },
+    notifiedTextRed: {
+        fontSize: ComponentsStyle.fontSize14,
+        fontFamily: "IBMPlexSansThai-Regular",
+        color: colors.negative1,
+    },
+    notifiedYellow: {
+        marginTop: 8,
+        justifyContent: "center",
+        alignItems: "center",
+        width: 140,
+        height: 25,
+        borderRadius: 16,
+        backgroundColor: colors.warning2,
+        paddingHorizontal: 8,
+        paddingVertical: 3,
+
+    },
+    notifiedTextYellow: {
+        fontSize: ComponentsStyle.fontSize14,
+        fontFamily: "IBMPlexSansThai-Regular",
+        color: colors.warning1,
+    },
 });
 
 

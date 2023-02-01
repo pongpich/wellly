@@ -3,6 +3,7 @@ import { StyleSheet, Dimensions } from 'react-native';
 
 const deviceWidth = Math.round(Dimensions.get('window').width);
 
+const fontSize14 = 14;
 const fontSize16 = 16;
 const fontSize20 = 20;
 const fontSize24 = 24;
@@ -11,6 +12,7 @@ const fontSize40 = 40;
 
 export default StyleSheet.create({
     // อื่น
+    fontSize14,
     fontSize16,
     fontSize20,
     fontSize24,

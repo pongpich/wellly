@@ -22,8 +22,9 @@ export default {
   positive1: '#22B967',
   positive2: '#D3F1E1',
   positive2: '#E9F8F0',
-  mayaBlue: '#E9F8F0',
+  mayaBlue: '#69CBE4',
   mayaBlue60: '#9BE0EF',
   mayaBlue20: '#DEF5FA',
   neutralGrey6: '#E5EEF9',
+
 };
