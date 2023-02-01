@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, StyleSheet, Animated, Image, ImageBackground, Dimensions } from 'react-native';
 import colors from '../../constants/colors';
@@ -11,9 +11,11 @@ const HEADER_MIN_HEIGHT = 10;
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
 
-const data = Array.from({ length: 30 });
+const data = Array.from({ length: 0 });
 
 const Nutrition = () => {
+    const [statusNotified, setStatusNotified] = useState(null);
+    const [startDate, setStartDate] = useState(null);
 
     const animatedScrollYValue = useRef(new Animated.Value(0)).current;
     const headerHeight = animatedScrollYValue.interpolate({
@@ -40,30 +42,51 @@ const Nutrition = () => {
                             source={require('../../assets/images/icon/History.png')}
                         />
                     </View>
-                    {data.map((_, i) => (
-                        <View key={i} style={styles.row}>
-                            <View style={styles.numberView}>
-                                <Text style={styles.number}>{i + 1}</Text>
-                            </View>
-                            <View style={styles.missionData}>
-                                <Text style={styles.missionHead}>เริ่มต้นดีมีชัยไปกว่าครึ่ง ARE U READY ??</Text>
-                                <Text style={styles.missionContent}>
-                                    การเลือกอาหารและโภชนาการถือเป็นเรื่องสำคัญอย่างมากสำหรับผู้ที่ออก
-                                </Text>
-                                {/*  <View style={styles.notifiedRed}>
-                                    <Text style={styles.notifiedTextRed}>
-                                        วันสุดท้าย
+
+                    {data > 0 ?
+                        data.map((_, i) => (
+
+                            <View key={i} style={styles.row}>
+                                <View style={styles.numberView}>
+                                    <Text style={styles.number}>{i + 1}</Text>
+                                </View>
+                                <View style={styles.missionData}>
+                                    <Text style={styles.missionHead}>เริ่มต้นดีมีชัยไปกว่าครึ่ง ARE U READY ??</Text>
+                                    <Text style={styles.missionContent}>
+                                        การเลือกอาหารและโภชนาการถือเป็นเรื่องสำคัญอย่างมากสำหรับผู้ที่ออก
                                     </Text>
-                                </View> */}
-                                <View style={styles.notifiedYellow}>
-                                    <Text style={styles.notifiedTextYellow}>
-                                        ภารกิจที่ยังทำไม่เสร็จ
-                                    </Text>
+                                    {
+                                        statusNotified == 1 ?
+                                            <View style={styles.notifiedRed}>
+                                                <Text style={styles.notifiedTextRed}>
+                                                    วันสุดท้าย
+                                                </Text>
+                                            </View> :
+                                            statusNotified == 2 ?
+                                                <View style={styles.notifiedYellow}>
+                                                    <Text style={styles.notifiedTextYellow}>
+                                                        ภารกิจที่ยังทำไม่เสร็จ
+                                                    </Text>
+                                                </View> : null
+                                    }
+                                </View>
+                                <View style={styles.viewIconRight}>
+                                    <AntDesign name="right" style={styles.iconRight} />
                                 </View>
                             </View>
+                        )) :
+                        <View style={styles.imptyImage}>
+                            <Image
+                                style={{ height: 84, width: 120, zIndex: 1 }}
+                                source={require('../../assets/images/logo/EmptyState.png')}
+                            />
+                            <Text style={styles.imptyTextHead}>ยังไม่มีภารกิจในตอนนี้</Text>
+                            {
+                                !startDate ? <Text style={styles.imptyTextStartDate}>ภารกิจใหม่จะเริ่มในวันที่ 12 สิงหาคม 2564</Text> : null
+                            }
 
                         </View>
-                    ))}
+                    }
                 </View>
             </Animated.ScrollView>
             <Text style={styles.nutritionText}>โภชนาการ</Text>
@@ -85,6 +108,7 @@ Nutrition.propTypes = {
     }).isRequired,
 };
 const deviceHeight = Math.round(Dimensions.get('window').height);
+console.log("deviceHeight", deviceHeight);
 const styles = StyleSheet.create({
     fill: {
         flex: 1,
@@ -94,8 +118,6 @@ const styles = StyleSheet.create({
         marginTop: 107,
         flex: 1,
         zIndex: 1,
-
-
     },
 
     nutritionText: {
@@ -111,15 +133,17 @@ const styles = StyleSheet.create({
 
     },
     row: {
-        maxHeight: 160,
+        position: "relative",
+        maxHeight: 170,
         height: "auto",
         marginBottom: 16,
-        marginHorizontal: 16,
         backgroundColor: colors.white,
         borderRadius: 16,
-        padding: 16,
         flexDirection: "row",
+        marginHorizontal: 16,
+
     },
+
     missionText: {
         justifyContent: "space-between",
         paddingHorizontal: 16,
@@ -132,8 +156,10 @@ const styles = StyleSheet.create({
         color: colors.grey1
     },
     missionData: {
-        marginHorizontal: 16,
-        width: 231
+        /* marginHorizontal: 16, */
+        flexWrap: "nowrap",
+        width: "75%",
+        margin: 16
 
     },
     missionHead: {
@@ -149,6 +175,7 @@ const styles = StyleSheet.create({
     header: {
         position: 'absolute',
         width: "100%",
+
     },
     number: {
         fontSize: ComponentsStyle.fontSize20,
@@ -157,21 +184,22 @@ const styles = StyleSheet.create({
 
     },
     numberView: {
-
         justifyContent: "center",
         alignItems: "center",
         width: 32,
         height: 32,
         borderRadius: 8,
-        backgroundColor: colors.mayaBlue20
+        backgroundColor: colors.mayaBlue20,
+        marginTop: 16,
+        marginLeft: 16,
+        marginBottom: 16,
     },
     imageView: {
         width: "100%",
-        height: 500
-
+        height: (deviceHeight > 1023) ? deviceHeight : 500
     },
     scrollViewContent: {
-        marginTop: (deviceHeight > 688) ? "52%" : "35%",
+        marginTop: (deviceHeight < 688) ? "33%" : (deviceHeight > 1023) ? "40%" : "51%",
         opacity: 1
 
     },
@@ -209,6 +237,34 @@ const styles = StyleSheet.create({
         fontFamily: "IBMPlexSansThai-Regular",
         color: colors.warning1,
     },
+    iconRight: {
+        fontSize: ComponentsStyle.fontSize24,
+        color: colors.grey3,
+        marginRight: 3,
+    },
+    viewIconRight: {
+        position: "absolute",
+        width: "100%",
+        height: "100%",
+        alignItems: "flex-end",
+        justifyContent: "center",
+    },
+    imptyImage: {
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    imptyTextHead: {
+        marginTop: 8,
+        color: colors.grey2,
+        fontSize: ComponentsStyle.fontSize16,
+        fontFamily: "IBMPlexSansThai-Bold",
+    },
+    imptyTextStartDate: {
+        marginTop: 8,
+        color: colors.grey2,
+        fontSize: ComponentsStyle.fontSize16,
+        fontFamily: "IBMPlexSansThai-Regular",
+    }
 });
 
 
