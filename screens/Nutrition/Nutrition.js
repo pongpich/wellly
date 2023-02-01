@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, StyleSheet, Animated, Image } from 'react-native';
+import { View, Text, StyleSheet, Animated, Image, Dimensions } from 'react-native';
 import colors from '../../constants/colors';
 import ComponentsStyle from '../../constants/components';
 import { AntDesign } from '@expo/vector-icons';
@@ -14,25 +14,24 @@ const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 const data = Array.from({ length: 30 });
 
 const Nutrition = () => {
-    const animatedScrollYValue = useRef(new Animated.Value(0)).current;
 
+    const animatedScrollYValue = useRef(new Animated.Value(0)).current;
     const headerHeight = animatedScrollYValue.interpolate({
         inputRange: [0, HEADER_SCROLL_DISTANCE],
         outputRange: [1, 0.20],
         extrapolate: 'clamp',
     });
-
+    let name = "การเลือกอาหารและโภชนาการถือเป็นเรื่องสำคัญอย่างมากสำหรับผู้ที่"
+    console.log("11", name.length)
 
     return (
         <View style={styles.fill}>
-
             <Animated.ScrollView
                 style={styles.fill2}
                 contentContainerStyle={styles.scrollViewContent}
                 scrollEventThrottle={16}
                 onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: animatedScrollYValue } } }])}
             >
-
                 <View style={styles.scrollViewContent}>
                     <View style={styles.missionText}>
                         <Text style={styles.mission}>ภารกิจล่าสุด</Text>
@@ -46,12 +45,20 @@ const Nutrition = () => {
                             <View style={styles.numberView}>
                                 <Text style={styles.number}>{i + 1}</Text>
                             </View>
+                            <View style={styles.missionData}>
+                                <Text style={styles.missionHead}>เริ่มต้นดีมีชัยไปกว่าครึ่ง ARE U READY ??</Text>
+                                <Text style={styles.missionContent}>
+
+                                    การเลือกอาหารและโภชนาการถือเป็นเรื่องสำคัญอย่างมากสำหรับผู้ที่ออกกำลังกาย
+                                </Text>
+                            </View>
 
                         </View>
                     ))}
                 </View>
             </Animated.ScrollView>
-            <Animated.View opacit y={headerHeight} style={[styles.header]}>
+
+            <Animated.View opacity={headerHeight} style={[styles.header]}>
 
                 <View style={styles.imageView}>
                     <Image
@@ -60,9 +67,6 @@ const Nutrition = () => {
                     />
                 </View>
             </Animated.View>
-
-
-
         </View>
     );
 };
@@ -72,7 +76,7 @@ Nutrition.propTypes = {
         navigate: PropTypes.func.isRequired,
     }).isRequired,
 };
-
+const deviceHeight = Math.round(Dimensions.get('window').height);
 const styles = StyleSheet.create({
     fill: {
         flex: 1,
@@ -82,16 +86,18 @@ const styles = StyleSheet.create({
         marginTop: 100,
         flex: 1,
         zIndex: 1,
-
+        marginBottom: 35
 
     },
     row: {
-        height: 118,
+        maxHeight: 150,
+        height: "auto",
         marginBottom: 16,
         marginHorizontal: 16,
         backgroundColor: colors.white,
         borderRadius: 16,
-        padding: 16
+        padding: 16,
+        flexDirection: "row",
     },
     missionText: {
         justifyContent: "space-between",
@@ -103,6 +109,21 @@ const styles = StyleSheet.create({
         fontFamily: "IBMPlexSansThai-Bold",
         fontSize: ComponentsStyle.fontSize16,
         color: colors.grey1
+    },
+    missionData: {
+        marginHorizontal: 16,
+        width: 231
+
+    },
+    missionHead: {
+        fontSize: ComponentsStyle.fontSize16,
+        fontFamily: "IBMPlexSansThai-Bold",
+        color: colors.grey1,
+    },
+    missionContent: {
+        fontSize: ComponentsStyle.fontSize14,
+        fontFamily: "IBMPlexSansThai-Regular",
+        color: colors.grey2,
     },
     header: {
         position: 'absolute',
@@ -129,7 +150,7 @@ const styles = StyleSheet.create({
 
     },
     scrollViewContent: {
-        marginTop: "50%",
+        marginTop: (deviceHeight > 688) ? "52%" : "35%",
         opacity: 1
 
     }
