@@ -68,8 +68,8 @@ const Nutrition = ({ navigation: { popToTop, navigate } }) => {
                     </View>
 
                     {data.length ?
-                        data.map((_, i) => (
 
+                        data.map((_, i) => (
                             <View key={i} style={styles.row}>
                                 <View style={styles.numberView}>
                                     <Text style={styles.number}>{i + 1}</Text>
@@ -77,7 +77,7 @@ const Nutrition = ({ navigation: { popToTop, navigate } }) => {
                                 <View style={styles.missionData}>
                                     <Text style={styles.missionHead}>เริ่มต้นดีมีชัยไปกว่าครึ่ง ARE U READY ??</Text>
                                     <Text style={styles.missionContent}>
-                                        การเลือกอาหารและโภชนาการถือเป็นเรื่องสำคัญอย่างมากสำหรับผู้ที่ออก
+                                        การเลือกอาหารและโภชนาการถือเป็นเรื่องสำคัญอย่างมากสำหรับผู้ที่ออกกำลังกายอย่าง
                                     </Text>
                                     {
                                         statusNotified == 1 ?

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, View, Image, TouchableOpacity, Dimensions } from 'react-native';
+import { Button, View, Image, TouchableOpacity, Dimensions, StatusBar } from 'react-native';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator, CardStyleInterpolators, TransitionSpecs, TransitionPresets } from '@react-navigation/stack';
 import Login from '../screens/Login';
@@ -23,6 +23,7 @@ import Activity from '../screens/Nutrition/Activity';
 import Add from '../screens/Nutrition/Add';
 import Page1 from '../screens/Nutrition/Page1';
 import Page2 from '../screens/Nutrition/Page2';
+import History from '../screens/Nutrition/History';
 
 
 
@@ -62,11 +63,29 @@ function HomeStackScreen() {
 
 const NutritionStack = createNativeStackNavigator();
 
-function NutritionStackScreen() {
+function NutritionStackScreen({ navigation: { popToTop, navigate } }) {
   return (
     <HomeStack.Navigator>
-      <NutritionStack.Screen name="Nutrition" component={Nutrition} />
+      <NutritionStack.Screen name="Nutrition" component={Nutrition} options={{
+        headerShown: false
+      }} />
       <NutritionStack.Screen name="Page2" component={Page2} />
+      <NutritionStack.Screen name="History" component={History}
+        options={{
+          title: "",
+          //headerBackTitle: true, //ซ่อนข้อความในของ ios
+
+          //  headerShadowVisible: false, // applied here
+          headerLeft: () => (
+            <View style={{ marginLeft: 0 }}>
+              <TouchableOpacity onPress={() => popToTop()}>
+                <Image
+                  source={require('../assets/images/icon/caret.png')}
+                />
+              </TouchableOpacity>
+            </View>
+          ),
+        }} />
     </HomeStack.Navigator>
   );
 }
@@ -107,6 +126,7 @@ function AddStackScreen() {
 
 
 
+///
 
 
 function MyHome() {
@@ -116,7 +136,8 @@ function MyHome() {
   const languages = i18next.languages[0];
 
   const devicehHeight = Math.round(Dimensions.get('window').height);
-
+  /*   const devicehHeight = Math.round(Dimensions.get('window').ไ); */
+  console.log("devicehHeight", devicehHeight);
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -170,8 +191,6 @@ function MyHome() {
           return iconName;
         },
         tabBarStyle: {
-          /*   borderTopWidth: -50,
-            elevation: 0, */
           paddingTop: 16,
           shadowColor: "#000",
           shadowOffset: {
@@ -200,8 +219,6 @@ function MyHome() {
         options={{
           title: languages === "th" ? "หน้าแรก" : "Home",
         }}
-
-      //  <Octicons name="home" size={24} color="black" />
       />
       <Tab.Screen name="Nutrition" component={NutritionStackScreen}
         options={{
@@ -229,14 +246,20 @@ function MyHome() {
   );
 }
 
+
+
+
+
+
 function MyStack() {
   const navigation = useNavigation();
   return (
+
     <Stack.Navigator
       screenOptions={{
         headerTintColor: "#3762FC", // ใส่ icon สี ปุ่ม BackTitle
       }}>
-      <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+      {/*     <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
       <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{
         title: "",
         //headerBackTitle: true, //ซ่อนข้อความในของ ios
@@ -252,9 +275,11 @@ function MyStack() {
           </View>
         ),
       }} />
+       
       <Stack.Screen name="Walkthrough" component={Walkthrough} options={{
         headerShown: false,
       }} />
+
       <Stack.Screen name="OnboardingName" component={OnboardingName} options={{
         title: "",
         //headerBackTitle: true, //ซ่อนข้อความในของ ios
@@ -269,6 +294,7 @@ function MyStack() {
           </View>
         ),
       }} />
+
       <Stack.Screen name="PersonalData" component={PersonalData} options={{
         headerShadowVisible: false,
         title: "",
@@ -282,6 +308,7 @@ function MyStack() {
           </View>
         ),
       }} />
+
       <Stack.Screen name="HealthData" component={HealthData} options={{
         headerShadowVisible: false,
         title: "",
@@ -303,7 +330,7 @@ function MyStack() {
         gestureEnabled: false,
         cardOverlayEnabled: false,
       }} />
-
+   */}
       <Stack.Screen name="Home" component={MyHome} options={{
         headerShown: false,
       }} />
@@ -319,6 +346,7 @@ class Index extends Component {
 
     return (
       <NavigationContainer >
+
         <MyStack />
 
       </NavigationContainer>
