@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, StyleSheet, Animated, Image, ImageBackground, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, Animated, Image, ImageBackground, Dimensions, Pressable } from 'react-native';
 import colors from '../../constants/colors';
 import ComponentsStyle from '../../constants/components';
 import { AntDesign } from '@expo/vector-icons';
@@ -11,11 +11,14 @@ const HEADER_MIN_HEIGHT = 10;
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
 
-const data = Array.from({ length: 0 });
+const data = Array.from({ length: 30 });
 
-const Nutrition = () => {
+
+
+
+const Nutrition = ({ navigation: { popToTop, navigate } }) => {
     const [statusNotified, setStatusNotified] = useState(null);
-    const [startDate, setStartDate] = useState(null);
+    const [startDate, setStartDate] = useState(1);
 
     const animatedScrollYValue = useRef(new Animated.Value(0)).current;
     const headerHeight = animatedScrollYValue.interpolate({
@@ -23,8 +26,14 @@ const Nutrition = () => {
         outputRange: [1, 0.20],
         extrapolate: 'clamp',
     });
-    let name = "การเลือกอาหารและโภชนาการถือเป็นเรื่องสำคัญอย่างมากสำหรับผู้ที่"
-    console.log("11", name.length)
+
+    const refresh = () => {
+        if (data.length) {
+            navigate("History")
+        }
+
+    }
+
 
     return (
         <View style={styles.fill}>
@@ -37,13 +46,28 @@ const Nutrition = () => {
                 <View style={styles.scrollViewContent}>
                     <View style={styles.missionText}>
                         <Text style={styles.mission}>ภารกิจล่าสุด</Text>
-                        <Image
-                            style={{ height: 24, width: 24, zIndex: 1 }}
-                            source={!startDate ? require('../../assets/images/icon/History.png') : require('../../assets/images/icon/History1.png')}
-                        />
+                        {
+                            !startDate ?
+                                <Image
+                                    style={{ height: 24, width: 24, zIndex: 1 }}
+                                    source={require('../../assets/images/icon/History.png')}
+                                //  this.props.navigation.navigate("Walkthrough")
+                                />
+                                :
+
+                                <Pressable onPress={() => refresh()}>
+                                    <Image
+                                        style={{ height: 24, width: 24, zIndex: 1 }}
+
+                                        source={require('../../assets/images/icon/History1.png')}
+                                    //  this.props.navigation.navigate("Walkthrough")
+                                    />
+                                </Pressable>
+                        }
+
                     </View>
 
-                    {data > 0 ?
+                    {data.length ?
                         data.map((_, i) => (
 
                             <View key={i} style={styles.row}>
@@ -88,7 +112,7 @@ const Nutrition = () => {
                         </View>
                     }
                 </View>
-            </Animated.ScrollView>
+            </Animated.ScrollView >
             <Text style={styles.nutritionText}>โภชนาการ</Text>
             <Animated.View opacity={headerHeight} style={[styles.header]}>
                 <View style={styles.imageView}>
@@ -98,7 +122,7 @@ const Nutrition = () => {
                     />
                 </View>
             </Animated.View>
-        </View>
+        </View >
     );
 };
 
