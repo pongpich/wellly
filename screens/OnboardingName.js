@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, TextInput, SafeAreaView, Pressable } from 'reac
 import { getProfanity } from "../redux/get";
 import colors from '../constants/colors';
 import ComponentsStyle from '../constants/components';
-import { userName } from "../redux/personalUser";
+import { updateDisplayName } from "../redux/personalUser";
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 import { Switch } from 'react-native-switch';
@@ -22,7 +22,13 @@ class OnboardingName extends React.Component {
     }
 
     componentDidMount() {
+        const { user } = this.props;
+        const display_name = user && user.display_name;
+
         this.props.getProfanity();
+        /*  if (display_name) {
+             this.props.navigation.navigate("PersonalData")
+         } */
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -38,7 +44,7 @@ class OnboardingName extends React.Component {
                 words: keyWord
             })
         }
-        if ((prevState.name !== name)) {
+        if ((prevState.name !== name) && words) {
             let result = false;
             for (let i = 0; i < words.length; i++) {
                 if (name.includes(words[i])) {
@@ -61,10 +67,11 @@ class OnboardingName extends React.Component {
 
     submit() {
         const { name, errorInput } = this.state;
+        const { user } = this.props;
 
         if (!errorInput && name) {
-            this.props.userName(name);
-            this.props.navigation.navigate("PersonalData")
+            this.props.updateDisplayName(user.user_id, name);
+            //this.props.navigation.navigate("PersonalData")
         }
 
     }
@@ -203,13 +210,14 @@ const styles = StyleSheet.create({
 
 })
 
-const mapStateToProps = ({ getData, personalDataUser }) => {
+const mapStateToProps = ({ getData, personalDataUser, authUser }) => {
     const { profanity } = getData;
-    const { username } = personalDataUser;
-    return { profanity };
+    const { display_name } = personalDataUser;
+    const { user } = authUser;
+    return { profanity, display_name, user };
 };
 
-const mapActionsToProps = { getProfanity, userName };
+const mapActionsToProps = { getProfanity, updateDisplayName };
 
 
 export default connect(

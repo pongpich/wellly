@@ -30,7 +30,6 @@ const loginUserSagaAsync = async (
   email,
   password
 ) => {
-  console.log("loginUserSagaAsync");
   try {
     const apiResult = await API.get("planforfit", "/login", {
       queryStringParameters: {

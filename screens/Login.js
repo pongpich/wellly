@@ -27,6 +27,16 @@ class Login extends Component {
         };
     }
 
+    componentDidMount() {
+        const { user } = this.props;
+
+        //เช็คว่าถ้าloginค้างไว้อยู่แล้วให้ส่งไปหน้าถัดไป
+        if (user) {
+            this.props.navigation.navigate("Walkthrough")
+        }
+        
+    }
+
 
     componentDidUpdate(prevProps, prevState) {
         const { status, user } = this.props;
