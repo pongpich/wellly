@@ -39,7 +39,7 @@ const Nutrition = () => {
                         <Text style={styles.mission}>ภารกิจล่าสุด</Text>
                         <Image
                             style={{ height: 24, width: 24, zIndex: 1 }}
-                            source={require('../../assets/images/icon/History.png')}
+                            source={!startDate ? require('../../assets/images/icon/History.png') : require('../../assets/images/icon/History1.png')}
                         />
                     </View>
 
@@ -82,7 +82,7 @@ const Nutrition = () => {
                             />
                             <Text style={styles.imptyTextHead}>ยังไม่มีภารกิจในตอนนี้</Text>
                             {
-                                !startDate ? <Text style={styles.imptyTextStartDate}>ภารกิจใหม่จะเริ่มในวันที่ 12 สิงหาคม 2564</Text> : null
+                                !startDate ? null : <Text style={styles.imptyTextStartDate}>ภารกิจใหม่จะเริ่มในวันที่ 12 สิงหาคม 2564</Text>
                             }
 
                         </View>
