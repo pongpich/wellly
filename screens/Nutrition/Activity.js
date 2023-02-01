@@ -27,6 +27,8 @@ const styles = StyleSheet.create({
     header: {
         position: 'absolute',
         width: "100%",
+        height: 100,
+        backgroundColor: "blue"
     },
     imageView: {
         width: "100%",
@@ -46,7 +48,7 @@ const ScrollableHeader = () => {
 
     const headerHeight = animatedScrollYValue.interpolate({
         inputRange: [0, HEADER_SCROLL_DISTANCE],
-        outputRange: [1, 0.20],
+        outputRange: [0, 1],
         extrapolate: 'clamp',
     });
 
@@ -69,15 +71,15 @@ const ScrollableHeader = () => {
                 </View>
             </Animated.ScrollView>
             <Animated.View opacity={headerHeight} style={[styles.header]}>
-                {/*  <View style={styles.bar}>
+                <View style={styles.bar}>
                     <Text style={styles.title}>Title</Text>
-                </View> */}
-                <View style={styles.imageView}>
+                </View>
+                {/*     <View style={styles.imageView}>
                     <Image
                         style={{ height: "100%", width: "100%", zIndex: 0 }}
                         source={require('../../assets/images/logo/Sample.png')}
                     />
-                </View>
+                </View> */}
             </Animated.View>
 
 
