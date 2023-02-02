@@ -95,7 +95,11 @@ const Nutrition = ({ navigation: { popToTop, navigate } }) => {
                                     }
                                 </View>
                                 <View style={styles.viewIconRight}>
-                                    <AntDesign name="right" style={styles.iconRight} />
+                                    <Image
+                                        style={{ height: 24, width: 24, zIndex: 1, marginRight: 8 }}
+                                        source={require('../../assets/images/icon/right.png')}
+                                    />
+                                    {/*   <AntDesign name="right" style={styles.iconRight} /> */}
                                 </View>
                             </View>
                         )) :
