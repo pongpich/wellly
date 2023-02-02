@@ -41,13 +41,13 @@ const config = {
     restSpeedThreshold: 0.01,
   },
 };
-const HomeStack = createNativeStackNavigator();
+
 
 
 function HomeStackScreen() {
   return (
-    <HomeStack.Navigator>
-      <HomeStack.Screen name="Home" component={Home}
+    <Stack.Navigator>
+      <Stack.Screen name="Home" component={Home}
         options={{
 
           /*           title: "Ho",
@@ -56,20 +56,19 @@ function HomeStackScreen() {
                     gestureEnabled: false,
                     cardOverlayEnabled: false, */
         }} />
-    </HomeStack.Navigator>
+    </Stack.Navigator>
   );
 }
 
 
-const NutritionStack = createNativeStackNavigator();
 
 function NutritionStackScreen({ navigation }) {
   return (
-    <HomeStack.Navigator>
-      <NutritionStack.Screen name="Nutrition" component={Nutrition} options={{
+    <Stack.Navigator>
+      <Stack.Screen name="Nutrition" component={Nutrition} options={{
         headerShown: false
       }} />
-      <NutritionStack.Screen name="History" component={History}
+      <Stack.Screen name="History" component={History}
 
         options={{
           title: "",
@@ -87,7 +86,7 @@ function NutritionStackScreen({ navigation }) {
           ),
         }} />
 
-      <NutritionStack.Screen name="Successful" component={Successful}
+      <Stack.Screen name="Successful" component={Successful}
         options={{
           title: "",
           headerShadowVisible: false,
@@ -105,41 +104,37 @@ function NutritionStackScreen({ navigation }) {
             </View>
           ),
         }} />
-    </HomeStack.Navigator>
+    </Stack.Navigator>
   );
 }
 
-
-
-const ExerciseStack = createNativeStackNavigator();
 
 function ExerciseStackScreen() {
   return (
-    <HomeStack.Navigator>
-      <ExerciseStack.Screen name="Exercise" component={Exercise} />
-    </HomeStack.Navigator>
+    <Stack.Navigator>
+      <Stack.Screen name="Exercise" component={Exercise} />
+    </Stack.Navigator>
   );
 }
-const ActivityStack = createNativeStackNavigator();
+
 
 function ActivityStackScreen() {
 
   return (
-    <HomeStack.Navigator>
-      <ActivityStack.Screen name="Activity" component={Activity} />
-    </HomeStack.Navigator>
+    <Stack.Navigator>
+      <Stack.Screen name="Activity" component={Activity} />
+    </Stack.Navigator>
   );
 }
 
 
-const AddStack = createNativeStackNavigator();
 
 function AddStackScreen() {
 
   return (
-    <HomeStack.Navigator>
-      <AddStack.Screen name="Add" component={Activity} />
-    </HomeStack.Navigator>
+    <Stack.Navigator>
+      <Stack.Screen name="Add" component={Activity} />
+    </Stack.Navigator>
   );
 }
 
