@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Button, View, Image, TouchableOpacity, Dimensions, StatusBar } from 'react-native';
-import { NavigationContainer, useNavigation, getFocusedRouteNameFromRoute } from '@react-navigation/native';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator, CardStyleInterpolators, TransitionSpecs, TransitionPresets } from '@react-navigation/stack';
 import Login from '../screens/Login';
 import ForgotPassword from '../screens/ForgotPassword';
@@ -28,8 +28,6 @@ import Successful from '../screens/Nutrition/Successful';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
-
-
 const config = {
   animation: 'spring',
   config: {
@@ -41,13 +39,13 @@ const config = {
     restSpeedThreshold: 0.01,
   },
 };
-
+const HomeStack = createNativeStackNavigator();
 
 
 function HomeStackScreen() {
   return (
-    <Stack.Navigator>
-      <Stack.Screen name="Home" component={Home}
+    <HomeStack.Navigator>
+      <HomeStack.Screen name="Home" component={Home}
         options={{
 
           /*           title: "Ho",
@@ -56,21 +54,33 @@ function HomeStackScreen() {
                     gestureEnabled: false,
                     cardOverlayEnabled: false, */
         }} />
-    </Stack.Navigator>
+    </HomeStack.Navigator>
   );
 }
 
 
+const NutritionStack = createNativeStackNavigator();
 
 function NutritionStackScreen({ navigation }) {
-  const route = useRoute();
-  console.log("tabBar", route.name);
   return (
-    <Stack.Navigator >
-      <Stack.Screen name="Nutrition" component={Nutrition} options={{
+    <HomeStack.Navigator>
+      <NutritionStack.Screen name="Nutrition" component={Nutrition} options={{
         headerShown: false
       }} />
-      <Stack.Screen name="Successful" component={Successful}
+      <NutritionStack.Screen name="History" component={History}
+        options={{
+          title: "",
+          headerLeft: () => (
+            <View style={{ marginLeft: 0 }}>
+              <TouchableOpacity onPress={() => navigation.popToTop()}>
+                <Image
+                  source={require('../assets/images/icon/caret.png')}
+                />
+              </TouchableOpacity>
+            </View>
+          ),
+        }} />
+      <NutritionStack.Screen name="Successful" component={Successful}
         options={{
           title: "",
           headerShadowVisible: false,
@@ -88,41 +98,41 @@ function NutritionStackScreen({ navigation }) {
             </View>
           ),
         }} />
-    </Stack.Navigator>
+    </HomeStack.Navigator>
   );
 }
 
+
+
+const ExerciseStack = createNativeStackNavigator();
 
 function ExerciseStackScreen() {
   return (
-    <Stack.Navigator>
-      <Stack.Screen name="Exercise" component={Exercise} options={{
-        tabBarOptions: {
-          visible: false
-        },
-      }} />
-    </Stack.Navigator>
+    <HomeStack.Navigator>
+      <ExerciseStack.Screen name="Exercise" component={Exercise} />
+    </HomeStack.Navigator>
   );
 }
-
+const ActivityStack = createNativeStackNavigator();
 
 function ActivityStackScreen() {
 
   return (
-    <Stack.Navigator>
-      <Stack.Screen name="Activity" component={Activity} />
-    </Stack.Navigator>
+    <HomeStack.Navigator>
+      <ActivityStack.Screen name="Activity" component={Activity} />
+    </HomeStack.Navigator>
   );
 }
 
 
+const AddStack = createNativeStackNavigator();
 
 function AddStackScreen() {
 
   return (
-    <Stack.Navigator>
-      <Stack.Screen name="Add" component={Activity} />
-    </Stack.Navigator>
+    <HomeStack.Navigator>
+      <AddStack.Screen name="Add" component={Activity} />
+    </HomeStack.Navigator>
   );
 }
 
@@ -140,8 +150,6 @@ function MyHome() {
   const devicehHeight = Math.round(Dimensions.get('window').height);
   /*   const devicehHeight = Math.round(Dimensions.get('window').ไ); */
   console.log("devicehHeight", devicehHeight);
-  const route = useRoute();
-  console.log("tabBar", route.name);
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -221,8 +229,6 @@ function MyHome() {
       })}>
       <Tab.Screen name="Home" component={HomeStackScreen}
         options={{
-
-
           title: languages === "th" ? "หน้าแรก" : "Home",
         }}
       />
@@ -246,7 +252,6 @@ function MyHome() {
         }} />
       <Tab.Screen name="Activity" component={ActivityStackScreen}
         options={{
-
           title: languages === "th" ? "กิจกรรม" : "Activity",
         }} />
     </Tab.Navigator >
@@ -338,32 +343,12 @@ function MyStack() {
         cardOverlayEnabled: false,
       }} />
    */}
-
       <Stack.Screen name="Home" component={MyHome} options={{
         headerShown: false,
       }} />
-      <Stack.Screen name="History" component={History}
-        options={({
-          title: "",
-          tabBarOptions: {
-            visible: false
-          },
-          showLabel: false,
-          headerLeft: () => (
-            <View style={{ marginLeft: 16 }}>
-              <TouchableOpacity onPress={() => navigation.goBack()}>
-                <Image
-                  source={require('../assets/images/icon/caret.png')}
-                />
-              </TouchableOpacity>
-            </View>
-          ),
-        })}
-      />
     </Stack.Navigator>
   );
 }
-
 
 
 
@@ -372,7 +357,7 @@ class Index extends Component {
   render() {
 
     return (
-      <NavigationContainer  >
+      <NavigationContainer >
 
         <MyStack />
 
