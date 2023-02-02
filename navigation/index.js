@@ -139,7 +139,28 @@ function MyHome() {
       <Tab.Screen name="Nutrition" component={NutritionStackScreen}
         options={({ route }) => ({
           tabBarStyle: { display: getHeaderTitle(route) },
-
+          tabBarStyle: {
+            paddingTop: 16,
+            shadowColor: "#000",
+            shadowOffset: {
+              width: 0,
+              height: 4,
+            },
+            shadowOpacity: 0.32,
+            shadowRadius: 5.46,
+            elevation: 9,
+            /* height: 70, */
+            height: (devicehHeight < 668) ? 70 : (devicehHeight < 801) ? 70 : 100,
+            borderTopLeftRadius: 16,
+            borderTopRightRadius: 16,
+            backgroundColor: colors.white,
+          },
+          tabBarLabelStyle: {
+            fontSize: 12,
+            /*       marginTop: 16, */
+            paddingBottom: 10,
+            fontFamily: "IBMPlexSansThai-Regular",
+          },
           title: languages === "th" ? "โภชนาการ" : "Nutrition",
         })} />
       <Tab.Screen name="Add" component={AddStackScreen}

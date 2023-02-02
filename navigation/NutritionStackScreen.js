@@ -47,7 +47,7 @@ function NutritionStackScreen() {
                     },
 
                     headerLeft: () => (
-                        <View style={{ marginLeft: 0 }}>
+                        <View style={{ marginLeft: 16 }}>
                             <TouchableOpacity onPress={() => navigation.navigate('History')}>
                                 <Image
                                     source={require('../assets/images/icon/chevron.png')}
