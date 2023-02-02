@@ -28,6 +28,8 @@ import Successful from '../screens/Nutrition/Successful';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
+
+
 const config = {
   animation: 'spring',
   config: {
@@ -68,8 +70,12 @@ function NutritionStackScreen({ navigation }) {
         headerShown: false
       }} />
       <NutritionStack.Screen name="History" component={History}
+
         options={{
           title: "",
+          tabBarLabel: false,
+          tabBarVisible: false,
+          tabBarStyle: { display: "none" },
           headerLeft: () => (
             <View style={{ marginLeft: 0 }}>
               <TouchableOpacity onPress={() => navigation.popToTop()}>
@@ -80,6 +86,7 @@ function NutritionStackScreen({ navigation }) {
             </View>
           ),
         }} />
+
       <NutritionStack.Screen name="Successful" component={Successful}
         options={{
           title: "",
@@ -343,6 +350,7 @@ function MyStack() {
         cardOverlayEnabled: false,
       }} />
    */}
+
       <Stack.Screen name="Home" component={MyHome} options={{
         headerShown: false,
       }} />
@@ -357,7 +365,7 @@ class Index extends Component {
   render() {
 
     return (
-      <NavigationContainer >
+      <NavigationContainer  >
 
         <MyStack />
 
