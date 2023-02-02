@@ -3,6 +3,7 @@ import { Button, View, Image, TouchableOpacity, Dimensions, StatusBar } from 're
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator, CardStyleInterpolators, TransitionSpecs, TransitionPresets } from '@react-navigation/stack';
 import Login from '../screens/Login';
+import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import ForgotPassword from '../screens/ForgotPassword';
 import { connect } from 'react-redux';
 import Walkthrough from '../screens/Walkthrough';
@@ -52,7 +53,7 @@ function MyHome() {
   const languages = i18next.languages[0];
 
   const devicehHeight = Math.round(Dimensions.get('window').height);
-  console.log("devicehHeight", devicehHeight);
+
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -136,9 +137,11 @@ function MyHome() {
         }}
       />
       <Tab.Screen name="Nutrition" component={NutritionStackScreen}
-        options={{
+        options={({ route }) => ({
+          tabBarStyle: { display: getHeaderTitle(route) },
+
           title: languages === "th" ? "โภชนาการ" : "Nutrition",
-        }} />
+        })} />
       <Tab.Screen name="Add" component={AddStackScreen}
         options={{
           title: '',
@@ -160,6 +163,8 @@ function MyHome() {
     </Tab.Navigator >
   );
 }
+
+
 
 
 
@@ -254,7 +259,23 @@ function MyStack() {
 }
 
 
+function getHeaderTitle(route) {
+  console.log("route", route);
+  // If the focused route is not found, we need to assume it's the initial screen
+  // This can happen during if there hasn't been any navigation inside the screen
+  // In our case, it's "Feed" as that's the first screen inside the navigator
+  const routeName = getFocusedRouteNameFromRoute(route) ?? 'Feed';
+  console.log("routeName", routeName);
 
+  if (routeName == "History") {
+    return 'none';
+  }
+  return 'flex';
+  /*  switch (routeName) {
+     case 'History':
+       return 'none';
+   } */
+}
 
 class Index extends Component {
   render() {
@@ -268,6 +289,9 @@ class Index extends Component {
     )
   }
 }
+
+
+
 
 export default Index;
 

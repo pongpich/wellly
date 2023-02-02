@@ -53,7 +53,8 @@ const deviceHeight = Math.round(Dimensions.get('window').height);
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        paddingHorizontal: 16
+        /*   paddingHorizontal: 16 */
+        marginHorizontal: 16
     },
     missionHistory: {
         fontSize: ComponentsStyle.fontSize24,
