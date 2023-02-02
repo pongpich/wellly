@@ -11,6 +11,8 @@ export const types = {
   UPDATE_DISPLAY_NAME_SUCCESS: "UPDATE_DISPLAY_NAME_SUCCESS",
   UPDATE_PERSONAL_DATA: "UPDATE_PERSONAL_DATA",
   UPDATE_PERSONAL_DATA_SUCCESS: "UPDATE_PERSONAL_DATA_SUCCESS",
+  UPDATE_HEALTH_DATA: "UPDATE_HEALTH_DATA",
+  UPDATE_HEALTH_DATA_SUCCESS: "UPDATE_HEALTH_DATA_SUCCESS",
 };
 
 
@@ -36,6 +38,13 @@ export const updatePersonalData = (user_id, personal_data) => ({
   type: types.UPDATE_PERSONAL_DATA,
   payload: {
     user_id, personal_data
+  },
+});
+
+export const updateHealthData = (user_id, health_data) => ({
+  type: types.UPDATE_HEALTH_DATA,
+  payload: {
+    user_id, health_data
   },
 });
 
@@ -70,6 +79,23 @@ const updatePersonalDataSagaAsync = async (
       body: {
         user_id,
         personal_data
+      }
+    });
+    return apiResult
+  } catch (error) {
+    return { error, messsage: error.message };
+  }
+};
+
+const updateHealthDataSagaAsync = async (
+  user_id,
+  health_data
+) => {
+  try {
+    const apiResult = await API.post("planforfit", "/updateHealthData", {
+      body: {
+        user_id,
+        health_data
       }
     });
     return apiResult
@@ -172,6 +198,26 @@ function* updatePersonalDataSaga({ payload }) {
   }
 }
 
+function* updateHealthDataSaga({ payload }) {
+  const {
+    user_id,
+    health_data
+  } = payload
+  try {
+    const apiResult = yield call(
+      updateHealthDataSagaAsync,
+      user_id,
+      health_data
+    );
+    yield put({
+      type: types.UPDATE_HEALTH_DATA_SUCCESS,
+      payload: health_data
+    })
+  } catch (error) {
+    console.log("error form updateHealthDataSaga", error);
+  }
+}
+
 export function* watchLoginUser() {
   yield takeEvery(types.LOGIN_USER, loginUserSaga)
 }
@@ -183,12 +229,16 @@ export function* watchUpdateDisplayName() {
 export function* watchUpdatePersonalData() {
   yield takeEvery(types.UPDATE_PERSONAL_DATA, updatePersonalDataSaga)
 }
+export function* watchUpdateHealthData() {
+  yield takeEvery(types.UPDATE_HEALTH_DATA, updateHealthDataSaga)
+}
 
 export function* saga() {
   yield all([
     fork(watchLoginUser),
     fork(watchUpdateDisplayName),
     fork(watchUpdatePersonalData),
+    fork(watchUpdateHealthData),
   ]);
 }
 
@@ -200,7 +250,8 @@ const INIT_STATE = {
   user: null,
   status: "default",
   statusUpdateDisplayName: "default",
-  statusUpdatePersonalData: "default"
+  statusUpdatePersonalData: "default",
+  statusUpdateHealthData: "default"
 };
 
 export function reducer(state = INIT_STATE, action) {
@@ -247,6 +298,20 @@ export function reducer(state = INIT_STATE, action) {
         user: {
           ...state.user,
           personal_data: action.payload
+        }
+      };
+    case types.UPDATE_HEALTH_DATA:
+      return {
+        ...state,
+        statusUpdateHealthData: 'loading'
+      };
+    case types.UPDATE_HEALTH_DATA_SUCCESS:
+      return {
+        ...state,
+        statusUpdateHealthData: 'success',
+        user: {
+          ...state.user,
+          health_data: action.payload
         }
       };
     default:

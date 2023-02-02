@@ -7,6 +7,7 @@ import { healt } from "../redux/personalUser";
 import { connect } from 'react-redux';
 import ComponentsStyle from '../constants/components';
 import colors from '../constants/colors';
+import { updateHealthData } from "../redux/auth";
 import { withTranslation } from 'react-i18next';
 import { validateMgDL, validateMg, validateBpm, validateMmHGS, validateMmHGD, statusFpg, statusHba1c, statusSbp, statusDbp, statusExercise } from '../constants/functionComponents';
 
@@ -43,7 +44,7 @@ class HealthData extends Component {
         };
     }
     componentDidMount() {
-        const { dataUser } = this.props;
+        const { dataUser, user } = this.props;
         const exer = dataUser && dataUser.exercise;
         //  ออกกำลังกาย
 
@@ -52,12 +53,16 @@ class HealthData extends Component {
             exercise: st.exercise
         })
 
+        const health_data = user && user.personal_data;
+        if (health_data) {
+            this.props.navigation.navigate("Home");
+        }
     }
     componentDidUpdate(prevProps, prevState) {
-        const { healtDataUser, dataUser } = this.props;
+        const { healtDataUser, dataUser, statusUpdateHealthData } = this.props;
         const { mgDL, mg, bpm, mmHGS, mmHGD } = this.state;
 
-        if (prevProps.healtDataUser !== healtDataUser) {
+        if ((prevProps.statusUpdateHealthData !== statusUpdateHealthData) && (statusUpdateHealthData === "success")) {
             this.props.navigation.navigate("OnboardingResults");
         }
 
@@ -178,11 +183,22 @@ class HealthData extends Component {
     }
 
     submit() {
+        const { user } = this.props;
         const { mgDL, mg, bpm, mmHGS, mmHGD, fpg, hba1c, sbp, dbp, exercise, statusMdDl, statusMg, statusBpm, statusMmGH1, statusMmGH2 } = this.state;
 
         if ((mgDL !== null) && (mgDL !== "") && (mg !== null) && (mg !== "") && (bpm !== null) && (bpm !== "") && (mmHGS !== null) && (mmHGS !== "") && (mmHGD !== null) && (mmHGD !== "") &&
             (statusMdDl === true) && (statusMg === true) && (statusBpm === true) && (statusMmGH1 === true) && (statusMmGH2)) {
             this.props.healt(fpg, hba1c, sbp, dbp, exercise);
+
+            const health_data = {
+                blood_glucose: `${mgDL} mg/dL`, //น้ำตาลในเลือด
+                hbA1C: `${mg} mg%`, //ค่าน้ำตาลเฉลี่ยสะสมในเลือด
+                rhr: `${bpm} bpm`, //อัตราการเต้นของหัวใจขณะพัก
+                blood_pressure_systolic: `${mmHGS} mmHG`, //ความดันเลือด - ค่าสูงสุด
+                blood_pressure_diastolic: `${mmHGD} mmHG`, //ความดันเลือด - ค่าต่ำสุด
+            }
+            console.log("health_data :", health_data);
+            this.props.updateHealthData((user && user.user_id), health_data)
         }
     }
 
@@ -494,12 +510,13 @@ const styles = StyleSheet.create({
     },
 });
 
-const mapStateToProps = ({ personalDataUser }) => {
+const mapStateToProps = ({ personalDataUser, authUser }) => {
     const { healtDataUser, dataUser } = personalDataUser;
-    return { healtDataUser, dataUser };
+    const { user, statusUpdateHealthData } = authUser;
+    return { healtDataUser, dataUser, user, statusUpdateHealthData };
 };
 
-const mapActionsToProps = { healt };
+const mapActionsToProps = { healt, updateHealthData };
 
 export default connect(
     mapStateToProps,
