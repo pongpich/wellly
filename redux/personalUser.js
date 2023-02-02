@@ -7,6 +7,7 @@ export const types = {
   PERSONAL_USER: "PERSONAL_USER",
   HEALT_USER: "HEALT_USER",
   LENG_APP: "LENG_APP",
+  MISSION_NUMBER: "MISSION_NUMBER",
 };
 
 
@@ -40,6 +41,14 @@ export const lengThEn = (leng) => ({
     leng,
   },
 });
+export const missionNumber = (number) => ({
+  type: types.MISSION_NUMBER,
+  payload: {
+    number,
+  },
+});
+
+
 /* END OF ACTION Section */
 
 /* SAGA Section */
@@ -54,6 +63,7 @@ const INIT_STATE = {
   healtDataUser: null,
   profanity: null,
   leng: "th",
+  number: null,
 };
 
 export function reducer(state = INIT_STATE, action) {
@@ -72,6 +82,11 @@ export function reducer(state = INIT_STATE, action) {
       return {
         ...state,
         leng: action.payload,
+      };
+    case types.MISSION_NUMBER:
+      return {
+        ...state,
+        number: action.payload,
       };
     default:
       return { ...state };

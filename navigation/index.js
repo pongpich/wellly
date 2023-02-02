@@ -61,7 +61,7 @@ function HomeStackScreen() {
 
 const NutritionStack = createNativeStackNavigator();
 
-function NutritionStackScreen({ navigation: { popToTop, navigate } }) {
+function NutritionStackScreen({ navigation }) {
   return (
     <HomeStack.Navigator>
       <NutritionStack.Screen name="Nutrition" component={Nutrition} options={{
@@ -72,7 +72,7 @@ function NutritionStackScreen({ navigation: { popToTop, navigate } }) {
           title: "",
           headerLeft: () => (
             <View style={{ marginLeft: 0 }}>
-              <TouchableOpacity onPress={() => popToTop()}>
+              <TouchableOpacity onPress={() => navigation.popToTop()}>
                 <Image
                   source={require('../assets/images/icon/caret.png')}
                 />
@@ -83,11 +83,16 @@ function NutritionStackScreen({ navigation: { popToTop, navigate } }) {
       <NutritionStack.Screen name="Successful" component={Successful}
         options={{
           title: "",
+          headerShadowVisible: false,
+          headerStyle: {
+            backgroundColor: colors.persianBlue,
+          },
+
           headerLeft: () => (
             <View style={{ marginLeft: 0 }}>
-              <TouchableOpacity onPress={() => navigation.goBack()}>
+              <TouchableOpacity onPress={() => navigation.navigate('History')}>
                 <Image
-                  source={require('../assets/images/icon/caret.png')}
+                  source={require('../assets/images/icon/chevron.png')}
                 />
               </TouchableOpacity>
             </View>

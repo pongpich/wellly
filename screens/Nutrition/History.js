@@ -1,32 +1,52 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, SafeAreaView, Animated, ScrollView, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, Animated, ScrollView, Dimensions, Pressable } from 'react-native';
 import colors from '../../constants/colors';
 import ComponentsStyle from '../../constants/components';
 import { AntDesign } from '@expo/vector-icons';
-const data = Array.from({ length: 2 });
+import { missionNumber } from "../../redux/personalUser";
+import { connect } from 'react-redux';
+
+
+
+const data = Array.from({ length: 3 });
 
 class History extends Component {
+
+    componentDidUpdate(prevProps, prevStat) {
+        const { number } = this.props;
+        if (prevProps.number !== number) {
+            this.props.navigation.navigate("Successful")
+        }
+    }
+
+
+    onClick(e) {
+        this.props.missionNumber(e)
+    }
     render() {
+
         return (
             <SafeAreaView style={styles.container}>
                 <Text style={styles.missionHistory}>ประวัติภารกิจ</Text>
                 <ScrollView>
                     {
                         data.map((_, i) => (
-                            <View key={i} style={styles.row}>
-                                <View style={styles.numberView}>
-                                    <Text style={styles.number}>{i + 1}</Text>
+                            <Pressable onPress={() => this.onClick(i + 1)}>
+                                <View key={i} style={styles.row}>
+                                    <View style={styles.numberView}>
+                                        <Text style={styles.number}>{i + 1}</Text>
+                                    </View>
+                                    <View style={styles.missionData}>
+                                        <Text style={styles.missionHead}>เริ่มต้นดีมีชัยไปกว่าครึ่ง ARE U READY ??</Text>
+                                        <Text style={styles.missionContent}>
+                                            การเลือกอาหารและโภชนาการถือเป็นเรื่องสำคัญอย่างมากสำหรับผู้ที่ออกกำลังกายอย่าง
+                                        </Text>
+                                    </View>
+                                    <View style={styles.viewIconRight}>
+                                        <AntDesign name="check" style={styles.iconRight} />
+                                    </View>
                                 </View>
-                                <View style={styles.missionData}>
-                                    <Text style={styles.missionHead}>เริ่มต้นดีมีชัยไปกว่าครึ่ง ARE U READY ??</Text>
-                                    <Text style={styles.missionContent}>
-                                        การเลือกอาหารและโภชนาการถือเป็นเรื่องสำคัญอย่างมากสำหรับผู้ที่ออกกำลังกายอย่าง
-                                    </Text>
-                                </View>
-                                <View style={styles.viewIconRight}>
-                                    <AntDesign name="check" style={styles.iconRight} />
-                                </View>
-                            </View>
+                            </Pressable>
                         ))
                     }
                 </ScrollView>
@@ -107,4 +127,14 @@ const styles = StyleSheet.create({
     },
 
 })
-export default History;
+const mapStateToProps = ({ personalDataUser }) => {
+    const { number } = personalDataUser;
+    return { number };
+};
+
+const mapActionsToProps = { missionNumber };
+
+export default connect(
+    mapStateToProps,
+    mapActionsToProps
+)(History);
