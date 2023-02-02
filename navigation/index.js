@@ -21,9 +21,8 @@ import Nutrition from '../screens/Nutrition/Nutrition';
 import Exercise from '../screens/Nutrition/Exercise';
 import Activity from '../screens/Nutrition/Activity';
 import Add from '../screens/Nutrition/Add';
-import Page1 from '../screens/Nutrition/Page1';
-import Page2 from '../screens/Nutrition/Page2';
 import History from '../screens/Nutrition/History';
+import Successful from '../screens/Nutrition/Successful';
 
 
 
@@ -55,7 +54,6 @@ function HomeStackScreen() {
                     gestureEnabled: false,
                     cardOverlayEnabled: false, */
         }} />
-      <HomeStack.Screen name="Page1" component={Page1} />
     </HomeStack.Navigator>
   );
 }
@@ -69,16 +67,25 @@ function NutritionStackScreen({ navigation: { popToTop, navigate } }) {
       <NutritionStack.Screen name="Nutrition" component={Nutrition} options={{
         headerShown: false
       }} />
-      <NutritionStack.Screen name="Page2" component={Page2} />
       <NutritionStack.Screen name="History" component={History}
         options={{
           title: "",
-          //headerBackTitle: true, //ซ่อนข้อความในของ ios
-
-          //  headerShadowVisible: false, // applied here
           headerLeft: () => (
             <View style={{ marginLeft: 0 }}>
               <TouchableOpacity onPress={() => popToTop()}>
+                <Image
+                  source={require('../assets/images/icon/caret.png')}
+                />
+              </TouchableOpacity>
+            </View>
+          ),
+        }} />
+      <NutritionStack.Screen name="Successful" component={Successful}
+        options={{
+          title: "",
+          headerLeft: () => (
+            <View style={{ marginLeft: 0 }}>
+              <TouchableOpacity onPress={() => navigation.goBack()}>
                 <Image
                   source={require('../assets/images/icon/caret.png')}
                 />
