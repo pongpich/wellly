@@ -107,6 +107,7 @@ function MyHome() {
           return iconName;
         },
         tabBarStyle: {
+          display: "flex",
           paddingTop: 16,
           shadowColor: "#000",
           shadowOffset: {
@@ -138,8 +139,8 @@ function MyHome() {
       />
       <Tab.Screen name="Nutrition" component={NutritionStackScreen}
         options={({ route }) => ({
-          tabBarStyle: { display: getHeaderTitle(route) },
           tabBarStyle: {
+            display: getHeaderTitle(route),
             paddingTop: 16,
             shadowColor: "#000",
             shadowOffset: {
@@ -154,12 +155,6 @@ function MyHome() {
             borderTopLeftRadius: 16,
             borderTopRightRadius: 16,
             backgroundColor: colors.white,
-          },
-          tabBarLabelStyle: {
-            fontSize: 12,
-            /*       marginTop: 16, */
-            paddingBottom: 10,
-            fontFamily: "IBMPlexSansThai-Regular",
           },
           title: languages === "th" ? "โภชนาการ" : "Nutrition",
         })} />
