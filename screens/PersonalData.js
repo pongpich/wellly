@@ -9,6 +9,7 @@ import { connect } from 'react-redux'
 import colors from '../constants/colors';
 import ComponentsStyle from '../constants/components';
 import { validatePersonalAge, validatePersonalWeight, validatePersonalHeight } from '../constants/functionComponents';
+import { updatePersonalData } from "../redux/auth";
 import { withTranslation } from 'react-i18next';
 
 /* import { Button } from 'react-native-paper'; */
@@ -35,9 +36,18 @@ class PersonalData extends Component {
         };
     }
 
+    componentDidMount() {
+        const { user } = this.props;
+        const personal_data = user && user.personal_data;
+
+        if (personal_data) {
+            this.props.navigation.navigate("HealthData");
+        }
+    }
+
     componentDidUpdate(prevProps, prevState) {
         const { sex, age, weight, height, exercise, statusAge } = this.state;
-        const { dataUser } = this.props;
+        const { dataUser, statusUpdatePersonalData } = this.props;
 
 
         // เช็ค ค่าที่กรอก age, weight, height,
@@ -70,7 +80,7 @@ class PersonalData extends Component {
 
         }
 
-        if (prevProps.dataUser !== dataUser) {
+        if ((prevProps.statusUpdatePersonalData !== statusUpdatePersonalData) && (statusUpdatePersonalData === "success")) {
             this.props.navigation.navigate("HealthData");
         }
 
@@ -127,11 +137,19 @@ class PersonalData extends Component {
 
     submit() {
         const { sex, age, weight, height, exercise, statusAge, statusWeight, statusHeight } = this.state;
+        const { user } = this.props;
 
-        console.log("statusAge", statusAge, statusWeight, statusHeight);
         if ((age !== "") && (age !== null) && (weight !== "") && (weight !== null) && (height !== "") && (height !== null) && (statusAge == true) && statusWeight == true && statusHeight == true) {
-
+            const personal_data = {
+                sex: sex,
+                age: age,
+                weight: weight,
+                height: height,
+                frequency_of_exercise: exercise,
+            }
+            console.log("personal_data :", personal_data);
             this.props.personal(sex, age, weight, height, exercise);
+            this.props.updatePersonalData((user && user.user_id), personal_data)
         }
 
     }
@@ -151,20 +169,20 @@ class PersonalData extends Component {
                                 <Text style={styles.textInputHead}>{t('sex')}</Text>
                                 <View style={styles.radioFormView}>
                                     <View style={styles.radioFormIcon}>
-                                        <TouchableOpacity onPress={() => this.handleFocus("sex", t('man'))}>
+                                        <TouchableOpacity onPress={() => this.handleFocus("sex", "male")}>
                                             <Image
                                                 style={styles.iconRadio}
-                                                source={(sex == "ชาย") || (sex == "Man") ? require('../assets/images/icon/radioActive.png') : require('../assets/images/icon/radio.png')}
+                                                source={(sex == "ชาย") || (sex == "male") ? require('../assets/images/icon/radioActive.png') : require('../assets/images/icon/radio.png')}
                                             />
                                         </TouchableOpacity>
 
                                         <Text style={styles.radioFormText}>{t('man')}</Text>
                                     </View>
                                     <View style={styles.radioFormIcon2}>
-                                        <TouchableOpacity onPress={() => this.handleFocus("sex", t('female'))}>
+                                        <TouchableOpacity onPress={() => this.handleFocus("sex", "female")}>
                                             <Image
                                                 style={styles.iconRadio}
-                                                source={(sex == "หญิง") || (sex == "Female") ? require('../assets/images/icon/radioActive.png') : require('../assets/images/icon/radio.png')}
+                                                source={(sex == "หญิง") || (sex == "female") ? require('../assets/images/icon/radioActive.png') : require('../assets/images/icon/radio.png')}
                                             />
                                         </TouchableOpacity>
                                         <Text style={styles.radioFormText}>{t('female')}</Text>
@@ -295,29 +313,29 @@ class PersonalData extends Component {
                                 <Text style={styles.textInputHead}>{t('often_exercise')}</Text>
                                 <View style={styles.radioFormView}>
                                     <View style={styles.radioFormIcon}>
-                                        <TouchableOpacity onPress={() => this.handleFocus("exercise", "ประจำ")}>
+                                        <TouchableOpacity onPress={() => this.handleFocus("exercise", "always")}>
                                             <Image
                                                 style={styles.iconRadio}
-                                                source={exercise == "ประจำ" ? require('../assets/images/icon/radioActive.png') : require('../assets/images/icon/radio.png')}
+                                                source={exercise == "always" ? require('../assets/images/icon/radioActive.png') : require('../assets/images/icon/radio.png')}
                                             />
                                         </TouchableOpacity>
 
                                         <Text style={styles.radioFormText}>{t('regular')}</Text>
                                     </View>
                                     <View style={styles.radioFormIcon2}>
-                                        <TouchableOpacity onPress={() => this.handleFocus("exercise", "บางครั้ง")}>
+                                        <TouchableOpacity onPress={() => this.handleFocus("exercise", "sometimes")}>
                                             <Image
                                                 style={styles.iconRadio}
-                                                source={exercise == "บางครั้ง" ? require('../assets/images/icon/radioActive.png') : require('../assets/images/icon/radio.png')}
+                                                source={exercise == "sometimes" ? require('../assets/images/icon/radioActive.png') : require('../assets/images/icon/radio.png')}
                                             />
                                         </TouchableOpacity>
                                         <Text style={styles.radioFormText}>{t('sometimes')}</Text>
                                     </View>
                                     <View style={styles.radioFormIcon2}>
-                                        <TouchableOpacity onPress={() => this.handleFocus("exercise", "ไม่เลย")}>
+                                        <TouchableOpacity onPress={() => this.handleFocus("exercise", "not at all")}>
                                             <Image
                                                 style={styles.iconRadio}
-                                                source={exercise == "ไม่เลย" ? require('../assets/images/icon/radioActive.png') : require('../assets/images/icon/radio.png')}
+                                                source={exercise == "not at all" ? require('../assets/images/icon/radioActive.png') : require('../assets/images/icon/radio.png')}
                                             />
                                         </TouchableOpacity>
                                         <Text style={styles.radioFormText}>{t('not_all')}</Text>
@@ -460,12 +478,13 @@ const styles = StyleSheet.create({
 
 
 
-const mapStateToProps = ({ personalDataUser }) => {
+const mapStateToProps = ({ personalDataUser, authUser }) => {
     const { dataUser, username } = personalDataUser;
-    return { dataUser, username };
+    const { user, statusUpdatePersonalData } = authUser;
+    return { dataUser, username, user, statusUpdatePersonalData };
 };
 
-const mapActionsToProps = { personal };
+const mapActionsToProps = { personal, updatePersonalData };
 
 
 export default connect(

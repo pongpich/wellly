@@ -9,6 +9,8 @@ export const types = {
   LOGIN_USER_FAIL: "LOGIN_USER_FAIL",
   UPDATE_DISPLAY_NAME: "UPDATE_DISPLAY_NAME",
   UPDATE_DISPLAY_NAME_SUCCESS: "UPDATE_DISPLAY_NAME_SUCCESS",
+  UPDATE_PERSONAL_DATA: "UPDATE_PERSONAL_DATA",
+  UPDATE_PERSONAL_DATA_SUCCESS: "UPDATE_PERSONAL_DATA_SUCCESS",
 };
 
 
@@ -30,6 +32,13 @@ export const updateDisplayName = (user_id, display_name) => ({
   },
 });
 
+export const updatePersonalData = (user_id, personal_data) => ({
+  type: types.UPDATE_PERSONAL_DATA,
+  payload: {
+    user_id, personal_data
+  },
+});
+
 
 
 /* END OF ACTION Section */
@@ -44,6 +53,23 @@ const updateDisplayNameSagaAsync = async (
       body: {
         user_id,
         display_name
+      }
+    });
+    return apiResult
+  } catch (error) {
+    return { error, messsage: error.message };
+  }
+};
+
+const updatePersonalDataSagaAsync = async (
+  user_id,
+  personal_data
+) => {
+  try {
+    const apiResult = await API.post("planforfit", "/updatePersonalData", {
+      body: {
+        user_id,
+        personal_data
       }
     });
     return apiResult
@@ -126,6 +152,26 @@ function* updateDisplayNameSaga({ payload }) {
   }
 }
 
+function* updatePersonalDataSaga({ payload }) {
+  const {
+    user_id,
+    personal_data
+  } = payload
+  try {
+    const apiResult = yield call(
+      updatePersonalDataSagaAsync,
+      user_id,
+      personal_data
+    );
+    yield put({
+      type: types.UPDATE_PERSONAL_DATA_SUCCESS,
+      payload: personal_data
+    })
+  } catch (error) {
+    console.log("error form updatePersonalDataSaga", error);
+  }
+}
+
 export function* watchLoginUser() {
   yield takeEvery(types.LOGIN_USER, loginUserSaga)
 }
@@ -134,10 +180,15 @@ export function* watchUpdateDisplayName() {
   yield takeEvery(types.UPDATE_DISPLAY_NAME, updateDisplayNameSaga)
 }
 
+export function* watchUpdatePersonalData() {
+  yield takeEvery(types.UPDATE_PERSONAL_DATA, updatePersonalDataSaga)
+}
+
 export function* saga() {
   yield all([
     fork(watchLoginUser),
     fork(watchUpdateDisplayName),
+    fork(watchUpdatePersonalData),
   ]);
 }
 
@@ -149,6 +200,7 @@ const INIT_STATE = {
   user: null,
   status: "default",
   statusUpdateDisplayName: "default",
+  statusUpdatePersonalData: "default"
 };
 
 export function reducer(state = INIT_STATE, action) {
@@ -181,6 +233,20 @@ export function reducer(state = INIT_STATE, action) {
         user: {
           ...state.user,
           display_name: action.payload
+        }
+      };
+    case types.UPDATE_PERSONAL_DATA:
+      return {
+        ...state,
+        statusUpdatePersonalData: 'loading'
+      };
+    case types.UPDATE_PERSONAL_DATA_SUCCESS:
+      return {
+        ...state,
+        statusUpdatePersonalData: 'success',
+        user: {
+          ...state.user,
+          personal_data: action.payload
         }
       };
     default:
