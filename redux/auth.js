@@ -7,6 +7,7 @@ export const types = {
   LOGIN_USER: "LOGIN_USER",
   LOGIN_USER_SUCCESS: "LOGIN_USER_SUCCESS",
   LOGIN_USER_FAIL: "LOGIN_USER_FAIL",
+  LOGOUT_USER: "LOGOUT_USER",
   UPDATE_DISPLAY_NAME: "UPDATE_DISPLAY_NAME",
   UPDATE_DISPLAY_NAME_SUCCESS: "UPDATE_DISPLAY_NAME_SUCCESS",
   UPDATE_PERSONAL_DATA: "UPDATE_PERSONAL_DATA",
@@ -16,6 +17,9 @@ export const types = {
 };
 
 
+export const logoutUser = () => ({
+  type: types.LOGOUT_USER
+});
 
 
 export const loginUser = (email, password) => ({
@@ -314,6 +318,8 @@ export function reducer(state = INIT_STATE, action) {
           health_data: action.payload
         }
       };
+    case types.LOGOUT_USER:
+      return INIT_STATE;
     default:
       return { ...state };
   }
