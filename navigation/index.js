@@ -23,6 +23,11 @@ import Activity from '../screens/Nutrition/Activity';
 import Add from '../screens/Nutrition/Add';
 import History from '../screens/Nutrition/History';
 import Successful from '../screens/Nutrition/Successful';
+import HomeStackScreen from '../navigation/HomeStackScreen';
+import NutritionStackScreen from '../navigation/NutritionStackScreen';
+import AddStackScreen from '../navigation/AddStackScreen';
+import ExerciseStackScreen from '../navigation/ExerciseStackScreen';
+import ActivityStackScreen from '../navigation/ActivityStackScreen';
 
 
 
@@ -39,107 +44,6 @@ const config = {
     restSpeedThreshold: 0.01,
   },
 };
-const HomeStack = createNativeStackNavigator();
-
-
-function HomeStackScreen() {
-  return (
-    <HomeStack.Navigator>
-      <HomeStack.Screen name="Home" component={Home}
-        options={{
-
-          /*           title: "Ho",
-                    headerShown: false,
-                    headerShadowVisible: false,
-                    gestureEnabled: false,
-                    cardOverlayEnabled: false, */
-        }} />
-    </HomeStack.Navigator>
-  );
-}
-
-
-const NutritionStack = createNativeStackNavigator();
-
-function NutritionStackScreen({ navigation }) {
-  return (
-    <HomeStack.Navigator>
-      <NutritionStack.Screen name="Nutrition" component={Nutrition} options={{
-        headerShown: false
-      }} />
-      <NutritionStack.Screen name="History" component={History}
-        options={{
-          title: "",
-          headerLeft: () => (
-            <View style={{ marginLeft: 0 }}>
-              <TouchableOpacity onPress={() => navigation.popToTop()}>
-                <Image
-                  source={require('../assets/images/icon/caret.png')}
-                />
-              </TouchableOpacity>
-            </View>
-          ),
-        }} />
-      <NutritionStack.Screen name="Successful" component={Successful}
-        options={{
-          title: "",
-          headerShadowVisible: false,
-          headerStyle: {
-            backgroundColor: colors.persianBlue,
-          },
-
-          headerLeft: () => (
-            <View style={{ marginLeft: 0 }}>
-              <TouchableOpacity onPress={() => navigation.navigate('History')}>
-                <Image
-                  source={require('../assets/images/icon/chevron.png')}
-                />
-              </TouchableOpacity>
-            </View>
-          ),
-        }} />
-    </HomeStack.Navigator>
-  );
-}
-
-
-
-const ExerciseStack = createNativeStackNavigator();
-
-function ExerciseStackScreen() {
-  return (
-    <HomeStack.Navigator>
-      <ExerciseStack.Screen name="Exercise" component={Exercise} />
-    </HomeStack.Navigator>
-  );
-}
-const ActivityStack = createNativeStackNavigator();
-
-function ActivityStackScreen() {
-
-  return (
-    <HomeStack.Navigator>
-      <ActivityStack.Screen name="Activity" component={Activity} />
-    </HomeStack.Navigator>
-  );
-}
-
-
-const AddStack = createNativeStackNavigator();
-
-function AddStackScreen() {
-
-  return (
-    <HomeStack.Navigator>
-      <AddStack.Screen name="Add" component={Activity} />
-    </HomeStack.Navigator>
-  );
-}
-
-
-
-///
-
 
 function MyHome() {
 
@@ -148,7 +52,6 @@ function MyHome() {
   const languages = i18next.languages[0];
 
   const devicehHeight = Math.round(Dimensions.get('window').height);
-  /*   const devicehHeight = Math.round(Dimensions.get('window').ไ); */
   console.log("devicehHeight", devicehHeight);
   return (
     <Tab.Navigator
