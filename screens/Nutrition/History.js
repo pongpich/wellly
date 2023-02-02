@@ -12,17 +12,10 @@ const data = Array.from({ length: 3 });
 
 class History extends Component {
 
-    componentDidUpdate(prevProps, prevStat) {
-        const { number } = this.props;
-        if (prevProps.number !== number) {
-            this.props.navigation.navigate("Successful")
-        }
-    }
 
 
-    onClick(e) {
-        this.props.missionNumber(e)
-    }
+
+
     render() {
 
         return (
@@ -31,7 +24,8 @@ class History extends Component {
                 <ScrollView>
                     {
                         data.map((_, i) => (
-                            <Pressable onPress={() => this.onClick(i + 1)}>
+                            //ส่ง params ผ่าน route
+                            <Pressable onPress={() => this.props.navigation.navigate("Successful", { id: i + 1 })}>
                                 <View key={i} style={styles.row}>
                                     <View style={styles.numberView}>
                                         <Text style={styles.number}>{i + 1}</Text>
