@@ -20,30 +20,32 @@ class History extends Component {
 
         return (
             <SafeAreaView style={styles.container}>
-                <Text style={styles.missionHistory}>ประวัติภารกิจ</Text>
-                <ScrollView>
-                    {
-                        data.map((_, i) => (
-                            //ส่ง params ผ่าน route
-                            <Pressable onPress={() => this.props.navigation.navigate("Successful", { id: i + 1 })}>
-                                <View key={i} style={styles.row}>
-                                    <View style={styles.numberView}>
-                                        <Text style={styles.number}>{i + 1}</Text>
+                <View style={styles.marginBox}>
+                    <Text style={styles.missionHistory}>ประวัติภารกิจ</Text>
+                    <ScrollView>
+                        {
+                            data.map((_, i) => (
+                                //ส่ง params ผ่าน route
+                                <Pressable onPress={() => this.props.navigation.navigate("Successful", { id: i + 1 })}>
+                                    <View key={i} style={styles.row}>
+                                        <View style={styles.numberView}>
+                                            <Text style={styles.number}>{i + 1}</Text>
+                                        </View>
+                                        <View style={styles.missionData}>
+                                            <Text style={styles.missionHead}>เริ่มต้นดีมีชัยไปกว่าครึ่ง ARE U READY ??</Text>
+                                            <Text style={styles.missionContent}>
+                                                การเลือกอาหารและโภชนาการถือเป็นเรื่องสำคัญอย่างมากสำหรับผู้ที่ออกกำลังกายอย่าง
+                                            </Text>
+                                        </View>
+                                        <View style={styles.viewIconRight}>
+                                            <AntDesign name="check" style={styles.iconRight} />
+                                        </View>
                                     </View>
-                                    <View style={styles.missionData}>
-                                        <Text style={styles.missionHead}>เริ่มต้นดีมีชัยไปกว่าครึ่ง ARE U READY ??</Text>
-                                        <Text style={styles.missionContent}>
-                                            การเลือกอาหารและโภชนาการถือเป็นเรื่องสำคัญอย่างมากสำหรับผู้ที่ออกกำลังกายอย่าง
-                                        </Text>
-                                    </View>
-                                    <View style={styles.viewIconRight}>
-                                        <AntDesign name="check" style={styles.iconRight} />
-                                    </View>
-                                </View>
-                            </Pressable>
-                        ))
-                    }
-                </ScrollView>
+                                </Pressable>
+                            ))
+                        }
+                    </ScrollView>
+                </View>
             </SafeAreaView>
         )
     }
@@ -53,7 +55,9 @@ const deviceHeight = Math.round(Dimensions.get('window').height);
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        /*   paddingHorizontal: 16 */
+        backgroundColor: colors.grey7
+    },
+    marginBox: {
         marginHorizontal: 16
     },
     missionHistory: {

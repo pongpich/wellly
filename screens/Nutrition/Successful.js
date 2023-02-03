@@ -11,6 +11,7 @@ class Successful extends Component {
         super(props);
         this.state = {
             numberMission: null,
+            study: true
 
         };
     }
@@ -25,23 +26,50 @@ class Successful extends Component {
     }
 
 
+
+    studyContentSection = () => {
+        return (
+            <View style={styles.studyContent}>
+                <Image style={{ width: "100%", height: 208 }}
+                    source={require('../../assets/images/logo/ng1.png')}
+                />
+            </View>
+
+        )
+    }
+
+
     render() {
-        const { numberMission } = this.state;
+        const { numberMission, study } = this.state;
 
         console.log("navigation",);
         return (
             <SafeAreaView style={styles.container}>
                 <StatusBar barStyle="light-content" />
-                <View style={styles.headBox}>
-                    <View style={styles.areaNumber}>
-                        <Text style={styles.areaNumberText}>
+                <View style={ComponentsStyle.headBox}>
+                    <View style={ComponentsStyle.areaNumber}>
+                        <Text style={ComponentsStyle.areaNumberText}>
                             {numberMission}
                         </Text>
                     </View>
-                    <View style={styles.nutritionMission}>
-
+                    <View style={ComponentsStyle.nutritionMission}>
+                        <Text style={ComponentsStyle.missionHead}>ภารกิจโภชนาการ</Text>
+                        <Text style={ComponentsStyle.missionHeading}>Energy พร้อม!!!</Text>
                     </View>
                 </View>
+                <View style={ComponentsStyle.contentBox}>
+                    <View style={styles.heading}>
+                        <View style={styles.boxHeadingActive}>
+                            <Text style={styles.sectionActive}> ความรู้</Text>
+                        </View>
+                        <View style={styles.boxHeading}>
+                            <Text style={styles.section}> ภารกิจ</Text>
+                        </View>
+                    </View>
+                    {
+                        study ? <>{this.studyContentSection()}</> : null
+                    }
+                </View >
             </SafeAreaView>
         )
     }
@@ -51,32 +79,52 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
-    headBox: {
-        width: "100%",
-        height: 118,
-        paddingHorizontal: 16,
-        paddingTop: 30,
-        paddingBottom: 32,
-        backgroundColor: colors.persianBlue,
-        flexDirection: "row"
+    heading: {
+        marginTop: 16,
+        flexDirection: "row",
+        marginHorizontal: 16,
+
     },
-    areaNumber: {
-        height: 56,
-        width: 56,
-        borderColor: colors.secondary_MayaBlue,
-        borderWidth: 4,
-        borderRadius: "100%",
+    boxHeadingActive: {
         alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center",
+        height: 49,
+        width: "50%",
+        paddingTop: 8,
+
+        paddingBottom: 10,
+        borderBottomWidth: 2,
+        borderColor: colors.persianBlue
     },
-    areaNumberText: {
-        fontSize: 32,
-        color: colors.white,
+    boxHeading: {
+        alignItems: "center",
+        justifyContent: "center",
+        height: 49,
+        width: "50%",
+        paddingTop: 8,
+        paddingBottom: 10,
+        borderBottomWidth: 2,
+        borderColor: colors.grey3
+    },
+    sectionActive: {
+        color: colors.persianBlue,
+        fontSize: ComponentsStyle.fontSize16,
         fontFamily: "IBMPlexSansThai-Bold",
+        width: "100%",
+        textAlign: "center",
     },
-    nutritionMission: {
-        marginLeft: 8
+    section: {
+        color: colors.grey3,
+        fontSize: ComponentsStyle.fontSize16,
+        fontFamily: "IBMPlexSansThai-Bold",
+        textAlign: "center",
+    },
+    studyContent: {
+        marginHorizontal: 16,
+        marginTop: 16
     }
+
+
 });
 
 const mapStateToProps = ({ personalDataUser }) => {

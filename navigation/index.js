@@ -6,6 +6,8 @@ import Login from '../screens/Login';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import ForgotPassword from '../screens/ForgotPassword';
 import { connect } from 'react-redux';
+import { getProfanity } from "../redux/get";
+import { updateDisplayName } from "../redux/auth";
 import Walkthrough from '../screens/Walkthrough';
 import OnboardingResults from '../screens/OnboardingResults';
 import PersonalData from '../screens/PersonalData';
@@ -186,8 +188,11 @@ function MyHome() {
 
 
 
-function MyStack() {
+function MyStack(user) {
+
   const navigation = useNavigation();
+  const { display_name, personal_data } = user && user.post;
+  console.log("user", personal_data);
   return (
 
     <Stack.Navigator
@@ -210,7 +215,6 @@ function MyStack() {
           </View>
         ),
       }} />
-
       <Stack.Screen name="Walkthrough" component={Walkthrough} options={{
         headerShown: false,
       }} />
@@ -229,21 +233,6 @@ function MyStack() {
           </View>
         ),
       }} />
-
-      <Stack.Screen name="PersonalData" component={PersonalData} options={{
-        headerShadowVisible: false,
-        title: "",
-        headerLeft: () => (
-          <View style={{ paddingLeft: 16 }}>
-            <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Image
-                source={require('../assets/images/icon/caret.png')}
-              />
-            </TouchableOpacity>
-          </View>
-        ),
-      }} />
-
       <Stack.Screen name="HealthData" component={HealthData} options={{
         headerShadowVisible: false,
         title: "",
@@ -287,11 +276,13 @@ function getBottomTabse(route) {
 
 class Index extends Component {
   render() {
+    const { user } = this.props;
+
 
     return (
       <NavigationContainer >
 
-        <MyStack />
+        <MyStack post={user} />
 
       </NavigationContainer>
     )
@@ -301,9 +292,22 @@ class Index extends Component {
 
 
 
-export default Index;
+/* export default Index;
+ */
 
-/* export default connect(
-  null,
-  null
-)(withTranslation()(Index)); */
+const mapStateToProps = ({ getData, authUser }) => {
+  const { profanity } = getData;
+  const { user, statusUpdateDisplayName } = authUser;
+  return { profanity, user, statusUpdateDisplayName };
+};
+
+const mapActionsToProps = { getProfanity, updateDisplayName };
+
+
+export default connect(
+  mapStateToProps,
+  mapActionsToProps
+)(Index);
+
+
+

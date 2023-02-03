@@ -22,8 +22,8 @@ function NutritionStackScreen() {
             <Stack.Screen name="History" component={History}
                 options={({
                     title: "",
-                    tabBarOptions: {
-                        visible: false
+                    headerStyle: {
+                        backgroundColor: colors.grey7,
                     },
                     showLabel: false,
                     headerLeft: () => (

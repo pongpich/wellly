@@ -1,4 +1,4 @@
-import colors from './colors';
+import colors from '../constants/colors';
 import { StyleSheet, Dimensions } from 'react-native';
 
 const deviceWidth = Math.round(Dimensions.get('window').width);
@@ -136,7 +136,52 @@ export default StyleSheet.create({
         color: colors.grey3,
         fontSize: fontSize16,
         fontFamily: "IBMPlexSansThai-Bold",
+    },
+    headBox: {
+        width: "100%",
+        height: 118,
+        paddingHorizontal: 16,
+        paddingTop: 30,
+        paddingBottom: 32,
+        backgroundColor: colors.persianBlue,
+        flexDirection: "row"
+    },
+    areaNumber: {
+        height: 56,
+        width: 56,
+        borderColor: colors.secondary_MayaBlue,
+        borderWidth: 4,
+        borderRadius: "100%",
+        alignItems: "center",
+        justifyContent: "center"
+    },
+    areaNumberText: {
+        fontSize: 32,
+        color: colors.white,
+        fontFamily: "IBMPlexSansThai-Bold",
+    },
+    nutritionMission: {
+        marginLeft: 8
+    },
+    missionHead: {
+        fontFamily: "IBMPlexSansThai-Regular",
+        fontSize: fontSize14,
+        color: colors.grey4
+    },
+    missionHeading: {
+        fontFamily: "IBMPlexSansThai-Bold",
+        fontSize: fontSize24,
+        color: colors.white
+    },
+    contentBox: {
+        marginTop: -16,
+        backgroundColor: colors.white,
+        height: "100%",
+        borderTopLeftRadius: 16,
+        borderTopRightRadius: 16,
+
     }
+
 });
 
 
