@@ -140,7 +140,7 @@ function MyHome() {
       <Tab.Screen name="Nutrition" component={NutritionStackScreen}
         options={({ route }) => ({
           tabBarStyle: {
-            display: getHeaderTitle(route),
+            display: getBottomTabse(route),
             paddingTop: 16,
             shadowColor: "#000",
             shadowOffset: {
@@ -150,7 +150,6 @@ function MyHome() {
             shadowOpacity: 0.32,
             shadowRadius: 5.46,
             elevation: 9,
-            /* height: 70, */
             height: (devicehHeight < 668) ? 70 : (devicehHeight < 801) ? 70 : 100,
             borderTopLeftRadius: 16,
             borderTopRightRadius: 16,
@@ -195,7 +194,7 @@ function MyStack() {
       screenOptions={{
         headerTintColor: "#3762FC", // ใส่ icon สี ปุ่ม BackTitle
       }}>
-      {/*     <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+      <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
       <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{
         title: "",
         //headerBackTitle: true, //ซ่อนข้อความในของ ios
@@ -211,7 +210,7 @@ function MyStack() {
           </View>
         ),
       }} />
-       
+
       <Stack.Screen name="Walkthrough" component={Walkthrough} options={{
         headerShown: false,
       }} />
@@ -266,7 +265,7 @@ function MyStack() {
         gestureEnabled: false,
         cardOverlayEnabled: false,
       }} />
-   */}
+
       <Stack.Screen name="Home" component={MyHome} options={{
         headerShown: false,
       }} />
@@ -275,22 +274,15 @@ function MyStack() {
 }
 
 
-function getHeaderTitle(route) {
-  console.log("route", route);
-  // If the focused route is not found, we need to assume it's the initial screen
-  // This can happen during if there hasn't been any navigation inside the screen
-  // In our case, it's "Feed" as that's the first screen inside the navigator
-  const routeName = getFocusedRouteNameFromRoute(route) ?? 'Feed';
-  console.log("routeName", routeName);
+function getBottomTabse(route) {
 
+  const routeName = getFocusedRouteNameFromRoute(route) ?? 'Feed';
   if (routeName == "History") {
     return 'none';
   }
+
+
   return 'flex';
-  /*  switch (routeName) {
-     case 'History':
-       return 'none';
-   } */
 }
 
 class Index extends Component {
