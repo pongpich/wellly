@@ -147,7 +147,6 @@ class PersonalData extends Component {
                 height: height,
                 frequency_of_exercise: exercise,
             }
-            console.log("personal_data :", personal_data);
             this.props.personal(sex, age, weight, height, exercise);
             this.props.updatePersonalData((user && user.user_id), personal_data)
         }
@@ -158,7 +157,7 @@ class PersonalData extends Component {
         const { sexIndex, sex, age, weight, height, exercise, statusAge, statusTextAge, statusWeight, statusTextWeight, statusHeight, statusTextHeight,
             isFocusedAge, isFocusedWeight, isFocusedHeight } = this.state;
         const { t } = this.props;
-        console.log("sex", statusTextAge);
+
         return (
             <SafeAreaView style={styles.container}>
                 <View style={{ flex: 1, width: "100%" }}>

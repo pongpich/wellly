@@ -136,7 +136,6 @@ Nutrition.propTypes = {
     }).isRequired,
 };
 const deviceHeight = Math.round(Dimensions.get('window').height);
-console.log("deviceHeight", deviceHeight);
 const styles = StyleSheet.create({
     fill: {
         flex: 1,

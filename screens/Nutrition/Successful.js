@@ -41,8 +41,6 @@ class Successful extends Component {
 
     render() {
         const { numberMission, study } = this.state;
-
-        console.log("navigation",);
         return (
             <SafeAreaView style={styles.container}>
                 <StatusBar barStyle="light-content" />

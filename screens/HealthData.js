@@ -197,7 +197,6 @@ class HealthData extends Component {
                 blood_pressure_systolic: `${mmHGS} mmHG`, //ความดันเลือด - ค่าสูงสุด
                 blood_pressure_diastolic: `${mmHGD} mmHG`, //ความดันเลือด - ค่าต่ำสุด
             }
-            console.log("health_data :", health_data);
             this.props.updateHealthData((user && user.user_id), health_data)
         }
     }
