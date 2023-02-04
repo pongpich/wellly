@@ -40,9 +40,9 @@ class PersonalData extends Component {
         const { user } = this.props;
         const personal_data = user && user.personal_data;
 
-        if (personal_data) {
-            this.props.navigation.navigate("HealthData");
-        }
+        /*   if (personal_data) {
+              this.props.navigation.navigate("HealthData");
+          } */
     }
 
     componentDidUpdate(prevProps, prevState) {

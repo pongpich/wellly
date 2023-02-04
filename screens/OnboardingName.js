@@ -26,9 +26,9 @@ class OnboardingName extends React.Component {
         const display_name = user && user.display_name;
 
         this.props.getProfanity();
-        if (display_name) {
-            this.props.navigation.navigate("PersonalData")
-        }
+        /*  if (display_name) {
+             this.props.navigation.navigate("PersonalData")
+         } */
     }
 
     componentDidUpdate(prevProps, prevState) {

@@ -187,9 +187,9 @@ function MyHome() {
 
 
 
-function MyStack(e) {
+function MyStack() {
   const navigation = useNavigation();
-  console.log("useraaa", e);
+
   return (
 
     <Stack.Navigator
@@ -293,7 +293,7 @@ class Index extends Component {
     return (
       <NavigationContainer >
 
-        <MyStack post={"user"} />
+        <MyStack />
 
       </NavigationContainer>
     )

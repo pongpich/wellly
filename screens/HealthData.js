@@ -54,9 +54,9 @@ class HealthData extends Component {
         })
 
         const health_data = user && user.personal_data;
-        if (health_data) {
-            this.props.navigation.navigate("Home");
-        }
+        /*  if (health_data) {
+             this.props.navigation.navigate("Home");
+         } */
     }
     componentDidUpdate(prevProps, prevState) {
         const { healtDataUser, dataUser, statusUpdateHealthData } = this.props;

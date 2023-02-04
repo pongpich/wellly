@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { AppRegistry, View, StyleSheet, Pressable, SafeAreaView, Image, Text, Dimensions, TouchableOpacity } from 'react-native';
 import ComponentsStyle from '../constants/components';
+import { getProfanity } from "../redux/get";
+import { updateDisplayName } from "../redux/auth";
 import colors from '../constants/colors';
 import Swiper from 'react-native-swiper';
 import i18next from 'i18next';
@@ -93,6 +95,20 @@ class Walkthrough extends Component {
 
     }
 
+    onChanged() {
+        const { user } = this.props;
+        const { display_name, personal_data } = user && user;
+        const health_data = user && user.personal_data;
+        if (!display_name) {
+            this.props.navigation.navigate("OnboardingName")
+        } else if (!personal_data) {
+            this.props.navigation.navigate("PersonalData")
+        } else if (!health_data) {
+            this.props.navigation.navigate("HealthData");
+        } else {
+            this.props.navigation.navigate("Home");
+        }
+    }
 
     render() {
         const { swiperIndex } = this.state;
@@ -123,7 +139,7 @@ class Walkthrough extends Component {
 
                         </> :
                         <View style={{ flex: 1, justifyContent: "flex-end", marginBottom: 28 }}>
-                            <Pressable style={ComponentsStyle.button} onPress={() => this.props.navigation.navigate("OnboardingName")} >
+                            <Pressable style={ComponentsStyle.button} onPress={() => this.onChanged()} >
                                 <Text style={ComponentsStyle.textButton} >{t('lets_start')}</Text>
                             </Pressable>
                         </View>}
@@ -231,10 +247,18 @@ const styles = StyleSheet.create({
 
 });
 
-/* export default Walkthrough; */
+
+const mapStateToProps = ({ getData, authUser }) => {
+    const { profanity } = getData;
+    const { user, statusUpdateDisplayName } = authUser;
+    return { profanity, user, statusUpdateDisplayName };
+};
+
+const mapActionsToProps = { getProfanity, updateDisplayName };
 
 
 export default connect(
-    null,
-    null
+    mapStateToProps,
+    mapActionsToProps
 )(withTranslation()(Walkthrough));
+
