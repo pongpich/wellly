@@ -6,11 +6,17 @@ import { Auth, API } from "aws-amplify";
 export const types = {
   GET_PROFANITY: "GET_PROFANITY",
   GET_PROFANITY_SUCCESS: "GET_PROFANITY_SUCCESS",
+  GET_NUTRITION_MISSION: "GET_NUTRITION_MISSION",
+  GET_NUTRITION_MISSION_SUCCESS: "GET_NUTRITION_MISSION_SUCCESS",
 };
 
 
 export const getProfanity = () => ({
   type: types.GET_PROFANITY
+});
+
+export const getNutritionMission = () => ({
+  type: types.GET_NUTRITION_MISSION
 });
 
 
@@ -22,6 +28,21 @@ export const getProfanity = () => ({
 const getProfanitySagaAsync = async () => {
   try {
     const apiResult = await API.get("planforfit", "/getProfanity", {
+      queryStringParameters: {
+
+      }
+
+    });
+    // console.log("apiResult", apiResult);
+    return apiResult
+  } catch (error) {
+    return { error, messsage: error.message };
+  }
+};
+
+const getNutritionMissionSagaAsync = async () => {
+  try {
+    const apiResult = await API.get("planforfit", "/getNutritionMission", {
       queryStringParameters: {
 
       }
@@ -46,7 +67,22 @@ function* getProfanitySaga({ }) {
     })
 
   } catch (error) {
-    console.log("error form login", error);
+    console.log("error form getProfanitySaga", error);
+  }
+}
+
+function* getNutritionMissionSaga({ }) {
+  try {
+    const apiResult = yield call(
+      getNutritionMissionSagaAsync
+    );
+    yield put({
+      type: types.GET_NUTRITION_MISSION_SUCCESS,
+      payload: apiResult.results
+    })
+
+  } catch (error) {
+    console.log("error form getNutritionMissionSaga", error);
   }
 }
 
@@ -54,9 +90,14 @@ export function* watchGetProfanity() {
   yield takeEvery(types.GET_PROFANITY, getProfanitySaga)
 }
 
+export function* watchGetNutritionMission() {
+  yield takeEvery(types.GET_NUTRITION_MISSION, getNutritionMissionSaga)
+}
+
 export function* saga() {
   yield all([
     fork(watchGetProfanity),
+    fork(watchGetNutritionMission),
   ]);
 }
 
@@ -67,7 +108,9 @@ export function* saga() {
 /* REDUCER Section */
 
 const INIT_STATE = {
-  profanity: null
+  profanity: null,
+  nutrition_mission: null,
+  statusGetNutritionMission: "default"
 };
 
 export function reducer(state = INIT_STATE, action) {
@@ -81,6 +124,17 @@ export function reducer(state = INIT_STATE, action) {
       return {
         ...state,
         profanity: action.payload,
+      }
+    case types.GET_NUTRITION_MISSION:
+      return {
+        ...state,
+        statusGetNutritionMission: "loading"
+      }
+    case types.GET_NUTRITION_MISSION_SUCCESS:
+      return {
+        ...state,
+        statusGetNutritionMission: "success",
+        nutrition_mission: action.payload,
       }
     default:
       return { ...state };
