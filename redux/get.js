@@ -78,7 +78,7 @@ function* getNutritionMissionSaga({ }) {
     );
     yield put({
       type: types.GET_NUTRITION_MISSION_SUCCESS,
-      payload: apiResult.results
+      payload: apiResult.results.nutrition_mission[0]
     })
 
   } catch (error) {
