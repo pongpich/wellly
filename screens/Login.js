@@ -237,7 +237,7 @@ class Login extends Component {
                                         zIndex: 0,
                                         borderColor: stylePassword ? isFocused2 ? colors.persianBlue : colors.grey4 : colors.negative1,
                                         fontSize: (entry && password) ? 25 : 16,
-                                        letterSpacing: (entry && password) ? -5 : 'normal',
+                                      /*   letterSpacing: (entry && password) ? -5 : 'normal', */ //เอาออกเพราะ android Error
                                         paddingTop: (entry && password) ? 10 : 0
                                     }}
                                     onChangeText={(text) => this.handleChange("password", text)}
