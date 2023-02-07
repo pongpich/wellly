@@ -13,6 +13,7 @@ import HealthData from '../screens/HealthData';
 import OnboardingName from '../screens/OnboardingName';
 import '../languages/i18n'; //ใช้สำหรับ 2ภาษา
 import i18next from 'i18next';
+import { withTranslation } from 'react-i18next';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useRoute } from '@react-navigation/native';
@@ -188,8 +189,9 @@ function MyHome() {
 
 
 
-function MyStack() {
+function MyStack(props) {
   const navigation = useNavigation();
+  /*   const { user } = this.props; */
 
   return (
 
@@ -197,7 +199,22 @@ function MyStack() {
       screenOptions={{
         headerTintColor: "#3762FC", // ใส่ icon สี ปุ่ม BackTitle
       }}>
-      {/*  <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+      {
+        props.user ?
+          <Stack.Group>
+            <Stack.Screen name="Home" component={MyHome} options={{
+              headerShown: false,
+            }} />
+            <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+          </Stack.Group>
+          :
+          <Stack.Group>
+            <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+            <Stack.Screen name="Home" component={MyHome} options={{
+              headerShown: false,
+            }} />
+          </Stack.Group>
+      }
       <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{
         title: "",
         //headerBackTitle: true, //ซ่อนข้อความในของ ios
@@ -267,11 +284,9 @@ function MyStack() {
         headerShadowVisible: false,
         gestureEnabled: false,
         cardOverlayEnabled: false,
-      }} /> */}
-
-      <Stack.Screen name="Home" component={MyHome} options={{
-        headerShown: false,
       }} />
+
+
     </Stack.Navigator>
   );
 }
@@ -304,12 +319,18 @@ class Index extends Component {
   }
 }
 
+const mapStateToProps = ({ authUser }) => {
+  const { user } = authUser;
+  return { user, };
+};
 
+const mapActionsToProps = {};
 
+/* 
+export default Index; */
 
-export default Index;
+export default connect(
+  mapStateToProps,
+  mapActionsToProps
+)(withTranslation()(Index));
 
-/* export default connect(
-  null,
-  null
-)(withTranslation()(Index)); */
