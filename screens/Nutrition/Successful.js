@@ -42,13 +42,16 @@ export default class Successful extends Component {
                                 </View>
                             </Pressable>
                             :
-                            <Pressable onPress={() => this.props.navigation.navigate("Quiz")}>
-                                <View style={ComponentsStyle.button}>
-                                    <Text style={ComponentsStyle.textButton}>
-                                        ส่งคำตอบ
-                                    </Text>
-                                </View>
-                            </Pressable>
+                            <>
+                                <Text style={styles.quizText}>ทำแบบฝึกหัดประเมินความรู้ของตัวเอง</Text>
+                                <Pressable onPress={() => this.props.navigation.navigate("Quiz")}>
+                                    <View style={ComponentsStyle.button}>
+                                        <Text style={ComponentsStyle.textButton}>
+                                            ทำแบบฝึกหัด
+                                        </Text>
+                                    </View>
+                                </Pressable>
+                            </>
                     }
 
 
@@ -156,7 +159,7 @@ const styles = StyleSheet.create({
             height: -15,
         },
         shadowOpacity: 0.58,
-        shadowRadius: 10.00,
+        /*   shadowRadius: 10.00, */
         elevation: 0,
         marginBottom: (deviceHeight != 844) ? 40 : 0
     },
@@ -168,6 +171,14 @@ const styles = StyleSheet.create({
     },
     textContent: {
         fontSize: 16,
+        color: colors.grey1,
+        fontFamily: "IBMPlexSansThai-Regular",
+    },
+    quizText: {
+        marginTop: 24,
+        marginBottom: 14,
+        textAlign: "center",
+        fontSize: 14,
         color: colors.grey1,
         fontFamily: "IBMPlexSansThai-Regular",
     }

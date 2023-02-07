@@ -28,10 +28,10 @@ class Home extends Component {
             //ถ้าตรงตามเงื่อนไขด้านบนแสดงว่าได้ค่า  nutrition_mission แล้ว
 
             /*       console.log("nutrition_mission :", nutrition_mission); */
-            console.log("id :", nutrition_mission.id);
-            console.log("knowledge :", nutrition_mission.knowledge);
-            console.log("mission :", nutrition_mission.mission);
-            console.log("quiz :", JSON.parse(nutrition_mission.quiz));
+            /*      console.log("id :", nutrition_mission.id);
+                 console.log("knowledge :", nutrition_mission.knowledge);
+                 console.log("mission :", nutrition_mission.mission);
+                 console.log("quiz :", JSON.parse(nutrition_mission.quiz)); */
 
         }
     }

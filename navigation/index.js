@@ -200,27 +200,9 @@ function MyStack(props) {
         headerTintColor: "#3762FC", // ใส่ icon สี ปุ่ม BackTitle
       }}>
 
-      {/*    {
-        props.user ?
-          <Stack.Group>
-            <Stack.Screen name="Home" component={MyHome} options={{
-              headerShown: false,
-            }} />
-            <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
-          </Stack.Group>
-          :
-          <Stack.Group>
-            <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
-            <Stack.Screen name="Home" component={MyHome} options={{
-              headerShown: false,
-            }} />
-          </Stack.Group>
-      } */}
       <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
       <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{
         title: "",
-        //headerBackTitle: true, //ซ่อนข้อความในของ ios
-
         headerShadowVisible: false, // applied here
         headerLeft: () => (
           <View style={{ paddingLeft: 16 }}>
@@ -303,6 +285,9 @@ function getBottomTabse(route) {
     return 'none';
   }
   if (routeName == "Successful") {
+    return 'none';
+  }
+  if (routeName == "Quiz") {
     return 'none';
   }
 

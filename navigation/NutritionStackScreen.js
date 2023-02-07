@@ -90,9 +90,10 @@ function NutritionStackScreen() {
                 options={({ route, navigation }) => ({
                     title: "",
                     headerStyle: {
-                        backgroundColor: colors.grey7,
+                        backgroundColor: colors.white,
                     },
                     showLabel: false,
+                    headerShadowVisible: false,
                     headerLeft: () => (
                         <View style={{ marginLeft: 16 }}>
                             <TouchableOpacity onPress={() => navigation.pop()}>
@@ -102,6 +103,7 @@ function NutritionStackScreen() {
                             </TouchableOpacity>
                         </View>
                     ),
+
                 })}
             />
 
