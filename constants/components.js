@@ -168,7 +168,7 @@ export default StyleSheet.create({
         width: 56,
         borderColor: colors.secondary_MayaBlue,
         borderWidth: 4,
-        borderRadius: "100%",
+        borderRadius: 100,
         alignItems: "center",
         justifyContent: "center"
     },
