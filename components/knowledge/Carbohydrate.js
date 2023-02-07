@@ -7,14 +7,18 @@ import colors from '../../constants/colors';
 class Carbohydrate extends Component {
     render() {
         return (
-            <ScrollView>
-                <Image
-                    style={{
-                        width: "100%",
-                    }}
-                    source={require('../../assets/images/knowledge/GN1_1.png')}
-                    resizeMode='contain'
-                />
+            <ScrollView style={styles.scrollViewbox}>
+                <View style={styles.boxImage}>
+                    <Image
+                        style={{
+                            width: "100%",
+                            height: "100%"
+                        }}
+                        source={require('../../assets/images/knowledge/GN1_1.png')}
+                    //  resizeMode='contain'
+                    />
+                </View>
+
                 <Text style={styles.title}>
                     คาร์โบไฮเดรต
                 </Text>
@@ -36,44 +40,61 @@ class Carbohydrate extends Component {
                     ต่อน้ำหนักตัว 1 กิโลกรัม เช่น คนน้ำหนักตัว 70 กิโลกรัม จะต้องการคาร์โบไฮเดรตวันละประมาณ 350 - 700 กรัมต่อวันทั้งนี้อาจขึ้นอยู่กับรูปแบบ
                     ความหนักและความนานของการออกกำลังกายด้วย
                 </Text>
-                <Image
-                    style={{
-                        width: "100%",
-                    }}
-                    source={require('../../assets/images/knowledge/GN1_2.png')}
-                    resizeMode='contain'
-                />
-                <Image
-                    style={{
-                        width: "100%",
-                    }}
-                    source={require('../../assets/images/knowledge/GN1_3.png')}
-                    resizeMode='contain'
-                />
-                <Image
-                    style={{
-                        width: "100%",
-                    }}
-                    source={require('../../assets/images/knowledge/GN1_4.png')}
-                    resizeMode='contain'
-                />
+                <View style={styles.boxImage}>
+                    <Image
+                        style={{
+                            width: "100%",
+                            height: "100%"
+                        }}
+                        source={require('../../assets/images/knowledge/GN1_2.png')}
+                    />
+                </View>
+                <View style={styles.boxImage}>
+                    <Image
+                        style={{
+                            width: "100%",
+                            height: "100%"
+                        }}
+                        source={require('../../assets/images/knowledge/GN1_3.png')}
+                    />
+                </View>
+                <View style={styles.boxImage}>
+                    <Image
+                        style={{
+                            width: "100%",
+                            height: "100%"
+                        }}
+                        source={require('../../assets/images/knowledge/GN1_4.png')}
+                    />
+                </View>
             </ScrollView>
         )
     }
 }
-
+const deviceHeight = Math.round(Dimensions.get('window').height);
+console.log("deviceHeight", deviceHeight);
 
 const styles = StyleSheet.create({
+    scrollViewbox: {
+
+        paddingHorizontal: 16
+    },
     title: {
         fontFamily: "IBMPlexSansThai-Bold",
         fontSize: ComponentsStyle.fontSize16,
-        color: colors.grey1
+        color: colors.grey1,
+        marginTop: 24.96
     },
     content: {
         fontFamily: "IBMPlexSansThai-Regular",
         fontSize: ComponentsStyle.fontSize16,
         color: colors.grey1
-    }
+    },
+    boxImage: {
+        marginTop: 32,
+        width: "auto",
+        height: (deviceHeight > 1023) ? 505 : 273
+    },
 })
 
 

@@ -133,7 +133,8 @@ function MyHome() {
         tabBarActiveTintColor: colors.persianBlue,
         tabBarInactiveTintColor: colors.grey3,
       })}>
-      <Tab.Screen name="Home" component={HomeStackScreen}
+      <Tab.Screen name="Home"
+        component={HomeStackScreen}
         options={{
           title: languages === "th" ? "หน้าแรก" : "Home",
         }}
@@ -196,7 +197,7 @@ function MyStack() {
       screenOptions={{
         headerTintColor: "#3762FC", // ใส่ icon สี ปุ่ม BackTitle
       }}>
-      <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+      {/*  <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
       <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{
         title: "",
         //headerBackTitle: true, //ซ่อนข้อความในของ ios
@@ -266,7 +267,7 @@ function MyStack() {
         headerShadowVisible: false,
         gestureEnabled: false,
         cardOverlayEnabled: false,
-      }} />
+      }} /> */}
 
       <Stack.Screen name="Home" component={MyHome} options={{
         headerShown: false,
@@ -280,6 +281,9 @@ function getBottomTabse(route) {
 
   const routeName = getFocusedRouteNameFromRoute(route) ?? 'Feed';
   if (routeName == "History") {
+    return 'none';
+  }
+  if (routeName == "Successful") {
     return 'none';
   }
 

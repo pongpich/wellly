@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
-import { View, Text, SafeAreaView, StyleSheet, Animated, Image, StatusBar, statusBarTransition } from 'react-native';
+import { View, Text, SafeAreaView, StyleSheet, ScrollView, Animated, Image, StatusBar, Pressable, statusBarTransition } from 'react-native';
 import colors from '../../constants/colors';
 import ComponentsStyle from '../../constants/components';
 import { missionNumber } from "../../redux/personalUser";
 import { connect } from 'react-redux';
+import { getNutritionMission } from "../../redux/get";
+import Carbohydrate from '../../components/knowledge/Carbohydrate';
 
 
 class Successful extends Component {
@@ -19,10 +21,21 @@ class Successful extends Component {
     componentDidMount() {
         // รับ   params จาก  route
         const { id } = this.props.route.params;
-
         this.setState({
             numberMission: id,
         })
+
+        const { statusGetNutritionMission, nutrition_mission } = this.props;
+        /*   console.log("statusGetNutritionMission", nutrition_mission); */
+
+        /*  if ((prevProps.statusGetNutritionMission !== statusGetNutritionMission) && (statusGetNutritionMission === "success")) {
+  
+             console.log("id :", nutrition_mission.id);
+             console.log("knowledge :", nutrition_mission.knowledge);
+             console.log("mission :", nutrition_mission.mission);
+             console.log("quiz :", JSON.parse(nutrition_mission.quiz));
+ 
+         }  */
     }
 
 
@@ -30,9 +43,18 @@ class Successful extends Component {
     studyContentSection = () => {
         return (
             <View style={styles.studyContent}>
-                <Image style={{ width: "100%", height: 208 }}
-                    source={require('../../assets/images/logo/ng1.png')}
-                />
+                <ScrollView style={{ flex: 1, }}>
+                    <Carbohydrate />
+                </ScrollView>
+                <View style={styles.boxButtonWhite}>
+                    <View style={ComponentsStyle.buttonWhite}>
+                        <Text style={ComponentsStyle.textButtonWhite}>
+                            ดูผลตรวจแบบฝึกหัด
+                        </Text>
+                    </View>
+                </View>
+
+
             </View>
 
         )
@@ -76,6 +98,7 @@ class Successful extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        position: "relative",
     },
     heading: {
         marginTop: 16,
@@ -89,7 +112,6 @@ const styles = StyleSheet.create({
         height: 49,
         width: "50%",
         paddingTop: 8,
-
         paddingBottom: 10,
         borderBottomWidth: 2,
         borderColor: colors.persianBlue
@@ -118,22 +140,63 @@ const styles = StyleSheet.create({
         textAlign: "center",
     },
     studyContent: {
+        justifyContent: "space-between",
         marginHorizontal: 16,
-        marginTop: 16
+        flex: 1,
+        marginTop: 16,
+        position: "relative",
+    },
+    boxButtonWhite: {
+        height: "auto",
+        width: "100%",
+        shadowColor: colors.white,
+        shadowOffset: {
+            width: 0,
+            height: -15,
+        },
+        shadowOpacity: 0.58,
+        shadowRadius: 10.00,
+        elevation: 0,
+    },
+    textHead: {
+        marginTop: 24,
+        fontSize: 16,
+        color: colors.grey1,
+        fontFamily: "IBMPlexSansThai-Bold",
+    },
+    textContent: {
+        fontSize: 16,
+        color: colors.grey1,
+        fontFamily: "IBMPlexSansThai-Regular",
     }
-
 
 });
 
-const mapStateToProps = ({ personalDataUser }) => {
+const mapStateToProps = ({ personalDataUser, getData }) => {
     const { number } = personalDataUser;
-    return { number };
+    const { nutrition_mission, statusGetNutritionMission } = getData;
+    return { number, nutrition_mission, statusGetNutritionMission };
 };
 
-const mapActionsToProps = { missionNumber };
+const mapActionsToProps = { missionNumber, getNutritionMission };
 
 export default connect(
     mapStateToProps,
     mapActionsToProps
 )(Successful);
 
+
+
+
+/* const mapStateToProps = ({ authUser, getData }) => {
+    const { user } = authUser;
+    const { nutrition_mission, statusGetNutritionMission } = getData;
+    return { user, nutrition_mission, statusGetNutritionMission };
+};
+
+const mapActionsToProps = { logoutUser, getNutritionMission };
+
+export default connect(
+    mapStateToProps,
+    mapActionsToProps
+)(withTranslation()(Home)); */

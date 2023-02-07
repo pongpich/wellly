@@ -5,6 +5,7 @@ import { getNutritionMission } from "../redux/get";
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 
+
 class Home extends Component {
     componentDidMount() {
         const { user } = this.props;
@@ -26,7 +27,7 @@ class Home extends Component {
         if ((prevProps.statusGetNutritionMission !== statusGetNutritionMission) && (statusGetNutritionMission === "success")) {
             //ถ้าตรงตามเงื่อนไขด้านบนแสดงว่าได้ค่า  nutrition_mission แล้ว
 
-      /*       console.log("nutrition_mission :", nutrition_mission); */
+            /*       console.log("nutrition_mission :", nutrition_mission); */
             console.log("id :", nutrition_mission.id);
             console.log("knowledge :", nutrition_mission.knowledge);
             console.log("mission :", nutrition_mission.mission);
@@ -51,11 +52,15 @@ class Home extends Component {
                 <Pressable onPress={() => this.props.logoutUser()} >
                     <Text >Logout </Text>
                 </Pressable>
+                <Pressable onPress={() => this.props.navigation.navigate('Page1')} >
+                    <Text >page1 </Text>
+                </Pressable>
             </View>
 
         )
     }
 }
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,

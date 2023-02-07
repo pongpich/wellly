@@ -137,6 +137,23 @@ export default StyleSheet.create({
         fontSize: fontSize16,
         fontFamily: "IBMPlexSansThai-Bold",
     },
+    buttonWhite: {
+        width: "100%",
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 4,
+        elevation: 3,
+        backgroundColor: colors.white,
+        borderRadius: 24,
+        height: 48,
+        borderColor: colors.persianBlue,
+        borderWidth: 2
+    },
+    textButtonWhite: {
+        color: colors.persianBlue,
+        fontSize: fontSize16,
+        fontFamily: "IBMPlexSansThai-Bold",
+    },
     headBox: {
         width: "100%",
         height: 118,
@@ -176,9 +193,10 @@ export default StyleSheet.create({
     contentBox: {
         marginTop: -16,
         backgroundColor: colors.white,
-        height: "100%",
+        flex: 1,
         borderTopLeftRadius: 16,
         borderTopRightRadius: 16,
+        position: "relative",
 
     }
 

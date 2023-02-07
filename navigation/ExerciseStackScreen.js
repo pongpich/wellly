@@ -14,7 +14,7 @@ function HomeStackScreen() {
     const navigation = useNavigation();
     return (
         <HomeStack.Navigator>
-            <Stack.Screen name="Exercise" component={Exercise} />
+            <HomeStack.Screen name="Exercise" component={Exercise} />
         </HomeStack.Navigator>
     );
 }

@@ -49,7 +49,7 @@ const Nutrition = ({ navigation: { popToTop, navigate } }) => {
                         {
                             !startDate ?
                                 <Image
-                                    style={{ height: 24, width: 24, zIndex: 1 }}
+                                    style={styles.iconImageRight}
                                     source={require('../../assets/images/icon/History.png')}
                                 //  this.props.navigation.navigate("Walkthrough")
                                 />
@@ -57,7 +57,7 @@ const Nutrition = ({ navigation: { popToTop, navigate } }) => {
 
                                 <Pressable onPress={() => refresh()}>
                                     <Image
-                                        style={{ height: 24, width: 24, zIndex: 1 }}
+                                        style={styles.iconImageRight}
 
                                         source={require('../../assets/images/icon/History1.png')}
                                     //  this.props.navigation.navigate("Walkthrough")
@@ -70,38 +70,40 @@ const Nutrition = ({ navigation: { popToTop, navigate } }) => {
                     {data.length ?
 
                         data.map((_, i) => (
-                            <View key={i} style={styles.row}>
-                                <View style={styles.numberView}>
-                                    <Text style={styles.number}>{i + 1}</Text>
-                                </View>
-                                <View style={styles.missionData}>
-                                    <Text style={styles.missionHead}>เริ่มต้นดีมีชัยไปกว่าครึ่ง ARE U READY ??</Text>
-                                    <Text style={styles.missionContent}>
-                                        การเลือกอาหารและโภชนาการถือเป็นเรื่องสำคัญอย่างมากสำหรับผู้ที่ออกกำลังกายอย่าง
-                                    </Text>
-                                    {
-                                        statusNotified == 1 ?
-                                            <View style={styles.notifiedRed}>
-                                                <Text style={styles.notifiedTextRed}>
-                                                    วันสุดท้าย
-                                                </Text>
-                                            </View> :
-                                            statusNotified == 2 ?
-                                                <View style={styles.notifiedYellow}>
-                                                    <Text style={styles.notifiedTextYellow}>
-                                                        ภารกิจที่ยังทำไม่เสร็จ
+                            <Pressable onPress={() => navigate("Successful", { id: i + 1 })}>
+                                <View key={i} style={styles.row}>
+                                    <View style={styles.numberView}>
+                                        <Text style={styles.number}>{i + 1}</Text>
+                                    </View>
+                                    <View style={styles.missionData}>
+                                        <Text style={styles.missionHead}>เริ่มต้นดีมีชัยไปกว่าครึ่ง ARE U READY ??</Text>
+                                        <Text style={styles.missionContent}>
+                                            การเลือกอาหารและโภชนาการถือเป็นเรื่องสำคัญอย่างมากสำหรับผู้ที่ออกกำลังกายอย่าง
+                                        </Text>
+                                        {
+                                            statusNotified == 1 ?
+                                                <View style={styles.notifiedRed}>
+                                                    <Text style={styles.notifiedTextRed}>
+                                                        วันสุดท้าย
                                                     </Text>
-                                                </View> : null
-                                    }
+                                                </View> :
+                                                statusNotified == 2 ?
+                                                    <View style={styles.notifiedYellow}>
+                                                        <Text style={styles.notifiedTextYellow}>
+                                                            ภารกิจที่ยังทำไม่เสร็จ
+                                                        </Text>
+                                                    </View> : null
+                                        }
+                                    </View>
+                                    <View style={styles.viewIconRight}>
+                                        <Image
+                                            style={{ height: 24, width: 24, zIndex: 1, marginRight: 8 }}
+                                            source={require('../../assets/images/icon/right.png')}
+                                        />
+                                        {/*   <AntDesign name="right" style={styles.iconRight} /> */}
+                                    </View>
                                 </View>
-                                <View style={styles.viewIconRight}>
-                                    <Image
-                                        style={{ height: 24, width: 24, zIndex: 1, marginRight: 8 }}
-                                        source={require('../../assets/images/icon/right.png')}
-                                    />
-                                    {/*   <AntDesign name="right" style={styles.iconRight} /> */}
-                                </View>
-                            </View>
+                            </Pressable>
                         )) :
                         <View style={styles.imptyImage}>
                             <Image
@@ -167,8 +169,8 @@ const styles = StyleSheet.create({
         backgroundColor: colors.white,
         borderRadius: 16,
         flexDirection: "row",
-        marginHorizontal: 16,
-
+        marginLeft: 16,
+        marginRight: (deviceHeight > 1023) ? 32 : 16
     },
 
     missionText: {
@@ -275,6 +277,7 @@ const styles = StyleSheet.create({
         height: "100%",
         alignItems: "flex-end",
         justifyContent: "center",
+
     },
     imptyImage: {
         justifyContent: "center",
@@ -291,6 +294,12 @@ const styles = StyleSheet.create({
         color: colors.grey2,
         fontSize: ComponentsStyle.fontSize16,
         fontFamily: "IBMPlexSansThai-Regular",
+    },
+    iconImageRight: {
+        height: 24,
+        width: 24,
+        zIndex: 1,
+        marginRight: (deviceHeight > 1023) ? 16 : 0
     }
 });
 
