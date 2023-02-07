@@ -1,14 +1,11 @@
 import React, { Component } from 'react'
-import { View, Text, SafeAreaView, StyleSheet, ScrollView, Animated, Image, StatusBar, Pressable, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, Image, ScrollView, StatusBar, Dimensions, Pressable } from 'react-native';
 import colors from '../../constants/colors';
 import ComponentsStyle from '../../constants/components';
-import { missionNumber } from "../../redux/personalUser";
-import { connect } from 'react-redux';
-import { getNutritionMission } from "../../redux/get";
 import Carbohydrate from '../../components/knowledge/Carbohydrate';
 
 
-class Successful extends Component {
+export default class Successful extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -25,21 +22,7 @@ class Successful extends Component {
         this.setState({
             numberMission: id,
         })
-
-        const { statusGetNutritionMission, nutrition_mission } = this.props;
-        /*   console.log("statusGetNutritionMission", nutrition_mission); */
-
-        /*  if ((prevProps.statusGetNutritionMission !== statusGetNutritionMission) && (statusGetNutritionMission === "success")) {
-  
-             console.log("id :", nutrition_mission.id);
-             console.log("knowledge :", nutrition_mission.knowledge);
-             console.log("mission :", nutrition_mission.mission);
-             console.log("quiz :", JSON.parse(nutrition_mission.quiz));
- 
-         }  */
     }
-
-
 
     studyContentSection = () => {
         const { quiz } = this.state;
@@ -75,8 +58,10 @@ class Successful extends Component {
     }
 
 
+
     render() {
         const { numberMission, study } = this.state;
+
         return (
             <SafeAreaView style={styles.container}>
                 <StatusBar barStyle="light-content" />
@@ -101,15 +86,16 @@ class Successful extends Component {
                         </View>
                     </View>
                     {
-                        study ? <>{this.studyContentSection()}</> : null
+                        study ? this.studyContentSection() : null
                     }
                 </View >
+
             </SafeAreaView>
         )
     }
 }
 const deviceHeight = Math.round(Dimensions.get('window').height);
-console.log("deviceHeight", deviceHeight);
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -172,7 +158,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.58,
         shadowRadius: 10.00,
         elevation: 0,
-        // marginBottom: (deviceHeight <= 667) ? 40 : 0
+        marginBottom: (deviceHeight != 844) ? 40 : 0
     },
     textHead: {
         marginTop: 24,
@@ -188,31 +174,3 @@ const styles = StyleSheet.create({
 
 });
 
-const mapStateToProps = ({ personalDataUser, getData }) => {
-    const { number } = personalDataUser;
-    const { nutrition_mission, statusGetNutritionMission } = getData;
-    return { number, nutrition_mission, statusGetNutritionMission };
-};
-
-const mapActionsToProps = { missionNumber, getNutritionMission };
-
-export default connect(
-    mapStateToProps,
-    mapActionsToProps
-)(Successful);
-
-
-
-
-/* const mapStateToProps = ({ authUser, getData }) => {
-    const { user } = authUser;
-    const { nutrition_mission, statusGetNutritionMission } = getData;
-    return { user, nutrition_mission, statusGetNutritionMission };
-};
-
-const mapActionsToProps = { logoutUser, getNutritionMission };
-
-export default connect(
-    mapStateToProps,
-    mapActionsToProps
-)(withTranslation()(Home)); */
