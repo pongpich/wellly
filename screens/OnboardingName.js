@@ -121,7 +121,7 @@ class OnboardingName extends React.Component {
                 <View style={styles.acceptSwitch}>
                     <Text style={styles.accept}>{t('i_accept')}
                         <Text style={{ color: 'blue' }}
-                            onPress={() => Linking.openURL('http://google.com')}>
+                           /*  onPress={() => Linking.openURL('http://google.com')} */>
                             {t('terms_and_conditions')}
                         </Text>
                         {t('use_of_wellly')}
