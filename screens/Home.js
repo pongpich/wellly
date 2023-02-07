@@ -46,15 +46,11 @@ class Home extends Component {
                 /*  showHideTransition={statusBarTransition} */
                 /*   hidden={hidden} */
                 />
-                <Pressable /* style={ComponentsStyle.button} */ onPress={() => this.props.navigation.navigate("Page1")} >
-                    <Text /* style={ComponentsStyle.textButton} */>home </Text>
-                </Pressable>
+
                 <Pressable onPress={() => this.props.logoutUser()} >
                     <Text >Logout </Text>
                 </Pressable>
-                <Pressable onPress={() => this.props.navigation.navigate('Page1')} >
-                    <Text >page1 </Text>
-                </Pressable>
+
             </View>
 
         )

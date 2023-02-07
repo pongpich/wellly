@@ -8,14 +8,14 @@ import colors from '../constants/colors';
 import Add from '../screens/Nutrition/Add';
 
 
-const HomeStack = createStackNavigator();
+const Stack = createStackNavigator();
 
 function AddStackScreen() {
     const navigation = useNavigation();
     return (
-        <HomeStack.Navigator>
+        <Stack.Navigator>
             <Stack.Screen name="Add" component={Add} />
-        </HomeStack.Navigator>
+        </Stack.Navigator>
     );
 }
 

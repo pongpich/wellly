@@ -9,14 +9,14 @@ import Activity from '../screens/Nutrition/Activity';
 
 
 
-const HomeStack = createStackNavigator();
+const ActivityStack = createStackNavigator();
 
 function ActivityStackScreen() {
     const navigation = useNavigation();
     return (
-        <HomeStack.Navigator>
-            <Stack.Screen name="Activity" component={Activity} />
-        </HomeStack.Navigator>
+        <ActivityStack.Navigator>
+            <ActivityStack.Screen name="Activity" component={Activity} />
+        </ActivityStack.Navigator>
     );
 }
 

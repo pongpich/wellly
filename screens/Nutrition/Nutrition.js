@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, StyleSheet, Animated, Image, ImageBackground, Dimensions, Pressable } from 'react-native';
+import { View, Text, StyleSheet, Animated, Image, ImageBackground, Dimensions, Pressable, TouchableWithoutFeedback } from 'react-native';
 import colors from '../../constants/colors';
 import ComponentsStyle from '../../constants/components';
 import { AntDesign } from '@expo/vector-icons';
@@ -70,7 +70,7 @@ const Nutrition = ({ navigation: { popToTop, navigate } }) => {
                     {data.length ?
 
                         data.map((_, i) => (
-                            <Pressable onPress={() => navigate("Successful", { id: i + 1 })}>
+                            <TouchableWithoutFeedback onPress={() => navigate("Successful", { id: i + 1 })}>
                                 <View key={i} style={styles.row}>
                                     <View style={styles.numberView}>
                                         <Text style={styles.number}>{i + 1}</Text>
@@ -103,7 +103,7 @@ const Nutrition = ({ navigation: { popToTop, navigate } }) => {
                                         {/*   <AntDesign name="right" style={styles.iconRight} /> */}
                                     </View>
                                 </View>
-                            </Pressable>
+                            </TouchableWithoutFeedback>
                         )) :
                         <View style={styles.imptyImage}>
                             <Image

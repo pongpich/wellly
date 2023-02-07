@@ -9,6 +9,7 @@ import Nutrition from '../screens/Nutrition/Nutrition';
 import Successful from '../screens/Nutrition/Successful';
 import History from '../screens/Nutrition/History';
 import QuizAnswer from '../screens/Nutrition/QuizAnswer';
+import Quiz from '../screens/Nutrition/Quiz';
 
 const StackNutrition = createStackNavigator();
 
@@ -61,7 +62,7 @@ function NutritionStackScreen() {
 
 
                 }} />
-            <StackNutrition.Screen name="QuizAnswer" component={History}
+            <StackNutrition.Screen name="QuizAnswer" component={QuizAnswer}
                 options={({
                     title: "",
                     headerStyle: {
@@ -70,7 +71,25 @@ function NutritionStackScreen() {
                     showLabel: false,
                     headerLeft: () => (
                         <View style={{ marginLeft: 16 }}>
-                            <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+                            <TouchableOpacity onPress={() => navigation.pop()}>
+                                <Image
+                                    source={require('../assets/images/icon/caret.png')}
+                                />
+                            </TouchableOpacity>
+                        </View>
+                    ),
+                })}
+            />
+            <StackNutrition.Screen name="Quiz" component={Quiz}
+                options={({
+                    title: "",
+                    headerStyle: {
+                        backgroundColor: colors.grey7,
+                    },
+                    showLabel: false,
+                    headerLeft: () => (
+                        <View style={{ marginLeft: 16 }}>
+                            <TouchableOpacity onPress={() => navigation.pop()}>
                                 <Image
                                     source={require('../assets/images/icon/caret.png')}
                                 />

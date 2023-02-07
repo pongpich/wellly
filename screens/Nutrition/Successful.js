@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, SafeAreaView, StyleSheet, ScrollView, Animated, Image, StatusBar, Pressable, statusBarTransition } from 'react-native';
+import { View, Text, SafeAreaView, StyleSheet, ScrollView, Animated, Image, StatusBar, Pressable, Dimensions } from 'react-native';
 import colors from '../../constants/colors';
 import ComponentsStyle from '../../constants/components';
 import { missionNumber } from "../../redux/personalUser";
@@ -13,7 +13,8 @@ class Successful extends Component {
         super(props);
         this.state = {
             numberMission: null,
-            study: true
+            study: true,
+            quiz: null
 
         };
     }
@@ -41,22 +42,35 @@ class Successful extends Component {
 
 
     studyContentSection = () => {
+        const { quiz } = this.state;
         return (
             <View style={styles.studyContent}>
                 <ScrollView style={{ flex: 1, }}>
                     <Carbohydrate />
                 </ScrollView>
                 <View style={styles.boxButtonWhite}>
-                    <View style={ComponentsStyle.buttonWhite}>
-                        <Text style={ComponentsStyle.textButtonWhite}>
-                            ดูผลตรวจแบบฝึกหัด
-                        </Text>
-                    </View>
+                    {
+                        quiz !== null ?
+                            <Pressable onPress={() => this.props.navigation.navigate("QuizAnswer")}>
+                                <View style={ComponentsStyle.buttonWhite}>
+                                    <Text style={ComponentsStyle.textButtonWhite}>
+                                        ดูผลตรวจแบบฝึกหัด
+                                    </Text>
+                                </View>
+                            </Pressable>
+                            :
+                            <Pressable onPress={() => this.props.navigation.navigate("Quiz")}>
+                                <View style={ComponentsStyle.button}>
+                                    <Text style={ComponentsStyle.textButton}>
+                                        ส่งคำตอบ
+                                    </Text>
+                                </View>
+                            </Pressable>
+                    }
+
+
                 </View>
-
-
             </View>
-
         )
     }
 
@@ -94,7 +108,8 @@ class Successful extends Component {
         )
     }
 }
-
+const deviceHeight = Math.round(Dimensions.get('window').height);
+console.log("deviceHeight", deviceHeight);
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -157,6 +172,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.58,
         shadowRadius: 10.00,
         elevation: 0,
+        // marginBottom: (deviceHeight <= 667) ? 40 : 0
     },
     textHead: {
         marginTop: 24,

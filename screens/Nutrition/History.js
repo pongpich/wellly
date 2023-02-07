@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, SafeAreaView, Animated, ScrollView, Dimensions, Pressable } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, Animated, ScrollView, Dimensions, TouchableWithoutFeedback } from 'react-native';
 import colors from '../../constants/colors';
 import ComponentsStyle from '../../constants/components';
 import { AntDesign } from '@expo/vector-icons';
@@ -26,7 +26,7 @@ class History extends Component {
                         {
                             data.map((_, i) => (
                                 //ส่ง params ผ่าน route
-                                <Pressable onPress={() => this.props.navigation.navigate("Successful", { id: i + 1 })}>
+                                <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate("Successful", { id: i + 1 })}>
                                     <View key={i} style={styles.row}>
                                         <View style={styles.numberView}>
                                             <Text style={styles.number}>{i + 1}</Text>
@@ -41,7 +41,7 @@ class History extends Component {
                                             <AntDesign name="check" style={styles.iconRight} />
                                         </View>
                                     </View>
-                                </Pressable>
+                                </TouchableWithoutFeedback>
                             ))
                         }
                     </ScrollView>
