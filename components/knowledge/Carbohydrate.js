@@ -15,7 +15,7 @@ class Carbohydrate extends Component {
                             height: "100%"
                         }}
                         source={require('../../assets/images/knowledge/GN1_1.png')}
-                    //  resizeMode='contain'
+                        resizeMode='contain'
                     />
                 </View>
 
@@ -44,27 +44,32 @@ class Carbohydrate extends Component {
                     <Image
                         style={{
                             width: "100%",
-                            height: "100%"
+                            height: "100%",
+
                         }}
                         source={require('../../assets/images/knowledge/GN1_2.png')}
+                        resizeMode='stretch'
                     />
                 </View>
                 <View style={styles.boxImage}>
                     <Image
                         style={{
                             width: "100%",
-                            height: "100%"
+                            height: "100%",
+
                         }}
                         source={require('../../assets/images/knowledge/GN1_3.png')}
+                        resizeMode='stretch'
                     />
                 </View>
-                <View style={styles.boxImage}>
+                <View style={styles.boxImage2}>
                     <Image
                         style={{
                             width: "100%",
                             height: "100%"
                         }}
                         source={require('../../assets/images/knowledge/GN1_4.png')}
+                        resizeMode='stretch'
                     />
                 </View>
             </ScrollView>
@@ -76,14 +81,13 @@ console.log("deviceHeight", deviceHeight);
 
 const styles = StyleSheet.create({
     scrollViewbox: {
-
-        paddingHorizontal: 16
+        marginBottom: 50
     },
     title: {
         fontFamily: "IBMPlexSansThai-Bold",
         fontSize: ComponentsStyle.fontSize16,
         color: colors.grey1,
-        marginTop: 24.96
+        /*    marginTop: 25 */
     },
     content: {
         fontFamily: "IBMPlexSansThai-Regular",
@@ -92,8 +96,13 @@ const styles = StyleSheet.create({
     },
     boxImage: {
         marginTop: 32,
-        width: "auto",
+        width: "100%",
         height: (deviceHeight > 1023) ? 505 : 273
+    },
+    boxImage2: {
+        marginTop: 32,
+        width: "100%",
+        height: (deviceHeight > 1023) ? 1500 : 600
     },
 })
 
