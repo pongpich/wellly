@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, Image, ImageBackground, Dimensions, Pressable } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, Image, ImageBackground, Dimensions, Pressable, TouchableOpacity } from 'react-native';
 import { getNutritionMission } from "../../redux/get";
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
@@ -13,7 +13,7 @@ class QuizAnswer extends Component {
         super(props);
         this.state = {
             data: null,
-
+            allSelectChoice: []
         };
     }
 
@@ -32,6 +32,11 @@ class QuizAnswer extends Component {
 
     }
     //55   66
+
+    allSelectChoice(index, choice) {
+        console.log("index :", index);
+        console.log("choice :", choice);
+    }
 
 
     render() {
@@ -53,9 +58,12 @@ class QuizAnswer extends Component {
                                         {value.index}. {value.question}
                                     </Text>
                                     <View style={styles.quiz}>
-                                        <Image
-                                            source={require('../../assets/images/icon/radio.png')}
-                                        />
+                                        <TouchableOpacity onPress={() => this.allSelectChoice(value.index, 'a')}>
+                                            <Image
+
+                                                source={require('../../assets/images/icon/radio.png')}
+                                            />
+                                        </TouchableOpacity>
                                         <Text style={styles.response}>{choice.a}</Text>
                                     </View>
                                     <View style={styles.quiz}>
