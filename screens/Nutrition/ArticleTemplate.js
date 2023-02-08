@@ -94,7 +94,6 @@ class ArticleTemplate extends Component {
                         </View>
                         <ScrollView onScroll={(event) => {
                             const scrolling = event.nativeEvent.contentOffset.y;
-                            console.log("scrolling", scrolling);
                             if (scrolling > 100) {
                                 this.setState({
                                     statusBarColor: "dark"

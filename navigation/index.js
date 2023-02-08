@@ -293,6 +293,9 @@ function getBottomTabse(route) {
   if (routeName == "ArticleTemplate") {
     return 'none';
   }
+  if (routeName == "Submitted") {
+    return 'none';
+  }
 
 
   return 'flex';

@@ -12,6 +12,7 @@ import History from '../screens/Nutrition/History';
 import QuizAnswer from '../screens/Nutrition/QuizAnswer';
 import Quiz from '../screens/Nutrition/Quiz';
 import ArticleTemplate from '../screens/Nutrition/ArticleTemplate';
+import Submitted from '../screens/Nutrition/Submitted';
 
 
 
@@ -108,6 +109,12 @@ function NutritionStackScreen() {
                             </TouchableOpacity>
                         </View>
                     ),
+
+                })}
+            />
+            <StackNutrition.Screen name="Submitted" component={Submitted}
+                options={({ route, navigation }) => ({
+                    headerShown: false
 
                 })}
             />

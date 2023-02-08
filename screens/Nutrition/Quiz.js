@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 import colors from '../../constants/colors';
 import ComponentsStyle from '../../constants/components';
+import Modal from "react-native-modal";
 
 
 class QuizAnswer extends Component {
@@ -13,7 +14,10 @@ class QuizAnswer extends Component {
         super(props);
         this.state = {
             data: null,
-            allSelectChoice: null
+            allSelectChoice: null,
+            numberArray: null,
+            modalVisible: false,
+
         };
     }
 
@@ -24,8 +28,6 @@ class QuizAnswer extends Component {
         this.setState({
             data: data
         })
-
-
         let value = data && data.map((value, i) => {
             return {
                 "response": "null",
@@ -37,7 +39,7 @@ class QuizAnswer extends Component {
         })
 
     }
-    //55   66
+
 
     allSelectChoice(index, choice) {
         const { allSelectChoice } = this.state;
@@ -51,14 +53,47 @@ class QuizAnswer extends Component {
         })
 
 
-        /*         console.log("index, choice", index, choice); */
+        let result = allSelectChoice && allSelectChoice.filter((member) => {
+            return member.response == "null"
+        })
+        this.setState({
+            numberArray: result.length
+        })
+
+    }
+
+    allSelectChoiceSubmit() {
+        const { allSelectChoice, data } = this.state;
+        let arr = [];
+        data && data.map((value, i,) => {
+            const choice = value.choice;
+            /*    console.log(value.index, choice.correct_choice); */
+            let result = allSelectChoice && allSelectChoice.filter((member) => {
+                if (value.index == member.index) {
+                    return choice.correct_choice == member.response;
+                }
+            })
+            if (result[0]) {
+                arr.push(result[0]);
+            }
+
+
+        })
+
+        if (arr.length === data.length) {
+            var data2 = "ถูกทุกข้อ"
+        } else {
+            var data2 = "ถูกบางข้อ"
+        }
+
+        /*    this.props.navigation.navigate("Submitted", { data: data2, numbeQuzi: arr.length }) */
+
     }
 
 
     render() {
-
-        const { data, allSelectChoice } = this.state;
-        /*    console.log("allSelectChoice", allSelectChoice); */
+        const { data, allSelectChoice, numberArray } = this.state;
+        const { modalVisible } = this.state;
         return (
             <SafeAreaView style={styles.container}>
                 <View style={styles.areaView}>
@@ -73,11 +108,10 @@ class QuizAnswer extends Component {
                                     var result = allSelectChoice.filter((member) => {
                                         return member.index === value.index
                                     })
-                                    console.log("result", result);
                                     return (
                                         <>
                                             <Text style={styles.question}>
-                                                {value.index}. {value.question}
+                                                {value.index}. {value.question} {choice.correct_choice}
                                             </Text>
                                             <View style={styles.quiz}>
 
@@ -142,19 +176,54 @@ class QuizAnswer extends Component {
                             }
                         </View>
 
-                        <Pressable /* onPress={() => this.props.navigation.navigate("Quiz")} */>
-                            <View style={styles.pressableView}>
-                                <View style={ComponentsStyle.button}>
-                                    <Text style={ComponentsStyle.textButton}>
-                                        ส่งคำตอบ
-                                    </Text>
+                        {numberArray == 0 ?
+                            <Pressable onPress={() => this.allSelectChoiceSubmit()}>
+                                <View style={styles.pressableView}>
+                                    <View style={ComponentsStyle.button}>
+                                        <Text style={ComponentsStyle.textButton}>
+                                            ส่งคำตอบ
+                                        </Text>
+                                    </View>
                                 </View>
-                            </View>
-                        </Pressable>
-
-
+                            </Pressable>
+                            :
+                            <Pressable>
+                                <View style={styles.pressableView}>
+                                    <View style={ComponentsStyle.buttonGrey}>
+                                        <Text style={ComponentsStyle.textButtonGrey}>
+                                            ส่งคำตอบ
+                                        </Text>
+                                    </View>
+                                </View>
+                            </Pressable>
+                        }
                     </ScrollView>
-
+                </View>
+                <View style={styles.centeredView}>
+                    <Modal
+                        animationType="slide"
+                        transparent={true}
+                        visible={modalVisible}
+                        onRequestClose={() => {
+                            Alert.alert('Modal has been closed.');
+                            this.setState({ modalVisible: !modalVisible });
+                        }}>
+                        <View style={styles.centeredView}>
+                            <View style={styles.modalView}>
+                                <Text style={styles.modalText}>Hello World!</Text>
+                                <Pressable
+                                    style={[styles.button, styles.buttonClose]}
+                                    onPress={() => this.setState({ modalVisible: !modalVisible })}>
+                                    <Text style={styles.textStyle}>Hide Modal</Text>
+                                </Pressable>
+                            </View>
+                        </View>
+                    </Modal>
+                    <Pressable
+                        style={[styles.button, styles.buttonOpen]}
+                        onPress={() => this.setState({ modalVisible: true })}>
+                        <Text style={styles.textStyle}>Show Modal</Text>
+                    </Pressable>
                 </View>
             </SafeAreaView>
         )
