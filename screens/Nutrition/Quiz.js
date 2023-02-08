@@ -17,8 +17,8 @@ class QuizAnswer extends Component {
             allSelectChoice: null, // คำตอบที่ ที่ตอบ
             numberArray: null,
             modalVisibleQuiz: false,
-            quiz: null,
-            numbeQuzi: null
+            quiz: null,  // ตอบถูกทุกข้อหรือไม่
+            numbeQuzi: null  //จำนวนคำตอบที่ตอบถูก
 
         };
     }
