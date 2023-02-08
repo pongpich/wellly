@@ -116,8 +116,6 @@ class ArticleTemplate extends Component {
                             </View>
                         </ScrollView>
                     </View >
-
-
                 </View>
                 <View style={{
                     marginBottom: -100,
@@ -152,30 +150,8 @@ class ArticleTemplate extends Component {
                                 </Text>
                             </View>
                         </Pressable>
-
-
                     </Animated.View>
-
                 </View>
-
-                {/*      <Animated.View
-                    style={{
-                        transform: [{
-                            translateY: this.slideAnim.interpolate({
-                                inputRange: [0, 1],
-                                outputRange: [52, 0]
-                            })
-                        }]
-                    }}
-                >
-                    <Pressable onPress={() => this.props.navigation.navigate("QuizAnswer")}>
-                        <View style={ComponentsStyle.buttonWhite} st>
-                            <Text style={ComponentsStyle.textButtonWhite}>
-                                ดูผลตรวจแบบฝึกหัด
-                            </Text>
-                        </View>
-                    </Pressable>
-                </Animated.View> */}
             </View>
         )
     }
