@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, Image, ScrollView, Dimensions, Pressable, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, Image, ScrollView, Dimensions, Modal, Pressable, TouchableOpacity } from 'react-native';
 import { getNutritionMission } from "../../redux/get";
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 import colors from '../../constants/colors';
 import ComponentsStyle from '../../constants/components';
-import Modal from "react-native-modal";
+/* import Modal from "react-native-modal"; */
 
 
 class QuizAnswer extends Component {
@@ -16,7 +16,9 @@ class QuizAnswer extends Component {
             data: null,
             allSelectChoice: null,
             numberArray: null,
-            modalVisible: false,
+            modalVisibleQuiz: false,
+            quiz: null,
+            numbeQuzi: null
 
         };
     }
@@ -37,9 +39,27 @@ class QuizAnswer extends Component {
         this.setState({
             allSelectChoice: value
         })
-
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        const { modalVisibleQuiz } = this.state;
+        if ((prevState.modalVisibleQuiz !== modalVisibleQuiz) && (modalVisibleQuiz === true)) {
+            this.getNext()
+        }
+    }
+
+    getNext() {
+
+
+        setTimeout(() => {
+            this.setState({
+                modalVisibleQuiz: false
+            })
+
+            this.props.navigation.navigate("QuizAnswer")
+        }, 3000);
+
+    }
 
     allSelectChoice(index, choice) {
         const { allSelectChoice } = this.state;
@@ -67,7 +87,7 @@ class QuizAnswer extends Component {
         let arr = [];
         data && data.map((value, i,) => {
             const choice = value.choice;
-            /*    console.log(value.index, choice.correct_choice); */
+
             let result = allSelectChoice && allSelectChoice.filter((member) => {
                 if (value.index == member.index) {
                     return choice.correct_choice == member.response;
@@ -86,14 +106,19 @@ class QuizAnswer extends Component {
             var data2 = "ถูกบางข้อ"
         }
 
+        this.setState({
+            modalVisibleQuiz: true,
+            quiz: data2,
+            numbeQuzi: arr.length
+        })
         /*    this.props.navigation.navigate("Submitted", { data: data2, numbeQuzi: arr.length }) */
 
     }
 
 
     render() {
-        const { data, allSelectChoice, numberArray } = this.state;
-        const { modalVisible } = this.state;
+        const { data, allSelectChoice, numberArray, quiz, numbeQuzi, modalVisibleQuiz } = this.state;
+
         return (
             <SafeAreaView style={styles.container}>
                 <View style={styles.areaView}>
@@ -203,27 +228,26 @@ class QuizAnswer extends Component {
                     <Modal
                         animationType="slide"
                         transparent={true}
-                        visible={modalVisible}
+                        visible={modalVisibleQuiz}
                         onRequestClose={() => {
                             Alert.alert('Modal has been closed.');
-                            this.setState({ modalVisible: !modalVisible });
+                            this.setState({ modalVisibleQuiz: !modalVisibleQuiz });
                         }}>
                         <View style={styles.centeredView}>
-                            <View style={styles.modalView}>
-                                <Text style={styles.modalText}>Hello World!</Text>
-                                <Pressable
-                                    style={[styles.button, styles.buttonClose]}
-                                    onPress={() => this.setState({ modalVisible: !modalVisible })}>
-                                    <Text style={styles.textStyle}>Hide Modal</Text>
-                                </Pressable>
+                            <View style={{ alignItems: "center", justifyContent: "center" }}>
+                                <Image
+                                    style={{ width: 120, height: 120 }}
+                                    source={require('../../assets/images/icon/Generic_Q.png')}
+                                />
+                                {
+                                    quiz && quiz == "ถูกทุกข้อ" ?
+                                        <Text style={styles.quizText}>เยี่ยมมาก! ถูกทุกข้อ</Text>
+                                        :
+                                        <Text style={styles.quizText}>ตอบถูก {numbeQuzi} ข้อ</Text>
+                                }
                             </View>
                         </View>
                     </Modal>
-                    <Pressable
-                        style={[styles.button, styles.buttonOpen]}
-                        onPress={() => this.setState({ modalVisible: true })}>
-                        <Text style={styles.textStyle}>Show Modal</Text>
-                    </Pressable>
                 </View>
             </SafeAreaView>
         )
@@ -272,6 +296,19 @@ const styles = StyleSheet.create({
     pressableView: {
         marginTop: 32,
         marginBottom: 80,
+    },
+    centeredView: {
+        backgroundColor: colors.grey1,
+        width: "100%",
+        height: "100%",
+        alignItems: "center",
+        justifyContent: "center"
+    },
+    quizText: {
+        marginTop: 16,
+        color: colors.white,
+        fontSize: ComponentsStyle.fontSize24,
+        fontFamily: "IBMPlexSansThai-Bold",
     }
 });
 const mapStateToProps = ({ getData }) => {
