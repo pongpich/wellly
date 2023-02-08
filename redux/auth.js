@@ -45,10 +45,12 @@ export const updatePersonalData = (user_id, personal_data) => ({
   },
 });
 
-export const updateHealthData = (user_id, health_data) => ({
+export const updateHealthData = (user_id, health_data, health_type) => ({
   type: types.UPDATE_HEALTH_DATA,
   payload: {
-    user_id, health_data
+    user_id, 
+    health_data, 
+    health_type
   },
 });
 
@@ -93,13 +95,17 @@ const updatePersonalDataSagaAsync = async (
 
 const updateHealthDataSagaAsync = async (
   user_id,
-  health_data
+  health_data,
+  health_type
 ) => {
+
   try {
+    console.log("health_type2 :", health_type);
     const apiResult = await API.post("planforfit", "/updateHealthData", {
       body: {
         user_id,
-        health_data
+        health_data,
+        health_type
       }
     });
     return apiResult
@@ -205,13 +211,17 @@ function* updatePersonalDataSaga({ payload }) {
 function* updateHealthDataSaga({ payload }) {
   const {
     user_id,
-    health_data
+    health_data,
+    health_type
   } = payload
+
   try {
+    console.log("health_type1: ", health_type);
     const apiResult = yield call(
       updateHealthDataSagaAsync,
       user_id,
-      health_data
+      health_data,
+      health_type
     );
     yield put({
       type: types.UPDATE_HEALTH_DATA_SUCCESS,

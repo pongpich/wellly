@@ -10,7 +10,7 @@ import colors from '../constants/colors';
 import { updateHealthData } from "../redux/auth";
 import { withTranslation } from 'react-i18next';
 import { validateMgDL, validateMg, validateBpm, validateMmHGS, validateMmHGD, statusFpg, statusHba1c, statusSbp, statusDbp, statusExercise } from '../constants/functionComponents';
-import { statusDiabetes, statusHypertension,statusResultsUser } from '../constants/functionComponents';
+import { statusDiabetes, statusHypertension, statusResultsUser } from '../constants/functionComponents';
 
 class HealthData extends Component {
     constructor(props) {
@@ -35,13 +35,12 @@ class HealthData extends Component {
             hba1c: null,
             sbp: null,
             dbp: null,
-            exercise: null,
             isFocusedMgDL: false,
             isFocusedMg: false,
             isFocusedBpm: false,
             isFocusedMmHGS: false,
             isFocusedMmHGD: false,
-
+            exercise: null, //ออกกำลังกาย
         };
     }
     componentDidMount() {
@@ -54,13 +53,13 @@ class HealthData extends Component {
             exercise: st.exercise
         })
 
-        const health_data = user && user.personal_data;
+        const health_data = user && user.health_data;
         /*  if (health_data) {
              this.props.navigation.navigate("Home");
          } */
     }
     componentDidUpdate(prevProps, prevState) {
-        const { healtDataUser, dataUser, statusUpdateHealthData } = this.props;
+        const { statusUpdateHealthData } = this.props;
         const { mgDL, mg, bpm, mmHGS, mmHGD } = this.state;
 
         if ((prevProps.statusUpdateHealthData !== statusUpdateHealthData) && (statusUpdateHealthData === "success")) {
@@ -198,17 +197,18 @@ class HealthData extends Component {
                 blood_pressure_systolic: `${mmHGS} mmHG`, //ความดันเลือด - ค่าสูงสุด
                 blood_pressure_diastolic: `${mmHGD} mmHG`, //ความดันเลือด - ค่าต่ำสุด
             }
-            //this.props.updateHealthData((user && user.user_id), health_data)
 
-            const { fpg, hba1c, sbp, dbp, exercise } = this.state;
             // เบาหวาน fpg, hba1c
             let stDi = statusDiabetes(fpg, hba1c)
-            const diabetes = stDi.diabetes;
+            const diabetes = stDi && stDi.diabetes;
             // ความดัน sbp, dbp
             let stHy = statusHypertension(sbp, dbp)
-            const hypertension = stHy.hypertension;
-            const stRe = statusResultsUser(diabetes, hypertension, exercise)
-            console.log("stRe :",  stRe.resultsUser);
+            const hypertension = stHy && stHy.hypertension
+            //check health_type
+            let stRe = statusResultsUser(diabetes, hypertension, exercise)
+            const health_type = stRe && stRe.resultsUser;
+            console.log("health_type :", health_type);
+            this.props.updateHealthData((user && user.user_id), health_data, health_type)
         }
     }
 
