@@ -143,10 +143,10 @@ class ArticleTemplate extends Component {
 
                         }}
                     >
-                        <Pressable onPress={() => this.props.navigation.navigate("QuizAnswer")} >
-                            <View style={ComponentsStyle.buttonWhite} >
-                                <Text style={ComponentsStyle.textButtonWhite}>
-                                    ดูผลตรวจแบบฝึกหัด
+                        <Pressable onPress={() => this.props.navigation.navigate("Quiz")} >
+                            <View style={ComponentsStyle.button} >
+                                <Text style={ComponentsStyle.textButton}>
+                                    ทำแบบฝึกหัด
                                 </Text>
                             </View>
                         </Pressable>
