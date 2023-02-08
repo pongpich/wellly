@@ -238,22 +238,22 @@ class OnboardingResults extends Component {
         return (
             <>
                 {
-                    resultsUser && resultsUser === "A1" ?
+                    resultsUser && (resultsUser === "A1" || resultsUser === "A2") ?
                         this.onboarding_A1()
                         :
-                        resultsUser && resultsUser === "B1" ?
+                        resultsUser && (resultsUser === "B1" || resultsUser === "B3") ?
                             this.onboarding_B1()
                             :
-                            resultsUser && resultsUser === "B2" ?
+                            resultsUser && (resultsUser === "B2" || resultsUser === "B4") ?
                                 this.onboarding_B2()
                                 :
-                                resultsUser && resultsUser === "C1" ?
+                                resultsUser && (resultsUser === "C1" || resultsUser === "C3") ?
                                     this.onboarding_C1()
                                     :
-                                    resultsUser && resultsUser === "C2" ?
+                                    resultsUser && (resultsUser === "C2" || resultsUser === "C4") ?
                                         this.onboarding_C2()
                                         :
-                                        resultsUser && resultsUser === "D1" ?
+                                        resultsUser && (resultsUser === "D1" || resultsUser === "D2") ?
                                             this.onboarding_D1()
                                             :
                                             null
