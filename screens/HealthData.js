@@ -10,6 +10,7 @@ import colors from '../constants/colors';
 import { updateHealthData } from "../redux/auth";
 import { withTranslation } from 'react-i18next';
 import { validateMgDL, validateMg, validateBpm, validateMmHGS, validateMmHGD, statusFpg, statusHba1c, statusSbp, statusDbp, statusExercise } from '../constants/functionComponents';
+import { statusDiabetes, statusHypertension,statusResultsUser } from '../constants/functionComponents';
 
 class HealthData extends Component {
     constructor(props) {
@@ -197,7 +198,17 @@ class HealthData extends Component {
                 blood_pressure_systolic: `${mmHGS} mmHG`, //ความดันเลือด - ค่าสูงสุด
                 blood_pressure_diastolic: `${mmHGD} mmHG`, //ความดันเลือด - ค่าต่ำสุด
             }
-            this.props.updateHealthData((user && user.user_id), health_data)
+            //this.props.updateHealthData((user && user.user_id), health_data)
+
+            const { fpg, hba1c, sbp, dbp, exercise } = this.state;
+            // เบาหวาน fpg, hba1c
+            let stDi = statusDiabetes(fpg, hba1c)
+            const diabetes = stDi.diabetes;
+            // ความดัน sbp, dbp
+            let stHy = statusHypertension(sbp, dbp)
+            const hypertension = stHy.hypertension;
+            const stRe = statusResultsUser(diabetes, hypertension, exercise)
+            console.log("stRe :",  stRe.resultsUser);
         }
     }
 

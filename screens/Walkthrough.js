@@ -97,8 +97,11 @@ class Walkthrough extends Component {
 
     onChanged() {
         const { user } = this.props;
-        const { display_name, personal_data } = user && user;
-        const health_data = user && user.personal_data;
+
+        const display_name = user && user.display_name;
+        const personal_data = user && user.personal_data;
+        const health_data = user && user.health_data;
+ 
         if (!display_name) {
             this.props.navigation.navigate("OnboardingName")
         } else if (!personal_data) {
