@@ -191,7 +191,7 @@ export default StyleSheet.create({
         color: colors.white
     },
     contentBox: {
-        marginTop: -16,
+
         backgroundColor: colors.white,
         flex: 1,
         borderTopLeftRadius: 16,

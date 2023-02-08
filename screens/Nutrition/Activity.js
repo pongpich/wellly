@@ -55,7 +55,6 @@ const ScrollableHeader = () => {
 
     return (
         <View style={styles.fill}>
-
             <Animated.ScrollView
                 style={styles.fill2}
                 contentContainerStyle={styles.scrollViewContent}

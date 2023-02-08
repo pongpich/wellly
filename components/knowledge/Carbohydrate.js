@@ -81,13 +81,13 @@ console.log("deviceHeight", deviceHeight);
 
 const styles = StyleSheet.create({
     scrollViewbox: {
+        marginTop: 0,
         marginBottom: 50
     },
     title: {
         fontFamily: "IBMPlexSansThai-Bold",
         fontSize: ComponentsStyle.fontSize16,
-        color: colors.grey1,
-        /*    marginTop: 25 */
+
     },
     content: {
         fontFamily: "IBMPlexSansThai-Regular",

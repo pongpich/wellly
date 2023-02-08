@@ -109,9 +109,11 @@ class ArticleTemplate extends Component {
                             }
                         }}
                         >
-                            {
-                                study ? <Carbohydrate /> : null
-                            }
+                            <View style={{ marginHorizontal: 16, marginTop: -36 }}>
+                                {
+                                    study ? <Carbohydrate /> : null
+                                }
+                            </View>
                         </ScrollView>
                     </View >
 
