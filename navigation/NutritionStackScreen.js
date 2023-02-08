@@ -116,9 +116,6 @@ function NutritionStackScreen() {
     );
 }
 
-
-
-
 export default function NutritionStack() {
     return (
         <NutritionStackScreen />

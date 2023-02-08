@@ -18,6 +18,7 @@ class QuizAnswer extends Component {
             numberArray: null,
             modalVisibleQuiz: false,
             quiz: null,
+            quizArr: null,
             numbeQuzi: null
 
         };
@@ -109,6 +110,7 @@ class QuizAnswer extends Component {
         this.setState({
             modalVisibleQuiz: true,
             quiz: data2,
+            quizArr: arr,
             numbeQuzi: arr.length
         })
         /*    this.props.navigation.navigate("Submitted", { data: data2, numbeQuzi: arr.length }) */
