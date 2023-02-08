@@ -1,52 +1,180 @@
-import React, { useState } from 'react';
-import { ScrollView, View, Dimensions, StyleSheet, StatusBar, TouchableOpacity, Image } from 'react-native';
+import React, { Component } from 'react'
+import { ScrollView, View, Dimensions, StyleSheet, StatusBar, TouchableOpacity, Image, Text, Pressable, Animated } from 'react-native';
 import colors from '../../constants/colors';
 import ComponentsStyle from '../../constants/components';
 import Carbohydrate from '../../components/knowledge/Carbohydrate';
 
-const ArticleTemplate = ({ navigation: { goBack } }) => {
-    const [statusBarColor, setStatusColor] = useState("light");
+class ArticleTemplate extends Component {
+    constructor(props) {
+        super(props);
+        this.slideAnim = new Animated.Value(0);
+        this.state = {
+            numberMission: null,
+            study: true,
+            quiz: null,
+            statusBarColor: "light",
 
-    return (
-        <View style={styles.container}>
-            <View style={{ height: 44, width: "100%", backgroundColor: statusBarColor === "light" ? colors.persianBlue : colors.white }}>
-                {
-                    statusBarColor === "light" ?
-                        <StatusBar barStyle="light-content" />
-                        :
-                        <StatusBar barStyle="dark-content" />
-                }
+        };
+    }
 
-            </View>
-            <View style={{ height: 48, width: "100%", backgroundColor: statusBarColor === "light" ? colors.persianBlue : colors.white }}>
-                <View style={{ marginLeft: 16 }}>
-                    <TouchableOpacity onPress={() => goBack()}>
-                        <Image
-                            source={statusBarColor === "light" ? require('../../assets/images/icon/chevron.png') : require('../../assets/images/icon/caret.png')}
-                        />
-                    </TouchableOpacity>
+    componentDidMount() {
+        // รับ   params จาก  route
+        const { id } = this.props.route.params;
+        this.setState({
+            numberMission: id,
+        })
+
+    }
+
+    slideDown = () => {
+        Animated.timing(this.slideAnim, {
+            toValue: 1,
+            duration: 500,
+            useNativeDriver: false
+        }).start();
+    };
+
+    slideUp = () => {
+        Animated.timing(this.slideAnim, {
+            toValue: 0,
+            duration: 500,
+            useNativeDriver: false
+        }).start();
+    };
+
+
+
+    render() {
+        const { statusBarColor, numberMission, study } = this.state;
+        return (
+            <View style={styles.container}>
+                <View style={{ flex: 1 }}>
+                    <View style={{ height: 44, width: "100%", backgroundColor: statusBarColor === "light" ? colors.persianBlue : colors.white }}>
+                        {
+                            statusBarColor === "light" ?
+                                <StatusBar barStyle="light-content" />
+                                :
+                                <StatusBar barStyle="dark-content" />
+                        }
+                    </View>
+                    <View style={{ height: 48, width: "100%", backgroundColor: statusBarColor === "light" ? colors.persianBlue : colors.white }}>
+                        <View style={{ marginLeft: 16 }}>
+                            <Pressable onPress={() => this.props.navigation.goBack()}>
+                                <Image
+                                    source={statusBarColor === "light" ? require('../../assets/images/icon/chevron.png') : require('../../assets/images/icon/caret.png')}
+                                />
+                            </Pressable>
+                        </View>
+                    </View>
+                    <ScrollView onScroll={(event) => {
+                        const scrolling = event.nativeEvent.contentOffset.y;
+                        console.log("scrolling", scrolling);
+                        if (scrolling > 100) {
+                            this.setState({
+                                statusBarColor: "dark"
+                            })
+
+                            this.slideDown()
+                        } else {
+                            this.setState({
+                                statusBarColor: "light"
+                            })
+                            this.slideUp()
+                        }
+                    }}
+
+
+                    >
+
+                        <View style={ComponentsStyle.headBox}>
+                            <View style={ComponentsStyle.areaNumber}>
+                                <Text style={ComponentsStyle.areaNumberText}>
+                                    {numberMission}
+                                </Text>
+                            </View>
+                            <View style={ComponentsStyle.nutritionMission}>
+                                <Text style={ComponentsStyle.missionHead}>ภารกิจโภชนาการ</Text>
+                                <Text style={ComponentsStyle.missionHeading}>Energy พร้อม!!!</Text>
+                            </View>
+                        </View>
+                        <View style={ComponentsStyle.contentBox}>
+                            <View style={styles.heading}>
+                                <View style={styles.boxHeadingActive}>
+                                    <Text style={styles.sectionActive}> ความรู้</Text>
+                                </View>
+                                <View style={styles.boxHeading}>
+                                    <Text style={styles.section}> ภารกิจ</Text>
+                                </View>
+                            </View>
+
+                        </View >
+                        <View style={{ marginHorizontal: 16 }}>
+                            {
+                                study ? <Carbohydrate /> : null
+                            }
+                        </View>
+                    </ScrollView>
                 </View>
-            </View>
-            <ScrollView
-                onScroll={(event) => {
-                    const scrolling = event.nativeEvent.contentOffset.y;
-                    console.log("scrolling", scrolling);
-                    if (scrolling > 150) {
-                        setStatusColor("dark");
-                    } else {
+                <View style={{
+                    marginBottom: -100,
+                    shadowColor: colors.white,
+                    shadowOffset: {
+                        width: 0,
+                        height: -15,
+                    },
+                    shadowOpacity: 0.58,
+                    /*   shadowRadius: 10.00, */
+                    elevation: 0,
+                }}>
+                    <Animated.View
+                        style={{
+                            transform: [{
+                                translateY: this.slideAnim.interpolate({
+                                    inputRange: [0, 1],
+                                    outputRange: [-100, 0]
+                                })
+                            }],
+                            marginBottom: 0,
+                            height: 80,
+                            paddingHorizontal: 16,
+                            backgroundColor: colors.white,
 
-                        setStatusColor("light");
-                    }
-                }}
-                scrollEventThrottle={16}
-                style={{ flex: 1 }}
-            >
-                <View style={{ flex: 1 }} >
-                    <Carbohydrate />
+                        }}
+                    >
+                        <Pressable onPress={() => this.props.navigation.navigate("QuizAnswer")} >
+                            <View style={ComponentsStyle.buttonWhite} >
+                                <Text style={ComponentsStyle.textButtonWhite}>
+                                    ดูผลตรวจแบบฝึกหัด
+                                </Text>
+                            </View>
+                        </Pressable>
+
+
+                    </Animated.View>
+
                 </View>
-            </ScrollView>
-        </View>
-    );
+
+                {/*      <Animated.View
+                    style={{
+                        transform: [{
+                            translateY: this.slideAnim.interpolate({
+                                inputRange: [0, 1],
+                                outputRange: [52, 0]
+                            })
+                        }]
+                    }}
+                >
+                    <Pressable onPress={() => this.props.navigation.navigate("QuizAnswer")}>
+                        <View style={ComponentsStyle.buttonWhite} st>
+                            <Text style={ComponentsStyle.textButtonWhite}>
+                                ดูผลตรวจแบบฝึกหัด
+                            </Text>
+                        </View>
+                    </Pressable>
+                </Animated.View> */}
+            </View>
+        )
+    }
 }
 
 const deviceHeight = Math.round(Dimensions.get('window').height);
@@ -55,6 +183,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         position: "relative",
+
+
     },
     heading: {
         marginTop: 16,
@@ -96,10 +226,8 @@ const styles = StyleSheet.create({
         textAlign: "center",
     },
     studyContent: {
-        justifyContent: "space-between",
         marginHorizontal: 16,
         flex: 1,
-        marginTop: 16,
         position: "relative",
     },
     boxButtonWhite: {
@@ -113,7 +241,8 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.58,
         /*   shadowRadius: 10.00, */
         elevation: 0,
-        marginBottom: (deviceHeight != 844) ? 40 : 0
+        marginBottom: (deviceHeight != 844) ? 40 : 40,
+        paddingHorizontal: 16
     },
     textHead: {
         marginTop: 24,
@@ -128,4 +257,5 @@ const styles = StyleSheet.create({
     },
 
 });
+
 export default ArticleTemplate;
