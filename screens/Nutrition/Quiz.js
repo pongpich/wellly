@@ -14,11 +14,10 @@ class QuizAnswer extends Component {
         super(props);
         this.state = {
             data: null,
-            allSelectChoice: null,
+            allSelectChoice: null, // คำตอบที่ ที่ตอบ
             numberArray: null,
             modalVisibleQuiz: false,
             quiz: null,
-            quizArr: null,
             numbeQuzi: null
 
         };
@@ -100,6 +99,7 @@ class QuizAnswer extends Component {
 
 
         })
+        console.log("allSelectChoice", allSelectChoice);
 
         if (arr.length === data.length) {
             var data2 = "ถูกทุกข้อ"
@@ -110,7 +110,6 @@ class QuizAnswer extends Component {
         this.setState({
             modalVisibleQuiz: true,
             quiz: data2,
-            quizArr: arr,
             numbeQuzi: arr.length
         })
     }
