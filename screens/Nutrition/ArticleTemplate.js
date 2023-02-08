@@ -66,54 +66,56 @@ class ArticleTemplate extends Component {
                             </Pressable>
                         </View>
                     </View>
-                    <ScrollView onScroll={(event) => {
-                        const scrolling = event.nativeEvent.contentOffset.y;
-                        console.log("scrolling", scrolling);
-                        if (scrolling > 100) {
-                            this.setState({
-                                statusBarColor: "dark"
-                            })
-
-                            this.slideDown()
-                        } else {
-                            this.setState({
-                                statusBarColor: "light"
-                            })
-                            this.slideUp()
-                        }
-                    }}
-
-
-                    >
-
-                        <View style={ComponentsStyle.headBox}>
-                            <View style={ComponentsStyle.areaNumber}>
-                                <Text style={ComponentsStyle.areaNumberText}>
-                                    {numberMission}
-                                </Text>
+                    {
+                        statusBarColor === "light" ?
+                            <View style={ComponentsStyle.headBox}>
+                                <View style={ComponentsStyle.areaNumber}>
+                                    <Text style={ComponentsStyle.areaNumberText}>
+                                        {numberMission}
+                                    </Text>
+                                </View>
+                                <View style={ComponentsStyle.nutritionMission}>
+                                    <Text style={ComponentsStyle.missionHead}>ภารกิจโภชนาการ</Text>
+                                    <Text style={ComponentsStyle.missionHeading}>Energy พร้อม!!!</Text>
+                                </View>
                             </View>
-                            <View style={ComponentsStyle.nutritionMission}>
-                                <Text style={ComponentsStyle.missionHead}>ภารกิจโภชนาการ</Text>
-                                <Text style={ComponentsStyle.missionHeading}>Energy พร้อม!!!</Text>
+                            :
+                            null
+                    }
+
+                    <View style={ComponentsStyle.contentBox}>
+                        <View style={styles.heading}>
+                            <View style={styles.boxHeadingActive}>
+                                <Text style={styles.sectionActive}> ความรู้</Text>
+                            </View>
+                            <View style={styles.boxHeading}>
+                                <Text style={styles.section}> ภารกิจ</Text>
                             </View>
                         </View>
-                        <View style={ComponentsStyle.contentBox}>
-                            <View style={styles.heading}>
-                                <View style={styles.boxHeadingActive}>
-                                    <Text style={styles.sectionActive}> ความรู้</Text>
-                                </View>
-                                <View style={styles.boxHeading}>
-                                    <Text style={styles.section}> ภารกิจ</Text>
-                                </View>
-                            </View>
+                        <ScrollView onScroll={(event) => {
+                            const scrolling = event.nativeEvent.contentOffset.y;
+                            console.log("scrolling", scrolling);
+                            if (scrolling > 100) {
+                                this.setState({
+                                    statusBarColor: "dark"
+                                })
 
-                        </View >
-                        <View style={{ marginHorizontal: 16 }}>
+                                this.slideDown()
+                            } else {
+                                this.setState({
+                                    statusBarColor: "light"
+                                })
+                                this.slideUp()
+                            }
+                        }}
+                        >
                             {
                                 study ? <Carbohydrate /> : null
                             }
-                        </View>
-                    </ScrollView>
+                        </ScrollView>
+                    </View >
+
+
                 </View>
                 <View style={{
                     marginBottom: -100,
