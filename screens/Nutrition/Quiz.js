@@ -14,7 +14,7 @@ class QuizAnswer extends Component {
         super(props);
         this.state = {
             data: null,
-            allSelectChoice: null, // คำตอบที่ ที่ตอบ
+            allSelectChoice: null, // คำตอบที่ตอบ
             numberArray: null,
             modalVisibleQuiz: false,
             quiz: null,  // ตอบถูกทุกข้อหรือไม่
