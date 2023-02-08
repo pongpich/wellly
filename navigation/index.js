@@ -293,7 +293,7 @@ function getBottomTabse(route) {
   if (routeName == "ArticleTemplate") {
     return 'none';
   }
-  if (routeName == "Submitted") {
+  if (routeName == "QuizAnswer") {
     return 'none';
   }
 

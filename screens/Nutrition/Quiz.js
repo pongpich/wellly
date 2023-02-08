@@ -113,8 +113,6 @@ class QuizAnswer extends Component {
             quizArr: arr,
             numbeQuzi: arr.length
         })
-        /*    this.props.navigation.navigate("Submitted", { data: data2, numbeQuzi: arr.length }) */
-
     }
 
 
@@ -138,7 +136,7 @@ class QuizAnswer extends Component {
                                     return (
                                         <>
                                             <Text style={styles.question}>
-                                                {value.index}. {value.question} {choice.correct_choice}
+                                                {value.index}. {value.question}
                                             </Text>
                                             <View style={styles.quiz}>
 
