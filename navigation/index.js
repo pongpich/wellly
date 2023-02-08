@@ -290,6 +290,9 @@ function getBottomTabse(route) {
   if (routeName == "Quiz") {
     return 'none';
   }
+  if (routeName == "ArticleTemplate") {
+    return 'none';
+  }
 
 
   return 'flex';

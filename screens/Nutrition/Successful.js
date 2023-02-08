@@ -32,29 +32,13 @@ export default class Successful extends Component {
                     <Carbohydrate />
                 </ScrollView>
                 <View style={styles.boxButtonWhite}>
-                    {
-                        quiz !== null ?
-                            <Pressable onPress={() => this.props.navigation.navigate("QuizAnswer")}>
-                                <View style={ComponentsStyle.buttonWhite}>
-                                    <Text style={ComponentsStyle.textButtonWhite}>
-                                        ดูผลตรวจแบบฝึกหัด
-                                    </Text>
-                                </View>
-                            </Pressable>
-                            :
-                            <>
-                                <Text style={styles.quizText}>ทำแบบฝึกหัดประเมินความรู้ของตัวเอง</Text>
-                                <Pressable onPress={() => this.props.navigation.navigate("Quiz")}>
-                                    <View style={ComponentsStyle.button}>
-                                        <Text style={ComponentsStyle.textButton}>
-                                            ทำแบบฝึกหัด
-                                        </Text>
-                                    </View>
-                                </Pressable>
-                            </>
-                    }
-
-
+                    <Pressable onPress={() => this.props.navigation.navigate("QuizAnswer")}>
+                        <View style={ComponentsStyle.buttonWhite}>
+                            <Text style={ComponentsStyle.textButtonWhite}>
+                                ดูผลตรวจแบบฝึกหัด
+                            </Text>
+                        </View>
+                    </Pressable>
                 </View>
             </View>
         )
@@ -92,7 +76,6 @@ export default class Successful extends Component {
                         study ? this.studyContentSection() : null
                     }
                 </View >
-
             </SafeAreaView>
         )
     }
@@ -174,14 +157,6 @@ const styles = StyleSheet.create({
         color: colors.grey1,
         fontFamily: "IBMPlexSansThai-Regular",
     },
-    quizText: {
-        marginTop: 24,
-        marginBottom: 14,
-        textAlign: "center",
-        fontSize: 14,
-        color: colors.grey1,
-        fontFamily: "IBMPlexSansThai-Regular",
-    }
 
 });
 

@@ -7,7 +7,7 @@ import colors from '../../constants/colors';
 class Carbohydrate extends Component {
     render() {
         return (
-            <ScrollView style={styles.scrollViewbox}>
+            <View style={styles.scrollViewbox}>
                 <View style={styles.boxImage}>
                     <Image
                         style={{
@@ -72,7 +72,7 @@ class Carbohydrate extends Component {
                         resizeMode='stretch'
                     />
                 </View>
-            </ScrollView>
+            </View>
         )
     }
 }

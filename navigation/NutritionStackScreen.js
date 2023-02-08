@@ -11,6 +11,7 @@ import Successful from '../screens/Nutrition/Successful';
 import History from '../screens/Nutrition/History';
 import QuizAnswer from '../screens/Nutrition/QuizAnswer';
 import Quiz from '../screens/Nutrition/Quiz';
+import ArticleTemplate from '../screens/Nutrition/ArticleTemplate';
 
 
 
@@ -28,6 +29,7 @@ function NutritionStackScreen() {
             <StackNutrition.Screen name="History" component={History}
                 options={({ route, navigation }) => ({
                     title: "",
+                    headerShadowVisible: false,
                     headerStyle: {
                         backgroundColor: colors.grey7,
                     },
@@ -63,6 +65,9 @@ function NutritionStackScreen() {
                         </View>
                     ),
                 })}
+            />
+            <StackNutrition.Screen name="ArticleTemplate" component={ArticleTemplate}
+                options={{ headerShown: false }}
             />
 
 
