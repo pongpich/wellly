@@ -3,6 +3,7 @@ import { ScrollView, View, Dimensions, StyleSheet, StatusBar, TouchableOpacity, 
 import colors from '../../constants/colors';
 import ComponentsStyle from '../../constants/components';
 import Carbohydrate from '../../components/knowledge/Carbohydrate';
+import Mission from '../Nutrition/Mission';
 
 class ArticleTemplate extends Component {
     constructor(props) {
@@ -12,6 +13,7 @@ class ArticleTemplate extends Component {
             numberMission: null,
             study: true,
             quiz: null,
+            statusQuiz: null,
             statusBarColor: "light",
 
         };
@@ -45,7 +47,7 @@ class ArticleTemplate extends Component {
 
 
     render() {
-        const { statusBarColor, numberMission, study } = this.state;
+        const { statusBarColor, numberMission, study, statusQuiz } = this.state;
         return (
             <View style={styles.container}>
                 <View style={{ flex: 1 }}>
@@ -85,11 +87,19 @@ class ArticleTemplate extends Component {
 
                     <View style={ComponentsStyle.contentBox}>
                         <View style={styles.heading}>
-                            <View style={styles.boxHeadingActive}>
-                                <Text style={styles.sectionActive}> ความรู้</Text>
+                            <View style={study === true ? styles.boxHeadingActive : styles.boxHeading}>
+                                <TouchableOpacity onPress={() => this.setState({
+                                    study: true
+                                })}>
+                                    <Text style={study === true ? styles.sectionActive : styles.section}> ความรู้</Text>
+                                </TouchableOpacity>
                             </View>
-                            <View style={styles.boxHeading}>
-                                <Text style={styles.section}> ภารกิจ</Text>
+                            <View style={study !== true ? styles.boxHeadingActive : styles.boxHeading}>
+                                <TouchableOpacity onPress={() => this.setState({
+                                    study: false
+                                })}>
+                                    <Text style={study !== true ? styles.sectionActive : styles.section}> ภารกิจ</Text>
+                                </TouchableOpacity>
                             </View>
                         </View>
                         <ScrollView onScroll={(event) => {
@@ -108,9 +118,9 @@ class ArticleTemplate extends Component {
                             }
                         }}
                         >
-                            <View style={{ marginHorizontal: 16, marginTop: -36 }}>
+                            <View style={{ marginHorizontal: 16, marginTop: -30 }}>
                                 {
-                                    study ? <Carbohydrate /> : null
+                                    study ? <Carbohydrate /> : <Mission />
                                 }
                             </View>
                         </ScrollView>
@@ -142,13 +152,26 @@ class ArticleTemplate extends Component {
 
                         }}
                     >
-                        <Pressable onPress={() => this.props.navigation.navigate("Quiz")} >
-                            <View style={ComponentsStyle.button} >
-                                <Text style={ComponentsStyle.textButton}>
-                                    ทำแบบฝึกหัด
-                                </Text>
-                            </View>
-                        </Pressable>
+                        {
+                            statusQuiz ?
+                                <Pressable onPress={() => this.props.navigation.navigate("Quiz")} >
+                                    <View style={ComponentsStyle.button} >
+                                        <Text style={ComponentsStyle.textButton}>
+                                            ทำแบบฝึกหัด
+                                        </Text>
+                                    </View>
+                                </Pressable>
+                                :
+                                <Pressable onPress={() => this.props.navigation.navigate("QuizAnswer")} >
+                                    <View style={ComponentsStyle.buttonWhite} >
+                                        <Text style={ComponentsStyle.textButtonWhite}>
+                                            ดูผลตรวจแบบฝึกหัด
+                                        </Text>
+                                    </View>
+                                </Pressable>
+                        }
+
+
                     </Animated.View>
                 </View>
             </View>
