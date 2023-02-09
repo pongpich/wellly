@@ -85,7 +85,7 @@ class OnboardingName extends React.Component {
         /*  console.log("word",word); */
         const { t } = this.props;
         return (
-            <SafeAreaView style={styles.container}>
+            <View style={styles.container}>
                 <View style={{ justifyContent: "center", textAlign: "center", flex: 1, paddingHorizontal: 16 }}>
                     <View>
                         <Text style={styles.whatName}>{t('what_do_we_call_you')}</Text>
@@ -159,7 +159,7 @@ class OnboardingName extends React.Component {
                             </Pressable>
                     }
                 </View>
-            </SafeAreaView>
+            </View>
 
         )
     }
