@@ -9,6 +9,7 @@ class ArticleTemplate extends Component {
     constructor(props) {
         super(props);
         this.slideAnim = new Animated.Value(0);
+
         this.state = {
             numberMission: null,
             study: true,
@@ -45,7 +46,6 @@ class ArticleTemplate extends Component {
     };
 
 
-
     render() {
         const { statusBarColor, numberMission, study, statusQuiz } = this.state;
         return (
@@ -68,64 +68,77 @@ class ArticleTemplate extends Component {
                             </Pressable>
                         </View>
                     </View>
-                    {
-                        statusBarColor === "light" ?
-                            <View style={ComponentsStyle.headBox}>
-                                <View style={ComponentsStyle.areaNumber}>
-                                    <Text style={ComponentsStyle.areaNumberText}>
-                                        {numberMission}
-                                    </Text>
-                                </View>
-                                <View style={ComponentsStyle.nutritionMission}>
-                                    <Text style={ComponentsStyle.missionHead}>ภารกิจโภชนาการ</Text>
-                                    <Text style={ComponentsStyle.missionHeading}>Energy พร้อม!!!</Text>
-                                </View>
-                            </View>
-                            :
-                            null
-                    }
 
-                    <View style={ComponentsStyle.contentBox}>
-                        <View style={styles.heading}>
-                            <View style={study === true ? styles.boxHeadingActive : styles.boxHeading}>
-                                <TouchableOpacity onPress={() => this.setState({
-                                    study: true
-                                })}>
-                                    <Text style={study === true ? styles.sectionActive : styles.section}> ความรู้</Text>
-                                </TouchableOpacity>
-                            </View>
-                            <View style={study !== true ? styles.boxHeadingActive : styles.boxHeading}>
-                                <TouchableOpacity onPress={() => this.setState({
-                                    study: false
-                                })}>
-                                    <Text style={study !== true ? styles.sectionActive : styles.section}> ภารกิจ</Text>
-                                </TouchableOpacity>
-                            </View>
+                    <View style={ComponentsStyle.headBox}>
+                        <View style={ComponentsStyle.areaNumber}>
+                            <Text style={ComponentsStyle.areaNumberText}>
+                                {numberMission}
+                            </Text>
                         </View>
-                        <ScrollView onScroll={(event) => {
-                            const scrolling = event.nativeEvent.contentOffset.y;
-                            if (scrolling > 100) {
-                                this.setState({
-                                    statusBarColor: "dark"
-                                })
+                        <View style={ComponentsStyle.nutritionMission}>
+                            <Text style={ComponentsStyle.missionHead}>ภารกิจโภชนาการ</Text>
+                            <Text style={ComponentsStyle.missionHeading}>Energy พร้อม!!!</Text>
+                        </View>
+                    </View>
+                    {/* </Animated.View> */}
+                    <Animated.View style={{
+                        transform: [{
+                            translateY: this.slideAnim.interpolate({
+                                inputRange: [0, 1],
+                                outputRange: [0, -140]
+                            })
+                        }],
+                        flex: 1,
 
-                                this.slideDown()
-                            } else {
-                                this.setState({
-                                    statusBarColor: "light"
-                                })
-                                this.slideUp()
-                            }
-                        }}
-                        >
-                            <View style={{ marginHorizontal: 16, marginTop: -30 }}>
-                                {
-                                    study ? <Carbohydrate /> : <Mission />
-                                }
+                        marginBottom: -200,
+                    }}>
+                        <View style={ComponentsStyle.contentBox}>
+                            <View style={styles.heading}>
+                                <View style={study === true ? styles.boxHeadingActive : styles.boxHeading}>
+                                    <TouchableOpacity onPress={() => this.setState({
+                                        study: true
+                                    })}>
+                                        <Text style={study === true ? styles.sectionActive : styles.section}> ความรู้</Text>
+                                    </TouchableOpacity>
+                                </View>
+                                <View style={study !== true ? styles.boxHeadingActive : styles.boxHeading}>
+                                    <TouchableOpacity onPress={() => this.setState({
+                                        study: false
+                                    })}>
+                                        <Text style={study !== true ? styles.sectionActive : styles.section}> ภารกิจ</Text>
+                                    </TouchableOpacity>
+                                </View>
                             </View>
-                        </ScrollView>
-                    </View >
-                </View>
+
+                            <ScrollView onScroll={(event) => {
+                                const scrolling = event.nativeEvent.contentOffset.y;
+                                if (scrolling > 100) {
+                                    this.setState({
+                                        statusBarColor: "dark"
+                                    })
+
+                                    this.slideDown()
+                                } else {
+                                    this.setState({
+                                        statusBarColor: "light"
+                                    })
+                                    this.slideUp()
+                                }
+                            }}
+                            >
+                                <View style={{ marginHorizontal: 16, marginTop: -30, marginBottom: 100 }}>
+                                    {
+                                        study ? <Carbohydrate /> : <Mission />
+                                    }
+                                </View>
+                            </ScrollView>
+
+                        </View >
+                    </Animated.View>
+
+
+                </View >
+
                 <View style={{
                     marginBottom: -100,
                     shadowColor: colors.white,
@@ -174,7 +187,7 @@ class ArticleTemplate extends Component {
 
                     </Animated.View>
                 </View>
-            </View>
+            </View >
         )
     }
 }
