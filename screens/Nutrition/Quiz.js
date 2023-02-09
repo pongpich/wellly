@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, SafeAreaView, Image, ScrollView, StatusBar, Modal, Pressable, TouchableOpacity } from 'react-native';
-import { getNutritionMission } from "../../redux/get";
+import { getNutritionMission, getNutritionActivityIdMission } from "../../redux/get";
+import { logoutUser } from "../../redux/auth";
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 import colors from '../../constants/colors';
@@ -18,17 +19,31 @@ class QuizAnswer extends Component {
             numberArray: null,
             modalVisibleQuiz: false,
             quiz: null,  // ตอบถูกทุกข้อหรือไม่
-            numbeQuzi: null  //จำนวนคำตอบที่ตอบถูก
+            numbeQuzi: null,  //จำนวนคำตอบที่ตอบถูก
+            act_id: null,
+            user_id: null,
+            missionId: null
 
         };
     }
 
 
     componentDidMount() {
-        const { nutrition_mission, statusGetNutritionMission } = this.props;
+        const { nutrition_mission, statusGetNutritionMission, nutrition_activity_id_Mission, user } = this.props;
         const data = JSON.parse(nutrition_mission.quiz)
+
+
+        if ((nutrition_mission) && (user)) {
+            this.props.getNutritionActivityIdMission(user.user_id, nutrition_mission.id)
+
+        }
+        console.log(nutrition_mission.id, user.user_id);
+        console.log("nutrition_activity_id_Mission", nutrition_activity_id_Mission);
+
         this.setState({
-            data: data
+            data: data,
+            missionId: nutrition_mission.id,
+            user_id: user.user_id
         })
         let value = data && data.map((value, i) => {
             return {
@@ -37,8 +52,15 @@ class QuizAnswer extends Component {
             }
         })
         this.setState({
-            allSelectChoice: value
+            allSelectChoice: value,
+
         })
+        if (nutrition_activity_id_Mission) {
+            this.setState({
+                act_id: nutrition_activity_id_Mission.act_id
+
+            })
+        }
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -96,11 +118,7 @@ class QuizAnswer extends Component {
             if (result[0]) {
                 arr.push(result[0]);
             }
-
-
         })
-        console.log("allSelectChoice", allSelectChoice);
-
         if (arr.length === data.length) {
             var data2 = "ถูกทุกข้อ"
         } else {
@@ -311,13 +329,13 @@ const styles = StyleSheet.create({
         fontFamily: "IBMPlexSansThai-Bold",
     }
 });
-const mapStateToProps = ({ getData }) => {
-
-    const { nutrition_mission, statusGetNutritionMission } = getData;
-    return { nutrition_mission, statusGetNutritionMission };
+const mapStateToProps = ({ authUser, getData }) => {
+    const { user } = authUser;
+    const { nutrition_mission, statusGetNutritionMission, nutrition_activity_id_Mission } = getData;
+    return { user, nutrition_mission, statusGetNutritionMission, nutrition_activity_id_Mission };
 };
 
-const mapActionsToProps = { getNutritionMission };
+const mapActionsToProps = { logoutUser, getNutritionMission, getNutritionActivityIdMission };
 
 export default connect(
     mapStateToProps,
