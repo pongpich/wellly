@@ -62,7 +62,7 @@ class OnboardingResults extends Component {
                 start={{ x: 1, y: 0 }}
                 end={{ x: 1, y: 1 }}
             >
-                <SafeAreaView style={styles.areaView}>
+                <View style={styles.areaView}>
                     <View style={styles.areaViewIcon}>
                         <Image source={require('../assets/images/icon/generic_A.png')} />
                         <Text style={styles.text_1}>{t('physical_health')}</Text>
@@ -78,7 +78,7 @@ class OnboardingResults extends Component {
                             <Text style={ComponentsStyle.textButton}>{t('get_advice')}</Text>
                         </Pressable>
                     </View>
-                </SafeAreaView>
+                </View>
             </LinearGradient>
         )
     }
@@ -91,7 +91,7 @@ class OnboardingResults extends Component {
                 start={{ x: 1, y: 0 }}
                 end={{ x: 1, y: 1 }}
             >
-                <SafeAreaView style={styles.areaView}>
+                <View style={styles.areaView}>
                     <View style={styles.areaViewIcon}>
                         <Image source={require('../assets/images/icon/generic_B.png')} />
                         <Text style={styles.text_1}>{t('you_tend')}</Text>
@@ -107,7 +107,7 @@ class OnboardingResults extends Component {
                             <Text style={ComponentsStyle.textButton}>{t('get_advice')}</Text>
                         </Pressable>
                     </View>
-                </SafeAreaView>
+                </View>
             </LinearGradient>
         )
     }
@@ -121,7 +121,7 @@ class OnboardingResults extends Component {
                 start={{ x: 1, y: 0 }}
                 end={{ x: 1, y: 1 }}
             >
-                <SafeAreaView style={styles.areaView}>
+                <View style={styles.areaView}>
                     <View style={styles.areaViewIcon}>
                         <Image source={require('../assets/images/icon/generic_B.png')} />
                         <Text style={styles.text_1}>{t('you_tend')}</Text>
@@ -137,7 +137,7 @@ class OnboardingResults extends Component {
                             <Text style={ComponentsStyle.textButton}>{t('get_advice')}</Text>
                         </Pressable>
                     </View>
-                </SafeAreaView>
+                </View>
             </LinearGradient>
         )
     }
@@ -151,7 +151,7 @@ class OnboardingResults extends Component {
                 start={{ x: 1, y: 0 }}
                 end={{ x: 1, y: 1 }}
             >
-                <SafeAreaView style={styles.areaView}>
+                <View style={styles.areaView}>
                     <View style={styles.areaViewIcon}>
                         <Image source={require('../assets/images/icon/generic_C.png')} />
                         <Text style={styles.text_1}>{t('you_tend')}</Text>
@@ -167,7 +167,7 @@ class OnboardingResults extends Component {
                             <Text style={ComponentsStyle.textButton}>{t('get_advice')}</Text>
                         </Pressable>
                     </View>
-                </SafeAreaView>
+                </View>
             </LinearGradient>
         )
     }
@@ -180,7 +180,7 @@ class OnboardingResults extends Component {
                 start={{ x: 1, y: 0 }}
                 end={{ x: 1, y: 1 }}
             >
-                <SafeAreaView style={styles.areaView}>
+                <View style={styles.areaView}>
                     <View style={styles.areaViewIcon}>
                         <Image source={require('../assets/images/icon/generic_C.png')} />
                         <Text style={styles.text_1}>{t('you_tend')}</Text>
@@ -196,7 +196,7 @@ class OnboardingResults extends Component {
                             <Text style={ComponentsStyle.textButton}>{t('get_advice')}</Text>
                         </Pressable>
                     </View>
-                </SafeAreaView>
+                </View>
             </LinearGradient>
         )
     }
@@ -210,7 +210,7 @@ class OnboardingResults extends Component {
                 start={{ x: 1, y: 0 }}
                 end={{ x: 1, y: 1 }}
             >
-                <SafeAreaView style={styles.areaView}>
+                <View style={styles.areaView}>
                     <View style={styles.areaViewIcon}>
                         <Image source={require('../assets/images/icon/generic_B.png')} />
                         <Text style={styles.text_1}>{t('you_tend')}</Text>
@@ -226,7 +226,7 @@ class OnboardingResults extends Component {
                             <Text style={ComponentsStyle.textButton}>{t('get_advice')}</Text>
                         </Pressable>
                     </View>
-                </SafeAreaView>
+                </View>
             </LinearGradient>
         )
     }
