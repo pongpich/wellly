@@ -147,7 +147,6 @@ class ArticleTemplate extends Component {
                         height: -15,
                     },
                     shadowOpacity: 0.58,
-                    /*   shadowRadius: 10.00, */
                     elevation: 0,
                 }}>
                     <Animated.View
@@ -166,7 +165,7 @@ class ArticleTemplate extends Component {
                         }}
                     >
                         {
-                            !statusQuiz ?
+                            statusQuiz ?
                                 <Pressable onPress={() => this.props.navigation.navigate("Quiz")} >
                                     <View style={ComponentsStyle.button} >
                                         <Text style={ComponentsStyle.textButton}>

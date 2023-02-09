@@ -77,7 +77,7 @@ function NutritionStackScreen() {
                 options={({ route, navigation }) => ({
                     title: "",
                     headerStyle: {
-                        backgroundColor: colors.grey7,
+                        backgroundColor: colors.white,
                     },
                     showLabel: false,
                     showLabel: false,
