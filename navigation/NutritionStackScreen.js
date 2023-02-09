@@ -80,6 +80,8 @@ function NutritionStackScreen() {
                         backgroundColor: colors.grey7,
                     },
                     showLabel: false,
+                    showLabel: false,
+                    headerShadowVisible: false,
                     headerLeft: () => (
                         <View style={{ marginLeft: 16 }}>
                             <TouchableOpacity onPress={() => navigation.pop()}>

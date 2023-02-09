@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, Image, ScrollView, Dimensions, Modal, Pressable, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, Image, ScrollView, StatusBar, Modal, Pressable, TouchableOpacity } from 'react-native';
 import { getNutritionMission } from "../../redux/get";
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
@@ -120,6 +120,7 @@ class QuizAnswer extends Component {
 
         return (
             <SafeAreaView style={styles.container}>
+                <StatusBar barStyle="dark-content" />
                 <View style={styles.areaView}>
                     <Text style={styles.exercise}>แบบฝึกหัด</Text>
                     <Text style={styles.week}>สัปดาห์ที่ 1</Text>

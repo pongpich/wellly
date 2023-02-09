@@ -166,7 +166,7 @@ class ArticleTemplate extends Component {
                         }}
                     >
                         {
-                            statusQuiz ?
+                            !statusQuiz ?
                                 <Pressable onPress={() => this.props.navigation.navigate("Quiz")} >
                                     <View style={ComponentsStyle.button} >
                                         <Text style={ComponentsStyle.textButton}>
