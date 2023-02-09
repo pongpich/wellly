@@ -101,7 +101,7 @@ class Walkthrough extends Component {
         const display_name = user && user.display_name;
         const personal_data = user && user.personal_data;
         const health_data = user && user.health_data;
- 
+
         if (!display_name) {
             this.props.navigation.navigate("OnboardingName")
         } else if (!personal_data) {
@@ -117,7 +117,7 @@ class Walkthrough extends Component {
         const { swiperIndex } = this.state;
         const { t } = this.props;
         return (
-            <SafeAreaView style={styles.container}>
+            <View style={styles.container}>
                 <View style={styles.swiperBox}>
                     {
                         this.swiper()
@@ -147,7 +147,7 @@ class Walkthrough extends Component {
                             </Pressable>
                         </View>}
                 </View>
-            </SafeAreaView >
+            </View >
         )
     }
 }

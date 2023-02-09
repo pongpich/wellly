@@ -34,7 +34,7 @@ class Login extends Component {
         if (user) {
             this.props.navigation.navigate("Walkthrough")
         }
-        
+
     }
 
 
@@ -152,7 +152,7 @@ class Login extends Component {
                 end={{ x: 1, y: 1 }}
             >
 
-                <SafeAreaView style={ComponentsStyle.viewStyle}>
+                <View style={ComponentsStyle.viewStyle}>
                     <View style={ComponentsStyle.viewStyle_1}>
                         <View style={styles.viewtinyLogo}>
                             <View style={styles.circle_1} />
@@ -237,7 +237,7 @@ class Login extends Component {
                                         zIndex: 0,
                                         borderColor: stylePassword ? isFocused2 ? colors.persianBlue : colors.grey4 : colors.negative1,
                                         fontSize: (entry && password) ? 25 : 16,
-                                      /*   letterSpacing: (entry && password) ? -5 : 'normal', */ //เอาออกเพราะ android Error
+                                        /*   letterSpacing: (entry && password) ? -5 : 'normal', */ //เอาออกเพราะ android Error
                                         paddingTop: (entry && password) ? 10 : 0
                                     }}
                                     onChangeText={(text) => this.handleChange("password", text)}
@@ -284,7 +284,7 @@ class Login extends Component {
                                 </Pressable>
                         }
                     </View>
-                </SafeAreaView>
+                </View>
 
 
                 <View style={styles.centeredView}>

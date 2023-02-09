@@ -10,7 +10,7 @@ class ForgotPassword extends Component {
   render() {
     const { t } = this.props;
     return (
-      <SafeAreaView style={ComponentsStyle.containerWhite}>
+      <View style={ComponentsStyle.containerWhite}>
         <View style={ComponentsStyle.viewStyle}>
           <View style={ComponentsStyle.viewStyle_1}>
             <View style={styles.imageContextual}>
@@ -54,7 +54,7 @@ class ForgotPassword extends Component {
             </View>
           </View>
         </View>
-      </SafeAreaView>
+      </View>
     )
   }
 }
