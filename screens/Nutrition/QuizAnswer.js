@@ -16,9 +16,8 @@ class QuizAnswer extends Component {
         this.slideAnim = new Animated.Value(0);
 
         this.state = {
-            numberMission: 10,
             fillNumber: 0,
-            maxNumberMission: 10,
+            maxNumberMission: 0,
             numberQ: 0
         };
     }
@@ -26,10 +25,19 @@ class QuizAnswer extends Component {
     componentDidMount() {
         const { nutrition_mission, user, nutrition_activity_id_Mission } = this.props;
         this.props.getNutritionActivityIdMission(user.user_id, nutrition_mission.id)
+        const num = JSON.parse(nutrition_mission.quiz);
+        const multiple = 100 / num.length;
+        console.log("nutrition_mission", nutrition_mission.quiz);
         if (nutrition_activity_id_Mission.quiz_activities_number !== null) {
             this.setState({
-                fillNumber: nutrition_activity_id_Mission.quiz_activities_number * 10,
+                fillNumber: nutrition_activity_id_Mission.quiz_activities_number * multiple,
                 numberQ: nutrition_activity_id_Mission.quiz_activities_number,
+            })
+        }
+        if (nutrition_mission.quiz) {
+            const num = JSON.parse(nutrition_mission.quiz);
+            this.setState({
+                maxNumberMission: num.length
             })
         }
     }
@@ -51,7 +59,7 @@ class QuizAnswer extends Component {
                         backgroundColor={colors.neutralGrey6} >
                         {
 
-                            (numberQ) => (
+                            (fill) => (
                                 <>
                                     <View style={{ flexDirection: "row", }}>
                                         <Text style={{ color: colors.grey1, fontSize: 32, fontFamily: "IBMPlexSansThai-Bold", }}>{Math.ceil(numberQ)}</Text>
