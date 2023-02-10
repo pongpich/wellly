@@ -165,7 +165,8 @@ const INIT_STATE = {
   profanity: null,
   nutrition_mission: null,
   statusGetNutritionMission: "default",
-  nutrition_activity_id_Mission: null
+  statusGetNutritionActivityIdMission: "default",
+  nutrition_activity_id_Mission: null,
 };
 
 export function reducer(state = INIT_STATE, action) {

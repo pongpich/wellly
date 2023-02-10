@@ -39,7 +39,7 @@ const update_quiz_activitiesSagaAsync = async (
                 quiz_activities
             }
         });
-        console.log("888");
+
         return apiResult
     } catch (error) {
         return { error, messsage: error.message };

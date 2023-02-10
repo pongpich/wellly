@@ -18,48 +18,67 @@ class QuizAnswer extends Component {
             data: null,
             allSelectChoice: null, // คำตอบที่ตอบ
             numberArray: null,
-            modalVisibleQuiz: true,
+            modalVisibleQuiz: false,
             quiz: null,  // ตอบถูกทุกข้อหรือไม่
             numbeQuzi: null,  //จำนวนคำตอบที่ตอบถูก
             week_in_program: null,
             user_id: null,
-            missionId: null
+            missionId: null,
+            nutrition_activity_Mission: true
 
         };
     }
 
 
     componentDidMount() {
-        const { nutrition_mission, statusGetNutritionMission, status_quiz_activities, user } = this.props;
+        const { nutrition_mission, statusGetNutritionMission, nutrition_activity_id_Mission, user } = this.props;
         const data = JSON.parse(nutrition_mission.quiz)
-
+        this.props.getNutritionActivityIdMission(user.user_id, nutrition_mission.id)
 
         this.setState({
             data: data,
             user_id: user.user_id,
             week_in_program: nutrition_mission.week_in_program
         })
-        let value = data && data.map((value, i) => {
-            return {
-                "select_choice": null,
-                "index": value.index,
-            }
-        })
-        this.setState({
-            allSelectChoice: value,
 
-        })
 
     }
 
     componentDidUpdate(prevProps, prevState) {
-        const { modalVisibleQuiz } = this.state;
-        const { status_quiz_activities } = this.props;
+        const { modalVisibleQuiz, allSelectChoice, nutrition_activity_Mission } = this.state;
+        const { status_quiz_activities, nutrition_activity_id_Mission, nutrition_mission, statusGetNutritionActivityIdMission } = this.props;
+        const data_mission = JSON.parse(nutrition_mission.quiz);
+
         if ((prevState.modalVisibleQuiz !== modalVisibleQuiz) && (modalVisibleQuiz === true)) {
             this.getNext()
         }
+        /*         console.log("nutrition_activity_id_Mission", nutrition_activity_id_Mission); */
+        if (nutrition_activity_id_Mission) {
 
-        console.log("status_quiz_activities", status_quiz_activities);
+            if ((prevProps.nutrition_activity_id_Mission !== nutrition_activity_id_Mission) || (nutrition_activity_id_Mission) && (nutrition_activity_Mission)) {
+                let data = JSON.parse(nutrition_activity_id_Mission.quiz_activities);
+                this.setState({
+                    allSelectChoice: data,
+                    nutrition_activity_Mission: false
+                })
+            }
+        }
+
+        if ((!nutrition_activity_id_Mission) && (nutrition_activity_Mission === true)) {
+            let value = data_mission && data_mission.map((value, i) => {
+                return {
+                    "select_choice": null,
+                    "index": value.index,
+                }
+            })
+            this.setState({
+                allSelectChoice: value,
+                missionId: nutrition_mission.id,
+                nutrition_activity_Mission: false
+            })
+        }
+
+
     }
 
     getNext() {
@@ -74,7 +93,7 @@ class QuizAnswer extends Component {
     }
 
     allSelectChoice(index, choice) {
-        const { user_id, week_in_program, allSelectChoice } = this.state;
+        const { user_id, week_in_program, missionId, allSelectChoice } = this.state;
         allSelectChoice.forEach((animal) => {
             if (animal.index == index) {
                 animal.select_choice = choice
@@ -130,6 +149,8 @@ class QuizAnswer extends Component {
     render() {
         const { data, allSelectChoice, numberArray, quiz, numbeQuzi, modalVisibleQuiz } = this.state;
 
+
+
         return (
             <SafeAreaView style={styles.container}>
                 <StatusBar barStyle="dark-content" />
@@ -142,7 +163,7 @@ class QuizAnswer extends Component {
                                 data && data.map((value, i,) => {
                                     const choice = value.choice;
 
-                                    var result = allSelectChoice.filter((member) => {
+                                    var result = allSelectChoice && allSelectChoice.filter((member) => {
                                         return member.index === value.index
                                     })
                                     return (
@@ -150,10 +171,10 @@ class QuizAnswer extends Component {
                                             <Text style={styles.question}>
                                                 {value.index}. {value.question}
                                             </Text>
-                                            <View style={styles.quiz}>
+                                            <View style={styles.quiz} key={i}>
 
                                                 {
-                                                    (result[0].index === value.index) && result[0].select_choice == "a" ?
+                                                    (result && result[0].index === value.index) && result && result[0].select_choice == "a" ?
                                                         <>
                                                             <TouchableOpacity >
                                                                 <Image source={require('../../assets/images/icon/radioActive.png')} />
@@ -169,7 +190,7 @@ class QuizAnswer extends Component {
                                             </View>
                                             <View style={styles.quiz}>
                                                 {
-                                                    (result[0].index == value.index) && result[0].select_choice == "b" ?
+                                                    (result && result[0].index == value.index) && result && result[0].select_choice == "b" ?
                                                         <TouchableOpacity>
                                                             <Image source={require('../../assets/images/icon/radioActive.png')} />
                                                         </TouchableOpacity>
@@ -182,7 +203,7 @@ class QuizAnswer extends Component {
                                             </View>
                                             <View style={styles.quiz}>
                                                 {
-                                                    (result[0].index === value.index) && result[0].select_choice == "c" ?
+                                                    (result && result[0].index === value.index) && result && result[0].select_choice == "c" ?
                                                         <TouchableOpacity>
                                                             <Image source={require('../../assets/images/icon/radioActive.png')} />
                                                         </TouchableOpacity>
@@ -195,7 +216,7 @@ class QuizAnswer extends Component {
                                             </View>
                                             <View style={styles.quiz}>
                                                 {
-                                                    (result[0].index === value.index) && result[0].select_choice == "d" ?
+                                                    (result && result[0].index === value.index) && result && result[0].select_choice == "d" ?
                                                         <TouchableOpacity>
                                                             <Image source={require('../../assets/images/icon/radioActive.png')} />
                                                         </TouchableOpacity>
@@ -347,8 +368,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = ({ authUser, getData, updateData }) => {
     const { user } = authUser;
     const { status_quiz_activities } = updateData;
-    const { nutrition_mission, statusGetNutritionMission, nutrition_activity_id_Mission } = getData;
-    return { user, nutrition_mission, statusGetNutritionMission, nutrition_activity_id_Mission, status_quiz_activities };
+    const { nutrition_mission, statusGetNutritionMission, statusGetNutritionActivityIdMission, nutrition_activity_id_Mission } = getData;
+    return { user, nutrition_mission, statusGetNutritionMission, nutrition_activity_id_Mission, statusGetNutritionActivityIdMission, status_quiz_activities };
 };
 
 const mapActionsToProps = { logoutUser, getNutritionMission, getNutritionActivityIdMission, update_quiz_activities };
