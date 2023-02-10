@@ -13,7 +13,7 @@ class QuizAnswer extends Component {
 
         this.state = {
             numberMission: null,
-            fillNumber: 50,
+            fillNumber: 0,
             maxNumber: 10,
 
 
@@ -50,6 +50,9 @@ class QuizAnswer extends Component {
                         }
                     </AnimatedCircularProgress>
                 </View>
+                <View style={styles.boxSelection}>
+
+                </View>
             </View>
         )
     }
@@ -77,6 +80,11 @@ const styles = StyleSheet.create({
         borderRightColor: colors.positive1,
         justifyContent: "center",
         alignItems: "center"
+    },
+    boxSelection: {
+        height: "100%",
+        width: "100%",
+        backgroundColor: colors.white
     }
 });
 export default QuizAnswer;

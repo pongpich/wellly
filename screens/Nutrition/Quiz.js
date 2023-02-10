@@ -41,18 +41,6 @@ class QuizAnswer extends Component {
             week_in_program: nutrition_mission.week_in_program
         })
 
-        /*      console.log("data", data);
-             let value = data && data.map((value, i) => {
-                 return {
-                     "select_choice": null,
-                     "index": value.index,
-                 }
-             })
-             this.setState({
-                 allSelectChoice: value,
-                 missionId: nutrition_mission.id,
-             }) */
-
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -63,7 +51,7 @@ class QuizAnswer extends Component {
         if ((prevState.modalVisibleQuiz !== modalVisibleQuiz) && (modalVisibleQuiz === true)) {
             this.getNext()
         }
-        /*         console.log("nutrition_activity_id_Mission", nutrition_activity_id_Mission); */
+
         if (nutrition_activity_id_Mission) {
 
             if ((prevProps.nutrition_activity_id_Mission !== nutrition_activity_id_Mission) || (nutrition_activity_id_Mission) && (nutrition_activity_Mission)) {
@@ -176,9 +164,6 @@ class QuizAnswer extends Component {
 
     render() {
         const { data, allSelectChoice, numberArray, quiz, numbeQuzi, modalVisibleQuiz } = this.state;
-
-        console.log("allSelectChoice", allSelectChoice);
-
         return (
             <SafeAreaView style={styles.container}>
                 <StatusBar barStyle="dark-content" />

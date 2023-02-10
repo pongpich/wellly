@@ -1,7 +1,11 @@
 import React, { Component } from 'react'
 import { ScrollView, View, Dimensions, StyleSheet, StatusBar, TouchableOpacity, Image, Text, Pressable, Animated } from 'react-native';
 import colors from '../../constants/colors';
+import { getNutritionMission, getNutritionActivityIdMission } from "../../redux/get";
 import ComponentsStyle from '../../constants/components';
+import { logoutUser } from "../../redux/auth";
+import { connect } from 'react-redux';
+import { withTranslation } from 'react-i18next';
 import Carbohydrate from '../../components/knowledge/Carbohydrate';
 import Mission from '../Nutrition/Mission';
 
@@ -15,18 +19,45 @@ class ArticleTemplate extends Component {
             study: true,
             quiz: null,
             statusQuiz: null,
+            statusMission: null,
             statusBarColor: "light",
 
         };
     }
 
     componentDidMount() {
+        const { nutrition_mission, user, nutrition_activity_id_Mission } = this.props;
+        this.props.getNutritionActivityIdMission(user.user_id, nutrition_mission.id)
         // รับ   params จาก  route
         const { id } = this.props.route.params;
         this.setState({
             numberMission: id,
         })
+        if (nutrition_activity_id_Mission.quiz_activities_number !== null) {
 
+            this.setState({
+                statusQuiz: "1",
+            })
+        }
+
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        const { nutrition_activity_id_Mission } = this.props;
+        const { statusQuiz } = this.state;
+        let ststus = nutrition_activity_id_Mission.quiz_activities_number;
+        /*  console.log("nutrition_activity_id_Mission", nutrition_activity_id_Mission.quiz_activities_number); */
+        /*      if ((ststus == null) && (statusQuiz === null)) {
+     
+                 this.setState({
+                     statusQuiz: null,
+                 })
+             }
+             if ((ststus != null) && (statusQuiz != null)) {
+                 this.setState({
+                     statusQuiz: "1",
+                 })
+             } */
     }
 
     slideDown = () => {
@@ -47,7 +78,7 @@ class ArticleTemplate extends Component {
 
 
     render() {
-        const { statusBarColor, numberMission, study, statusQuiz } = this.state;
+        const { statusBarColor, numberMission, study, statusQuiz, statusMission } = this.state;
         return (
             <View style={styles.container}>
                 <View style={{ flex: 1 }}>
@@ -165,22 +196,44 @@ class ArticleTemplate extends Component {
                         }}
                     >
                         {
-                            !statusQuiz ?
-                                <Pressable onPress={() => this.props.navigation.navigate("Quiz")} >
-                                    <View style={ComponentsStyle.button} >
-                                        <Text style={ComponentsStyle.textButton}>
-                                            ทำแบบฝึกหัด
-                                        </Text>
-                                    </View>
-                                </Pressable>
+                            study ?
+                                !statusQuiz ?
+                                    <Pressable onPress={() => this.props.navigation.navigate("Quiz")} >
+                                        <View style={ComponentsStyle.button} >
+                                            <Text style={ComponentsStyle.textButton}>
+                                                ทำแบบฝึกหัด
+                                            </Text>
+                                        </View>
+                                    </Pressable>
+                                    :
+                                    <Pressable onPress={() => this.props.navigation.navigate("QuizAnswer")} >
+                                        <View style={ComponentsStyle.buttonWhite} >
+                                            <Text style={ComponentsStyle.textButtonWhite}>
+                                                ดูผลตรวจแบบฝึกหัด
+                                            </Text>
+                                        </View>
+                                    </Pressable>
                                 :
-                                <Pressable onPress={() => this.props.navigation.navigate("QuizAnswer")} >
-                                    <View style={ComponentsStyle.buttonWhite} >
-                                        <Text style={ComponentsStyle.textButtonWhite}>
-                                            ดูผลตรวจแบบฝึกหัด
-                                        </Text>
-                                    </View>
-                                </Pressable>
+                                statusMission ?
+                                    <Pressable onPress={() => this.props.navigation.navigate("Quiz")} >
+                                        <View style={ComponentsStyle.button} >
+                                            <Text style={ComponentsStyle.textButton}>
+                                                ประเมินผล
+                                            </Text>
+                                        </View>
+                                    </Pressable>
+                                    :
+                                    <Pressable onPress={() => this.props.navigation.navigate("QuizAnswer")} >
+                                        <View style={ComponentsStyle.buttonWhite} >
+                                            <Text style={ComponentsStyle.textButtonWhite}>
+                                                ดูผลการประเมิน
+                                            </Text>
+                                        </View>
+                                    </Pressable>
+
+
+
+
                         }
 
 
@@ -224,7 +277,7 @@ const styles = StyleSheet.create({
         paddingTop: 8,
         paddingBottom: 10,
         borderBottomWidth: 2,
-        borderColor: colors.grey3
+        borderColor: colors.grey4
     },
     sectionActive: {
         color: colors.persianBlue,
@@ -272,4 +325,17 @@ const styles = StyleSheet.create({
 
 });
 
-export default ArticleTemplate;
+/* export default ArticleTemplate; */
+
+const mapStateToProps = ({ authUser, getData }) => {
+    const { user } = authUser;
+    const { nutrition_mission, statusGetNutritionMission, statusGetNutritionActivityIdMission, nutrition_activity_id_Mission } = getData;
+    return { nutrition_mission, statusGetNutritionMission, nutrition_activity_id_Mission, statusGetNutritionActivityIdMission, user };
+};
+
+const mapActionsToProps = { logoutUser, getNutritionMission, getNutritionActivityIdMission, };
+
+export default connect(
+    mapStateToProps,
+    mapActionsToProps
+)(withTranslation()(ArticleTemplate));
