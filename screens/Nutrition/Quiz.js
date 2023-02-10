@@ -111,14 +111,14 @@ class QuizAnswer extends Component {
             numberArray: result.length
         })
 
-        this.props.update_quiz_activities(user_id, week_in_program, allSelectChoice);
+        this.props.update_quiz_activities(user_id, week_in_program, allSelectChoice, null);
 
     }
 
     allSelectChoiceSubmit() {
 
 
-        const { allSelectChoice, data } = this.state;
+        const { user_id, week_in_program, allSelectChoice, data } = this.state;
         let arr = [];
         data && data.map((value, i,) => {
             const choice = value.choice;
@@ -143,6 +143,9 @@ class QuizAnswer extends Component {
             quiz: data2,
             numbeQuzi: arr.length
         })
+
+        this.props.update_quiz_activities(user_id, week_in_program, allSelectChoice, arr.length);
+
     }
 
 

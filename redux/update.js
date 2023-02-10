@@ -10,12 +10,13 @@ export const types = {
 };
 
 
-export const update_quiz_activities = (user_id, week_in_program, quiz_activities) => ({
+export const update_quiz_activities = (user_id, week_in_program, quiz_activities, quiz_activities_number) => ({
     type: types.UPDATE_QUIZ_ACTIVITIES,
     payload: {
         user_id,
         week_in_program,
-        quiz_activities
+        quiz_activities,
+        quiz_activities_number
     },
 });
 
@@ -28,7 +29,8 @@ export const update_quiz_activities = (user_id, week_in_program, quiz_activities
 const update_quiz_activitiesSagaAsync = async (
     user_id,
     week_in_program,
-    quiz_activities
+    quiz_activities,
+    quiz_activities_number,
 ) => {
 
     try {
@@ -36,7 +38,8 @@ const update_quiz_activitiesSagaAsync = async (
             body: {
                 user_id,
                 week_in_program,
-                quiz_activities
+                quiz_activities,
+                quiz_activities_number
             }
         });
 
@@ -54,7 +57,8 @@ function* update_quiz_activitiesSaga({ payload }) {
     const {
         user_id,
         week_in_program,
-        quiz_activities
+        quiz_activities,
+        quiz_activities_number
     } = payload
 
     try {
@@ -62,7 +66,8 @@ function* update_quiz_activitiesSaga({ payload }) {
             update_quiz_activitiesSagaAsync,
             user_id,
             week_in_program,
-            quiz_activities
+            quiz_activities,
+            quiz_activities_number
         );
         yield put({
             type: types.UPDATE_QUIZ_ACTIVITIES_SUCCESS,
