@@ -163,13 +163,13 @@ class QuizAnswer extends Component {
 
 
     render() {
-        const { data, allSelectChoice, numberArray, quiz, numbeQuzi, modalVisibleQuiz } = this.state;
+        const { data, allSelectChoice, numberArray, quiz, numbeQuzi, modalVisibleQuiz, week_in_program } = this.state;
         return (
             <SafeAreaView style={styles.container}>
                 <StatusBar barStyle="dark-content" />
                 <View style={styles.areaView}>
                     <Text style={styles.exercise}>แบบฝึกหัด</Text>
-                    <Text style={styles.week}>สัปดาห์ที่ 1</Text>
+                    <Text style={styles.week}>สัปดาห์ที่ {week_in_program}</Text>
                     <ScrollView>
                         <View >
                             {

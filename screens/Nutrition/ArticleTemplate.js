@@ -9,6 +9,7 @@ import { withTranslation } from 'react-i18next';
 import Carbohydrate from '../../components/knowledge/Carbohydrate';
 import Mission from '../Nutrition/Mission';
 
+
 class ArticleTemplate extends Component {
     constructor(props) {
         super(props);
@@ -18,7 +19,7 @@ class ArticleTemplate extends Component {
             numberMission: null,
             study: true,
             quiz: null,
-            statusQuiz: null,
+            statusQuiz: true,
             statusMission: null,
             statusBarColor: "light",
 
@@ -36,7 +37,7 @@ class ArticleTemplate extends Component {
         if (nutrition_activity_id_Mission && nutrition_activity_id_Mission.quiz_activities_number !== null) {
 
             this.setState({
-                statusQuiz: "1",
+                statusQuiz: false,
             })
         }
 
@@ -183,7 +184,7 @@ class ArticleTemplate extends Component {
                     >
                         {
                             study ?
-                                !statusQuiz ?
+                                statusQuiz ?
                                     <Pressable onPress={() => this.props.navigation.navigate("Quiz")} >
                                         <View style={ComponentsStyle.button} >
                                             <Text style={ComponentsStyle.textButton}>
