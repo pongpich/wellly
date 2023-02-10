@@ -33,7 +33,7 @@ class ArticleTemplate extends Component {
         this.setState({
             numberMission: id,
         })
-        if (nutrition_activity_id_Mission.quiz_activities_number !== null) {
+        if (nutrition_activity_id_Mission && nutrition_activity_id_Mission.quiz_activities_number !== null) {
 
             this.setState({
                 statusQuiz: "1",
@@ -43,21 +43,7 @@ class ArticleTemplate extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        const { nutrition_activity_id_Mission } = this.props;
-        const { statusQuiz } = this.state;
-        let ststus = nutrition_activity_id_Mission.quiz_activities_number;
-        /*  console.log("nutrition_activity_id_Mission", nutrition_activity_id_Mission.quiz_activities_number); */
-        /*      if ((ststus == null) && (statusQuiz === null)) {
-     
-                 this.setState({
-                     statusQuiz: null,
-                 })
-             }
-             if ((ststus != null) && (statusQuiz != null)) {
-                 this.setState({
-                     statusQuiz: "1",
-                 })
-             } */
+
     }
 
     slideDown = () => {
@@ -324,8 +310,6 @@ const styles = StyleSheet.create({
     },
 
 });
-
-/* export default ArticleTemplate; */
 
 const mapStateToProps = ({ authUser, getData }) => {
     const { user } = authUser;
