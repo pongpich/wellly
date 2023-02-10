@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, SafeAreaView, Image, ScrollView, StatusBar, Modal, Pressable, TouchableOpacity } from 'react-native';
 import { getNutritionMission, getNutritionActivityIdMission } from "../../redux/get";
 import { logoutUser } from "../../redux/auth";
+import { update_quiz_activities } from "../../redux/update";
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 import colors from '../../constants/colors';
@@ -20,7 +21,7 @@ class QuizAnswer extends Component {
             modalVisibleQuiz: false,
             quiz: null,  // ตอบถูกทุกข้อหรือไม่
             numbeQuzi: null,  //จำนวนคำตอบที่ตอบถูก
-            act_id: null,
+            week_in_program: null,
             user_id: null,
             missionId: null
 
@@ -29,21 +30,14 @@ class QuizAnswer extends Component {
 
 
     componentDidMount() {
-        const { nutrition_mission, statusGetNutritionMission, nutrition_activity_id_Mission, user } = this.props;
+        const { nutrition_mission, statusGetNutritionMission, status_quiz_activities, user } = this.props;
         const data = JSON.parse(nutrition_mission.quiz)
 
 
-        if ((nutrition_mission) && (user)) {
-            this.props.getNutritionActivityIdMission(user.user_id, nutrition_mission.id)
-
-        }
-        console.log(nutrition_mission.id, user.user_id);
-        console.log("nutrition_activity_id_Mission", nutrition_activity_id_Mission);
-
         this.setState({
             data: data,
-            missionId: nutrition_mission.id,
-            user_id: user.user_id
+            user_id: user.user_id,
+            week_in_program: nutrition_mission.week_in_program
         })
         let value = data && data.map((value, i) => {
             return {
@@ -55,31 +49,27 @@ class QuizAnswer extends Component {
             allSelectChoice: value,
 
         })
-        if (nutrition_activity_id_Mission) {
-            this.setState({
-                act_id: nutrition_activity_id_Mission.act_id
 
-            })
-        }
     }
 
     componentDidUpdate(prevProps, prevState) {
         const { modalVisibleQuiz } = this.state;
+        const { status_quiz_activities } = this.props;
         if ((prevState.modalVisibleQuiz !== modalVisibleQuiz) && (modalVisibleQuiz === true)) {
             this.getNext()
         }
+
+        console.log("status_quiz_activities", status_quiz_activities);
     }
 
     getNext() {
-
-
         setTimeout(() => {
             this.setState({
                 modalVisibleQuiz: false
             })
 
             this.props.navigation.navigate("QuizAnswer")
-        }, 3000);
+        }, 2000);
 
     }
 
@@ -105,31 +95,36 @@ class QuizAnswer extends Component {
     }
 
     allSelectChoiceSubmit() {
-        const { allSelectChoice, data } = this.state;
-        let arr = [];
-        data && data.map((value, i,) => {
-            const choice = value.choice;
 
-            let result = allSelectChoice && allSelectChoice.filter((member) => {
-                if (value.index == member.index) {
-                    return choice.correct_choice == member.response;
+        const { user_id, week_in_program, allSelectChoice } = this.state;
+
+
+        this.props.update_quiz_activities(user_id, week_in_program, allSelectChoice);
+        /*         const { allSelectChoice, data } = this.state;
+                let arr = [];
+                data && data.map((value, i,) => {
+                    const choice = value.choice;
+        
+                    let result = allSelectChoice && allSelectChoice.filter((member) => {
+                        if (value.index == member.index) {
+                            return choice.correct_choice == member.response;
+                        }
+                    })
+                    if (result[0]) {
+                        arr.push(result[0]);
+                    }
+                })
+                if (arr.length === data.length) {
+                    var data2 = "ถูกทุกข้อ"
+                } else {
+                    var data2 = "ถูกบางข้อ"
                 }
-            })
-            if (result[0]) {
-                arr.push(result[0]);
-            }
-        })
-        if (arr.length === data.length) {
-            var data2 = "ถูกทุกข้อ"
-        } else {
-            var data2 = "ถูกบางข้อ"
-        }
-
-        this.setState({
-            modalVisibleQuiz: true,
-            quiz: data2,
-            numbeQuzi: arr.length
-        })
+        
+                this.setState({
+                    modalVisibleQuiz: true,
+                    quiz: data2,
+                    numbeQuzi: arr.length
+                }) */
     }
 
 
@@ -329,13 +324,14 @@ const styles = StyleSheet.create({
         fontFamily: "IBMPlexSansThai-Bold",
     }
 });
-const mapStateToProps = ({ authUser, getData }) => {
+const mapStateToProps = ({ authUser, getData, updateData }) => {
     const { user } = authUser;
+    const { status_quiz_activities } = updateData;
     const { nutrition_mission, statusGetNutritionMission, nutrition_activity_id_Mission } = getData;
-    return { user, nutrition_mission, statusGetNutritionMission, nutrition_activity_id_Mission };
+    return { user, nutrition_mission, statusGetNutritionMission, nutrition_activity_id_Mission, status_quiz_activities };
 };
 
-const mapActionsToProps = { logoutUser, getNutritionMission, getNutritionActivityIdMission };
+const mapActionsToProps = { logoutUser, getNutritionMission, getNutritionActivityIdMission, update_quiz_activities };
 
 export default connect(
     mapStateToProps,

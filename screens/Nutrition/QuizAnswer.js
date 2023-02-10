@@ -13,7 +13,7 @@ class QuizAnswer extends Component {
 
         this.state = {
             numberMission: null,
-            fillNumber: 51,
+            fillNumber: 50,
             maxNumber: 10,
 
 
