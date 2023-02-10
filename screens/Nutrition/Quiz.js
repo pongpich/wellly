@@ -18,7 +18,7 @@ class QuizAnswer extends Component {
             data: null,
             allSelectChoice: null, // คำตอบที่ตอบ
             numberArray: null,
-            modalVisibleQuiz: false,
+            modalVisibleQuiz: true,
             quiz: null,  // ตอบถูกทุกข้อหรือไม่
             numbeQuzi: null,  //จำนวนคำตอบที่ตอบถูก
             week_in_program: null,
@@ -41,7 +41,7 @@ class QuizAnswer extends Component {
         })
         let value = data && data.map((value, i) => {
             return {
-                "response": "null",
+                "select_choice": null,
                 "index": value.index,
             }
         })
@@ -74,10 +74,10 @@ class QuizAnswer extends Component {
     }
 
     allSelectChoice(index, choice) {
-        const { allSelectChoice } = this.state;
+        const { user_id, week_in_program, allSelectChoice } = this.state;
         allSelectChoice.forEach((animal) => {
             if (animal.index == index) {
-                animal.response = choice
+                animal.select_choice = choice
             }
         })
         this.setState({
@@ -86,45 +86,44 @@ class QuizAnswer extends Component {
 
 
         let result = allSelectChoice && allSelectChoice.filter((member) => {
-            return member.response == "null"
+            return member.select_choice == null
         })
         this.setState({
             numberArray: result.length
         })
 
+        this.props.update_quiz_activities(user_id, week_in_program, allSelectChoice);
+
     }
 
     allSelectChoiceSubmit() {
 
-        const { user_id, week_in_program, allSelectChoice } = this.state;
 
+        const { allSelectChoice, data } = this.state;
+        let arr = [];
+        data && data.map((value, i,) => {
+            const choice = value.choice;
 
-        this.props.update_quiz_activities(user_id, week_in_program, allSelectChoice);
-        /*         const { allSelectChoice, data } = this.state;
-                let arr = [];
-                data && data.map((value, i,) => {
-                    const choice = value.choice;
-        
-                    let result = allSelectChoice && allSelectChoice.filter((member) => {
-                        if (value.index == member.index) {
-                            return choice.correct_choice == member.response;
-                        }
-                    })
-                    if (result[0]) {
-                        arr.push(result[0]);
-                    }
-                })
-                if (arr.length === data.length) {
-                    var data2 = "ถูกทุกข้อ"
-                } else {
-                    var data2 = "ถูกบางข้อ"
+            let result = allSelectChoice && allSelectChoice.filter((member) => {
+                if (value.index == member.index) {
+                    return choice.correct_choice == member.select_choice;
                 }
-        
-                this.setState({
-                    modalVisibleQuiz: true,
-                    quiz: data2,
-                    numbeQuzi: arr.length
-                }) */
+            })
+            if (result[0]) {
+                arr.push(result[0]);
+            }
+        })
+        if (arr.length === data.length) {
+            var data2 = "ถูกทุกข้อ"
+        } else {
+            var data2 = "ถูกบางข้อ"
+        }
+
+        this.setState({
+            modalVisibleQuiz: true,
+            quiz: data2,
+            numbeQuzi: arr.length
+        })
     }
 
 
@@ -154,7 +153,7 @@ class QuizAnswer extends Component {
                                             <View style={styles.quiz}>
 
                                                 {
-                                                    (result[0].index === value.index) && result[0].response == "a" ?
+                                                    (result[0].index === value.index) && result[0].select_choice == "a" ?
                                                         <>
                                                             <TouchableOpacity >
                                                                 <Image source={require('../../assets/images/icon/radioActive.png')} />
@@ -170,7 +169,7 @@ class QuizAnswer extends Component {
                                             </View>
                                             <View style={styles.quiz}>
                                                 {
-                                                    (result[0].index == value.index) && result[0].response == "b" ?
+                                                    (result[0].index == value.index) && result[0].select_choice == "b" ?
                                                         <TouchableOpacity>
                                                             <Image source={require('../../assets/images/icon/radioActive.png')} />
                                                         </TouchableOpacity>
@@ -183,7 +182,7 @@ class QuizAnswer extends Component {
                                             </View>
                                             <View style={styles.quiz}>
                                                 {
-                                                    (result[0].index === value.index) && result[0].response == "c" ?
+                                                    (result[0].index === value.index) && result[0].select_choice == "c" ?
                                                         <TouchableOpacity>
                                                             <Image source={require('../../assets/images/icon/radioActive.png')} />
                                                         </TouchableOpacity>
@@ -196,7 +195,7 @@ class QuizAnswer extends Component {
                                             </View>
                                             <View style={styles.quiz}>
                                                 {
-                                                    (result[0].index === value.index) && result[0].response == "d" ?
+                                                    (result[0].index === value.index) && result[0].select_choice == "d" ?
                                                         <TouchableOpacity>
                                                             <Image source={require('../../assets/images/icon/radioActive.png')} />
                                                         </TouchableOpacity>
@@ -245,11 +244,12 @@ class QuizAnswer extends Component {
                         onRequestClose={() => {
                             Alert.alert('Modal has been closed.');
                             this.setState({ modalVisibleQuiz: !modalVisibleQuiz });
-                        }}>
+                        }}
+                    >
                         <View style={styles.centeredView}>
-                            <View style={{ alignItems: "center", justifyContent: "center" }}>
+                            <View style={styles.centeredView2}>
                                 <Image
-                                    style={{ width: 120, height: 120 }}
+                                    style={{ width: 120, height: 120, }}
                                     source={require('../../assets/images/icon/Generic_Q.png')}
                                 />
                                 {
@@ -259,6 +259,10 @@ class QuizAnswer extends Component {
                                         <Text style={styles.quizText}>ตอบถูก {numbeQuzi} ข้อ</Text>
                                 }
                             </View>
+                            <View style={styles.centeredView1}>
+
+                            </View>
+
                         </View>
                     </Modal>
                 </View>
@@ -311,11 +315,27 @@ const styles = StyleSheet.create({
         marginBottom: 80,
     },
     centeredView: {
+        width: "100%",
+        height: "100%",
+        alignItems: "center",
+        justifyContent: "center",
+
+    },
+    centeredView1: {
         backgroundColor: colors.grey1,
         width: "100%",
         height: "100%",
         alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center",
+        opacity: 0.9,
+        zIndex: 0,
+    },
+    centeredView2: {
+        position: "absolute",
+        alignItems: "center",
+        justifyContent: "center",
+        opacity: 1,
+        zIndex: 1
     },
     quizText: {
         marginTop: 16,
