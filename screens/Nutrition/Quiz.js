@@ -68,12 +68,23 @@ class QuizAnswer extends Component {
 
             if ((prevProps.nutrition_activity_id_Mission !== nutrition_activity_id_Mission) || (nutrition_activity_id_Mission) && (nutrition_activity_Mission)) {
                 let data = JSON.parse(nutrition_activity_id_Mission.quiz_activities);
+                let result = data && data.filter((member) => {
+                    return member.select_choice == null
+                })
                 if (data) {
                     this.setState({
                         allSelectChoice: data,
                         nutrition_activity_Mission: false
                     })
+
+                    let result = data && data.filter((member) => {
+                        return member.select_choice == null
+                    })
+                    this.setState({
+                        numberArray: result.length
+                    })
                 }
+
 
             }
         }
