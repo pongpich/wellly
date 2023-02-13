@@ -5,87 +5,68 @@ import {
     LayoutAnimation,
     StyleSheet,
     UIManager,
-    Platform
+    Platform,
+    Animated,
+    Image
 } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import Icon from 'react-native-vector-icons/Ionicons';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { List } from 'react-native-paper';
+import colors from '../../constants/colors';
 
 
 
 export default class Accordion extends Component {
-
     constructor(props) {
         super(props);
+        this.slideAnim = new Animated.Value(0);
+
         this.state = {
-            isOpen: false
+            expanded: true,
+
 
         };
     }
 
-    toggleOpen = () => {
-        const { isOpen } = this.state;
+
+    handlePress = () => {
+        const { expanded } = this.state;
         this.setState({
-            isOpen: !isOpen
+            expanded: !expanded
         })
-        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    }
-
-
+    };
 
     render() {
-        const { isOpen } = this.state;
-        /*         const title = (
-                    <View>
-                        <Text style={styles.sectionTitle} >Profile</Text>
-                    </View>
-                )
-                const body = (
-                    <View>
-                        <Text style={styles.sectionTitle} >Profile</Text>
-                        <Text style={styles.sectionDescription} >Address, Contact</Text>
-                        <Text style={styles.sectionTitle} >Profile</Text>
-                        <Text style={styles.sectionDescription} >Address, Contact</Text>
-                    </View>
-                )
-         */
+        const { expanded } = this.state;
+        console.log('expanded', expanded);
         return (
             <>
-                <View style={styles.container}>
-                    <TouchableOpacity onPress={this.toggleOpen} style={styles.heading} activeOpacity={0.6}>
-                        <View>
-                            <Text style={styles.sectionTitle} >Profile</Text>
-                        </View>
-                        <Icon name={isOpen ? "chevron-up-outline" : "chevron-down-outline"} size={18} color="black" />
-                    </TouchableOpacity>
-                    <View style={[styles.list, !isOpen ? styles.hidden : undefined]}>
-                        <View>
-                            <Text style={styles.sectionTitle} >Profile</Text>
-                            <Text style={styles.sectionDescription} >Address, Contact</Text>
-                            <Text style={styles.sectionTitle} >Profile</Text>
-                            <Text style={styles.sectionDescription} >Address, Contact</Text>
-                        </View>
-                    </View>
-                </View>
+                <List.Section /* title="Accordions" */ style={{ backgroundColor: colors.grey7 }}>
 
+                    <List.Accordion style={{ backgroundColor: colors.grey7 }}
 
-                <View style={styles.container}>
-                    <TouchableOpacity onPress={this.toggleOpen} style={styles.heading} activeOpacity={0.6}>
-                        <View>
-                            <Text style={styles.sectionTitle} >Profile</Text>
-                        </View>
-                        <Icon name={isOpen ? "chevron-up-outline" : "chevron-down-outline"} size={18} color="black" />
-                    </TouchableOpacity>
-                    <View style={[styles.list, !isOpen ? styles.hidden : undefined]}>
-                        <View>
-                            <Text style={styles.sectionTitle} >Profile</Text>
-                            <Text style={styles.sectionDescription} >Address, Contact</Text>
-                            <Text style={styles.sectionTitle} >Profile</Text>
-                            <Text style={styles.sectionDescription} >Address, Contact</Text>
-                        </View>
-                    </View>
-                </View>
-
+                        title={<Text style={{ color: "red" }}>Accordion title</Text>}
+                        right={props =>
+                            <List.Icon {...props} icon={({ size, color, direction }) => (
+                                expanded ?
+                                    <Image
+                                        source={require('../../assets/images/icon/ChevronUp.png')}
+                                        style={{ width: 16, height: 16 }}
+                                    />
+                                    :
+                                    <Image
+                                        source={require('../../assets/images/icon/ChevronDown.png')}
+                                        style={{ width: 16, height: 16 }}
+                                    />
+                            )}
+                            />}
+                        expanded={expanded}
+                        onPress={this.handlePress}>
+                        <Text>
+                            Whether the accordion is expanded If this prop is provided, the accordion will be
+                            Whether the accordion is expanded If this prop is provided, the accordion will behave as a "controlled component". You'll need to update this prop when you want to toggle the component or on onPress.
+                            have as a "controlled component". You'll need to update this prop when you want to toggle the component or on onPress.
+                        </Text>
+                    </List.Accordion>
+                </List.Section>
             </>
         )
     }
