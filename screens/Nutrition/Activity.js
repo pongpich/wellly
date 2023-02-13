@@ -1,95 +1,158 @@
-import React, { useRef } from 'react';
-import PropTypes from 'prop-types';
-import { View, Text, StyleSheet, Animated, Image } from 'react-native';
+import React, { Component } from "react";
+import {
+    View,
+    Text,
+    LayoutAnimation,
+    StyleSheet,
+    UIManager,
+    Platform
+} from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import Icon from 'react-native-vector-icons/Ionicons';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
-const HEADER_MAX_HEIGHT = 500;
-const HEADER_MIN_HEIGHT = 10;
-const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
+
+
+export default class Accordion extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            isOpen: false
+
+        };
+    }
+
+    toggleOpen = () => {
+        const { isOpen } = this.state;
+        this.setState({
+            isOpen: !isOpen
+        })
+        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    }
+
+
+
+    render() {
+        const { isOpen } = this.state;
+        /*         const title = (
+                    <View>
+                        <Text style={styles.sectionTitle} >Profile</Text>
+                    </View>
+                )
+                const body = (
+                    <View>
+                        <Text style={styles.sectionTitle} >Profile</Text>
+                        <Text style={styles.sectionDescription} >Address, Contact</Text>
+                        <Text style={styles.sectionTitle} >Profile</Text>
+                        <Text style={styles.sectionDescription} >Address, Contact</Text>
+                    </View>
+                )
+         */
+        return (
+            <>
+                <View style={styles.container}>
+                    <TouchableOpacity onPress={this.toggleOpen} style={styles.heading} activeOpacity={0.6}>
+                        <View>
+                            <Text style={styles.sectionTitle} >Profile</Text>
+                        </View>
+                        <Icon name={isOpen ? "chevron-up-outline" : "chevron-down-outline"} size={18} color="black" />
+                    </TouchableOpacity>
+                    <View style={[styles.list, !isOpen ? styles.hidden : undefined]}>
+                        <View>
+                            <Text style={styles.sectionTitle} >Profile</Text>
+                            <Text style={styles.sectionDescription} >Address, Contact</Text>
+                            <Text style={styles.sectionTitle} >Profile</Text>
+                            <Text style={styles.sectionDescription} >Address, Contact</Text>
+                        </View>
+                    </View>
+                </View>
+
+
+                <View style={styles.container}>
+                    <TouchableOpacity onPress={this.toggleOpen} style={styles.heading} activeOpacity={0.6}>
+                        <View>
+                            <Text style={styles.sectionTitle} >Profile</Text>
+                        </View>
+                        <Icon name={isOpen ? "chevron-up-outline" : "chevron-down-outline"} size={18} color="black" />
+                    </TouchableOpacity>
+                    <View style={[styles.list, !isOpen ? styles.hidden : undefined]}>
+                        <View>
+                            <Text style={styles.sectionTitle} >Profile</Text>
+                            <Text style={styles.sectionDescription} >Address, Contact</Text>
+                            <Text style={styles.sectionTitle} >Profile</Text>
+                            <Text style={styles.sectionDescription} >Address, Contact</Text>
+                        </View>
+                    </View>
+                </View>
+
+            </>
+        )
+    }
+}
+
+
+
 
 const styles = StyleSheet.create({
-    fill: {
-
+    container: {
+        paddingHorizontal: 15,
+        paddingVertical: 30,
+    },
+    text: {
+        fontSize: 18,
+        marginBottom: 20,
+    },
+    safeArea: {
         flex: 1,
-
     },
-    fill2: {
-        marginTop: 100,
-        flex: 1,
-        zIndex: 1
+    heading: {
+        alignItems: "center",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        paddingVertical: 10
     },
-    row: {
-        height: 40,
-        margin: 16,
-        backgroundColor: '#D3D3D3',
-        alignItems: 'center',
-        justifyContent: 'center',
+    hidden: {
+        height: 0,
     },
-    header: {
-        position: 'absolute',
-        width: "100%",
-        height: 100,
-        backgroundColor: "blue"
+    list: {
+        overflow: 'hidden'
     },
-    imageView: {
-        width: "100%",
-        height: 500
+    sectionTitle: {
+        fontSize: 16,
+        height: 30,
+        marginLeft: '5%',
     },
-
-    scrollViewContent: {
-        marginTop: "50%",
-        opacity: 1
+    sectionDescription: {
+        fontSize: 12,
+        height: 30,
+        marginLeft: '5%',
+    },
+    divider: {
+        borderBottomColor: 'grey',
+        borderBottomWidth: StyleSheet.hairlineWidth,
+        width: '100%',
     },
 });
 
-const data = Array.from({ length: 30 });
 
-const ScrollableHeader = () => {
-    const animatedScrollYValue = useRef(new Animated.Value(0)).current;
+/* const Accordion = ({ title, children }) => {
+    const [isOpen, setIsOpen] = useState(false);
 
-    const headerHeight = animatedScrollYValue.interpolate({
-        inputRange: [0, HEADER_SCROLL_DISTANCE],
-        outputRange: [0, 1],
-        extrapolate: 'clamp',
-    });
-
+    const toggleOpen = () => {
+        setIsOpen(value => !value);
+        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    }
 
     return (
-        <View style={styles.fill}>
-            <Animated.ScrollView
-                style={styles.fill2}
-                contentContainerStyle={styles.scrollViewContent}
-                scrollEventThrottle={16}
-                onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: animatedScrollYValue } } }])}
-            >
-                <View style={styles.scrollViewContent}>
-                    {data.map((_, i) => (
-                        <View key={i} style={styles.row}>
-                            <Text>{i}</Text>
-                        </View>
-                    ))}
-                </View>
-            </Animated.ScrollView>
-            <Animated.View opacity={headerHeight} style={[styles.header]}>
-                <View style={styles.bar}>
-                    <Text style={styles.title}>Title</Text>
-                </View>
-                {/*     <View style={styles.imageView}>
-                    <Image
-                        style={{ height: "100%", width: "100%", zIndex: 0 }}
-                        source={require('../../assets/images/logo/Sample.png')}
-                    />
-                </View> */}
-            </Animated.View>
-
-
-        </View>
+        <>
+            <TouchableOpacity onPress={toggleOpen} style={styles.heading} activeOpacity={0.6}>
+                {title}
+                <Icon name={isOpen ? "chevron-up-outline" : "chevron-down-outline"} size={18} color="black" />
+            </TouchableOpacity>
+            <View style={[styles.list, !isOpen ? styles.hidden : undefined]}>
+                {children}
+            </View>
+        </>
     );
-};
-
-ScrollableHeader.propTypes = {
-    navigation: PropTypes.shape({
-        navigate: PropTypes.func.isRequired,
-    }).isRequired,
-};
-
-export default ScrollableHeader;
+}; */
