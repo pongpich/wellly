@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, SafeAreaView, Image, ScrollView, StatusBar, Mod
 import { getNutritionMission, getNutritionActivityIdMission } from "../../redux/get";
 import { logoutUser } from "../../redux/auth";
 import { update_quiz_activities } from "../../redux/update";
+import { routeName } from "../../redux/personalUser";
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 import colors from '../../constants/colors';
@@ -31,7 +32,7 @@ class QuizAnswer extends Component {
 
 
     componentDidMount() {
-        const { nutrition_mission, statusGetNutritionMission, nutrition_activity_id_Mission, user } = this.props;
+        const { nutrition_mission, statusGetNutritionMission, nutrition_activity_id_Mission, user, route } = this.props;
         const data = JSON.parse(nutrition_mission.quiz)
         this.props.getNutritionActivityIdMission(user.user_id, nutrition_mission.id)
 
@@ -40,6 +41,8 @@ class QuizAnswer extends Component {
             user_id: user.user_id,
             week_in_program: nutrition_mission.week_in_program
         })
+        console.log("route.name", route.name);
+        // this.props.routeName(route.name);
 
     }
 
@@ -180,68 +183,67 @@ class QuizAnswer extends Component {
                                         return member.index === value.index
                                     })
                                     return (
-                                        <>
-                                            <Text style={styles.question}>
+                                        <View key={i + "v1"}>
+                                            <Text style={styles.question} key={i + "t1"}>
                                                 {value.index}. {value.question}
                                             </Text>
-                                            <View style={styles.quiz} key={i}>
-
+                                            <View style={styles.quiz} key={i + "q1a"}>
                                                 {
                                                     (result && result[0].index === value.index) && result && result[0].select_choice == "a" ?
                                                         <>
-                                                            <TouchableOpacity >
+                                                            <TouchableOpacity key={i + "i1a"} >
                                                                 <Image source={require('../../assets/images/icon/radioActive.png')} />
                                                             </TouchableOpacity>
                                                         </>
                                                         :
-                                                        <TouchableOpacity onPress={() => this.allSelectChoice(value.index, 'a')} >
+                                                        <TouchableOpacity onPress={() => this.allSelectChoice(value.index, 'a')} key={i + "i2a"} >
                                                             <Image source={require('../../assets/images/icon/radio.png')} />
                                                         </TouchableOpacity>
                                                 }
 
-                                                <Text style={styles.responseView}>{choice.a}</Text>
+                                                <Text style={styles.responseView} key={i + "1a"}>{choice.a}</Text>
                                             </View>
-                                            <View style={styles.quiz} key={i}>
+                                            <View style={styles.quiz} key={i + "q2b"}>
                                                 {
                                                     (result && result[0].index == value.index) && result && result[0].select_choice == "b" ?
-                                                        <TouchableOpacity>
+                                                        <TouchableOpacity key={i + "i1b"}>
                                                             <Image source={require('../../assets/images/icon/radioActive.png')} />
                                                         </TouchableOpacity>
                                                         :
-                                                        <TouchableOpacity onPress={() => this.allSelectChoice(value.index, 'b')}>
+                                                        <TouchableOpacity onPress={() => this.allSelectChoice(value.index, 'b')} key={i + "i2b"}>
                                                             <Image source={require('../../assets/images/icon/radio.png')} />
                                                         </TouchableOpacity>
                                                 }
-                                                <Text style={styles.responseView}>{choice.b}</Text>
+                                                <Text style={styles.responseView} key={i + "b"}>{choice.b}</Text>
                                             </View>
-                                            <View style={styles.quiz} key={i}>
+                                            <View style={styles.quiz} key={i + "q2c"}>
                                                 {
                                                     (result && result[0].index === value.index) && result && result[0].select_choice == "c" ?
-                                                        <TouchableOpacity>
+                                                        <TouchableOpacity key={i + "i1c"}>
                                                             <Image source={require('../../assets/images/icon/radioActive.png')} />
                                                         </TouchableOpacity>
                                                         :
-                                                        <TouchableOpacity onPress={() => this.allSelectChoice(value.index, 'c')}>
+                                                        <TouchableOpacity onPress={() => this.allSelectChoice(value.index, 'c')} key={i + "i2c"}>
                                                             <Image source={require('../../assets/images/icon/radio.png')} />
                                                         </TouchableOpacity>
                                                 }
-                                                <Text style={styles.responseView}>{choice.c}</Text>
+                                                <Text style={styles.responseView} key={i + "c"}>{choice.c}</Text>
                                             </View>
-                                            <View style={styles.quiz} key={i}>
+                                            <View style={styles.quiz} key={i + "q3d"}>
                                                 {
                                                     (result && result[0].index === value.index) && result && result[0].select_choice == "d" ?
-                                                        <TouchableOpacity>
+                                                        <TouchableOpacity key={i + "i1d"}>
                                                             <Image source={require('../../assets/images/icon/radioActive.png')} />
                                                         </TouchableOpacity>
                                                         :
-                                                        <TouchableOpacity onPress={() => this.allSelectChoice(value.index, 'd')}>
+                                                        <TouchableOpacity onPress={() => this.allSelectChoice(value.index, 'd')} key={i + "i2d"}>
                                                             <Image source={require('../../assets/images/icon/radio.png')} />
                                                         </TouchableOpacity>
 
                                                 }
-                                                <Text style={styles.responseView}>{choice.d}</Text>
+                                                <Text style={styles.responseView} key={i + "d"}>{choice.d}</Text>
                                             </View>
-                                        </>
+                                        </View>
                                     )
                                 })
                             }
@@ -378,14 +380,15 @@ const styles = StyleSheet.create({
         fontFamily: "IBMPlexSansThai-Bold",
     }
 });
-const mapStateToProps = ({ authUser, getData, updateData }) => {
+const mapStateToProps = ({ authUser, getData, updateData, personalDataUser }) => {
     const { user } = authUser;
+    const { route_name } = personalDataUser;
     const { status_quiz_activities } = updateData;
     const { nutrition_mission, statusGetNutritionMission, statusGetNutritionActivityIdMission, nutrition_activity_id_Mission } = getData;
-    return { user, nutrition_mission, statusGetNutritionMission, nutrition_activity_id_Mission, statusGetNutritionActivityIdMission, status_quiz_activities };
+    return { user, nutrition_mission, statusGetNutritionMission, nutrition_activity_id_Mission, statusGetNutritionActivityIdMission, status_quiz_activities, route_name };
 };
 
-const mapActionsToProps = { logoutUser, getNutritionMission, getNutritionActivityIdMission, update_quiz_activities };
+const mapActionsToProps = { logoutUser, getNutritionMission, getNutritionActivityIdMission, update_quiz_activities, routeName };
 
 export default connect(
     mapStateToProps,
