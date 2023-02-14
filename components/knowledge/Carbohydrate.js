@@ -40,37 +40,39 @@ class Carbohydrate extends Component {
                     ต่อน้ำหนักตัว 1 กิโลกรัม เช่น คนน้ำหนักตัว 70 กิโลกรัม จะต้องการคาร์โบไฮเดรตวันละประมาณ 350 - 700 กรัมต่อวันทั้งนี้อาจขึ้นอยู่กับรูปแบบ
                     ความหนักและความนานของการออกกำลังกายด้วย
                 </Text>
-                <View style={styles.boxImage}>
-                    <Image
-                        style={{
-                            width: "100%",
-                            height: "100%",
+                <View style={{ justifyContent: "center", alignItems: "center" }}>
+                    <View style={styles.boxImage}>
+                        <Image
+                            style={{
+                                width: "100%",
+                                height: "100%",
 
-                        }}
-                        source={require('../../assets/images/knowledge/GN1_2.png')}
-                        resizeMode='stretch'
-                    />
-                </View>
-                <View style={styles.boxImage}>
-                    <Image
-                        style={{
-                            width: "100%",
-                            height: "100%",
+                            }}
+                            source={require('../../assets/images/knowledge/GN1_2.png')}
+                        /*  resizeMode='stretch' */
+                        />
+                    </View>
+                    <View style={styles.boxImage}>
+                        <Image
+                            style={{
+                                width: "100%",
+                                height: "100%",
 
-                        }}
-                        source={require('../../assets/images/knowledge/GN1_3.png')}
-                        resizeMode='stretch'
-                    />
-                </View>
-                <View style={styles.boxImage2}>
-                    <Image
-                        style={{
-                            width: "100%",
-                            height: "100%"
-                        }}
-                        source={require('../../assets/images/knowledge/GN1_4.png')}
-                        resizeMode='stretch'
-                    />
+                            }}
+                            source={require('../../assets/images/knowledge/GN1_3.png')}
+                        /*  resizeMode='stretch' */
+                        />
+                    </View>
+                    <View style={styles.boxImage2}>
+                        <Image
+                            style={{
+                                width: "100%",
+                                height: "100%"
+                            }}
+                            source={require('../../assets/images/knowledge/GN1_4.png')}
+                        /* resizeMode='stretch' */
+                        />
+                    </View>
                 </View>
             </View>
         )
@@ -96,13 +98,13 @@ const styles = StyleSheet.create({
     },
     boxImage: {
         marginTop: 32,
-        width: "100%",
-        height: (deviceHeight > 1023) ? 505 : 273
+        width: 343,
+        height: 208
     },
     boxImage2: {
         marginTop: 32,
-        width: "100%",
-        height: (deviceHeight > 1023) ? 1500 : 600
+        width: 343,
+        height: 525
     },
 })
 
