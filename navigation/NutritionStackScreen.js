@@ -20,9 +20,10 @@ import ArticleTemplate from '../screens/Nutrition/ArticleTemplate';
 const StackNutrition = createStackNavigator();
 function NutritionStackScreen() {
     const navigation = useNavigation();
-    const routename = useSelector((state) => state.personalDataUser.route_name.route_name);
+    const routename = useSelector((state) => state.personalDataUser.route_name);
 
-    console.log("routename", routename);
+
+
     /*   console.log("aaa", useSelector(state => ({ ...state }))); */
     return (
         <StackNutrition.Navigator >
@@ -83,7 +84,7 @@ function NutritionStackScreen() {
                     showLabel: false,
                     headerShadowVisible: false,
                     headerLeft: () => (
-                        routename === "Quiz" ?
+                        routename && routename.routename === "Quiz" ?
                             <View style={{ marginLeft: 16 }}>
                                 <TouchableOpacity onPress={() => navigation.popToTop()}>
                                     <Image
