@@ -37,7 +37,7 @@ class ArticleTemplate extends Component {
             numberMission: id,
         })
 
-        this.props.routeName(null);
+        this.props.routeName("null");
 
     }
 

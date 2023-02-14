@@ -26,7 +26,7 @@ class History extends Component {
                         {
                             data.map((_, i) => (
                                 //ส่ง params ผ่าน route
-                                <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate("ArticleTemplate", { id: i + 1 })}>
+                                <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate("ArticleTemplate", { id: i + 1 })} key={i + "fee"}>
                                     <View key={i} style={styles.row}>
                                         <View style={styles.numberView}>
                                             <Text style={styles.number}>{i + 1}</Text>

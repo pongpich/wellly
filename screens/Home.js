@@ -4,11 +4,17 @@ import { logoutUser } from "../redux/auth";
 import { getNutritionMission } from "../redux/get";
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
+import { routeName } from "../redux/personalUser";
 
 
 class Home extends Component {
     componentDidMount() {
         const { user } = this.props;
+
+        this._unsubscribe = this.props.navigation.addListener('focus', () => {
+            // do something
+            console.log("8888");
+        });
 
         if (!user) {
             this.props.navigation.navigate("Login");
@@ -16,13 +22,21 @@ class Home extends Component {
             this.props.getNutritionMission()
         }
 
+        // this.props.routeName(null); // ถ้าเข้าให้ home ให้ทำคำสั่งนี้ 1 ครั้ง
+
+    }
+
+    componentWillUnmount() {
+        this._unsubscribe();
     }
 
     componentDidUpdate(prevProps) {
-        const { user, statusGetNutritionMission, nutrition_mission } = this.props;
+        const { user, statusGetNutritionMission, nutrition_mission, route_name } = this.props;
         if ((prevProps.user !== user) && (!user)) {
             this.props.navigation.navigate("Login");
         }
+
+
 
         if ((prevProps.statusGetNutritionMission !== statusGetNutritionMission) && (statusGetNutritionMission === "success")) {
             //ถ้าตรงตามเงื่อนไขด้านบนแสดงว่าได้ค่า  nutrition_mission แล้ว
@@ -72,13 +86,14 @@ const styles = StyleSheet.create({
     },
 });
 
-const mapStateToProps = ({ authUser, getData }) => {
+const mapStateToProps = ({ authUser, getData, personalDataUser }) => {
     const { user } = authUser;
+    const { route_name } = personalDataUser;
     const { nutrition_mission, statusGetNutritionMission } = getData;
-    return { user, nutrition_mission, statusGetNutritionMission };
+    return { user, nutrition_mission, statusGetNutritionMission, route_name };
 };
 
-const mapActionsToProps = { logoutUser, getNutritionMission };
+const mapActionsToProps = { logoutUser, getNutritionMission, routeName };
 
 export default connect(
     mapStateToProps,
