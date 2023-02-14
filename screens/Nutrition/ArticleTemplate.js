@@ -31,20 +31,30 @@ class ArticleTemplate extends Component {
         this.props.getNutritionActivityIdMission(user.user_id, nutrition_mission.id)
         // รับ   params จาก  route
         const { id } = this.props.route.params;
+
         this.setState({
             numberMission: id,
         })
-        if (nutrition_activity_id_Mission && nutrition_activity_id_Mission.quiz_activities_number !== null) {
-
-            this.setState({
-                statusQuiz: false,
-            })
-        }
-
+        /*   if ((nutrition_activity_id_Mission !== null) && (nutrition_activity_id_Mission.quiz_activities_number !== null)) {
+              this.setState({
+                  statusQuiz: false,
+              })
+          } */
     }
 
     componentDidUpdate(prevProps, prevState) {
+        const { nutrition_mission, user, nutrition_activity_id_Mission, statusGetNutritionActivityIdMission } = this.props;
 
+
+
+        if ((prevProps.statusGetNutritionActivityIdMission !== statusGetNutritionActivityIdMission) && (statusGetNutritionActivityIdMission === "success")) {
+
+            if (nutrition_activity_id_Mission.quiz_activities_number) {
+                this.setState({
+                    statusQuiz: false,
+                })
+            }
+        }
     }
 
     slideDown = () => {
@@ -65,7 +75,7 @@ class ArticleTemplate extends Component {
 
 
     render() {
-        const { statusBarColor, numberMission, study, statusQuiz, statusMission } = this.state;
+        const { statusBarColor, numberMission, study, statusQuiz } = this.state;
         return (
             <View style={styles.container}>
                 <View style={{ flex: 1 }}>
@@ -184,7 +194,7 @@ class ArticleTemplate extends Component {
                     >
                         {
                             study ?
-                                statusQuiz ?
+                                statusQuiz && statusQuiz === true ?
                                     <Pressable onPress={() => this.props.navigation.navigate("Quiz")} >
                                         <View style={ComponentsStyle.button} >
                                             <Text style={ComponentsStyle.textButton}>
@@ -217,13 +227,7 @@ class ArticleTemplate extends Component {
                                             </Text>
                                         </View>
                                     </Pressable>
-
-
-
-
                         }
-
-
                     </Animated.View>
                 </View>
             </View >

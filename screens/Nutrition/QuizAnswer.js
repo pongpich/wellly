@@ -75,13 +75,7 @@ class QuizAnswer extends Component {
                 nutrition_activity_Mission: JSON.parse(nutrition_activity_id_Mission.quiz_activities)
             })
 
-            /*       if (nutrition_activity_id_Mission) {
-                      if (nutrition_activity_id_Mission.quiz_activities_number) {
-                          this.setState({
-                              nutrition_activity_Mission: JSON.parse(nutrition_activity_id_Mission.quiz_activities)
-                          })
-                      }
-                  } */
+
         }
         if ((prevProps.nutrition_mission !== nutrition_mission) && (nutrition_mission.quiz)) {
             const num = JSON.parse(nutrition_mission.quiz);
@@ -141,145 +135,151 @@ class QuizAnswer extends Component {
                                 return member.index === value.index
                             })
 
+
+
                             return (
-                                <View style={{ marginBottom: 40 }}>
-                                    <View key={i}>
-                                        <Text style={styles.question}>
+                                <View style={{ marginBottom: 40 }} key={i + "1v0"}>
+                                    <View key={i + "1v"}>
+                                        <Text style={styles.question} key={i + "1t"}>
                                             {value.index}. {value.question}
                                         </Text>
-                                        <View style={styles.quizView}>
+                                        <View style={styles.quizView} key={i + "1q"}>
+                                            <View key={i + "a01"}>
+                                                {
+                                                    (result && result[0].index === value.index) && result && result[0].select_choice === choice.correct_choice ?
 
-                                            {
-                                                (result && result[0].index === value.index) && result && result[0].select_choice === choice.correct_choice ?
-
-                                                    result && result[0].select_choice == "a" ?
-                                                        <View style={styles.quiz}>
-                                                            <Image source={require('../../assets/images/icon/radioButtonActive.png')} />
-                                                            <Text style={styles.responseRadioButtonActive}>ทำได้อย่างสม่ำเสมอ</Text>
-                                                        </View>
-                                                        :
-                                                        <View style={styles.quiz}>
-                                                            <Image source={require('../../assets/images/icon/radioButtonSelection.png')} />
-                                                            <Text style={styles.responseRadioButtonSelection}>ทำได้อย่างสม่ำเสมอ</Text>
-                                                        </View>
-                                                    :
-                                                    result && result[0].select_choice === "a" ?
-                                                        <View style={styles.quiz}>
-                                                            <Image source={require('../../assets/images/icon/radioButton.png')} />
-                                                            <Text style={styles.responseRadioButton}>คุณสามารถรับประทานอาหาร</Text>
-                                                        </View>
-                                                        :
-                                                        choice.correct_choice == "a" ?
-                                                            <View style={styles.quiz}>
-                                                                <Image source={require('../../assets/images/icon/radioButtonSelectionActive.png')} />
-                                                                <Text style={styles.responseRadioButtonSelection}>ทำได้อย่างสม่ำเสมอ</Text>
+                                                        result && result[0].select_choice == "a" ?
+                                                            <View style={styles.quiz} key={i + "a1"}>
+                                                                <Image source={require('../../assets/images/icon/radioButtonActive.png')} />
+                                                                <Text style={styles.responseRadioButtonActive}>{choice.a}</Text>
                                                             </View>
                                                             :
-                                                            <View style={styles.quiz}>
+                                                            <View style={styles.quiz} key={i + "a2"}>
                                                                 <Image source={require('../../assets/images/icon/radioButtonSelection.png')} />
-                                                                <Text style={styles.responseRadioButtonSelection}>ทำได้อย่างสม่ำเสมอ</Text>
+                                                                <Text style={styles.responseRadioButtonSelection}>{choice.a}</Text>
                                                             </View>
-
-                                            }
-                                            {
-                                                (result && result[0].index === value.index) && result && result[0].select_choice == choice.correct_choice ?
-                                                    result && result[0].select_choice == "b" ?
-                                                        <View style={styles.quiz}>
-                                                            <Image source={require('../../assets/images/icon/radioButtonActive.png')} />
-                                                            <Text style={styles.responseRadioButtonActive}>ทำได้อย่างสม่ำเสมอ</Text>
-                                                        </View>
                                                         :
-                                                        <View style={styles.quiz}>
-                                                            <Image source={require('../../assets/images/icon/radioButtonSelection.png')} />
-                                                            <Text style={styles.responseRadioButtonSelection}>ทำได้อย่างสม่ำเสมอ</Text>
-                                                        </View>
-                                                    :
-                                                    result && result[0].select_choice === "b" ?
-                                                        <View style={styles.quiz}>
-                                                            <Image source={require('../../assets/images/icon/radioButton.png')} />
-                                                            <Text style={styles.responseRadioButton}>คุณสามารถรับประทานอาหาร</Text>
-                                                        </View>
-                                                        :
-                                                        result && choice.correct_choice == "b" ?
-                                                            <View style={styles.quiz}>
-                                                                <Image source={require('../../assets/images/icon/radioButtonSelectionActive.png')} />
-                                                                <Text style={styles.responseRadioButtonSelection}>ทำได้อย่างสม่ำเสมอ</Text>
+                                                        result && result[0].select_choice === "a" ?
+                                                            <View style={styles.quiz} key={i + "a3"}>
+                                                                <Image source={require('../../assets/images/icon/radioButton.png')} />
+                                                                <Text style={styles.responseRadioButton}>{choice.a}</Text>
                                                             </View>
                                                             :
-                                                            <View style={styles.quiz}>
-                                                                <Image source={require('../../assets/images/icon/radioButtonSelection.png')} />
-                                                                <Text style={styles.responseRadioButtonSelection}>ทำได้อย่างสม่ำเสมอ</Text>
-                                                            </View>
-
-                                            }
-                                            {
-                                                (result && result[0].index === value.index) && result && result[0].select_choice == choice.correct_choice ?
-                                                    result && result[0].select_choice == "c" ?
-                                                        <View style={styles.quiz}>
-                                                            <Image source={require('../../assets/images/icon/radioButtonActive.png')} />
-                                                            <Text style={styles.responseRadioButtonActive}>ทำได้อย่างสม่ำเสมอ</Text>
-                                                        </View>
-                                                        :
-                                                        <View style={styles.quiz}>
-                                                            <Image source={require('../../assets/images/icon/radioButtonSelection.png')} />
-                                                            <Text style={styles.responseRadioButtonSelection}>ทำได้อย่างสม่ำเสมอ</Text>
-                                                        </View>
-                                                    :
-                                                    result && result[0].select_choice === "c" ?
-                                                        <View style={styles.quiz}>
-                                                            <Image source={require('../../assets/images/icon/radioButton.png')} />
-                                                            <Text style={styles.responseRadioButton}>คุณสามารถรับประทานอาหาร</Text>
-                                                        </View>
-                                                        :
-                                                        choice.correct_choice == "c" ?
-                                                            <View style={styles.quiz}>
-                                                                <Image source={require('../../assets/images/icon/radioButtonSelectionActive.png')} />
-                                                                <Text style={styles.responseRadioButtonSelection}>ทำได้อย่างสม่ำเสมอ</Text>
+                                                            choice.correct_choice == "a" ?
+                                                                <View style={styles.quiz} key={i + "a4"}>
+                                                                    <Image source={require('../../assets/images/icon/radioButtonSelectionActive.png')} />
+                                                                    <Text style={styles.responseRadioButtonSelection}>{choice.a}</Text>
+                                                                </View>
+                                                                :
+                                                                <View style={styles.quiz} key={i + "a5"}>
+                                                                    <Image source={require('../../assets/images/icon/radioButtonSelection.png')} />
+                                                                    <Text style={styles.responseRadioButtonSelection}>{choice.a}</Text>
+                                                                </View>
+                                                }
+                                            </View>
+                                            <View key={i + "b01"}>
+                                                {
+                                                    (result && result[0].index === value.index) && result && result[0].select_choice == choice.correct_choice ?
+                                                        result && result[0].select_choice == "b" ?
+                                                            <View style={styles.quiz} key={i + "b1"}>
+                                                                <Image source={require('../../assets/images/icon/radioButtonActive.png')} />
+                                                                <Text style={styles.responseRadioButtonActive}>{choice.b}</Text>
                                                             </View>
                                                             :
-                                                            <View style={styles.quiz}>
+                                                            <View style={styles.quiz} key={i + "b2"}>
                                                                 <Image source={require('../../assets/images/icon/radioButtonSelection.png')} />
-                                                                <Text style={styles.responseRadioButtonSelection}>ทำได้อย่างสม่ำเสมอ</Text>
+                                                                <Text style={styles.responseRadioButtonSelection}>{choice.b}</Text>
                                                             </View>
-
-                                            }
-                                            {
-                                                (result && result[0].index === value.index) && result && result[0].select_choice == choice.correct_choice ?
-                                                    result && result[0].select_choice == "d" ?
-                                                        <View style={styles.quiz}>
-                                                            <Image source={require('../../assets/images/icon/radioButtonActive.png')} />
-                                                            <Text style={styles.responseRadioButtonActive}>ทำได้อย่างสม่ำเสมอ</Text>
-                                                        </View>
                                                         :
-                                                        <View style={styles.quiz}>
-                                                            <Image source={require('../../assets/images/icon/radioButtonSelection.png')} />
-                                                            <Text style={styles.responseRadioButtonSelection}>ทำได้อย่างสม่ำเสมอ</Text>
-                                                        </View>
-                                                    :
-                                                    result && result[0].select_choice === "d" ?
-                                                        <View style={styles.quiz}>
-                                                            <Image source={require('../../assets/images/icon/radioButton.png')} />
-                                                            <Text style={styles.responseRadioButton}>คุณสามารถรับประทานอาหาร</Text>
-                                                        </View>
-                                                        :
-                                                        choice.correct_choice == "d" ?
-                                                            <View style={styles.quiz}>
-                                                                <Image source={require('../../assets/images/icon/radioButtonSelectionActive.png')} />
-                                                                <Text style={styles.responseRadioButtonSelection}>ทำได้อย่างสม่ำเสมอ</Text>
+                                                        result && result[0].select_choice === "b" ?
+                                                            <View style={styles.quiz} key={i + "b3"}>
+                                                                <Image source={require('../../assets/images/icon/radioButton.png')} />
+                                                                <Text style={styles.responseRadioButton}>{choice.b}</Text>
                                                             </View>
                                                             :
-                                                            <View style={styles.quiz}>
-                                                                <Image source={require('../../assets/images/icon/radioButtonSelection.png')} />
-                                                                <Text style={styles.responseRadioButtonSelection}>ทำได้อย่างสม่ำเสมอ</Text>
+                                                            result && choice.correct_choice == "b" ?
+                                                                <View style={styles.quiz} key={i + "b4"}>
+                                                                    <Image source={require('../../assets/images/icon/radioButtonSelectionActive.png')} />
+                                                                    <Text style={styles.responseRadioButtonSelection}>{choice.b}</Text>
+                                                                </View>
+                                                                :
+                                                                <View style={styles.quiz} key={i + "b5"}>
+                                                                    <Image source={require('../../assets/images/icon/radioButtonSelection.png')} />
+                                                                    <Text style={styles.responseRadioButtonSelection}>{choice.b}</Text>
+                                                                </View>
+
+                                                }
+                                            </View>
+                                            <View key={i + "c01"}>
+                                                {
+                                                    (result && result[0].index === value.index) && result && result[0].select_choice == choice.correct_choice ?
+                                                        result && result[0].select_choice == "c" ?
+                                                            <View style={styles.quiz} key={i + "c1"}>
+                                                                <Image source={require('../../assets/images/icon/radioButtonActive.png')} />
+                                                                <Text style={styles.responseRadioButtonActive}>{choice.c}</Text>
                                                             </View>
+                                                            :
+                                                            <View style={styles.quiz} key={i + "c2"}>
+                                                                <Image source={require('../../assets/images/icon/radioButtonSelection.png')} />
+                                                                <Text style={styles.responseRadioButtonSelection}>{choice.c}</Text>
+                                                            </View>
+                                                        :
+                                                        result && result[0].select_choice === "c" ?
+                                                            <View style={styles.quiz} key={i + "c3"}>
+                                                                <Image source={require('../../assets/images/icon/radioButton.png')} />
+                                                                <Text style={styles.responseRadioButton}>{choice.c}</Text>
+                                                            </View>
+                                                            :
+                                                            choice.correct_choice == "c" ?
+                                                                <View style={styles.quiz} key={i + "c4"}>
+                                                                    <Image source={require('../../assets/images/icon/radioButtonSelectionActive.png')} />
+                                                                    <Text style={styles.responseRadioButtonSelection}>{choice.c}</Text>
+                                                                </View>
+                                                                :
+                                                                <View style={styles.quiz} key={i + "c5"}>
+                                                                    <Image source={require('../../assets/images/icon/radioButtonSelection.png')} />
+                                                                    <Text style={styles.responseRadioButtonSelection}>{choice.c}</Text>
+                                                                </View>
 
-                                            }
+                                                }
+                                            </View>
+                                            <View key={i + "d01"}>
+                                                {
+                                                    (result && result[0].index === value.index) && result && result[0].select_choice == choice.correct_choice ?
+                                                        result && result[0].select_choice == "d" ?
+                                                            <View style={styles.quiz} key={i + "d1"} >
+                                                                <Image source={require('../../assets/images/icon/radioButtonActive.png')} />
+                                                                <Text style={styles.responseRadioButtonActive}>{choice.d}</Text>
+                                                            </View>
+                                                            :
+                                                            <View style={styles.quiz} key={i + "d2"}>
+                                                                <Image source={require('../../assets/images/icon/radioButtonSelection.png')} />
+                                                                <Text style={styles.responseRadioButtonSelection}>{choice.d}</Text>
+                                                            </View>
+                                                        :
+                                                        result && result[0].select_choice === "d" ?
+                                                            <View style={styles.quiz} key={i + "d3"}>
+                                                                <Image source={require('../../assets/images/icon/radioButton.png')} />
+                                                                <Text style={styles.responseRadioButton}>{choice.d}</Text>
+                                                            </View>
+                                                            :
+                                                            choice.correct_choice == "d" ?
+                                                                <View style={styles.quiz} key={i + "d4"}>
+                                                                    <Image source={require('../../assets/images/icon/radioButtonSelectionActive.png')} />
+                                                                    <Text style={styles.responseRadioButtonSelection}>{choice.d}</Text>
+                                                                </View>
+                                                                :
+                                                                <View style={styles.quiz} key={i + "d5"}>
+                                                                    <Image source={require('../../assets/images/icon/radioButtonSelection.png')} />
+                                                                    <Text style={styles.responseRadioButtonSelection}>{choice.d}</Text>
+                                                                </View>
 
+                                                }
+                                            </View>
                                         </View>
                                     </View>
-                                    <List.Section style={{ backgroundColor: colors.grey7, borderRadius: 8 }}>
-                                        <List.Accordion style={{ backgroundColor: colors.grey7, borderRadius: 8 }}
-
+                                    {/*  <List.Section style={{ backgroundColor: colors.grey7, borderRadius: 8, }}>
+                                        <List.Accordion style={{ backgroundColor: colors.grey7, borderRadius: 8, marginTop: 16 }}
                                             title={<Text style={styles.titleAccordion}>เหตุผล</Text>}
                                             right={props =>
                                                 <List.Icon {...props} icon={({ size, color, direction }) => (
@@ -294,6 +294,7 @@ class QuizAnswer extends Component {
                                                             style={{ width: 16, height: 16 }}
                                                         />
                                                 )}
+
                                                 />}
                                             expanded={expanded}
                                             onPress={this.handlePress}>
@@ -301,36 +302,11 @@ class QuizAnswer extends Component {
                                                 {value.expand_answer}
                                             </Text>
                                         </List.Accordion>
-                                    </List.Section>
+                                    </List.Section> */}
                                 </View>
                             )
                         })
                     }
-
-                    {/* <View>
-                        <Text style={styles.question}>
-                            1. คุณสามารถรับประทานอาหารได้ตามเป้าหมายการจัดจาน 2-1-1 (ผัก2 เนื้อและแป้ง อย่างละ 1)หรือไม่
-                        </Text>
-                        <View style={styles.quizView}>
-                            <View style={styles.quiz}>
-                                <Image source={require('../../assets/images/icon/radioButton.png')} />
-                                <Text style={styles.responseRadioButton}>คุณสามารถรับประทานอาหาร</Text>
-                            </View>
-                            <View style={styles.quiz}>
-                                <Image source={require('../../assets/images/icon/radioButtonActive.png')} />
-                                <Text style={styles.responseRadioButtonActive}>ทำได้อย่างสม่ำเสมอ</Text>
-                            </View>
-                            <View style={styles.quiz}>
-                                <Image source={require('../../assets/images/icon/radioButtonSelection.png')} />
-                                <Text style={styles.responseRadioButtonSelection}>ทำได้อย่างสม่ำเสมอ</Text>
-                            </View>
-                            <View style={styles.quiz}>
-                                <Image source={require('../../assets/images/icon/radioButtonSelection.png')} />
-                                <Text style={styles.responseRadioButtonSelection}>ทำได้อย่างสม่ำเสมอ</Text>
-                            </View>
-                        </View>
-                    </View> */}
-
                 </ScrollView>
             </View >
         )
