@@ -7,6 +7,7 @@ import { logoutUser } from "../../redux/auth";
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 import Carbohydrate from '../../components/knowledge/Carbohydrate';
+import { routeName } from "../../redux/personalUser";
 import Mission from '../Nutrition/Mission';
 
 
@@ -27,7 +28,7 @@ class ArticleTemplate extends Component {
     }
 
     componentDidMount() {
-        const { nutrition_mission, user, nutrition_activity_id_Mission } = this.props;
+        const { nutrition_mission, user, nutrition_activity_id_Mission, route } = this.props;
         this.props.getNutritionActivityIdMission(user.user_id, nutrition_mission.id)
         // รับ   params จาก  route
         const { id } = this.props.route.params;
@@ -35,11 +36,9 @@ class ArticleTemplate extends Component {
         this.setState({
             numberMission: id,
         })
-        /*   if ((nutrition_activity_id_Mission !== null) && (nutrition_activity_id_Mission.quiz_activities_number !== null)) {
-              this.setState({
-                  statusQuiz: false,
-              })
-          } */
+
+        this.props.routeName(null);
+
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -322,7 +321,7 @@ const mapStateToProps = ({ authUser, getData }) => {
     return { nutrition_mission, statusGetNutritionMission, nutrition_activity_id_Mission, statusGetNutritionActivityIdMission, user };
 };
 
-const mapActionsToProps = { logoutUser, getNutritionMission, getNutritionActivityIdMission, };
+const mapActionsToProps = { logoutUser, getNutritionMission, getNutritionActivityIdMission, routeName };
 
 export default connect(
     mapStateToProps,

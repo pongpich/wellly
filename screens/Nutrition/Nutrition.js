@@ -1,10 +1,10 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, StyleSheet, Animated, Image, ImageBackground, Dimensions, Pressable, TouchableWithoutFeedback } from 'react-native';
 import colors from '../../constants/colors';
 import ComponentsStyle from '../../constants/components';
 import { AntDesign } from '@expo/vector-icons';
-
+import { useSelector, useDispatch } from "react-redux";
 
 const HEADER_MAX_HEIGHT = 500;
 const HEADER_MIN_HEIGHT = 10;
@@ -16,7 +16,7 @@ const data = Array.from({ length: 30 });
 
 
 
-const Nutrition = ({ navigation: { popToTop, navigate } }) => {
+const Nutrition = ({ navigation }) => {
     const [statusNotified, setStatusNotified] = useState(null);
     const [startDate, setStartDate] = useState(1);
 
@@ -29,10 +29,21 @@ const Nutrition = ({ navigation: { popToTop, navigate } }) => {
 
     const refresh = () => {
         if (data.length) {
-            navigate("History")
+            navigation.navigate("History")
         }
 
     }
+
+    React.useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
+            // do something  // ตอน  focus หน้า
+
+
+        });
+
+        return unsubscribe;
+
+    }, [navigation]);
 
 
     return (
@@ -70,7 +81,7 @@ const Nutrition = ({ navigation: { popToTop, navigate } }) => {
                     {data.length ?
 
                         data.map((_, i) => (
-                            <TouchableWithoutFeedback onPress={() => navigate("ArticleTemplate", { id: i + 1 })}>
+                            <TouchableWithoutFeedback onPress={() => navigation.navigate("ArticleTemplate", { id: i + 1 })}>
                                 <View key={i} style={styles.row}>
                                     <View style={styles.numberView}>
                                         <Text style={styles.number}>{i + 1}</Text>
