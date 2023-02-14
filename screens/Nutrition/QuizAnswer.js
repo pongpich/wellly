@@ -278,7 +278,7 @@ class QuizAnswer extends Component {
                                             </View>
                                         </View>
                                     </View>
-                                    {/*  <List.Section style={{ backgroundColor: colors.grey7, borderRadius: 8, }}>
+                                    <List.Section style={{ backgroundColor: colors.grey7, borderRadius: 8, }}>
                                         <List.Accordion style={{ backgroundColor: colors.grey7, borderRadius: 8, marginTop: 16 }}
                                             title={<Text style={styles.titleAccordion}>เหตุผล</Text>}
                                             right={props =>
@@ -302,7 +302,7 @@ class QuizAnswer extends Component {
                                                 {value.expand_answer}
                                             </Text>
                                         </List.Accordion>
-                                    </List.Section> */}
+                                    </List.Section>
                                 </View>
                             )
                         })
