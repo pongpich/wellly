@@ -50,6 +50,7 @@ function MyHome() {
 
   const devicehHeight = Math.round(Dimensions.get('window').height);
 
+
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -57,7 +58,7 @@ function MyHome() {
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
 
-          if (route.name === 'Home') {
+          if (route.name === 'HomeTab') {
             iconName = focused ?
               <Image
                 style={{ width: 24, height: 24 }}
@@ -67,7 +68,7 @@ function MyHome() {
                 style={{ width: 24, height: 24 }}
                 source={require('../assets/images/icon/menuHome.png')}
               />;
-          } else if (route.name === 'Nutrition') {
+          } else if (route.name === 'NutritionTab') {
             iconName = focused ?
               <Image
                 style={{ width: 24, height: 24 }}
@@ -77,7 +78,7 @@ function MyHome() {
                 style={{ width: 24, height: 24 }}
                 source={require('../assets/images/icon/menuNutrition.png')}
               />;
-          } else if (route.name === 'Exercise') {
+          } else if (route.name === 'ExerciseTab') {
             iconName = focused ?
 
               <Image
@@ -88,7 +89,7 @@ function MyHome() {
                 style={{ width: 24, height: 24 }}
                 source={require('../assets/images/icon/menuExercise.png')}
               />;
-          } else if (route.name === 'Activity') {
+          } else if (route.name === 'ActivityTab') {
             iconName = focused ?
               <Image
                 style={{ width: 24, height: 24 }}
@@ -128,13 +129,13 @@ function MyHome() {
         tabBarActiveTintColor: colors.persianBlue,
         tabBarInactiveTintColor: colors.grey3,
       })}>
-      <Tab.Screen name="Home"
+      <Tab.Screen name="HomeTab"
         component={HomeStackScreen}
         options={{
           title: languages === "th" ? "หน้าแรก" : "Home",
         }}
       />
-      <Tab.Screen name="Nutrition" component={NutritionStackScreen}
+      <Tab.Screen name="NutritionTab" component={NutritionStackScreen}
         options={({ route }) => ({
           tabBarStyle: {
             display: getBottomTabse(route),
@@ -164,11 +165,11 @@ function MyHome() {
             />
           )
         }} />
-      <Tab.Screen name="Exercise" component={ExerciseStackScreen}
+      <Tab.Screen name="ExerciseTab" component={ExerciseStackScreen}
         options={{
           title: languages === "th" ? "ออกกำลังกาย" : "Exercise",
         }} />
-      <Tab.Screen name="Activity" component={ActivityStackScreen}
+      <Tab.Screen name="ActivityTab" component={ActivityStackScreen}
         options={{
           title: languages === "th" ? "กิจกรรม" : "Activity",
         }} />
@@ -185,7 +186,7 @@ function MyHome() {
 
 function MyStack(props) {
   const navigation = useNavigation();
-  /*   const { user } = this.props; */
+
 
   return (
 
