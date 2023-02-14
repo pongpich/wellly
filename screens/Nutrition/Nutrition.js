@@ -52,7 +52,7 @@ const Nutrition = ({ navigation }) => {
                 style={styles.fill2}
                 contentContainerStyle={styles.scrollViewContent}
                 scrollEventThrottle={16}
-                onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: animatedScrollYValue } } }])}
+                onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: animatedScrollYValue } } }], { useNativeDriver: false })}
             >
                 <View style={styles.scrollViewContent}>
                     <View style={styles.missionText}>
