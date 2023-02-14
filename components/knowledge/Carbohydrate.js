@@ -7,18 +7,19 @@ import colors from '../../constants/colors';
 class Carbohydrate extends Component {
     render() {
         return (
-            <View style={styles.scrollViewbox}>
-                <View style={styles.boxImage}>
-                    <Image
-                        style={{
-                            width: "100%",
-                            height: "100%"
-                        }}
-                        source={require('../../assets/images/knowledge/GN1_1.png')}
-                        resizeMode='contain'
-                    />
+            <View style={styles.scrollViewbox} >
+                <View style={{ justifyContent: "center", alignItems: "center" }}>
+                    <View style={styles.boxImage}>
+                        <Image
+                            style={{
+                                width: "100%",
+                                height: "100%",
+                            }}
+                            source={require('../../assets/images/knowledge/GN1_1.png')}
+                            resizeMode='stretch'
+                        />
+                    </View>
                 </View>
-
                 <Text style={styles.title}>
                     คาร์โบไฮเดรต
                 </Text>
@@ -79,14 +80,18 @@ class Carbohydrate extends Component {
     }
 }
 const deviceHeight = Math.round(Dimensions.get('window').height);
+
 console.log("deviceHeight", deviceHeight);
 
 const styles = StyleSheet.create({
     scrollViewbox: {
         marginTop: 0,
-        marginBottom: 50
+        marginBottom: 50,
+        justifyContent: "center"
+
     },
     title: {
+        marginTop: 24,
         fontFamily: "IBMPlexSansThai-Bold",
         fontSize: ComponentsStyle.fontSize16,
 
@@ -98,13 +103,13 @@ const styles = StyleSheet.create({
     },
     boxImage: {
         marginTop: 32,
-        width: 343,
-        height: 208
+        width: (deviceHeight > 1023) ? "100%" : 343,
+        height: (deviceHeight > 1023) ? 400 : 208
     },
     boxImage2: {
         marginTop: 32,
-        width: 343,
-        height: 525
+        width: (deviceHeight > 1023) ? "100%" : 343,
+        height: (deviceHeight > 1023) ? 1100 : 525,
     },
 })
 
