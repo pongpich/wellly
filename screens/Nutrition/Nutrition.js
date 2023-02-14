@@ -81,7 +81,7 @@ const Nutrition = ({ navigation }) => {
                     {data.length ?
 
                         data.map((_, i) => (
-                            <TouchableWithoutFeedback onPress={() => navigation.navigate("ArticleTemplate", { id: i + 1 })}>
+                            <TouchableWithoutFeedback onPress={() => navigation.navigate("ArticleTemplate", { id: i + 1 })} key={i + "tfb"}>
                                 <View key={i} style={styles.row}>
                                     <View style={styles.numberView}>
                                         <Text style={styles.number}>{i + 1}</Text>
