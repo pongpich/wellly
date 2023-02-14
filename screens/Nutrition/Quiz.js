@@ -201,7 +201,7 @@ class QuizAnswer extends Component {
 
                                                 <Text style={styles.responseView}>{choice.a}</Text>
                                             </View>
-                                            <View style={styles.quiz}>
+                                            <View style={styles.quiz} key={i}>
                                                 {
                                                     (result && result[0].index == value.index) && result && result[0].select_choice == "b" ?
                                                         <TouchableOpacity>
@@ -214,7 +214,7 @@ class QuizAnswer extends Component {
                                                 }
                                                 <Text style={styles.responseView}>{choice.b}</Text>
                                             </View>
-                                            <View style={styles.quiz}>
+                                            <View style={styles.quiz} key={i}>
                                                 {
                                                     (result && result[0].index === value.index) && result && result[0].select_choice == "c" ?
                                                         <TouchableOpacity>
@@ -227,7 +227,7 @@ class QuizAnswer extends Component {
                                                 }
                                                 <Text style={styles.responseView}>{choice.c}</Text>
                                             </View>
-                                            <View style={styles.quiz}>
+                                            <View style={styles.quiz} key={i}>
                                                 {
                                                     (result && result[0].index === value.index) && result && result[0].select_choice == "d" ?
                                                         <TouchableOpacity>

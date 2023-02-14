@@ -22,6 +22,8 @@ class QuizAnswer extends Component {
             maxNumberMission: 0,
             numberQ: 0,
             expanded: false,
+            nutrition_mission: null,
+            nutrition_activity_Mission: null
         };
     }
 
@@ -35,26 +37,51 @@ class QuizAnswer extends Component {
             this.setState({
                 fillNumber: nutrition_activity_id_Mission.quiz_activities_number * multiple,
                 numberQ: nutrition_activity_id_Mission.quiz_activities_number,
+                nutrition_activity_Mission: JSON.parse(nutrition_activity_id_Mission.quiz_activities)
+
             })
         }
         if (nutrition_mission.quiz) {
             const num = JSON.parse(nutrition_mission.quiz);
             this.setState({
-                maxNumberMission: num.length
+                maxNumberMission: num.length,
+                nutrition_mission: num,
+
             })
         }
+
+        if (nutrition_activity_id_Mission) {
+            if (nutrition_activity_id_Mission.quiz_activities_number) {
+                this.setState({
+                    nutrition_activity_Mission: JSON.parse(nutrition_activity_id_Mission.quiz_activities)
+                })
+            }
+        }
+
+
     }
 
 
     componentDidUpdate(prevProps, prevState) {
         const { nutrition_mission, user, nutrition_activity_id_Mission } = this.props;
         const num = JSON.parse(nutrition_mission.quiz);
+
+
         const multiple = 100 / num.length;
-        if ((prevProps.nutrition_activity_id_Mission !== nutrition_activity_id_Mission) && (nutrition_activity_id_Mission === "success")) {
+        if ((prevProps.nutrition_activity_id_Mission !== nutrition_activity_id_Mission) || (nutrition_activity_id_Mission === "success")) {
             this.setState({
                 fillNumber: nutrition_activity_id_Mission.quiz_activities_number * multiple,
                 numberQ: nutrition_activity_id_Mission.quiz_activities_number,
+                nutrition_activity_Mission: JSON.parse(nutrition_activity_id_Mission.quiz_activities)
             })
+
+            /*       if (nutrition_activity_id_Mission) {
+                      if (nutrition_activity_id_Mission.quiz_activities_number) {
+                          this.setState({
+                              nutrition_activity_Mission: JSON.parse(nutrition_activity_id_Mission.quiz_activities)
+                          })
+                      }
+                  } */
         }
         if ((prevProps.nutrition_mission !== nutrition_mission) && (nutrition_mission.quiz)) {
             const num = JSON.parse(nutrition_mission.quiz);
@@ -62,17 +89,22 @@ class QuizAnswer extends Component {
                 maxNumberMission: num.length
             })
         }
+
+
     }
 
 
-    handlePress = (expanded) => {
+    handlePress = () => {
+        const { expanded } = this.state;
         this.setState({
-            expanded: expanded
+            expanded: !expanded
         })
     };
+
+
     render() {
-        const { fillNumber, maxNumberMission, numberQ, expanded } = this.state;
-        const list2 = 3;
+        const { fillNumber, maxNumberMission, numberQ, expanded, nutrition_mission, nutrition_activity_Mission } = this.state;
+
         return (
             <View style={styles.container}>
                 <StatusBar barStyle="dark-content" />
@@ -102,50 +134,205 @@ class QuizAnswer extends Component {
                     </AnimatedCircularProgress>
                 </View>
                 <ScrollView style={styles.boxSelection}>
-                    <View>
+                    {
+                        nutrition_mission && nutrition_mission.map((value, i,) => {
+                            let choice = value.choice;
+                            var result = nutrition_activity_Mission && nutrition_activity_Mission.filter((member) => {
+                                return member.index === value.index
+                            })
+
+                            return (
+                                <View style={{ marginBottom: 40 }}>
+                                    <View key={i}>
+                                        <Text style={styles.question}>
+                                            {value.index}. {value.question}
+                                        </Text>
+                                        <View style={styles.quizView}>
+
+                                            {
+                                                (result && result[0].index === value.index) && result && result[0].select_choice === choice.correct_choice ?
+
+                                                    result && result[0].select_choice == "a" ?
+                                                        <View style={styles.quiz}>
+                                                            <Image source={require('../../assets/images/icon/radioButtonActive.png')} />
+                                                            <Text style={styles.responseRadioButtonActive}>ทำได้อย่างสม่ำเสมอ</Text>
+                                                        </View>
+                                                        :
+                                                        <View style={styles.quiz}>
+                                                            <Image source={require('../../assets/images/icon/radioButtonSelection.png')} />
+                                                            <Text style={styles.responseRadioButtonSelection}>ทำได้อย่างสม่ำเสมอ</Text>
+                                                        </View>
+                                                    :
+                                                    result && result[0].select_choice === "a" ?
+                                                        <View style={styles.quiz}>
+                                                            <Image source={require('../../assets/images/icon/radioButton.png')} />
+                                                            <Text style={styles.responseRadioButton}>คุณสามารถรับประทานอาหาร</Text>
+                                                        </View>
+                                                        :
+                                                        choice.correct_choice == "a" ?
+                                                            <View style={styles.quiz}>
+                                                                <Image source={require('../../assets/images/icon/radioButtonSelectionActive.png')} />
+                                                                <Text style={styles.responseRadioButtonSelection}>ทำได้อย่างสม่ำเสมอ</Text>
+                                                            </View>
+                                                            :
+                                                            <View style={styles.quiz}>
+                                                                <Image source={require('../../assets/images/icon/radioButtonSelection.png')} />
+                                                                <Text style={styles.responseRadioButtonSelection}>ทำได้อย่างสม่ำเสมอ</Text>
+                                                            </View>
+
+                                            }
+                                            {
+                                                (result && result[0].index === value.index) && result && result[0].select_choice == choice.correct_choice ?
+                                                    result && result[0].select_choice == "b" ?
+                                                        <View style={styles.quiz}>
+                                                            <Image source={require('../../assets/images/icon/radioButtonActive.png')} />
+                                                            <Text style={styles.responseRadioButtonActive}>ทำได้อย่างสม่ำเสมอ</Text>
+                                                        </View>
+                                                        :
+                                                        <View style={styles.quiz}>
+                                                            <Image source={require('../../assets/images/icon/radioButtonSelection.png')} />
+                                                            <Text style={styles.responseRadioButtonSelection}>ทำได้อย่างสม่ำเสมอ</Text>
+                                                        </View>
+                                                    :
+                                                    result && result[0].select_choice === "b" ?
+                                                        <View style={styles.quiz}>
+                                                            <Image source={require('../../assets/images/icon/radioButton.png')} />
+                                                            <Text style={styles.responseRadioButton}>คุณสามารถรับประทานอาหาร</Text>
+                                                        </View>
+                                                        :
+                                                        result && choice.correct_choice == "b" ?
+                                                            <View style={styles.quiz}>
+                                                                <Image source={require('../../assets/images/icon/radioButtonSelectionActive.png')} />
+                                                                <Text style={styles.responseRadioButtonSelection}>ทำได้อย่างสม่ำเสมอ</Text>
+                                                            </View>
+                                                            :
+                                                            <View style={styles.quiz}>
+                                                                <Image source={require('../../assets/images/icon/radioButtonSelection.png')} />
+                                                                <Text style={styles.responseRadioButtonSelection}>ทำได้อย่างสม่ำเสมอ</Text>
+                                                            </View>
+
+                                            }
+                                            {
+                                                (result && result[0].index === value.index) && result && result[0].select_choice == choice.correct_choice ?
+                                                    result && result[0].select_choice == "c" ?
+                                                        <View style={styles.quiz}>
+                                                            <Image source={require('../../assets/images/icon/radioButtonActive.png')} />
+                                                            <Text style={styles.responseRadioButtonActive}>ทำได้อย่างสม่ำเสมอ</Text>
+                                                        </View>
+                                                        :
+                                                        <View style={styles.quiz}>
+                                                            <Image source={require('../../assets/images/icon/radioButtonSelection.png')} />
+                                                            <Text style={styles.responseRadioButtonSelection}>ทำได้อย่างสม่ำเสมอ</Text>
+                                                        </View>
+                                                    :
+                                                    result && result[0].select_choice === "c" ?
+                                                        <View style={styles.quiz}>
+                                                            <Image source={require('../../assets/images/icon/radioButton.png')} />
+                                                            <Text style={styles.responseRadioButton}>คุณสามารถรับประทานอาหาร</Text>
+                                                        </View>
+                                                        :
+                                                        choice.correct_choice == "c" ?
+                                                            <View style={styles.quiz}>
+                                                                <Image source={require('../../assets/images/icon/radioButtonSelectionActive.png')} />
+                                                                <Text style={styles.responseRadioButtonSelection}>ทำได้อย่างสม่ำเสมอ</Text>
+                                                            </View>
+                                                            :
+                                                            <View style={styles.quiz}>
+                                                                <Image source={require('../../assets/images/icon/radioButtonSelection.png')} />
+                                                                <Text style={styles.responseRadioButtonSelection}>ทำได้อย่างสม่ำเสมอ</Text>
+                                                            </View>
+
+                                            }
+                                            {
+                                                (result && result[0].index === value.index) && result && result[0].select_choice == choice.correct_choice ?
+                                                    result && result[0].select_choice == "d" ?
+                                                        <View style={styles.quiz}>
+                                                            <Image source={require('../../assets/images/icon/radioButtonActive.png')} />
+                                                            <Text style={styles.responseRadioButtonActive}>ทำได้อย่างสม่ำเสมอ</Text>
+                                                        </View>
+                                                        :
+                                                        <View style={styles.quiz}>
+                                                            <Image source={require('../../assets/images/icon/radioButtonSelection.png')} />
+                                                            <Text style={styles.responseRadioButtonSelection}>ทำได้อย่างสม่ำเสมอ</Text>
+                                                        </View>
+                                                    :
+                                                    result && result[0].select_choice === "d" ?
+                                                        <View style={styles.quiz}>
+                                                            <Image source={require('../../assets/images/icon/radioButton.png')} />
+                                                            <Text style={styles.responseRadioButton}>คุณสามารถรับประทานอาหาร</Text>
+                                                        </View>
+                                                        :
+                                                        choice.correct_choice == "d" ?
+                                                            <View style={styles.quiz}>
+                                                                <Image source={require('../../assets/images/icon/radioButtonSelectionActive.png')} />
+                                                                <Text style={styles.responseRadioButtonSelection}>ทำได้อย่างสม่ำเสมอ</Text>
+                                                            </View>
+                                                            :
+                                                            <View style={styles.quiz}>
+                                                                <Image source={require('../../assets/images/icon/radioButtonSelection.png')} />
+                                                                <Text style={styles.responseRadioButtonSelection}>ทำได้อย่างสม่ำเสมอ</Text>
+                                                            </View>
+
+                                            }
+
+                                        </View>
+                                    </View>
+                                    <List.Section style={{ backgroundColor: colors.grey7, borderRadius: 8 }}>
+                                        <List.Accordion style={{ backgroundColor: colors.grey7, borderRadius: 8 }}
+
+                                            title={<Text style={styles.titleAccordion}>เหตุผล</Text>}
+                                            right={props =>
+                                                <List.Icon {...props} icon={({ size, color, direction }) => (
+                                                    expanded ?
+                                                        <Image
+                                                            source={require('../../assets/images/icon/ChevronUp.png')}
+                                                            style={{ width: 16, height: 16 }}
+                                                        />
+                                                        :
+                                                        <Image
+                                                            source={require('../../assets/images/icon/ChevronDown.png')}
+                                                            style={{ width: 16, height: 16 }}
+                                                        />
+                                                )}
+                                                />}
+                                            expanded={expanded}
+                                            onPress={this.handlePress}>
+                                            <Text style={styles.expand_answerText}>
+                                                {value.expand_answer}
+                                            </Text>
+                                        </List.Accordion>
+                                    </List.Section>
+                                </View>
+                            )
+                        })
+                    }
+
+                    {/* <View>
                         <Text style={styles.question}>
                             1. คุณสามารถรับประทานอาหารได้ตามเป้าหมายการจัดจาน 2-1-1 (ผัก2 เนื้อและแป้ง อย่างละ 1)หรือไม่
                         </Text>
-                        <View style={styles.quiz} key={"i"}>
-                            <Image source={require('../../assets/images/icon/radioButton.png')} />
-                            <Text style={styles.responseRadioButton}>คุณสามารถรับประทานอาหาร</Text>
+                        <View style={styles.quizView}>
+                            <View style={styles.quiz}>
+                                <Image source={require('../../assets/images/icon/radioButton.png')} />
+                                <Text style={styles.responseRadioButton}>คุณสามารถรับประทานอาหาร</Text>
+                            </View>
+                            <View style={styles.quiz}>
+                                <Image source={require('../../assets/images/icon/radioButtonActive.png')} />
+                                <Text style={styles.responseRadioButtonActive}>ทำได้อย่างสม่ำเสมอ</Text>
+                            </View>
+                            <View style={styles.quiz}>
+                                <Image source={require('../../assets/images/icon/radioButtonSelection.png')} />
+                                <Text style={styles.responseRadioButtonSelection}>ทำได้อย่างสม่ำเสมอ</Text>
+                            </View>
+                            <View style={styles.quiz}>
+                                <Image source={require('../../assets/images/icon/radioButtonSelection.png')} />
+                                <Text style={styles.responseRadioButtonSelection}>ทำได้อย่างสม่ำเสมอ</Text>
+                            </View>
                         </View>
-                        <View style={styles.quiz} key={"i"}>
-                            <Image source={require('../../assets/images/icon/radioButtonActive.png')} />
-                            <Text style={styles.responseRadioButtonActive}>ทำได้อย่างสม่ำเสมอ</Text>
-                        </View>
-                        <View style={styles.quiz} key={"i"}>
-                            <Image source={require('../../assets/images/icon/radioButtonSelection.png')} />
-                            <Text style={styles.responseRadioButtonSelection}>ทำได้อย่างสม่ำเสมอ</Text>
-                        </View>
-                        <View style={styles.quiz} key={"i"}>
-                            <Image source={require('../../assets/images/icon/radioButtonSelection.png')} />
-                            <Text style={styles.responseRadioButtonSelection}>ทำได้อย่างสม่ำเสมอ</Text>
-                        </View>
-                    </View>
-                    <ListItem.Accordion
-                        content={
-                            <>
-                                <ListItem.Content>
-                                    <ListItem.Title>List Accordion</ListItem.Title>
-                                </ListItem.Content>
-                            </>
-                        }
-                        isExpanded={expanded}
-                        onPress={() => {
-                            this.handlePress(!expanded);
-                        }}
-                    >
-                        <ListItem.Content style={{ marginHorizontal: 16 }}>
-                            <Text>asdasdas</Text>
-                            <Text>asdasdas</Text>
-                            <Text>asdasdas</Text>
-                        </ListItem.Content>
-
-                    </ListItem.Accordion>
+                    </View> */}
 
                 </ScrollView>
-            </View>
+            </View >
         )
     }
 }
@@ -206,10 +393,27 @@ const styles = StyleSheet.create({
         fontFamily: "IBMPlexSansThai-Regular",
         marginRight: 16
     },
+    quizView: {
+        marginLeft: 24
+    },
     quiz: {
         marginTop: 16,
         flexDirection: "row"
     },
+    titleAccordion: {
+        color: colors.grey2,
+        fontSize: ComponentsStyle.fontSize14,
+        fontFamily: "IBMPlexSansThai-Regular",
+    },
+    expand_answerText: {
+        color: colors.grey1,
+        fontSize: ComponentsStyle.fontSize16,
+        fontFamily: "IBMPlexSansThai-Regular",
+        marginHorizontal: 16,
+        marginTop: 8,
+        marginBottom: 16
+    }
+
 });
 
 const mapStateToProps = ({ authUser, getData }) => {

@@ -15,7 +15,7 @@ import ArticleTemplate from '../screens/Nutrition/ArticleTemplate';
 
 
 
-const Tab = createStackNavigator();
+
 const StackNutrition = createStackNavigator();
 function NutritionStackScreen() {
     const navigation = useNavigation();

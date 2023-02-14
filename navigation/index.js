@@ -18,13 +18,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useRoute } from '@react-navigation/native';
 import colors from '../constants/colors';
-import Home from '../screens/Home';
-import Nutrition from '../screens/Nutrition/Nutrition';
-import Exercise from '../screens/Nutrition/Exercise';
-import Activity from '../screens/Nutrition/Activity';
-import Add from '../screens/Nutrition/Add';
-import History from '../screens/Nutrition/History';
-import Successful from '../screens/Nutrition/Successful';
+
 import HomeStackScreen from '../navigation/HomeStackScreen';
 import NutritionStackScreen from '../navigation/NutritionStackScreen';
 import AddStackScreen from '../navigation/AddStackScreen';
@@ -200,7 +194,7 @@ function MyStack(props) {
         headerTintColor: "#3762FC", // ใส่ icon สี ปุ่ม BackTitle
       }}>
 
-      <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+      <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} initialRouteName="Login" />
       <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{
         title: "",
         headerShadowVisible: false, // applied here
