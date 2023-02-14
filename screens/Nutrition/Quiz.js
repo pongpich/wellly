@@ -41,8 +41,8 @@ class QuizAnswer extends Component {
             user_id: user.user_id,
             week_in_program: nutrition_mission.week_in_program
         })
-        console.log("route.name", route.name);
-        // this.props.routeName(route.name);
+        //console.log("route.name", route.name);
+        this.props.routeName(route.name);
 
     }
 

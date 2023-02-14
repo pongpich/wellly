@@ -7,8 +7,9 @@ export const types = {
   PERSONAL_USER: "PERSONAL_USER",
   HEALT_USER: "HEALT_USER",
   LENG_APP: "LENG_APP",
+  LENG_APP: "LENG_APP",
+  ROUTE_NAME: "ROUTE_NAME"
 };
-
 
 
 
@@ -42,6 +43,15 @@ export const lengThEn = (leng) => ({
 });
 
 
+export const routeName = (route_name) => ({
+  type: types.ROUTE_NAME,
+  payload: {
+    route_name,
+  },
+});
+
+
+
 
 /* END OF ACTION Section */
 
@@ -57,6 +67,7 @@ const INIT_STATE = {
   healtDataUser: null,
   profanity: null,
   leng: "th",
+  route_name: null
 };
 
 export function reducer(state = INIT_STATE, action) {
@@ -75,6 +86,11 @@ export function reducer(state = INIT_STATE, action) {
       return {
         ...state,
         leng: action.payload,
+      };
+    case types.ROUTE_NAME:
+      return {
+        ...state,
+        route_name: action.payload,
       };
     default:
       return { ...state };
