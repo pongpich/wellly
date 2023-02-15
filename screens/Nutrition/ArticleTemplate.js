@@ -21,7 +21,7 @@ class ArticleTemplate extends Component {
             study: true,
             quiz: null,
             statusQuiz: true,
-            statusMission: null,
+            statusMission: true,
             statusBarColor: "light",
 
         };
@@ -37,7 +37,8 @@ class ArticleTemplate extends Component {
             numberMission: id,
         })
 
-        this.props.routeName("null");
+        //this.props.routeName("null");
+        // this.props.routeName("Quiz");
 
     }
 
@@ -74,7 +75,8 @@ class ArticleTemplate extends Component {
 
 
     render() {
-        const { statusBarColor, numberMission, study, statusQuiz } = this.state;
+        const { statusBarColor, numberMission, study, statusQuiz, statusMission } = this.state;
+
         return (
             <View style={styles.container}>
                 <View style={{ flex: 1 }}>
@@ -211,7 +213,7 @@ class ArticleTemplate extends Component {
                                     </Pressable>
                                 :
                                 statusMission ?
-                                    <Pressable onPress={() => this.props.navigation.navigate("Quiz")} >
+                                    <Pressable onPress={() => this.props.navigation.navigate("Report")} >
                                         <View style={ComponentsStyle.button} >
                                             <Text style={ComponentsStyle.textButton}>
                                                 ประเมินผล

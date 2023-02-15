@@ -68,7 +68,7 @@ const INIT_STATE = {
   healtDataUser: null,
   profanity: null,
   leng: "th",
-  route_name: null
+  route_name: "null"
 };
 
 export function reducer(state = INIT_STATE, action) {

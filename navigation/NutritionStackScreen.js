@@ -13,6 +13,7 @@ import QuizAnswer from '../screens/Nutrition/QuizAnswer';
 import { useSelector, useDispatch } from "react-redux";
 import Quiz from '../screens/Nutrition/Quiz';
 import ArticleTemplate from '../screens/Nutrition/ArticleTemplate';
+import Report from '../screens/Nutrition/Report';
 
 
 
@@ -21,8 +22,6 @@ const StackNutrition = createStackNavigator();
 function NutritionStackScreen() {
     const navigation = useNavigation();
     const routename = useSelector((state) => state.personalDataUser.route_name);
-
-
 
     /*   console.log("aaa", useSelector(state => ({ ...state }))); */
     return (
@@ -83,28 +82,60 @@ function NutritionStackScreen() {
                     showLabel: false,
                     showLabel: false,
                     headerShadowVisible: false,
-                    headerLeft: () => (
-                        routename && routename.routename === "Quiz" ?
-                            <View style={{ marginLeft: 16 }}>
-                                <TouchableOpacity onPress={() => navigation.popToTop()}>
-                                    <Image
-                                        source={require('../assets/images/icon/caret.png')}
-                                    />
-                                </TouchableOpacity>
-                            </View>
-                            :
-                            <View style={{ marginLeft: 16 }}>
-                                <TouchableOpacity onPress={() => navigation.goBack()}>
-                                    <Image
-                                        source={require('../assets/images/icon/caret.png')}
-                                    />
-                                </TouchableOpacity>
-                            </View>
-                    ),
+                    headerLeft: () => {
+                        return (
+                            routename != null ?
+                                routename.route_name === "Quiz" ?
+                                    <View style={{ marginLeft: 16 }}>
+                                        <TouchableOpacity onPress={() => navigation.popToTop()}>
+                                            <Image
+                                                source={require('../assets/images/icon/caret.png')}
+                                            />
+                                        </TouchableOpacity>
+                                    </View>
+                                    :
+                                    <View style={{ marginLeft: 16 }}>
+                                        <TouchableOpacity onPress={() => navigation.goBack()}>
+                                            <Image
+                                                source={require('../assets/images/icon/caret.png')}
+                                            />
+                                        </TouchableOpacity>
+                                    </View>
+                                :
+                                <View style={{ marginLeft: 16 }}>
+                                    <TouchableOpacity onPress={() => navigation.goBack()}>
+                                        <Image
+                                            source={require('../assets/images/icon/caret.png')}
+                                        />
+                                    </TouchableOpacity>
+                                </View>
+                        )
+                    }
                 })}
             />
 
             <StackNutrition.Screen name="Quiz" component={Quiz}
+                options={({ route, navigation }) => ({
+                    title: "",
+                    headerStyle: {
+                        backgroundColor: colors.white,
+                    },
+                    showLabel: false,
+                    headerShadowVisible: false,
+                    headerLeft: () => (
+                        <View style={{ marginLeft: 16 }}>
+                            <TouchableOpacity onPress={() => navigation.pop()}>
+                                <Image
+                                    source={require('../assets/images/icon/caret.png')}
+                                />
+                            </TouchableOpacity>
+                        </View>
+                    ),
+
+                })}
+            />
+
+            <StackNutrition.Screen name="Report" component={Report}
                 options={({ route, navigation }) => ({
                     title: "",
                     headerStyle: {
