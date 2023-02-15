@@ -12,6 +12,8 @@ import History from '../screens/Nutrition/History';
 import QuizAnswer from '../screens/Nutrition/QuizAnswer';
 import { useSelector, useDispatch } from "react-redux";
 import Quiz from '../screens/Nutrition/Quiz';
+import Home from '../screens/Home';
+import { StackActions } from '@react-navigation/native';
 import ArticleTemplate from '../screens/Nutrition/ArticleTemplate';
 import Report from '../screens/Nutrition/Report';
 
@@ -23,12 +25,12 @@ function NutritionStackScreen() {
     const navigation = useNavigation();
     const routename = useSelector((state) => state.personalDataUser.route_name);
 
-    /*   console.log("aaa", useSelector(state => ({ ...state }))); */
     return (
         <StackNutrition.Navigator >
             <StackNutrition.Screen name="Nutrition" component={Nutrition} options={{
                 headerShown: false
             }} />
+
             <StackNutrition.Screen name="History" component={History}
                 options={({ route, navigation }) => ({
                     title: "",
@@ -87,8 +89,8 @@ function NutritionStackScreen() {
                             routename != null ?
                                 routename.route_name === "Quiz" ?
                                     <View style={{ marginLeft: 16 }}>
-                                        <TouchableOpacity onPress={() => navigation.popToTop()}>
-                                            <Image
+                                        <TouchableOpacity onPress={() => navigation.dispatch(StackActions.replace('Home'))}>
+                                            < Image
                                                 source={require('../assets/images/icon/caret.png')}
                                             />
                                         </TouchableOpacity>
@@ -114,7 +116,7 @@ function NutritionStackScreen() {
                 })}
             />
 
-            <StackNutrition.Screen name="Quiz" component={Quiz}
+            < StackNutrition.Screen name="Quiz" component={Quiz}
                 options={({ route, navigation }) => ({
                     title: "",
                     headerStyle: {
@@ -135,7 +137,7 @@ function NutritionStackScreen() {
                 })}
             />
 
-            <StackNutrition.Screen name="Report" component={Report}
+            < StackNutrition.Screen name="Report" component={Report}
                 options={({ route, navigation }) => ({
                     title: "",
                     headerStyle: {
@@ -156,7 +158,7 @@ function NutritionStackScreen() {
                 })}
             />
 
-        </StackNutrition.Navigator>
+        </StackNutrition.Navigator >
     );
 }
 
