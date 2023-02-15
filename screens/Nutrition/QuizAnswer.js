@@ -8,7 +8,6 @@ import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import { List } from 'react-native-paper';
-import { ListItem, Avatar } from '@rneui/themed';
 
 
 
