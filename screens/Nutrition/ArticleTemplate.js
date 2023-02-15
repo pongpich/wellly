@@ -9,6 +9,7 @@ import { withTranslation } from 'react-i18next';
 import Carbohydrate from '../../components/knowledge/Carbohydrate';
 import { routeName } from "../../redux/personalUser";
 import Mission from '../Nutrition/Mission';
+import Modal from "react-native-modal";
 
 
 class ArticleTemplate extends Component {
@@ -23,6 +24,7 @@ class ArticleTemplate extends Component {
             statusQuiz: true,
             statusMission: true,
             statusBarColor: "light",
+            isModalVisible: false
 
         };
     }
@@ -85,9 +87,36 @@ class ArticleTemplate extends Component {
         }).start();
     };
 
+    evaluatePress() {
+        const { nutrition_activity_id_Mission } = this.props;
+        console.log("nutrition_activity_id_Mission.quiz_activities_number", nutrition_activity_id_Mission.quiz_activities_number);
+        if (nutrition_activity_id_Mission) {
+            if (nutrition_activity_id_Mission.quiz_activities_number) {
+                this.props.navigation.navigate("Report")
+            } else {
+                this.setState({
+                    isModalVisible: true
+                })
+            }
+        }
+    }
+
+    toggleModal(e) {
+        const { isModalVisible } = this.state;
+        this.setState({
+            isModalVisible: !isModalVisible
+        })
+        if (e === 'Report') {
+            this.props.navigation.navigate("Report")
+        } else {
+            this.props.navigation.navigate("Quiz")
+        }
+
+    }
+
 
     render() {
-        const { statusBarColor, numberMission, study, statusQuiz, statusMission } = this.state;
+        const { statusBarColor, numberMission, study, statusQuiz, statusMission, isModalVisible } = this.state;
 
         return (
             <View style={styles.container}>
@@ -130,7 +159,7 @@ class ArticleTemplate extends Component {
                             })
                         }],
                         flex: 1,
-
+                        zIndex: 1,
                         marginBottom: -200,
                     }}>
                         <View style={ComponentsStyle.contentBox}>
@@ -166,11 +195,13 @@ class ArticleTemplate extends Component {
                                     this.slideUp()
                                 }
                             }}
+
                             >
-                                <View style={{ marginHorizontal: 16, marginTop: -30, marginBottom: 100 }}>
+                                <View style={{ marginHorizontal: 16, marginTop: -30, marginBottom: 100, height: "100%", }}>
                                     {
                                         study ? <Carbohydrate /> : <Mission />
                                     }
+
                                 </View>
                             </ScrollView>
 
@@ -189,7 +220,9 @@ class ArticleTemplate extends Component {
                     },
                     shadowOpacity: 0.58,
                     elevation: 0,
+
                 }}>
+
                     <Animated.View
                         style={{
                             transform: [{
@@ -199,6 +232,7 @@ class ArticleTemplate extends Component {
                                 })
                             }],
                             marginBottom: 0,
+                            bottom: 0,
                             height: 80,
                             paddingHorizontal: 16,
                             backgroundColor: colors.white,
@@ -225,7 +259,7 @@ class ArticleTemplate extends Component {
                                     </Pressable>
                                 :
                                 statusMission ?
-                                    <Pressable onPress={() => this.props.navigation.navigate("Report")} >
+                                    <Pressable onPress={() => this.evaluatePress()} >
                                         <View style={ComponentsStyle.button} >
                                             <Text style={ComponentsStyle.textButton}>
                                                 ประเมินผล
@@ -242,8 +276,38 @@ class ArticleTemplate extends Component {
                                     </Pressable>
                         }
                     </Animated.View>
+
+
+                </View>
+
+                <View>
+                    <Pressable title="Show modal" onPress={() => this.toggleModal(isModalVisible)} />
+
+                    <Modal isVisible={isModalVisible}
+
+                        style={styles.centeredView}
+                    >
+                        <View style={styles.modalView}>
+                            <Image
+                                style={styles.imageGeneric}
+                                source={require('../../assets/images/icon/Contextual1.png')}
+                            />
+                            <Text style={styles.modalText}>เอ๊ะ! คุณยังทำแบบฝึกหัดไม่เสร็จ</Text>
+                            <Text style={styles.modalText2}>คุณอาจดูแลสุขภาพตัวเองได้ดียิ่งขึ้น จากการทดสอบผ่านแบบฝึกหัด</Text>
+                            <View style={styles.buttonView}>
+                                <Pressable style={ComponentsStyle.button} onPress={() => this.toggleModal('Quiz')} >
+                                    <Text style={ComponentsStyle.textButton}>ทำแบบฝึกหัด</Text>
+                                </Pressable>
+                            </View>
+                            <Pressable style={styles.buttonCross} onPress={() => this.toggleModal('Report')} >
+                                <Text style={styles.textCross}>ภายหลัง</Text>
+                            </Pressable>
+                        </View>
+                    </Modal>
                 </View>
             </View >
+
+
         )
     }
 }
@@ -325,6 +389,73 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: colors.grey1,
         fontFamily: "IBMPlexSansThai-Regular",
+    },
+    centeredView: {
+        margin: 0,
+        flex: 1,
+        justifyContent: "flex-end",
+        alignItems: "center",
+
+
+    },
+    modalView: {
+        position: "relative",
+        zIndex: 10,
+        backgroundColor: "white",
+        width: "100%",
+        paddingHorizontal: 16,
+        height: 400,
+        borderTopLeftRadius: 24,
+        borderTopRightRadius: 24,
+        /*      marginTop: 0, */
+        alignItems: "center",
+        justifyContent: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 12
+        },
+        marginBottom: 0,
+        shadowOpacity: 0.58,
+        shadowRadius: 16,
+        elevation: 24
+    },
+    imageGeneric: {
+        marginTop: 22,
+        position: "relative",
+        width: 120,
+        height: 120
+    },
+    modalText: {
+        marginTop: 24,
+        textAlign: "center",
+        fontSize: ComponentsStyle.fontSize20,
+        color: colors.grey1,
+        fontFamily: "IBMPlexSansThai-Bold",
+    },
+    modalText2: {
+        width: "90%",
+        marginTop: 8,
+        textAlign: "center",
+        fontFamily: "IBMPlexSansThai-Regular",
+        color: colors.grey2,
+        fontSize: ComponentsStyle.fontSize16,
+    },
+    buttonView: {
+
+        width: "100%",
+
+    },
+    buttonCross: {
+        marginTop: 21,
+        width: "100%",
+        marginBottom: 40
+    },
+    textCross: {
+        fontFamily: "IBMPlexSansThai-Bold",
+        fontSize: 16,
+        color: colors.persianBlue,
+        textAlign: "center",
     },
 
 });

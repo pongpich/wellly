@@ -145,7 +145,8 @@ class Walkthrough extends Component {
                             <Pressable style={ComponentsStyle.button} onPress={() => this.onChanged()} >
                                 <Text style={ComponentsStyle.textButton} >{t('lets_start')}</Text>
                             </Pressable>
-                        </View>}
+                        </View>
+                    }
                 </View>
             </View >
         )
