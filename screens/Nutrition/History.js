@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
         maxHeight: 170,
         height: "auto",
         marginBottom: 16,
-        backgroundColor: colors.neutralGrey6,
+        backgroundColor: colors.grey6,
         borderRadius: 16,
         flexDirection: "row",
 

@@ -152,7 +152,7 @@ const deviceHeight = Math.round(Dimensions.get('window').height);
 const styles = StyleSheet.create({
     fill: {
         flex: 1,
-        backgroundColor: colors.neutralGrey6
+        backgroundColor: colors.grey6
     },
     fill2: {
         marginTop: 107,

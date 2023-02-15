@@ -291,6 +291,9 @@ function getBottomTabse(route) {
   if (routeName == "QuizAnswer") {
     return 'none';
   }
+  if (routeName == "Report") {
+    return 'none';
+  }
 
 
   return 'flex';

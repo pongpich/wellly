@@ -111,7 +111,7 @@ class QuizAnswer extends Component {
                         tintTransparency={true}
                         rotation={360}
                         tintColor={colors.positive1}
-                        backgroundColor={colors.neutralGrey6} >
+                        backgroundColor={colors.grey6} >
                         {
 
                             (fill) => (

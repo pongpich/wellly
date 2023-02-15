@@ -84,14 +84,14 @@ const styles = StyleSheet.create({
     width: "100%",
     marginTop: (devicehHeight > 668) ? 40 : 30,
     /*  marginTop: 40, */
-    backgroundColor: colors.neutralGrey6,
+    backgroundColor: colors.grey6,
     borderRadius: 8,
     flexDirection: "row"
   },
   hrefView: {
     width: "100%",
     marginTop: 16,
-    backgroundColor: colors.neutralGrey6,
+    backgroundColor: colors.grey6,
     borderRadius: 8,
     flexDirection: "row"
   },
