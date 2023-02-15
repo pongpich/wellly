@@ -3,18 +3,32 @@ import { View, StyleSheet, Pressable, SafeAreaView, Image, ScrollView, StatusBar
 import ComponentsStyle from '../../constants/components';
 import colors from '../../constants/colors';
 
-
 class Protein extends Component {
+
+    renderImg(mission_id, img_index, size = 'md') {
+        const imgUrl = `https://wellly.s3.ap-southeast-1.amazonaws.com/knowledge/knowledge/${mission_id}/${mission_id}_${img_index}.jpg`
+        return (
+            <View style={{ justifyContent: "center", alignItems: "center" }}>
+                <View style={(size === 'md') ? styles.boxImage : styles.boxImage2}>
+                    <Image
+                        style={{
+                            width: "100%",
+                            height: "100%",
+                        }}
+                        source={{ uri: imgUrl }}
+                        resizeMode='stretch'
+                    />
+                </View>
+            </View>
+        )
+    }
+
     render() {
         return (
-            <ScrollView>
-                <Image
-                    style={{
-                        width: "100%",
-                    }}
-                    source={require('../../assets/images/knowledge/GN2/GN2_1.jpg')}
-                    resizeMode='contain'
-                />
+            <View style={styles.scrollViewbox} >
+                {
+                    this.renderImg('GN2', 1)
+                }
                 <Text style={styles.title}>
                     โปรตีน
                 </Text>
@@ -22,13 +36,9 @@ class Protein extends Component {
                     เป็นสารอาหารที่ช่วยซ่อมแซมร่างกาย และเพิ่มมวลกล้ามเนื้อมีผลโดยตรงกับการตอบสนอง การฝึก และการออกกำลังกายของกล้ามเนื้อ
                     การรับประทานโปรตีนก่อนออกกำลังกายแบบมี แรงต้านจะสามารถช่วยลดอาการบาดเจ็บที่จะเกิด ขึ้นกับกล้ามเนื้อได้ และทำให้กล้ามเนื้อแข็งแรงขึ้น สำหรับการรับประทานอาหารหรือเครื่องดื่มที่มี โปรตีนเป็นส่วนประกอบทันทีหลังออกกำลังกาย หรือรับประทานในช่วงที่มีการออกกำลังกายที่ ยาวนาน สามารถช่วยคงสภาพหรือเพิ่มมวลกล้าม เนื้อได้ นอกจากนี้ยังช่วยทำให้การใช้พลังงานขณะ ออกกำลังกายมีประสิทธิภาพ
                 </Text>
-                <Image
-                    style={{
-                        width: "100%",
-                    }}
-                    source={require('../../assets/images/knowledge/GN2/GN2_2.jpg')}
-                    resizeMode='contain'
-                />
+                {
+                    this.renderImg('GN2', 2)
+                }
                 <Text style={styles.content}>
                     <Text style={styles.title}>เลือกโปรตีนอย่างไรดี??</Text>{'\n'}
                     {'\n'}
@@ -67,55 +77,60 @@ class Protein extends Component {
                     โยเกิร์ต (Greek Yogurt) ซึ่งให้โปรตีนถึง 18 - 20 กรัมต่อ 1 ถ้วย (285 กรัม) ซึ่งมากกว่าโยเกิร์ตธรรมดาถึง 2 เท่า{'\n'}
                     {'\n'}
                 </Text>
-                <Image
-                    style={{
-                        width: "100%",
-                    }}
-                    source={require('../../assets/images/knowledge/GN2/GN2_4.jpg')}
-                    resizeMode='contain'
-                />
+                {
+                    this.renderImg('GN2', 4)
+                }
                 <Text style={styles.content}>
                     ปริมาณโปรตีนที่แนะนำต่อวันของกลุ่มคนที่ต้อง การสร้างกล้ามเนื้อจะอยู่ที่ 1.2 – 1.7 กรัมโปรตีนต่อน้ำหนักตัว 1 กิโลกรัม ในขณะที่คนที่ออกกำลังกายแบบไม่เน้นเพิ่มกล้าม
                     เนื้อ ควรรับประทานโปรตีนต่อวันอยู่ที่ 1.2 – 1.4 กรัมโปรตีนต่อน้ำหนักตัว 1 กิโลกรัม และ 0.8 – 1 กรัมโปรตีนสำหรับคนทั่วไป ทั้งนี้แนะนำให้เลือกอาหารที่มีไขมันต่ำ และเกลือหรือโซเดียมต่ำด้วย เพราะเกลือจะทำให้ร่างกายบวมน้ำ ซึ่งอาจเป็นสาเหตุให้มองเห็นซิกแพคได้ไม่ชัดเจน ดังนั้นอาหารประเภทโปรตีนที่เลือกจะต้องเป็นโปรตีนไขมันต่ำ และเมื่อปรุงรสจะต้องไม่ปรุงเกลือ หรือใส่ในปริมาณน้อย
                 </Text>
-                <Image
-                    style={{
-                        width: "100%",
-                    }}
-                    source={require('../../assets/images/knowledge/GN2/GN2_3.jpg')}
-                    resizeMode='contain'
-                />
-                <Image
-                    style={{
-                        width: "100%",
-                    }}
-                    source={require('../../assets/images/knowledge/GN2/GN2_5.jpg')}
-                    resizeMode='contain'
-                />
-                <Image
-                    style={{
-                        width: "100%",
-                    }}
-                    source={require('../../assets/images/knowledge/GN2/GN2_6.jpg')}
-                    resizeMode='contain'
-                />
-            </ScrollView>
+                {
+                    this.renderImg('GN2', 3)
+                }
+                {
+                    this.renderImg('GN2', 5, 'lg')
+                }
+                {
+                    this.renderImg('GN2', 6, 'lg')
+                }
+            </View>
+
         )
     }
 }
 
+const deviceHeight = Math.round(Dimensions.get('window').height);
+
+console.log("deviceHeight", deviceHeight);
 
 const styles = StyleSheet.create({
+    scrollViewbox: {
+        marginTop: 0,
+        marginBottom: 50,
+        justifyContent: "center"
+
+    },
     title: {
+        marginTop: 24,
         fontFamily: "IBMPlexSansThai-Bold",
         fontSize: ComponentsStyle.fontSize16,
-        color: colors.grey1
+
     },
     content: {
         fontFamily: "IBMPlexSansThai-Regular",
         fontSize: ComponentsStyle.fontSize16,
         color: colors.grey1
-    }
+    },
+    boxImage: {
+        marginTop: 32,
+        width: (deviceHeight > 1023) ? "100%" : 343,
+        height: (deviceHeight > 1023) ? 400 : 208
+    },
+    boxImage2: {
+        marginTop: 32,
+        width: (deviceHeight > 1023) ? "100%" : 343,
+        height: (deviceHeight > 1023) ? 1100 : 525,
+    },
 })
 
 

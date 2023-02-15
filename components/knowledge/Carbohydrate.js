@@ -5,21 +5,31 @@ import colors from '../../constants/colors';
 
 
 class Carbohydrate extends Component {
+
+    renderImg(mission_id, img_index, size = 'md') {
+        const imgUrl = `https://wellly.s3.ap-southeast-1.amazonaws.com/knowledge/knowledge/${mission_id}/${mission_id}_${img_index}.jpg`
+        return (
+            <View style={{ justifyContent: "center", alignItems: "center" }}>
+                <View style={(size === 'md') ? styles.boxImage : styles.boxImage2}>
+                    <Image
+                        style={{
+                            width: "100%",
+                            height: "100%",
+                        }}
+                        source={{ uri: imgUrl }}
+                        resizeMode='stretch'
+                    />
+                </View>
+            </View>
+        )
+    }
+
     render() {
         return (
             <View style={styles.scrollViewbox} >
-                <View style={{ justifyContent: "center", alignItems: "center" }}>
-                    <View style={styles.boxImage}>
-                        <Image
-                            style={{
-                                width: "100%",
-                                height: "100%",
-                            }}
-                            source={require('../../assets/images/knowledge/GN1_1.png')}
-                            resizeMode='stretch'
-                        />
-                    </View>
-                </View>
+                {
+                    this.renderImg('GN1', 1)
+                }
                 <Text style={styles.title}>
                     คาร์โบไฮเดรต
                 </Text>
@@ -41,40 +51,15 @@ class Carbohydrate extends Component {
                     ต่อน้ำหนักตัว 1 กิโลกรัม เช่น คนน้ำหนักตัว 70 กิโลกรัม จะต้องการคาร์โบไฮเดรตวันละประมาณ 350 - 700 กรัมต่อวันทั้งนี้อาจขึ้นอยู่กับรูปแบบ
                     ความหนักและความนานของการออกกำลังกายด้วย
                 </Text>
-                <View style={{ justifyContent: "center", alignItems: "center" }}>
-                    <View style={styles.boxImage}>
-                        <Image
-                            style={{
-                                width: "100%",
-                                height: "100%",
-
-                            }}
-                            source={require('../../assets/images/knowledge/GN1_2.png')}
-                        /*  resizeMode='stretch' */
-                        />
-                    </View>
-                    <View style={styles.boxImage}>
-                        <Image
-                            style={{
-                                width: "100%",
-                                height: "100%",
-
-                            }}
-                            source={require('../../assets/images/knowledge/GN1_3.png')}
-                        /*  resizeMode='stretch' */
-                        />
-                    </View>
-                    <View style={styles.boxImage2}>
-                        <Image
-                            style={{
-                                width: "100%",
-                                height: "100%"
-                            }}
-                            source={require('../../assets/images/knowledge/GN1_4.png')}
-                        /* resizeMode='stretch' */
-                        />
-                    </View>
-                </View>
+                {
+                    this.renderImg('GN1', 2)
+                }
+                {
+                    this.renderImg('GN1', 3)
+                }
+                {
+                    this.renderImg('GN1', 4, 'lg')
+                }
             </View>
         )
     }
