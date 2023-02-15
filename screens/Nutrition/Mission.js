@@ -28,9 +28,9 @@ class Mission extends Component {
             <View style={styles.container}>
                 {
                     mission && mission.map((value, i,) => {
-                        console.log("mission", value);
+
                         return (
-                            <View style={{ flexDirection: "row", marginRight: 16 }}>
+                            <View style={{ flexDirection: "row", marginRight: 16 }} key={i}>
                                 <Text style={styles.textMission}> {value.index}. </Text>
                                 <Text style={styles.textMission}> {value.title}</Text>
                             </View>

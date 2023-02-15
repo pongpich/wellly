@@ -35,10 +35,18 @@ class ArticleTemplate extends Component {
 
         this.setState({
             numberMission: id,
-        })
+        });
 
-        //this.props.routeName("null");
-        // this.props.routeName("Quiz");
+        if (nutrition_activity_id_Mission) {
+            if (nutrition_activity_id_Mission.quiz_activities_number) {
+                this.setState({
+                    statusQuiz: false,
+                })
+            }
+        }
+
+        this.props.routeName('null');
+
 
     }
 
@@ -52,6 +60,10 @@ class ArticleTemplate extends Component {
             if (nutrition_activity_id_Mission.quiz_activities_number) {
                 this.setState({
                     statusQuiz: false,
+                })
+            } else {
+                this.setState({
+                    statusQuiz: true,
                 })
             }
         }
