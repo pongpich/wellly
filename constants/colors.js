@@ -21,11 +21,12 @@ export default {
   wireframeLine: '#734C99',
   positive1: '#22B967',
   positive2: '#D3F1E1',
-  positive2: '#E9F8F0',
+  positive3: '#E9F8F0',
   mayaBlue: '#69CBE4',
   mayaBlue60: '#9BE0EF',
   mayaBlue20: '#DEF5FA',
   neutralGrey: '#D4E0F0',
+  neutralGrey3: '#93A8C1',
   secondary_MayaBlue: '#59CBE4'
 
 };
