@@ -4,6 +4,7 @@ import colors from '../../constants/colors';
 import { getNutritionMission } from "../../redux/get";
 import ComponentsStyle from '../../constants/components';
 import { Checkbox } from 'react-native-paper';
+import { Switch } from 'react-native-switch';
 
 class Report extends Component {
 
@@ -11,7 +12,9 @@ class Report extends Component {
         super(props);
         this.state = {
             isFocused: false,
-            checked: 'unchecked'
+            checked: 'unchecked',
+            switchOn: false,
+            numberArray: 0
         };
     }
 
@@ -64,8 +67,8 @@ class Report extends Component {
     }
 
     render() {
-        const { isFocused, checked } = this.state;
-        console.log("checked", checked);
+        const { isFocused, switchOn, numberArray } = this.state;
+
         return (
             <View style={styles.container}>
                 <StatusBar barStyle="dark-content" />
@@ -175,12 +178,54 @@ class Report extends Component {
                                 />
                             </View>
                         </View>
-                        <View style={styles.viewSwitches}>
+                        <View style={[styles.viewSwitches, switchOn === true ? { backgroundColor: colors.positive3 } : null]}>
+                            <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                                <Text style={[styles.switchesTextHead, switchOn === true ? { color: colors.positive1 } : null]}>ยืนยันคำตอบ</Text>
+                                <Switch
+                                    value={switchOn}
+                                    onValueChange={(value) => this.setState({ switchOn: value })}
+                                    backgroundActive={colors.positive1}
+                                    backgroundInactive={colors.grey4}
+                                    style={styles.switch}
+                                    renderActiveText={false}
+                                    renderInActiveText={false}
+                                    innerCircleStyle={{ alignItems: "center", justifyContent: "center" }}
+                                    circleSize={30}
+                                    barHeight={35}
+                                    switchLeftPx={2.5}
+                                    switchRightPx={2.5}
+                                    switchWidthMultiplier={2}
+                                    switchBorderRadius={30}
+                                    circleBorderWidth={0}
 
+                                />
+                            </View>
+                            <Text style={styles.switchesTexConter}>คำตอบจะมีผลต่อภารกิจถัดไป โดยเมื่อส่งแล้วจะไม่สามารถมาแก้ไขได้</Text>
                         </View>
+                        {numberArray == 0 ?
+                            <Pressable onPress={() => this.allSelectChoiceSubmit()}>
+                                <View style={styles.pressableView}>
+                                    <View style={ComponentsStyle.button}>
+                                        <Text style={ComponentsStyle.textButton}>
+                                            ส่งคำตอบ
+                                        </Text>
+                                    </View>
+                                </View>
+                            </Pressable>
+                            :
+                            <Pressable>
+                                <View style={styles.pressableView}>
+                                    <View style={ComponentsStyle.buttonGrey}>
+                                        <Text style={ComponentsStyle.textButtonGrey}>
+                                            ส่งคำตอบ
+                                        </Text>
+                                    </View>
+                                </View>
+                            </Pressable>
+                        }
                     </ScrollView>
-                </View>
-            </View>
+                </View >
+            </View >
         )
     }
 }
@@ -189,13 +234,13 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         position: "relative",
-        backgroundColor: colors.white
-
+        backgroundColor: colors.white,
     },
     areaView: {
         marginLeft: 16,
         marginRight: 16,
-        flex: 1
+        flex: 1,
+
     },
     exercise: {
         color: colors.grey1,
@@ -238,10 +283,24 @@ const styles = StyleSheet.create({
         marginTop: 16
     },
     viewSwitches: {
-        backgroundColor: colors.grey3,
+        marginTop: 24,
+        backgroundColor: colors.grey6,
         width: "100%",
-        height: 40
-    }
+        height: "auto",
+        borderRadius: 16,
+        padding: 16,
+    },
+    switchesTextHead: {
+        color: colors.grey3,
+        fontSize: ComponentsStyle.fontSize16,
+        fontFamily: "IBMPlexSansThai-Bold",
+    },
+    switchesTexConter: {
+        width: "80%",
+        color: colors.neutralGrey3,
+        fontSize: ComponentsStyle.fontSize14,
+        fontFamily: "IBMPlexSansThai-Regular",
+    },
 });
 
 export default Report;
