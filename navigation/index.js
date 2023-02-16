@@ -294,6 +294,12 @@ function getBottomTabse(route) {
   if (routeName == "Report") {
     return 'none';
   }
+  if (routeName == "ConfirmSubmit") {
+    return 'none';
+  }
+  if (routeName == "ReportFeedback") {
+    return 'none';
+  }
 
 
   return 'flex';

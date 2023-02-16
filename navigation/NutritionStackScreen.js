@@ -16,6 +16,8 @@ import Home from '../screens/Home';
 import { StackActions } from '@react-navigation/native';
 import ArticleTemplate from '../screens/Nutrition/ArticleTemplate';
 import Report from '../screens/Nutrition/Report';
+import ConfirmSubmit from '../screens/Nutrition/ConfirmSubmit';
+import ReportFeedback from '../screens/Nutrition/ReportFeedback';
 
 
 
@@ -137,7 +139,7 @@ function NutritionStackScreen() {
                 })}
             />
 
-            < StackNutrition.Screen name="Report" component={Report}
+            <StackNutrition.Screen name="Report" component={Report}
                 options={({ route, navigation }) => ({
                     title: "",
                     headerStyle: {
@@ -156,6 +158,13 @@ function NutritionStackScreen() {
                     ),
 
                 })}
+            />
+
+            <StackNutrition.Screen name="ConfirmSubmit" component={ConfirmSubmit}
+                options={{ headerShown: false }}
+            />
+            <StackNutrition.Screen name="ReportFeedback" component={ReportFeedback}
+                options={{ headerShown: false }}
             />
 
         </StackNutrition.Navigator >

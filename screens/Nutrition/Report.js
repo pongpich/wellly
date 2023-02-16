@@ -63,7 +63,10 @@ class Report extends Component {
                 checked: 'checked'
             });
         }
+    }
 
+    submit() {
+        this.props.navigation.navigate("ConfirmSubmit")
     }
 
     render() {
@@ -203,7 +206,7 @@ class Report extends Component {
                             <Text style={styles.switchesTexConter}>คำตอบจะมีผลต่อภารกิจถัดไป โดยเมื่อส่งแล้วจะไม่สามารถมาแก้ไขได้</Text>
                         </View>
                         {numberArray == 0 ?
-                            <Pressable onPress={() => this.allSelectChoiceSubmit()}>
+                            <Pressable onPress={() => this.submit()}>
                                 <View style={styles.pressableView}>
                                     <View style={ComponentsStyle.button}>
                                         <Text style={ComponentsStyle.textButton}>
@@ -213,7 +216,7 @@ class Report extends Component {
                                 </View>
                             </Pressable>
                             :
-                            <Pressable>
+                            <Pressable >
                                 <View style={styles.pressableView}>
                                     <View style={ComponentsStyle.buttonGrey}>
                                         <Text style={ComponentsStyle.textButtonGrey}>

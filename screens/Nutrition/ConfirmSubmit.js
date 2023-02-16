@@ -1,0 +1,87 @@
+import React, { Component } from 'react';
+import { ScrollView, View, Dimensions, StyleSheet, StatusBar, TouchableOpacity, Image, Text, Pressable, Animated } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
+import ComponentsStyle from '../../constants/components';
+import colors from '../../constants/colors';
+
+class ConfirmSubmit extends Component {
+    render() {
+        return (
+            <LinearGradient
+                style={ComponentsStyle.container}
+                colors={['#59CBE4', 'white', 'white']}
+                start={{ x: 1, y: 0 }}
+                end={{ x: 1, y: 1 }}
+            >
+                <View style={styles.container}>
+                    <View style={styles.viewImage}>
+                        <Image style={{ width: 144, height: 144 }} source={require('../../assets/images/icon/Generic_d.png')} />
+                        <Text style={styles.textHead}>เยี่ยมมาก!</Text>
+                        <Text style={styles.textConter}>ดูผลประเมินพร้อมคำแนะนำได้ที่ปุ่มด้านล่าง</Text>
+                    </View>
+                    <View>
+                        <View style={styles.buttonView}>
+                            <View style={{ width: "48%" }}>
+                                <Pressable onPress={() => this.props.navigation.popToTop()}  >
+                                    <View style={ComponentsStyle.buttonWhite} >
+                                        <Text style={ComponentsStyle.textButtonWhite}>
+                                            กลับหน้าแรก
+                                        </Text>
+                                    </View>
+                                </Pressable>
+                            </View>
+                            <View style={{ width: "48%", marginLeft: 16 }}>
+                                <Pressable onPress={() => this.props.navigation.navigate("ReportFeedback")}  >
+                                    <View style={ComponentsStyle.button} >
+                                        <Text style={ComponentsStyle.textButton}>
+                                            ดูผลประเมิน
+                                        </Text>
+                                    </View>
+                                </Pressable>
+                            </View>
+
+
+
+
+                        </View>
+                    </View>
+
+                </View>
+
+            </LinearGradient>
+        )
+    }
+}
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        position: "relative",
+        justifyContent: "space-between"
+    },
+    viewImage: {
+        alignItems: "center",
+        marginTop: 120
+
+    },
+    textHead: {
+        marginTop: 24,
+        color: colors.grey1,
+        fontSize: ComponentsStyle.fontSize20,
+        fontFamily: "IBMPlexSansThai-Bold",
+    },
+    textConter: {
+        marginTop: 8,
+        color: colors.grey2,
+        fontSize: ComponentsStyle.fontSize16,
+        fontFamily: "IBMPlexSansThai-Regular",
+    },
+    buttonView: {
+
+        flexDirection: "row",
+        marginBottom: 40,
+        marginHorizontal: 16,
+        alignItems: "center",
+    }
+});
+export default ConfirmSubmit;
