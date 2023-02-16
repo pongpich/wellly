@@ -64,18 +64,19 @@ class ReportFeedback extends Component {
                         <Text style={styles.textWeek}>สัปดาห์ที่ 1</Text>
                     </View>
                 </View>
-                <View style={styles.conterBox}>
-                    <Animated.View style={{
-                        transform: [{
-                            translateY: this.slideAnim.interpolate({
-                                inputRange: [0, 1],
-                                outputRange: [0, -100]
-                            })
-                        }],
-                        flex: 1,
-                        zIndex: 1,
-                        marginBottom: 120,
-                    }}>
+
+                <Animated.View style={{
+                    transform: [{
+                        translateY: this.slideAnim.interpolate({
+                            inputRange: [0, 1],
+                            outputRange: [0, -100]
+                        })
+                    }],
+                    flex: 1,
+                    zIndex: 1,
+                    marginBottom: -120,
+                }}>
+                    <View style={styles.conterBox}>
                         <View style={ComponentsStyle.contentBox}>
                             <ScrollView onScroll={(event) => {
                                 const scrolling = event.nativeEvent.contentOffset.y;
@@ -134,8 +135,8 @@ class ReportFeedback extends Component {
                                 </View>
                             </ScrollView>
                         </View>
-                    </Animated.View>
-                </View >
+                    </View >
+                </Animated.View>
             </View >
         )
     }
@@ -191,16 +192,19 @@ const styles = StyleSheet.create({
         zIndex: 1,
         backgroundColor: colors.white,
         padding: 16,
-
-
+    },
+    clauseBoxView: {
+        marginBottom: 24
     },
     conterScrollView: {
         width: "100%",
+
     },
     clause: {
         color: colors.grey1,
         fontSize: ComponentsStyle.fontSize16,
         fontFamily: "IBMPlexSansThai-Regular",
+
     },
     clauseView: {
         marginTop: 8,
