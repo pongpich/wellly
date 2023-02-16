@@ -91,13 +91,11 @@ const getNutritionActivityIdMissionSagaAsync = async (user_id, mission_id) => {
 
 const getNutritionActivitySagaAsync = async (user_id) => {
   try {
-    console.log("test naa");
     const apiResult = await API.get("planforfit", "/getNutritionActivity", {
       queryStringParameters: {
         user_id
       }
     });
-    console.log("apiResult", apiResult);
     return apiResult
   } catch (error) {
     return { error, messsage: error.message };
@@ -165,15 +163,13 @@ function* getNutritionActivitySaga({ payload }) {
   } = payload
 
   try {
-    console.log("test naa");
     const apiResult = yield call(
       getNutritionActivitySagaAsync,
       user_id
     )
-    console.log("apiResult :", apiResult);
     yield put({
       type: types.GET_NUTRITION_ACTIVITY_SUCCESS,
-      payload: apiResult.results
+      payload: apiResult.results.nutrition_activity
     })
 
   } catch (error) {

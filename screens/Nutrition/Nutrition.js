@@ -5,6 +5,8 @@ import colors from '../../constants/colors';
 import ComponentsStyle from '../../constants/components';
 import { AntDesign } from '@expo/vector-icons';
 import { useSelector, useDispatch } from "react-redux";
+import { connect } from 'react-redux';
+import { getNutritionActivity } from "../../redux/get";
 
 const HEADER_MAX_HEIGHT = 500;
 const HEADER_MIN_HEIGHT = 10;
@@ -17,6 +19,11 @@ const data = Array.from({ length: 30 });
 
 
 const Nutrition = ({ navigation }) => {
+    const dispatch = useDispatch();
+    const user = useSelector(({ authUser }) => authUser ? authUser.user : "");
+    const nutrition_activity = useSelector(({ getData }) => getData ? getData.nutrition_activity : "");
+    const statusGetNutritionActivity = useSelector(({ getData }) => getData ? getData.statusGetNutritionActivity : "");
+
     const [statusNotified, setStatusNotified] = useState(null);
     const [startDate, setStartDate] = useState(1);
 
@@ -34,16 +41,20 @@ const Nutrition = ({ navigation }) => {
 
     }
 
-    React.useEffect(() => {
+    useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
             // do something  // ตอน  focus หน้า
-
+            console.log(" user :", user);
+            console.log(" nutrition_activity :", nutrition_activity);
+            console.log(" statusGetNutritionActivity :", statusGetNutritionActivity);
+            dispatch(getNutritionActivity((user && user.user_id)));
 
         });
 
         return unsubscribe;
 
     }, [navigation]);
+
 
 
     return (
@@ -314,5 +325,12 @@ const styles = StyleSheet.create({
     }
 });
 
+/* const mapStateToProps = ({ authUser, getData }) => {
+    const { user } = authUser;
+    const { statusGetNutritionActivity, nutrition_activity } = getData;
+    return { statusGetNutritionActivity, nutrition_activity, user };
+};
+
+const mapActionsToProps = { getNutritionActivity }; */
 
 export default Nutrition;
