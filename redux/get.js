@@ -19,8 +19,11 @@ export const getProfanity = () => ({
   type: types.GET_PROFANITY
 });
 
-export const getNutritionMission = () => ({
-  type: types.GET_NUTRITION_MISSION
+export const getNutritionMission = (mission_id) => ({
+  type: types.GET_NUTRITION_MISSION,
+  payload: {
+    mission_id
+  }
 });
 
 export const getNutritionActivityIdMission = (user_id, mission_id) => ({
@@ -59,11 +62,11 @@ const getProfanitySagaAsync = async () => {
   }
 };
 
-const getNutritionMissionSagaAsync = async () => {
+const getNutritionMissionSagaAsync = async (mission_id) => {
   try {
     const apiResult = await API.get("planforfit", "/getNutritionMission", {
       queryStringParameters: {
-
+        mission_id
       }
 
     });
@@ -118,10 +121,12 @@ function* getProfanitySaga({ }) {
   }
 }
 
-function* getNutritionMissionSaga({ }) {
+function* getNutritionMissionSaga({ payload }) {
+  const { mission_id } = payload;
   try {
     const apiResult = yield call(
-      getNutritionMissionSagaAsync
+      getNutritionMissionSagaAsync,
+      mission_id
     );
     yield put({
       type: types.GET_NUTRITION_MISSION_SUCCESS,

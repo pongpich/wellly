@@ -44,9 +44,9 @@ const Nutrition = ({ navigation }) => {
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
             // do something  // ตอน  focus หน้า
-            console.log(" user :", user);
-            console.log(" nutrition_activity :", nutrition_activity);
-            console.log(" statusGetNutritionActivity :", statusGetNutritionActivity);
+            /*       console.log(" user :", user);
+                  console.log(" nutrition_activity :", nutrition_activity);
+                  console.log(" statusGetNutritionActivity :", statusGetNutritionActivity); */
             dispatch(getNutritionActivity((user && user.user_id)));
 
         });
@@ -92,7 +92,7 @@ const Nutrition = ({ navigation }) => {
                     {nutrition_activity ?
 
                         nutrition_activity.map((item, i) => (
-                            <TouchableWithoutFeedback onPress={() => navigation.navigate("ArticleTemplate", { id: i + 1 })} key={i + "tfb"}>
+                            <TouchableWithoutFeedback onPress={() => navigation.navigate("ArticleTemplate", { id: i + 1, mission_id: item.mission_id, heading: item.heading })} key={i + "tfb"}>
                                 <View key={i} style={styles.row}>
                                     <View style={styles.numberView}>
                                         <Text style={styles.number}>{i + 1}</Text>

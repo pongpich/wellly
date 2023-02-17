@@ -6,10 +6,22 @@ import ComponentsStyle from '../../constants/components';
 import { logoutUser } from "../../redux/auth";
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
-import Carbohydrate from '../../components/knowledge/Carbohydrate';
 import { routeName } from "../../redux/personalUser";
 import Mission from '../Nutrition/Mission';
 import Modal from "react-native-modal";
+//บทความ
+import Gn1 from '../../components/knowledge/Gn1';
+import Gn2 from '../../components/knowledge/Gn2';
+import Gn3 from '../../components/knowledge/Gn3';
+import Gn4 from '../../components/knowledge/Gn4';
+import Gn5 from '../../components/knowledge/Gn5';
+import Gn6 from '../../components/knowledge/Gn6';
+import Sna1 from '../../components/knowledge/Sna1';
+import Sna2 from '../../components/knowledge/Sna2';
+import Snb1 from '../../components/knowledge/Snb1';
+import Snb2 from '../../components/knowledge/Snb2';
+import Snc1 from '../../components/knowledge/Snc1';
+import Snc2 from '../../components/knowledge/Snc2';
 
 
 class ArticleTemplate extends Component {
@@ -31,9 +43,12 @@ class ArticleTemplate extends Component {
 
     componentDidMount() {
         const { nutrition_mission, user, nutrition_activity_id_Mission, route } = this.props;
-        this.props.getNutritionActivityIdMission(user.user_id, nutrition_mission.id)
+
         // รับ   params จาก  route
-        const { id } = this.props.route.params;
+        const { id, mission_id } = this.props.route.params;
+
+        this.props.getNutritionActivityIdMission(user.user_id, mission_id);
+        this.props.getNutritionMission(mission_id);
 
         this.setState({
             numberMission: id,
@@ -89,7 +104,7 @@ class ArticleTemplate extends Component {
 
     evaluatePress() {
         const { nutrition_activity_id_Mission } = this.props;
-        console.log("nutrition_activity_id_Mission.quiz_activities_number", nutrition_activity_id_Mission.quiz_activities_number);
+        console.log("nutrition_activity_id_Mission.quiz_activities_number :", nutrition_activity_id_Mission.quiz_activities_number);
         if (nutrition_activity_id_Mission) {
             if (nutrition_activity_id_Mission.quiz_activities_number) {
                 this.props.navigation.navigate("Report")
@@ -114,9 +129,30 @@ class ArticleTemplate extends Component {
 
     }
 
+    renderCheckArticle() { //เช็คว่าจะแสดงบทความไหน โดยใช้ mission_id
+        const { mission_id } = this.props.route.params;
+        return (
+            <View>
+                {(mission_id === 'gn1') && <Gn1 />}
+                {(mission_id === 'gn2') && <Gn2 />}
+                {(mission_id === 'gn3') && <Gn3 />}
+                {(mission_id === 'gn4') && <Gn4 />}
+                {(mission_id === 'gn5') && <Gn5 />}
+                {(mission_id === 'gn6') && <Gn6 />}
+                {(mission_id === 'sna1') && <Sna1 />}
+                {(mission_id === 'sna2') && <Sna2 />}
+                {(mission_id === 'snb1') && <Snb1 />}
+                {(mission_id === 'snb2') && <Snb2 />}
+                {(mission_id === 'snc1') && <Snc1 />}
+                {(mission_id === 'snc2') && <Snc2 />}
+            </View>
+        )
+    }
 
     render() {
         const { statusBarColor, numberMission, study, statusQuiz, statusMission, isModalVisible } = this.state;
+        const { nutrition_activity_id_Mission } = this.props;
+        const { heading } = this.props.route.params;
 
         return (
             <View style={styles.container}>
@@ -147,7 +183,7 @@ class ArticleTemplate extends Component {
                         </View>
                         <View style={ComponentsStyle.nutritionMission}>
                             <Text style={ComponentsStyle.missionHead}>ภารกิจโภชนาการ</Text>
-                            <Text style={ComponentsStyle.missionHeading}>Energy พร้อม!!!</Text>
+                            <Text style={ComponentsStyle.missionHeading}>{heading}</Text>
                         </View>
                     </View>
                     {/* </Animated.View> */}
@@ -199,7 +235,10 @@ class ArticleTemplate extends Component {
                             >
                                 <View style={{ marginHorizontal: 16, marginTop: -30, marginBottom: 100, height: "100%", }}>
                                     {
-                                        study ? <Carbohydrate /> : <Mission />
+                                        study ?
+                                            this.renderCheckArticle()
+                                            :
+                                            <Mission />
                                     }
 
                                 </View>
