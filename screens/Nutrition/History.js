@@ -28,7 +28,7 @@ class History extends Component {
                         {
                             nutrition_activity && nutrition_activity.map((item, i) => (
                                 //ส่ง params ผ่าน route
-                                <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate("ArticleTemplate", { id: i + 1 })} key={i + "fee"}>
+                                <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate("ArticleTemplate", { id: i + 1, mission_id: item.mission_id, heading: item.heading })} key={i + "fee"}>
                                     <View key={i} style={styles.row}>
                                         <View style={styles.numberView}>
                                             <Text style={styles.number}>{i + 1}</Text>
