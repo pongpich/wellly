@@ -89,18 +89,18 @@ const Nutrition = ({ navigation }) => {
 
                     </View>
 
-                    {data.length ?
+                    {nutrition_activity ?
 
-                        data.map((_, i) => (
+                        nutrition_activity.map((item, i) => (
                             <TouchableWithoutFeedback onPress={() => navigation.navigate("ArticleTemplate", { id: i + 1 })} key={i + "tfb"}>
                                 <View key={i} style={styles.row}>
                                     <View style={styles.numberView}>
                                         <Text style={styles.number}>{i + 1}</Text>
                                     </View>
                                     <View style={styles.missionData}>
-                                        <Text style={styles.missionHead}>เริ่มต้นดีมีชัยไปกว่าครึ่ง ARE U READY ??</Text>
+                                        <Text style={styles.missionHead}>{item.heading}</Text>
                                         <Text style={styles.missionContent}>
-                                            การเลือกอาหารและโภชนาการถือเป็นเรื่องสำคัญอย่างมากสำหรับผู้ที่ออกกำลังกายอย่าง
+                                            {item.short_content}
                                         </Text>
                                         {
                                             statusNotified == 1 ?
