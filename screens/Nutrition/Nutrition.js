@@ -43,10 +43,7 @@ const Nutrition = ({ navigation }) => {
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
-            // do something  // ตอน  focus หน้า
-            /*       console.log(" user :", user);
-                  console.log(" nutrition_activity :", nutrition_activity);
-                  console.log(" statusGetNutritionActivity :", statusGetNutritionActivity); */
+     
             dispatch(getNutritionActivity((user && user.user_id)));
 
         });

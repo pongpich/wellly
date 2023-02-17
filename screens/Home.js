@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, StyleSheet, Pressable, SafeAreaView, Image, ScrollView, StatusBar, statusBarStyle, statusBarTransition, hidden, TouchableOpacity, TextInput, Text, Linking, KeyboardAvoidingView, Platform, Dimensions, Modal, InputAccessoryView, Keyboard } from 'react-native';
 import { logoutUser } from "../redux/auth";
 import { getNutritionMission } from "../redux/get";
+import { insertNutritionActivity } from "../redux/update";
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 import { routeName } from "../redux/personalUser";
@@ -13,13 +14,13 @@ class Home extends Component {
 
         this._unsubscribe = this.props.navigation.addListener('focus', () => {
             // do something
-            console.log("8888");
+            this.props.insertNutritionActivity(user && user.user_id);
         });
 
         if (!user) {
             this.props.navigation.navigate("Login");
         } else if (user) {
-            this.props.getNutritionMission()
+            this.props.insertNutritionActivity(user.user_id)
         }
 
         // this.props.routeName(null); // ถ้าเข้าให้ home ให้ทำคำสั่งนี้ 1 ครั้ง
@@ -93,7 +94,7 @@ const mapStateToProps = ({ authUser, getData, personalDataUser }) => {
     return { user, nutrition_mission, statusGetNutritionMission, route_name };
 };
 
-const mapActionsToProps = { logoutUser, getNutritionMission, routeName };
+const mapActionsToProps = { logoutUser, getNutritionMission, routeName, insertNutritionActivity };
 
 export default connect(
     mapStateToProps,
