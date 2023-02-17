@@ -5,6 +5,7 @@ import ComponentsStyle from '../../constants/components';
 import { AntDesign } from '@expo/vector-icons';
 import { missionNumber } from "../../redux/personalUser";
 import { connect } from 'react-redux';
+import { getNutritionActivity } from "../../redux/get";
 
 
 
@@ -17,6 +18,7 @@ class History extends Component {
 
 
     render() {
+        const { nutrition_activity } = this.props;
 
         return (
             <SafeAreaView style={styles.container}>
@@ -24,7 +26,7 @@ class History extends Component {
                     <Text style={styles.missionHistory}>ประวัติภารกิจ</Text>
                     <ScrollView>
                         {
-                            data.map((_, i) => (
+                            nutrition_activity && nutrition_activity.map((item, i) => (
                                 //ส่ง params ผ่าน route
                                 <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate("ArticleTemplate", { id: i + 1 })} key={i + "fee"}>
                                     <View key={i} style={styles.row}>
@@ -32,9 +34,9 @@ class History extends Component {
                                             <Text style={styles.number}>{i + 1}</Text>
                                         </View>
                                         <View style={styles.missionData}>
-                                            <Text style={styles.missionHead}>เริ่มต้นดีมีชัยไปกว่าครึ่ง ARE U READY ??</Text>
+                                            <Text style={styles.missionHead}>{item.heading}</Text>
                                             <Text style={styles.missionContent}>
-                                                การเลือกอาหารและโภชนาการถือเป็นเรื่องสำคัญอย่างมากสำหรับผู้ที่ออกกำลังกายอย่าง
+                                                {item.short_content}
                                             </Text>
                                         </View>
                                         <View style={styles.viewIconRight}>
@@ -126,12 +128,14 @@ const styles = StyleSheet.create({
     },
 
 })
-const mapStateToProps = ({ personalDataUser }) => {
+const mapStateToProps = ({ personalDataUser, authUser, getData }) => {
     const { number } = personalDataUser;
-    return { number };
+    const { user } = authUser;
+    const { statusGetNutritionActivity, nutrition_activity } = getData;
+    return { number, statusGetNutritionActivity, nutrition_activity, user };
 };
 
-const mapActionsToProps = { missionNumber };
+const mapActionsToProps = { getNutritionActivity };
 
 export default connect(
     mapStateToProps,
