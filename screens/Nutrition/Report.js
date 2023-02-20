@@ -301,10 +301,11 @@ class Report extends Component {
                                     )
                                 } else {
                                     if (value.type === checkList) {
-
                                         let data = value.choice.clause.clause_question;
                                         let choices = [value.choice.clause];
                                         const array = Object.entries(choices[0]);
+
+
                                         return (
                                             <View key={i + "vl"}>
                                                 <Text style={styles.question}>
@@ -312,8 +313,25 @@ class Report extends Component {
                                                 </Text>
                                                 {
                                                     array.map((item, k) => {
-                                                        //     console.log("item", item[0], item[1]);
                                                         let ind = value.choice.clause.index;
+                                                        var result2 = assessmentKitActivities && assessmentKitActivities.filter((member) => {
+                                                            if (member.index == ind) {
+
+                                                                console.log("member", member);
+                                                                /*    if (member == true) {
+                                                                       console.log("member", member);
+                                                                   } */
+
+                                                                // return member == true
+                                                            }
+
+                                                            /* if (member && member.type === checkList) {
+                                                                console.log(member.index, ind);
+                                                                  return member.index === ind
+                                                            } */
+                                                        })
+                                                        //console.log("result2", result2);
+
                                                         if (item[0] != 'index') {
                                                             if (item[0] != 'clause_question') {
                                                                 return (
@@ -437,7 +455,7 @@ class Report extends Component {
                                 </View>
                                 <Text style={styles.switchesTexConter}>คำตอบจะมีผลต่อภารกิจถัดไป โดยเมื่อส่งแล้วจะไม่สามารถมาแก้ไขได้</Text>
                             </View>
-                            {(numberArray === true) || (numberArrayCheck === true) ?
+                            {((numberArray === true) || (numberArrayCheck === true)) && (switchOn === true) ?
                                 <Pressable onPress={() => this.submit()}>
                                     <View style={styles.pressableView}>
                                         <View style={ComponentsStyle.button}>
