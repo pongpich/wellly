@@ -40,7 +40,6 @@ class Report extends Component {
 
             if ((assessmentKitActivities === null)) {
                 let value = assessment_kit && assessment_kit.map((value, i) => {
-
                     var choice = value.choice.clause;
                     if (value.type === multiplChoice) {
                         return {
@@ -140,37 +139,16 @@ class Report extends Component {
 
 
         assessmentKitActivities.forEach((animal) => {
-
             if (animal.index == index) {
                 const array = Object.entries(animal);
                 var result = array && array.filter((member) => {
                     return member[0] == choice;
                 })
                 let status = !result[0][1];
-                if (choice == 'a') {
-                    animal.a = status;
-                }
-                if (choice == 'b') {
-                    animal.b = status;
-                }
-                if (choice == 'c') {
-                    animal.c = status;
-                }
-                if (choice == 'd') {
-                    animal.d = status;
-                }
-                if (choice == 'e') {
-                    animal.e = status;
-                }
-                if (choice == 'f') {
-                    animal.f = status;
-                }
-                if (choice == 'g') {
-                    animal.g = status;
-                }
+
+                animal[choice] = status;
             }
         })
-
         this.setState({
             assessmentKitActivities: assessmentKitActivities
         })
