@@ -53,9 +53,7 @@ class Report extends Component {
                             "index": choice.index,
                         }
                     } else {
-
                         const array = Object.entries(choice);
-
                         let myObj = array.map((value, i) => {
                             var val = value[0]
                             let val2 = value[1]
@@ -70,29 +68,13 @@ class Report extends Component {
                                 myArray = { [val]: val2 };
                             }
                             return myArray;
-                            //  console.log("value", Object.assign({}, value));
                         })
-
                         let mu = myObj.reduce(function (result, item) {
-                            var key = Object.keys(item)[0]; //first property: a, b, c
+                            var key = Object.keys(item)[0];
                             result[key] = item[key];
                             return result;
                         }, {});
                         return mu;
-
-                        //  console.log("array", array);
-                        /*  return {
-                             "a": false,
-                             "b": false,
-                             "c": false,
-                             "d": false,
-                             "e": false,
-                             "f": false,
-                             "g": false,
-                             "type": value.type,
-                             "index": choice.index,
-                         }
-        */
                     }
 
 
