@@ -38,7 +38,6 @@ class Report extends Component {
                 missionId: nutrition_mission.id,
             })
 
-            console.log("11", assessment_kit.type);
             if ((assessmentKitActivities === null)) {
                 let value = assessment_kit && assessment_kit.map((value, i) => {
 
@@ -55,17 +54,17 @@ class Report extends Component {
                         }
                     } else {
                         return {
-                            "select_choice": null,
-                            "a": null,
-                            "b": null,
-                            "c": null,
-                            "d": null,
-                            "e": null,
-                            "f": null,
-                            "g": null,
+                            "a": false,
+                            "b": false,
+                            "c": false,
+                            "d": false,
+                            "e": false,
+                            "f": false,
+                            "g": false,
                             "type": value.type,
                             "index": choice.index,
                         }
+
                     }
 
 
@@ -93,29 +92,6 @@ class Report extends Component {
         })
     }
 
-    allSelectChoice(index, choice) {
-        /*    const { user_id, week_in_program, missionId, allSelectChoice } = this.state;
-           allSelectChoice.forEach((animal) => {
-               if (animal.index == index) {
-                   animal.select_choice = choice
-               }
-           })
-           this.setState({
-               allSelectChoice: allSelectChoice
-           })
-   
-   
-           let result = allSelectChoice && allSelectChoice.filter((member) => {
-               return member.select_choice == null
-           })
-           this.setState({
-               numberArray: result.length
-           })
-   
-           this.props.update_quiz_activities(user_id, week_in_program, allSelectChoice, null); */
-
-    }
-
     checkedBox(checked) {
         console.log("asd");
         if (checked === 'checked') {
@@ -130,10 +106,8 @@ class Report extends Component {
     }
 
     allSelectChoice(index, choice) {
-        console.log(index, choice);
+        //  console.log(index, choice);
         const { user_id, week_in_program, missionId, assessmentKitActivities } = this.state;
-
-        //  console.log('assessmentKitActivities', assessmentKitActivities);
         assessmentKitActivities.forEach((animal) => {
             if (animal.index == index) {
                 animal.select_choice = choice
@@ -142,16 +116,54 @@ class Report extends Component {
         this.setState({
             assessmentKitActivities: assessmentKitActivities
         })
-
-
         let result = assessmentKitActivities && assessmentKitActivities.filter((member) => {
             return member.select_choice == null
         })
         this.setState({
             numberArray: result.length
         })
-
         // this.props.update_quiz_activities(user_id, week_in_program, allSelectChoice, null);
+    }
+
+    allCheckList(index, choice) {
+        const { user_id, week_in_program, missionId, assessmentKit, assessmentKitActivities } = this.state;
+
+
+        assessmentKitActivities.forEach((animal) => {
+
+            if (animal.index == index) {
+                const array = Object.entries(animal);
+                var result = array && array.filter((member) => {
+                    return member[0] == choice;
+                })
+                let status = !result[0][1];
+                if (choice == 'a') {
+                    animal.a = status;
+                }
+                if (choice == 'b') {
+                    animal.b = status;
+                }
+                if (choice == 'c') {
+                    animal.c = status;
+                }
+                if (choice == 'd') {
+                    animal.d = status;
+                }
+                if (choice == 'e') {
+                    animal.e = status;
+                }
+                if (choice == 'f') {
+                    animal.f = status;
+                }
+                if (choice == 'g') {
+                    animal.g = status;
+                }
+            }
+        })
+        console.log("assessmentKitActivities", assessmentKitActivities);
+        /*  this.setState({
+             assessmentKitActivities: assessmentKitActivities
+         }) */
 
     }
 
@@ -159,9 +171,11 @@ class Report extends Component {
         this.props.navigation.navigate("ConfirmSubmit")
     }
 
+
+
     render() {
-        const { isFocused, switchOn, numberArray, assessmentKit, assessmentKitActivities, multiplChoice } = this.state;
-        console.log("assessmentKitActivities", assessmentKitActivities);
+        const { isFocused, switchOn, numberArray, assessmentKit, assessmentKitActivities, multiplChoice, checkList } = this.state;
+        //console.log("assessmentKitActivities", assessmentKitActivities);
 
         return (
             <View style={styles.container}>
@@ -178,7 +192,7 @@ class Report extends Component {
                                     let ic = ++i;
                                     var result = assessmentKitActivities && assessmentKitActivities.filter((member) => {
 
-                                        if (member.type === multiplChoice) {
+                                        if (member && member.type === multiplChoice) {
                                             return member.index === choice.index
                                         }
 
@@ -279,7 +293,39 @@ class Report extends Component {
                                         </View>
                                     )
                                 } else {
+                                    if (value.type === checkList) {
 
+                                        let data = value.choice.clause.clause_question;
+                                        let choices = [value.choice.clause];
+                                        const array = Object.entries(choices[0]);
+                                        return (
+                                            <View key={i + "vl"}>
+                                                <Text style={styles.question}>
+                                                    {data}
+                                                </Text>
+                                                {
+                                                    array.map((item, k) => {
+                                                        //     console.log("item", item[0], item[1]);
+                                                        let ind = value.choice.clause.index;
+                                                        if (item[0] != 'index') {
+                                                            if (item[0] != 'clause_question') {
+                                                                return (
+                                                                    <View style={styles.quiz} key={k + "qv"} >
+                                                                        <TouchableOpacity onPress={() => this.allCheckList(ind, item[0])}>
+                                                                            <Image source={require('../../assets/images/icon/Checks.png')} />
+                                                                        </TouchableOpacity>
+                                                                        <Text style={styles.responseView} >{item[0]}{item[1]}</Text>
+                                                                    </View>
+                                                                )
+                                                            }
+                                                        }
+
+                                                    })
+                                                }
+
+                                            </View>
+                                        )
+                                    }
                                 }
 
                             })
