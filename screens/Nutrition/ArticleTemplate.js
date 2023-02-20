@@ -104,7 +104,7 @@ class ArticleTemplate extends Component {
 
     evaluatePress() {
         const { nutrition_activity_id_Mission } = this.props;
-        console.log("nutrition_activity_id_Mission.quiz_activities_number :", nutrition_activity_id_Mission.quiz_activities_number);
+        // console.log("nutrition_activity_id_Mission.quiz_activities_number :", nutrition_activity_id_Mission.quiz_activities_number);
         if (nutrition_activity_id_Mission) {
             if (nutrition_activity_id_Mission.quiz_activities_number) {
                 this.props.navigation.navigate("Report")

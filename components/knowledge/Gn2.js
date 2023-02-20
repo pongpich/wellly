@@ -101,7 +101,6 @@ class Gn2 extends Component {
 
 const deviceHeight = Math.round(Dimensions.get('window').height);
 
-console.log("deviceHeight", deviceHeight);
 
 const styles = StyleSheet.create({
     scrollViewbox: {

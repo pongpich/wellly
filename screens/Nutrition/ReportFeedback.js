@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 import { ScrollView, View, Dimensions, StyleSheet, StatusBar, TouchableOpacity, Image, Text, Pressable, Animated } from 'react-native';
 import colors from '../../constants/colors';
+import { logoutUser } from "../../redux/auth";
 import { getNutritionMission, getNutritionActivityIdMission } from "../../redux/get";
 import Carbohydrate from '../../components/knowledge/Carbohydrate';
+import { connect } from 'react-redux';
+import { routeName } from "../../redux/personalUser";
+import { withTranslation } from 'react-i18next';
 import ComponentsStyle from '../../constants/components';
 class ReportFeedback extends Component {
     constructor(props) {
@@ -10,7 +14,14 @@ class ReportFeedback extends Component {
         this.slideAnim = new Animated.Value(0);
         this.state = {
             statusBarColor: "light",
+            typeChoice: "multiple_choice",
+            typeCheckList: "check_list"
         };
+    }
+
+    componentDidMount() {
+        const { nutrition_mission } = this.props;
+        console.log("nutrition_mission");
     }
 
 
@@ -237,4 +248,17 @@ const styles = StyleSheet.create({
 
 });
 
-export default ReportFeedback;
+const mapStateToProps = ({ authUser, getData, personalDataUser }) => {
+    const { user } = authUser;
+    const { route_name } = personalDataUser;
+    const { nutrition_mission, statusGetNutritionMission } = getData;
+    return { user, nutrition_mission, statusGetNutritionMission, route_name };
+};
+
+const mapActionsToProps = { logoutUser, getNutritionMission, routeName };
+
+export default connect(
+    mapStateToProps,
+    mapActionsToProps
+)(withTranslation()(ReportFeedback));
+

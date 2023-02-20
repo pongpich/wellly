@@ -160,10 +160,10 @@ class Report extends Component {
                 }
             }
         })
-        console.log("assessmentKitActivities", assessmentKitActivities);
-        /*  this.setState({
-             assessmentKitActivities: assessmentKitActivities
-         }) */
+
+        this.setState({
+            assessmentKitActivities: assessmentKitActivities
+        })
 
     }
 
