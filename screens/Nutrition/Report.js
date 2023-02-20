@@ -19,7 +19,8 @@ class Report extends Component {
             isFocused: false,
             checked: 'unchecked',
             switchOn: false,
-            numberArray: null,
+            numberArray: false,
+            numberArrayCheck: false,
             multiplChoice: "multiple_choice",
             checkList: "check_list",
             assessmentKit: null,
@@ -32,7 +33,7 @@ class Report extends Component {
         const { assessmentKit, assessmentKitActivities, multiplChoice, checkList } = this.state;
 
         if (nutrition_mission.assessment_kit) {
-            let assessment_kit = JSON.parse(nutrition_mission.assessment_kit);
+            var assessment_kit = JSON.parse(nutrition_mission.assessment_kit);
             this.setState({
                 assessmentKit: assessment_kit,
                 missionId: nutrition_mission.id,
@@ -65,6 +66,7 @@ class Report extends Component {
                                 }
                             } else {
                                 myArray = { [val]: val2 };
+
                             }
                             return myArray;
                         })
@@ -80,6 +82,14 @@ class Report extends Component {
                 })
                 this.setState({
                     assessmentKitActivities: value,
+                })
+
+                //console.log("assessmentKitActivities", assessment_kit);
+                let result2 = assessment_kit && assessment_kit.filter((member2) => {
+                    return member2.type == "check_list"
+                })
+                this.setState({
+                    numberArrayCheck: result2.length
                 })
             }
         }
@@ -126,18 +136,21 @@ class Report extends Component {
             assessmentKitActivities: assessmentKitActivities
         })
         let result = assessmentKitActivities && assessmentKitActivities.filter((member) => {
-            return member.select_choice == null
+            if (member.type == "multiple_choice") {
+                return member.select_choice == null
+            }
+
         })
-        this.setState({
-            numberArray: result.length
-        })
+        if (result.length == 0) {
+            this.setState({
+                numberArray: true
+            })
+        }
         // this.props.update_quiz_activities(user_id, week_in_program, allSelectChoice, null);
     }
 
     allCheckList(index, choice) {
-        const { user_id, week_in_program, missionId, assessmentKit, assessmentKitActivities } = this.state;
-
-
+        const { user_id, week_in_program, missionId, assessmentKit, assessmentKitActivities, numberArrayCheck } = this.state;
         assessmentKitActivities.forEach((animal) => {
             if (animal.index == index) {
                 const array = Object.entries(animal);
@@ -145,13 +158,21 @@ class Report extends Component {
                     return member[0] == choice;
                 })
                 let status = !result[0][1];
-
                 animal[choice] = status;
             }
         })
         this.setState({
             assessmentKitActivities: assessmentKitActivities
         })
+
+        let result = assessmentKitActivities && assessmentKitActivities.filter((member) => {
+            return member[choice] == true
+        })
+        if (numberArrayCheck == result.length) {
+            this.setState({
+                numberArrayCheck: true
+            })
+        }
 
     }
 
@@ -162,9 +183,7 @@ class Report extends Component {
 
 
     render() {
-        const { isFocused, switchOn, numberArray, assessmentKit, assessmentKitActivities, multiplChoice, checkList } = this.state;
-        //console.log("assessmentKitActivities", assessmentKitActivities);
-
+        const { isFocused, switchOn, numberArray, assessmentKit, assessmentKitActivities, multiplChoice, checkList, numberArrayCheck } = this.state;
         return (
             <View style={styles.container}>
                 <StatusBar barStyle="dark-content" />
@@ -418,7 +437,7 @@ class Report extends Component {
                                 </View>
                                 <Text style={styles.switchesTexConter}>คำตอบจะมีผลต่อภารกิจถัดไป โดยเมื่อส่งแล้วจะไม่สามารถมาแก้ไขได้</Text>
                             </View>
-                            {numberArray == 0 ?
+                            {(numberArray === true) || (numberArrayCheck === true) ?
                                 <Pressable onPress={() => this.submit()}>
                                     <View style={styles.pressableView}>
                                         <View style={ComponentsStyle.button}>
