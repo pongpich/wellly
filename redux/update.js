@@ -4,11 +4,13 @@ import { Auth, API } from "aws-amplify";
 /* ACTION Section */
 
 export const types = {
-
     UPDATE_QUIZ_ACTIVITIES: "UPDATE_QUIZ_ACTIVITIES",
     UPDATE_QUIZ_ACTIVITIES_SUCCESS: "UPDATE_QUIZ_ACTIVITIES_SUCCESS",
     INSERT_NUTRITION_ACTIVITY: "INSERT_NUTRITION_ACTIVITY",
-    INSERT_NUTRITION_ACTIVITY_SUCCESS: "INSERT_NUTRITION_ACTIVITY_SUCCESS"
+    INSERT_NUTRITION_ACTIVITY_SUCCESS: "INSERT_NUTRITION_ACTIVITY_SUCCESS",
+    UPDATE_ASSESSMENT_KIT_ACIVTIES: "UPDATE_ASSESSMENT_KIT_ACIVTIES",
+    UPDATE_ASSESSMENT_KIT_ACIVTIES_SUCCESS: "UPDATE_ASSESSMENT_KIT_ACIVTIES_SUCCESS"
+
 };
 
 
@@ -19,6 +21,16 @@ export const update_quiz_activities = (user_id, week_in_program, quiz_activities
         week_in_program,
         quiz_activities,
         quiz_activities_number
+    },
+});
+
+
+export const update_assessment_kit_activties = (user_id, week_in_program, assessment_kit_activties) => ({
+    type: types.UPDATE_ASSESSMENT_KIT_ACIVTIES,
+    payload: {
+        user_id,
+        week_in_program,
+        assessment_kit_activties,
     },
 });
 
@@ -48,6 +60,27 @@ const update_quiz_activitiesSagaAsync = async (
                 week_in_program,
                 quiz_activities,
                 quiz_activities_number
+            }
+        });
+
+        return apiResult
+    } catch (error) {
+        return { error, messsage: error.message };
+    }
+};
+
+const update_assessment_kit_activtiesSagaAsync = async (
+    user_id,
+    week_in_program,
+    assessment_kit_activties
+) => {
+
+    try {
+        const apiResult = await API.post("planforfit", "/updateAssessmentKitActivties", {
+            body: {
+                user_id,
+                week_in_program,
+                assessment_kit_activties
             }
         });
 
@@ -103,6 +136,29 @@ function* update_quiz_activitiesSaga({ payload }) {
     }
 }
 
+function* update_assessment_kit_activtiesSaga({ payload }) {
+    const {
+        user_id,
+        week_in_program,
+        assessment_kit_activties
+    } = payload
+
+    try {
+        const apiResult = yield call(
+            update_assessment_kit_activtiesSagaAsync,
+            user_id,
+            week_in_program,
+            assessment_kit_activties
+        );
+        yield put({
+            type: types.UPDATE_ASSESSMENT_KIT_ACIVTIES_SUCCESS,
+            payload: assessment_kit_activties
+        })
+    } catch (error) {
+        console.log("error form updateHealthDataSaga", error);
+    }
+}
+
 function* insertNutritionActivitySaga({ payload }) {
     const {
         user_id
@@ -124,6 +180,9 @@ function* insertNutritionActivitySaga({ payload }) {
 export function* watchUpdate_quiz_activities() {
     yield takeEvery(types.UPDATE_QUIZ_ACTIVITIES, update_quiz_activitiesSaga)
 }
+export function* watchUpdate_assessment_kit_activties() {
+    yield takeEvery(types.UPDATE_ASSESSMENT_KIT_ACIVTIES, update_assessment_kit_activtiesSaga)
+}
 
 export function* watchInsertNutritionActivity() {
     yield takeEvery(types.INSERT_NUTRITION_ACTIVITY, insertNutritionActivitySaga)
@@ -135,6 +194,7 @@ export function* saga() {
     yield all([
         fork(watchUpdate_quiz_activities),
         fork(watchInsertNutritionActivity),
+        fork(watchUpdate_assessment_kit_activties),
     ]);
 }
 
@@ -144,7 +204,8 @@ export function* saga() {
 
 const INIT_STATE = {
     status_quiz_activities: "default",
-    statusInsertNutritionActivity: "default"
+    statusInsertNutritionActivity: "default",
+    statusAssessment_kit_activties: "default",
 };
 
 export function reducer(state = INIT_STATE, action) {
@@ -172,6 +233,16 @@ export function reducer(state = INIT_STATE, action) {
             return {
                 ...state,
                 statusInsertNutritionActivity: "success"
+            };
+        case types.UPDATE_ASSESSMENT_KIT_ACIVTIES:
+            return {
+                ...state,
+                statusAssessment_kit_activties: "loading"
+            };
+        case types.UPDATE_ASSESSMENT_KIT_ACIVTIES_SUCCESS:
+            return {
+                ...state,
+                statusAssessment_kit_activties: "success"
             };
         default:
             return { ...state };

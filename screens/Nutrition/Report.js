@@ -10,7 +10,8 @@ import { routeName } from "../../redux/personalUser";
 import { withTranslation } from 'react-i18next';
 import { Checkbox } from 'react-native-paper';
 import { Switch } from 'react-native-switch';
-
+import { update_assessment_kit_activties } from "../../redux/update";
+//update_assessment_kit_activties
 class Report extends Component {
 
     constructor(props) {
@@ -25,11 +26,13 @@ class Report extends Component {
             checkList: "check_list",
             assessmentKit: null,
             assessmentKitActivities: null,
-            missionId: null
+            missionId: null,
+            user_id: null,
+            week_in_program: null
         };
     }
     componentDidMount() {
-        const { nutrition_mission } = this.props;
+        const { nutrition_mission, user } = this.props;
         const { assessmentKit, assessmentKitActivities, multiplChoice, checkList } = this.state;
 
         if (nutrition_mission.assessment_kit) {
@@ -37,6 +40,8 @@ class Report extends Component {
             this.setState({
                 assessmentKit: assessment_kit,
                 missionId: nutrition_mission.id,
+                user_id: user.user_id,
+                week_in_program: nutrition_mission.week_in_program
             })
 
             if ((assessmentKitActivities === null)) {
@@ -93,10 +98,14 @@ class Report extends Component {
                 })
             }
         }
+    }
 
-
-
-
+    componentDidUpdate(prevProps, prevState) {
+        const { user_id, week_in_program, missionId, assessmentKitActivities } = this.state;
+        if (prevState.assessmentKitActivities === assessmentKitActivities) {
+            // console.log("assessmentKitActivities", assessmentKitActivities);
+            this.props.update_assessment_kit_activties(user_id, week_in_program, assessmentKitActivities);
+        }
 
     }
 
@@ -146,7 +155,7 @@ class Report extends Component {
                 numberArray: true
             })
         }
-        // this.props.update_quiz_activities(user_id, week_in_program, allSelectChoice, null);
+
     }
 
     allCheckList(index, choice) {
@@ -183,7 +192,9 @@ class Report extends Component {
 
 
     render() {
-        const { isFocused, switchOn, numberArray, assessmentKit, assessmentKitActivities, multiplChoice, checkList, numberArrayCheck } = this.state;
+        const { isFocused, switchOn, numberArray, assessmentKit, assessmentKitActivities,
+            multiplChoice, checkList, numberArrayCheck, user_id, week_in_program } = this.state;
+
         return (
             <View style={styles.container}>
                 <StatusBar barStyle="dark-content" />
@@ -568,7 +579,7 @@ const mapStateToProps = ({ authUser, getData, personalDataUser }) => {
     return { user, nutrition_mission, statusGetNutritionMission, route_name };
 };
 
-const mapActionsToProps = { logoutUser, getNutritionMission, routeName };
+const mapActionsToProps = { logoutUser, getNutritionMission, update_assessment_kit_activties, routeName };
 
 export default connect(
     mapStateToProps,
