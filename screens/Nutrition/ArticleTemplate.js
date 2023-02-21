@@ -440,7 +440,7 @@ const styles = StyleSheet.create({
         backgroundColor: "white",
         width: "100%",
         paddingHorizontal: 16,
-        height: 400,
+        height: "auto",
         borderTopLeftRadius: 24,
         borderTopRightRadius: 24,
         /*      marginTop: 0, */
@@ -478,7 +478,7 @@ const styles = StyleSheet.create({
         fontSize: ComponentsStyle.fontSize16,
     },
     buttonView: {
-
+        marginTop: 32,
         width: "100%",
 
     },
