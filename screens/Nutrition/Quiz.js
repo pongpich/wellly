@@ -191,14 +191,14 @@ class QuizAnswer extends Component {
                                                 {
                                                     (result && result[0].index === value.index) && result && result[0].select_choice == "a" ?
                                                         <>
-                                                            <TouchableOpacity key={i + "i1a"} >
+                                                            <Pressable key={i + "i1a"} >
                                                                 <Image source={require('../../assets/images/icon/radioActive.png')} />
-                                                            </TouchableOpacity>
+                                                            </Pressable>
                                                         </>
                                                         :
-                                                        <TouchableOpacity onPress={() => this.allSelectChoice(value.index, 'a')} key={i + "i2a"} >
+                                                        <Pressable onPress={() => this.allSelectChoice(value.index, 'a')} key={i + "i2a"} >
                                                             <Image source={require('../../assets/images/icon/radio.png')} />
-                                                        </TouchableOpacity>
+                                                        </Pressable>
                                                 }
 
                                                 <Text style={styles.responseView} key={i + "1a"}>{choice.a}</Text>
@@ -206,39 +206,39 @@ class QuizAnswer extends Component {
                                             <View style={styles.quiz} key={i + "q2b"}>
                                                 {
                                                     (result && result[0].index == value.index) && result && result[0].select_choice == "b" ?
-                                                        <TouchableOpacity key={i + "i1b"}>
+                                                        <Pressable key={i + "i1b"}>
                                                             <Image source={require('../../assets/images/icon/radioActive.png')} />
-                                                        </TouchableOpacity>
+                                                        </Pressable>
                                                         :
-                                                        <TouchableOpacity onPress={() => this.allSelectChoice(value.index, 'b')} key={i + "i2b"}>
+                                                        <Pressable onPress={() => this.allSelectChoice(value.index, 'b')} key={i + "i2b"}>
                                                             <Image source={require('../../assets/images/icon/radio.png')} />
-                                                        </TouchableOpacity>
+                                                        </Pressable>
                                                 }
                                                 <Text style={styles.responseView} key={i + "b"}>{choice.b}</Text>
                                             </View>
                                             <View style={styles.quiz} key={i + "q2c"}>
                                                 {
                                                     (result && result[0].index === value.index) && result && result[0].select_choice == "c" ?
-                                                        <TouchableOpacity key={i + "i1c"}>
+                                                        <Pressable key={i + "i1c"}>
                                                             <Image source={require('../../assets/images/icon/radioActive.png')} />
-                                                        </TouchableOpacity>
+                                                        </Pressable>
                                                         :
-                                                        <TouchableOpacity onPress={() => this.allSelectChoice(value.index, 'c')} key={i + "i2c"}>
+                                                        <Pressable onPress={() => this.allSelectChoice(value.index, 'c')} key={i + "i2c"}>
                                                             <Image source={require('../../assets/images/icon/radio.png')} />
-                                                        </TouchableOpacity>
+                                                        </Pressable>
                                                 }
                                                 <Text style={styles.responseView} key={i + "c"}>{choice.c}</Text>
                                             </View>
                                             <View style={styles.quiz} key={i + "q3d"}>
                                                 {
                                                     (result && result[0].index === value.index) && result && result[0].select_choice == "d" ?
-                                                        <TouchableOpacity key={i + "i1d"}>
+                                                        <Pressable key={i + "i1d"}>
                                                             <Image source={require('../../assets/images/icon/radioActive.png')} />
-                                                        </TouchableOpacity>
+                                                        </Pressable>
                                                         :
-                                                        <TouchableOpacity onPress={() => this.allSelectChoice(value.index, 'd')} key={i + "i2d"}>
+                                                        <Pressable onPress={() => this.allSelectChoice(value.index, 'd')} key={i + "i2d"}>
                                                             <Image source={require('../../assets/images/icon/radio.png')} />
-                                                        </TouchableOpacity>
+                                                        </Pressable>
 
                                                 }
                                                 <Text style={styles.responseView} key={i + "d"}>{choice.d}</Text>

@@ -100,33 +100,33 @@ class QuizAnswer extends Component {
 
         return (
             <View style={styles.container}>
-                <StatusBar barStyle="dark-content" />
-                <View style={styles.boxScore}>
-                    <AnimatedCircularProgress
-                        size={120}
-                        width={8}
-
-                        fill={fillNumber}
-                        tintTransparency={true}
-                        rotation={360}
-                        tintColor={colors.positive1}
-                        backgroundColor={colors.grey6} >
-                        {
-
-                            (fill) => (
-                                <>
-                                    <Text style={{ color: colors.grey2, fontSize: 16, fontFamily: "IBMPlexSansThai-Regular", marginTop: 17 }}>คะแนน</Text>
-                                    <View style={{ flexDirection: "row", marginTop: 10 }}>
-                                        <Text style={{ color: colors.grey1, fontSize: 32, fontFamily: "IBMPlexSansThai-Bold", marginTop: -17 }}>{Math.ceil(numberQ)}</Text>
-                                        <Text style={{ color: colors.grey1, fontSize: 16, fontFamily: "IBMPlexSansThai-Bold", marginTop: 0 }}> /{Math.ceil(maxNumberMission)}</Text>
-                                    </View>
-                                </>
-                            )
-
-                        }
-                    </AnimatedCircularProgress>
-                </View>
+                {/* <StatusBar barStyle="dark-content" /> */}
                 <ScrollView style={styles.boxSelection}>
+                    <View style={styles.boxScore}>
+                        <AnimatedCircularProgress
+                            size={120}
+                            width={8}
+
+                            fill={fillNumber}
+                            tintTransparency={true}
+                            rotation={360}
+                            tintColor={colors.positive1}
+                            backgroundColor={colors.grey6} >
+                            {
+
+                                (fill) => (
+                                    <>
+                                        <Text style={{ color: colors.grey2, fontSize: 16, fontFamily: "IBMPlexSansThai-Regular", marginTop: 17 }}>คะแนน</Text>
+                                        <View style={{ flexDirection: "row", marginTop: 10 }}>
+                                            <Text style={{ color: colors.grey1, fontSize: 32, fontFamily: "IBMPlexSansThai-Bold", marginTop: -17 }}>{Math.ceil(numberQ)}</Text>
+                                            <Text style={{ color: colors.grey1, fontSize: 16, fontFamily: "IBMPlexSansThai-Bold", marginTop: 0 }}> /{Math.ceil(maxNumberMission)}</Text>
+                                        </View>
+                                    </>
+                                )
+
+                            }
+                        </AnimatedCircularProgress>
+                    </View>
                     {
                         nutrition_mission && nutrition_mission.map((value, i,) => {
                             let choice = value.choice;

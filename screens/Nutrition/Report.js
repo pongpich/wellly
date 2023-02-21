@@ -257,16 +257,16 @@ class Report extends Component {
                                                 choice.a ?
                                                     (result && result[0].index === value.index) && result && result[0].select_choice == "a" ?
                                                         <View style={[styles.quiz, ((value.question) && (choice.index === i)) ? { marginLeft: 8 } : null]} >
-                                                            <TouchableOpacity>
+                                                            <Pressable>
                                                                 <Image source={require('../../assets/images/icon/radioActive.png')} />
-                                                            </TouchableOpacity>
+                                                            </Pressable>
                                                             <Text style={styles.responseView}>{choice.a}</Text>
                                                         </View>
                                                         :
                                                         <View style={[styles.quiz, ((value.question) && (choice.index === i)) ? { marginLeft: 8 } : null]} >
-                                                            <TouchableOpacity onPress={() => this.allSelectChoice(choice.index, 'a')}>
+                                                            <Pressable onPress={() => this.allSelectChoice(choice.index, 'a')}>
                                                                 <Image source={require('../../assets/images/icon/radio.png')} />
-                                                            </TouchableOpacity>
+                                                            </Pressable>
                                                             <Text style={styles.responseView}>{choice.a}</Text>
                                                         </View>
                                                     : null
@@ -275,16 +275,16 @@ class Report extends Component {
                                                 choice.b ?
                                                     (result && result[0].index === value.index) && result && result[0].select_choice == "b" ?
                                                         <View style={styles.quiz} >
-                                                            <TouchableOpacity>
+                                                            <Pressable>
                                                                 <Image source={require('../../assets/images/icon/radioActive.png')} />
-                                                            </TouchableOpacity>
+                                                            </Pressable>
                                                             <Text style={styles.responseView}>{choice.b}</Text>
                                                         </View>
                                                         :
                                                         <View style={styles.quiz} >
-                                                            <TouchableOpacity onPress={() => this.allSelectChoice(choice.index, 'b')}>
+                                                            <TouchPressableableOpacity onPress={() => this.allSelectChoice(choice.index, 'b')}>
                                                                 <Image source={require('../../assets/images/icon/radio.png')} />
-                                                            </TouchableOpacity>
+                                                            </TouchPressableableOpacity>
                                                             <Text style={styles.responseView}>{choice.b}</Text>
                                                         </View>
                                                     : null
@@ -293,16 +293,16 @@ class Report extends Component {
                                                 choice.c ?
                                                     (result && result[0].index === value.index) && result && result[0].select_choice == "c" ?
                                                         <View style={styles.quiz} >
-                                                            <TouchableOpacity>
+                                                            <Pressable>
                                                                 <Image source={require('../../assets/images/icon/radioActive.png')} />
-                                                            </TouchableOpacity>
+                                                            </Pressable>
                                                             <Text style={styles.responseView}>{choice.c}</Text>
                                                         </View>
                                                         :
                                                         <View style={styles.quiz} >
-                                                            <TouchableOpacity onPress={() => this.allSelectChoice(choice.index, 'c')}>
+                                                            <Pressable onPress={() => this.allSelectChoice(choice.index, 'c')}>
                                                                 <Image source={require('../../assets/images/icon/radio.png')} />
-                                                            </TouchableOpacity>
+                                                            </Pressable>
                                                             <Text style={styles.responseView}>{choice.c}</Text>
                                                         </View>
                                                     : null
@@ -311,16 +311,16 @@ class Report extends Component {
                                                 choice.d ?
                                                     (result && result[0].index === value.index) && result && result[0].select_choice == "d" ?
                                                         <View style={styles.quiz} >
-                                                            <TouchableOpacity>
+                                                            <Pressable>
                                                                 <Image source={require('../../assets/images/icon/radioActive.png')} />
-                                                            </TouchableOpacity>
+                                                            </Pressable>
                                                             <Text style={styles.responseView}>{choice.d}</Text>
                                                         </View>
                                                         :
                                                         <View style={styles.quiz} >
-                                                            <TouchableOpacity onPress={() => this.allSelectChoice(choice.index, 'd')}>
+                                                            <Pressable onPress={() => this.allSelectChoice(choice.index, 'd')}>
                                                                 <Image source={require('../../assets/images/icon/radio.png')} />
-                                                            </TouchableOpacity>
+                                                            </Pressable>
                                                             <Text style={styles.responseView}>{choice.d}</Text>
                                                         </View>
                                                     : null
@@ -354,9 +354,9 @@ class Report extends Component {
                                                                         if (item[0] == item2[0]) {
                                                                             return (
                                                                                 <View style={styles.quiz} key={k + "qv"} >
-                                                                                    <TouchableOpacity onPress={() => this.allCheckList(ind, item[0])}>
+                                                                                    <Pressable onPress={() => this.allCheckList(ind, item[0])}>
                                                                                         <Image source={item2[1] == true ? require('../../assets/images/icon/ChecksActive.png') : require('../../assets/images/icon/Checks.png')} />
-                                                                                    </TouchableOpacity>
+                                                                                    </Pressable>
                                                                                     <Text style={styles.responseView}>{item[1]}</Text>
                                                                                 </View>)
                                                                         }
