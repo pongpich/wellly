@@ -311,7 +311,6 @@ class Report extends Component {
                                             }
                                         })
                                         const array2 = Object.entries(result2[0]);
-                                        // console.log("array", array2);
                                         return (
                                             <View key={i + "vl"}>
                                                 <Text style={styles.question}>
@@ -448,7 +447,7 @@ class Report extends Component {
                                 </View>
                                 <Text style={styles.switchesTexConter}>คำตอบจะมีผลต่อภารกิจถัดไป โดยเมื่อส่งแล้วจะไม่สามารถมาแก้ไขได้</Text>
                             </View>
-                            {((numberArray === true) || (numberArrayCheck === true)) && (switchOn === true) ?
+                            {((numberArray == true) || (numberArrayCheck == true)) && (switchOn === true) ?
                                 <Pressable onPress={() => this.submit()}>
                                     <View style={styles.pressableView}>
                                         <View style={ComponentsStyle.button}>
