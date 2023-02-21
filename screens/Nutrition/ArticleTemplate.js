@@ -132,7 +132,7 @@ class ArticleTemplate extends Component {
     renderCheckArticle() { //เช็คว่าจะแสดงบทความไหน โดยใช้ mission_id
         const { mission_id } = this.props.route.params;
         return (
-            <View>
+            <View style={{ marginTop: 24 }}>
                 {(mission_id === 'gn1') && <Gn1 />}
                 {(mission_id === 'gn2') && <Gn2 />}
                 {(mission_id === 'gn3') && <Gn3 />}
@@ -238,18 +238,15 @@ class ArticleTemplate extends Component {
                                         study ?
                                             this.renderCheckArticle()
                                             :
-                                            <Mission />
+                                            <View style={{ marginTop: 2 }}>
+                                                <Mission />
+                                            </View>
                                     }
-
                                 </View>
                             </ScrollView>
-
                         </View >
                     </Animated.View>
-
-
                 </View >
-
                 <View style={{
                     marginBottom: -100,
                     shadowColor: colors.white,
