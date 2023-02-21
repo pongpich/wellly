@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { ScrollView, View, Dimensions, StyleSheet, StatusBar, TouchableOpacity, Image, Text, Pressable, Animated } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import ComponentsStyle from '../../constants/components';
+import { StackActions } from '@react-navigation/native';
 import colors from '../../constants/colors';
 
 class ConfirmSubmit extends Component {
@@ -22,7 +23,7 @@ class ConfirmSubmit extends Component {
                     <View>
                         <View style={styles.buttonView}>
                             <View style={{ width: "48%" }}>
-                                <Pressable onPress={() => this.props.navigation.popToTop()}  >
+                                <Pressable onPress={() => this.props.navigation.dispatch(StackActions.replace('Home'))}  >
                                     <View style={ComponentsStyle.buttonWhite} >
                                         <Text style={ComponentsStyle.textButtonWhite}>
                                             กลับหน้าแรก
