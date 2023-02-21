@@ -304,8 +304,14 @@ class Report extends Component {
                                         let data = value.choice.clause.clause_question;
                                         let choices = [value.choice.clause];
                                         const array = Object.entries(choices[0]);
-
-
+                                        let inne = value.choice.clause.index;
+                                        var result2 = assessmentKitActivities && assessmentKitActivities.filter((member3) => {
+                                            if (member3.index == inne) {
+                                                return member3
+                                            }
+                                        })
+                                        const array2 = Object.entries(result2[0]);
+                                        // console.log("array", array2);
                                         return (
                                             <View key={i + "vl"}>
                                                 <Text style={styles.question}>
@@ -314,34 +320,21 @@ class Report extends Component {
                                                 {
                                                     array.map((item, k) => {
                                                         let ind = value.choice.clause.index;
-                                                        var result2 = assessmentKitActivities && assessmentKitActivities.filter((member) => {
-                                                            if (member.index == ind) {
-
-                                                                console.log("member", member);
-                                                                /*    if (member == true) {
-                                                                       console.log("member", member);
-                                                                   } */
-
-                                                                // return member == true
-                                                            }
-
-                                                            /* if (member && member.type === checkList) {
-                                                                console.log(member.index, ind);
-                                                                  return member.index === ind
-                                                            } */
-                                                        })
-                                                        //console.log("result2", result2);
-
                                                         if (item[0] != 'index') {
                                                             if (item[0] != 'clause_question') {
-                                                                return (
-                                                                    <View style={styles.quiz} key={k + "qv"} >
-                                                                        <TouchableOpacity onPress={() => this.allCheckList(ind, item[0])}>
-                                                                            <Image source={require('../../assets/images/icon/Checks.png')} />
-                                                                        </TouchableOpacity>
-                                                                        <Text style={styles.responseView} >{item[0]}{item[1]}</Text>
-                                                                    </View>
-                                                                )
+                                                                let dat = array2.map((item2, k) => {
+                                                                    if (item[0] == item2[0]) {
+                                                                        return (
+                                                                            <View style={styles.quiz} key={k + "qv"} >
+                                                                                <TouchableOpacity onPress={() => this.allCheckList(ind, item[0])}>
+                                                                                    <Image source={item2[1] == true ? require('../../assets/images/icon/ChecksActive.png') : require('../../assets/images/icon/Checks.png')} />
+                                                                                </TouchableOpacity>
+                                                                                <Text style={styles.responseView}>{item[1]}</Text>
+                                                                            </View>)
+                                                                    }
+
+                                                                })
+                                                                return dat
                                                             }
                                                         }
 
