@@ -32,7 +32,7 @@ class Report extends Component {
         };
     }
     componentDidMount() {
-        const { nutrition_mission, user } = this.props;
+        const { nutrition_mission, user, nutrition_activity_id_Mission, statusGetNutritionActivityIdMission } = this.props;
         const { assessmentKit, assessmentKitActivities, multiplChoice, checkList } = this.state;
 
         if (nutrition_mission.assessment_kit) {
@@ -44,7 +44,14 @@ class Report extends Component {
                 week_in_program: nutrition_mission.week_in_program
             })
 
-            if ((assessmentKitActivities === null)) {
+            this.props.getNutritionActivityIdMission(user.user_id, nutrition_mission.id)
+
+
+
+            // console.log("nutrition_activity_id_Mission", mission);
+
+
+            if (assessmentKitActivities == null) {
                 let value = assessment_kit && assessment_kit.map((value, i) => {
                     var choice = value.choice.clause;
                     if (value.type === multiplChoice) {
@@ -97,11 +104,26 @@ class Report extends Component {
                     numberArrayCheck: result2.length
                 })
             }
+
+
         }
     }
 
     componentDidUpdate(prevProps, prevState) {
         const { user_id, week_in_program, missionId, assessmentKitActivities } = this.state;
+        const { nutrition_activity_id_Mission, statusGetNutritionActivityIdMission } = this.props;
+        if ((prevProps.statusGetNutritionActivityIdMission !== statusGetNutritionActivityIdMission) && (statusGetNutritionActivityIdMission == "success")) {
+            let mission = JSON.parse(nutrition_activity_id_Mission.assessment_kit_activties)
+            if (mission != null) {
+                this.setState({
+                    assessmentKitActivities: mission
+                })
+                this.setButtonRadios()
+                this.setButtonChecks()
+            }
+
+        }
+
         if (prevState.assessmentKitActivities === assessmentKitActivities) {
             // console.log("assessmentKitActivities", assessmentKitActivities);
             this.props.update_assessment_kit_activties(user_id, week_in_program, assessmentKitActivities);
@@ -120,21 +142,10 @@ class Report extends Component {
         })
     }
 
-    checkedBox(checked) {
-        console.log("asd");
-        if (checked === 'checked') {
-            this.setState({
-                checked: 'unchecked'
-            });
-        } else {
-            this.setState({
-                checked: 'checked'
-            });
-        }
-    }
+
 
     allSelectChoice(index, choice) {
-        //  console.log(index, choice);
+
         const { user_id, week_in_program, missionId, assessmentKitActivities } = this.state;
         assessmentKitActivities.forEach((animal) => {
             if (animal.index == index) {
@@ -144,18 +155,7 @@ class Report extends Component {
         this.setState({
             assessmentKitActivities: assessmentKitActivities
         })
-        let result = assessmentKitActivities && assessmentKitActivities.filter((member) => {
-            if (member.type == "multiple_choice") {
-                return member.select_choice == null
-            }
-
-        })
-        if (result.length == 0) {
-            this.setState({
-                numberArray: true
-            })
-        }
-
+        this.setButtonRadios()
     }
 
     allCheckList(index, choice) {
@@ -174,15 +174,32 @@ class Report extends Component {
             assessmentKitActivities: assessmentKitActivities
         })
 
+        this.setButtonChecks()
+    }
+
+    setButtonRadios() {
+        const { assessmentKitActivities } = this.state;
         let result = assessmentKitActivities && assessmentKitActivities.filter((member) => {
-            return member[choice] == true
+            if (member.type == "multiple_choice") {
+                return member.select_choice == null
+            }
+        })
+        if (result.length == 0) {
+            this.setState({
+                numberArray: true
+            })
+        }
+    }
+    setButtonChecks() {
+        const { assessmentKitActivities, numberArrayCheck } = this.state;
+        let result = assessmentKitActivities && assessmentKitActivities.filter((member) => {
+            return member.choice == true
         })
         if (numberArrayCheck == result.length) {
             this.setState({
                 numberArrayCheck: true
             })
         }
-
     }
 
     submit() {
@@ -194,7 +211,7 @@ class Report extends Component {
     render() {
         const { isFocused, switchOn, numberArray, assessmentKit, assessmentKitActivities,
             multiplChoice, checkList, numberArrayCheck, user_id, week_in_program } = this.state;
-
+        console.log("assessmentKitActivities", assessmentKitActivities);
         return (
             <View style={styles.container}>
                 <StatusBar barStyle="dark-content" />
@@ -311,48 +328,49 @@ class Report extends Component {
                                         </View>
                                     )
                                 } else {
-                                    if (value.type === checkList) {
-                                        let data = value.choice.clause.clause_question;
-                                        let choices = [value.choice.clause];
-                                        const array = Object.entries(choices[0]);
-                                        let inne = value.choice.clause.index;
-                                        var result2 = assessmentKitActivities && assessmentKitActivities.filter((member3) => {
-                                            if (member3.index == inne) {
-                                                return member3
-                                            }
-                                        })
-                                        const array2 = Object.entries(result2[0]);
-                                        return (
-                                            <View key={i + "vl"}>
-                                                <Text style={styles.question}>
-                                                    {data}
-                                                </Text>
-                                                {
-                                                    array.map((item, k) => {
-                                                        let ind = value.choice.clause.index;
-                                                        if (item[0] != 'index') {
-                                                            if (item[0] != 'clause_question') {
-                                                                let dat = array2.map((item2, k) => {
-                                                                    if (item[0] == item2[0]) {
-                                                                        return (
-                                                                            <View style={styles.quiz} key={k + "qv"} >
-                                                                                <TouchableOpacity onPress={() => this.allCheckList(ind, item[0])}>
-                                                                                    <Image source={item2[1] == true ? require('../../assets/images/icon/ChecksActive.png') : require('../../assets/images/icon/Checks.png')} />
-                                                                                </TouchableOpacity>
-                                                                                <Text style={styles.responseView}>{item[1]}</Text>
-                                                                            </View>)
-                                                                    }
-
-                                                                })
-                                                                return dat
-                                                            }
-                                                        }
-
-                                                    })
+                                    if (assessmentKitActivities != null) {
+                                        if (value.type === checkList) {
+                                            let data = value.choice.clause.clause_question;
+                                            let choices = [value.choice.clause];
+                                            const array = Object.entries(choices[0]);
+                                            let inne = value.choice.clause.index;
+                                            var result2 = assessmentKitActivities && assessmentKitActivities.filter((member3) => {
+                                                if (member3.index == inne) {
+                                                    return member3
                                                 }
+                                            })
+                                            const array2 = Object.entries(result2[0]);
+                                            return (
+                                                <View key={i + "vl"}>
+                                                    <Text style={styles.question}>
+                                                        {data}
+                                                    </Text>
+                                                    {
+                                                        array.map((item, k) => {
+                                                            let ind = value.choice.clause.index;
+                                                            if (item[0] != 'index') {
+                                                                if (item[0] != 'clause_question') {
+                                                                    let dat = array2.map((item2, k) => {
+                                                                        if (item[0] == item2[0]) {
+                                                                            return (
+                                                                                <View style={styles.quiz} key={k + "qv"} >
+                                                                                    <TouchableOpacity onPress={() => this.allCheckList(ind, item[0])}>
+                                                                                        <Image source={item2[1] == true ? require('../../assets/images/icon/ChecksActive.png') : require('../../assets/images/icon/Checks.png')} />
+                                                                                    </TouchableOpacity>
+                                                                                    <Text style={styles.responseView}>{item[1]}</Text>
+                                                                                </View>)
+                                                                        }
 
-                                            </View>
-                                        )
+                                                                    })
+                                                                    return dat
+                                                                }
+                                                            }
+
+                                                        })
+                                                    }
+                                                </View>
+                                            )
+                                        }
                                     }
                                 }
 
@@ -575,11 +593,11 @@ const styles = StyleSheet.create({
 const mapStateToProps = ({ authUser, getData, personalDataUser }) => {
     const { user } = authUser;
     const { route_name } = personalDataUser;
-    const { nutrition_mission, statusGetNutritionMission } = getData;
-    return { user, nutrition_mission, statusGetNutritionMission, route_name };
+    const { nutrition_mission, statusGetNutritionMission, nutrition_activity_id_Mission, statusGetNutritionActivityIdMission } = getData;
+    return { user, nutrition_mission, statusGetNutritionMission, nutrition_activity_id_Mission, statusGetNutritionActivityIdMission, route_name };
 };
 
-const mapActionsToProps = { logoutUser, getNutritionMission, update_assessment_kit_activties, routeName };
+const mapActionsToProps = { logoutUser, getNutritionMission, update_assessment_kit_activties, getNutritionActivityIdMission, routeName };
 
 export default connect(
     mapStateToProps,
