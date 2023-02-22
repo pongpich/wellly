@@ -319,11 +319,13 @@ const styles = StyleSheet.create({
         marginRight: 16
     },
     exercise: {
+        marginHorizontal: 16,
         color: colors.grey1,
         fontSize: ComponentsStyle.fontSize16,
         fontFamily: "IBMPlexSansThai-Bold",
     },
     week: {
+        marginHorizontal: 16,
         color: colors.grey1,
         fontSize: ComponentsStyle.fontSize24,
         fontFamily: "IBMPlexSansThai-Bold",

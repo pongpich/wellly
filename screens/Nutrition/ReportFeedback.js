@@ -249,8 +249,8 @@ const styles = StyleSheet.create({
 
 });
 
-const mapStateToProps = ({ authUser, getData, personalDataUser }) => {
-    const { user } = authUser;
+const mapStateToProps = ({ getData, personalDataUser }) => {
+
     const { route_name } = personalDataUser;
     const { nutrition_mission, statusGetNutritionMission } = getData;
     return { user, nutrition_mission, statusGetNutritionMission, route_name };

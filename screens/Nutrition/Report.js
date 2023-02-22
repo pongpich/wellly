@@ -102,7 +102,7 @@ class Report extends Component {
 
     componentDidUpdate(prevProps, prevState) {
         const { user_id, week_in_program, missionId, assessmentKitActivities } = this.state;
-        const { nutrition_activity_id_Mission, statusGetNutritionActivityIdMission } = this.props;
+        const { nutrition_activity_id_Mission, statusGetNutritionActivityIdMission, statusAssessment_kit_activties } = this.props;
         if ((prevProps.statusGetNutritionActivityIdMission !== statusGetNutritionActivityIdMission) && (statusGetNutritionActivityIdMission == "success")) {
             let mission = JSON.parse(nutrition_activity_id_Mission.assessment_kit_activties)
             if (mission != null) {
@@ -115,10 +115,12 @@ class Report extends Component {
 
         }
 
-        if (prevState.assessmentKitActivities === assessmentKitActivities) {
-            // console.log("assessmentKitActivities", assessmentKitActivities);
-            this.props.update_assessment_kit_activties(user_id, week_in_program, assessmentKitActivities, 'null');
-        }
+        /*    if (prevState.assessmentKitActivities === assessmentKitActivities) {
+               // console.log("assessmentKitActivities", assessmentKitActivities);
+             
+           } */
+
+
 
     }
 
@@ -146,6 +148,8 @@ class Report extends Component {
         this.setState({
             assessmentKitActivities: assessmentKitActivities
         })
+
+        this.props.update_assessment_kit_activties(user_id, week_in_program, assessmentKitActivities, "null");
         this.setButtonRadios()
     }
 
@@ -164,7 +168,7 @@ class Report extends Component {
         this.setState({
             assessmentKitActivities: assessmentKitActivities
         })
-
+        this.props.update_assessment_kit_activties(user_id, week_in_program, assessmentKitActivities, "null");
         this.setButtonChecks()
     }
 
@@ -194,7 +198,13 @@ class Report extends Component {
     }
 
     submit() {
-        this.props.navigation.navigate("ConfirmSubmit")
+        const { user_id, week_in_program, assessmentKitActivities } = this.state;
+        const { statusAssessment_kit_activties } = this.props;
+        this.props.update_assessment_kit_activties(user_id, week_in_program, assessmentKitActivities, "1");
+
+        if (statusAssessment_kit_activties == "success") {
+            this.props.navigation.navigate("ConfirmSubmit")
+        }
     }
 
 
@@ -202,7 +212,7 @@ class Report extends Component {
     render() {
         const { isFocused, switchOn, numberArray, assessmentKit, assessmentKitActivities,
             multiplChoice, checkList, numberArrayCheck, user_id, week_in_program } = this.state;
-        console.log("assessmentKitActivities", assessmentKitActivities);
+        //console.log("1");
         return (
             <View style={styles.container}>
                 <StatusBar barStyle="dark-content" />
@@ -512,11 +522,13 @@ const styles = StyleSheet.create({
 
     },
     exercise: {
+        marginHorizontal: 16,
         color: colors.grey1,
         fontSize: ComponentsStyle.fontSize16,
         fontFamily: "IBMPlexSansThai-Bold",
     },
     week: {
+        marginHorizontal: 16,
         color: colors.grey1,
         fontSize: ComponentsStyle.fontSize24,
         fontFamily: "IBMPlexSansThai-Bold",
@@ -583,11 +595,12 @@ const styles = StyleSheet.create({
 
 
 
-const mapStateToProps = ({ authUser, getData, personalDataUser }) => {
+const mapStateToProps = ({ authUser, getData, personalDataUser, updateData }) => {
     const { user } = authUser;
     const { route_name } = personalDataUser;
+    const { statusAssessment_kit_activties } = updateData;
     const { nutrition_mission, statusGetNutritionMission, nutrition_activity_id_Mission, statusGetNutritionActivityIdMission } = getData;
-    return { user, nutrition_mission, statusGetNutritionMission, nutrition_activity_id_Mission, statusGetNutritionActivityIdMission, route_name };
+    return { statusAssessment_kit_activties, user, nutrition_mission, statusGetNutritionMission, nutrition_activity_id_Mission, statusGetNutritionActivityIdMission, route_name };
 };
 
 const mapActionsToProps = { logoutUser, getNutritionMission, update_assessment_kit_activties, getNutritionActivityIdMission, routeName };
