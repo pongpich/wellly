@@ -592,7 +592,7 @@ const styles = StyleSheet.create({
     },
     boxImage: {
         width: (deviceHeight > 1023) ? "100%" : "100%",
-        height: (deviceHeight > 1023) ? 400 : 320
+        height: (deviceHeight > 1023) ? 400 : 315
     },
 });
 
