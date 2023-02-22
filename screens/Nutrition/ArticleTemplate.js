@@ -53,11 +53,12 @@ class ArticleTemplate extends Component {
         this.setState({
             numberMission: id,
         });
-
+        // console.log("nutrition_activity_id_Mission", nutrition_activity_id_Mission.assessment_kit_number);
         if (nutrition_activity_id_Mission) {
             if (nutrition_activity_id_Mission.quiz_activities_number) {
                 this.setState({
                     statusQuiz: false,
+                    statusMission: nutrition_activity_id_Mission.assessment_kit_number
                 })
             }
         }
@@ -81,6 +82,7 @@ class ArticleTemplate extends Component {
             } else {
                 this.setState({
                     statusQuiz: true,
+                    statusMission: nutrition_activity_id_Mission.assessment_kit_number
                 })
             }
         }
@@ -153,7 +155,7 @@ class ArticleTemplate extends Component {
         const { statusBarColor, numberMission, study, statusQuiz, statusMission, isModalVisible } = this.state;
         const { nutrition_activity_id_Mission } = this.props;
         const { heading } = this.props.route.params;
-
+        console.log("statusMission", statusMission);
         return (
             <View style={styles.container}>
                 <View style={{ flex: 1 }}>
@@ -294,7 +296,7 @@ class ArticleTemplate extends Component {
                                         </View>
                                     </Pressable>
                                 :
-                                statusMission ?
+                                statusMission != "1" ?
                                     <Pressable onPress={() => this.evaluatePress()} >
                                         <View style={ComponentsStyle.button} >
                                             <Text style={ComponentsStyle.textButton}>
@@ -303,7 +305,7 @@ class ArticleTemplate extends Component {
                                         </View>
                                     </Pressable>
                                     :
-                                    <Pressable onPress={() => this.props.navigation.navigate("QuizAnswer")} >
+                                    <Pressable onPress={() => this.props.navigation.navigate("ReportFeedback")} >
                                         <View style={ComponentsStyle.buttonWhite} >
                                             <Text style={ComponentsStyle.textButtonWhite}>
                                                 ดูผลการประเมิน

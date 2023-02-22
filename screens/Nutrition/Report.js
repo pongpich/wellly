@@ -256,7 +256,7 @@ class Report extends Component {
                                                             {
                                                                 arrayImag.map((img, i) => {
                                                                     return (
-                                                                        <View style={styles.boxImage}>
+                                                                        <View style={styles.boxImage} key={i + 'img'}>
                                                                             <Image style={{ width: "100%", height: "100%", }} source={{ uri: img[1] }} resizeMode='stretch' />
                                                                         </View>
                                                                     )

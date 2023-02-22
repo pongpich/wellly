@@ -49,6 +49,8 @@ class QuizAnswer extends Component {
             })
         }
 
+
+
         if (nutrition_activity_id_Mission) {
             if (nutrition_activity_id_Mission.quiz_activities_number) {
                 this.setState({
