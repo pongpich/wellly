@@ -249,27 +249,29 @@ class QuizAnswer extends Component {
                             }
                         </View>
 
-                        {numberArray == 0 ?
-                            <Pressable onPress={() => this.allSelectChoiceSubmit()}>
-                                <View style={styles.pressableView}>
-                                    <View style={ComponentsStyle.button}>
-                                        <Text style={ComponentsStyle.textButton}>
-                                            ส่งคำตอบ
-                                        </Text>
+                        <View style={styles.areaView}>
+                            {numberArray == 0 ?
+                                <Pressable onPress={() => this.allSelectChoiceSubmit()}>
+                                    <View style={styles.pressableView}>
+                                        <View style={ComponentsStyle.button}>
+                                            <Text style={ComponentsStyle.textButton}>
+                                                ส่งคำตอบ
+                                            </Text>
+                                        </View>
                                     </View>
-                                </View>
-                            </Pressable>
-                            :
-                            <Pressable>
-                                <View style={styles.pressableView}>
-                                    <View style={ComponentsStyle.buttonGrey}>
-                                        <Text style={ComponentsStyle.textButtonGrey}>
-                                            ส่งคำตอบ
-                                        </Text>
+                                </Pressable>
+                                :
+                                <Pressable>
+                                    <View style={styles.pressableView}>
+                                        <View style={ComponentsStyle.buttonGrey}>
+                                            <Text style={ComponentsStyle.textButtonGrey}>
+                                                ส่งคำตอบ
+                                            </Text>
+                                        </View>
                                     </View>
-                                </View>
-                            </Pressable>
-                        }
+                                </Pressable>
+                            }
+                        </View>
                     </ScrollView>
                 </View>
                 <View style={styles.centeredView}>

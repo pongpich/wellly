@@ -478,27 +478,30 @@ class Report extends Component {
                                     </View>
                                     <Text style={styles.switchesTexConter}>คำตอบจะมีผลต่อภารกิจถัดไป โดยเมื่อส่งแล้วจะไม่สามารถมาแก้ไขได้</Text>
                                 </View>
-                                {((numberArray == true) || (numberArrayCheck == true)) && (switchOn === true) ?
-                                    <Pressable onPress={() => this.submit()}>
-                                        <View style={styles.pressableView}>
-                                            <View style={ComponentsStyle.button}>
-                                                <Text style={ComponentsStyle.textButton}>
-                                                    ส่งคำตอบ
-                                                </Text>
-                                            </View>
-                                        </View>
-                                    </Pressable>
-                                    :
-                                    <Pressable >
-                                        <View style={styles.pressableView}>
-                                            <View style={ComponentsStyle.buttonGrey}>
-                                                <Text style={ComponentsStyle.textButtonGrey}>
-                                                    ส่งคำตอบ
-                                                </Text>
-                                            </View>
-                                        </View>
-                                    </Pressable>
-                                }
+                                <View style={{ marginBottom: 40 }}>
+                                    {
+                                        ((numberArray == true) || (numberArrayCheck == true)) && (switchOn === true) ?
+                                            <Pressable onPress={() => this.submit()}>
+                                                <View style={styles.pressableView}>
+                                                    <View style={ComponentsStyle.button}>
+                                                        <Text style={ComponentsStyle.textButton}>
+                                                            ส่งคำตอบ
+                                                        </Text>
+                                                    </View>
+                                                </View>
+                                            </Pressable>
+                                            :
+                                            <Pressable >
+                                                <View style={styles.pressableView}>
+                                                    <View style={ComponentsStyle.buttonGrey}>
+                                                        <Text style={ComponentsStyle.textButtonGrey}>
+                                                            ส่งคำตอบ
+                                                        </Text>
+                                                    </View>
+                                                </View>
+                                            </Pressable>
+                                    }
+                                </View>
                             </View>
                         </View>
                     </ScrollView>

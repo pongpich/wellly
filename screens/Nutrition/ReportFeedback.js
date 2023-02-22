@@ -6,6 +6,7 @@ import { getNutritionMission, getNutritionActivityIdMission } from "../../redux/
 import Carbohydrate from '../../components/knowledge/Carbohydrate';
 import { connect } from 'react-redux';
 import { routeName } from "../../redux/personalUser";
+import { StackActions } from '@react-navigation/native';
 import { withTranslation } from 'react-i18next';
 import ComponentsStyle from '../../constants/components';
 class ReportFeedback extends Component {
@@ -15,13 +16,19 @@ class ReportFeedback extends Component {
         this.state = {
             statusBarColor: "light",
             typeChoice: "multiple_choice",
-            typeCheckList: "check_list"
+            typeCheckList: "check_list",
+            routName: null
         };
     }
 
     componentDidMount() {
-        const { nutrition_mission } = this.props;
-        console.log("nutrition_mission");
+
+        const { nutrition_mission, route } = this.props;
+        if (route.name == "ReportFeedback") {
+            this.setState({
+                routName: "ReportFeedback"
+            })
+        }
 
     }
 
@@ -44,7 +51,7 @@ class ReportFeedback extends Component {
 
 
     render() {
-        const { statusBarColor } = this.state;
+        const { statusBarColor, routName } = this.state;
         return (
             <View style={styles.container}>
                 <View style={{ height: 44, width: "100%", backgroundColor: statusBarColor === "light" ? colors.secondary_MayaBlue : colors.white }}>
@@ -57,7 +64,8 @@ class ReportFeedback extends Component {
                 </View>
                 <View style={{ height: 48, width: "100%", backgroundColor: statusBarColor === "light" ? colors.secondary_MayaBlue : colors.white }}>
                     <View style={{ marginLeft: 16 }}>
-                        <Pressable onPress={() => this.props.navigation.goBack()}>
+                        {/*           //  this.props.navigation.dispatch(StackActions.replace('Home')) */}
+                        <Pressable onPress={() => routName == "ReportFeedback" ? this.props.navigation.dispatch(StackActions.replace('Home')) : this.props.navigation.goBack()}>
                             <Image
                                 source={statusBarColor === "light" ? require('../../assets/images/icon/chevron.png') : require('../../assets/images/icon/caret.png')}
                             />
@@ -253,7 +261,7 @@ const mapStateToProps = ({ getData, personalDataUser }) => {
 
     const { route_name } = personalDataUser;
     const { nutrition_mission, statusGetNutritionMission } = getData;
-    return { user, nutrition_mission, statusGetNutritionMission, route_name };
+    return { nutrition_mission, statusGetNutritionMission, route_name };
 };
 
 const mapActionsToProps = { logoutUser, getNutritionMission, routeName };
