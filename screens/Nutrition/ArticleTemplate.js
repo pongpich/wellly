@@ -155,7 +155,6 @@ class ArticleTemplate extends Component {
         const { statusBarColor, numberMission, study, statusQuiz, statusMission, isModalVisible } = this.state;
         const { nutrition_activity_id_Mission } = this.props;
         const { heading } = this.props.route.params;
-        console.log("statusMission", statusMission);
         return (
             <View style={styles.container}>
                 <View style={{ flex: 1 }}>

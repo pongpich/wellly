@@ -23,10 +23,10 @@ class ReportFeedback extends Component {
 
     componentDidMount() {
 
-        const { nutrition_mission, route } = this.props;
-        if (route.name == "ReportFeedback") {
+        const { nutrition_mission, route_name } = this.props;
+        if (route_name.route_name == "ConfirmSubmit") {
             this.setState({
-                routName: "ReportFeedback"
+                routName: route_name.route_name
             })
         }
 
@@ -52,6 +52,7 @@ class ReportFeedback extends Component {
 
     render() {
         const { statusBarColor, routName } = this.state;
+
         return (
             <View style={styles.container}>
                 <View style={{ height: 44, width: "100%", backgroundColor: statusBarColor === "light" ? colors.secondary_MayaBlue : colors.white }}>
@@ -65,7 +66,7 @@ class ReportFeedback extends Component {
                 <View style={{ height: 48, width: "100%", backgroundColor: statusBarColor === "light" ? colors.secondary_MayaBlue : colors.white }}>
                     <View style={{ marginLeft: 16 }}>
                         {/*           //  this.props.navigation.dispatch(StackActions.replace('Home')) */}
-                        <Pressable onPress={() => routName == "ReportFeedback" ? this.props.navigation.dispatch(StackActions.replace('Home')) : this.props.navigation.goBack()}>
+                        <Pressable onPress={() => routName == "ConfirmSubmit" ? this.props.navigation.dispatch(StackActions.replace('Home')) : this.props.navigation.goBack()}>
                             <Image
                                 source={statusBarColor === "light" ? require('../../assets/images/icon/chevron.png') : require('../../assets/images/icon/caret.png')}
                             />
