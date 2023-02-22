@@ -234,6 +234,10 @@ class Report extends Component {
                                             }
 
                                         })
+
+                                        var img = value.image;
+                                        var image = [img];
+                                        const arrayImag = Object.entries(image[0]);
                                         return (
                                             <View key={i + "v"}>
                                                 {value.question ?
@@ -246,13 +250,24 @@ class Report extends Component {
                                                     {choice.clause_question}
                                                 </Text>
                                                 {
-                                                    value.image ?
-                                                        <View style={styles.boxImage}>
-                                                            <Image style={{ width: "100%", height: "100%", }} source={{ uri: value.image }} resizeMode='stretch' />
-                                                        </View>
+
+                                                    img != null ?
+                                                        <>
+                                                            {
+                                                                arrayImag.map((img, i) => {
+                                                                    return (
+                                                                        <View style={styles.boxImage}>
+                                                                            <Image style={{ width: "100%", height: "100%", }} source={{ uri: img[1] }} resizeMode='stretch' />
+                                                                        </View>
+                                                                    )
+                                                                })
+                                                            }
+                                                        </>
 
                                                         : null
-
+                                                    /*  <View style={styles.boxImage}>
+                                                    <Image style={{ width: "100%", height: "100%", }} source={{ uri: value.image }} resizeMode='stretch' />
+                                                </View>  */
                                                     //  enum('cover', 'contain', 'stretch', 'repeat', 'center')
                                                 }
                                                 {
