@@ -170,11 +170,11 @@ class QuizAnswer extends Component {
         return (
             <SafeAreaView style={styles.container}>
                 <StatusBar barStyle="dark-content" />
-                <View style={styles.areaView}>
+                <View>
                     <Text style={styles.exercise}>แบบฝึกหัด</Text>
                     <Text style={styles.week}>สัปดาห์ที่ {week_in_program}</Text>
                     <ScrollView>
-                        <View >
+                        <View style={styles.areaView}>
                             {
                                 data && data.map((value, i,) => {
                                     const choice = value.choice;

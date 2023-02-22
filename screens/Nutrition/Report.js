@@ -46,11 +46,6 @@ class Report extends Component {
 
             this.props.getNutritionActivityIdMission(user.user_id, nutrition_mission.id)
 
-
-
-            // console.log("nutrition_activity_id_Mission", mission);
-
-
             if (assessmentKitActivities == null) {
                 let value = assessment_kit && assessment_kit.map((value, i) => {
                     var choice = value.choice.clause;
@@ -89,8 +84,6 @@ class Report extends Component {
                         }, {});
                         return mu;
                     }
-
-
                 })
                 this.setState({
                     assessmentKitActivities: value,
@@ -104,8 +97,6 @@ class Report extends Component {
                     numberArrayCheck: result2.length
                 })
             }
-
-
         }
     }
 
@@ -215,170 +206,171 @@ class Report extends Component {
         return (
             <View style={styles.container}>
                 <StatusBar barStyle="dark-content" />
-                <View style={styles.areaView}>
+                <View>
                     <Text style={styles.exercise}>การประเมิน</Text>
                     <Text style={styles.week}>สัปดาห์ที่ 1</Text>
                     <ScrollView>
-                        {
-                            assessmentKit && assessmentKit.map((value, i) => {
+                        <View style={styles.areaView}>
+                            {
+                                assessmentKit && assessmentKit.map((value, i) => {
 
-                                if (value.type === multiplChoice) {
-                                    let choice = value.choice.clause;
-                                    let ic = ++i;
-                                    var result = assessmentKitActivities && assessmentKitActivities.filter((member) => {
+                                    if (value.type === multiplChoice) {
+                                        let choice = value.choice.clause;
+                                        let ic = ++i;
+                                        var result = assessmentKitActivities && assessmentKitActivities.filter((member) => {
 
-                                        if (member && member.type === multiplChoice) {
-                                            return member.index === choice.index
-                                        }
-
-                                    })
-                                    return (
-                                        <View key={i + "v"}>
-                                            {value.question ?
-                                                <Text style={styles.question}>
-                                                    {value.question}
-                                                </Text>
-                                                : null}
-
-                                            <Text style={[styles.questionClause, ((value.question) && (choice.index === i)) ? { marginLeft: 8 } : { marginTop: 24 }]}>
-                                                {choice.clause_question}
-                                            </Text>
-                                            {
-                                                value.image ?
-                                                    <View style={styles.boxImage}>
-                                                        <Image style={{ width: "100%", height: "100%", }} source={{ uri: value.image }} resizeMode='stretch' />
-                                                    </View>
-
-                                                    : null
-
-                                                //  enum('cover', 'contain', 'stretch', 'repeat', 'center')
+                                            if (member && member.type === multiplChoice) {
+                                                return member.index === choice.index
                                             }
-                                            {
-                                                choice.a ?
-                                                    (result && result[0].index === value.index) && result && result[0].select_choice == "a" ?
-                                                        <View style={[styles.quiz, ((value.question) && (choice.index === i)) ? { marginLeft: 8 } : null]} >
-                                                            <Pressable>
-                                                                <Image source={require('../../assets/images/icon/radioActive.png')} />
-                                                            </Pressable>
-                                                            <Text style={styles.responseView}>{choice.a}</Text>
-                                                        </View>
-                                                        :
-                                                        <View style={[styles.quiz, ((value.question) && (choice.index === i)) ? { marginLeft: 8 } : null]} >
-                                                            <Pressable onPress={() => this.allSelectChoice(choice.index, 'a')}>
-                                                                <Image source={require('../../assets/images/icon/radio.png')} />
-                                                            </Pressable>
-                                                            <Text style={styles.responseView}>{choice.a}</Text>
-                                                        </View>
-                                                    : null
-                                            }
-                                            {
-                                                choice.b ?
-                                                    (result && result[0].index === value.index) && result && result[0].select_choice == "b" ?
-                                                        <View style={styles.quiz} >
-                                                            <Pressable>
-                                                                <Image source={require('../../assets/images/icon/radioActive.png')} />
-                                                            </Pressable>
-                                                            <Text style={styles.responseView}>{choice.b}</Text>
-                                                        </View>
-                                                        :
-                                                        <View style={styles.quiz} >
-                                                            <Pressable onPress={() => this.allSelectChoice(choice.index, 'b')}>
-                                                                <Image source={require('../../assets/images/icon/radio.png')} />
-                                                            </Pressable>
-                                                            <Text style={styles.responseView}>{choice.b}</Text>
-                                                        </View>
-                                                    : null
-                                            }
-                                            {
-                                                choice.c ?
-                                                    (result && result[0].index === value.index) && result && result[0].select_choice == "c" ?
-                                                        <View style={styles.quiz} >
-                                                            <Pressable>
-                                                                <Image source={require('../../assets/images/icon/radioActive.png')} />
-                                                            </Pressable>
-                                                            <Text style={styles.responseView}>{choice.c}</Text>
-                                                        </View>
-                                                        :
-                                                        <View style={styles.quiz} >
-                                                            <Pressable onPress={() => this.allSelectChoice(choice.index, 'c')}>
-                                                                <Image source={require('../../assets/images/icon/radio.png')} />
-                                                            </Pressable>
-                                                            <Text style={styles.responseView}>{choice.c}</Text>
-                                                        </View>
-                                                    : null
-                                            }
-                                            {
-                                                choice.d ?
-                                                    (result && result[0].index === value.index) && result && result[0].select_choice == "d" ?
-                                                        <View style={styles.quiz} >
-                                                            <Pressable>
-                                                                <Image source={require('../../assets/images/icon/radioActive.png')} />
-                                                            </Pressable>
-                                                            <Text style={styles.responseView}>{choice.d}</Text>
-                                                        </View>
-                                                        :
-                                                        <View style={styles.quiz} >
-                                                            <Pressable onPress={() => this.allSelectChoice(choice.index, 'd')}>
-                                                                <Image source={require('../../assets/images/icon/radio.png')} />
-                                                            </Pressable>
-                                                            <Text style={styles.responseView}>{choice.d}</Text>
-                                                        </View>
-                                                    : null
-                                            }
-                                        </View>
-                                    )
-                                } else {
-                                    if (assessmentKitActivities != null) {
-                                        if (value.type === checkList) {
-                                            let data = value.choice.clause.clause_question;
-                                            let choices = [value.choice.clause];
-                                            const array = Object.entries(choices[0]);
-                                            let inne = value.choice.clause.index;
-                                            var result2 = assessmentKitActivities && assessmentKitActivities.filter((member3) => {
-                                                if (member3.index == inne) {
-                                                    return member3
-                                                }
-                                            })
-                                            const array2 = Object.entries(result2[0]);
-                                            return (
-                                                <View key={i + "vl"}>
+
+                                        })
+                                        return (
+                                            <View key={i + "v"}>
+                                                {value.question ?
                                                     <Text style={styles.question}>
-                                                        {data}
+                                                        {value.question}
                                                     </Text>
-                                                    {
-                                                        array.map((item, k) => {
-                                                            let ind = value.choice.clause.index;
-                                                            if (item[0] != 'index') {
-                                                                if (item[0] != 'clause_question') {
-                                                                    let dat = array2.map((item2, k) => {
-                                                                        if (item[0] == item2[0]) {
-                                                                            return (
-                                                                                <View style={styles.quiz} key={k + "qv"} >
-                                                                                    <Pressable onPress={() => this.allCheckList(ind, item[0])}>
-                                                                                        <Image source={item2[1] == true ? require('../../assets/images/icon/ChecksActive.png') : require('../../assets/images/icon/Checks.png')} />
-                                                                                    </Pressable>
-                                                                                    <Text style={styles.responseView}>{item[1]}</Text>
-                                                                                </View>)
-                                                                        }
+                                                    : null}
 
-                                                                    })
-                                                                    return dat
-                                                                }
-                                                            }
+                                                <Text style={[styles.questionClause, ((value.question) && (choice.index === i)) ? { marginLeft: 8 } : { marginTop: 24 }]}>
+                                                    {choice.clause_question}
+                                                </Text>
+                                                {
+                                                    value.image ?
+                                                        <View style={styles.boxImage}>
+                                                            <Image style={{ width: "100%", height: "100%", }} source={{ uri: value.image }} resizeMode='stretch' />
+                                                        </View>
 
-                                                        })
+                                                        : null
+
+                                                    //  enum('cover', 'contain', 'stretch', 'repeat', 'center')
+                                                }
+                                                {
+                                                    choice.a ?
+                                                        (result && result[0].index === value.index) && result && result[0].select_choice == "a" ?
+                                                            <View style={[styles.quiz, ((value.question) && (choice.index === i)) ? { marginLeft: 8 } : null]} >
+                                                                <Pressable>
+                                                                    <Image source={require('../../assets/images/icon/radioActive.png')} />
+                                                                </Pressable>
+                                                                <Text style={styles.responseView}>{choice.a}</Text>
+                                                            </View>
+                                                            :
+                                                            <View style={[styles.quiz, ((value.question) && (choice.index === i)) ? { marginLeft: 8 } : null]} >
+                                                                <Pressable onPress={() => this.allSelectChoice(choice.index, 'a')}>
+                                                                    <Image source={require('../../assets/images/icon/radio.png')} />
+                                                                </Pressable>
+                                                                <Text style={styles.responseView}>{choice.a}</Text>
+                                                            </View>
+                                                        : null
+                                                }
+                                                {
+                                                    choice.b ?
+                                                        (result && result[0].index === value.index) && result && result[0].select_choice == "b" ?
+                                                            <View style={styles.quiz} >
+                                                                <Pressable>
+                                                                    <Image source={require('../../assets/images/icon/radioActive.png')} />
+                                                                </Pressable>
+                                                                <Text style={styles.responseView}>{choice.b}</Text>
+                                                            </View>
+                                                            :
+                                                            <View style={styles.quiz} >
+                                                                <Pressable onPress={() => this.allSelectChoice(choice.index, 'b')}>
+                                                                    <Image source={require('../../assets/images/icon/radio.png')} />
+                                                                </Pressable>
+                                                                <Text style={styles.responseView}>{choice.b}</Text>
+                                                            </View>
+                                                        : null
+                                                }
+                                                {
+                                                    choice.c ?
+                                                        (result && result[0].index === value.index) && result && result[0].select_choice == "c" ?
+                                                            <View style={styles.quiz} >
+                                                                <Pressable>
+                                                                    <Image source={require('../../assets/images/icon/radioActive.png')} />
+                                                                </Pressable>
+                                                                <Text style={styles.responseView}>{choice.c}</Text>
+                                                            </View>
+                                                            :
+                                                            <View style={styles.quiz} >
+                                                                <Pressable onPress={() => this.allSelectChoice(choice.index, 'c')}>
+                                                                    <Image source={require('../../assets/images/icon/radio.png')} />
+                                                                </Pressable>
+                                                                <Text style={styles.responseView}>{choice.c}</Text>
+                                                            </View>
+                                                        : null
+                                                }
+                                                {
+                                                    choice.d ?
+                                                        (result && result[0].index === value.index) && result && result[0].select_choice == "d" ?
+                                                            <View style={styles.quiz} >
+                                                                <Pressable>
+                                                                    <Image source={require('../../assets/images/icon/radioActive.png')} />
+                                                                </Pressable>
+                                                                <Text style={styles.responseView}>{choice.d}</Text>
+                                                            </View>
+                                                            :
+                                                            <View style={styles.quiz} >
+                                                                <Pressable onPress={() => this.allSelectChoice(choice.index, 'd')}>
+                                                                    <Image source={require('../../assets/images/icon/radio.png')} />
+                                                                </Pressable>
+                                                                <Text style={styles.responseView}>{choice.d}</Text>
+                                                            </View>
+                                                        : null
+                                                }
+                                            </View>
+                                        )
+                                    } else {
+                                        if (assessmentKitActivities != null) {
+                                            if (value.type === checkList) {
+                                                let data = value.choice.clause.clause_question;
+                                                let choices = [value.choice.clause];
+                                                const array = Object.entries(choices[0]);
+                                                let inne = value.choice.clause.index;
+                                                var result2 = assessmentKitActivities && assessmentKitActivities.filter((member3) => {
+                                                    if (member3.index == inne) {
+                                                        return member3
                                                     }
-                                                </View>
-                                            )
+                                                })
+                                                const array2 = Object.entries(result2[0]);
+                                                return (
+                                                    <View key={i + "vl"}>
+                                                        <Text style={styles.question}>
+                                                            {data}
+                                                        </Text>
+                                                        {
+                                                            array.map((item, k) => {
+                                                                let ind = value.choice.clause.index;
+                                                                if (item[0] != 'index') {
+                                                                    if (item[0] != 'clause_question') {
+                                                                        let dat = array2.map((item2, k) => {
+                                                                            if (item[0] == item2[0]) {
+                                                                                return (
+                                                                                    <View style={styles.quiz} key={k + "qv"} >
+                                                                                        <Pressable onPress={() => this.allCheckList(ind, item[0])}>
+                                                                                            <Image source={item2[1] == true ? require('../../assets/images/icon/ChecksActive.png') : require('../../assets/images/icon/Checks.png')} />
+                                                                                        </Pressable>
+                                                                                        <Text style={styles.responseView}>{item[1]}</Text>
+                                                                                    </View>)
+                                                                            }
+
+                                                                        })
+                                                                        return dat
+                                                                    }
+                                                                }
+
+                                                            })
+                                                        }
+                                                    </View>
+                                                )
+                                            }
                                         }
                                     }
-                                }
 
-                            })
-                        }
+                                })
+                            }
 
 
-                        {/*                         <View>
+                            {/*                         <View>
                             <Text style={styles.question}>
                                 2. คุณทานอาหารหลังออกกำลังกาย ภายใน 30 นาที- 1 ชั่วโมงหรือไม่
                             </Text>
@@ -451,52 +443,53 @@ class Report extends Component {
                                 />
                             </View>
                         </View> */}
-                        <View>
-                            <View style={[styles.viewSwitches, switchOn === true ? { backgroundColor: colors.positive3 } : null]}>
-                                <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-                                    <Text style={[styles.switchesTextHead, switchOn === true ? { color: colors.positive1 } : null]}>ยืนยันคำตอบ</Text>
-                                    <Switch
-                                        value={switchOn}
-                                        onValueChange={(value) => this.setState({ switchOn: value })}
-                                        backgroundActive={colors.positive1}
-                                        backgroundInactive={colors.grey4}
-                                        style={styles.switch}
-                                        renderActiveText={false}
-                                        renderInActiveText={false}
-                                        innerCircleStyle={{ alignItems: "center", justifyContent: "center" }}
-                                        circleSize={30}
-                                        barHeight={35}
-                                        switchLeftPx={2.5}
-                                        switchRightPx={2.5}
-                                        switchWidthMultiplier={2}
-                                        switchBorderRadius={30}
-                                        circleBorderWidth={0}
+                            <View>
+                                <View style={[styles.viewSwitches, switchOn === true ? { backgroundColor: colors.positive3 } : null]}>
+                                    <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                                        <Text style={[styles.switchesTextHead, switchOn === true ? { color: colors.positive1 } : null]}>ยืนยันคำตอบ</Text>
+                                        <Switch
+                                            value={switchOn}
+                                            onValueChange={(value) => this.setState({ switchOn: value })}
+                                            backgroundActive={colors.positive1}
+                                            backgroundInactive={colors.grey4}
+                                            style={styles.switch}
+                                            renderActiveText={false}
+                                            renderInActiveText={false}
+                                            innerCircleStyle={{ alignItems: "center", justifyContent: "center" }}
+                                            circleSize={30}
+                                            barHeight={35}
+                                            switchLeftPx={2.5}
+                                            switchRightPx={2.5}
+                                            switchWidthMultiplier={2}
+                                            switchBorderRadius={30}
+                                            circleBorderWidth={0}
 
-                                    />
+                                        />
+                                    </View>
+                                    <Text style={styles.switchesTexConter}>คำตอบจะมีผลต่อภารกิจถัดไป โดยเมื่อส่งแล้วจะไม่สามารถมาแก้ไขได้</Text>
                                 </View>
-                                <Text style={styles.switchesTexConter}>คำตอบจะมีผลต่อภารกิจถัดไป โดยเมื่อส่งแล้วจะไม่สามารถมาแก้ไขได้</Text>
+                                {((numberArray == true) || (numberArrayCheck == true)) && (switchOn === true) ?
+                                    <Pressable onPress={() => this.submit()}>
+                                        <View style={styles.pressableView}>
+                                            <View style={ComponentsStyle.button}>
+                                                <Text style={ComponentsStyle.textButton}>
+                                                    ส่งคำตอบ
+                                                </Text>
+                                            </View>
+                                        </View>
+                                    </Pressable>
+                                    :
+                                    <Pressable >
+                                        <View style={styles.pressableView}>
+                                            <View style={ComponentsStyle.buttonGrey}>
+                                                <Text style={ComponentsStyle.textButtonGrey}>
+                                                    ส่งคำตอบ
+                                                </Text>
+                                            </View>
+                                        </View>
+                                    </Pressable>
+                                }
                             </View>
-                            {((numberArray == true) || (numberArrayCheck == true)) && (switchOn === true) ?
-                                <Pressable onPress={() => this.submit()}>
-                                    <View style={styles.pressableView}>
-                                        <View style={ComponentsStyle.button}>
-                                            <Text style={ComponentsStyle.textButton}>
-                                                ส่งคำตอบ
-                                            </Text>
-                                        </View>
-                                    </View>
-                                </Pressable>
-                                :
-                                <Pressable >
-                                    <View style={styles.pressableView}>
-                                        <View style={ComponentsStyle.buttonGrey}>
-                                            <Text style={ComponentsStyle.textButtonGrey}>
-                                                ส่งคำตอบ
-                                            </Text>
-                                        </View>
-                                    </View>
-                                </Pressable>
-                            }
                         </View>
                     </ScrollView>
                 </View >

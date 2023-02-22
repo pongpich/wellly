@@ -22,6 +22,7 @@ class ReportFeedback extends Component {
     componentDidMount() {
         const { nutrition_mission } = this.props;
         console.log("nutrition_mission");
+
     }
 
 

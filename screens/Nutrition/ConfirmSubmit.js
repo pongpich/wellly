@@ -4,8 +4,19 @@ import { LinearGradient } from 'expo-linear-gradient';
 import ComponentsStyle from '../../constants/components';
 import { StackActions } from '@react-navigation/native';
 import colors from '../../constants/colors';
+import { routeName } from "../../redux/personalUser";
+import { connect } from 'react-redux';
+import { withTranslation } from 'react-i18next';
 
 class ConfirmSubmit extends Component {
+
+    componentDidMount() {
+
+        const { route } = this.props;
+        //console.log("route", route);
+        this.props.routeName(route.name);
+    }
+
     render() {
         return (
             <LinearGradient
@@ -85,4 +96,16 @@ const styles = StyleSheet.create({
         alignItems: "center",
     }
 });
-export default ConfirmSubmit;
+
+const mapStateToProps = ({ personalDataUser }) => {
+    const { route_name } = personalDataUser;
+    return { route_name };
+};
+
+const mapActionsToProps = { routeName };
+
+export default connect(
+    mapStateToProps,
+    mapActionsToProps
+)(withTranslation()(ConfirmSubmit));
+
