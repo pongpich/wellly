@@ -61,7 +61,7 @@ const prod = {
     endpoints: [
       {
         name: "planforfit",
-        endpoint: "https://api.planforfit.com/wellly",
+        endpoint: "https://api.planforfit.com/wellly_dev",
         region: "ap-southeast-1"
       }
     ]
@@ -70,7 +70,7 @@ const prod = {
 
 const config = process.env.REACT_APP_STAGE === 'prod'
   ? prod
-  : dev //หรือ dev สำหรับเทสบน emulator
+  : prod //หรือ dev สำหรับเทสบน emulator
 
 export const awsConfig = {
   // Add common config values here

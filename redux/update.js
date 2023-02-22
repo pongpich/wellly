@@ -25,12 +25,13 @@ export const update_quiz_activities = (user_id, week_in_program, quiz_activities
 });
 
 
-export const update_assessment_kit_activties = (user_id, week_in_program, assessment_kit_activties) => ({
+export const update_assessment_kit_activties = (user_id, week_in_program, assessment_kit_activties, assessment_kit_number) => ({
     type: types.UPDATE_ASSESSMENT_KIT_ACIVTIES,
     payload: {
         user_id,
         week_in_program,
         assessment_kit_activties,
+        assessment_kit_number,
     },
 });
 
@@ -72,7 +73,8 @@ const update_quiz_activitiesSagaAsync = async (
 const update_assessment_kit_activtiesSagaAsync = async (
     user_id,
     week_in_program,
-    assessment_kit_activties
+    assessment_kit_activties,
+    assessment_kit_number
 ) => {
 
     try {
@@ -80,7 +82,8 @@ const update_assessment_kit_activtiesSagaAsync = async (
             body: {
                 user_id,
                 week_in_program,
-                assessment_kit_activties
+                assessment_kit_activties,
+                assessment_kit_number
             }
         });
 
@@ -140,7 +143,8 @@ function* update_assessment_kit_activtiesSaga({ payload }) {
     const {
         user_id,
         week_in_program,
-        assessment_kit_activties
+        assessment_kit_activties,
+        assessment_kit_number
     } = payload
 
     try {
@@ -148,7 +152,8 @@ function* update_assessment_kit_activtiesSaga({ payload }) {
             update_assessment_kit_activtiesSagaAsync,
             user_id,
             week_in_program,
-            assessment_kit_activties
+            assessment_kit_activties,
+            assessment_kit_number
         );
         yield put({
             type: types.UPDATE_ASSESSMENT_KIT_ACIVTIES_SUCCESS,

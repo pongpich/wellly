@@ -126,7 +126,7 @@ class Report extends Component {
 
         if (prevState.assessmentKitActivities === assessmentKitActivities) {
             // console.log("assessmentKitActivities", assessmentKitActivities);
-            this.props.update_assessment_kit_activties(user_id, week_in_program, assessmentKitActivities);
+            this.props.update_assessment_kit_activties(user_id, week_in_program, assessmentKitActivities, 'null');
         }
 
     }
@@ -282,9 +282,9 @@ class Report extends Component {
                                                         </View>
                                                         :
                                                         <View style={styles.quiz} >
-                                                            <TouchPressableableOpacity onPress={() => this.allSelectChoice(choice.index, 'b')}>
+                                                            <Pressable onPress={() => this.allSelectChoice(choice.index, 'b')}>
                                                                 <Image source={require('../../assets/images/icon/radio.png')} />
-                                                            </TouchPressableableOpacity>
+                                                            </Pressable>
                                                             <Text style={styles.responseView}>{choice.b}</Text>
                                                         </View>
                                                     : null
