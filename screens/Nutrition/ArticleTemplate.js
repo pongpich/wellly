@@ -157,115 +157,103 @@ class ArticleTemplate extends Component {
         const { heading } = this.props.route.params;
         return (
             <View style={styles.container}>
-                <View style={{ flex: 1 }}>
-                    <View style={{ height: 44, width: "100%", backgroundColor: statusBarColor === "light" ? colors.persianBlue : colors.white }}>
-                        {
-                            statusBarColor === "light" ?
-                                <StatusBar barStyle="light-content" />
-                                :
-                                <StatusBar barStyle="dark-content" />
-                        }
+                <View style={{ height: 44, width: "100%", backgroundColor: statusBarColor === "light" ? colors.persianBlue : colors.white }}>
+                    {
+                        statusBarColor === "light" ?
+                            <StatusBar barStyle="light-content" />
+                            :
+                            <StatusBar barStyle="dark-content" />
+                    }
+                </View>
+                <View style={{ height: 48, width: "100%", backgroundColor: statusBarColor === "light" ? colors.persianBlue : colors.white }}>
+                    <View style={{ marginLeft: 16 }}>
+                        <Pressable onPress={() => this.props.navigation.goBack()}>
+                            <Image
+                                source={statusBarColor === "light" ? require('../../assets/images/icon/chevron.png') : require('../../assets/images/icon/caret.png')}
+                            />
+                        </Pressable>
                     </View>
-                    <View style={{ height: 48, width: "100%", backgroundColor: statusBarColor === "light" ? colors.persianBlue : colors.white }}>
-                        <View style={{ marginLeft: 16 }}>
-                            <Pressable onPress={() => this.props.navigation.goBack()}>
-                                <Image
-                                    source={statusBarColor === "light" ? require('../../assets/images/icon/chevron.png') : require('../../assets/images/icon/caret.png')}
-                                />
-                            </Pressable>
-                        </View>
+                </View>
+
+                <View style={ComponentsStyle.headBox}>
+                    <View style={ComponentsStyle.areaNumber}>
+                        <Text style={ComponentsStyle.areaNumberText}>
+                            {numberMission}
+                        </Text>
                     </View>
-
-                    <View style={ComponentsStyle.headBox}>
-                        <View style={ComponentsStyle.areaNumber}>
-                            <Text style={ComponentsStyle.areaNumberText}>
-                                {numberMission}
-                            </Text>
-                        </View>
-                        <View style={ComponentsStyle.nutritionMission}>
-                            <Text style={ComponentsStyle.missionHead}>ภารกิจโภชนาการ</Text>
-                            <Text style={ComponentsStyle.missionHeading}>{heading}</Text>
-                        </View>
+                    <View style={ComponentsStyle.nutritionMission}>
+                        <Text style={ComponentsStyle.missionHead}>ภารกิจโภชนาการ</Text>
+                        <Text style={ComponentsStyle.missionHeading}>{heading}</Text>
                     </View>
-                    {/* </Animated.View> */}
-                    <Animated.View style={{
-                        transform: [{
-                            translateY: this.slideAnim.interpolate({
-                                inputRange: [0, 1],
-                                outputRange: [0, -140]
-                            })
-                        }],
-                        flex: 1,
-                        zIndex: 1,
-                        marginBottom: -200,
-                    }}>
-                        <View style={ComponentsStyle.contentBox}>
-                            <View style={styles.heading}>
-                                <View style={study === true ? styles.boxHeadingActive : styles.boxHeading}>
-                                    <TouchableOpacity onPress={() => this.setState({
-                                        study: true
-                                    })}>
-                                        <Text style={study === true ? styles.sectionActive : styles.section}> ความรู้</Text>
-                                    </TouchableOpacity>
-                                </View>
-                                <View style={study !== true ? styles.boxHeadingActive : styles.boxHeading}>
-                                    <TouchableOpacity onPress={() => this.setState({
-                                        study: false
-                                    })}>
-                                        <Text style={study !== true ? styles.sectionActive : styles.section}> ภารกิจ</Text>
-                                    </TouchableOpacity>
-                                </View>
-                            </View>
-
-                            <ScrollView onScroll={(event) => {
-                                const scrolling = event.nativeEvent.contentOffset.y;
-                                if (scrolling > 100) {
-                                    this.setState({
-                                        statusBarColor: "dark"
-                                    })
-
-                                    this.slideDown()
-                                } else {
-                                    this.setState({
-                                        statusBarColor: "light"
-                                    })
-                                    this.slideUp()
-                                }
-                            }}
-
-                            >
-                                <View style={{ marginHorizontal: 16, marginTop: -30, marginBottom: 100, height: "100%", }}>
-                                    {
-                                        study ?
-                                            this.renderCheckArticle()
-                                            :
-                                            <View style={{ marginTop: 2 }}>
-                                                <Mission />
-                                            </View>
-                                    }
-                                </View>
-                            </ScrollView>
-                        </View >
-                    </Animated.View>
-                </View >
-                <View style={{
-                    marginBottom: -100,
-                    shadowColor: colors.white,
-                    shadowOffset: {
-                        width: 0,
-                        height: -15,
-                    },
-                    shadowOpacity: 0.58,
-                    elevation: 0,
-
+                </View>
+                {/* </Animated.View> */}
+                <Animated.View style={{
+                    transform: [{
+                        translateY: this.slideAnim.interpolate({
+                            inputRange: [0, 1],
+                            outputRange: [0, -140]
+                        })
+                    }],
+                    flex: 1,
+                    zIndex: 1,
+                    marginBottom: -200,
                 }}>
+                    <View style={ComponentsStyle.contentBox}>
+                        <View style={styles.heading}>
+                            <View style={study === true ? styles.boxHeadingActive : styles.boxHeading}>
+                                <TouchableOpacity onPress={() => this.setState({
+                                    study: true
+                                })}>
+                                    <Text style={study === true ? styles.sectionActive : styles.section}> ความรู้</Text>
+                                </TouchableOpacity>
+                            </View>
+                            <View style={study !== true ? styles.boxHeadingActive : styles.boxHeading}>
+                                <TouchableOpacity onPress={() => this.setState({
+                                    study: false
+                                })}>
+                                    <Text style={study !== true ? styles.sectionActive : styles.section}> ภารกิจ</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
 
+                        <ScrollView onScroll={(event) => {
+                            const scrolling = event.nativeEvent.contentOffset.y;
+                            if (scrolling > 100) {
+                                this.setState({
+                                    statusBarColor: "dark"
+                                })
+
+                                this.slideDown()
+                            } else {
+                                this.setState({
+                                    statusBarColor: "light"
+                                })
+                                this.slideUp()
+                            }
+                        }}
+                            style={{ height: "100%", marginBottom: -40 }}
+                        >
+                            <View style={{ marginHorizontal: 16, marginTop: -30, height: "100%", }}>
+                                {
+                                    study ?
+                                        this.renderCheckArticle()
+                                        :
+                                        <View style={{ marginTop: 2 }}>
+                                            <Mission />
+                                        </View>
+                                }
+                            </View>
+                        </ScrollView>
+                    </View >
+                </Animated.View>
+
+                <View style={{ zIndex: 10, }}>
                     <Animated.View
                         style={{
                             transform: [{
                                 translateY: this.slideAnim.interpolate({
                                     inputRange: [0, 1],
-                                    outputRange: [-100, 0]
+                                    outputRange: [0, 100]
                                 })
                             }],
                             marginBottom: 0,
@@ -276,6 +264,7 @@ class ArticleTemplate extends Component {
 
                         }}
                     >
+
                         {
                             study ?
                                 statusQuiz && statusQuiz === true ?
@@ -313,9 +302,9 @@ class ArticleTemplate extends Component {
                                     </Pressable>
                         }
                     </Animated.View>
-
-
                 </View>
+
+
 
                 <View>
                     <Pressable title="Show modal" onPress={() => this.toggleModal(isModalVisible)} />
@@ -355,7 +344,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         position: "relative",
-
+        backgroundColor: colors.white
 
     },
     heading: {
