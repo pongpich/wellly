@@ -342,6 +342,24 @@ class Report extends Component {
                                                             </View>
                                                         : null
                                                 }
+                                                {
+                                                    choice.e ?
+                                                        (result && result[0].index === value.index) && result && result[0].select_choice == "e" ?
+                                                            <View style={styles.quiz} >
+                                                                <Pressable>
+                                                                    <Image source={require('../../assets/images/icon/radioActive.png')} />
+                                                                </Pressable>
+                                                                <Text style={styles.responseView}>{choice.e}</Text>
+                                                            </View>
+                                                            :
+                                                            <View style={styles.quiz} >
+                                                                <Pressable onPress={() => this.allSelectChoice(choice.index, 'e')}>
+                                                                    <Image source={require('../../assets/images/icon/radio.png')} />
+                                                                </Pressable>
+                                                                <Text style={styles.responseView}>{choice.e}</Text>
+                                                            </View>
+                                                        : null
+                                                }
                                             </View>
                                         )
                                     } else {
