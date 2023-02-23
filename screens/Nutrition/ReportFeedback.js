@@ -17,20 +17,42 @@ class ReportFeedback extends Component {
             statusBarColor: "light",
             typeChoice: "multiple_choice",
             typeCheckList: "check_list",
-            routName: null
+            routName: null,
+            mission: null,
+            assessment_kit: null
+
         };
     }
 
     componentDidMount() {
 
-        const { nutrition_mission, route_name } = this.props;
+        const { nutrition_mission, route_name, nutrition_activity_id_Mission, statusGetNutritionActivityIdMission, user } = this.props;
+        this.props.getNutritionActivityIdMission(user.user_id, nutrition_mission.id)
         if (route_name.route_name == "ConfirmSubmit") {
             this.setState({
                 routName: route_name.route_name
             })
         }
+        if (nutrition_mission.assessment_results != null) {
+            this.setState({
+                mission: JSON.parse(nutrition_mission.assessment_results)
+            })
+
+        }
+
+        if (nutrition_activity_id_Mission.assessment_kit_activties != null) {
+            this.setState({
+                assessment_kit: JSON.parse(nutrition_activity_id_Mission.assessment_kit_activties)
+            })
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState) {
 
     }
+
+
+
 
 
     slideDown = () => {
@@ -51,8 +73,7 @@ class ReportFeedback extends Component {
 
 
     render() {
-        const { statusBarColor, routName } = this.state;
-
+        const { statusBarColor, routName, mission, assessment_kit, typeChoice, typeCheckList } = this.state;
         return (
             <View style={styles.container}>
                 <View style={{ height: 44, width: "100%", backgroundColor: statusBarColor === "light" ? colors.secondary_MayaBlue : colors.white }}>
@@ -117,27 +138,41 @@ class ReportFeedback extends Component {
 
                             >
                                 <View style={styles.conterScrollView}>
-                                    <Text style={styles.clause}>1. คุณสามารถรับประทานอาหารได้ตามเป้าหมายการจัดจาน 2-1-1 (ผัก2 เนื้อและแป้ง อย่างละ 1)หรือไม่</Text>
-                                    <View style={styles.clauseView}>
-                                        <Image style={{ width: 30, height: 30 }} source={require('../../assets/images/icon/💬.png')} />
-                                        <Text style={styles.clause1}>ทำได้อย่างสม่ำเสมอ</Text>
-                                    </View>
-                                    <View style={styles.clauseBoxView}>
-                                        <View style={styles.clauseBox}>
-                                            <Image style={{ width: 30, height: 30 }} source={require('../../assets/images/icon/😎.png')} />
-                                            <Text style={styles.clauseConter}>ทำได้ดีแล้ว เนื่องจากคาร์โบไฮเดรตเป็นสารอาหารที่ให้พลังงานกับร่างกายเป็นสำคัญ ช่วยทำให้ร่างกายมีเรี่ยวแรง ขยับและเคลื่อนไหวได้เป็นปกติ การเลือกรับประทานคาร์โบไฮเดรตเชิงซ้อน เช่น ข้าว-แป้งไม่ขัดสี ข้าวซ้อมมือ ขนมปังโฮวีท ถั่วเมล็ดแห้งชนิดต่าง ๆ </Text>
-                                        </View>
-                                    </View>
-                                    <Text style={styles.clause}>2. คุณทานอาหารหลังออกกำลังกาย ภายใน 30 นาที - 1 ชั่วโมงหรือไม</Text>
+
+                                    {
+                                        assessment_kit && assessment_kit.map((value, i) => {
+                                            if (value.type == typeChoice) {
+                                                return mission && mission.map((member, l) => {
+                                                    if (value.index == member.index) {
+                                                        return (
+                                                            <View key={l + "da"}>
+                                                                <Text style={styles.clause}>{member.question}</Text>
+                                                                <View style={styles.clauseView}>
+                                                                    <Image style={{ width: 30, height: 30 }} source={require('../../assets/images/icon/💬.png')} />
+                                                                    <Text style={styles.clause1}>{member.choice[value.select_choice].answer}</Text>
+                                                                </View>
+                                                                <View style={styles.clauseBox}>
+                                                                    <Image style={{ width: 30, height: 30 }} source={require('../../assets/images/icon/😎.png')} />
+                                                                    <Text style={styles.clauseConter}>{member.choice[value.select_choice].assessment}</Text>
+                                                                </View>
+                                                            </View>
+                                                        )
+                                                    }
+                                                })
+
+                                            }
+                                        })
+                                    }
+
+
+                                    {/*  <Text style={styles.clause}>2. คุณทานอาหารหลังออกกำลังกาย ภายใน 30 นาที - 1 ชั่วโมงหรือไม</Text>
                                     <View style={styles.clauseView}>
                                         <Image style={{ width: 30, height: 30 }} source={require('../../assets/images/icon/💬.png')} />
                                         <Text style={styles.clause1}>ไม่ - เล่นเสร็จทีไรร้านปิดทุกที</Text>
                                     </View>
-                                    <View style={styles.clauseBoxView}>
-                                        <View style={styles.clauseBox}>
-                                            <Image style={{ width: 30, height: 30 }} source={require('../../assets/images/icon/😎.png')} />
-                                            <Text style={styles.clauseConter}>ทไม่ร้องนะ ลองเปลี่ยนร้านดูมั้ย เผื่อจะดีขึ้น</Text>
-                                        </View>
+                                    <View style={styles.clauseBox}>
+                                        <Image style={{ width: 30, height: 30 }} source={require('../../assets/images/icon/😎.png')} />
+                                        <Text style={styles.clauseConter}>ไม่ร้องนะ ลองเปลี่ยนร้านดูมั้ย เผื่อจะดีขึ้น</Text>
                                     </View>
                                     <Text style={styles.clause}>3. เลือกทำเครื่องหมาย ข้อที่คุณสามารถทำได้ก่อนออกกำลังกาย (เลือกได้มากกว่า 1 ข้อ)</Text>
                                     <View style={styles.clauseView}>
@@ -147,17 +182,15 @@ class ReportFeedback extends Component {
                                             <Text style={styles.clause1}>- ดื่มน้ำให้ได้ประมาณ 300 มิลลิลิตร หรือประมาณ 1.5 แก้วก่อนออกกำลังกาย เลี่ยงการดื่มน้ำปริมาณมาก ๆ </Text>
                                         </View>
                                     </View>
-                                    <View style={styles.clauseBoxView}>
-                                        <View style={styles.clauseBox}>
-                                            <Image style={{ width: 30, height: 30 }} source={require('../../assets/images/icon/😎.png')} />
-                                            <Text style={styles.clauseConter}>อื้มม เวรี่กู๊ด ทำได้ดีแล้ว เนื่องจากคาร์โบไฮเดรตเป็นสารอาหารที่ให้พลังงานกับร่างกายเป็นสำคัญ ช่วยทำให้ร่างกายมีเรี่ยวแรง ขยับและเคลื่อนไหวได้เป็นปกติ การเลือกรับประทานคาร์โบไฮเดรตเชิงซ้อน เช่น ข้าว-แป้งไม่ขัดสี ข้าวซ้อมมือ ขนมปังโฮวีท ถั่วเมล็ดแห้งชนิดต่าง ๆ จะมีผลในการกระตุ้นอินซูลินน้อยกว่า และยังให้สารอาหารชนิดอื่นๆ เช่น วิตามิน เกลือแร่และใยอาหาร และสามารถสร้างไกลโคเจนเก็บสะสมไว้ในกล้ามเนื้อได้มากกว่าอีกด้วย</Text>
-                                        </View>
-                                    </View>
+                                    <View style={styles.clauseBox}>
+                                        <Image style={{ width: 30, height: 30 }} source={require('../../assets/images/icon/😎.png')} />
+                                        <Text style={styles.clauseConter}>อื้มม เวรี่กู๊ด ทำได้ดีแล้ว เนื่องจากคาร์โบไฮเดรตเป็นสารอาหารที่ให้พลังงานกับร่างกายเป็นสำคัญ ช่วยทำให้ร่างกายมีเรี่ยวแรง ขยับและเคลื่อนไหวได้เป็นปกติ การเลือกรับประทานคาร์โบไฮเดรตเชิงซ้อน เช่น ข้าว-แป้งไม่ขัดสี ข้าวซ้อมมือ ขนมปังโฮวีท ถั่วเมล็ดแห้งชนิดต่าง ๆ จะมีผลในการกระตุ้นอินซูลินน้อยกว่า และยังให้สารอาหารชนิดอื่นๆ เช่น วิตามิน เกลือแร่และใยอาหาร และสามารถสร้างไกลโคเจนเก็บสะสมไว้ในกล้ามเนื้อได้มากกว่าอีกด้วย</Text>
+                                    </View> */}
                                 </View>
                             </ScrollView>
                         </View>
                     </View >
-                </Animated.View>
+                </Animated.View >
             </View >
         )
     }
@@ -212,14 +245,16 @@ const styles = StyleSheet.create({
         borderRadius: 16,
         zIndex: 1,
         backgroundColor: colors.white,
-        padding: 16,
+
     },
     clauseBoxView: {
-        marginBottom: 24
+        marginBottom: 24,
     },
     conterScrollView: {
-        width: "100%",
-
+        // width: "100%",
+        marginTop: 16,
+        marginHorizontal: 16,
+        paddingBottom: 50
     },
     clause: {
         color: colors.grey1,
@@ -229,7 +264,8 @@ const styles = StyleSheet.create({
     },
     clauseView: {
         marginTop: 8,
-        flexDirection: "row"
+        flexDirection: "row",
+        marginRight: 16
     },
     clause1: {
         marginLeft: 8,
@@ -245,6 +281,8 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         flexDirection: "row",
         width: "100%",
+        marginBottom: 24,
+        paddingRight: 16
 
     },
     clauseConter: {
@@ -258,14 +296,14 @@ const styles = StyleSheet.create({
 
 });
 
-const mapStateToProps = ({ getData, personalDataUser }) => {
-
+const mapStateToProps = ({ authUser, getData, personalDataUser }) => {
+    const { user } = authUser;
     const { route_name } = personalDataUser;
-    const { nutrition_mission, statusGetNutritionMission } = getData;
-    return { nutrition_mission, statusGetNutritionMission, route_name };
+    const { nutrition_mission, statusGetNutritionMission, statusGetNutritionActivityIdMission, nutrition_activity_id_Mission } = getData;
+    return { nutrition_mission, statusGetNutritionMission, nutrition_activity_id_Mission, statusGetNutritionActivityIdMission, route_name, user };
 };
 
-const mapActionsToProps = { logoutUser, getNutritionMission, routeName };
+const mapActionsToProps = { logoutUser, getNutritionMission, routeName, getNutritionActivityIdMission };
 
 export default connect(
     mapStateToProps,
