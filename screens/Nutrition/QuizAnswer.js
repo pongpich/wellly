@@ -118,11 +118,11 @@ class QuizAnswer extends Component {
 
                                 (fill) => (
                                     <>
-                                        <Text style={{ color: colors.grey2, fontSize: 16, fontFamily: "IBMPlexSansThai-Regular", marginTop: 17 }}>คะแนน</Text>
                                         <View style={{ flexDirection: "row", marginTop: 10 }}>
                                             <Text style={{ color: colors.grey1, fontSize: 32, fontFamily: "IBMPlexSansThai-Bold", marginTop: -17 }}>{Math.ceil(numberQ)}</Text>
                                             <Text style={{ color: colors.grey1, fontSize: 16, fontFamily: "IBMPlexSansThai-Bold", marginTop: 0 }}> /{Math.ceil(maxNumberMission)}</Text>
                                         </View>
+                                        <Text style={{ color: colors.grey2, fontSize: 16, fontFamily: "IBMPlexSansThai-Regular", marginTop: -10 }}>คะแนน</Text>
                                     </>
                                 )
 
