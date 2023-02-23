@@ -122,7 +122,7 @@ class ReportFeedback extends Component {
                         <View style={ComponentsStyle.contentBox}>
                             <ScrollView onScroll={(event) => {
                                 const scrolling = event.nativeEvent.contentOffset.y;
-                                if (scrolling > 100) {
+                                if (scrolling > 50) {
                                     this.setState({
                                         statusBarColor: "dark"
                                     })
@@ -254,7 +254,7 @@ const styles = StyleSheet.create({
         // width: "100%",
         marginTop: 16,
         marginHorizontal: 16,
-        paddingBottom: 50
+        paddingBottom: 40
     },
     clause: {
         color: colors.grey1,

@@ -318,7 +318,8 @@ const styles = StyleSheet.create({
     },
     areaView: {
         marginLeft: 16,
-        marginRight: 16
+        marginRight: 16,
+        marginBottom: 20
     },
     exercise: {
         marginHorizontal: 16,
