@@ -40,15 +40,20 @@ class ReportFeedback extends Component {
 
         }
 
-        if (nutrition_activity_id_Mission.assessment_kit_activties != null) {
-            this.setState({
-                assessment_kit: JSON.parse(nutrition_activity_id_Mission.assessment_kit_activties)
-            })
-        }
+
     }
 
     componentDidUpdate(prevProps, prevState) {
+        const { statusGetNutritionActivityIdMission, nutrition_activity_id_Mission } = this.props;
+        console.log("statusGetNutritionActivityIdMission", statusGetNutritionActivityIdMission);
 
+        if ((prevProps.nutrition_activity_id_Mission !== nutrition_activity_id_Mission) && (statusGetNutritionActivityIdMission == "success")) {
+            if (nutrition_activity_id_Mission.assessment_kit_activties != null) {
+                this.setState({
+                    assessment_kit: JSON.parse(nutrition_activity_id_Mission.assessment_kit_activties)
+                })
+            }
+        }
     }
 
 
