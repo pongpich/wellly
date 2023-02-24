@@ -89,10 +89,11 @@ const Nutrition = ({ navigation }) => {
                     {nutrition_activity ?
 
                         nutrition_activity.map((item, i) => (
-                            <TouchableWithoutFeedback onPress={() => navigation.navigate("ArticleTemplate", { id: i + 1, mission_id: item.mission_id, heading: item.heading })} key={i + "tfb"}>
+
+                            <Pressable onPress={() => navigation.navigate("ArticleTemplate", { id: i + 1, mission_id: item.mission_id, heading: item.heading })} key={i + "tfb"}>
                                 <View key={i} style={styles.row}>
                                     <View style={styles.numberView}>
-                                        <Text style={styles.number}>{i + 1}</Text>
+                                        <Text style={styles.number}>{item.week_in_program}</Text>
                                     </View>
                                     <View style={styles.missionData}>
                                         <Text style={styles.missionHead}>{item.heading}</Text>
@@ -122,7 +123,7 @@ const Nutrition = ({ navigation }) => {
                                         {/*   <AntDesign name="right" style={styles.iconRight} /> */}
                                     </View>
                                 </View>
-                            </TouchableWithoutFeedback>
+                            </Pressable>
                         )) :
                         <View style={styles.imptyImage}>
                             <Image
@@ -248,7 +249,8 @@ const styles = StyleSheet.create({
     },
     scrollViewContent: {
         marginTop: (deviceHeight < 688) ? "33%" : (deviceHeight > 1023) ? "40%" : "51%",
-        opacity: 1
+        opacity: 1,
+        paddingBottom: 100
 
     },
     notifiedRed: {
