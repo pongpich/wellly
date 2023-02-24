@@ -211,8 +211,8 @@ class Report extends Component {
 
     render() {
         const { isFocused, switchOn, numberArray, assessmentKit, assessmentKitActivities,
-            multiplChoice, checkList, numberArrayCheck, user_id, week_in_program } = this.state;
-        //console.log("1");
+            multiplChoice, checkList, numberArrayCheck, user_id, week_in_program, missionId } = this.state;
+        console.log("week_in_program", missionId);
         return (
             <View style={styles.container}>
                 <StatusBar barStyle="dark-content" />
@@ -256,7 +256,9 @@ class Report extends Component {
                                                             {
                                                                 arrayImag.map((img, i) => {
                                                                     return (
-                                                                        <View style={styles.boxImage} key={i + 'img'}>
+                                                                        <View style={week_in_program == "1" ? styles.boxImage1 : week_in_program == "2" ? styles.boxImage2 :
+                                                                            missionId == "sna1" ? styles.boxImageSna1 : missionId == "sna2" ? styles.boxImageSna2 :
+                                                                                missionId == "snb2" ? styles.boxImageSnb2 : null} key={i + 'img'}>
                                                                             <Image style={{ width: "100%", height: "100%", }} source={{ uri: img[1] }} resizeMode='stretch' />
                                                                         </View>
                                                                     )
@@ -625,10 +627,34 @@ const styles = StyleSheet.create({
         fontSize: ComponentsStyle.fontSize14,
         fontFamily: "IBMPlexSansThai-Regular",
     },
-    boxImage: {
+    boxImage1: {
         marginTop: 16,
         width: (deviceHeight > 1023) ? "100%" : "100%",
         height: (deviceHeight > 1023) ? 400 : 315
+    },
+    boxImage2: {
+        marginTop: 16,
+        marginBottom: 6,
+        width: (deviceHeight > 1023) ? "100%" : "100%",
+        height: (deviceHeight > 1023) ? 400 : 230
+    },
+    boxImageSna1: {
+        marginTop: 16,
+        marginBottom: 16,
+        width: (deviceHeight > 1023) ? "100%" : "100%",
+        height: (deviceHeight > 1023) ? 700 : 500
+    },
+    boxImageSna2: {
+        marginTop: 16,
+        marginBottom: 6,
+        width: (deviceHeight > 1023) ? "100%" : "100%",
+        height: (deviceHeight > 1023) ? 250 : 190
+    },
+    boxImageSnb2: {
+        marginTop: 16,
+        marginBottom: 16,
+        width: (deviceHeight > 1023) ? "100%" : "100%",
+        height: (deviceHeight > 1023) ? 500 : 440
     },
 });
 
