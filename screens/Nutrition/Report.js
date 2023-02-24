@@ -34,7 +34,7 @@ class Report extends Component {
     componentDidMount() {
         const { nutrition_mission, user, nutrition_activity_id_Mission, statusGetNutritionActivityIdMission } = this.props;
         const { assessmentKit, assessmentKitActivities, multiplChoice, checkList } = this.state;
-
+        console.log("nutrition_mission", nutrition_mission);
         if (nutrition_mission.assessment_kit) {
             var assessment_kit = JSON.parse(nutrition_mission.assessment_kit);
             this.setState({
@@ -115,10 +115,6 @@ class Report extends Component {
 
         }
 
-        /*    if (prevState.assessmentKitActivities === assessmentKitActivities) {
-               // console.log("assessmentKitActivities", assessmentKitActivities);
-             
-           } */
 
 
 
@@ -154,7 +150,9 @@ class Report extends Component {
     }
 
     allCheckList(index, choice) {
+
         const { user_id, week_in_program, missionId, assessmentKit, assessmentKitActivities, numberArrayCheck } = this.state;
+
         assessmentKitActivities.forEach((animal) => {
             if (animal.index == index) {
                 const array = Object.entries(animal);
@@ -212,13 +210,12 @@ class Report extends Component {
     render() {
         const { isFocused, switchOn, numberArray, assessmentKit, assessmentKitActivities,
             multiplChoice, checkList, numberArrayCheck, user_id, week_in_program, missionId } = this.state;
-        console.log("week_in_program", missionId);
         return (
             <View style={styles.container}>
                 <StatusBar barStyle="dark-content" />
                 <View>
                     <Text style={styles.exercise}>การประเมิน</Text>
-                    <Text style={styles.week}>สัปดาห์ที่ 1</Text>
+                    <Text style={styles.week}>สัปดาห์ที่ {week_in_program}</Text>
                     <ScrollView>
                         <View style={styles.areaView}>
                             {
