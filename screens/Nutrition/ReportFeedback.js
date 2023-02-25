@@ -209,11 +209,9 @@ class ReportFeedback extends Component {
                                                                             if (ke != "index") {
                                                                                 if (ke != "clause_question") {
                                                                                     if (value[ke] == true) {
-                                                                                        //console.log("value", value);
                                                                                         let resflie = mission.find((member) => {
                                                                                             return member.index == value.index
                                                                                         })
-                                                                                        console.log("resflie", resflie.choice[ke]);
                                                                                         return (
                                                                                             <>
                                                                                                 <View style={styles.clauseView}>
@@ -226,21 +224,12 @@ class ReportFeedback extends Component {
                                                                                                 </View>
                                                                                             </>
                                                                                         )
-                                                                                        //  console.log("resflie", resflie.question);
                                                                                     }
                                                                                 }
                                                                             }
                                                                         }
                                                                     })
                                                                 }
-                                                                {/* <View style={styles.clauseView}>
-                                                                    <Image style={{ width: 30, height: 30 }} source={require('../../assets/images/icon/💬.png')} />
-                                                                    <Text style={styles.clause1}>{member.choice[value.select_choice].answer}</Text>
-                                                                </View>
-                                                                <View style={styles.clauseBox}>
-                                                                    <Image style={{ width: 30, height: 30 }} source={require('../../assets/images/icon/😎.png')} />
-                                                                    <Text style={styles.clauseConter}>{member.choice[value.select_choice].assessment}</Text>
-                                                                </View> */}
                                                             </View>
                                                         )
                                                     }

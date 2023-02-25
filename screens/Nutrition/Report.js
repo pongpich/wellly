@@ -21,7 +21,8 @@ class Report extends Component {
             checked: 'unchecked',
             switchOn: false,
             numberArray: false,
-            numberArrayCheck: false,
+            numberArrayCheck: null,
+            numberCheck: false,
             multiplChoice: "multiple_choice",
             checkList: "check_list",
             assessmentKit: null,
@@ -34,7 +35,7 @@ class Report extends Component {
     componentDidMount() {
         const { nutrition_mission, user, nutrition_activity_id_Mission, statusGetNutritionActivityIdMission } = this.props;
         const { assessmentKit, assessmentKitActivities, multiplChoice, checkList } = this.state;
-        console.log("nutrition_mission", nutrition_mission);
+        //console.log("nutrition_mission", nutrition_mission);
         if (nutrition_mission.assessment_kit) {
             var assessment_kit = JSON.parse(nutrition_mission.assessment_kit);
             this.setState({
@@ -109,11 +110,9 @@ class Report extends Component {
                 this.setState({
                     assessmentKitActivities: mission
                 })
-                this.setButtonRadios()
-                this.setButtonChecks()
             }
-
         }
+
 
 
 
@@ -161,6 +160,7 @@ class Report extends Component {
                 })
                 let status = !result[0][1];
                 animal[choice] = status;
+                animal.type = "check_list";
             }
         })
         this.setState({
@@ -168,6 +168,7 @@ class Report extends Component {
         })
         this.props.update_assessment_kit_activties(user_id, week_in_program, assessmentKitActivities, "null");
         this.setButtonChecks()
+
     }
 
     setButtonRadios() {
@@ -184,13 +185,34 @@ class Report extends Component {
         }
     }
     setButtonChecks() {
+
         const { assessmentKitActivities, numberArrayCheck } = this.state;
-        let result = assessmentKitActivities && assessmentKitActivities.filter((member) => {
-            return member.choice == true
+        let result = assessmentKitActivities && assessmentKitActivities.map((member, i) => {
+            let ke = Object.keys(member);
+            return ke && ke.filter((key_name, l) => {
+                if (key_name != "index") {
+                    if (member[key_name] == true) {
+                        // console.log("member", member);
+                        return member;
+                    }
+                }
+
+            })
         })
-        if (numberArrayCheck == result.length) {
+
+
+
+        let len = result.filter((res) => {
+            return res.length != 0
+        })
+
+        if (numberArrayCheck === len.length) {
             this.setState({
-                numberArrayCheck: true
+                numberCheck: true
+            })
+        } else {
+            this.setState({
+                numberCheck: false
             })
         }
     }
@@ -209,7 +231,7 @@ class Report extends Component {
 
     render() {
         const { isFocused, switchOn, numberArray, assessmentKit, assessmentKitActivities,
-            multiplChoice, checkList, numberArrayCheck, user_id, week_in_program, missionId } = this.state;
+            multiplChoice, checkList, numberArrayCheck, user_id, week_in_program, missionId, numberCheck } = this.state;
         return (
             <View style={styles.container}>
                 <StatusBar barStyle="dark-content" />
@@ -412,81 +434,6 @@ class Report extends Component {
 
                                 })
                             }
-
-
-                            {/*                         <View>
-                            <Text style={styles.question}>
-                                2. คุณทานอาหารหลังออกกำลังกาย ภายใน 30 นาที- 1 ชั่วโมงหรือไม่
-                            </Text>
-                            <View style={styles.quizView}>
-                                <View style={styles.quiz} >
-                                    <TouchableOpacity  >
-                                        <Image source={require('../../assets/images/icon/radioActive.png')} />
-                                    </TouchableOpacity>
-                                    <Text style={styles.responseView} >ใช่</Text>
-                                </View>
-                                <View style={styles.quiz}>
-                                    <TouchableOpacity onPress={() => this.allSelectChoice("11", 'a')}  >
-                                        <Image source={require('../../assets/images/icon/radio.png')} />
-                                    </TouchableOpacity>
-                                    <Text style={styles.responseView}>ไม่</Text>
-                                </View>
-                            </View>
-                            <View style={styles.input}>
-                                <TextInput
-                                    onFocus={(text) => this.handleFocus("isFocused", true)}
-                                    onBlur={(text) => this.handleBlur("isFocused", false)}
-                                    style={isFocused === true ? ComponentsStyle.inputIsFocused : ComponentsStyle.input}
-                                    //  onChangeText={(text) => this.handleChange("mmHGD", text)}
-                                    //placeholder="เล่นเสร็จทีไรร้านปิดทุกที"
-                                    keyboardType="numeric"
-                                    inputAccessoryViewID="textInput5"
-                                // ref={(input) => { this.textInput5 = input; }}
-                                />
-                            </View>
-                        </View>
-                        <View>
-                            <Text style={styles.question}>
-                                3. เลือกทำเครื่องหมาย ข้อที่คุณสามารถทำได้ก่อนออกกำลังกาย (เลือกได้มากกว่า 1 ข้อ)
-                            </Text>
-                            <View style={styles.quiz} >
-                                <TouchableOpacity >
-                                    <Image source={require('../../assets/images/icon/Checks.png')} />
-                                </TouchableOpacity>
-                                <Text style={styles.responseView} >ทำได้อย่างสม่ำเสมอ</Text>
-                            </View>
-                            <View style={styles.quiz} >
-                                <TouchableOpacity onPress={() => this.allSelectChoice("11", 'a')} >
-                                    <Image source={require('../../assets/images/icon/Checks.png')} />
-                                </TouchableOpacity>
-
-                                <Text style={styles.responseView} >ทำได้อย่างสม่ำเสมอ</Text>
-                            </View>
-                            <View style={styles.quiz} >
-                                <TouchableOpacity onPress={() => this.allSelectChoice("11", 'a')} >
-                                    <Image source={require('../../assets/images/icon/ChecksActive.png')} />
-                                </TouchableOpacity>
-
-                                <Text style={styles.responseView} >ทำได้อย่างสม่ำเสมอ</Text>
-                            </View>
-                        </View>
-                        <View>
-                            <Text style={styles.question}>
-                                4. สิ่งใดเป็นปัจจัย และสาเหตุของการทานอาหารซ้ำ
-                            </Text>
-                            <View style={styles.input}>
-                                <TextInput
-                                    onFocus={(text) => this.handleFocus("isFocused", true)}
-                                    onBlur={(text) => this.handleBlur("isFocused", false)}
-                                    style={isFocused === true ? ComponentsStyle.inputIsFocused : ComponentsStyle.input}
-                                    //  onChangeText={(text) => this.handleChange("mmHGD", text)}
-                                    // placeholder="มันนัวเข้าเนื้อดี"
-                                    keyboardType="numeric"
-                                    inputAccessoryViewID="textInput5"
-                                // ref={(input) => { this.textInput5 = input; }}
-                                />
-                            </View>
-                        </View> */}
                             <View>
                                 <View style={[styles.viewSwitches, switchOn === true ? { backgroundColor: colors.positive3 } : null]}>
                                     <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
@@ -514,7 +461,7 @@ class Report extends Component {
                                 </View>
                                 <View style={{ marginBottom: 40 }}>
                                     {
-                                        ((numberArray == true) || (numberArrayCheck == true)) && (switchOn === true) ?
+                                        ((numberArray == true) || (numberCheck == true)) && (switchOn === true) ?
                                             <Pressable onPress={() => this.submit()}>
                                                 <View style={styles.pressableView}>
                                                     <View style={ComponentsStyle.button}>
