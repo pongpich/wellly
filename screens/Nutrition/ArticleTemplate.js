@@ -36,7 +36,9 @@ class ArticleTemplate extends Component {
             statusQuiz: true,
             statusMission: true,
             statusBarColor: "light",
-            isModalVisible: false
+            isModalVisible: false,
+            week_in_program: null,
+            mission_id: "null"
 
         };
     }
@@ -46,6 +48,7 @@ class ArticleTemplate extends Component {
 
         // รับ   params จาก  route
         const { id, mission_id } = this.props.route.params;
+        //  console.log("nutrition_mission", nutrition_activity_id_Mission.week_in_program);
 
         this.props.getNutritionActivityIdMission(user.user_id, mission_id);
         this.props.getNutritionMission(mission_id);
@@ -53,7 +56,6 @@ class ArticleTemplate extends Component {
         this.setState({
             numberMission: id,
         });
-        // console.log("nutrition_activity_id_Mission", nutrition_activity_id_Mission.assessment_kit_number);
         if (nutrition_activity_id_Mission) {
             if (nutrition_activity_id_Mission.quiz_activities_number) {
                 this.setState({
@@ -61,7 +63,12 @@ class ArticleTemplate extends Component {
                     statusMission: nutrition_activity_id_Mission.assessment_kit_number
                 })
             }
+
         }
+        this.setState({
+            mission_id: nutrition_activity_id_Mission.id,
+            week_in_program: nutrition_activity_id_Mission.week_in_program
+        })
 
         this.props.routeName('null');
 
@@ -72,7 +79,7 @@ class ArticleTemplate extends Component {
         const { nutrition_mission, user, nutrition_activity_id_Mission, statusGetNutritionActivityIdMission } = this.props;
 
 
-
+        console.log("nutrition_activity_id_Mission", nutrition_activity_id_Mission.week_in_program);
         if ((prevProps.statusGetNutritionActivityIdMission !== statusGetNutritionActivityIdMission) && (statusGetNutritionActivityIdMission === "success")) {
 
             if (nutrition_activity_id_Mission.quiz_activities_number) {
@@ -85,6 +92,10 @@ class ArticleTemplate extends Component {
                     statusMission: nutrition_activity_id_Mission.assessment_kit_number
                 })
             }
+            this.setState({
+                mission_id: nutrition_activity_id_Mission.id,
+                week_in_program: nutrition_activity_id_Mission.week_in_program
+            })
         }
     }
 
@@ -134,7 +145,7 @@ class ArticleTemplate extends Component {
     renderCheckArticle() { //เช็คว่าจะแสดงบทความไหน โดยใช้ mission_id
         const { mission_id } = this.props.route.params;
         return (
-            <View style={{ marginTop: 24 }}>
+            <View style={{ marginTop: 24, }}>
                 {(mission_id === 'gn1') && <Gn1 />}
                 {(mission_id === 'gn2') && <Gn2 />}
                 {(mission_id === 'gn3') && <Gn3 />}
@@ -152,12 +163,12 @@ class ArticleTemplate extends Component {
     }
 
     render() {
-        const { statusBarColor, numberMission, study, statusQuiz, statusMission, isModalVisible } = this.state;
+        const { statusBarColor, numberMission, study, statusQuiz, statusMission, isModalVisible, week_in_program, mission_id } = this.state;
         const { nutrition_activity_id_Mission } = this.props;
         const { heading } = this.props.route.params;
         return (
             <View style={styles.container}>
-                <View style={{ height: 44, width: "100%", backgroundColor: statusBarColor === "light" ? colors.persianBlue : colors.white }}>
+                <View style={{ height: 44, zIndex: 10, width: "100%", backgroundColor: statusBarColor === "light" ? colors.persianBlue : colors.white }}>
                     {
                         statusBarColor === "light" ?
                             <StatusBar barStyle="light-content" />
@@ -175,7 +186,7 @@ class ArticleTemplate extends Component {
                     </View>
                 </View>
 
-                <View style={ComponentsStyle.headBox}>
+                <View style={[ComponentsStyle.headBox, { position: "relative" }]}>
                     <View style={ComponentsStyle.areaNumber}>
                         <Text style={ComponentsStyle.areaNumberText}>
                             {numberMission}
@@ -183,10 +194,10 @@ class ArticleTemplate extends Component {
                     </View>
                     <View style={ComponentsStyle.nutritionMission}>
                         <Text style={ComponentsStyle.missionHead}>ภารกิจโภชนาการ</Text>
-                        <Text style={ComponentsStyle.missionHeading}>{heading}</Text>
+                        <Text style={[ComponentsStyle.missionHeading, { marginRight: 32 }]}>{heading}</Text>
                     </View>
                 </View>
-                {/* </Animated.View> */}
+
                 <Animated.View style={{
                     transform: [{
                         translateY: this.slideAnim.interpolate({
@@ -195,8 +206,9 @@ class ArticleTemplate extends Component {
                         })
                     }],
                     flex: 1,
-                    zIndex: 1,
+                    zIndex: 10,
                     marginBottom: -200,
+
                 }}>
                     <View style={ComponentsStyle.contentBox}>
                         <View style={styles.heading}>
@@ -247,6 +259,7 @@ class ArticleTemplate extends Component {
                     </View >
                 </Animated.View>
 
+
                 <View style={{ zIndex: 10, }}>
                     <Animated.View
                         style={{
@@ -258,7 +271,7 @@ class ArticleTemplate extends Component {
                             }],
                             marginBottom: 0,
                             bottom: 0,
-                            height: 80,
+                            height: ((week_in_program == "4") || (mission_id == "snc1") && study == true) ? 0 : 80,
                             paddingHorizontal: 16,
                             backgroundColor: colors.white,
 
@@ -267,39 +280,45 @@ class ArticleTemplate extends Component {
 
                         {
                             study ?
-                                statusQuiz && statusQuiz === true ?
-                                    <Pressable onPress={() => this.props.navigation.navigate("Quiz")} >
-                                        <View style={ComponentsStyle.button} >
-                                            <Text style={ComponentsStyle.textButton}>
-                                                ทำแบบฝึกหัด
-                                            </Text>
-                                        </View>
-                                    </Pressable>
-                                    :
-                                    <Pressable onPress={() => this.props.navigation.navigate("QuizAnswer")} >
-                                        <View style={ComponentsStyle.buttonWhite} >
-                                            <Text style={ComponentsStyle.textButtonWhite}>
-                                                ดูผลตรวจแบบฝึกหัด
-                                            </Text>
-                                        </View>
-                                    </Pressable>
+                                week_in_program != "4" ?
+                                    statusQuiz && statusQuiz === true ?
+                                        <Pressable onPress={() => this.props.navigation.navigate("Quiz")} >
+                                            <View style={ComponentsStyle.button} >
+                                                <Text style={ComponentsStyle.textButton}>
+                                                    ทำแบบฝึกหัด
+                                                </Text>
+                                            </View>
+                                        </Pressable>
+                                        :
+                                        <Pressable onPress={() => this.props.navigation.navigate("QuizAnswer")} >
+                                            <View style={ComponentsStyle.buttonWhite} >
+                                                <Text style={ComponentsStyle.textButtonWhite}>
+                                                    ดูผลตรวจแบบฝึกหัด
+                                                </Text>
+                                            </View>
+                                        </Pressable>
+                                    : null
                                 :
-                                statusMission != "1" ?
-                                    <Pressable onPress={() => this.evaluatePress()} >
-                                        <View style={ComponentsStyle.button} >
-                                            <Text style={ComponentsStyle.textButton}>
-                                                ประเมินผล
-                                            </Text>
-                                        </View>
-                                    </Pressable>
+
+                                week_in_program != "4" ?
+                                    statusMission != "1" ?
+                                        <Pressable onPress={() => this.evaluatePress()} >
+                                            <View style={ComponentsStyle.button} >
+                                                <Text style={ComponentsStyle.textButton}>
+                                                    ประเมินผล
+                                                </Text>
+                                            </View>
+                                        </Pressable>
+                                        :
+                                        <Pressable onPress={() => this.props.navigation.navigate("ReportFeedback")} >
+                                            <View style={ComponentsStyle.buttonWhite} >
+                                                <Text style={ComponentsStyle.textButtonWhite}>
+                                                    ดูผลการประเมิน
+                                                </Text>
+                                            </View>
+                                        </Pressable>
                                     :
-                                    <Pressable onPress={() => this.props.navigation.navigate("ReportFeedback")} >
-                                        <View style={ComponentsStyle.buttonWhite} >
-                                            <Text style={ComponentsStyle.textButtonWhite}>
-                                                ดูผลการประเมิน
-                                            </Text>
-                                        </View>
-                                    </Pressable>
+                                    null
                         }
                     </Animated.View>
                 </View>
