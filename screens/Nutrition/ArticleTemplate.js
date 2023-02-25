@@ -166,6 +166,8 @@ class ArticleTemplate extends Component {
         const { statusBarColor, numberMission, study, statusQuiz, statusMission, isModalVisible, week_in_program, mission_id } = this.state;
         const { nutrition_activity_id_Mission } = this.props;
         const { heading } = this.props.route.params;
+        /*         const { width, height } = Dimensions.get('window');
+                const HeaderHeight = height * 0.200 */
         return (
             <View style={styles.container}>
                 <View style={{ height: 44, zIndex: 10, width: "100%", backgroundColor: statusBarColor === "light" ? colors.persianBlue : colors.white }}>
@@ -176,7 +178,7 @@ class ArticleTemplate extends Component {
                             <StatusBar barStyle="dark-content" />
                     }
                 </View>
-                <View style={{ height: 48, width: "100%", backgroundColor: statusBarColor === "light" ? colors.persianBlue : colors.white }}>
+                <View style={{ height: 48, zIndex: 3, width: "100%", backgroundColor: statusBarColor === "light" ? colors.persianBlue : colors.white }}>
                     <View style={{ marginLeft: 16 }}>
                         <Pressable onPress={() => this.props.navigation.goBack()}>
                             <Image
@@ -185,8 +187,7 @@ class ArticleTemplate extends Component {
                         </Pressable>
                     </View>
                 </View>
-
-                <View style={[ComponentsStyle.headBox, { position: "relative" }]}>
+                <View style={ComponentsStyle.headBox}>
                     <View style={ComponentsStyle.areaNumber}>
                         <Text style={ComponentsStyle.areaNumberText}>
                             {numberMission}
@@ -202,13 +203,13 @@ class ArticleTemplate extends Component {
                     transform: [{
                         translateY: this.slideAnim.interpolate({
                             inputRange: [0, 1],
-                            outputRange: [0, -140]
+                            outputRange: (week_in_program == "3") || (week_in_program == "4") ? [0, -180] : [0, -140]
                         })
                     }],
                     flex: 1,
-                    zIndex: 10,
+                    zIndex: 2,
+                    marginTop: -10,
                     marginBottom: -200,
-
                 }}>
                     <View style={ComponentsStyle.contentBox}>
                         <View style={styles.heading}>
@@ -243,7 +244,7 @@ class ArticleTemplate extends Component {
                                 this.slideUp()
                             }
                         }}
-                            style={{ height: "100%", marginBottom: -40 }}
+                            style={{ flex: 1, marginBottom: -40 }}
                         >
                             <View style={{ marginHorizontal: 16, marginTop: -30, height: "100%", }}>
                                 {
@@ -257,7 +258,7 @@ class ArticleTemplate extends Component {
                             </View>
                         </ScrollView>
                     </View >
-                </Animated.View>
+                </Animated.View >
 
 
                 <View style={{ zIndex: 10, }}>
