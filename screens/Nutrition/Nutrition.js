@@ -52,7 +52,7 @@ const Nutrition = ({ navigation }) => {
 
     }, [navigation]);
 
-
+    console.log("nutrition_activity", nutrition_activity);
 
     return (
         <View style={styles.fill}>
@@ -90,7 +90,7 @@ const Nutrition = ({ navigation }) => {
 
                         nutrition_activity.map((item, i) => (
 
-                            <Pressable onPress={() => navigation.navigate("ArticleTemplate", { id: i + 1, mission_id: item.mission_id, heading: item.heading })} key={i + "tfb"}>
+                            <Pressable onPress={() => navigation.navigate("ArticleTemplate", { id: item.week_in_program, mission_id: item.mission_id, heading: item.heading })} key={i + "tfb"}>
                                 <View key={i} style={styles.row}>
                                     <View style={styles.numberView}>
                                         <Text style={styles.number}>{item.week_in_program}</Text>
