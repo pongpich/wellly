@@ -79,7 +79,6 @@ class ArticleTemplate extends Component {
         const { nutrition_mission, user, nutrition_activity_id_Mission, statusGetNutritionActivityIdMission } = this.props;
 
 
-        console.log("nutrition_activity_id_Mission", nutrition_activity_id_Mission.week_in_program);
         if ((prevProps.statusGetNutritionActivityIdMission !== statusGetNutritionActivityIdMission) && (statusGetNutritionActivityIdMission === "success")) {
 
             if (nutrition_activity_id_Mission.quiz_activities_number) {

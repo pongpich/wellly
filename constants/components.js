@@ -156,7 +156,7 @@ export default StyleSheet.create({
     },
     headBox: {
         width: "100%",
-        height: 118,
+        height: "auto",
         paddingHorizontal: 16,
         paddingTop: 30,
         paddingBottom: 32,
@@ -188,7 +188,7 @@ export default StyleSheet.create({
     missionHeading: {
         fontFamily: "IBMPlexSansThai-Bold",
         fontSize: fontSize24,
-        color: colors.white
+        color: colors.white,
     },
     contentBox: {
 

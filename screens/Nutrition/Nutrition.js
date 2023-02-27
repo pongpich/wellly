@@ -52,7 +52,6 @@ const Nutrition = ({ navigation }) => {
 
     }, [navigation]);
 
-    console.log("nutrition_activity", nutrition_activity);
 
     return (
         <View style={styles.fill}>
@@ -88,43 +87,49 @@ const Nutrition = ({ navigation }) => {
 
                     {nutrition_activity ?
 
-                        nutrition_activity.map((item, i) => (
+                        nutrition_activity.map((item, i) => {
+                            console.log("item", item);
+                            if ((item.quiz_activities == null) || (item.assessment_kit_number != "1")) {
+                                return (
+                                    <Pressable onPress={() => navigation.navigate("ArticleTemplate", { id: item.week_in_program, mission_id: item.mission_id, heading: item.heading })} key={i + "tfb"}>
+                                        <View key={i} style={styles.row}>
+                                            <View style={styles.numberView}>
+                                                <Text style={styles.number}>{item.week_in_program}</Text>
+                                            </View>
+                                            <View style={styles.missionData}>
+                                                <Text style={styles.missionHead}>{item.heading}</Text>
+                                                <Text style={styles.missionContent}>
+                                                    {item.short_content}
+                                                </Text>
+                                                {
+                                                    statusNotified == 1 ?
+                                                        <View style={styles.notifiedRed}>
+                                                            <Text style={styles.notifiedTextRed}>
+                                                                วันสุดท้าย
+                                                            </Text>
+                                                        </View> :
+                                                        statusNotified == 2 ?
+                                                            <View style={styles.notifiedYellow}>
+                                                                <Text style={styles.notifiedTextYellow}>
+                                                                    ภารกิจที่ยังทำไม่เสร็จ
+                                                                </Text>
+                                                            </View> : null
+                                                }
+                                            </View>
+                                            <View style={styles.viewIconRight}>
+                                                <Image
+                                                    style={{ height: 24, width: 24, zIndex: 1, marginRight: 8 }}
+                                                    source={require('../../assets/images/icon/right.png')}
+                                                />
+                                                {/*   <AntDesign name="right" style={styles.iconRight} /> */}
+                                            </View>
+                                        </View>
+                                    </Pressable>
+                                )
+                            }
 
-                            <Pressable onPress={() => navigation.navigate("ArticleTemplate", { id: item.week_in_program, mission_id: item.mission_id, heading: item.heading })} key={i + "tfb"}>
-                                <View key={i} style={styles.row}>
-                                    <View style={styles.numberView}>
-                                        <Text style={styles.number}>{item.week_in_program}</Text>
-                                    </View>
-                                    <View style={styles.missionData}>
-                                        <Text style={styles.missionHead}>{item.heading}</Text>
-                                        <Text style={styles.missionContent}>
-                                            {item.short_content}
-                                        </Text>
-                                        {
-                                            statusNotified == 1 ?
-                                                <View style={styles.notifiedRed}>
-                                                    <Text style={styles.notifiedTextRed}>
-                                                        วันสุดท้าย
-                                                    </Text>
-                                                </View> :
-                                                statusNotified == 2 ?
-                                                    <View style={styles.notifiedYellow}>
-                                                        <Text style={styles.notifiedTextYellow}>
-                                                            ภารกิจที่ยังทำไม่เสร็จ
-                                                        </Text>
-                                                    </View> : null
-                                        }
-                                    </View>
-                                    <View style={styles.viewIconRight}>
-                                        <Image
-                                            style={{ height: 24, width: 24, zIndex: 1, marginRight: 8 }}
-                                            source={require('../../assets/images/icon/right.png')}
-                                        />
-                                        {/*   <AntDesign name="right" style={styles.iconRight} /> */}
-                                    </View>
-                                </View>
-                            </Pressable>
-                        )) :
+
+                        }) :
                         <View style={styles.imptyImage}>
                             <Image
                                 style={{ height: 84, width: 120, zIndex: 1 }}
