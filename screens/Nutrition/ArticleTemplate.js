@@ -88,13 +88,10 @@ class ArticleTemplate extends Component {
                     this.setState({
                         statusQuiz: nutrition_activity_id_Mission.quiz_activities_number,
                     })
-                    console.log("000");
                 } else {
                     this.setState({
                         statusQuiz: null
                     })
-
-                    console.log("444");
                 }
             }
 
