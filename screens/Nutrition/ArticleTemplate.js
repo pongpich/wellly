@@ -33,8 +33,8 @@ class ArticleTemplate extends Component {
             numberMission: null,
             study: true,
             quiz: null,
-            statusQuiz: true,
-            statusMission: true,
+            statusQuiz: null,
+            statusMission: null,
             statusBarColor: "light",
             isModalVisible: false,
             week_in_program: null,
@@ -57,13 +57,15 @@ class ArticleTemplate extends Component {
             numberMission: id,
         });
         if (nutrition_activity_id_Mission) {
-            if (nutrition_activity_id_Mission.quiz_activities_number) {
+            if (nutrition_activity_id_Mission.quiz_activities_number != "null") {
                 this.setState({
-                    statusQuiz: false,
-                    statusMission: nutrition_activity_id_Mission.assessment_kit_number
+                    statusQuiz: nutrition_activity_id_Mission.quiz_activities_number,
                 })
             }
+            this.setState({
 
+                statusMission: nutrition_activity_id_Mission.assessment_kit_number
+            })
         }
         this.setState({
             mission_id: nutrition_activity_id_Mission.id,
@@ -81,16 +83,24 @@ class ArticleTemplate extends Component {
 
         if ((prevProps.statusGetNutritionActivityIdMission !== statusGetNutritionActivityIdMission) && (statusGetNutritionActivityIdMission === "success")) {
 
-            if (nutrition_activity_id_Mission.quiz_activities_number) {
-                this.setState({
-                    statusQuiz: false,
-                })
-            } else {
-                this.setState({
-                    statusQuiz: true,
-                    statusMission: nutrition_activity_id_Mission.assessment_kit_number
-                })
+            if (nutrition_activity_id_Mission != null) {
+                if (nutrition_activity_id_Mission.quiz_activities_number != "null") {
+                    this.setState({
+                        statusQuiz: nutrition_activity_id_Mission.quiz_activities_number,
+                    })
+                    console.log("000");
+                } else {
+                    this.setState({
+                        statusQuiz: null
+                    })
+
+                    console.log("444");
+                }
             }
+
+            this.setState({
+                statusMission: nutrition_activity_id_Mission.assessment_kit_number
+            })
             this.setState({
                 mission_id: nutrition_activity_id_Mission.id,
                 week_in_program: nutrition_activity_id_Mission.week_in_program
@@ -165,8 +175,7 @@ class ArticleTemplate extends Component {
         const { statusBarColor, numberMission, study, statusQuiz, statusMission, isModalVisible, week_in_program, mission_id } = this.state;
         const { nutrition_activity_id_Mission } = this.props;
         const { heading } = this.props.route.params;
-        /*         const { width, height } = Dimensions.get('window');
-                const HeaderHeight = height * 0.200 */
+        //console.log("statusMission", week_in_program, statusMission, statusQuiz);
         return (
             <View style={styles.container}>
                 <View style={{ height: 44, zIndex: 10, width: "100%", backgroundColor: statusBarColor === "light" ? colors.persianBlue : colors.white }}>
@@ -281,7 +290,9 @@ class ArticleTemplate extends Component {
                         {
                             study ?
                                 week_in_program != "4" ?
-                                    statusQuiz && statusQuiz === true ?
+                                    statusQuiz === null ?
+
+
                                         <Pressable onPress={() => this.props.navigation.navigate("Quiz")} >
                                             <View style={ComponentsStyle.button} >
                                                 <Text style={ComponentsStyle.textButton}>
@@ -301,19 +312,20 @@ class ArticleTemplate extends Component {
                                 :
 
                                 week_in_program != "4" ?
-                                    statusMission != "1" ?
-                                        <Pressable onPress={() => this.evaluatePress()} >
-                                            <View style={ComponentsStyle.button} >
-                                                <Text style={ComponentsStyle.textButton}>
-                                                    ประเมินผล
-                                                </Text>
-                                            </View>
-                                        </Pressable>
-                                        :
+                                    statusMission == "1" ?
+
                                         <Pressable onPress={() => this.props.navigation.navigate("ReportFeedback")} >
                                             <View style={ComponentsStyle.buttonWhite} >
                                                 <Text style={ComponentsStyle.textButtonWhite}>
                                                     ดูผลการประเมิน
+                                                </Text>
+                                            </View>
+                                        </Pressable>
+                                        :
+                                        <Pressable onPress={() => this.evaluatePress()} >
+                                            <View style={ComponentsStyle.button} >
+                                                <Text style={ComponentsStyle.textButton}>
+                                                    ประเมินผล
                                                 </Text>
                                             </View>
                                         </Pressable>

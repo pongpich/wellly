@@ -75,7 +75,9 @@ class QuizAnswer extends Component {
                         numberArray: result.length
                     })
                 }
+            }
 
+            if (prevState.modalVisibleQuiz !== modalVisibleQuiz) {
 
             }
         }

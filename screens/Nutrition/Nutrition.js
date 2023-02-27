@@ -88,7 +88,6 @@ const Nutrition = ({ navigation }) => {
                     {nutrition_activity ?
 
                         nutrition_activity.map((item, i) => {
-                            console.log("item", item);
                             if ((item.quiz_activities == null) || (item.assessment_kit_number != "1")) {
                                 return (
                                     <Pressable onPress={() => navigation.navigate("ArticleTemplate", { id: item.week_in_program, mission_id: item.mission_id, heading: item.heading })} key={i + "tfb"}>
