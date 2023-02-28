@@ -50,7 +50,6 @@ function NutritionStackScreen() {
                             </TouchableOpacity>
                         </View>
                     ),
-
                 })}
 
             />

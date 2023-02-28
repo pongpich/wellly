@@ -6,6 +6,7 @@ import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { useRoute } from '@react-navigation/native';
 import colors from '../constants/colors';
 import Exercise from '../screens/Exercise/Exercise';
+import ExHistory from '../screens/Exercise/ExHistory';
 
 
 const HomeStack = createStackNavigator();
@@ -17,6 +18,25 @@ function HomeStackScreen() {
             <HomeStack.Screen name="Exercise" component={Exercise} options={{
                 headerShown: false
             }} />
+            <HomeStack.Screen name="ExHistory" component={ExHistory}
+                options={({ route, navigation }) => ({
+                    title: "",
+                    headerShadowVisible: false,
+                    headerStyle: {
+                        backgroundColor: colors.grey7,
+                    },
+                    showLabel: false,
+                    headerLeft: () => (
+                        <View style={{ marginLeft: 16 }}>
+                            <TouchableOpacity onPress={() => navigation.pop()}>
+                                <Image
+                                    source={require('../assets/images/icon/caret.png')}
+                                />
+                            </TouchableOpacity>
+                        </View>
+                    ),
+                })}
+            />
         </HomeStack.Navigator>
     );
 }

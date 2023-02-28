@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, StyleSheet, Animated, Image, ImageBackground, Dimensions, Pressable, TouchableWithoutFeedback } from 'react-native';
+import { View, Text, StyleSheet, Animated, Image, Modal, ImageBackground, Dimensions, Pressable, TouchableWithoutFeedback } from 'react-native';
 import colors from '../../constants/colors';
 import ComponentsStyle from '../../constants/components';
 import { AntDesign } from '@expo/vector-icons';
@@ -24,6 +24,7 @@ const Exercise = ({ navigation }) => {
 
     const [statusNotified, setStatusNotified] = useState(null);
     const [statusMission, setStatusMission] = useState(true);
+    const [modalVisibleQuiz, setModalVisibleQuiz] = useState(false);
     const [startDate, setStartDate] = useState(1);
 
     const animatedScrollYValue = useRef(new Animated.Value(0)).current;
@@ -35,7 +36,7 @@ const Exercise = ({ navigation }) => {
 
     const refresh = () => {
         if (data.length) {
-            navigation.navigate("History")
+            navigation.navigate("ExHistory")
         }
 
 
@@ -45,7 +46,10 @@ const Exercise = ({ navigation }) => {
         const unsubscribe = navigation.addListener('focus', () => {
 
             dispatch(getNutritionActivity((user && user.user_id)));
-
+            setModalVisibleQuiz(true)
+            setTimeout(() => {
+                setModalVisibleQuiz(false)
+            }, 3000);
 
         });
 
@@ -77,15 +81,10 @@ const Exercise = ({ navigation }) => {
                         {
                             statusMission == true ?
                                 <>
-                                    <Image style={styles.iconImageRight} source={require('../../assets/images/icon/History.png')} />
-                                    {/* <Pressable onPress={() => refresh()}>
-                            <Image
-                                style={styles.iconImageRight}
-
-                                source={require('../../assets/images/icon/History1.png')}
-                            //  this.props.navigation.navigate("Walkthrough")
-                            />
-                        </Pressable> */}
+                                    {/* <Image style={styles.iconImageRight} source={require('../../assets/images/icon/History.png')} /> */}
+                                    <Pressable onPress={() => refresh()}>
+                                        <Image style={styles.iconImageRight} source={require('../../assets/images/icon/History1.png')} />
+                                    </Pressable>
                                 </>
                                 :
                                 null
@@ -152,7 +151,7 @@ const Exercise = ({ navigation }) => {
                         :
                         <>
                             {
-                                data ?
+                                !data ?
 
                                     data.map((item, i) => {
                                         return (
@@ -173,7 +172,14 @@ const Exercise = ({ navigation }) => {
                                             </View>
                                         )
                                     })
-                                    : null
+                                    :
+                                    <View style={styles.imptyImage}>
+                                        <Image
+                                            style={{ height: 84, width: 120, zIndex: 1 }}
+                                            source={require('../../assets/images/exercise/Empty_State.png')}
+                                        />
+                                        <Text style={styles.imptyTextHeadProgram}>โปรแกรมออกกำลังกายจะปลดล็อคตั้งแต่ภารกิจที่ 4 เป็นต้นไป</Text>
+                                    </View>
                             }
                         </>
 
@@ -189,6 +195,44 @@ const Exercise = ({ navigation }) => {
                     />
                 </View>
             </Animated.View>
+            <View style={styles.centeredView}>
+                <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={modalVisibleQuiz}
+                    onRequestClose={() => {
+                        Alert.alert('Modal has been closed.');
+                        this.setState({ modalVisibleQuiz: !modalVisibleQuiz });
+                    }}
+                >
+                    <View style={styles.centeredView}>
+                        <View style={styles.centeredView2}>
+                            <Text style={styles.textHeadWeek}>ผลลัพธ์ภารกิจสัปดาห์ที่ 1</Text>
+                            <Image
+                                style={{ width: 160, height: 160, }}
+                                source={require('../../assets/images/icon/Trophy.png')}
+                            />
+                            <View style={styles.starView}>
+                                <Image style={{ width: 40, height: 40, }} source={require('../../assets/images/icon/Star_3.png')} />
+                                <Image style={{ width: 40, height: 40, marginLeft: 16 }} source={require('../../assets/images/icon/Star_3.png')} />
+                                <Image style={{ width: 40, height: 40, marginLeft: 16 }} source={require('../../assets/images/icon/Star.png')} />
+                            </View>
+                            <Text style={styles.textStar}>ไม่เป็นไร!</Text>
+                            <Text style={styles.textStar2}>ลองพยายามอีกครั้งในสัปดาห์นี้</Text>
+
+                            {/* <Text style={styles.textStar}>ค่อนข้างดีแล้ว!</Text>
+                            <Text style={styles.textStar2}>สัปดาห์นี้พยายามขึ้นอีกนิด เพื่อรับดาวเพิ่มเติม</Text>
+
+                            <Text style={styles.textStar}>ดีมาก!</Text>
+                            <Text style={styles.textStar2}>ลองพิชิตภารกิจให้สำเร็จในสัปดาห์นี้ เพื่อรับถ้วยรางวัลเพิ่มเติม</Text> */}
+                        </View>
+                        <View style={styles.centeredView1}>
+
+                        </View>
+
+                    </View>
+                </Modal>
+            </View>
         </View >
     )
 }
@@ -203,11 +247,10 @@ const deviceHeight = Math.round(Dimensions.get('window').height);
 const styles = StyleSheet.create({
     fill: {
         flex: 1,
-        backgroundColor: colors.grey7
+        backgroundColor: colors.grey7,
     },
     fill2: {
         marginTop: 107,
-        flex: 1,
         zIndex: 1,
     },
 
@@ -405,7 +448,73 @@ const styles = StyleSheet.create({
         height: 79,
         borderRadius: 8,
         backgroundColor: colors.grey4
-    }
+    },
+    imptyTextHeadProgram: {
+        marginTop: 8,
+        color: colors.grey2,
+        fontSize: ComponentsStyle.fontSize16,
+        fontFamily: "IBMPlexSansThai-Bold",
+        width: "80%",
+        textAlign: "center",
+    },
+    centeredView: {
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+
+    },
+    centeredView1: {
+        backgroundColor: colors.grey1,
+        width: "100%",
+        height: "100%",
+        alignItems: "center",
+        justifyContent: "center",
+        opacity: 0.8,
+        zIndex: 0,
+        flex: 1
+    },
+    centeredView2: {
+        position: "absolute",
+        alignItems: "center",
+        justifyContent: "center",
+        opacity: 1,
+        zIndex: 1
+    },
+    textHeadWeek: {
+        fontSize: ComponentsStyle.fontSize24,
+        fontFamily: "IBMPlexSansThai-Bold",
+        color: colors.white,
+        marginBottom: 24,
+        width: "80%",
+        textAlign: "center"
+    },
+    starView: {
+        marginTop: 24,
+        marginHorizontal: 16,
+        flexDirection: "row"
+    },
+    starView: {
+        marginTop: 24,
+        marginHorizontal: 16,
+        flexDirection: "row"
+    },
+    textStar: {
+        marginTop: 24,
+        fontSize: ComponentsStyle.fontSize20,
+        fontFamily: "IBMPlexSansThai-Bold",
+        color: colors.white,
+        width: "90%",
+        textAlign: "center"
+    },
+    textStar2: {
+        fontSize: ComponentsStyle.fontSize16,
+        fontFamily: "IBMPlexSansThai-Regular",
+        color: colors.white,
+        width: "80%",
+        textAlign: "center",
+        marginHorizontal: 16,
+    },
+
 });
 
 /* const mapStateToProps = ({ authUser, getData }) => {
