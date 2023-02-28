@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { connect } from 'react-redux';
 import { getNutritionActivity } from "../../redux/get";
 
+
 const HEADER_MAX_HEIGHT = 500;
 const HEADER_MIN_HEIGHT = 10;
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
@@ -39,6 +40,7 @@ const Nutrition = ({ navigation }) => {
             navigation.navigate("History")
         }
 
+
     }
 
     useEffect(() => {
@@ -46,7 +48,10 @@ const Nutrition = ({ navigation }) => {
 
             dispatch(getNutritionActivity((user && user.user_id)));
 
+
         });
+
+
 
         return unsubscribe;
 
