@@ -223,6 +223,9 @@ const Exercise = ({ navigation }) => {
                             {/* <Text style={styles.textStar}>ค่อนข้างดีแล้ว!</Text>
                             <Text style={styles.textStar2}>สัปดาห์นี้พยายามขึ้นอีกนิด เพื่อรับดาวเพิ่มเติม</Text>
 
+                            <Text style={styles.textStar}>ทำได้ดีแล้ว!</Text>
+                            <Text style={styles.textStar2}>สัปดาห์นี้พยายามขึ้นอีกนิด เพื่อรับดาวเพิ่มเติม</Text>
+
                             <Text style={styles.textStar}>ดีมาก!</Text>
                             <Text style={styles.textStar2}>ลองพิชิตภารกิจให้สำเร็จในสัปดาห์นี้ เพื่อรับถ้วยรางวัลเพิ่มเติม</Text> */}
                         </View>
