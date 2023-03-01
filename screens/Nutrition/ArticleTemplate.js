@@ -222,18 +222,18 @@ class ArticleTemplate extends Component {
                     <View style={ComponentsStyle.contentBox}>
                         <View style={styles.heading}>
                             <View style={study === true ? styles.boxHeadingActive : styles.boxHeading}>
-                                <TouchableOpacity onPress={() => this.setState({
+                                <Pressable onPress={() => this.setState({
                                     study: true
                                 })}>
                                     <Text style={study === true ? styles.sectionActive : styles.section}> ความรู้</Text>
-                                </TouchableOpacity>
+                                </Pressable>
                             </View>
                             <View style={study !== true ? styles.boxHeadingActive : styles.boxHeading}>
-                                <TouchableOpacity onPress={() => this.setState({
+                                <Pressable onPress={() => this.setState({
                                     study: false
                                 })}>
                                     <Text style={study !== true ? styles.sectionActive : styles.section}> ภารกิจ</Text>
-                                </TouchableOpacity>
+                                </Pressable>
                             </View>
                         </View>
 

@@ -38,7 +38,7 @@ class History extends Component {
                         {
                             data && data.map((item, i) => (
                                 //ส่ง params ผ่าน route
-                                <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate("ExArticleTemplate", { id: i, statusPags: "ExHistory" })} key={i + "fee"}>
+                                <Pressable onPress={() => this.props.navigation.navigate("ExArticleTemplate", { id: i, statusPags: "ExHistory" })} key={i + "fee"}>
                                     <View key={i} style={styles.row}>
                                         <View style={styles.numberView}>
                                             <Text style={styles.number}>{++i}</Text>
@@ -69,9 +69,8 @@ class History extends Component {
                                         <View style={styles.viewIconRight}>
                                             <AntDesign name="check" style={styles.iconRight} />
                                         </View>
-
                                     </View>
-                                </TouchableWithoutFeedback>
+                                </Pressable>
                             ))
                         }
                     </ScrollView>

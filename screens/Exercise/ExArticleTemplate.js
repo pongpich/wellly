@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { ScrollView, View, Dimensions, StyleSheet, StatusBar, TouchableOpacity, Image, Text, Pressable, Animated } from 'react-native';
+import { ScrollView, View, Dimensions, StyleSheet, StatusBar, AntDesign, Image, Text, Pressable, Animated } from 'react-native';
 import colors from '../../constants/colors';
 import { getNutritionMission, getNutritionActivityIdMission } from "../../redux/get";
 import ComponentsStyle from '../../constants/components';
@@ -10,7 +10,8 @@ import { routeName } from "../../redux/personalUser";
 import Mission from '../Nutrition/Mission';
 import Modal from "react-native-modal";
 import ProgressBarAnimated from 'react-native-progress-bar-animated';
-
+import { List } from 'react-native-paper';
+import { AnimatedCircularProgress } from 'react-native-circular-progress';
 
 //บทความ
 import Gn1 from '../../components/knowledge/Gn1';
@@ -26,6 +27,8 @@ import Snb2 from '../../components/knowledge/Snb2';
 import Snc1 from '../../components/knowledge/Snc1';
 import Snc2 from '../../components/knowledge/Snc2';
 
+const data = Array.from({ length: 3 });
+const startData = Array.from({ length: 3 })
 
 class ArticleTemplate extends Component {
     constructor(props) {
@@ -33,9 +36,12 @@ class ArticleTemplate extends Component {
         this.slideAnim = new Animated.Value(0);
 
         this.state = {
+
             study: true,
             statusBarColor: "light",
             id: null,
+            expanded: false,
+            start: 1
         };
     }
 
@@ -112,9 +118,18 @@ class ArticleTemplate extends Component {
         )
     }
 
+    handlePress = () => {
+        const { expanded } = this.state;
+        this.setState({
+            expanded: !expanded
+        })
+    };
+
     missionDataView() {
+        const { expanded, start } = this.state
         const scoreProgress = 50;
         const deviceWidth = Math.round(Dimensions.get('window').width - 30);
+        const multiple = 100 / 4;
         return (
             <View style={{ flex: 1, marginTop: 24, marginHorizontal: 16 }}>
                 <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
@@ -130,20 +145,156 @@ class ArticleTemplate extends Component {
 
                     </View>
                 </View>
-                <View style={{ backgroundColor: colors.grey6, borderRadius: 4, marginTop: 8 }}>
+                <View style={{ backgroundColor: colors.grey6, borderRadius: 4, marginTop: 8, zIndex: 1 }}>
                     <ProgressBarAnimated
                         width={deviceWidth}
                         value={scoreProgress}
                         height={24}
                         marginRight={150}
-                        /* backgroundColorOnComplete={"red"} */
                         backgroundColor={colors.orange}
-
                         borderColor={colors.white}
                     />
                 </View>
+                <List.Section style={{ marginLeft: -16, marginTop: -8, zIndex: 0 }}>
+                    <List.Accordion style={{ backgroundColor: colors.white }}
+                        title={<Text style={styles.titleAccordion}>เกณฑ์การให้คะแนน</Text>}
+                        right={props =>
+                            <List.Icon {...props} icon={({ size, color, direction }) => (
+                                expanded ?
+                                    <Image
+                                        source={require('../../assets/images/icon/ChevronUp.png')}
+                                        style={{ width: 16, height: 16 }}
+                                    />
+                                    :
+                                    <Image
+                                        source={require('../../assets/images/icon/ChevronDown.png')}
+                                        style={{ width: 16, height: 16 }}
+                                    />
+                            )}
 
-            </View>
+                            />}
+                        expanded={expanded}
+                        onPress={this.handlePress}>
+                        <View style={{ backgroundColor: colors.grey7, paddingHorizontal: 16, borderTopLeftRadius: 8, borderTopRightRadius: 8, flexDirection: "row", justifyContent: "space-between" }}>
+                            <Text style={styles.expand_answerText}>
+                                กิจกรรมความเข้มข้นปานกลาง 1 ครั้ง
+                            </Text>
+                            <View style={{ flexDirection: "row" }}>
+                                <Image source={require('../../assets/images/icon/Firepoint.png')}
+                                    style={{ width: 12, height: 12, marginTop: 7 }}
+                                />
+                                <Image source={require('../../assets/images/icon/Firepoint.png')}
+                                    style={{ width: 12, height: 12, marginLeft: 4, marginTop: 7 }}
+                                />
+                            </View>
+                        </View>
+                        <View style={{ backgroundColor: colors.grey6, paddingHorizontal: 16, flexDirection: "row", justifyContent: "space-between" }}>
+                            <Text style={styles.expand_answerText}>
+                                Cardio 1 ครั้ง
+                            </Text>
+                            <View style={{ flexDirection: "row" }}>
+                                <Image source={require('../../assets/images/icon/Firepoint.png')}
+                                    style={{ width: 12, height: 12, marginTop: 7 }}
+                                />
+                                <Image source={require('../../assets/images/icon/Firepoint.png')}
+                                    style={{ width: 12, height: 12, marginLeft: 4, marginTop: 7 }}
+                                />
+                            </View>
+                        </View>
+                        <View style={{ backgroundColor: colors.grey7, paddingHorizontal: 16, flexDirection: "row", justifyContent: "space-between" }}>
+                            <Text style={styles.expand_answerText}>
+                                Core+Balance+plyo 1 ครั้ง
+                            </Text>
+                            <View style={{ flexDirection: "row" }}>
+                                <Image source={require('../../assets/images/icon/Firepoint.png')}
+                                    style={{ width: 12, height: 12, marginTop: 7 }}
+                                />
+                                <Image source={require('../../assets/images/icon/Firepoint.png')}
+                                    style={{ width: 12, height: 12, marginLeft: 4, marginTop: 7 }}
+                                />
+                                <Image source={require('../../assets/images/icon/Firepoint.png')}
+                                    style={{ width: 12, height: 12, marginLeft: 4, marginTop: 7 }}
+                                />
+                            </View>
+                        </View>
+                        <View style={{ backgroundColor: colors.grey6, paddingHorizontal: 16, borderBottomLeftRadius: 8, borderBottomRightRadius: 8, flexDirection: "row", justifyContent: "space-between", marginBottom: 24 }}>
+                            <Text style={styles.expand_answerText}>
+                                Resistance 1 ครั้ง
+                            </Text>
+                            <View style={{ flexDirection: "row" }}>
+                                <Image source={require('../../assets/images/icon/Firepoint.png')}
+                                    style={{ width: 12, height: 12, marginTop: 7 }}
+                                />
+                                <Image source={require('../../assets/images/icon/Firepoint.png')}
+                                    style={{ width: 12, height: 12, marginLeft: 4, marginTop: 7 }}
+                                />
+                                <Image source={require('../../assets/images/icon/Firepoint.png')}
+                                    style={{ width: 12, height: 12, marginLeft: 4, marginTop: 7 }}
+                                />
+                            </View>
+                        </View>
+                    </List.Accordion>
+                </List.Section>
+                <Text style={styles.challenge}>ชาเลนจ์</Text>
+                {
+                    data && data.map((item, i) => {
+                        return (
+                            <Pressable onPress={() => this.props.navigation.popToTop()} key={i + "tfb"}>
+                                <View key={i} style={styles.row}>
+                                    <View style={styles.numberView}>
+                                        <AnimatedCircularProgress
+                                            size={64}
+                                            width={8}
+                                            fill={multiple}
+                                            tintTransparency={true}
+                                            rotation={360}
+                                            tintColor={colors.positive1}
+                                            backgroundColor={colors.grey6} >
+                                            {
+
+                                                (fill) => (
+                                                    <>
+                                                        <View style={{ flexDirection: "row", marginTop: 10 }}>
+                                                            <Text style={{ color: colors.grey1, fontSize: 16, fontFamily: "IBMPlexSansThai-Bold", marginTop: 0 }}>2</Text>
+                                                            <Text style={{ color: colors.grey1, fontSize: 14, fontFamily: "IBMPlexSansThai-Regular", marginTop: 4 }}> /4</Text>
+                                                        </View>
+                                                        <Text style={{ color: colors.grey2, fontSize: 16, fontFamily: "IBMPlexSansThai-Regular", marginTop: -10 }}>ครั้ง</Text>
+                                                    </>
+                                                )
+
+                                            }
+                                        </AnimatedCircularProgress>
+                                    </View>
+                                    <View style={styles.missionData}>
+                                        <Text style={styles.missionHead}>กิจกรรมความเข้มข้นปานกลาง</Text>
+
+                                        <View style={{ flexDirection: "row" }}>
+                                            {
+                                                startData && startData.map((item, i) => {
+                                                    return (
+                                                        <Image style={[i > 0 ? { marginLeft: 4 } : null, { width: 16, height: 16, marginTop: 8 }]} source={
+                                                            start >= ++i ?
+                                                                require('../../assets/images/icon/Firepoint.png')
+                                                                :
+                                                                require('../../assets/images/icon/Firepoint2.png')
+                                                        } />
+                                                    )
+                                                })
+                                            }
+                                        </View>
+                                    </View>
+                                    <View style={styles.viewIconRight}>
+                                        <Image
+                                            style={{ height: 24, width: 24, zIndex: 1, marginRight: 8 }}
+                                            source={require('../../assets/images/icon/right.png')}
+                                        />
+                                    </View>
+                                </View>
+                            </Pressable>
+                        )
+                    })
+                }
+            </View >
         )
     }
 
@@ -199,18 +350,18 @@ class ArticleTemplate extends Component {
                     <View style={ComponentsStyle.contentBox}>
                         <View style={styles.heading}>
                             <View style={study === true ? styles.boxHeadingActive : styles.boxHeading}>
-                                <TouchableOpacity onPress={() => this.setState({
+                                <Pressable onPress={() => this.setState({
                                     study: true
                                 })}>
                                     <Text style={study === true ? styles.sectionActive : styles.section}> ความรู้</Text>
-                                </TouchableOpacity>
+                                </Pressable>
                             </View>
                             <View style={study !== true ? styles.boxHeadingActive : styles.boxHeading}>
-                                <TouchableOpacity onPress={() => this.setState({
+                                <Pressable onPress={() => this.setState({
                                     study: false
                                 })}>
                                     <Text style={study !== true ? styles.sectionActive : styles.section}> ภารกิจ</Text>
-                                </TouchableOpacity>
+                                </Pressable>
                             </View>
                         </View>
 
@@ -256,7 +407,7 @@ class ArticleTemplate extends Component {
                             }],
                             marginBottom: 0,
                             bottom: 0,
-                            height: statusBarColor == "dark" ? 0 : 80,
+                            height: study == true ? 80 : 0,
                             paddingHorizontal: 16,
                             backgroundColor: colors.white,
                             // statusBarColor: "light"
@@ -274,13 +425,7 @@ class ArticleTemplate extends Component {
                                 </Pressable>
 
                                 :
-                                <Pressable onPress={() => this.props.navigation.navigate("ReportFeedback")} >
-                                    <View style={ComponentsStyle.buttonWhite} >
-                                        <Text style={ComponentsStyle.textButtonWhite}>
-                                            ดูผลการประเมิน
-                                        </Text>
-                                    </View>
-                                </Pressable>
+                                null
 
 
                         }
@@ -472,7 +617,77 @@ const styles = StyleSheet.create({
         fontWeight: '500',
         marginBottom: 10,
     },
+    expand_answerText: {
+        fontSize: 14,
+        color: colors.grey2,
+        fontFamily: "IBMPlexSansThai-Regular",
+    },
+    titleAccordion: {
+        marginLeft: 16,
+        fontSize: 16,
+        color: colors.grey2,
+        fontFamily: "IBMPlexSansThai-Regular",
+    },
+    challenge: {
+        marginTop: 0,
+        zIndex: 3,
+        fontSize: 16,
+        color: colors.grey1,
+        marginBottom: 8,
+        fontFamily: "IBMPlexSansThai-Bold",
+    },
+    row: {
+        position: "relative",
+        maxHeight: 170,
+        height: "auto",
+        marginBottom: 16,
+        backgroundColor: colors.white,
+        borderRadius: 16,
+        flexDirection: "row",
+        borderColor: colors.grey4,
+        borderWidth: 1
+    },
+    numberView: {
+        /*  marginRight: 8, */
+        paddingVertical: 14,
+        paddingLeft: 16
+    },
+    number: {
+        fontSize: ComponentsStyle.fontSize20,
+        fontFamily: "IBMPlexSansThai-Bold",
+        color: colors.mayaBlue,
 
+    },
+    missionData: {
+        /* marginHorizontal: 16, */
+        flexWrap: "nowrap",
+        width: "75%",
+        margin: 16
+
+    },
+    missionHead: {
+        fontSize: ComponentsStyle.fontSize16,
+        fontFamily: "IBMPlexSansThai-Bold",
+        color: colors.grey1,
+    },
+    missionContent: {
+        fontSize: ComponentsStyle.fontSize14,
+        fontFamily: "IBMPlexSansThai-Regular",
+        color: colors.grey2,
+    },
+    iconRight: {
+        fontSize: ComponentsStyle.fontSize24,
+        color: colors.positive1,
+        marginRight: 8,
+    },
+    viewIconRight: {
+        position: "absolute",
+        width: "100%",
+        height: "100%",
+        alignItems: "flex-end",
+        justifyContent: "center",
+
+    },
 });
 
 const mapStateToProps = ({ authUser, getData }) => {
