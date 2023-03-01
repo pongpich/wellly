@@ -26,7 +26,7 @@ const Exercise = ({ navigation }) => {
     const [statusNotified, setStatusNotified] = useState(null);
     const [statusMission, setStatusMission] = useState(true);
     const [modalVisibleEx, setModalVisibleEx] = useState(false);
-    const [start, setStart] = useState(3);
+    const [start, setStart] = useState(0);
     const [trophy, setTrophy] = useState(0);
 
     const animatedScrollYValue = useRef(new Animated.Value(0)).current;
@@ -101,7 +101,7 @@ const Exercise = ({ navigation }) => {
                                     data.map((item, i) => {
                                         if (true) {
                                             return (
-                                                <Pressable /* onPress={() => navigation.navigate("ArticleTemplate", { id: item.week_in_program, mission_id: item.mission_id, heading: item.heading })} */ key={i + "tfb"}>
+                                                <Pressable onPress={() => navigation.navigate("ExArticleTemplate", { id: i, statusPags: "Exercise" })} key={i + "tfb"}>
                                                     <View key={i} style={styles.row}>
                                                         <View style={styles.numberView}>
                                                             <Text style={styles.number}>{++i}</Text>

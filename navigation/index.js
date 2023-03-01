@@ -166,9 +166,25 @@ function MyHome() {
           )
         }} />
       <Tab.Screen name="ExerciseTab" component={ExerciseStackScreen}
-        options={{
+        options={({ route }) => ({
+          tabBarStyle: {
+            display: getBottomTabse(route),
+            paddingTop: 16,
+            shadowColor: "#000",
+            shadowOffset: {
+              width: 0,
+              height: 4,
+            },
+            shadowOpacity: 0.32,
+            shadowRadius: 5.46,
+            elevation: 9,
+            height: (devicehHeight < 668) ? 70 : (devicehHeight < 801) ? 70 : 100,
+            borderTopLeftRadius: 16,
+            borderTopRightRadius: 16,
+            backgroundColor: colors.white,
+          },
           title: languages === "th" ? "ออกกำลังกาย" : "Exercise",
-        }} />
+        })} />
       <Tab.Screen name="ActivityTab" component={ActivityStackScreen}
         options={{
           title: languages === "th" ? "กิจกรรม" : "Activity",
@@ -298,6 +314,12 @@ function getBottomTabse(route) {
     return 'none';
   }
   if (routeName == "ReportFeedback") {
+    return 'none';
+  }
+  if (routeName == "ExHistory") {
+    return 'none';
+  }
+  if (routeName == "ExArticleTemplate") {
     return 'none';
   }
 

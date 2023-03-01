@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, SafeAreaView, Animated, ScrollView, Dimensions, TouchableWithoutFeedback } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, Animated, Image, ScrollView, Dimensions, TouchableWithoutFeedback } from 'react-native';
 import colors from '../../constants/colors';
 import ComponentsStyle from '../../constants/components';
 import { AntDesign } from '@expo/vector-icons';
@@ -10,15 +10,25 @@ import { getNutritionActivity } from "../../redux/get";
 
 
 const data = Array.from({ length: 3 });
+const startData = Array.from({ length: 3 });
 
 class History extends Component {
+    constructor(props) {
+        super(props);
+        this.slideAnim = new Animated.Value(0);
 
+        this.state = {
+            start: 2,
+            trophy: 0
+        };
+    }
 
 
 
 
     render() {
-        const { nutrition_activity } = this.props;
+        const { nutrition_activit } = this.props;
+        const { start, trophy } = this.state;
 
         return (
             <SafeAreaView style={styles.container}>
@@ -28,7 +38,7 @@ class History extends Component {
                         {
                             data && data.map((item, i) => (
                                 //ส่ง params ผ่าน route
-                                <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate("ArticleTemplate", { id: i + 1, mission_id: item.mission_id, heading: item.heading })} key={i + "fee"}>
+                                <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate("ExArticleTemplate", { id: i, statusPags: "ExHistory" })} key={i + "fee"}>
                                     <View key={i} style={styles.row}>
                                         <View style={styles.numberView}>
                                             <Text style={styles.number}>{++i}</Text>
@@ -38,10 +48,28 @@ class History extends Component {
                                             <Text style={styles.missionContent}>
                                                 โปรแกรมออกกำลังกายลดความเสี่ยงโรคเบาหวาน
                                             </Text>
+                                            <View style={{ flexDirection: "row" }}>
+                                                {
+                                                    trophy == 1 ?
+                                                        <Image style={{ width: 24, height: 24, marginTop: 8 }} source={require('../../assets/images/icon/Trophy.png')} />
+                                                        :
+                                                        startData && startData.map((item, i) => {
+                                                            return (
+                                                                <Image style={[i > 0 ? { marginLeft: 4 } : null, { width: 16, height: 16, marginTop: 8 }]} source={
+                                                                    start >= ++i ?
+                                                                        require('../../assets/images/icon/Star_3.png')
+                                                                        :
+                                                                        require('../../assets/images/icon/Star.png')
+                                                                } />
+                                                            )
+                                                        })
+                                                }
+                                            </View>
                                         </View>
                                         <View style={styles.viewIconRight}>
                                             <AntDesign name="check" style={styles.iconRight} />
                                         </View>
+
                                     </View>
                                 </TouchableWithoutFeedback>
                             ))
@@ -99,7 +127,7 @@ const styles = StyleSheet.create({
     number: {
         fontSize: ComponentsStyle.fontSize20,
         fontFamily: "IBMPlexSansThai-Bold",
-        color: colors.secondary_MayaBlue,
+        color: colors.persianBlue,
 
     },
     numberView: {
@@ -108,7 +136,7 @@ const styles = StyleSheet.create({
         width: 32,
         height: 32,
         borderRadius: 8,
-        backgroundColor: colors.neutralGrey,
+        backgroundColor: colors.persianBlue20,
         marginTop: 16,
         marginLeft: 16,
         marginBottom: 16,

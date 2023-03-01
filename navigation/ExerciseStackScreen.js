@@ -7,6 +7,7 @@ import { useRoute } from '@react-navigation/native';
 import colors from '../constants/colors';
 import Exercise from '../screens/Exercise/Exercise';
 import ExHistory from '../screens/Exercise/ExHistory';
+import ExArticleTemplate from '../screens/Exercise/ExArticleTemplate';
 
 
 const HomeStack = createStackNavigator();
@@ -36,6 +37,9 @@ function HomeStackScreen() {
                         </View>
                     ),
                 })}
+            />
+            <HomeStack.Screen name="ExArticleTemplate" component={ExArticleTemplate}
+                options={{ headerShown: false }}
             />
         </HomeStack.Navigator>
     );

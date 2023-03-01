@@ -61,7 +61,7 @@ const prod = {
     endpoints: [
       {
         name: "planforfit",
-        endpoint: "https://api.planforfit.com/wellly_dev",
+        endpoint: "https://api.planforfit.com/wellly",
         region: "ap-southeast-1"
       }
     ]
