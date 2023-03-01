@@ -9,7 +9,9 @@ import { withTranslation } from 'react-i18next';
 import { routeName } from "../../redux/personalUser";
 import Mission from '../Nutrition/Mission';
 import Modal from "react-native-modal";
-import ProgressBar from "react-native-animated-progress";
+import ProgressBarAnimated from 'react-native-progress-bar-animated';
+
+
 //บทความ
 import Gn1 from '../../components/knowledge/Gn1';
 import Gn2 from '../../components/knowledge/Gn2';
@@ -33,7 +35,7 @@ class ArticleTemplate extends Component {
         this.state = {
             study: true,
             statusBarColor: "light",
-            id: null
+            id: null,
         };
     }
 
@@ -111,21 +113,44 @@ class ArticleTemplate extends Component {
     }
 
     missionDataView() {
+        const scoreProgress = 50;
+        const deviceWidth = Math.round(Dimensions.get('window').width - 30);
         return (
             <View style={{ flex: 1, marginTop: 24, marginHorizontal: 16 }}>
-                <View>
-                    <Text>เป้าหมายสัปดาห์นี้</Text>
-                    <View>
-                        <Text>12/15</Text>
+                <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                    <Text style={styles.target}>เป้าหมายสัปดาห์นี้</Text>
+                    <View style={{ flexDirection: "row" }}>
+                        <Text style={styles.score}>12</Text>
+                        <View style={{ flexDirection: "row" }}>
+                            <Text style={styles.maxScore}>/15</Text>
+                            <Image source={require('../../assets/images/icon/Firepoint.png')}
+                                style={{ width: 12, height: 12, marginLeft: 4, marginTop: 8 }}
+                            />
+                        </View>
+
                     </View>
+                </View>
+                <View style={{ backgroundColor: colors.grey6, borderRadius: 4, marginTop: 8 }}>
+                    <ProgressBarAnimated
+                        width={deviceWidth}
+                        value={scoreProgress}
+                        height={24}
+                        marginRight={150}
+                        /* backgroundColorOnComplete={"red"} */
+                        backgroundColor={colors.orange}
+
+                        borderColor={colors.white}
+                    />
                 </View>
 
             </View>
         )
     }
 
+
     render() {
         const { study, statusBarColor, id } = this.state;
+
 
 
         return (
@@ -212,6 +237,7 @@ class ArticleTemplate extends Component {
                                     this.renderCheckArticle()
                                     :
                                     this.missionDataView()
+
                             }
 
                         </ScrollView>
@@ -409,6 +435,42 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: colors.persianBlue,
         textAlign: "center",
+    },
+    target: {
+        fontFamily: "IBMPlexSansThai-Bold",
+        fontSize: 16,
+        color: colors.grey1,
+    },
+    score: {
+        fontFamily: "IBMPlexSansThai-Regular",
+        fontSize: 16,
+        color: colors.grey1,
+    },
+    maxScore: {
+        fontFamily: "IBMPlexSansThai-Regular",
+        fontSize: 12,
+        color: colors.grey1,
+        marginTop: 4
+    },
+    container2: {
+        flex: 1,
+        backgroundColor: '#FFF',
+        marginTop: 50,
+        padding: 15,
+    },
+    buttonContainer: {
+        marginTop: 15,
+    },
+    separator: {
+        marginVertical: 30,
+        borderWidth: 0.5,
+        borderColor: '#DCDCDC',
+    },
+    label: {
+        color: '#999',
+        fontSize: 14,
+        fontWeight: '500',
+        marginBottom: 10,
     },
 
 });

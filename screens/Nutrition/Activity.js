@@ -1,139 +1,116 @@
-import React, { Component } from "react";
+import React from 'react';
 import {
     View,
-    Text,
-    LayoutAnimation,
     StyleSheet,
-    UIManager,
-    Platform,
-    Animated,
-    Image
-} from "react-native";
-import { List } from 'react-native-paper';
-import colors from '../../constants/colors';
+    Dimensions,
+    Button,
+    Alert,
+    Text,
+} from 'react-native';
 
+import ProgressBarAnimated from 'react-native-progress-bar-animated';
 
+export default class App extends React.Component {
 
-export default class Accordion extends Component {
-    constructor(props) {
-        super(props);
-        this.slideAnim = new Animated.Value(0);
-
-        this.state = {
-            expanded: true,
-
-
-        };
+    state = {
+        progress: 20,
+        progressWithOnComplete: 0,
+        progressCustomized: 0,
     }
 
-
-    handlePress = () => {
-        const { expanded } = this.state;
+    increase = (key, value) => {
         this.setState({
-            expanded: !expanded
-        })
-    };
+            [key]: this.state[key] + value,
+        });
+    }
 
     render() {
-        const { expanded } = this.state;
-        console.log('expanded', expanded);
+        const barWidth = Dimensions.get('screen').width - 30;
+        const progressCustomStyles = {
+            backgroundColor: 'red',
+            borderRadius: 0,
+            borderColor: 'orange',
+        };
+
         return (
-            <>
-                <List.Section /* title="Accordions" */ style={{ backgroundColor: colors.grey7 }}>
-
-                    <List.Accordion style={{ backgroundColor: colors.grey7 }}
-
-                        title={<Text style={{ color: "red" }}>Accordion title</Text>}
-                        right={props =>
-                            <List.Icon {...props} icon={({ size, color, direction }) => (
-                                expanded ?
-                                    <Image
-                                        source={require('../../assets/images/icon/ChevronUp.png')}
-                                        style={{ width: 16, height: 16 }}
-                                    />
-                                    :
-                                    <Image
-                                        source={require('../../assets/images/icon/ChevronDown.png')}
-                                        style={{ width: 16, height: 16 }}
-                                    />
-                            )}
-                            />}
-                        expanded={expanded}
-                        onPress={this.handlePress}>
-                        <Text>
-                            Whether the accordion is expanded If this prop is provided, the accordion will be
-                            Whether the accordion is expanded If this prop is provided, the accordion will behave as a "controlled component". You'll need to update this prop when you want to toggle the component or on onPress.
-                            have as a "controlled component". You'll need to update this prop when you want to toggle the component or on onPress.
-                        </Text>
-                    </List.Accordion>
-                </List.Section>
-            </>
-        )
+            <View style={styles.container}>
+                <View>
+                    <Text style={styles.label}>Bar with backgroundColorOnComplete prop</Text>
+                    <ProgressBarAnimated
+                        width={barWidth}
+                        value={this.state.progress}
+                        backgroundColorOnComplete="#6CC644"
+                    />
+                    <View style={styles.buttonContainer}>
+                        <View style={styles.buttonInner}>
+                            <Button
+                                title="Increase 20%"
+                                onPress={this.increase.bind(this, 'progress', 20)}
+                            />
+                        </View>
+                    </View>
+                </View>
+                <View style={styles.separator} />
+                <View>
+                    <Text style={styles.label}>Bar with onComplete event</Text>
+                    <ProgressBarAnimated
+                        width={barWidth}
+                        value={this.state.progressWithOnComplete}
+                        onComplete={() => {
+                            Alert.alert('Hey!', 'onComplete event fired!');
+                        }}
+                    />
+                    <View style={styles.buttonContainer}>
+                        <View style={styles.buttonInner}>
+                            <Button
+                                title="Increase 50%"
+                                onPress={this.increase.bind(this, 'progressWithOnComplete', 50)}
+                            />
+                        </View>
+                    </View>
+                </View>
+                <View style={styles.separator} />
+                <View>
+                    <Text style={styles.label}>Custom style with max value in 30%</Text>
+                    <ProgressBarAnimated
+                        {...progressCustomStyles}
+                        width={barWidth}
+                        maxValue={30}
+                        value={this.state.progressCustomized}
+                    />
+                    <View style={styles.buttonContainer}>
+                        <View style={styles.buttonInner}>
+                            <Button
+                                title="Increase 10%"
+                                onPress={this.increase.bind(this, 'progressCustomized', 10)}
+                            />
+                        </View>
+                    </View>
+                </View>
+            </View>
+        );
     }
 }
 
-
-
-
 const styles = StyleSheet.create({
     container: {
-        paddingHorizontal: 15,
-        paddingVertical: 30,
-    },
-    text: {
-        fontSize: 18,
-        marginBottom: 20,
-    },
-    safeArea: {
         flex: 1,
+        backgroundColor: '#FFF',
+        marginTop: 50,
+        padding: 15,
     },
-    heading: {
-        alignItems: "center",
-        flexDirection: "row",
-        justifyContent: "space-between",
-        paddingVertical: 10
+    buttonContainer: {
+        marginTop: 15,
     },
-    hidden: {
-        height: 0,
+    separator: {
+        marginVertical: 30,
+        borderWidth: 0.5,
+        borderColor: '#DCDCDC',
     },
-    list: {
-        overflow: 'hidden'
-    },
-    sectionTitle: {
-        fontSize: 16,
-        height: 30,
-        marginLeft: '5%',
-    },
-    sectionDescription: {
-        fontSize: 12,
-        height: 30,
-        marginLeft: '5%',
-    },
-    divider: {
-        borderBottomColor: 'grey',
-        borderBottomWidth: StyleSheet.hairlineWidth,
-        width: '100%',
+    label: {
+        color: '#999',
+        fontSize: 14,
+        fontWeight: '500',
+        marginBottom: 10,
     },
 });
-
-
-/* const Accordion = ({ title, children }) => {
-    const [isOpen, setIsOpen] = useState(false);
-
-    const toggleOpen = () => {
-        setIsOpen(value => !value);
-        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    }
-
-    return (
-        <>
-            <TouchableOpacity onPress={toggleOpen} style={styles.heading} activeOpacity={0.6}>
-                {title}
-                <Icon name={isOpen ? "chevron-up-outline" : "chevron-down-outline"} size={18} color="black" />
-            </TouchableOpacity>
-            <View style={[styles.list, !isOpen ? styles.hidden : undefined]}>
-                {children}
-            </View>
-        </>
-    );
-}; */
