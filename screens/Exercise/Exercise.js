@@ -14,6 +14,7 @@ const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
 
 const data = Array.from({ length: 30 });
+const startData = Array.from({ length: 3 });
 
 const Exercise = ({ navigation }) => {
 
@@ -24,8 +25,9 @@ const Exercise = ({ navigation }) => {
 
     const [statusNotified, setStatusNotified] = useState(null);
     const [statusMission, setStatusMission] = useState(true);
-    const [modalVisibleQuiz, setModalVisibleQuiz] = useState(false);
-    const [startDate, setStartDate] = useState(1);
+    const [modalVisibleEx, setModalVisibleEx] = useState(false);
+    const [start, setStart] = useState(3);
+    const [trophy, setTrophy] = useState(0);
 
     const animatedScrollYValue = useRef(new Animated.Value(0)).current;
     const headerHeight = animatedScrollYValue.interpolate({
@@ -46,9 +48,9 @@ const Exercise = ({ navigation }) => {
         const unsubscribe = navigation.addListener('focus', () => {
 
             dispatch(getNutritionActivity((user && user.user_id)));
-            setModalVisibleQuiz(true)
+            setModalVisibleEx(true)
             setTimeout(() => {
-                setModalVisibleQuiz(false)
+                setModalVisibleEx(false)
             }, 3000);
 
         });
@@ -199,10 +201,10 @@ const Exercise = ({ navigation }) => {
                 <Modal
                     animationType="slide"
                     transparent={true}
-                    visible={modalVisibleQuiz}
+                    visible={modalVisibleEx}
                     onRequestClose={() => {
                         Alert.alert('Modal has been closed.');
-                        this.setState({ modalVisibleQuiz: !modalVisibleQuiz });
+                        this.setState({ modalVisibleEx: !modalVisibleEx });
                     }}
                 >
                     <View style={styles.centeredView}>
@@ -210,24 +212,74 @@ const Exercise = ({ navigation }) => {
                             <Text style={styles.textHeadWeek}>ผลลัพธ์ภารกิจสัปดาห์ที่ 1</Text>
                             <Image
                                 style={{ width: 160, height: 160, }}
-                                source={require('../../assets/images/icon/Trophy.png')}
+                                source={
+                                    trophy == 1 ?
+                                        require('../../assets/images/icon/Trophy.png')
+                                        :
+                                        require('../../assets/images/icon/Trophy2.png')
+                                }
                             />
                             <View style={styles.starView}>
-                                <Image style={{ width: 40, height: 40, }} source={require('../../assets/images/icon/Star_3.png')} />
+                                {
+                                    startData && startData.map((item, i) => {
+                                        return (
+                                            <Image style={[i > 0 ? { marginLeft: 16 } : null, { width: 40, height: 40, }]} source={
+                                                start >= ++i ?
+                                                    require('../../assets/images/icon/Star_3.png')
+                                                    :
+                                                    require('../../assets/images/icon/Star.png')
+                                            } />
+                                        )
+
+                                    })
+                                }
+                                {/*  <Image style={{ width: 40, height: 40, }} source={require('../../assets/images/icon/Star_3.png')} />
                                 <Image style={{ width: 40, height: 40, marginLeft: 16 }} source={require('../../assets/images/icon/Star_3.png')} />
-                                <Image style={{ width: 40, height: 40, marginLeft: 16 }} source={require('../../assets/images/icon/Star.png')} />
+                                <Image style={{ width: 40, height: 40, marginLeft: 16 }} source={require('../../assets/images/icon/Star.png')} /> */}
                             </View>
-                            <Text style={styles.textStar}>ไม่เป็นไร!</Text>
-                            <Text style={styles.textStar2}>ลองพยายามอีกครั้งในสัปดาห์นี้</Text>
 
-                            {/* <Text style={styles.textStar}>ค่อนข้างดีแล้ว!</Text>
-                            <Text style={styles.textStar2}>สัปดาห์นี้พยายามขึ้นอีกนิด เพื่อรับดาวเพิ่มเติม</Text>
+                            {/*    startData; */}
+                            {
+                                (start == 0) && (trophy == 0) ?
+                                    <>
+                                        <Text style={styles.textStar}>ไม่เป็นไร!</Text>
+                                        <Text style={styles.textStar2}>ลองพยายามอีกครั้งในสัปดาห์นี้</Text>
+                                    </>
+                                    :
+                                    (start == 1) && (trophy == 0) ?
+                                        <>
+                                            <Text style={styles.textStar}>ค่อนข้างดีแล้ว!</Text>
+                                            <Text style={styles.textStar2}>สัปดาห์นี้พยายามขึ้นอีกนิด เพื่อรับดาวเพิ่มเติม</Text>
+                                        </>
+                                        :
+                                        (start == 2) && (trophy == 0) ?
+                                            <>
+                                                <Text style={styles.textStar}>ทำได้ดีแล้ว!</Text>
+                                                <Text style={styles.textStar2}>สัปดาห์นี้พยายามขึ้นอีกนิด เพื่อรับดาวเพิ่มเติม</Text>
+                                            </>
+                                            :
+                                            (start == 3) && (trophy == 0) ?
+                                                <>
+                                                    <Text style={styles.textStar}>ดีมาก!</Text>
+                                                    <Text style={styles.textStar2}>ลองพิชิตภารกิจให้สำเร็จในสัปดาห์นี้ เพื่อรับถ้วยรางวัลเพิ่มเติม</Text>
+                                                </>
+                                                :
+                                                (start == 3) && (trophy == 1) ?
+                                                    <>
+                                                        <Text style={styles.textStar}>ดีมาก!</Text>
+                                                        <Text style={styles.textStar2}>คุณพิชิตภารกิจสำเร็จ พยายามรักษาวินัยเอาไว้ในสัปดาห์นี้</Text>
+                                                    </>
+                                                    : null
+                            }
 
-                            <Text style={styles.textStar}>ทำได้ดีแล้ว!</Text>
-                            <Text style={styles.textStar2}>สัปดาห์นี้พยายามขึ้นอีกนิด เพื่อรับดาวเพิ่มเติม</Text>
 
-                            <Text style={styles.textStar}>ดีมาก!</Text>
-                            <Text style={styles.textStar2}>ลองพิชิตภารกิจให้สำเร็จในสัปดาห์นี้ เพื่อรับถ้วยรางวัลเพิ่มเติม</Text> */}
+                            {/* 
+
+                           
+
+                            */}
+
+                            {/* */}
                         </View>
                         <View style={styles.centeredView1}>
 
@@ -513,7 +565,6 @@ const styles = StyleSheet.create({
         fontSize: ComponentsStyle.fontSize16,
         fontFamily: "IBMPlexSansThai-Regular",
         color: colors.white,
-        width: "80%",
         textAlign: "center",
         marginHorizontal: 16,
     },
