@@ -26,8 +26,8 @@ const Exercise = ({ navigation }) => {
     const [statusNotified, setStatusNotified] = useState(null);
     const [statusMission, setStatusMission] = useState(true);
     const [modalVisibleEx, setModalVisibleEx] = useState(false);
-    const [start, setStart] = useState(0);
-    const [trophy, setTrophy] = useState(0);
+    const [start, setStart] = useState(1);
+    const [trophy, setTrophy] = useState(1);
 
     const animatedScrollYValue = useRef(new Animated.Value(0)).current;
     const headerHeight = animatedScrollYValue.interpolate({
@@ -213,7 +213,7 @@ const Exercise = ({ navigation }) => {
                             <Image
                                 style={{ width: 160, height: 160, }}
                                 source={
-                                    trophy == 1 ?
+                                    (trophy == 1) && (start == 3) ?
                                         require('../../assets/images/icon/Trophy.png')
                                         :
                                         require('../../assets/images/icon/Trophy2.png')
@@ -224,10 +224,13 @@ const Exercise = ({ navigation }) => {
                                     startData && startData.map((item, i) => {
                                         return (
                                             <Image style={[i > 0 ? { marginLeft: 16 } : null, { width: 40, height: 40, }]} source={
+
                                                 start >= ++i ?
                                                     require('../../assets/images/icon/Star_3.png')
                                                     :
                                                     require('../../assets/images/icon/Star.png')
+
+
                                             } />
                                         )
 
@@ -240,46 +243,41 @@ const Exercise = ({ navigation }) => {
 
                             {/*    startData; */}
                             {
-                                (start == 0) && (trophy == 0) ?
+                                start == 0 ?
                                     <>
                                         <Text style={styles.textStar}>ไม่เป็นไร!</Text>
                                         <Text style={styles.textStar2}>ลองพยายามอีกครั้งในสัปดาห์นี้</Text>
                                     </>
                                     :
-                                    (start == 1) && (trophy == 0) ?
+                                    start == 1 ?
                                         <>
                                             <Text style={styles.textStar}>ค่อนข้างดีแล้ว!</Text>
                                             <Text style={styles.textStar2}>สัปดาห์นี้พยายามขึ้นอีกนิด เพื่อรับดาวเพิ่มเติม</Text>
                                         </>
                                         :
-                                        (start == 2) && (trophy == 0) ?
+                                        start == 2 ?
                                             <>
                                                 <Text style={styles.textStar}>ทำได้ดีแล้ว!</Text>
                                                 <Text style={styles.textStar2}>สัปดาห์นี้พยายามขึ้นอีกนิด เพื่อรับดาวเพิ่มเติม</Text>
                                             </>
                                             :
-                                            (start == 3) && (trophy == 0) ?
+                                            start == 3 ?
                                                 <>
                                                     <Text style={styles.textStar}>ดีมาก!</Text>
                                                     <Text style={styles.textStar2}>ลองพิชิตภารกิจให้สำเร็จในสัปดาห์นี้ เพื่อรับถ้วยรางวัลเพิ่มเติม</Text>
                                                 </>
                                                 :
-                                                (start == 3) && (trophy == 1) ?
+                                                start == 3 ?
                                                     <>
                                                         <Text style={styles.textStar}>ดีมาก!</Text>
                                                         <Text style={styles.textStar2}>คุณพิชิตภารกิจสำเร็จ พยายามรักษาวินัยเอาไว้ในสัปดาห์นี้</Text>
                                                     </>
-                                                    : null
+                                                    :
+                                                    <>
+                                                        <Text style={styles.textStar}>ไม่เป็นไร!</Text>
+                                                        <Text style={styles.textStar2}>ลองพยายามอีกครั้งในสัปดาห์นี้</Text>
+                                                    </>
                             }
-
-
-                            {/* 
-
-                           
-
-                            */}
-
-                            {/* */}
                         </View>
                         <View style={styles.centeredView1}>
 
