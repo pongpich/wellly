@@ -7,6 +7,8 @@ import { AntDesign } from '@expo/vector-icons';
 import { useSelector, useDispatch } from "react-redux";
 import { connect } from 'react-redux';
 import { getNutritionActivity } from "../../redux/get";
+import { convertFormatDate, calculateWeekInProgram } from "../../helpers/utils";
+
 
 
 const HEADER_MAX_HEIGHT = 500;
@@ -27,6 +29,12 @@ const Nutrition = ({ navigation }) => {
 
     const [statusNotified, setStatusNotified] = useState(null);
     const [startDate, setStartDate] = useState(1);
+    const [days, setDays] = useState(null);
+    const [week_program_user, setWeek_program_user] = useState(null);
+    const [quiz_activities, setQuiz_activities] = useState(null);
+    const [quiz_activities_number, setQuiz_activities_number] = useState(null);
+    const [assessment_kit_activties, setAssessment_kit_activties] = useState(null);
+    const [assessment_kit_number, setAssessment_kit_number] = useState(null);
 
     const animatedScrollYValue = useRef(new Animated.Value(0)).current;
     const headerHeight = animatedScrollYValue.interpolate({
@@ -48,6 +56,40 @@ const Nutrition = ({ navigation }) => {
 
             dispatch(getNutritionActivity((user && user.user_id)));
 
+            const week_program_user = calculateWeekInProgram(user.start_date);
+            if (week_program_user) {
+                setWeek_program_user(week_program_user)
+            }
+            const days = convertFormatDate();
+
+            if (days == "Sunday") {
+                setDays("Sunday")
+            } else {
+                setDays(null)
+            }
+
+            //console.log("nutrition_activity", nutrition_activity);
+            /* console.log("nutrition_activity", nutrition_activity.quiz_activities);
+            console.log("nutrition_activity", nutrition_activity.quiz_activities_number); */
+            /*  console.log("nutrition_activity", nutrition_activity);
+             console.log("nutrition_activity", nutrition_activity.assessment_kit_activties);
+             console.log("nutrition_activity", nutrition_activity.assessment_kit_number); */
+            console.log("statusGetNutritionActivity", statusGetNutritionActivity);
+
+            if (statusGetNutritionActivity == 'success') {
+                if (nutrition_activity.quiz_activities) {
+                    setQuiz_activities(nutrition_activity.quiz_activities)
+                }
+                if (nutrition_activity.quiz_activities_number >= 0) {
+                    setQuiz_activities_number(nutrition_activity.quiz_activities_number)
+                }
+                if (nutrition_activity.assessment_kit_activties) {
+                    setAssessment_kit_activties(nutrition_activity.assessment_kit_activties)
+                }
+                if (nutrition_activity.assessment_kit_number == 1) {
+                    setAssessment_kit_number()
+                }
+            }
 
         });
 
@@ -56,7 +98,6 @@ const Nutrition = ({ navigation }) => {
         return unsubscribe;
 
     }, [navigation]);
-
 
     return (
         <View style={styles.fill}>
@@ -106,13 +147,14 @@ const Nutrition = ({ navigation }) => {
                                                     {item.short_content}
                                                 </Text>
                                                 {
-                                                    statusNotified == 1 ?
+
+                                                    (days == "Sunday") && (week_program_user == item.week_in_program) ?
                                                         <View style={styles.notifiedRed}>
                                                             <Text style={styles.notifiedTextRed}>
                                                                 วันสุดท้าย
                                                             </Text>
                                                         </View> :
-                                                        statusNotified == 2 ?
+                                                        ((!quiz_activities) && (!quiz_activities_number)) || ((!assessment_kit_activties) && (!assessment_kit_number)) ?
                                                             <View style={styles.notifiedYellow}>
                                                                 <Text style={styles.notifiedTextYellow}>
                                                                     ภารกิจที่ยังทำไม่เสร็จ
@@ -192,7 +234,6 @@ const styles = StyleSheet.create({
     },
     row: {
         position: "relative",
-        maxHeight: 170,
         height: "auto",
         marginBottom: 16,
         backgroundColor: colors.white,

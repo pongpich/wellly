@@ -26,6 +26,7 @@
     "expo-status-bar": "~1.4.2",
     "i18next": "^22.4.9",
     "link": "^1.5.1",
+    "moment": "^2.29.4",
     "react": "18.1.0",
     "react-i18next": "^12.1.4",
     "react-native": "^0.70.6",

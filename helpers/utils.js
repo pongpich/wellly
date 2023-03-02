@@ -27,3 +27,12 @@ export function convertFormatTime(time) {
     : "00"
   return `${minutes}:${seconds}`;
 }
+
+export function convertFormatDate() {
+
+  const d = new Date();
+  var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+
+  return days[d.getDay()]
+}
