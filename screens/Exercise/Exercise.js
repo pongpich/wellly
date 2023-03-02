@@ -323,9 +323,9 @@ const styles = StyleSheet.create({
     },
     row: {
         position: "relative",
-        maxHeight: 170,
+
         height: "auto",
-        marginTop: 16,
+
         marginBottom: 16,
         backgroundColor: colors.white,
         borderRadius: 16,
@@ -333,12 +333,9 @@ const styles = StyleSheet.create({
         marginLeft: 16,
         marginRight: (deviceHeight > 1023) ? 32 : 16
     },
-
     rowProgram: {
         position: "relative",
-        maxHeight: 170,
         height: "auto",
-        marginTop: 16,
         marginBottom: 16,
         borderRadius: 16,
         flexDirection: "row",
