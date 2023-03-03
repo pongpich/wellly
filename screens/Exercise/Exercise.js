@@ -26,6 +26,7 @@ const Exercise = ({ navigation }) => {
     const [statusNotified, setStatusNotified] = useState(null);
     const [statusMission, setStatusMission] = useState(true);
     const [modalVisibleEx, setModalVisibleEx] = useState(false);
+    const [isModalVisibleEx, setIsModalVisibleEx] = useState(false);
     const [start, setStart] = useState(1);
     const [trophy, setTrophy] = useState(1);
 
@@ -43,6 +44,10 @@ const Exercise = ({ navigation }) => {
 
 
     }
+
+    /*     toggleModal = () => {
+    
+        } */
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
@@ -153,7 +158,7 @@ const Exercise = ({ navigation }) => {
                         :
                         <>
                             {
-                                !data ?
+                                data ?
 
                                     data.map((item, i) => {
                                         return (
@@ -161,7 +166,7 @@ const Exercise = ({ navigation }) => {
                                                 <View style={styles.imageProgramView}>
                                                     <Image
                                                         style={{ height: "100%", width: "100%", zIndex: 1 }}
-                                                        source={require('../../assets/images/exercise/Empty_State.png')}
+                                                        source={require('../../assets/images/exercise/Group13765.png')}
                                                     />
                                                 </View>
                                                 <View style={styles.programData}>
@@ -169,7 +174,6 @@ const Exercise = ({ navigation }) => {
                                                     <Text style={styles.missionContent}>
                                                         45 นาที
                                                     </Text>
-
                                                 </View>
                                             </View>
                                         )
@@ -197,6 +201,11 @@ const Exercise = ({ navigation }) => {
                     />
                 </View>
             </Animated.View>
+
+            {/*
+             //! Modal  ในส่วนของ trophy เเละ start
+             */}
+
             <View style={styles.centeredView}>
                 <Modal
                     animationType="slide"
@@ -236,9 +245,6 @@ const Exercise = ({ navigation }) => {
 
                                     })
                                 }
-                                {/*  <Image style={{ width: 40, height: 40, }} source={require('../../assets/images/icon/Star_3.png')} />
-                                <Image style={{ width: 40, height: 40, marginLeft: 16 }} source={require('../../assets/images/icon/Star_3.png')} />
-                                <Image style={{ width: 40, height: 40, marginLeft: 16 }} source={require('../../assets/images/icon/Star.png')} /> */}
                             </View>
 
                             {/*    startData; */}
@@ -286,6 +292,27 @@ const Exercise = ({ navigation }) => {
                     </View>
                 </Modal>
             </View>
+
+
+            {/*
+            //! Modal  ในส่วนของโปรเเกรมออกกำลังกาย 
+            */}
+
+
+            {/*  <View style={styles.centeredView}>
+                <Pressable title="Show modal" onPress={() => this.toggleModal(isModalVisibleEx)} />
+
+                <Modal isVisible={isModalVisibleEx}
+
+                    style={{ margin: 0 }}
+                >
+                    <View style={styles.centeredView}>
+                        <View style={styles.modalView}>
+
+                        </View>
+                    </View>
+                </Modal>
+            </View> */}
         </View >
     )
 }
@@ -352,7 +379,6 @@ const styles = StyleSheet.create({
         fontSize: ComponentsStyle.fontSize16,
     },
     missionData: {
-        /* marginHorizontal: 16, */
         flexWrap: "nowrap",
         width: "75%",
         margin: 16
