@@ -175,7 +175,7 @@ class ArticleTemplate extends Component {
                             />}
                         expanded={expanded}
                         onPress={this.handlePress}>
-                        <View style={{ backgroundColor: colors.grey7, paddingHorizontal: 16, borderTopLeftRadius: 8, borderTopRightRadius: 8, flexDirection: "row", justifyContent: "space-between" }}>
+                        <View style={{ marginLeft: 16, backgroundColor: colors.grey7, paddingHorizontal: 16, borderTopLeftRadius: 8, borderTopRightRadius: 8, flexDirection: "row", justifyContent: "space-between" }}>
                             <Text style={styles.expand_answerText}>
                                 กิจกรรมความเข้มข้นปานกลาง 1 ครั้ง
                             </Text>
@@ -188,7 +188,7 @@ class ArticleTemplate extends Component {
                                 />
                             </View>
                         </View>
-                        <View style={{ backgroundColor: colors.grey6, paddingHorizontal: 16, flexDirection: "row", justifyContent: "space-between" }}>
+                        <View style={{ marginLeft: 16, backgroundColor: colors.grey6, paddingHorizontal: 16, flexDirection: "row", justifyContent: "space-between" }}>
                             <Text style={styles.expand_answerText}>
                                 Cardio 1 ครั้ง
                             </Text>
@@ -201,7 +201,7 @@ class ArticleTemplate extends Component {
                                 />
                             </View>
                         </View>
-                        <View style={{ backgroundColor: colors.grey7, paddingHorizontal: 16, flexDirection: "row", justifyContent: "space-between" }}>
+                        <View style={{ marginLeft: 16, backgroundColor: colors.grey7, paddingHorizontal: 16, flexDirection: "row", justifyContent: "space-between" }}>
                             <Text style={styles.expand_answerText}>
                                 Core+Balance+plyo 1 ครั้ง
                             </Text>
@@ -217,7 +217,7 @@ class ArticleTemplate extends Component {
                                 />
                             </View>
                         </View>
-                        <View style={{ backgroundColor: colors.grey6, paddingHorizontal: 16, borderBottomLeftRadius: 8, borderBottomRightRadius: 8, flexDirection: "row", justifyContent: "space-between", marginBottom: 24 }}>
+                        <View style={{ marginLeft: 16, backgroundColor: colors.grey6, paddingHorizontal: 16, borderBottomLeftRadius: 8, borderBottomRightRadius: 8, flexDirection: "row", justifyContent: "space-between", marginBottom: 24 }}>
                             <Text style={styles.expand_answerText}>
                                 Resistance 1 ครั้ง
                             </Text>
@@ -234,7 +234,7 @@ class ArticleTemplate extends Component {
                             </View>
                         </View>
                     </List.Accordion>
-                </List.Section>
+                </List.Section >
                 <Text style={styles.challenge}>ชาเลนจ์</Text>
                 {
                     data && data.map((item, i) => {
@@ -623,7 +623,7 @@ const styles = StyleSheet.create({
         fontFamily: "IBMPlexSansThai-Regular",
     },
     titleAccordion: {
-        marginLeft: 16,
+        marginLeft: -30,
         fontSize: 16,
         color: colors.grey2,
         fontFamily: "IBMPlexSansThai-Regular",
