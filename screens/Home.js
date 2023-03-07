@@ -6,6 +6,8 @@ import { insertNutritionActivity } from "../redux/update";
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 import { routeName } from "../redux/personalUser";
+import ComponentsStyle from '../constants/components';
+import colors from '../constants/colors';
 
 
 class Home extends Component {
@@ -53,8 +55,9 @@ class Home extends Component {
     }
 
     render() {
+        const { user } = this.props;
         return (
-            <View>
+            <View style={ComponentsStyle.container}>
                 <StatusBar
                 /*   animated={false}
                   backgroundColor="blue"
@@ -62,10 +65,17 @@ class Home extends Component {
                 /*  showHideTransition={statusBarTransition} */
                 /*   hidden={hidden} */
                 />
-
-                <Pressable onPress={() => this.props.logoutUser()} >
-                    <Text >Logout </Text>
-                </Pressable>
+                <Text style={styles.contentHead}>สวัสดี</Text>
+                <Text style={styles.contentHead}>คุณ <Text style={{ color: colors.persianBlue }}>{user && user.display_name}</Text></Text>
+                <Text style={styles.content}>{user && user.email}</Text>
+                <Text></Text>
+                <View style={styles.buttonTop}>
+                    {
+                        <Pressable style={ComponentsStyle.button} onPress={() => this.props.logoutUser()}  >
+                            <Text style={ComponentsStyle.textButton}>{'Logout'}</Text>
+                        </Pressable>
+                    }
+                </View>
 
             </View>
 
@@ -85,6 +95,16 @@ const styles = StyleSheet.create({
     textStyle: {
         textAlign: 'center',
         marginBottom: 8,
+    },
+    contentHead: {
+        fontSize: ComponentsStyle.fontSize24,
+        fontFamily: "IBMPlexSansThai-Bold",
+        color: colors.grey1,
+    },
+    content: {
+        fontSize: ComponentsStyle.fontSize14,
+        fontFamily: "IBMPlexSansThai-Regular",
+        color: colors.grey2,
     },
 });
 
