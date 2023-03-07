@@ -23,6 +23,12 @@
     }
   },
   "submit": {
-    "production": {}
+    "production": {
+      "ios": {
+        "appleId": "akkewach@planforfit.com",
+        "ascAppId": "6446103380",
+        "appleTeamId": "CB3HNGUN7Q"
+      }
+    }
   }
 }
