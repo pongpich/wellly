@@ -14,6 +14,9 @@ export const types = {
   UPDATE_PERSONAL_DATA_SUCCESS: "UPDATE_PERSONAL_DATA_SUCCESS",
   UPDATE_HEALTH_DATA: "UPDATE_HEALTH_DATA",
   UPDATE_HEALTH_DATA_SUCCESS: "UPDATE_HEALTH_DATA_SUCCESS",
+  REGISTER: "REGISTER",
+  REGISTER_SUCCESS: "REGISTER_SUCCESS",
+  REGISTER_FAIL: "REGISTER_FAIL",
 };
 
 
@@ -24,6 +27,14 @@ export const logoutUser = () => ({
 
 export const loginUser = (email, password) => ({
   type: types.LOGIN_USER,
+  payload: {
+    email,
+    password
+  }
+});
+
+export const register = (email, password) => ({
+  type: types.REGISTER,
   payload: {
     email,
     password
@@ -48,8 +59,8 @@ export const updatePersonalData = (user_id, personal_data) => ({
 export const updateHealthData = (user_id, health_data, health_type) => ({
   type: types.UPDATE_HEALTH_DATA,
   payload: {
-    user_id, 
-    health_data, 
+    user_id,
+    health_data,
     health_type
   },
 });
@@ -131,6 +142,24 @@ const loginUserSagaAsync = async (
   }
 };
 
+const registerSagaAsync = async (
+  email,
+  password
+) => {
+  try {
+
+    const apiResult = await API.post("planforfit", "/register", {
+      body: {
+        email,
+        password
+      }
+    });
+    return apiResult
+  } catch (error) {
+    return { error, messsage: error.message };
+  }
+};
+
 
 
 function* loginUserSaga({ payload }) {
@@ -165,6 +194,39 @@ function* loginUserSaga({ payload }) {
 
   } catch (error) {
     console.log("error form login", error);
+  }
+}
+
+function* registerSaga({ payload }) {
+  const {
+    email,
+    password
+  } = payload
+
+  try {
+    const apiResult = yield call(
+      registerSagaAsync,
+      email,
+      password
+    );
+    console.log("register apiResult :", apiResult);
+    if (apiResult && apiResult.results) {
+      if (apiResult.results.message === "success") {
+
+        yield put({
+          type: types.REGISTER_SUCCESS
+        })
+        console.log("register Success");
+      } else {
+        yield put({
+          type: types.REGISTER_FAIL
+        })
+        console.log("register Fail");
+      }
+    }
+
+  } catch (error) {
+    console.log("error form registerSaga", error);
   }
 }
 
@@ -247,12 +309,17 @@ export function* watchUpdateHealthData() {
   yield takeEvery(types.UPDATE_HEALTH_DATA, updateHealthDataSaga)
 }
 
+export function* watchRegister() {
+  yield takeEvery(types.REGISTER, registerSaga)
+}
+
 export function* saga() {
   yield all([
     fork(watchLoginUser),
     fork(watchUpdateDisplayName),
     fork(watchUpdatePersonalData),
     fork(watchUpdateHealthData),
+    fork(watchRegister),
   ]);
 }
 
@@ -265,7 +332,8 @@ const INIT_STATE = {
   status: "default",
   statusUpdateDisplayName: "default",
   statusUpdatePersonalData: "default",
-  statusUpdateHealthData: "default"
+  statusUpdateHealthData: "default",
+  statusRegister: "default",
 };
 
 export function reducer(state = INIT_STATE, action) {
@@ -327,6 +395,21 @@ export function reducer(state = INIT_STATE, action) {
           ...state.user,
           health_data: action.payload
         }
+      };
+    case types.REGISTER:
+      return {
+        ...state,
+        statusRegister: "loading"
+      };
+    case types.REGISTER_SUCCESS:
+      return {
+        ...state,
+        statusRegister: "success"
+      };
+    case types.REGISTER_FAIL:
+      return {
+        ...state,
+        statusRegister: "fail"
       };
     case types.LOGOUT_USER:
       return INIT_STATE;

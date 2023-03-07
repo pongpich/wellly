@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Pressable, SafeAreaView, Image, TouchableOpacity, TextInput, Text, Linking, KeyboardAvoidingView, Platform, Dimensions } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { loginUser } from "../redux/auth";
+import { loginUser, register } from "../redux/auth";
 import colors from '../constants/colors';
 import ComponentsStyle from '../constants/components';
 import { connect } from 'react-redux';
@@ -21,9 +21,11 @@ class Register extends Component {
             textErrorPassWord: null, // สถานะข้อความ Password [1,2,null] 
             email: null,
             password: null,
+            confirm_password: null,
             isModalVisible: false,
             isFocused: false,
-            isFocused2: false
+            isFocused2: false,
+            registerSuccess: false
         };
     }
 
@@ -39,8 +41,16 @@ class Register extends Component {
 
 
     componentDidUpdate(prevProps, prevState) {
-        const { status, user } = this.props;
+        const { status, user, statusRegister } = this.props;
         const { isModalVisible, email, password } = this.state;
+
+        if ((prevProps.statusRegister !== statusRegister) && (statusRegister === "success")) {
+            this.setState({ registerSuccess: true })
+        }
+
+        if ((prevProps.statusRegister !== statusRegister) && (statusRegister === "fail")) {
+            this.setState({ textErrorEmail: 3 });
+        }
         if ((prevProps.status !== status) && (status === "success")) {
             this.props.navigation.navigate("Walkthrough")
         }
@@ -79,10 +89,12 @@ class Register extends Component {
                 });
             }
         }
+
+
     }
 
-    submitLogin() {
-        const { email, password } = this.state;
+    submitRegister() {
+        const { email, password, confirm_password } = this.state;
         let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
         if ((email === "") || (email === null)) {
             this.setState({
@@ -104,8 +116,13 @@ class Register extends Component {
                 stylePassword: false,
                 textErrorPassWord: 2
             });
+        } else if (confirm_password !== password) {
+            this.setState({
+                stylePassword: false,
+                textErrorPassWord: 3
+            });
         } else {
-            this.props.loginUser(email, password)
+            this.props.register(email, password)
 
         }
 
@@ -137,8 +154,8 @@ class Register extends Component {
 
 
     render() {
-        const { entry, styleEmil, textErrorEmail, textErrorPassWord, stylePassword, password, email, isModalVisible, isFocused, isFocused2 } = this.state;
-        const { t } = this.props;
+        const { registerSuccess, entry, styleEmil, textErrorEmail, textErrorPassWord, stylePassword, password, email, confirm_password, isModalVisible, isFocused, isFocused2 } = this.state;
+        const { t, statusRegister } = this.props;
         const handleFocus = () => this.setState({ isFocused: true })
         const handleBlur = () => this.setState({ isFocused: false })
         const handleFocus2 = () => this.setState({ isFocused2: true })
@@ -151,159 +168,189 @@ class Register extends Component {
                 start={{ x: 1, y: 0 }}
                 end={{ x: 1, y: 1 }}
             >
-
-                <View style={ComponentsStyle.viewStyle}>
-                    <View style={ComponentsStyle.viewStyle_1}>
-                        <View style={styles.viewtinyLogo}>
-                            <View style={styles.circle_1} />
-                            <View style={styles.circle_2} />
-                            <View style={styles.circle_3} />
-                            <View style={styles.tinyLogo}>
-                                <Image
-                                    style={styles.logoImage}
-                                    source={require('../assets/images/logo/Logo3x.png')}
-                                />
-                            </View>
-
-                        </View>
-                        <View style={ComponentsStyle.viewInput}>
-                            <TextInput
-                                style={
-                                    styleEmil ?
-                                        isFocused ?
-                                            ComponentsStyle.inputIsFocused
-                                            :
-                                            ComponentsStyle.input
-                                        :
-                                        ComponentsStyle.inputError
-                                }
-                                onChangeText={(text) => this.handleChange("email", text)}
-                                keyboardType="email-address"
-                                returnKeyType={"next"}
-                                autoFocus={true}
-                                onFocus={handleFocus}
-                                onBlur={handleBlur}
-                                placeholder={t('email')}
-                                value={email}
-                                autoCapitalize='none'
-                            />
-                            <View style={ComponentsStyle.viewTextError}>
-                                {
-                                    styleEmil === false ?
-                                        textErrorEmail === 1 ?
-                                            <Text style={ComponentsStyle.textError}>{t('please_enter_email')}</Text>
-                                            : textErrorEmail === 2 ?
-                                                <Text style={ComponentsStyle.textError}>{t('invalid_email_format')}</Text>
-                                                : null
-                                        : null
-                                }
-                            </View>
-                        </View>
-
-                        <View style={styles.inputPassword}>
-                            {
-                                entry === false ?
-
-                                    <TouchableOpacity style={styles.entry} onPress={() => this.handleChangeEntry("entry", true)}>
-                                        <Image
-                                            source={require('../assets/images/icon/entry_off.png')}
-                                        />
-                                    </TouchableOpacity>
-
-                                    :
-
-                                    <TouchableOpacity style={styles.entry} onPress={() => this.handleChangeEntry("entry", false)}>
-                                        <Image
-                                            style={styles.entryImage}
-                                            source={require('../assets/images/icon/entry_op.png')}
-                                        />
-                                    </TouchableOpacity>
-
-                            }
-                            <View style={styles.inputPassword2}>
-                                <TextInput
-                                    style={{
-                                        width: "100%",
-                                        height: 56,
-                                        borderWidth: stylePassword ? isFocused2 ? 2 : 1 : 2,
-                                        paddingLeft: 16,
-                                        paddingRight: 45,
-                                        justifyContent: "center",
-                                        marginTop: 16,
-                                        borderRadius: 8,
-                                        color: colors.grey1,
-                                        backgroundColor: ComponentsStyle.white,
-                                        fontFamily: "IBMPlexSansThai-Regular",
-                                        zIndex: 0,
-                                        borderColor: stylePassword ? isFocused2 ? colors.persianBlue : colors.grey4 : colors.negative1,
-                                        fontSize: (entry && password) ? 25 : 16,
-                                        /*   letterSpacing: (entry && password) ? -5 : 'normal', */ //เอาออกเพราะ android Error
-                                        paddingTop: (entry && password) ? 10 : 0
-                                    }}
-                                    onChangeText={(text) => this.handleChange("password", text)}
-                                    placeholder={(password === null) || (password === '') ? t('atleast8char') : null}
-                                    autoCapitalize='none'
-                                    secureTextEntry={entry}
-                                    value={password}
-                                    onFocus={handleFocus2}
-                                    onBlur={handleBlur2}
-                                />
-                            </View>
-                            <View style={ComponentsStyle.viewTextError}>
-                                {
-                                    stylePassword === false ?
-                                        textErrorPassWord === 1 ?
-                                            <Text style={ComponentsStyle.textError}>{t('please_enter_password')}</Text>
-                                            : textErrorPassWord === 2 ?
-                                                <Text style={ComponentsStyle.textError}>{t('atleast8char')}</Text>
-                                                : null
-                                        : null
-                                }
-                            </View>
-                        </View>
-
-                        
-                    </View>
-
-                    <View style={ComponentsStyle.viewStyle_2}>
-                        {
-                            (i18next.language === 'th') ?
-                                <Pressable style={styles.buttonThi_eng} onPress={() => i18next.changeLanguage("en")} >
-                                    <Text style={styles.textThi_eng}>English</Text>
+                {
+                    (registerSuccess) ?
+                        <View style={ComponentsStyle.viewStyle_1}>
+                            <Text style={{ textAlign: "center", fontSize: 24, color: "green" }}>Register Success</Text>
+                            <View style={styles.buttonTop}>
+                                <Pressable style={ComponentsStyle.button} onPress={() => this.props.navigation.navigate("Login")} >
+                                    <Text style={ComponentsStyle.textButton}>{t('login')}</Text>
                                 </Pressable>
-                                :
-                                <Pressable style={styles.buttonThi_eng} onPress={() => i18next.changeLanguage("th")}  >
-                                    <Text style={styles.textThi_eng}>ภาษาไทย</Text>
-                                </Pressable>
-                        }
-                    </View>
-                </View>
+                            </View>
+                        </View>
+                        :
+                        <View style={ComponentsStyle.viewStyle}>
+                            <View style={ComponentsStyle.viewStyle_1}>
+                                <View style={styles.viewtinyLogo}>
+                                    <View style={styles.circle_1} />
+                                    <View style={styles.circle_2} />
+                                    <View style={styles.circle_3} />
+                                    <View style={styles.tinyLogo}>
+                                        <Image
+                                            style={styles.logoImage}
+                                            source={require('../assets/images/logo/Logo3x.png')}
+                                        />
+                                    </View>
 
-
-                <View style={styles.centeredView}>
-                    <Pressable title="Show modal" onPress={() => this.toggleModal(isModalVisible)} />
-
-                    <Modal isVisible={isModalVisible}
-
-                        style={{ margin: 0 }}
-                    >
-                        <View style={styles.centeredView}>
-                            <View style={styles.modalView}>
-                                <Image
-                                    style={styles.imageGeneric}
-                                    source={require('../assets/images/icon/generic.png')}
-                                />
-                                <Text style={styles.modalText}>{t('user_account_not_found')}</Text>
-                                <Text style={styles.modalText2}>{t('check_username')}</Text>
-                                <View style={styles.buttonView}>
-                                    <Pressable style={ComponentsStyle.button} onPress={() => this.toggleModal(isModalVisible)} >
-                                        <Text style={ComponentsStyle.textButton}>{t('agree')}</Text>
-                                    </Pressable>
                                 </View>
+                                <Text style={{ marginBottom: 10 }}>Email</Text>
+                                <View style={{
+                                    width: "100%",
+                                    alignItems: "center",
+                                }}>
+                                    <TextInput
+                                        style={
+                                            styleEmil ?
+                                                isFocused ?
+                                                    ComponentsStyle.inputIsFocused
+                                                    :
+                                                    ComponentsStyle.input
+                                                :
+                                                ComponentsStyle.inputError
+                                        }
+                                        onChangeText={(text) => this.handleChange("email", text)}
+                                        keyboardType="email-address"
+                                        returnKeyType={"next"}
+                                        autoFocus={true}
+                                        onFocus={handleFocus}
+                                        onBlur={handleBlur}
+                                        placeholder={t('email')}
+                                        value={email}
+                                        autoCapitalize='none'
+                                    />
+                                    <View style={ComponentsStyle.viewTextError}>
+                                        {
+                                            styleEmil === false ?
+                                                textErrorEmail === 1 ?
+                                                    <Text style={ComponentsStyle.textError}>{t('please_enter_email')}</Text>
+                                                    : textErrorEmail === 2 ?
+                                                        <Text style={ComponentsStyle.textError}>{t('invalid_email_format')}</Text>
+                                                        : null
+                                                : null
+                                        }
+                                        {
+                                            (textErrorEmail === 3) &&
+                                            <Text style={ComponentsStyle.textError}>{"Email already exists"}</Text>
+                                        }
+                                    </View>
+                                </View>
+
+                                <Text style={{ marginTop: 10 }}>Password</Text>
+                                <View style={styles.inputPassword}>
+
+                                    <View style={styles.inputPassword2}>
+                                        <TextInput
+                                            style={{
+                                                width: "100%",
+                                                height: 56,
+                                                borderWidth: stylePassword ? isFocused2 ? 2 : 1 : 2,
+                                                paddingLeft: 16,
+                                                paddingRight: 45,
+                                                justifyContent: "center",
+                                                marginTop: 16,
+                                                borderRadius: 8,
+                                                color: colors.grey1,
+                                                backgroundColor: ComponentsStyle.white,
+                                                fontFamily: "IBMPlexSansThai-Regular",
+                                                zIndex: 0,
+                                                borderColor: stylePassword ? isFocused2 ? colors.persianBlue : colors.grey4 : colors.negative1,
+                                            }}
+                                            onChangeText={(text) => this.handleChange("password", text)}
+                                            placeholder={(password === null) || (password === '') ? t('atleast8char') : null}
+                                            autoCapitalize='none'
+                                            secureTextEntry={true}
+                                            value={password}
+                                            onFocus={handleFocus2}
+                                            onBlur={handleBlur2}
+                                        />
+                                    </View>
+                                    <View style={ComponentsStyle.viewTextError}>
+                                        {
+                                            stylePassword === false ?
+                                                textErrorPassWord === 1 ?
+                                                    <Text style={ComponentsStyle.textError}>{t('please_enter_password')}</Text>
+                                                    : textErrorPassWord === 2 ?
+                                                        <Text style={ComponentsStyle.textError}>{t('atleast8char')}</Text>
+                                                        : null
+                                                : null
+                                        }
+                                    </View>
+                                </View>
+
+                                <Text style={{ marginTop: 10 }}>Confirm password</Text>
+                                <View style={styles.inputPassword}>
+
+                                    <View style={styles.inputPassword2}>
+                                        <TextInput
+                                            style={{
+                                                width: "100%",
+                                                height: 56,
+                                                borderWidth: stylePassword ? isFocused2 ? 2 : 1 : 2,
+                                                paddingLeft: 16,
+                                                paddingRight: 45,
+                                                justifyContent: "center",
+                                                marginTop: 16,
+                                                borderRadius: 8,
+                                                color: colors.grey1,
+                                                backgroundColor: ComponentsStyle.white,
+                                                fontFamily: "IBMPlexSansThai-Regular",
+                                                zIndex: 0,
+                                                borderColor: stylePassword ? isFocused2 ? colors.persianBlue : colors.grey4 : colors.negative1,
+                                            }}
+                                            onChangeText={(text) => this.handleChange("confirm_password", text)}
+                                            placeholder={(confirm_password === null) || (confirm_password === '') ? t('atleast8char') : null}
+                                            autoCapitalize='none'
+                                            secureTextEntry={true}
+                                            value={confirm_password}
+                                            onFocus={handleFocus2}
+                                            onBlur={handleBlur2}
+                                        />
+                                    </View>
+                                    <View style={ComponentsStyle.viewTextError}>
+                                        {
+                                            (stylePassword === false) ?
+                                                (!confirm_password) ?
+                                                    <Text style={ComponentsStyle.textError}>{t('please_enter_password')}</Text>
+                                                    : (confirm_password && confirm_password.length < 8) ?
+                                                        <Text style={ComponentsStyle.textError}>{t('atleast8char')}</Text>
+                                                        : null
+                                                : null
+                                        }
+                                        {
+                                            (textErrorPassWord === 3) &&
+                                            <Text style={ComponentsStyle.textError}>{"Password and Confirm password validation"}</Text>
+                                        }
+                                    </View>
+                                </View>
+
+                                <View style={styles.buttonTop}>
+                                    {
+                                     
+                                        <Pressable style={ComponentsStyle.button} onPress={() => this.submitRegister()} >
+                                            <Text style={ComponentsStyle.textButton}>{t('register')}</Text>
+                                        </Pressable>
+                                    }
+                                </View>
+
+
                             </View>
+
+                            <View style={ComponentsStyle.viewStyle_2}>
+                                {
+                                    (i18next.language === 'th') ?
+                                        <Pressable style={styles.buttonThi_eng} onPress={() => i18next.changeLanguage("en")} >
+                                            <Text style={styles.textThi_eng}>English</Text>
+                                        </Pressable>
+                                        :
+                                        <Pressable style={styles.buttonThi_eng} onPress={() => i18next.changeLanguage("th")}  >
+                                            <Text style={styles.textThi_eng}>ภาษาไทย</Text>
+                                        </Pressable>
+                                }
+                            </View>
+
                         </View>
-                    </Modal>
-                </View>
+                }
+
             </LinearGradient>
 
         )
@@ -460,11 +507,11 @@ const styles = StyleSheet.create({
 
 
 const mapStateToProps = ({ authUser }) => {
-    const { user, status } = authUser;
-    return { user, status };
+    const { user, status, statusRegister } = authUser;
+    return { user, status, statusRegister };
 };
 
-const mapActionsToProps = { loginUser };
+const mapActionsToProps = { loginUser, register };
 
 
 export default connect(
