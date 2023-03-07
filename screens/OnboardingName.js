@@ -118,10 +118,9 @@ class OnboardingName extends React.Component {
                     </View>
 
                 </View>
-                <View style={styles.acceptSwitch}>
+                {/* <View style={styles.acceptSwitch}>
                     <Text style={styles.accept}>{t('i_accept')}
-                        <Text style={{ color: 'blue' }}
-                           /*  onPress={() => Linking.openURL('http://google.com')} */>
+                        <Text style={{ color: 'blue' }}>
                             {t('terms_and_conditions')}
                         </Text>
                         {t('use_of_wellly')}
@@ -146,10 +145,10 @@ class OnboardingName extends React.Component {
 
                         />
                     </View>
-                </View>
+                </View> */}
                 <View style={styles.areaViewButton}>
                     {
-                        (name.length > 0) && (switchOn == true) && (!errorInput) ?
+                        (name.length > 0) && /* (switchOn == true) && */ (!errorInput) ?
                             <Pressable style={ComponentsStyle.button} onPress={() => this.submit()} >
                                 <Text style={ComponentsStyle.textButton}>{t('next')}</Text>
                             </Pressable>

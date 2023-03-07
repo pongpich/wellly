@@ -156,7 +156,7 @@ function MyHome() {
           },
           title: languages === "th" ? "โภชนาการ" : "Nutrition",
         })} />
-      <Tab.Screen name="Add" component={AddStackScreen}
+      {/* <Tab.Screen name="Add" component={AddStackScreen}
         options={{
           title: '',
           tabBarIcon: ({ size, color }) => (
@@ -189,7 +189,7 @@ function MyHome() {
       <Tab.Screen name="ActivityTab" component={ActivityStackScreen}
         options={{
           title: languages === "th" ? "กิจกรรม" : "Activity",
-        }} />
+        }} /> */}
     </Tab.Navigator >
   );
 }
