@@ -111,14 +111,7 @@ const Nutrition = ({ navigation }) => {
                     <View style={styles.missionText}>
                         <Text style={styles.mission}>ภารกิจล่าสุด</Text>
                         {
-                            !startDate ?
-                                <Image
-                                    style={styles.iconImageRight}
-                                    source={require('../../assets/images/icon/History.png')}
-                                //  this.props.navigation.navigate("Walkthrough")
-                                />
-                                :
-
+                            (week_program_user > 1) ?
                                 <Pressable onPress={() => refresh()}>
                                     <Image
                                         style={styles.iconImageRight}
@@ -127,6 +120,12 @@ const Nutrition = ({ navigation }) => {
                                     //  this.props.navigation.navigate("Walkthrough")
                                     />
                                 </Pressable>
+                                :
+                                <Image
+                                    style={styles.iconImageRight}
+                                    source={require('../../assets/images/icon/History.png')}
+                                //  this.props.navigation.navigate("Walkthrough")
+                                />
                         }
 
                     </View>
