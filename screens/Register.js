@@ -9,7 +9,7 @@ import Modal from "react-native-modal";
 import i18next from 'i18next';
 import { withTranslation } from 'react-i18next';
 
-class Login extends Component {
+class Register extends Component {
 
     constructor(props) {
         super(props);
@@ -262,17 +262,7 @@ class Login extends Component {
                             </View>
                         </View>
 
-                        <View style={styles.buttonTop}>
-                            <Pressable style={ComponentsStyle.button} onPress={() => this.submitLogin()} >
-                                <Text style={ComponentsStyle.textButton}>{t('login')}</Text>
-                            </Pressable>
-                            <Pressable style={styles.buttonForgotPassword} onPress={() => this.props.navigation.navigate("ForgotPassword")} >
-                                <Text style={styles.textForgotPassword}>{t('forgot_password')}?</Text>
-                            </Pressable>
-                            <Pressable style={styles.buttonForgotPassword} onPress={() => this.props.navigation.navigate("Register")} >
-                                <Text style={styles.textForgotPassword}>{t('register')}</Text>
-                            </Pressable>
-                        </View>
+                        
                     </View>
 
                     <View style={ComponentsStyle.viewStyle_2}>
@@ -480,4 +470,4 @@ const mapActionsToProps = { loginUser };
 export default connect(
     mapStateToProps,
     mapActionsToProps
-)(withTranslation()(Login));
+)(withTranslation()(Register));

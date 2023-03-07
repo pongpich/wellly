@@ -3,6 +3,7 @@ import { Button, View, Image, TouchableOpacity, Dimensions, StatusBar } from 're
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator, CardStyleInterpolators, TransitionSpecs, TransitionPresets } from '@react-navigation/stack';
 import Login from '../screens/Login';
+import Register from '../screens/Register';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import ForgotPassword from '../screens/ForgotPassword';
 import { connect } from 'react-redux';
@@ -212,6 +213,7 @@ function MyStack(props) {
       }}>
 
       <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} initialRouteName="Login" />
+      <Stack.Screen name="Register" component={Register}  initialRouteName="Register" />
       <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{
         title: "",
         headerShadowVisible: false, // applied here
