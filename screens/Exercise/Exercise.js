@@ -108,30 +108,30 @@ const Exercise = ({ navigation }) => {
                                             return (
                                                 <Pressable onPress={() => navigation.navigate("ExArticleTemplate", { id: i, statusPags: "Exercise" })} key={i + "tfb"}>
                                                     <View key={i} style={styles.row}>
-                                                        <View style={styles.numberView}>
-                                                            <Text style={styles.number}>{++i}</Text>
+                                                        <View style={styles.numberView} key="i+ v1">
+                                                            <Text style={styles.number} key="i+ v1t">{++i}</Text>
                                                         </View>
-                                                        <View style={styles.missionData}>
-                                                            <Text style={styles.missionHead}>Body Pump</Text>
-                                                            <Text style={styles.missionContent}>
+                                                        <View style={styles.missionData} key="i+ v2">
+                                                            <Text style={styles.missionHead} key="i+ v2t">Body Pump</Text>
+                                                            <Text style={styles.missionContent} key="i+ v3t">
                                                                 โปรแกรมออกกำลังกายลดความเสี่ยงโรคเบาหวาน
                                                             </Text>
                                                             {
                                                                 statusNotified == 1 ?
-                                                                    <View style={styles.notifiedRed}>
-                                                                        <Text style={styles.notifiedTextRed}>
+                                                                    <View style={styles.notifiedRed} key="i+ v3">
+                                                                        <Text style={styles.notifiedTextRed} key="i+ v4t">
                                                                             วันสุดท้าย
                                                                         </Text>
                                                                     </View> :
                                                                     statusNotified != 2 ?
-                                                                        <View style={styles.notifiedYellow}>
-                                                                            <Text style={styles.notifiedTextYellow}>
+                                                                        <View style={styles.notifiedYellow} key="i+ v4">
+                                                                            <Text style={styles.notifiedTextYellow} key="i+ v5t">
                                                                                 ภารกิจที่ยังทำไม่เสร็จ
                                                                             </Text>
                                                                         </View> : null
                                                             }
                                                         </View>
-                                                        <View style={styles.viewIconRight}>
+                                                        <View style={styles.viewIconRight} key="i+ v5">
                                                             <Image
                                                                 style={{ height: 24, width: 24, zIndex: 1, marginRight: 8 }}
                                                                 source={require('../../assets/images/icon/right.png')}
@@ -162,16 +162,16 @@ const Exercise = ({ navigation }) => {
 
                                     data.map((item, i) => {
                                         return (
-                                            <View key={i} style={styles.rowProgram}>
-                                                <View style={styles.imageProgramView}>
+                                            <View key={i + "vd"} style={styles.rowProgram}>
+                                                <View style={styles.imageProgramView} key={i + "vd2"}>
                                                     <Image
-                                                        style={{ height: "100%", width: "100%", zIndex: 1 }}
+                                                        style={{ height: "100%", width: "100%", zIndex: 1 }} key="i+ v1ig"
                                                         source={require('../../assets/images/exercise/Group13765.png')}
                                                     />
                                                 </View>
-                                                <View style={styles.programData}>
-                                                    <Text style={styles.missionHead}>Core + Balance Training</Text>
-                                                    <Text style={styles.missionContent}>
+                                                <View style={styles.programData} key="i+ vd2">
+                                                    <Text style={styles.missionHead} key="i+ v6t">Core + Balance Training</Text>
+                                                    <Text style={styles.missionContent} key="i+ v7t">
                                                         45 นาที
                                                     </Text>
                                                 </View>
@@ -232,7 +232,7 @@ const Exercise = ({ navigation }) => {
                                 {
                                     startData && startData.map((item, i) => {
                                         return (
-                                            <Image style={[i > 0 ? { marginLeft: 16 } : null, { width: 40, height: 40, }]} source={
+                                            <Image style={[i > 0 ? { marginLeft: 16 } : null, { width: 40, height: 40, }]} key={i + "sr"} source={
 
                                                 start >= ++i ?
                                                     require('../../assets/images/icon/Star_3.png')
