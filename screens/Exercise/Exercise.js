@@ -1,8 +1,9 @@
 import React, { useRef, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, StyleSheet, Animated, Image, Modal, ImageBackground, Dimensions, Pressable, TouchableWithoutFeedback } from 'react-native';
+import { View, Text, StyleSheet, Animated, Image, ImageBackground, Dimensions, Pressable, TouchableWithoutFeedback } from 'react-native';
 import colors from '../../constants/colors';
 import ComponentsStyle from '../../constants/components';
+import Modal from "react-native-modal";
 import { AntDesign } from '@expo/vector-icons';
 import { useSelector, useDispatch } from "react-redux";
 import { connect } from 'react-redux';
@@ -26,6 +27,7 @@ const Exercise = ({ navigation }) => {
     const [statusMission, setStatusMission] = useState(true);
     const [modalVisibleEx, setModalVisibleEx] = useState(false);
     const [isModalVisibleEx, setIsModalVisibleEx] = useState(false);
+    const [isModalVisibleVedio, setIsModalVisibleVedio] = useState(false);
     const [start, setStart] = useState(1);
     const [trophy, setTrophy] = useState(1);
 
@@ -68,18 +70,20 @@ const Exercise = ({ navigation }) => {
 
     }
 
-    /*     toggleModal = () => {
-    
-        } */
+    const toggleModal = (isModalVisible) => {
 
+        this.setState({
+            isModalVisible: !isModalVisible
+        })
+    };
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
 
             dispatch(getNutritionActivity((user && user.user_id)));
             setModalVisibleEx(true)
-            setTimeout(() => {
-                setModalVisibleEx(false)
-            }, 3000);
+            /*  setTimeout(() => {
+                 setModalVisibleEx(false)
+             }, 3000); */
 
         });
 
@@ -267,7 +271,7 @@ const Exercise = ({ navigation }) => {
              //! Modal  ในส่วนของ trophy เเละ start
              */}
 
-            <View style={styles.centeredView}>
+            {/*      <View style={styles.centeredView}>
                 <Modal
                     animationType="slide"
                     transparent={true}
@@ -308,7 +312,7 @@ const Exercise = ({ navigation }) => {
                                 }
                             </View>
 
-                            {/*    startData; */}
+        
                             {
                                 start == 0 ?
                                     <>
@@ -352,6 +356,94 @@ const Exercise = ({ navigation }) => {
 
                     </View>
                 </Modal>
+            </View> */}
+
+            <View style={styles.centeredView}>
+                <Pressable title="Show modal" onPress={() => this.toggleModal(isModalVisibleVedio)} />
+
+                <Modal animationType="slide"
+                    transparent={true}
+                    visible={modalVisibleEx}
+                    onRequestClose={() => {
+                        Alert.alert('Modal has been closed.');
+                        this.setState({ modalVisibleEx: !modalVisibleEx });
+                    }}
+
+                    style={{ margin: 0 }}
+                >
+                    <View style={styles.centeredView}>
+                        <View style={styles.centeredView2}>
+                            <Text style={styles.textHeadWeek}>ผลลัพธ์ภารกิจสัปดาห์ที่ 1</Text>
+                            <Image
+                                style={{ width: 160, height: 160, }}
+                                source={
+                                    (trophy == 1) && (start == 3) ?
+                                        require('../../assets/images/icon/Trophy.png')
+                                        :
+                                        require('../../assets/images/icon/Trophy2.png')
+                                }
+                            />
+                            <View style={styles.starView}>
+                                {
+                                    startData && startData.map((item, i) => {
+                                        return (
+                                            <Image style={[i > 0 ? { marginLeft: 16 } : null, { width: 40, height: 40, }]} key={i + "sr"} source={
+
+                                                start >= ++i ?
+                                                    require('../../assets/images/icon/Star_3.png')
+                                                    :
+                                                    require('../../assets/images/icon/Star.png')
+
+
+                                            } />
+                                        )
+
+                                    })
+                                }
+                            </View>
+
+
+                            {
+                                start == 0 ?
+                                    <>
+                                        <Text style={styles.textStar}>ไม่เป็นไร!</Text>
+                                        <Text style={styles.textStar2}>ลองพยายามอีกครั้งในสัปดาห์นี้</Text>
+                                    </>
+                                    :
+                                    start == 1 ?
+                                        <>
+                                            <Text style={styles.textStar}>ค่อนข้างดีแล้ว!</Text>
+                                            <Text style={styles.textStar2}>สัปดาห์นี้พยายามขึ้นอีกนิด เพื่อรับดาวเพิ่มเติม</Text>
+                                        </>
+                                        :
+                                        start == 2 ?
+                                            <>
+                                                <Text style={styles.textStar}>ทำได้ดีแล้ว!</Text>
+                                                <Text style={styles.textStar2}>สัปดาห์นี้พยายามขึ้นอีกนิด เพื่อรับดาวเพิ่มเติม</Text>
+                                            </>
+                                            :
+                                            start == 3 ?
+                                                <>
+                                                    <Text style={styles.textStar}>ดีมาก!</Text>
+                                                    <Text style={styles.textStar2}>ลองพิชิตภารกิจให้สำเร็จในสัปดาห์นี้ เพื่อรับถ้วยรางวัลเพิ่มเติม</Text>
+                                                </>
+                                                :
+                                                start == 3 ?
+                                                    <>
+                                                        <Text style={styles.textStar}>ดีมาก!</Text>
+                                                        <Text style={styles.textStar2}>คุณพิชิตภารกิจสำเร็จ พยายามรักษาวินัยเอาไว้ในสัปดาห์นี้</Text>
+                                                    </>
+                                                    :
+                                                    <>
+                                                        <Text style={styles.textStar}>ไม่เป็นไร!</Text>
+                                                        <Text style={styles.textStar2}>ลองพยายามอีกครั้งในสัปดาห์นี้</Text>
+                                                    </>
+                            }
+                        </View>
+                        <View style={styles.modalView2}>
+                        </View>
+                    </View>
+                </Modal>
             </View>
 
 
@@ -360,20 +452,22 @@ const Exercise = ({ navigation }) => {
             */}
 
 
-            {/*  <View style={styles.centeredView}>
-                <Pressable title="Show modal" onPress={() => this.toggleModal(isModalVisibleEx)} />
+            <View style={styles.centeredVedio}>
+                <Pressable title="Show modal" onPress={() => this.toggleModal(isModalVisibleVedio)} />
 
-                <Modal isVisible={isModalVisibleEx}
+                <Modal isVisible={isModalVisibleVedio}
 
                     style={{ margin: 0 }}
                 >
-                    <View style={styles.centeredView}>
+                    <View style={styles.centeredVedio}>
                         <View style={styles.modalView}>
-
+                            <Text>
+                                asdas
+                            </Text>
                         </View>
                     </View>
                 </Modal>
-            </View> */}
+            </View>
         </View >
     )
 }
@@ -626,11 +720,12 @@ const styles = StyleSheet.create({
         flex: 1
     },
     centeredView2: {
+        width: "100%",
         position: "absolute",
         alignItems: "center",
         justifyContent: "center",
         opacity: 1,
-        zIndex: 1
+        zIndex: 10
     },
     textHeadWeek: {
         fontSize: ComponentsStyle.fontSize24,
@@ -665,9 +760,51 @@ const styles = StyleSheet.create({
         textAlign: "center",
         marginHorizontal: 16,
     },
-    historyRight: {
+    centeredVedio: {
+        flex: 1,
+        justifyContent: "flex-end",
+        alignItems: "center",
 
-    }
+    },
+    modalView: {
+        position: "relative",
+        zIndex: 3,
+        backgroundColor: "white",
+        width: "100%",
+        paddingHorizontal: 16,
+        height: 372,
+        paddingTop: 32,
+        borderTopLeftRadius: 24,
+        borderTopRightRadius: 24,
+        marginTop: 0,
+        alignItems: "center",
+        justifyContent: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 12
+        },
+        marginBottom: 0,
+        shadowOpacity: 0.58,
+        shadowRadius: 16,
+        elevation: 24
+    },
+    modalView2: {
+        position: "relative",
+        zIndex: 3,
+        backgroundColor: colors.grey1,
+        opacity: 0.8,
+        width: "100%",
+        paddingHorizontal: 16,
+        height: "100%",
+        paddingTop: 32,
+        borderTopLeftRadius: 24,
+        borderTopRightRadius: 24,
+        marginTop: 0,
+        alignItems: "center",
+        justifyContent: "center",
+
+    },
 
 
 });
