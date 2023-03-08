@@ -7,7 +7,6 @@ import { AntDesign } from '@expo/vector-icons';
 import { useSelector, useDispatch } from "react-redux";
 import { connect } from 'react-redux';
 import { getNutritionActivity } from "../../redux/get";
-import DynamicHeader from '../../constants/DynamicHeader';
 const HEADER_MAX_HEIGHT = 500;
 const HEADER_MIN_HEIGHT = 10;
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
