@@ -101,7 +101,7 @@ class ArticleTemplate extends Component {
     renderCheckArticle() { //เช็คว่าจะแสดงบทความไหน โดยใช้ mission_id
         const { mission_id } = this.props.route.params;
         return (
-            <View style={{ flex: 1, marginHorizontal: 16 }}>
+            <View style={{ flex: 1, marginHorizontal: 16, }}>
                 {<Gn1 />}
                 {/*  {(mission_id === 'gn2') && <Gn2 />}
                 {(mission_id === 'gn3') && <Gn3 />}
@@ -345,9 +345,10 @@ class ArticleTemplate extends Component {
                     flex: 1,
                     zIndex: 2,
                     marginTop: -10,
-                    marginBottom: -200,
+                    marginBottom: -300,
+
                 }}>
-                    <View style={ComponentsStyle.contentBox}>
+                    <View style={[ComponentsStyle.contentBox]}>
                         <View style={styles.heading}>
                             <View style={study === true ? styles.boxHeadingActive : styles.boxHeading}>
                                 <Pressable onPress={() => this.setState({
