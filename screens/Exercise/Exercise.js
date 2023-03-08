@@ -7,7 +7,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { useSelector, useDispatch } from "react-redux";
 import { connect } from 'react-redux';
 import { getNutritionActivity } from "../../redux/get";
-
+import DynamicHeader from '../../constants/DynamicHeader';
 const HEADER_MAX_HEIGHT = 500;
 const HEADER_MIN_HEIGHT = 10;
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
@@ -31,11 +31,35 @@ const Exercise = ({ navigation }) => {
     const [trophy, setTrophy] = useState(1);
 
     const animatedScrollYValue = useRef(new Animated.Value(0)).current;
+
     const headerHeight = animatedScrollYValue.interpolate({
         inputRange: [0, HEADER_SCROLL_DISTANCE],
         outputRange: [1, 0.20],
         extrapolate: 'clamp',
     });
+    const headerHeight1 = animatedScrollYValue.interpolate({
+        inputRange: [0, HEADER_SCROLL_DISTANCE],
+        outputRange: [1, 1],
+        extrapolate: 'clamp',
+    });
+    const Max_Header_Height = 550;
+    const Min_Header_Height = 170;
+    const Scroll_Distance = Max_Header_Height - Min_Header_Height
+
+    const animatedHeaderHeight = animatedScrollYValue.interpolate({
+        inputRange: [0, Scroll_Distance],
+        outputRange: [Max_Header_Height, Min_Header_Height],
+        extrapolate: 'clamp',
+        zIndex: 20
+    })
+
+
+    const animateHeaderBackgroundColor = animatedScrollYValue.interpolate({
+        inputRange: [0, Max_Header_Height - Min_Header_Height],
+        outputRange: [1, 1],
+        extrapolate: 'clamp',
+
+    })
 
     const refresh = () => {
         if (data.length) {
@@ -69,6 +93,7 @@ const Exercise = ({ navigation }) => {
 
     return (
         <View style={styles.fill}>
+
             <Animated.ScrollView
                 style={styles.fill2}
                 contentContainerStyle={styles.scrollViewContent}
@@ -76,7 +101,7 @@ const Exercise = ({ navigation }) => {
                 onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: animatedScrollYValue } } }], { useNativeDriver: false })}
             >
                 <View style={styles.scrollViewContent}>
-                    <View style={styles.missionText}>
+                    {/* <View style={styles.missionText}>
                         <View style={styles.missionView}>
                             <Pressable style={[{ width: 71 }, statusMission === true ? styles.missionPre : styles.programPre]} onPress={() => setStatusMission(true)} >
                                 <Text style={[styles.mission, statusMission === true ? { color: colors.white } : { color: colors.persianBlue }]}>ภารกิจ</Text>
@@ -88,7 +113,7 @@ const Exercise = ({ navigation }) => {
                         {
                             statusMission == true ?
                                 <>
-                                    {/* <Image style={styles.iconImageRight} source={require('../../assets/images/icon/History.png')} /> */}
+                                  
                                     <Pressable onPress={() => refresh()}>
                                         <Image style={styles.iconImageRight} source={require('../../assets/images/icon/History1.png')} />
                                     </Pressable>
@@ -97,7 +122,7 @@ const Exercise = ({ navigation }) => {
                                 null
                         }
 
-                    </View>
+                    </View> */}
                     {statusMission === true ?
                         <>
                             {
@@ -193,6 +218,43 @@ const Exercise = ({ navigation }) => {
                 </View>
             </Animated.ScrollView >
             <Text style={styles.nutritionText}>ออกกำลังกาย</Text>
+            <View style={styles.nutritionBox}>
+                <Animated.View
+                    style={[
+                        styles.header2,
+                        {
+                            height: animatedHeaderHeight,
+                        }
+
+                    ]}
+                >
+                    <View style={styles.nutritionBox}>
+                        <View style={styles.missionText}>
+                            <View style={styles.missionView}>
+                                <Pressable style={[{ width: 71 }, statusMission === true ? styles.missionPre : styles.programPre]} onPress={() => setStatusMission(true)} >
+                                    <Text style={[styles.mission, statusMission === true ? { color: colors.white } : { color: colors.persianBlue }]}>ภารกิจ</Text>
+                                </Pressable>
+                                <Pressable style={[{ marginLeft: 8, width: 89 }, statusMission !== true ? styles.missionPre : styles.programPre]} onPress={() => setStatusMission(false)} >
+                                    <Text style={[styles.mission, statusMission !== true ? { color: colors.white } : { color: colors.persianBlue }]}>โปรแกรม</Text>
+                                </Pressable>
+                            </View>
+                            {
+                                statusMission == true ?
+                                    <>
+
+                                        <Pressable onPress={() => refresh()} style={styles.historyRight}>
+                                            <Image style={styles.iconImageRight} source={require('../../assets/images/icon/History1.png')} />
+                                        </Pressable>
+                                    </>
+                                    :
+                                    null
+                            }
+
+                        </View>
+                    </View>
+                </Animated.View >
+            </View>
+
             <Animated.View opacity={headerHeight} style={[styles.header]}>
                 <View style={styles.imageView}>
                     <ImageBackground
@@ -330,7 +392,7 @@ const styles = StyleSheet.create({
         backgroundColor: colors.grey7,
     },
     fill2: {
-        marginTop: 107,
+        marginTop: 170,
         zIndex: 1,
     },
 
@@ -345,6 +407,13 @@ const styles = StyleSheet.create({
         zIndex: 10,
         position: 'absolute'
 
+    },
+
+    nutritionBox: {
+        opacity: 1,
+        zIndex: 10,
+        position: 'absolute',
+        width: "100%"
     },
     row: {
         position: "relative",
@@ -373,7 +442,10 @@ const styles = StyleSheet.create({
         paddingHorizontal: 16,
         flexDirection: "row",
         marginBottom: 16,
+        position: "relative",
+        width: "100%",
     },
+
     mission: {
         fontFamily: "IBMPlexSansThai-Bold",
         fontSize: ComponentsStyle.fontSize16,
@@ -405,6 +477,11 @@ const styles = StyleSheet.create({
         position: 'absolute',
         width: "100%",
 
+    },
+    header2: {
+        position: 'absolute',
+        width: "100%",
+        justifyContent: "flex-end",
     },
     number: {
         fontSize: ComponentsStyle.fontSize20,
@@ -589,6 +666,10 @@ const styles = StyleSheet.create({
         textAlign: "center",
         marginHorizontal: 16,
     },
+    historyRight: {
+
+    }
+
 
 });
 
