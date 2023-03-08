@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, StyleSheet, Animated, Image, ImageBackground, Dimensions, Pressable, TouchableWithoutFeedback } from 'react-native';
+import { View, Text, StyleSheet, Animated, Image, ImageBackground, Dimensions, Pressable, ScrollView } from 'react-native';
 import colors from '../../constants/colors';
 import ComponentsStyle from '../../constants/components';
 import Modal from "react-native-modal";
@@ -8,6 +8,9 @@ import { AntDesign } from '@expo/vector-icons';
 import { useSelector, useDispatch } from "react-redux";
 import { connect } from 'react-redux';
 import { getNutritionActivity } from "../../redux/get";
+import { List } from 'react-native-paper';
+
+
 const HEADER_MAX_HEIGHT = 500;
 const HEADER_MIN_HEIGHT = 10;
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
@@ -15,6 +18,7 @@ const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
 const data = Array.from({ length: 30 });
 const startData = Array.from({ length: 3 });
+const data2 = Array.from({ length: 3 });
 
 const Exercise = ({ navigation }) => {
 
@@ -25,11 +29,13 @@ const Exercise = ({ navigation }) => {
 
     const [statusNotified, setStatusNotified] = useState(null);
     const [statusMission, setStatusMission] = useState(true);
+    const [status_male_female, setStatus_male_female] = useState(true);
     const [modalVisibleEx, setModalVisibleEx] = useState(false);
     const [isModalVisibleEx, setIsModalVisibleEx] = useState(false);
     const [isModalVisibleVedio, setIsModalVisibleVedio] = useState(false);
     const [start, setStart] = useState(1);
     const [trophy, setTrophy] = useState(1);
+    const [expanded, setExpanded] = useState(false);
 
     const animatedScrollYValue = useRef(new Animated.Value(0)).current;
 
@@ -70,17 +76,22 @@ const Exercise = ({ navigation }) => {
 
     }
 
-    const toggleModal = (isModalVisible) => {
+    /*   const toggleModal = (isModalVisible) => {
+  
+          this.setState({
+              isModalVisible: !isModalVisible
+          })
+      }; */
 
-        this.setState({
-            isModalVisible: !isModalVisible
-        })
+    const closeeModal = () => {
+        setIsModalVisibleVedio(!isModalVisibleVedio)
+
     };
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
 
             dispatch(getNutritionActivity((user && user.user_id)));
-            setModalVisibleEx(true)
+            // setModalVisibleEx(true)
             /*  setTimeout(() => {
                  setModalVisibleEx(false)
              }, 3000); */
@@ -190,20 +201,22 @@ const Exercise = ({ navigation }) => {
 
                                     data.map((item, i) => {
                                         return (
-                                            <View key={i + "vd"} style={styles.rowProgram}>
-                                                <View style={styles.imageProgramView} key={i + "vd2"}>
-                                                    <Image
-                                                        style={{ height: "100%", width: "100%", zIndex: 1 }} key="i+ v1ig"
-                                                        source={require('../../assets/images/exercise/Group13765.png')}
-                                                    />
+                                            <Pressable key={i + "vp"} onPress={() => closeeModal()} >
+                                                <View key={i + "vd"} style={styles.rowProgram}>
+                                                    <View style={styles.imageProgramView} key={i + "vd2"}>
+                                                        <Image
+                                                            style={{ height: "100%", width: "100%", zIndex: 1 }} key="i+ v1ig"
+                                                            source={require('../../assets/images/exercise/Group13765.png')}
+                                                        />
+                                                    </View>
+                                                    <View style={styles.programData} key="i+ vd2">
+                                                        <Text style={styles.missionHead} key="i+ v6t">Core + Balance Training</Text>
+                                                        <Text style={styles.missionContent} key="i+ v7t">
+                                                            45 นาที
+                                                        </Text>
+                                                    </View>
                                                 </View>
-                                                <View style={styles.programData} key="i+ vd2">
-                                                    <Text style={styles.missionHead} key="i+ v6t">Core + Balance Training</Text>
-                                                    <Text style={styles.missionContent} key="i+ v7t">
-                                                        45 นาที
-                                                    </Text>
-                                                </View>
-                                            </View>
+                                            </Pressable>
                                         )
                                     })
                                     :
@@ -271,92 +284,7 @@ const Exercise = ({ navigation }) => {
              //! Modal  ในส่วนของ trophy เเละ start
              */}
 
-            {/*      <View style={styles.centeredView}>
-                <Modal
-                    animationType="slide"
-                    transparent={true}
-                    visible={modalVisibleEx}
-                    onRequestClose={() => {
-                        Alert.alert('Modal has been closed.');
-                        this.setState({ modalVisibleEx: !modalVisibleEx });
-                    }}
-                >
-                    <View style={styles.centeredView}>
-                        <View style={styles.centeredView2}>
-                            <Text style={styles.textHeadWeek}>ผลลัพธ์ภารกิจสัปดาห์ที่ 1</Text>
-                            <Image
-                                style={{ width: 160, height: 160, }}
-                                source={
-                                    (trophy == 1) && (start == 3) ?
-                                        require('../../assets/images/icon/Trophy.png')
-                                        :
-                                        require('../../assets/images/icon/Trophy2.png')
-                                }
-                            />
-                            <View style={styles.starView}>
-                                {
-                                    startData && startData.map((item, i) => {
-                                        return (
-                                            <Image style={[i > 0 ? { marginLeft: 16 } : null, { width: 40, height: 40, }]} key={i + "sr"} source={
 
-                                                start >= ++i ?
-                                                    require('../../assets/images/icon/Star_3.png')
-                                                    :
-                                                    require('../../assets/images/icon/Star.png')
-
-
-                                            } />
-                                        )
-
-                                    })
-                                }
-                            </View>
-
-        
-                            {
-                                start == 0 ?
-                                    <>
-                                        <Text style={styles.textStar}>ไม่เป็นไร!</Text>
-                                        <Text style={styles.textStar2}>ลองพยายามอีกครั้งในสัปดาห์นี้</Text>
-                                    </>
-                                    :
-                                    start == 1 ?
-                                        <>
-                                            <Text style={styles.textStar}>ค่อนข้างดีแล้ว!</Text>
-                                            <Text style={styles.textStar2}>สัปดาห์นี้พยายามขึ้นอีกนิด เพื่อรับดาวเพิ่มเติม</Text>
-                                        </>
-                                        :
-                                        start == 2 ?
-                                            <>
-                                                <Text style={styles.textStar}>ทำได้ดีแล้ว!</Text>
-                                                <Text style={styles.textStar2}>สัปดาห์นี้พยายามขึ้นอีกนิด เพื่อรับดาวเพิ่มเติม</Text>
-                                            </>
-                                            :
-                                            start == 3 ?
-                                                <>
-                                                    <Text style={styles.textStar}>ดีมาก!</Text>
-                                                    <Text style={styles.textStar2}>ลองพิชิตภารกิจให้สำเร็จในสัปดาห์นี้ เพื่อรับถ้วยรางวัลเพิ่มเติม</Text>
-                                                </>
-                                                :
-                                                start == 3 ?
-                                                    <>
-                                                        <Text style={styles.textStar}>ดีมาก!</Text>
-                                                        <Text style={styles.textStar2}>คุณพิชิตภารกิจสำเร็จ พยายามรักษาวินัยเอาไว้ในสัปดาห์นี้</Text>
-                                                    </>
-                                                    :
-                                                    <>
-                                                        <Text style={styles.textStar}>ไม่เป็นไร!</Text>
-                                                        <Text style={styles.textStar2}>ลองพยายามอีกครั้งในสัปดาห์นี้</Text>
-                                                    </>
-                            }
-                        </View>
-                        <View style={styles.centeredView1}>
-
-                        </View>
-
-                    </View>
-                </Modal>
-            </View> */}
 
             <View style={styles.centeredView}>
                 <Pressable title="Show modal" onPress={() => this.toggleModal(isModalVisibleVedio)} />
@@ -453,21 +381,153 @@ const Exercise = ({ navigation }) => {
 
 
             <View style={styles.centeredVedio}>
-                <Pressable title="Show modal" onPress={() => this.toggleModal(isModalVisibleVedio)} />
+
 
                 <Modal isVisible={isModalVisibleVedio}
 
-                    style={{ margin: 0 }}
+                    style={{ marginHorizontal: 0, marginTop: 150, }}
                 >
                     <View style={styles.centeredVedio}>
                         <View style={styles.modalView}>
-                            <Text>
-                                asdas
-                            </Text>
+                            <View style={styles.boxModel}>
+                                <View style={{
+                                    height: 212,
+                                    zIndex: 1,
+                                }}>
+                                    <Image
+                                        style={{
+                                            height: "100%", width: "100%",
+                                            borderTopLeftRadius: 16,
+                                            borderTopRightRadius: 16,
+                                        }}
+                                        source={require('../../assets/images/exercise/Alternating.png')}
+                                    />
+                                    <View style={{ position: "absolute", width: "100%", alignItems: "flex-end" }}>
+                                        <Pressable onPress={() => closeeModal()}>
+                                            <Image
+                                                style={{
+                                                    height: 24, width: 24,
+                                                    zIndex: 2,
+                                                    marginTop: 16,
+                                                    marginRight: 16,
+
+                                                }}
+                                                source={require('../../assets/images/exercise/Close.png')}
+                                            />
+                                        </Pressable>
+                                    </View>
+                                </View>
+                                <ScrollView>
+                                    <View style={{ marginTop: 16, marginHorizontal: 16, height: "auto" }}>
+                                        <Text style={styles.textModeHead}>Core + Balance Training</Text>
+                                        <Text style={styles.textModeConter}>เสริมสร้างความแข็งแรงของกล้ามท้อง และ ลำตัว ป้องกันการบาดเจ็บกระดูกสันหลัง เคลื่อนไหวได้ปลอดภัย ลดอาการปวดหลัง</Text>
+                                        <View style={{ flexDirection: "row", marginTop: 16 }}>
+                                            <View style={{ flexDirection: "row" }}>
+                                                <Image
+                                                    style={{
+                                                        height: 16, width: 16,
+                                                    }}
+                                                    source={require('../../assets/images/icon/Clock3x.png')}
+                                                />
+                                                <Text style={styles.textMinute}>45 นาที</Text>
+                                            </View>
+                                            <View style={{ flexDirection: "row", marginLeft: 37 }}>
+                                                <Image
+                                                    style={{
+                                                        height: 16, width: 16,
+                                                    }}
+                                                    source={require('../../assets/images/icon/Equipment3x.png')}
+                                                />
+                                                <Text style={styles.textMinute}>ไม่ใช้</Text>
+                                            </View>
+                                        </View>
+                                        <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: 22 }}>
+                                            <Text style={styles.missionHead}>ผู้ฝึกสอน</Text>
+                                            <View>
+                                                <View style={styles.missionView}>
+                                                    <Pressable style={[{ width: 63 }, status_male_female === true ? styles.missionPre : styles.programPre]} onPress={() => setStatus_male_female(true)} >
+                                                        <Text style={[styles.mission, status_male_female === true ? { color: colors.white } : { color: colors.persianBlue }]}>ชาย</Text>
+                                                    </Pressable>
+                                                    <Pressable style={[{ marginLeft: 8, width: 71 }, status_male_female !== true ? styles.missionPre : styles.programPre]} onPress={() => setStatus_male_female(false)} >
+                                                        <Text style={[styles.mission, status_male_female !== true ? { color: colors.white } : { color: colors.persianBlue }]}>หญิง</Text>
+                                                    </Pressable>
+                                                </View>
+                                            </View>
+                                        </View>
+                                        <List.Section style={{ marginLeft: -16, marginTop: 16, zIndex: 0, marginBottom: 60 }}>
+                                            <List.Accordion style={{ backgroundColor: colors.white }}
+                                                title={<Text style={styles.missionHead}>ท่าฝึก</Text>}
+                                                right={props =>
+                                                    <List.Icon {...props} icon={({ size, color, direction }) => (
+                                                        expanded ?
+                                                            <Image
+                                                                source={require('../../assets/images/icon/ChevronUp.png')}
+                                                                style={{ width: 16, height: 16 }}
+                                                            />
+                                                            :
+                                                            <Image
+                                                                source={require('../../assets/images/icon/ChevronDown.png')}
+                                                                style={{ width: 16, height: 16 }}
+                                                            />
+                                                    )}
+
+                                                    />}
+                                                expanded={expanded}
+                                                onPress={() => setExpanded(!expanded)}>
+                                                {
+                                                    data2.map((item, i) => {
+                                                        return (
+                                                            <View style={styles.exerciseBox} key={i + "box"}>
+                                                                <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                                                                    <Text style={styles.missionHead}>Single-Leg Windmill</Text>
+                                                                    <View style={{ flexDirection: "row" }}>
+                                                                        <Image
+                                                                            source={require('../../assets/images/icon/Howto3x.png')}
+                                                                            style={{ width: 24, height: 24 }}
+                                                                        />
+                                                                        <Image
+                                                                            source={require('../../assets/images/icon/Play3x.png')}
+                                                                            style={{ width: 24, height: 24, marginLeft: 16 }}
+                                                                        />
+                                                                    </View>
+                                                                </View>
+                                                                <View style={{ flexDirection: "row" }}>
+                                                                    <View>
+                                                                        <Text style={styles.setText}>เซต</Text>
+                                                                        <Text style={styles.setText2}>2</Text>
+                                                                    </View>
+                                                                    <View style={{ marginLeft: 16 }}>
+                                                                        <Text style={styles.setText}>ครั้ง</Text>
+                                                                        <Text style={styles.setText2}>12-20</Text>
+                                                                    </View>
+                                                                    <View style={{ marginLeft: 16 }}>
+                                                                        <Text style={styles.setText}>จังหวะ</Text>
+                                                                        <Text style={styles.setText2}>ช้า (4-6 วินาที/ครั้ง)</Text>
+                                                                    </View>
+                                                                </View>
+                                                            </View>
+                                                        )
+                                                    })
+                                                }
+                                            </List.Accordion>
+                                        </List.Section >
+                                    </View>
+                                </ScrollView>
+                            </View>
                         </View>
                     </View>
+                    <Text style={styles.textSub}>โปรแกรมจะบันทึกคะแนนเมื่อเล่นวีดีโอจนจบ</Text>
+                    <View style={styles.boxSub}>
+                        <Pressable>
+                            <View style={ComponentsStyle.button} >
+                                <Text style={ComponentsStyle.textButton}>
+                                    เริ่มออกกำลังกาย
+                                </Text>
+                            </View>
+                        </Pressable>
+                    </View>
                 </Modal>
-            </View>
+            </View >
         </View >
     )
 }
@@ -499,7 +559,6 @@ const styles = StyleSheet.create({
         opacity: 1,
         zIndex: 10,
         position: 'absolute'
-
     },
 
     nutritionBox: {
@@ -764,6 +823,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "flex-end",
         alignItems: "center",
+        marginBottom: -20
 
     },
     modalView: {
@@ -771,11 +831,9 @@ const styles = StyleSheet.create({
         zIndex: 3,
         backgroundColor: "white",
         width: "100%",
-        paddingHorizontal: 16,
-        height: 372,
-        paddingTop: 32,
-        borderTopLeftRadius: 24,
-        borderTopRightRadius: 24,
+        height: "auto",
+        borderTopLeftRadius: 16,
+        borderTopRightRadius: 16,
         marginTop: 0,
         alignItems: "center",
         justifyContent: "center",
@@ -784,10 +842,10 @@ const styles = StyleSheet.create({
             width: 0,
             height: 12
         },
-        marginBottom: 0,
         shadowOpacity: 0.58,
         shadowRadius: 16,
-        elevation: 24
+        elevation: 24,
+        marginBottom: -20
     },
     modalView2: {
         position: "relative",
@@ -805,6 +863,77 @@ const styles = StyleSheet.create({
         justifyContent: "center",
 
     },
+    boxModel: {
+        width: "100%",
+        maxHeight: deviceHeight - 80,
+        zIndex: 1,
+    },
+    boxModel2: {
+        width: "100%",
+        maxHeight: deviceHeight,
+        zIndex: 1,
+    },
+    textModeHead: {
+        fontSize: ComponentsStyle.fontSize24,
+        fontFamily: "IBMPlexSansThai-Bold",
+        color: colors.grey1,
+    },
+    textModeConter: {
+        marginTop: 16,
+        fontSize: ComponentsStyle.fontSize16,
+        fontFamily: "IBMPlexSansThai-Regular",
+        color: colors.grey1,
+    },
+    textMinute: {
+        marginLeft: 8,
+        fontSize: ComponentsStyle.fontSize14,
+        fontFamily: "IBMPlexSansThai-Regular",
+        color: colors.grey2,
+    },
+    exerciseBox: {
+        marginLeft: 16,
+        marginBottom: 16,
+        height: 105,
+        backgroundColor: colors.grey7,
+        borderRadius: 16,
+        padding: 16
+    },
+    setText: {
+        marginTop: 5,
+        fontSize: 12,
+        fontFamily: "IBMPlexSansThai-Regular",
+        color: colors.grey2,
+    },
+    setText2: {
+        fontSize: 14,
+        fontFamily: "IBMPlexSansThai-Regular",
+        color: colors.grey1,
+    },
+    textSub: {
+        marginTop: 8,
+        textAlign: "center",
+        fontSize: 12,
+        fontFamily: "IBMPlexSansThai-Regular",
+        color: "#646463",
+        zIndex: 3
+    },
+    boxSub: {
+        height: 40,
+        backgroundColor: colors.white,
+        marginBottom: -20, height: 80,
+        paddingHorizontal: 16,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 8
+        },
+        shadowOpacity: 0.58,
+        shadowRadius: 16,
+        elevation: 24,
+
+    }
+
+
 
 
 });
