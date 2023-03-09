@@ -922,7 +922,7 @@ const styles = StyleSheet.create({
         backgroundColor: colors.white,
         marginBottom: -20, height: 80,
         paddingHorizontal: 16,
-        shadowColor: "#000",
+        shadowColor: colors.white,
         shadowOffset: {
             width: 0,
             height: 8
