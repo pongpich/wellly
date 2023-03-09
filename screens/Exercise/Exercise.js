@@ -23,6 +23,9 @@ const data = Array.from({ length: 30 });
 const startData = Array.from({ length: 3 });
 const data2 = Array.from({ length: 3 });
 
+
+
+
 const Exercise = ({ navigation }) => {
 
     const dispatch = useDispatch();
@@ -37,12 +40,14 @@ const Exercise = ({ navigation }) => {
     const [isModalVisibleEx, setIsModalVisibleEx] = useState(false);
     const [isModalVisibleVedio, setIsModalVisibleVedio] = useState(false);
     const [isModalVisibleExVideo, setIsModalVisibleExVideo] = useState(false);
+    const [play, setPlay] = useState(false);
     const [start, setStart] = useState(1);
     const [trophy, setTrophy] = useState(1);
     const [expanded, setExpanded] = useState(false);
     const video = React.useRef(null);
     const [status, setStatus] = React.useState({});
     const deviceHeight = Math.round(Dimensions.get('window').height);
+
 
     const Max_Header_Height = (deviceHeight == 844) ? deviceHeight - 290 : deviceHeight - 260;
     const Min_Header_Height = 170;
@@ -81,8 +86,10 @@ const Exercise = ({ navigation }) => {
         if (data.length) {
             navigation.navigate("ExHistory")
         }
-
-
+    }
+    const clickProgram = () => {
+        setIsModalVisibleVedio(!isModalVisibleVedio)
+        navigation.navigate("ExProgram")
     }
 
     /*   const toggleModal = (isModalVisible) => {
@@ -92,12 +99,13 @@ const Exercise = ({ navigation }) => {
           })
       }; */
 
-    const closeeModal = () => {
+    const closeeModal = (e) => {
         setIsModalVisibleVedio(!isModalVisibleVedio)
+
 
     };
     const clickPlayExample = () => {
-        console.log("555", isModalVisibleExVideo);
+
         setIsModalVisibleExVideo(!isModalVisibleExVideo)
     };
 
@@ -117,6 +125,191 @@ const Exercise = ({ navigation }) => {
         return unsubscribe;
 
     }, [navigation]);
+
+    const videoPlay = () => {
+        return (
+            <View style={[styles.centeredView,]}>
+                <View style={styles.centeredView2}>
+                    <Pressable onPress={() => clickPlayExample()}>
+                        <Image
+                            source={require('../../assets/images/icon/close_white.png')}
+                            style={{
+                                width: 54, height: 54, zIndex: 2, position: "relative",
+
+                            }}
+                        />
+                    </Pressable>
+                    <Video
+                        ref={video}
+                        style={styles.video}
+                        source={{
+                            uri: 'https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4',
+                        }}
+                        useNativeControls
+                        resizeMode="contain"
+                        isLooping
+                        onPlaybackStatusUpdate={status => setStatus(() => status)}
+                    >
+
+
+                    </Video>
+
+                </View>
+                <View style={[styles.modalView3]}>
+                </View>
+            </View>
+        )
+    }
+
+    const program = () => {
+        return (
+            <>
+                <View style={styles.centeredVedio}>
+                    <View style={styles.modalView}>
+                        <View style={styles.boxModel}>
+                            <View style={{
+                                height: 212,
+                                zIndex: 1,
+                            }}>
+                                <Image
+                                    style={{
+                                        height: "100%", width: "100%",
+                                        borderTopLeftRadius: 16,
+                                        borderTopRightRadius: 16,
+                                    }}
+                                    source={require('../../assets/images/exercise/Alternating.png')}
+                                />
+                                <View style={{ position: "absolute", width: "100%", alignItems: "flex-end" }}>
+                                    <Pressable onPress={() => closeeModal()}>
+                                        <Image
+                                            style={{
+                                                height: 24, width: 24,
+                                                zIndex: 2,
+                                                marginTop: 16,
+                                                marginRight: 16,
+
+                                            }}
+                                            source={require('../../assets/images/exercise/Close.png')}
+                                        />
+                                    </Pressable>
+                                </View>
+                            </View>
+                            <ScrollView>
+                                <View style={{ marginTop: 16, marginHorizontal: 16, height: "auto" }}>
+                                    <Text style={styles.textModeHead}>Core + Balance Training</Text>
+                                    <Text style={styles.textModeConter}>เสริมสร้างความแข็งแรงของกล้ามท้อง และ ลำตัว ป้องกันการบาดเจ็บกระดูกสันหลัง เคลื่อนไหวได้ปลอดภัย ลดอาการปวดหลัง</Text>
+                                    <View style={{ flexDirection: "row", marginTop: 16 }}>
+                                        <View style={{ flexDirection: "row" }}>
+                                            <Image
+                                                style={{
+                                                    height: 16, width: 16,
+                                                }}
+                                                source={require('../../assets/images/icon/Clock3x.png')}
+                                            />
+                                            <Text style={styles.textMinute}>45 นาที</Text>
+                                        </View>
+                                        <View style={{ flexDirection: "row", marginLeft: 37 }}>
+                                            <Image
+                                                style={{
+                                                    height: 16, width: 16,
+                                                }}
+                                                source={require('../../assets/images/icon/Equipment3x.png')}
+                                            />
+                                            <Text style={styles.textMinute}>ไม่ใช้</Text>
+                                        </View>
+                                    </View>
+                                    <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: 22 }}>
+                                        <Text style={styles.missionHead}>ผู้ฝึกสอน</Text>
+                                        <View>
+                                            <View style={styles.missionView}>
+                                                <Pressable style={[{ width: 63 }, status_male_female === true ? styles.missionPre : styles.programPre]} onPress={() => setStatus_male_female(true)} >
+                                                    <Text style={[styles.mission, status_male_female === true ? { color: colors.white } : { color: colors.persianBlue }]}>ชาย</Text>
+                                                </Pressable>
+                                                <Pressable style={[{ marginLeft: 8, width: 71 }, status_male_female !== true ? styles.missionPre : styles.programPre]} onPress={() => setStatus_male_female(false)} >
+                                                    <Text style={[styles.mission, status_male_female !== true ? { color: colors.white } : { color: colors.persianBlue }]}>หญิง</Text>
+                                                </Pressable>
+                                            </View>
+                                        </View>
+                                    </View>
+                                    <List.Section style={{ marginLeft: -16, marginTop: 16, zIndex: 0, marginBottom: 60 }}>
+                                        <List.Accordion style={{ backgroundColor: colors.white }}
+                                            title={<Text style={styles.missionHead}>ท่าฝึก</Text>}
+                                            right={props =>
+                                                <List.Icon {...props} icon={({ size, color, direction }) => (
+                                                    expanded ?
+                                                        <Image
+                                                            source={require('../../assets/images/icon/ChevronUp.png')}
+                                                            style={{ width: 16, height: 16 }}
+                                                        />
+                                                        :
+
+                                                        <Image
+                                                            source={require('../../assets/images/icon/ChevronDown.png')}
+                                                            style={{ width: 16, height: 16 }} />
+                                                )}
+
+                                                />}
+                                            expanded={expanded}
+                                            onPress={() => setExpanded(!expanded)}>
+                                            {
+                                                data2.map((item, i) => {
+                                                    return (
+                                                        <View style={styles.exerciseBox} key={i + "box"}>
+                                                            <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                                                                <Text style={styles.missionHead}>Single-Leg Windmill</Text>
+                                                                <View style={{ flexDirection: "row" }}>
+                                                                    <Pressable onPress={() => clickPlayExample()}>
+                                                                        <Image
+                                                                            source={require('../../assets/images/icon/Howto3x.png')}
+                                                                            style={{ width: 24, height: 24 }}
+                                                                        />
+                                                                    </Pressable>
+                                                                    <Pressable onPress={() => clickPlayExample()}>
+                                                                        <Image
+                                                                            source={require('../../assets/images/icon/Play3x.png')}
+                                                                            style={{ width: 24, height: 24, marginLeft: 16 }}
+                                                                        />
+                                                                    </Pressable>
+                                                                </View>
+                                                            </View>
+                                                            <View style={{ flexDirection: "row" }}>
+                                                                <View>
+                                                                    <Text style={styles.setText}>เซต</Text>
+                                                                    <Text style={styles.setText2}>2</Text>
+                                                                </View>
+                                                                <View style={{ marginLeft: 16 }}>
+                                                                    <Text style={styles.setText}>ครั้ง</Text>
+                                                                    <Text style={styles.setText2}>12-20</Text>
+                                                                </View>
+                                                                <View style={{ marginLeft: 16 }}>
+                                                                    <Text style={styles.setText}>จังหวะ</Text>
+                                                                    <Text style={styles.setText2}>ช้า (4-6 วินาที/ครั้ง)</Text>
+                                                                </View>
+                                                            </View>
+                                                        </View>
+                                                    )
+                                                })
+                                            }
+                                        </List.Accordion>
+                                    </List.Section >
+                                </View>
+                            </ScrollView>
+                        </View>
+                    </View>
+                </View>
+                <Text style={styles.textSub}>โปรแกรมจะบันทึกคะแนนเมื่อเล่นวีดีโอจนจบ</Text>
+                <View style={styles.boxSub}>
+                    <Pressable onPress={() => clickProgram()}>
+                        <View style={ComponentsStyle.button} >
+                            <Text style={ComponentsStyle.textButton}>
+                                เริ่มออกกำลังกาย
+                            </Text>
+                        </View>
+                    </Pressable>
+                </View>
+            </>
+        )
+    }
 
 
     return (
@@ -215,7 +408,7 @@ const Exercise = ({ navigation }) => {
 
                                     data.map((item, i) => {
                                         return (
-                                            <Pressable key={i + "vp"} onPress={() => closeeModal()} >
+                                            <Pressable key={i + "vp"} onPress={() => closeeModal(1)} >
                                                 <View key={i + "vd"} style={styles.rowProgram}>
                                                     <View style={styles.imageProgramView} key={i + "vd2"}>
                                                         <Image
@@ -301,14 +494,13 @@ const Exercise = ({ navigation }) => {
 
 
             <View style={styles.centeredView}>
-                <Pressable title="Show modal" onPress={() => this.toggleModal(isModalVisibleVedio)} />
 
                 <Modal animationType="slide"
                     transparent={true}
                     visible={modalVisibleEx}
                     onRequestClose={() => {
 
-                        this.setState({ modalVisibleEx: !modalVisibleEx });
+                        setModalVisibleEx(!modalVisibleEx);
                     }}
 
                     style={{ margin: 0 }}
@@ -394,156 +586,17 @@ const Exercise = ({ navigation }) => {
             */}
 
 
-            <View style={styles.centeredVedio}>
+            <View style={styles.centeredView}>
 
 
                 <Modal isVisible={isModalVisibleVedio}
 
-                    style={{ marginHorizontal: 0, marginTop: 150, }}
+                    style={{ marginHorizontal: 0, marginTop: play == true ? 0 : 150 }}
                 >
-                    <View style={styles.centeredVedio}>
-                        <View style={styles.modalView}>
-                            <View style={styles.boxModel}>
-                                <View style={{
-                                    height: 212,
-                                    zIndex: 1,
-                                }}>
-                                    <Image
-                                        style={{
-                                            height: "100%", width: "100%",
-                                            borderTopLeftRadius: 16,
-                                            borderTopRightRadius: 16,
-                                        }}
-                                        source={require('../../assets/images/exercise/Alternating.png')}
-                                    />
-                                    <View style={{ position: "absolute", width: "100%", alignItems: "flex-end" }}>
-                                        <Pressable onPress={() => closeeModal()}>
-                                            <Image
-                                                style={{
-                                                    height: 24, width: 24,
-                                                    zIndex: 2,
-                                                    marginTop: 16,
-                                                    marginRight: 16,
 
-                                                }}
-                                                source={require('../../assets/images/exercise/Close.png')}
-                                            />
-                                        </Pressable>
-                                    </View>
-                                </View>
-                                <ScrollView>
-                                    <View style={{ marginTop: 16, marginHorizontal: 16, height: "auto" }}>
-                                        <Text style={styles.textModeHead}>Core + Balance Training</Text>
-                                        <Text style={styles.textModeConter}>เสริมสร้างความแข็งแรงของกล้ามท้อง และ ลำตัว ป้องกันการบาดเจ็บกระดูกสันหลัง เคลื่อนไหวได้ปลอดภัย ลดอาการปวดหลัง</Text>
-                                        <View style={{ flexDirection: "row", marginTop: 16 }}>
-                                            <View style={{ flexDirection: "row" }}>
-                                                <Image
-                                                    style={{
-                                                        height: 16, width: 16,
-                                                    }}
-                                                    source={require('../../assets/images/icon/Clock3x.png')}
-                                                />
-                                                <Text style={styles.textMinute}>45 นาที</Text>
-                                            </View>
-                                            <View style={{ flexDirection: "row", marginLeft: 37 }}>
-                                                <Image
-                                                    style={{
-                                                        height: 16, width: 16,
-                                                    }}
-                                                    source={require('../../assets/images/icon/Equipment3x.png')}
-                                                />
-                                                <Text style={styles.textMinute}>ไม่ใช้</Text>
-                                            </View>
-                                        </View>
-                                        <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: 22 }}>
-                                            <Text style={styles.missionHead}>ผู้ฝึกสอน</Text>
-                                            <View>
-                                                <View style={styles.missionView}>
-                                                    <Pressable style={[{ width: 63 }, status_male_female === true ? styles.missionPre : styles.programPre]} onPress={() => setStatus_male_female(true)} >
-                                                        <Text style={[styles.mission, status_male_female === true ? { color: colors.white } : { color: colors.persianBlue }]}>ชาย</Text>
-                                                    </Pressable>
-                                                    <Pressable style={[{ marginLeft: 8, width: 71 }, status_male_female !== true ? styles.missionPre : styles.programPre]} onPress={() => setStatus_male_female(false)} >
-                                                        <Text style={[styles.mission, status_male_female !== true ? { color: colors.white } : { color: colors.persianBlue }]}>หญิง</Text>
-                                                    </Pressable>
-                                                </View>
-                                            </View>
-                                        </View>
-                                        <List.Section style={{ marginLeft: -16, marginTop: 16, zIndex: 0, marginBottom: 60 }}>
-                                            <List.Accordion style={{ backgroundColor: colors.white }}
-                                                title={<Text style={styles.missionHead}>ท่าฝึก</Text>}
-                                                right={props =>
-                                                    <List.Icon {...props} icon={({ size, color, direction }) => (
-                                                        expanded ?
-                                                            <Image
-                                                                source={require('../../assets/images/icon/ChevronUp.png')}
-                                                                style={{ width: 16, height: 16 }}
-                                                            />
-                                                            :
+                    {program()}
 
-                                                            <Image
-                                                                source={require('../../assets/images/icon/ChevronDown.png')}
-                                                                style={{ width: 16, height: 16 }} />
-                                                    )}
 
-                                                    />}
-                                                expanded={expanded}
-                                                onPress={() => setExpanded(!expanded)}>
-                                                {
-                                                    data2.map((item, i) => {
-                                                        return (
-                                                            <View style={styles.exerciseBox} key={i + "box"}>
-                                                                <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-                                                                    <Text style={styles.missionHead}>Single-Leg Windmill</Text>
-                                                                    <View style={{ flexDirection: "row" }}>
-                                                                        <Pressable onPress={() => clickPlayExample()}>
-                                                                            <Image
-                                                                                source={require('../../assets/images/icon/Howto3x.png')}
-                                                                                style={{ width: 24, height: 24 }}
-                                                                            />
-                                                                        </Pressable>
-                                                                        <Pressable onPress={() => clickPlayExample()}>
-                                                                            <Image
-                                                                                source={require('../../assets/images/icon/Play3x.png')}
-                                                                                style={{ width: 24, height: 24, marginLeft: 16 }}
-                                                                            />
-                                                                        </Pressable>
-                                                                    </View>
-                                                                </View>
-                                                                <View style={{ flexDirection: "row" }}>
-                                                                    <View>
-                                                                        <Text style={styles.setText}>เซต</Text>
-                                                                        <Text style={styles.setText2}>2</Text>
-                                                                    </View>
-                                                                    <View style={{ marginLeft: 16 }}>
-                                                                        <Text style={styles.setText}>ครั้ง</Text>
-                                                                        <Text style={styles.setText2}>12-20</Text>
-                                                                    </View>
-                                                                    <View style={{ marginLeft: 16 }}>
-                                                                        <Text style={styles.setText}>จังหวะ</Text>
-                                                                        <Text style={styles.setText2}>ช้า (4-6 วินาที/ครั้ง)</Text>
-                                                                    </View>
-                                                                </View>
-                                                            </View>
-                                                        )
-                                                    })
-                                                }
-                                            </List.Accordion>
-                                        </List.Section >
-                                    </View>
-                                </ScrollView>
-                            </View>
-                        </View>
-                    </View>
-                    <Text style={styles.textSub}>โปรแกรมจะบันทึกคะแนนเมื่อเล่นวีดีโอจนจบ</Text>
-                    <View style={styles.boxSub}>
-                        <Pressable>
-                            <View style={ComponentsStyle.button} >
-                                <Text style={ComponentsStyle.textButton}>
-                                    เริ่มออกกำลังกาย
-                                </Text>
-                            </View>
-                        </Pressable>
-                    </View>
                 </Modal>
             </View >
 
@@ -556,25 +609,23 @@ const Exercise = ({ navigation }) => {
 
 
             <View style={[styles.centeredView]}>
-                <Pressable title="Show modal" onPress={() => this.toggleModal(isModalVisibleExVideo)} />
 
                 <Modal animationType="slide"
                     transparent={true}
                     visible={isModalVisibleExVideo}
                     onRequestClose={() => {
-                        this.setState({ modalVisibleEx: !isModalVisibleExVideo });
+                        setIsModalVisibleExVideo(!isModalVisibleExVideo);
                     }}
-
                     style={{ margin: 0 }}
                 >
-                    <View style={styles.centeredView}>
+                    <View style={[styles.centeredView,]}>
                         <View style={styles.centeredView2}>
                             <Pressable onPress={() => clickPlayExample()}>
                                 <Image
                                     source={require('../../assets/images/icon/close_white.png')}
                                     style={{
-                                        width: 54, height: 54, zIndex: 2, position: "absolute",
-                                        marginLeft: 50
+                                        width: 54, height: 54, zIndex: 2, position: "relative",
+
                                     }}
                                 />
                             </Pressable>
@@ -594,7 +645,7 @@ const Exercise = ({ navigation }) => {
                             </Video>
 
                         </View>
-                        <View style={[styles.modalView2]}>
+                        <View style={[styles.modalView3]}>
                         </View>
                     </View>
                 </Modal>
@@ -709,7 +760,7 @@ const styles = StyleSheet.create({
     number: {
         fontSize: ComponentsStyle.fontSize20,
         fontFamily: "IBMPlexSansThai-Bold",
-        color: colors.mayaBlue,
+        color: colors.persianBlue,
 
     },
     numberView: {
@@ -718,7 +769,7 @@ const styles = StyleSheet.create({
         width: 32,
         height: 32,
         borderRadius: 8,
-        backgroundColor: colors.mayaBlue20,
+        backgroundColor: colors.persianBlue20,
         marginTop: 16,
         marginLeft: 16,
         marginBottom: 16,
@@ -839,6 +890,12 @@ const styles = StyleSheet.create({
         justifyContent: "center",
 
     },
+    centeredView2: {
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+        zIndex: 12
+    },
     centeredView1: {
         backgroundColor: colors.grey1,
         width: "100%",
@@ -920,6 +977,20 @@ const styles = StyleSheet.create({
     modalView2: {
         position: "relative",
         zIndex: 3,
+        backgroundColor: colors.grey1,
+        opacity: 0.8,
+        width: "100%",
+        paddingHorizontal: 16,
+        height: "100%",
+        paddingTop: 32,
+        marginTop: 0,
+        alignItems: "center",
+        justifyContent: "center",
+
+    },
+    modalView3: {
+        position: "relative",
+        zIndex: 4,
         backgroundColor: colors.grey1,
         opacity: 0.8,
         width: "100%",
