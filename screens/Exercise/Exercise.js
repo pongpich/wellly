@@ -9,11 +9,14 @@ import { useSelector, useDispatch } from "react-redux";
 import { connect } from 'react-redux';
 import { getNutritionActivity } from "../../redux/get";
 import { List } from 'react-native-paper';
+import { Video, AVPlaybackStatus } from 'expo-av';
 
 
 const HEADER_MAX_HEIGHT = 500;
 const HEADER_MIN_HEIGHT = 10;
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
+
+
 
 
 const data = Array.from({ length: 30 });
@@ -33,9 +36,17 @@ const Exercise = ({ navigation }) => {
     const [modalVisibleEx, setModalVisibleEx] = useState(false);
     const [isModalVisibleEx, setIsModalVisibleEx] = useState(false);
     const [isModalVisibleVedio, setIsModalVisibleVedio] = useState(false);
+    const [isModalVisibleExVideo, setIsModalVisibleExVideo] = useState(false);
     const [start, setStart] = useState(1);
     const [trophy, setTrophy] = useState(1);
     const [expanded, setExpanded] = useState(false);
+    const video = React.useRef(null);
+    const [status, setStatus] = React.useState({});
+    const deviceHeight = Math.round(Dimensions.get('window').height);
+
+    const Max_Header_Height = (deviceHeight == 844) ? deviceHeight - 290 : deviceHeight - 260;
+    const Min_Header_Height = 170;
+    const Scroll_Distance = Max_Header_Height - Min_Header_Height
 
     const animatedScrollYValue = useRef(new Animated.Value(0)).current;
 
@@ -49,9 +60,7 @@ const Exercise = ({ navigation }) => {
         outputRange: [1, 1],
         extrapolate: 'clamp',
     });
-    const Max_Header_Height = 550;
-    const Min_Header_Height = 170;
-    const Scroll_Distance = Max_Header_Height - Min_Header_Height
+
 
     const animatedHeaderHeight = animatedScrollYValue.interpolate({
         inputRange: [0, Scroll_Distance],
@@ -87,14 +96,19 @@ const Exercise = ({ navigation }) => {
         setIsModalVisibleVedio(!isModalVisibleVedio)
 
     };
+    const clickPlayExample = () => {
+        console.log("555", isModalVisibleExVideo);
+        setIsModalVisibleExVideo(!isModalVisibleExVideo)
+    };
+
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
 
             dispatch(getNutritionActivity((user && user.user_id)));
-            // setModalVisibleEx(true)
-            /*  setTimeout(() => {
-                 setModalVisibleEx(false)
-             }, 3000); */
+            /*      setModalVisibleEx(true)
+                 setTimeout(() => {
+                     setModalVisibleEx(false)
+                 }, 3000); */
 
         });
 
@@ -293,7 +307,7 @@ const Exercise = ({ navigation }) => {
                     transparent={true}
                     visible={modalVisibleEx}
                     onRequestClose={() => {
-                        Alert.alert('Modal has been closed.');
+
                         this.setState({ modalVisibleEx: !modalVisibleEx });
                     }}
 
@@ -465,10 +479,10 @@ const Exercise = ({ navigation }) => {
                                                                 style={{ width: 16, height: 16 }}
                                                             />
                                                             :
+
                                                             <Image
                                                                 source={require('../../assets/images/icon/ChevronDown.png')}
-                                                                style={{ width: 16, height: 16 }}
-                                                            />
+                                                                style={{ width: 16, height: 16 }} />
                                                     )}
 
                                                     />}
@@ -481,14 +495,18 @@ const Exercise = ({ navigation }) => {
                                                                 <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                                                                     <Text style={styles.missionHead}>Single-Leg Windmill</Text>
                                                                     <View style={{ flexDirection: "row" }}>
-                                                                        <Image
-                                                                            source={require('../../assets/images/icon/Howto3x.png')}
-                                                                            style={{ width: 24, height: 24 }}
-                                                                        />
-                                                                        <Image
-                                                                            source={require('../../assets/images/icon/Play3x.png')}
-                                                                            style={{ width: 24, height: 24, marginLeft: 16 }}
-                                                                        />
+                                                                        <Pressable onPress={() => clickPlayExample()}>
+                                                                            <Image
+                                                                                source={require('../../assets/images/icon/Howto3x.png')}
+                                                                                style={{ width: 24, height: 24 }}
+                                                                            />
+                                                                        </Pressable>
+                                                                        <Pressable onPress={() => clickPlayExample()}>
+                                                                            <Image
+                                                                                source={require('../../assets/images/icon/Play3x.png')}
+                                                                                style={{ width: 24, height: 24, marginLeft: 16 }}
+                                                                            />
+                                                                        </Pressable>
                                                                     </View>
                                                                 </View>
                                                                 <View style={{ flexDirection: "row" }}>
@@ -528,6 +546,59 @@ const Exercise = ({ navigation }) => {
                     </View>
                 </Modal>
             </View >
+
+
+
+            {/*
+             //! Modal  video Play
+             */}
+
+
+
+            <View style={[styles.centeredView]}>
+                <Pressable title="Show modal" onPress={() => this.toggleModal(isModalVisibleExVideo)} />
+
+                <Modal animationType="slide"
+                    transparent={true}
+                    visible={isModalVisibleExVideo}
+                    onRequestClose={() => {
+                        this.setState({ modalVisibleEx: !isModalVisibleExVideo });
+                    }}
+
+                    style={{ margin: 0 }}
+                >
+                    <View style={styles.centeredView}>
+                        <View style={styles.centeredView2}>
+                            <Pressable onPress={() => clickPlayExample()}>
+                                <Image
+                                    source={require('../../assets/images/icon/close_white.png')}
+                                    style={{
+                                        width: 54, height: 54, zIndex: 2, position: "absolute",
+                                        marginLeft: 50
+                                    }}
+                                />
+                            </Pressable>
+                            <Video
+                                ref={video}
+                                style={styles.video}
+                                source={{
+                                    uri: 'https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4',
+                                }}
+                                useNativeControls
+                                resizeMode="contain"
+                                isLooping
+                                onPlaybackStatusUpdate={status => setStatus(() => status)}
+                            >
+
+
+                            </Video>
+
+                        </View>
+                        <View style={[styles.modalView2]}>
+                        </View>
+                    </View>
+                </Modal>
+            </View>
         </View >
     )
 }
@@ -775,7 +846,6 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         opacity: 0.8,
-        zIndex: 0,
         flex: 1
     },
     centeredView2: {
@@ -856,8 +926,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 16,
         height: "100%",
         paddingTop: 32,
-        borderTopLeftRadius: 24,
-        borderTopRightRadius: 24,
         marginTop: 0,
         alignItems: "center",
         justifyContent: "center",
@@ -930,8 +998,15 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.58,
         shadowRadius: 16,
         elevation: 24,
+        zIndex: 3
 
-    }
+    },
+    video: {
+        alignSelf: 'center',
+        width: 350,
+        height: 200,
+        zIndex: 1
+    },
 
 
 
