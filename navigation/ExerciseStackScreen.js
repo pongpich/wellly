@@ -8,6 +8,7 @@ import colors from '../constants/colors';
 import Exercise from '../screens/Exercise/Exercise';
 import ExHistory from '../screens/Exercise/ExHistory';
 import ExArticleTemplate from '../screens/Exercise/ExArticleTemplate';
+import ExProgram from '../screens/Exercise/ExProgram';
 
 
 const HomeStack = createStackNavigator();
@@ -40,6 +41,9 @@ function HomeStackScreen() {
             />
             <HomeStack.Screen name="ExArticleTemplate" component={ExArticleTemplate}
                 options={{ headerShown: false }}
+            />
+            <HomeStack.Screen name="ExProgram" component={ExProgram}
+            /*  options={{ headerShown: false }} */
             />
         </HomeStack.Navigator>
     );

@@ -55,14 +55,20 @@ const ExProgram = () => {
                                 return (
                                     <Pressable key={i + "vp"} onPress={() => clickPlayVide(i + 1)}>
                                         <View key={i + "vd"} style={playVideo == i + 1 ? styles.rowProgramPlay : styles.rowProgram}>
-                                            <View style={i + 1 == 1 ? styles.imageProgramViewSucceed : styles.imageProgramView} key={i + "vd2"}>
+                                            <View style={1 == i + 1 ? styles.imageProgramViewSucceed : styles.imageProgramView} key={i + "vd2"}>
+                                                {1 === i + 1 ?
+                                                    <Image
+                                                        style={styles.checkIcon} key="i+ v1ig"
+                                                        source={require('../../assets/images/exercise/Tick3x.png')}
+                                                    />
+                                                    : null}
                                                 <Image
                                                     style={{ height: 80, width: 140, zIndex: 1, opacity: 0.3, borderRadius: 8 }} key="i+ v1ig"
                                                     source={require('../../assets/images/exercise/Alternating.png')}
                                                 />
                                             </View>
                                             <View style={styles.programData} key="i+ vd2">
-                                                <Text style={[styles.missionHead, i + 1 == 1 ? { color: colors.positive1 } : { color: null }]} key="i+ v6t">Core + Balance Training</Text>
+                                                <Text style={[styles.missionHead, 1 == i + 1 ? { color: colors.positive1 } : { color: null }]} key="i+ v6t">Core + Balance Training</Text>
                                                 <Text style={styles.missionContent} key="i+ v7t">
                                                     45 นาที
                                                 </Text>
@@ -180,6 +186,14 @@ const styles = StyleSheet.create({
         fontSize: ComponentsStyle.fontSize14,
         fontFamily: "IBMPlexSansThai-Regular",
         color: colors.grey2,
+    },
+    checkIcon: {
+        height: 24,
+        width: 24,
+        zIndex: 2,
+        position: "absolute",
+        marginLeft: "35%",
+        marginTop: "15%"
     }
 
 });
