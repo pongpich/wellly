@@ -424,11 +424,8 @@ class ArticleTemplate extends Component {
                                         </Text>
                                     </View>
                                 </Pressable>
-
                                 :
                                 null
-
-
                         }
                     </Animated.View>
                 </View>
