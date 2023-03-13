@@ -78,6 +78,20 @@ class Snb1 extends Component {
                     9. ฝึกพูดปฏิเสธ เช่น หมอห้ามดื่ม ลูกขอร้องให้หยุดดื่ม ไม่ว่างติดธุระด่วน{'\n'}
                     10. หาที่พึ่งทางใจ กำลังใจ จากคนรอบข้าง และไม่ลืมที่จะให้รางวัลตัวเองเมื่อสามารถทำได้{'\n'}
                 </Text>
+                <View style={[styles.areaViewText, { marginTop: 30, marginBottom: 40 }]}>
+                    <Text style={{
+                        color: colors.grey1,
+                        fontSize: ComponentsStyle.fontSize16,
+                        fontFamily: "IBMPlexSansThai-Regular",
+                        textAlign: "center"
+                    }}>{'Ref. (อ้างอิง)'}</Text>
+                    <Text style={{
+                        color: colors.grey1,
+                        fontSize: ComponentsStyle.fontSize16,
+                        fontFamily: "IBMPlexSansThai-Regular",
+                        textAlign: "center"
+                    }}>{`Campbell , B. (2021). NSCA's guide to sport and exercise nutrition, 2nd edition.`}</Text>
+                </View>
             </View >
         )
     }

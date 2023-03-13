@@ -46,6 +46,20 @@ class Gn4 extends Component {
                 {
                     this.renderImg('GN4', 4, 'lg')
                 }
+                <View style={[styles.areaViewText, { marginTop: 30, marginBottom: 40 }]}>
+                    <Text style={{
+                        color: colors.grey1,
+                        fontSize: ComponentsStyle.fontSize16,
+                        fontFamily: "IBMPlexSansThai-Regular",
+                        textAlign: "center"
+                    }}>{'Ref. (อ้างอิง)'}</Text>
+                    <Text style={{
+                        color: colors.grey1,
+                        fontSize: ComponentsStyle.fontSize16,
+                        fontFamily: "IBMPlexSansThai-Regular",
+                        textAlign: "center"
+                    }}>{`Campbell , B. (2021). NSCA's guide to sport and exercise nutrition, 2nd edition.`}</Text>
+                </View>
             </View>
         )
     }

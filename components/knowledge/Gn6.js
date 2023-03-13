@@ -75,6 +75,20 @@ class Gn6 extends Component {
                     {'\n'}
                     จะเห็นว่าการลดโซเดียมไม่ใช่เรื่องยากอย่างที่คิด เพียงแต่ดัดแปลงเล็ก ๆ น้อย ๆ ก็สามารถดูแล สุขภาพตัวเองด้วยการรู้จักเลือกกินอาหารอย่าง ฉลาดก็สามารถลดโซเดียมได้
                 </Text>
+                <View style={[styles.areaViewText, { marginTop: 30, marginBottom: 40 }]}>
+                    <Text style={{
+                        color: colors.grey1,
+                        fontSize: ComponentsStyle.fontSize16,
+                        fontFamily: "IBMPlexSansThai-Regular",
+                        textAlign: "center"
+                    }}>{'Ref. (อ้างอิง)'}</Text>
+                    <Text style={{
+                        color: colors.grey1,
+                        fontSize: ComponentsStyle.fontSize16,
+                        fontFamily: "IBMPlexSansThai-Regular",
+                        textAlign: "center"
+                    }}>{`Campbell , B. (2021). NSCA's guide to sport and exercise nutrition, 2nd edition.`}</Text>
+                </View>
             </View>
         )
     }

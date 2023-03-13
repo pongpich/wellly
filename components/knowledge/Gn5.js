@@ -56,6 +56,20 @@ class Gn5 extends Component {
                     <Text style={styles.title}>ดังนั้น เทคนิคลดหวาน มัน เค็ม ให้ได้ผลและยั่งยืน</Text> {'\n'}
                     ควรชิมก่อนปรุงทุกครั้ง เลี่ยงขนมหวาน เครื่องดื่มรสหวาน เลี่ยงอาหารทอด เบเกอรี่ ลดอาหารที่มีกะทิ เลือกใช้น้ำมันให้เหมาะสม งดการทอดซ้ำ ลดจิ้ม เลี่ยงอาหารสําเร็จรูป ขนมขบเคี้ยว เริ่มอ่านฉลากโภชนาการ
                 </Text>
+                <View style={[styles.areaViewText, { marginTop: 30, marginBottom: 40 }]}>
+                    <Text style={{
+                        color: colors.grey1,
+                        fontSize: ComponentsStyle.fontSize16,
+                        fontFamily: "IBMPlexSansThai-Regular",
+                        textAlign: "center"
+                    }}>{'Ref. (อ้างอิง)'}</Text>
+                    <Text style={{
+                        color: colors.grey1,
+                        fontSize: ComponentsStyle.fontSize16,
+                        fontFamily: "IBMPlexSansThai-Regular",
+                        textAlign: "center"
+                    }}>{`Campbell , B. (2021). NSCA's guide to sport and exercise nutrition, 2nd edition.`}</Text>
+                </View>
             </View>
         )
     }
