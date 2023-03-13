@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Pressable, SafeAreaView, Image, TouchableOpacity, TextInput, Text, Linking, KeyboardAvoidingView, Platform, Dimensions, Modal } from 'react-native';
+import { View, StyleSheet, Pressable, SafeAreaView, Image, TouchableOpacity, TouchableWithoutFeedback, TextInput, Text, Linking, KeyboardAvoidingView, Platform, Dimensions, Modal, Button, ScrollView } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { personal, healt } from "../redux/personalUser";
 import { connect } from 'react-redux';
@@ -17,7 +17,9 @@ class OnboardingResults extends Component {
             resultsUser: null,
             diabetes: null, //โรคเบาหวาน
             hypertension: null, //ความดันสุง
-            exercise: null  //ออกกำลังกาย
+            exercise: null,  //ออกกำลังกาย
+            popupShow: false,
+            selectedRef: ''
         };
     }
     componentDidMount() {
@@ -53,7 +55,7 @@ class OnboardingResults extends Component {
         }
     }
 
-    onboarding_A1() {
+    onboarding_A1() { //A1, A2 ปกติ
         const { t } = this.props;
         return (
             <LinearGradient
@@ -82,7 +84,7 @@ class OnboardingResults extends Component {
             </LinearGradient>
         )
     }
-    onboarding_B1() {
+    onboarding_B1() { //B1, B3 ก่อนเบาหวาน
         const { t } = this.props;
         return (
             <LinearGradient
@@ -101,6 +103,12 @@ class OnboardingResults extends Component {
                         <View style={styles.areaViewText}>
                             <Text style={styles.text_2}>{t('pre_diabetes_exercise_program')}</Text>
                         </View>
+                        <View style={styles.areaViewText}>
+                            <Text style={styles.text_2}>{'Ref. (อ้างอิง)'}</Text>
+                            <Pressable onPress={() => this.setState({ popupShow: true, selectedRef: 'diabetes' })}>
+                                <Text style={styles.text_3}>{'- ภาวะเบาหวาน (type 2 diabetes)'}</Text>
+                            </Pressable>
+                        </View>
                     </View>
                     <View style={styles.areaViewButton}>
                         <Pressable style={ComponentsStyle.button} onPress={() => this.props.navigation.navigate("Home")}>
@@ -112,7 +120,7 @@ class OnboardingResults extends Component {
         )
     }
 
-    onboarding_B2() {
+    onboarding_B2() { //B2, B4 ก่อนเบาหวาน และความดันสูง
         const { t } = this.props;
         return (
             <LinearGradient
@@ -131,6 +139,15 @@ class OnboardingResults extends Component {
                         <View style={styles.areaViewText}>
                             <Text style={styles.text_2}>{t('pre_diabetes_high_blood_pressure_exercise_program')}</Text>
                         </View>
+                        <View style={styles.areaViewText}>
+                            <Text style={styles.text_2}>{'Ref. (อ้างอิง)'}</Text>
+                            <Pressable onPress={() => this.setState({ popupShow: true, selectedRef: 'diabetes' })}>
+                                <Text style={styles.text_3}>{'- ภาวะเบาหวาน (type 2 diabetes)'}</Text>
+                            </Pressable>
+                            <Pressable onPress={() => this.setState({ popupShow: true, selectedRef: 'hypertension' })}>
+                                <Text style={styles.text_3}>{'- ภาวะความดันสูง (Hypertension)'}</Text>
+                            </Pressable>
+                        </View>
                     </View>
                     <View style={styles.areaViewButton}>
                         <Pressable style={ComponentsStyle.button} onPress={() => this.props.navigation.navigate("Home")} >
@@ -142,7 +159,7 @@ class OnboardingResults extends Component {
         )
     }
 
-    onboarding_C1() {
+    onboarding_C1() { //C1, C3 เบาหวาน
         const { t } = this.props;
         return (
             <LinearGradient
@@ -161,6 +178,12 @@ class OnboardingResults extends Component {
                         <View style={styles.areaViewText}>
                             <Text style={styles.text_2}>{t('diabetes_mellitus_exercise_program')}</Text>
                         </View>
+                        <View style={styles.areaViewText}>
+                            <Text style={styles.text_2}>{'Ref. (อ้างอิง)'}</Text>
+                            <Pressable onPress={() => this.setState({ popupShow: true, selectedRef: 'diabetes' })}>
+                                <Text style={styles.text_3}>{'- ภาวะเบาหวาน (type 2 diabetes)'}</Text>
+                            </Pressable>
+                        </View>
                     </View>
                     <View style={styles.areaViewButton}>
                         <Pressable style={ComponentsStyle.button} onPress={() => this.props.navigation.navigate("Home")}>
@@ -171,7 +194,7 @@ class OnboardingResults extends Component {
             </LinearGradient>
         )
     }
-    onboarding_C2() {
+    onboarding_C2() { //C2, C4 เบาหวาน และความดันสูง
         const { t } = this.props;
         return (
             <LinearGradient
@@ -190,6 +213,15 @@ class OnboardingResults extends Component {
                         <View style={styles.areaViewText}>
                             <Text style={styles.text_2}>{t('diabetes_high_blood_pressure_exercise_program')}</Text>
                         </View>
+                        <View style={styles.areaViewText}>
+                            <Text style={styles.text_2}>{'Ref. (อ้างอิง)'}</Text>
+                            <Pressable onPress={() => this.setState({ popupShow: true, selectedRef: 'diabetes' })}>
+                                <Text style={styles.text_3}>{'- ภาวะเบาหวาน (type 2 diabetes)'}</Text>
+                            </Pressable>
+                            <Pressable onPress={() => this.setState({ popupShow: true, selectedRef: 'hypertension' })}>
+                                <Text style={styles.text_3}>{'- ภาวะความดันสูง (Hypertension)'}</Text>
+                            </Pressable>
+                        </View>
                     </View>
                     <View style={styles.areaViewButton}>
                         <Pressable style={ComponentsStyle.button} onPress={() => this.props.navigation.navigate("Home")} >
@@ -201,7 +233,7 @@ class OnboardingResults extends Component {
         )
     }
 
-    onboarding_D1() {
+    onboarding_D1() { //D1, D2 ความดันสูง
         const { t } = this.props;
         return (
             <LinearGradient
@@ -220,6 +252,12 @@ class OnboardingResults extends Component {
                         <View style={styles.areaViewText}>
                             <Text style={styles.text_2}>{t('hypertension_exercise_program')}</Text>
                         </View>
+                        <View style={styles.areaViewText}>
+                            <Text style={styles.text_2}>{'Ref. (อ้างอิง)'}</Text>
+                            <Pressable onPress={() => this.setState({ popupShow: true, selectedRef: 'hypertension' })}>
+                                <Text style={styles.text_3}>{'- ภาวะความดันสูง (Hypertension)'}</Text>
+                            </Pressable>
+                        </View>
                     </View>
                     <View style={styles.areaViewButton}>
                         <Pressable style={ComponentsStyle.button} onPress={() => this.props.navigation.navigate("Home")} >
@@ -232,9 +270,7 @@ class OnboardingResults extends Component {
     }
 
     render() {
-        const { resultsUser } = this.state;
-
-
+        const { resultsUser, popupShow, selectedRef } = this.state;
         return (
             <>
                 {
@@ -258,6 +294,57 @@ class OnboardingResults extends Component {
                                             :
                                             null
                 }
+                <Modal
+                    transparent={true}
+                    visible={popupShow}
+                >
+                    <View style={{ backgroundColor: "#000000aa", flex: 1 }}>
+                        <ScrollView style={{ backgroundColor: "#ffffff", margin: 30, padding: 20, borderRadius: 10, flex: 1 }}>
+                            {
+                                (selectedRef === 'diabetes') &&
+                                <Text style={{
+                                    fontSize: ComponentsStyle.fontSize16,
+                                    fontFamily: "IBMPlexSansThai-Regular",
+                                }}>
+                                    Description:{'\n'}
+                                    To diagnose type 2 Diabetes and prediabetes ; in the ADA’s Standards of Care in Diabetes—2023, Type 2 diabetes is usually diagnosed using the glycated hemoglobin (A1C) test. This blood test indicates your average blood sugar level for the past two to three months. Results are interpreted as follows:{'\n'}
+                                    * Below 5.7% is normal.{'\n'}
+                                    * 5.7% to 6.4% is diagnosed as prediabetes.{'\n'}
+                                    * 6.5% or higher on two separate tests indicates diabetes.{'\n'}
+                                    If the A1C test isn't available, or if you have certain conditions that interfere with an A1C test, your doctor may use the following tests to diagnose diabetes:{'\n'}
+                                    - Random blood sugar test. Blood sugar values are expressed in milligrams of sugar per deciliter (mg/dL) or millimoles of sugar per liter (mmol/L) of blood. Regardless of when you last ate, a level of 200 mg/dL (11.1 mmol/L) or higher suggests diabetes.{'\n'}
+                                    - Fasting blood sugar test. A blood sample is taken after an overnight fast. Results are interpreted as follows:{'\n'}
+                                    * Less than 100 mg/dL (5.6 mmol/L) is normal.{'\n'}
+                                    * 100 to 125 mg/dL (5.6 to 6.9 mmol/L) is diagnosed as prediabetes.{'\n'}
+                                    * 126 mg/dL (7 mmol/L) or higher on two separate tests is diagnosed as diabetes. {'\n'}
+                                    {'\n'}
+                                    Ref. (อ้างอิง){'\n'}
+                                    ElSayed, N. A., Aleppo, G., Aroda, V. R., Bannuru, R. R., Brown, F. M., Bruemmer, D., Collins, B. S., Hilliard, M. E., Isaacs, D., Johnson, E. L., Kahan, S., Khunti, K., Leon, J., Lyons, S. K., Perry, M. L., Prahalad, P., Pratley, R. E., Seley, J. J., Stanton, R. C., Gabbay, R. A., … on behalf of the American Diabetes Association (2023). 2. Classification and Diagnosis of Diabetes: Standards of Care in Diabetes-2023. Diabetes care, 46(Suppl 1), S19–S40.{'\n'}
+                                    {'\n'}
+                                </Text>
+                            }
+                            {
+                                (selectedRef === 'hypertension') &&
+                                <Text style={{
+                                    fontSize: ComponentsStyle.fontSize16,
+                                    fontFamily: "IBMPlexSansThai-Regular",
+                                }}>
+                                    Description:{'\n'}
+                                    Blood pressure should be measured at every routine clinical care visit; patients found to have an elevated blood pressure (≥140/90 mm Hg) should have blood pressure confirmed using multiple readings, including measurements on a separate day, to diagnose hypertension; in the ADA’s Standards of Care in Diabetes—2023, hypertension was redefined as a blood pressure ≥130/80 mm Hg{'\n'}
+                                    {'\n'}
+                                    Ref. (อ้างอิง){'\n'}
+                                    ElSayed, N. A., Aleppo, G., Aroda, V. R., Bannuru, R. R., Brown, F. M., Bruemmer, D., Collins, B. S., Das, S. R., Hilliard, M. E., Isaacs, D., Johnson, E. L., Kahan, S., Khunti, K., Kosiborod, M., Leon, J., Lyons, S. K., Perry, M. L., Prahalad, P., Pratley, R. E., Seley, J. J., … American Diabetes Association (2023). Erratum. 10. Cardiovascular disease and risk management: Standards of Care in Diabetes-2023. Diabetes Care 2023;46(Suppl. 1):S158-S190. Diabetes care, dc23er04. Advance online publication.{'\n'}
+                                    {'\n'}
+                                </Text>
+                            }
+                        </ScrollView>
+                        <View style={styles.areaViewButton}>
+                            <Pressable style={ComponentsStyle.button} onPress={() => this.setState({ popupShow: false })}  >
+                                <Text style={ComponentsStyle.textButton}>{'ปิด'}</Text>
+                            </Pressable>
+                        </View>
+                    </View>
+                </Modal>
             </>
         )
     }
@@ -373,6 +460,13 @@ const styles = StyleSheet.create({
         fontSize: ComponentsStyle.fontSize16,
         fontFamily: "IBMPlexSansThai-Regular",
         textAlign: "center"
+    },
+    text_3: {
+        color: colors.persianBlue,
+        fontSize: ComponentsStyle.fontSize16,
+        fontFamily: "IBMPlexSansThai-Regular",
+        textAlign: "center",
+        textDecorationLine: 'underline'
     },
     areaViewButton: {
         /*  backgroundColor: "red", */
