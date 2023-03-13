@@ -42,8 +42,9 @@ function HomeStackScreen() {
             <HomeStack.Screen name="ExArticleTemplate" component={ExArticleTemplate}
                 options={{ headerShown: false }}
             />
+
             <HomeStack.Screen name="ExProgram" component={ExProgram}
-            /*  options={{ headerShown: false }} */
+                options={{ cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS, headerShown: false }}
             />
         </HomeStack.Navigator>
     );

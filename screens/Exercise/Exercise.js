@@ -48,7 +48,7 @@ const Exercise = ({ navigation }) => {
     const [status, setStatus] = React.useState({});
     const deviceHeight = Math.round(Dimensions.get('window').height);
     const animatedScrollYValue = useRef(new Animated.Value(0)).current;
-    console.log("deviceHeight", deviceHeight, animatedScrollYValue);
+
 
     const Max_Header_Height = (deviceHeight <= 667) ? deviceHeight - 256 : (deviceHeight >= 668) && (deviceHeight <= 736) ? deviceHeight - 156 :
         (deviceHeight >= 737) && (deviceHeight <= 800) ? deviceHeight - 246 : (deviceHeight >= 801) && (deviceHeight <= 844) ? deviceHeight - 286 : (deviceHeight >= 845) && (deviceHeight <= 926) ? deviceHeight - 326 : deviceHeight - 276;
@@ -90,8 +90,11 @@ const Exercise = ({ navigation }) => {
         }
     }
     const clickProgram = () => {
-        setIsModalVisibleVedio(!isModalVisibleVedio)
-        navigation.navigate("ExProgram")
+        setIsModalVisibleVedio(!isModalVisibleVedio);
+
+        setTimeout(() => {
+            navigation.navigate("ExProgram")
+        }, 200);
     }
 
     /*   const toggleModal = (isModalVisible) => {
@@ -111,14 +114,11 @@ const Exercise = ({ navigation }) => {
         setIsModalVisibleExVideo(!isModalVisibleExVideo)
     };
 
+
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
 
             dispatch(getNutritionActivity((user && user.user_id)));
-            /*      setModalVisibleEx(true)
-                 setTimeout(() => {
-                     setModalVisibleEx(false)
-                 }, 3000); */
 
         });
 
@@ -961,13 +961,12 @@ const styles = StyleSheet.create({
         color: colors.grey1,
     },
     textSub: {
-        marginTop: 8,
-        marginBottom: 8,
+        marginBottom: 16,
         textAlign: "center",
         fontSize: 12,
         fontFamily: "IBMPlexSansThai-Regular",
         color: "#646463",
-        zIndex: 3
+        zIndex: 3,
     },
     boxSub: {
         marginTop: -10,
