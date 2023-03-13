@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { View, StyleSheet, StatusBar, Text, Dimensions, Pressable, Image, ScrollView } from 'react-native';
 import { Video, AVPlaybackStatus } from 'expo-av';
+import Modal from "react-native-modal";
 import colors from '../../constants/colors';
 import ComponentsStyle from '../../constants/components';
 
@@ -10,10 +11,16 @@ const data = Array.from({ length: 30 });
 const ExProgram = ({ navigation }) => {
     const video = React.useRef(null);
     const [status, setStatus] = React.useState({});
+    const [modalVisible, setModalVisible] = React.useState(true);
+    const [statusMoadal, setStatusMoadal] = React.useState(false);
     const [playVideo, setPlayVideo] = React.useState(1);
     const deviceWidth = Math.round(Dimensions.get('window').width);
     const clickPlayVide = (e) => {
         setPlayVideo(e)
+        setModalVisible(!modalVisible)
+    }
+    const clickMoadal = () => {
+        setModalVisible(!modalVisible)
     }
 
 
@@ -97,6 +104,45 @@ const ExProgram = ({ navigation }) => {
                         }
                     </View>
                 </ScrollView>
+            </View>
+
+            <View style={styles.centeredView}>
+
+                <Modal animationType="slide"
+                    transparent={true}
+                    visible={modalVisible}
+                    onRequestClose={() => {
+
+                        setModalVisible(modalVisible)
+                    }}
+
+                    style={{ margin: 0 }}
+                >
+                    <View style={styles.centeredView}>
+                        <View style={styles.conterModel}>
+                            {statusMoadal === true ?
+                                <View style={{ height: "100%", justifyContent: "space-between" }}>
+                                    <View style={{ marginTop: "160%" }}>
+                                        <Text style={styles.textBadge}>คุณได้รับตรา</Text>
+                                        <Image style={{ width: 143, height: 194 }} source={require('../../assets/images/exercise/Badge.png')} />
+                                    </View>
+                                    <View style={[styles.buotonBadge, { marginBottom: 40 }]}>
+                                        <Pressable onPress={() => clickMoadal()}>
+                                            <Text style={styles.buotonBadgeText}>สำเร็จ</Text>
+                                        </Pressable>
+                                    </View>
+                                </View>
+                                :
+                                <View style={{ alignItems: "center" }}>
+                                    <Image style={{ width: 120, height: 120 }} source={require('../../assets/images/icon/generic_A.png')} />
+                                    <Text style={[styles.textBadge, { marginTop: 16 }]}>ทำภารกิจสำเร็จ!</Text>
+                                </View>
+                            }
+                        </View>
+                        <View style={styles.modalView2}>
+                        </View>
+                    </View>
+                </Modal>
             </View>
         </View>
     )
@@ -210,8 +256,56 @@ const styles = StyleSheet.create({
         position: "absolute",
         marginLeft: "35%",
         marginTop: "15%"
-    }
+    },
+    centeredView: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center"
 
+    },
+    conterModel: {
+        zIndex: 4,
+        position: "absolute",
+        justifyContent: "center",
+        height: "100%"
+    },
+    modalView2: {
+        position: "relative",
+        zIndex: 3,
+        backgroundColor: colors.grey1,
+        opacity: 0.8,
+        width: "100%",
+        paddingHorizontal: 16,
+        flex: 1,
+        paddingTop: 32,
+        marginTop: 0,
+        alignItems: "center",
+        justifyContent: "space-between",
+    },
+    textBadge: {
+        fontSize: ComponentsStyle.fontSize24,
+        fontFamily: "IBMPlexSansThai-Bold",
+        color: colors.white,
+        marginBottom: 24,
+        textAlign: "center"
+    },
+    buotonBadge: {
+        width: "100%",
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 4,
+        elevation: 3,
+        borderRadius: 24,
+        height: 48,
+        borderColor: colors.white,
+        borderWidth: 2
+    },
+    buotonBadgeText: {
+        fontSize: ComponentsStyle.fontSize24,
+        fontFamily: "IBMPlexSansThai-Bold",
+        color: colors.white,
+        alignItems: "center"
+    },
 });
 
 export default ExProgram;
