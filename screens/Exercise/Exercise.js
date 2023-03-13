@@ -47,13 +47,15 @@ const Exercise = ({ navigation }) => {
     const video = React.useRef(null);
     const [status, setStatus] = React.useState({});
     const deviceHeight = Math.round(Dimensions.get('window').height);
+    const animatedScrollYValue = useRef(new Animated.Value(0)).current;
+    console.log("deviceHeight", deviceHeight, animatedScrollYValue);
 
-
-    const Max_Header_Height = (deviceHeight == 844) ? deviceHeight - 290 : deviceHeight - 260;
+    const Max_Header_Height = (deviceHeight <= 667) ? deviceHeight - 256 : (deviceHeight >= 668) && (deviceHeight <= 736) ? deviceHeight - 156 :
+        (deviceHeight >= 737) && (deviceHeight <= 800) ? deviceHeight - 246 : (deviceHeight >= 801) && (deviceHeight <= 844) ? deviceHeight - 286 : (deviceHeight >= 845) && (deviceHeight <= 926) ? deviceHeight - 326 : deviceHeight - 276;
     const Min_Header_Height = 170;
     const Scroll_Distance = Max_Header_Height - Min_Header_Height
 
-    const animatedScrollYValue = useRef(new Animated.Value(0)).current;
+
 
     const headerHeight = animatedScrollYValue.interpolate({
         inputRange: [0, HEADER_SCROLL_DISTANCE],
@@ -128,35 +130,28 @@ const Exercise = ({ navigation }) => {
 
     const videoPlay = () => {
         return (
-            <View style={[styles.centeredView,]}>
-                <View style={styles.centeredView2}>
-                    <Pressable onPress={() => clickPlayExample()}>
-                        <Image
-                            source={require('../../assets/images/icon/close_white.png')}
-                            style={{
-                                width: 54, height: 54, zIndex: 2, position: "relative",
+            <View style={{ position: "relative", height: 212, width: 375, alignItems: "flex-end" }}>
+                <Pressable onPress={() => clickPlayExample()} style={{ zIndex: 3, position: "absolute" }}>
+                    <Image
+                        source={require('../../assets/images/icon/close_white.png')}
+                        style={{
+                            width: 24, height: 24, marginTop: 16, marginRight: 16
 
-                            }}
-                        />
-                    </Pressable>
-                    <Video
-                        ref={video}
-                        style={styles.video}
-                        source={{
-                            uri: 'https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4',
                         }}
-                        useNativeControls
-                        resizeMode="contain"
-                        isLooping
-                        onPlaybackStatusUpdate={status => setStatus(() => status)}
-                    >
-
-
-                    </Video>
-
-                </View>
-                <View style={[styles.modalView3]}>
-                </View>
+                    />
+                </Pressable>
+                <Video
+                    ref={video}
+                    style={styles.video}
+                    source={{
+                        uri: 'https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4',
+                    }}
+                    useNativeControls
+                    resizeMode="contain"
+                    isLooping
+                    onPlaybackStatusUpdate={status => setStatus(() => status)}
+                >
+                </Video>
             </View>
         )
     }
@@ -164,7 +159,7 @@ const Exercise = ({ navigation }) => {
     const program = () => {
         return (
             <>
-                <View style={styles.centeredVedio}>
+                <View style={[styles.centeredVedio, { marginTop: play == true ? 0 : 150 }]}>
                     <View style={styles.modalView}>
                         <View style={styles.boxModel}>
                             <View style={{
@@ -307,6 +302,7 @@ const Exercise = ({ navigation }) => {
                         </View>
                     </Pressable>
                 </View>
+
             </>
         )
     }
@@ -322,28 +318,6 @@ const Exercise = ({ navigation }) => {
                 onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: animatedScrollYValue } } }], { useNativeDriver: false })}
             >
                 <View style={styles.scrollViewContent}>
-                    {/* <View style={styles.missionText}>
-                        <View style={styles.missionView}>
-                            <Pressable style={[{ width: 71 }, statusMission === true ? styles.missionPre : styles.programPre]} onPress={() => setStatusMission(true)} >
-                                <Text style={[styles.mission, statusMission === true ? { color: colors.white } : { color: colors.persianBlue }]}>ภารกิจ</Text>
-                            </Pressable>
-                            <Pressable style={[{ marginLeft: 8, width: 89 }, statusMission !== true ? styles.missionPre : styles.programPre]} onPress={() => setStatusMission(false)} >
-                                <Text style={[styles.mission, statusMission !== true ? { color: colors.white } : { color: colors.persianBlue }]}>โปรแกรม</Text>
-                            </Pressable>
-                        </View>
-                        {
-                            statusMission == true ?
-                                <>
-                                  
-                                    <Pressable onPress={() => refresh()}>
-                                        <Image style={styles.iconImageRight} source={require('../../assets/images/icon/History1.png')} />
-                                    </Pressable>
-                                </>
-                                :
-                                null
-                        }
-
-                    </View> */}
                     {statusMission === true ?
                         <>
                             {
@@ -464,7 +438,6 @@ const Exercise = ({ navigation }) => {
                             {
                                 statusMission == true ?
                                     <>
-
                                         <Pressable onPress={() => refresh()} style={styles.historyRight}>
                                             <Image style={styles.iconImageRight} source={require('../../assets/images/icon/History1.png')} />
                                         </Pressable>
@@ -477,7 +450,6 @@ const Exercise = ({ navigation }) => {
                     </View>
                 </Animated.View >
             </View>
-
             <Animated.View opacity={headerHeight} style={[styles.header]}>
                 <View style={styles.imageView}>
                     <ImageBackground
@@ -591,65 +563,18 @@ const Exercise = ({ navigation }) => {
 
                 <Modal isVisible={isModalVisibleVedio}
 
-                    style={{ marginHorizontal: 0, marginTop: play == true ? 0 : 150 }}
+                    style={{ marginHorizontal: 0, zIndex: 1, marginBottom: -40, marginTop: -40 }}
                 >
-
                     {program()}
 
+                    {isModalVisibleExVideo === true ?
+                        <View style={styles.boxPlay}>
+                            {videoPlay()}
+                        </View>
+                        : null}
 
                 </Modal>
             </View >
-
-
-
-            {/*
-             //! Modal  video Play
-             */}
-
-
-
-            <View style={[styles.centeredView]}>
-
-                <Modal animationType="slide"
-                    transparent={true}
-                    visible={isModalVisibleExVideo}
-                    onRequestClose={() => {
-                        setIsModalVisibleExVideo(!isModalVisibleExVideo);
-                    }}
-                    style={{ margin: 0 }}
-                >
-                    <View style={[styles.centeredView,]}>
-                        <View style={styles.centeredView2}>
-                            <Pressable onPress={() => clickPlayExample()}>
-                                <Image
-                                    source={require('../../assets/images/icon/close_white.png')}
-                                    style={{
-                                        width: 54, height: 54, zIndex: 2, position: "relative",
-
-                                    }}
-                                />
-                            </Pressable>
-                            <Video
-                                ref={video}
-                                style={styles.video}
-                                source={{
-                                    uri: 'https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4',
-                                }}
-                                useNativeControls
-                                resizeMode="contain"
-                                isLooping
-                                onPlaybackStatusUpdate={status => setStatus(() => status)}
-                            >
-
-
-                            </Video>
-
-                        </View>
-                        <View style={[styles.modalView3]}>
-                        </View>
-                    </View>
-                </Modal>
-            </View>
         </View >
     )
 }
@@ -661,6 +586,7 @@ Exercise.propTypes = {
     }).isRequired,
 };
 const deviceHeight = Math.round(Dimensions.get('window').height);
+const deviceWidth = Math.round(Dimensions.get('window').width);
 const styles = StyleSheet.create({
     fill: {
         flex: 1,
@@ -988,28 +914,9 @@ const styles = StyleSheet.create({
         justifyContent: "center",
 
     },
-    modalView3: {
-        position: "relative",
-        zIndex: 4,
-        backgroundColor: colors.grey1,
-        opacity: 0.8,
-        width: "100%",
-        paddingHorizontal: 16,
-        height: "100%",
-        paddingTop: 32,
-        marginTop: 0,
-        alignItems: "center",
-        justifyContent: "center",
-
-    },
     boxModel: {
         width: "100%",
         maxHeight: deviceHeight - 80,
-        zIndex: 1,
-    },
-    boxModel2: {
-        width: "100%",
-        maxHeight: deviceHeight,
         zIndex: 1,
     },
     textModeHead: {
@@ -1050,6 +957,7 @@ const styles = StyleSheet.create({
     },
     textSub: {
         marginTop: 8,
+        marginBottom: 8,
         textAlign: "center",
         fontSize: 12,
         fontFamily: "IBMPlexSansThai-Regular",
@@ -1057,6 +965,7 @@ const styles = StyleSheet.create({
         zIndex: 3
     },
     boxSub: {
+        marginTop: -10,
         height: 40,
         backgroundColor: colors.white,
         marginBottom: -20, height: 80,
@@ -1066,6 +975,8 @@ const styles = StyleSheet.create({
             width: 0,
             height: 8
         },
+        marginBottom: 40,
+
         shadowOpacity: 0.58,
         shadowRadius: 16,
         elevation: 24,
@@ -1074,10 +985,20 @@ const styles = StyleSheet.create({
     },
     video: {
         alignSelf: 'center',
-        width: 350,
-        height: 200,
+        width: 375,
+        height: 212,
         zIndex: 1
     },
+    boxPlay: {
+        zIndex: 3,
+        backgroundColor: "#1E1E1E",
+        height: "100%",
+        width: deviceWidth,
+        position: "absolute",
+        justifyContent: "center",
+        alignItems: "center",
+
+    }
 
 
 

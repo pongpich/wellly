@@ -1,116 +1,115 @@
-import React from 'react';
-import {
-    View,
-    StyleSheet,
-    Dimensions,
-    Button,
-    Alert,
-    Text,
-} from 'react-native';
+import React, { Component } from 'react';
+import { Alert, Modal, StyleSheet, Text, Pressable, View } from 'react-native';
 
-import ProgressBarAnimated from 'react-native-progress-bar-animated';
-
-export default class App extends React.Component {
-
+class App extends Component {
     state = {
-        progress: 20,
-        progressWithOnComplete: 0,
-        progressCustomized: 0,
-    }
-
-    increase = (key, value) => {
-        this.setState({
-            [key]: this.state[key] + value,
-        });
-    }
+        modalVisible: false,
+        modalVisible2: false,
+    };
 
     render() {
-        const barWidth = Dimensions.get('screen').width - 30;
-        const progressCustomStyles = {
-            backgroundColor: 'red',
-            borderRadius: 0,
-            borderColor: 'orange',
-        };
-
+        const { modalVisible, modalVisible2 } = this.state;
         return (
-            <View style={styles.container}>
-                <View>
-                    <Text style={styles.label}>Bar with backgroundColorOnComplete prop</Text>
-                    <ProgressBarAnimated
-                        width={barWidth}
-                        value={this.state.progress}
-                        backgroundColorOnComplete="#6CC644"
-                    />
-                    <View style={styles.buttonContainer}>
-                        <View style={styles.buttonInner}>
-                            <Button
-                                title="Increase 20%"
-                                onPress={this.increase.bind(this, 'progress', 20)}
-                            />
+            <>
+                <View style={styles.centeredView}>
+                    <Modal
+                        animationType="slide"
+                        transparent={true}
+                        visible={modalVisible}
+                        onRequestClose={() => {
+                            Alert.alert('Modal has been closed.');
+                            this.setState({ modalVisible: !modalVisible });
+                        }}>
+                        <View style={styles.centeredView}>
+                            <View style={styles.modalView}>
+                                <Text style={styles.modalText}>Hello World! Modal1</Text>
+                                <Pressable
+                                    style={[styles.button, styles.buttonClose]}
+                                    onPress={() => this.setState({ modalVisible: !modalVisible })}>
+                                    <Text style={styles.textStyle}>Hide Modal</Text>
+                                </Pressable>
+                                <Pressable
+                                    style={[styles.button, styles.buttonClose]}
+                                    onPress={() => this.setState({ modalVisible2: !modalVisible2 })}>
+                                    <Text style={styles.textStyle}>show Moadl2</Text>
+                                </Pressable>
+                            </View>
                         </View>
-                    </View>
-                </View>
-                <View style={styles.separator} />
-                <View>
-                    <Text style={styles.label}>Bar with onComplete event</Text>
-                    <ProgressBarAnimated
-                        width={barWidth}
-                        value={this.state.progressWithOnComplete}
-                        onComplete={() => {
-                            Alert.alert('Hey!', 'onComplete event fired!');
-                        }}
-                    />
-                    <View style={styles.buttonContainer}>
-                        <View style={styles.buttonInner}>
-                            <Button
-                                title="Increase 50%"
-                                onPress={this.increase.bind(this, 'progressWithOnComplete', 50)}
-                            />
+                    </Modal>
+                    <Modal
+                        animationType="slide"
+                        transparent={true}
+                        visible={modalVisible2}
+                        onRequestClose={() => {
+                            Alert.alert('Modal has been closed.');
+                            this.setState({ modalVisible2: !modalVisible2 });
+                        }}>
+                        <View style={styles.centeredView}>
+                            <View style={styles.modalView}>
+                                <Text style={styles.modalText}>Hello World! Modal2</Text>
+                                <Pressable
+                                    style={[styles.button, styles.buttonClose]}
+                                    onPress={() => this.setState({ modalVisible2: !modalVisible2 })}>
+                                    <Text style={styles.textStyle}>Hide Modal</Text>
+                                </Pressable>
+
+                            </View>
                         </View>
-                    </View>
+                    </Modal>
+                    <Pressable
+                        style={[styles.button, styles.buttonOpen]}
+                        onPress={() => this.setState({ modalVisible: true })}>
+                        <Text style={styles.textStyle}>Show Modal</Text>
+                    </Pressable>
                 </View>
-                <View style={styles.separator} />
-                <View>
-                    <Text style={styles.label}>Custom style with max value in 30%</Text>
-                    <ProgressBarAnimated
-                        {...progressCustomStyles}
-                        width={barWidth}
-                        maxValue={30}
-                        value={this.state.progressCustomized}
-                    />
-                    <View style={styles.buttonContainer}>
-                        <View style={styles.buttonInner}>
-                            <Button
-                                title="Increase 10%"
-                                onPress={this.increase.bind(this, 'progressCustomized', 10)}
-                            />
-                        </View>
-                    </View>
-                </View>
-            </View>
+
+            </>
         );
     }
 }
 
 const styles = StyleSheet.create({
-    container: {
+    centeredView: {
         flex: 1,
-        backgroundColor: '#FFF',
-        marginTop: 50,
-        padding: 15,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 22,
     },
-    buttonContainer: {
-        marginTop: 15,
+    modalView: {
+        margin: 20,
+        backgroundColor: 'white',
+        borderRadius: 20,
+        padding: 35,
+        alignItems: 'center',
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
     },
-    separator: {
-        marginVertical: 30,
-        borderWidth: 0.5,
-        borderColor: '#DCDCDC',
+    button: {
+        borderRadius: 20,
+        padding: 10,
+        elevation: 2,
     },
-    label: {
-        color: '#999',
-        fontSize: 14,
-        fontWeight: '500',
-        marginBottom: 10,
+    buttonOpen: {
+        backgroundColor: '#F194FF',
+    },
+    buttonClose: {
+        backgroundColor: '#2196F3',
+    },
+    textStyle: {
+        color: 'white',
+        fontWeight: 'bold',
+        textAlign: 'center',
+    },
+    modalText: {
+        marginBottom: 15,
+        textAlign: 'center',
     },
 });
+
+export default App;

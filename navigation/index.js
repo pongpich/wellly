@@ -156,7 +156,7 @@ function MyHome() {
           },
           title: languages === "th" ? "โภชนาการ" : "Nutrition",
         })} />
-      {/* <Tab.Screen name="Add" component={AddStackScreen}
+      <Tab.Screen name="Add" component={AddStackScreen}
         options={{
           title: '',
           tabBarIcon: ({ size, color }) => (
@@ -189,7 +189,7 @@ function MyHome() {
       <Tab.Screen name="ActivityTab" component={ActivityStackScreen}
         options={{
           title: languages === "th" ? "กิจกรรม" : "Activity",
-        }} /> */}
+        }} />
     </Tab.Navigator >
   );
 }
@@ -213,7 +213,7 @@ function MyStack(props) {
       }}>
 
       <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} initialRouteName="Login" />
-      <Stack.Screen name="Register" component={Register}  initialRouteName="Register" />
+      <Stack.Screen name="Register" component={Register} initialRouteName="Register" />
       <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{
         title: "",
         headerShadowVisible: false, // applied here
@@ -322,6 +322,9 @@ function getBottomTabse(route) {
     return 'none';
   }
   if (routeName == "ExArticleTemplate") {
+    return 'none';
+  }
+  if (routeName == "ExProgram") {
     return 'none';
   }
 

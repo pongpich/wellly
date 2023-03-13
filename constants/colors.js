@@ -29,4 +29,5 @@ export default {
   neutralGrey3: '#93A8C1',
   secondary_MayaBlue: '#59CBE4'
 
+
 };
