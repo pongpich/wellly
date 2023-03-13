@@ -568,9 +568,14 @@ const Exercise = ({ navigation }) => {
                     {program()}
 
                     {isModalVisibleExVideo === true ?
-                        <View style={styles.boxPlay}>
-                            {videoPlay()}
-                        </View>
+                        <>
+                            <View style={styles.boxPlay2}>
+                                {videoPlay()}
+                            </View>
+                            <View style={[styles.boxPlay, { opacity: 0.8 }]}>
+                            </View>
+
+                        </>
                         : null}
 
                 </Modal>
@@ -987,7 +992,8 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         width: 375,
         height: 212,
-        zIndex: 1
+        zIndex: 1,
+
     },
     boxPlay: {
         zIndex: 3,
@@ -997,8 +1003,17 @@ const styles = StyleSheet.create({
         position: "absolute",
         justifyContent: "center",
         alignItems: "center",
+    },
+    boxPlay2: {
+        position: "absolute",
+        alignItems: "center",
+        zIndex: 4,
+        opacity: 1,
+        width: deviceWidth,
 
     }
+
+
 
 
 
