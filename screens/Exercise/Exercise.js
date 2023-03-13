@@ -130,7 +130,7 @@ const Exercise = ({ navigation }) => {
 
     const videoPlay = () => {
         return (
-            <View style={{ position: "relative", height: 212, width: 375, alignItems: "flex-end" }}>
+            <View style={{ position: "relative", width: 375, alignItems: "flex-end" }}>
                 <Pressable onPress={() => clickPlayExample()} style={{ zIndex: 3, position: "absolute" }}>
                     <Image
                         source={require('../../assets/images/icon/close_white.png')}
@@ -565,18 +565,24 @@ const Exercise = ({ navigation }) => {
 
                     style={{ marginHorizontal: 0, zIndex: 1, marginBottom: -40, marginTop: -40 }}
                 >
+
+
                     {program()}
 
                     {isModalVisibleExVideo === true ?
+
                         <>
                             <View style={styles.boxPlay2}>
                                 {videoPlay()}
                             </View>
-                            <View style={[styles.boxPlay, { opacity: 0.8 }]}>
-                            </View>
+                            <View style={[styles.boxPlay]}>
 
+                            </View>
                         </>
+
+
                         : null}
+
 
                 </Modal>
             </View >
@@ -1004,7 +1010,9 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     boxPlay2: {
-        position: "absolute",
+        zIndex: 6,
+        height: "100%",
+        marginTop: "90%",
         alignItems: "center",
         zIndex: 4,
         opacity: 1,
