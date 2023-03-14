@@ -14,18 +14,15 @@ import { List } from 'react-native-paper';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 
 //บทความ
-import Gn1 from '../../components/knowledge/Gn1';
-import Gn2 from '../../components/knowledge/Gn2';
-import Gn3 from '../../components/knowledge/Gn3';
-import Gn4 from '../../components/knowledge/Gn4';
-import Gn5 from '../../components/knowledge/Gn5';
-import Gn6 from '../../components/knowledge/Gn6';
-import Sna1 from '../../components/knowledge/Sna1';
-import Sna2 from '../../components/knowledge/Sna2';
-import Snb1 from '../../components/knowledge/Snb1';
-import Snb2 from '../../components/knowledge/Snb2';
-import Snc1 from '../../components/knowledge/Snc1';
-import Snc2 from '../../components/knowledge/Snc2';
+import Ab1 from '../../components/exercise/Ab1';
+import Ab2 from '../../components/exercise/Ab2';
+import Cd1 from '../../components/exercise/Cd1';
+import C2 from '../../components/exercise/C2';
+import C3 from '../../components/exercise/C3';
+import C4 from '../../components/exercise/C4';
+import C5 from '../../components/exercise/C5';
+import C6 from '../../components/exercise/C6';
+
 
 const data = Array.from({ length: 3 });
 const startData = Array.from({ length: 3 })
@@ -102,7 +99,7 @@ class ArticleTemplate extends Component {
         const { mission_id } = this.props.route.params;
         return (
             <View style={{ flex: 1, marginHorizontal: 16, }}>
-                {<Gn1 />}
+                {<C6 />}
                 {/*  {(mission_id === 'gn2') && <Gn2 />}
                 {(mission_id === 'gn3') && <Gn3 />}
                 {(mission_id === 'gn4') && <Gn4 />}
