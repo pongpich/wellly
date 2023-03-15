@@ -12,6 +12,7 @@ import Modal from "react-native-modal";
 import ProgressBarAnimated from 'react-native-progress-bar-animated';
 import { List } from 'react-native-paper';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
+import { convertFormatDate, calculateWeekInProgram } from "../../helpers/utils";
 
 //บทความ
 import Ab1 from '../../components/exercise/Ab1';
@@ -47,6 +48,7 @@ class ArticleTemplate extends Component {
 
         const { statusPags, id } = this.props.route.params;
 
+
         if (statusPags == "ExHistory") {
             this.setState({
                 study: false
@@ -56,9 +58,12 @@ class ArticleTemplate extends Component {
             id: id
         })
         // this.props.routeName('null');
-
+        const { mission_id } = this.props.route.params;
+        console.log("mission_id", mission_id);
 
     }
+
+
 
     componentDidUpdate(prevProps, prevState) {
         const { nutrition_mission, user, nutrition_activity_id_Mission, statusGetNutritionActivityIdMission } = this.props;
@@ -97,20 +102,17 @@ class ArticleTemplate extends Component {
 
     renderCheckArticle() { //เช็คว่าจะแสดงบทความไหน โดยใช้ mission_id
         const { mission_id } = this.props.route.params;
+        console.log("mission_id", mission_id);
         return (
             <View style={{ flex: 1, marginHorizontal: 16, }}>
-                {<C6 />}
-                {/*  {(mission_id === 'gn2') && <Gn2 />}
-                {(mission_id === 'gn3') && <Gn3 />}
-                {(mission_id === 'gn4') && <Gn4 />}
-                {(mission_id === 'gn5') && <Gn5 />}
-                {(mission_id === 'gn6') && <Gn6 />}
-                {(mission_id === 'sna1') && <Sna1 />}
-                {(mission_id === 'sna2') && <Sna2 />}
-                {(mission_id === 'snb1') && <Snb1 />}
-                {(mission_id === 'snb2') && <Snb2 />}
-                {(mission_id === 'snc1') && <Snc1 />}
-                {(mission_id === 'snc2') && <Snc2 />} */}
+                {(mission_id === '1ab') && <Ab1 />}
+                {(mission_id === '1cd') && <Ab2 />}
+                {(mission_id === '2ab') && <Cd1 />}
+                {(mission_id === '2c') && <C2 />}
+                {(mission_id === '3c') && <C3 />}
+                {(mission_id === '4c') && <C4 />}
+                {(mission_id === '5c') && <C5 />}
+                {(mission_id === '6c') && <C6 />}
             </View>
         )
     }
@@ -299,7 +301,7 @@ class ArticleTemplate extends Component {
     render() {
         const { study, statusBarColor, id } = this.state;
 
-
+        const { heading } = this.props.route.params;
 
         return (
             <View style={styles.container}>
@@ -328,7 +330,7 @@ class ArticleTemplate extends Component {
                     </View>
                     <View style={ComponentsStyle.nutritionMission}>
                         <Text style={ComponentsStyle.missionHead}>ภารกิจออกกำลังกาย</Text>
-                        <Text style={[ComponentsStyle.missionHeading, { marginRight: 32 }]}>อัพเกรดการเคลื่อนไหวด้วย Plyometric</Text>
+                        <Text style={[ComponentsStyle.missionHeading, { marginRight: 32 }]}>{heading}</Text>
                     </View>
                 </View>
 

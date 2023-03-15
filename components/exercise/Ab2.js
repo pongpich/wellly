@@ -28,98 +28,21 @@ class C2 extends Component {
         return (
             <View style={styles.scrollViewbox} >
                 {
-                    this.renderImg('Exercise_w_1', 'md')
+                    this.renderImg('Exercise_w_2', 'md')
                 }
                 <Text style={styles.title}>
-                    ข้อดีของการเพิ่มกิจกรรมทางกาย
+                    การออกกำลังกายเพิ่มขึ้นแม้เพียงเล็กน้อย
                 </Text>
-                <View style={styles.viewLi}>
-                    <Text style={styles.li}>{"\u2B24" + " "}</Text>
-                    <Text style={styles.content} >
-                        ลดปัจจัยเสี่ยงที่ทำให้เกิดโรคหัวใจและหลอดเลือด
-                    </Text>
-                </View>
-                <View style={styles.viewLi2}>
-                    <Text style={styles.li}>{"\u2B24" + " "}</Text>
-                    <Text style={styles.content} >
-                        ลดความดันเลือด
-                    </Text>
-                </View>
-                <View style={styles.viewLi2}>
-                    <Text style={styles.li}>{"\u2B24" + " "}</Text>
-                    <Text style={styles.content} >
-                        ลดระดับไตรกลีเซอไรด์
-                    </Text>
-                </View>
-                <View style={styles.viewLi2}>
-                    <Text style={styles.li}>{"\u2B24" + " "}</Text>
-                    <Text style={styles.content} >
-                        ลดการใช้อินซูลิน (ในกรณีที่มีการใช้อินซูลินจากภายนอก)
-                    </Text>
-                </View>
-                <View style={styles.viewLi}>
-                    <Text style={styles.li}>{"\u2B24" + " "}</Text>
-                    <Text style={styles.content} >
-                        ลดอัตราการป่วยและอัตราการเสียชีวิตจากโรคต่าง ๆ
-                    </Text>
-                </View>
-                <View style={styles.viewLi2}>
-                    <Text style={styles.li}>{"\u2B24" + " "}</Text>
-                    <Text style={styles.content} >
-                        โรคหัวใจและหลอดเลือด
-                    </Text>
-                </View>
-                <View style={styles.viewLi2}>
-                    <Text style={styles.li}>{"\u2B24" + " "}</Text>
-                    <Text style={styles.content} >
-                        โรคหลอดเลือดสมอง (Stroke)
-                    </Text>
-                </View>
-                <View style={styles.viewLi2}>
-                    <Text style={styles.li}>{"\u2B24" + " "}</Text>
-                    <Text style={styles.content} >
-                        เบาหวานชนิดที่ 2
-                    </Text>
-                </View>
-                <View style={styles.viewLi2}>
-                    <Text style={styles.li}>{"\u2B24" + " "}</Text>
-                    <Text style={styles.content} >
-                        มะเร็งต่าง ๆ
-                    </Text>
-                </View>
-                <View style={styles.viewLi}>
-                    <Text style={styles.li}>{"\u2B24" + " "}</Text>
-                    <Text style={styles.content} >
-                        ข้อดีอื่น ๆ
-                    </Text>
-                </View>
-                <View style={styles.viewLi2}>
-                    <Text style={styles.li}>{"\u2B24" + " "}</Text>
-                    <Text style={styles.content} >
-                        ลดอาการวิตกกังวล และซึมเศร้า (Anxiety and Depression)
-                    </Text>
-                </View>
-                <View style={styles.viewLi2}>
-                    <Text style={styles.li}>{"\u2B24" + " "}</Text>
-                    <Text style={styles.content} >
-                        เพิ่มความสามารถของกระบวนการรับข้อมูลและตัดสินใจ (Cognitive Function)
-                    </Text>
-                </View>
-                <View style={styles.viewLi2}>
-                    <Text style={styles.li}>{"\u2B24" + " "}</Text>
-                    <Text style={styles.content} >
-                        ขยับร่างกายได้ดีขึ้น
-                    </Text>
-                </View>
-                <View style={styles.viewLi2}>
-                    <Text style={styles.li}>{"\u2B24" + " "}</Text>
-                    <Text style={styles.content} >
-                        ลดความเสี่ยงต่อการพลัดตกหกล้ม
-                    </Text>
-                </View>
+                <Text style={styles.content} >
+                    ก็ส่งผลในการลดความเสี่ยงของการเกิดโรคได้ แต่การที่จะดูแลสุขภาพ และลดความเสี่ยงของโรคได้อย่างยั่งยืนนั้น คือการออกกำลังกายอย่างสม่ำเสมอ และ “มากพอ”
+                </Text>
+                <Text style={[styles.content, { marginTop: 24 }]} >
+                    ภารกิจสัปดาห์นี้ คือการค่อย ๆ เพิ่มปริมาณการออกกำลังกายให้เข้าใกล้กับระดับที่ สถาบันโรคหัวใจสหรัฐอเมริกา แนะนำมากขึ้น โดยที่ไม่เป็นการเปลี่ยนแปลงอย่างหักโหมจนเกินไป
+                </Text>
+
                 <Text style={styles.tableEx}>ตารางแสดงกิจกรรมทางกาย ระยะเวลา และ การจัดระดับความหนักของกิจกรรม</Text>
                 {
-                    this.renderImg('Exercise_Mission_w_1', "lg")
+                    this.renderImg('Exercise_Mission_w_2', "lg")
                 }
             </View>
         )

@@ -7,7 +7,7 @@ import Modal from "react-native-modal";
 import { AntDesign } from '@expo/vector-icons';
 import { useSelector, useDispatch } from "react-redux";
 import { connect } from 'react-redux';
-import { getNutritionActivity } from "../../redux/get";
+import { getExerciserActivity } from "../../redux/get";
 import { List } from 'react-native-paper';
 import { Video, AVPlaybackStatus } from 'expo-av';
 
@@ -30,8 +30,7 @@ const Exercise = ({ navigation }) => {
 
     const dispatch = useDispatch();
     const user = useSelector(({ authUser }) => authUser ? authUser.user : "");
-    const nutrition_activity = useSelector(({ getData }) => getData ? getData.nutrition_activity : "");
-    const statusGetNutritionActivity = useSelector(({ getData }) => getData ? getData.statusGetNutritionActivity : "");
+    const { exerciserActivity, nutrition_activity } = useSelector(({ getData }) => getData ? getData : "");
 
     const [statusNotified, setStatusNotified] = useState(null);
     const [statusMission, setStatusMission] = useState(true);
@@ -118,7 +117,10 @@ const Exercise = ({ navigation }) => {
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
 
-            dispatch(getNutritionActivity((user && user.user_id)));
+            dispatch(getExerciserActivity((user && user.user_id)));
+
+
+
 
         });
 
@@ -308,6 +310,9 @@ const Exercise = ({ navigation }) => {
     }
 
 
+
+
+
     return (
         <View style={styles.fill}>
 
@@ -321,18 +326,18 @@ const Exercise = ({ navigation }) => {
                     {statusMission === true ?
                         <>
                             {
-                                data ?
+                                exerciserActivity ?
 
-                                    data.map((item, i) => {
+                                    exerciserActivity.map((item, i) => {
                                         if (true) {
                                             return (
-                                                <Pressable onPress={() => navigation.navigate("ExArticleTemplate", { id: i, statusPags: "Exercise" })} key={i + "tfb"}>
+                                                <Pressable onPress={() => navigation.navigate("ExArticleTemplate", { id: item.week_in_program, mission_id: item.mission_id, heading: item.heading, statusPags: "Exercise" })} key={i + "tfb"}>
                                                     <View key={i} style={styles.row}>
                                                         <View style={styles.numberView} key="i+ v1">
-                                                            <Text style={styles.number} key="i+ v1t">{++i}</Text>
+                                                            <Text style={styles.number} key="i+ v1t">{item.week_in_program}</Text>
                                                         </View>
                                                         <View style={styles.missionData} key="i+ v2">
-                                                            <Text style={styles.missionHead} key="i+ v2t">Body Pump</Text>
+                                                            <Text style={styles.missionHead} key="i+ v2t">{item.heading}</Text>
                                                             <Text style={styles.missionContent} key="i+ v3t">
                                                                 โปรแกรมออกกำลังกายลดความเสี่ยงโรคเบาหวาน
                                                             </Text>

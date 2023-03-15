@@ -9,7 +9,9 @@ export const types = {
     INSERT_NUTRITION_ACTIVITY: "INSERT_NUTRITION_ACTIVITY",
     INSERT_NUTRITION_ACTIVITY_SUCCESS: "INSERT_NUTRITION_ACTIVITY_SUCCESS",
     UPDATE_ASSESSMENT_KIT_ACIVTIES: "UPDATE_ASSESSMENT_KIT_ACIVTIES",
-    UPDATE_ASSESSMENT_KIT_ACIVTIES_SUCCESS: "UPDATE_ASSESSMENT_KIT_ACIVTIES_SUCCESS"
+    UPDATE_ASSESSMENT_KIT_ACIVTIES_SUCCESS: "UPDATE_ASSESSMENT_KIT_ACIVTIES_SUCCESS",
+    INSERT_EXERCISE_ACTIVITY: "INSERT_EXERCISE_ACTIVITY",
+    INSERT_EXERCISE_ACTIVITY_SUCCESS: "INSERT_EXERCISE_ACTIVITY_SUCCESS",
 
 };
 
@@ -37,6 +39,12 @@ export const update_assessment_kit_activties = (user_id, week_in_program, assess
 
 export const insertNutritionActivity = (user_id) => ({
     type: types.INSERT_NUTRITION_ACTIVITY,
+    payload: {
+        user_id
+    },
+})
+export const insertExerciseActivity = (user_id) => ({
+    type: types.INSERT_EXERCISE_ACTIVITY,
     payload: {
         user_id
     },
@@ -99,6 +107,22 @@ const insertNutritionActivitySagaAsync = async (
 
     try {
         const apiResult = await API.post("planforfit", "/insertNutritionActivity", {
+            body: {
+                user_id
+            }
+        });
+
+        return apiResult
+    } catch (error) {
+        return { error, messsage: error.message };
+    }
+};
+const insertExerciseActivitySagaAsync = async (
+    user_id
+) => {
+
+    try {
+        const apiResult = await API.post("planforfit", "/insertExerciseActivity", {
             body: {
                 user_id
             }
@@ -181,6 +205,23 @@ function* insertNutritionActivitySaga({ payload }) {
         console.log("error form insertNutritionActivitySaga", error);
     }
 }
+function* insertExerciseActivitySaga({ payload }) {
+    const {
+        user_id
+    } = payload
+
+    try {
+        const apiResult = yield call(
+            insertExerciseActivitySagaAsync,
+            user_id
+        );
+        yield put({
+            type: types.INSERT_NUTRITION_ACTIVITY_SUCCESS
+        })
+    } catch (error) {
+        console.log("error form insertExerciseActivitySaga", error);
+    }
+}
 
 export function* watchUpdate_quiz_activities() {
     yield takeEvery(types.UPDATE_QUIZ_ACTIVITIES, update_quiz_activitiesSaga)
@@ -193,6 +234,10 @@ export function* watchInsertNutritionActivity() {
     yield takeEvery(types.INSERT_NUTRITION_ACTIVITY, insertNutritionActivitySaga)
 }
 
+export function* watchInsertExerciseActivity() {
+    yield takeEvery(types.INSERT_EXERCISE_ACTIVITY, insertExerciseActivitySaga)
+}
+
 
 
 export function* saga() {
@@ -200,6 +245,7 @@ export function* saga() {
         fork(watchUpdate_quiz_activities),
         fork(watchInsertNutritionActivity),
         fork(watchUpdate_assessment_kit_activties),
+        fork(watchInsertExerciseActivity),
     ]);
 }
 
@@ -211,6 +257,7 @@ const INIT_STATE = {
     status_quiz_activities: "default",
     statusInsertNutritionActivity: "default",
     statusAssessment_kit_activties: "default",
+    statusInsertExerciseActivity: "default",
 };
 
 export function reducer(state = INIT_STATE, action) {
@@ -238,6 +285,16 @@ export function reducer(state = INIT_STATE, action) {
             return {
                 ...state,
                 statusInsertNutritionActivity: "success"
+            };
+        case types.INSERT_EXERCISE_ACTIVITY:
+            return {
+                ...state,
+                statusInsertExerciseActivity: "loading"
+            };
+        case types.INSERT_EXERCISE_ACTIVITY_SUCCESS:
+            return {
+                ...state,
+                statusInsertExerciseActivity: "success"
             };
         case types.UPDATE_ASSESSMENT_KIT_ACIVTIES:
             return {

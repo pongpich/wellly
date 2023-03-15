@@ -85,7 +85,7 @@ class Cd1 extends Component {
                 <Text style={styles.title}>
                     การฝึกกล้ามเนื้อแกนกลางลำตัว
                 </Text>
-                <Text style={styles.content} >
+                <Text style={[styles.content, { marginBottom: 40 }]} >
                     สามารถทำได้ด้วยการฝึกออกแรงควบคุมกล้ามเนื้อ และการฝึกด้วยแรงต้านด้วยท่าฝึกที่ออกแบบมาให้กระตุ้นการทำงานของกล้ามเนื้อในกลุ่มนี้ ตัวอย่างเช่น การฝึกท่าที่มีชื่อว่า Dead Bug, Prone Arm and Opposite Leg Raise เป็นต้น
                 </Text>
 

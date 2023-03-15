@@ -74,7 +74,7 @@ const Nutrition = ({ navigation }) => {
             /*  console.log("nutrition_activity", nutrition_activity);
              console.log("nutrition_activity", nutrition_activity.assessment_kit_activties);
              console.log("nutrition_activity", nutrition_activity.assessment_kit_number); */
-            console.log("statusGetNutritionActivity", statusGetNutritionActivity);
+
 
             if (statusGetNutritionActivity == 'success') {
                 if (nutrition_activity.quiz_activities) {
