@@ -37,21 +37,16 @@ class History extends Component {
 
     }
 
-    fuStary = (activities_level, mission_activities) => {
-
-        var number = 0;
+    fuStary = (mission_activities, week_in_program) => {
+        console.log("week_in_program :", week_in_program);
+        var sumScoreInWeek = 0;
         mission_activities && mission_activities.map((itemMa, i) => {
-
-            if (itemMa.week_in_program == 1) {
-                var sumItem = itemMa.number_completed * itemMa.score
-                number = number + sumItem
-                console.log("number", number);
-
-            }
-
-
+            var sumItem = itemMa.number_completed * itemMa.score
+            sumScoreInWeek = sumScoreInWeek + sumItem
         })
+        console.log("sumScoreInWeek", sumScoreInWeek);
 
+        return sumScoreInWeek;
     }
 
     render() {
@@ -72,9 +67,6 @@ class History extends Component {
                                     animal.week_in_program = item.week_in_program
                                 })
 
-                                this.fuStary();
-
-
                                 return (
                                     //ส่ง params ผ่าน route
                                     <Pressable onPress={() => this.props.navigation.navigate("ExArticleTemplate", { id: item.week_in_program, mission_id: item.mission_id, heading: item.heading, mission_activities: item.mission_activities, statusPags: "ExHistory" })} key={i + "fee"}>
@@ -87,6 +79,9 @@ class History extends Component {
                                                 {/*  <Text style={styles.missionContent}>
                                             โปรแกรมออกกำลังกายลดความเสี่ยงโรคเบาหวาน
                                         </Text> */}
+                                                <Text>
+                                                    {`คะแนน ${this.fuStary(mission_activities, week_in_program)}`}
+                                                </Text>
                                                 <View style={{ flexDirection: "row" }}>
                                                     {
 
