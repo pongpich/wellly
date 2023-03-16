@@ -19,16 +19,44 @@ class History extends Component {
 
         this.state = {
             start: 2,
-            trophy: 0
+            trophy: 0,
+            exerciserActivity: null
         };
     }
 
 
+    componentDidMount() {
+        const { exerciserActivity } = this.props;
 
+        this.setState({
+            exerciserActivity: exerciserActivity,
+        })
+
+
+
+
+    }
+
+    fuStary = (activities_level, mission_activities) => {
+
+        var number = 0;
+        mission_activities && mission_activities.map((itemMa, i) => {
+
+            if (itemMa.week_in_program == 1) {
+                var sumItem = itemMa.number_completed * itemMa.score
+                number = number + sumItem
+                console.log("number", number);
+
+            }
+
+
+        })
+
+    }
 
     render() {
-        const { nutrition_activit } = this.props;
-        const { start, trophy } = this.state;
+
+        const { start, trophy, exerciserActivity } = this.state;
 
         return (
             <SafeAreaView style={styles.container}>
@@ -36,42 +64,56 @@ class History extends Component {
                     <Text style={styles.missionHistory}>ประวัติภารกิจ</Text>
                     <ScrollView>
                         {
-                            data && data.map((item, i) => (
-                                //ส่ง params ผ่าน route
-                                <Pressable onPress={() => this.props.navigation.navigate("ExArticleTemplate", { id: i, statusPags: "ExHistory" })} key={i + "fee"}>
-                                    <View key={i} style={styles.row}>
-                                        <View style={styles.numberView}>
-                                            <Text style={styles.number}>{++i}</Text>
-                                        </View>
-                                        <View style={styles.missionData}>
-                                            <Text style={styles.missionHead}>Body Pump</Text>
-                                            <Text style={styles.missionContent}>
-                                                โปรแกรมออกกำลังกายลดความเสี่ยงโรคเบาหวาน
-                                            </Text>
-                                            <View style={{ flexDirection: "row" }}>
-                                                {
-                                                    trophy == 1 ?
-                                                        <Image style={{ width: 24, height: 24, marginTop: 8 }} source={require('../../assets/images/icon/Trophy.png')} />
-                                                        :
-                                                        startData && startData.map((item, i) => {
-                                                            return (
-                                                                <Image style={[i > 0 ? { marginLeft: 4 } : null, { width: 16, height: 16, marginTop: 8 }]} source={
-                                                                    start >= ++i ?
-                                                                        require('../../assets/images/icon/Star_3.png')
-                                                                        :
-                                                                        require('../../assets/images/icon/Star.png')
-                                                                } />
-                                                            )
-                                                        })
-                                                }
+                            exerciserActivity && exerciserActivity.map((item, i) => {
+                                const activities_level = JSON.parse(item.activities_level)
+                                const mission_activities = JSON.parse(item.mission_activities)
+                                const week_in_program = item.week_in_program;
+                                mission_activities.forEach((animal) => {
+                                    animal.week_in_program = item.week_in_program
+                                })
+
+                                this.fuStary();
+
+
+                                return (
+                                    //ส่ง params ผ่าน route
+                                    <Pressable onPress={() => this.props.navigation.navigate("ExArticleTemplate", { id: item.week_in_program, mission_id: item.mission_id, heading: item.heading, mission_activities: item.mission_activities, statusPags: "ExHistory" })} key={i + "fee"}>
+                                        <View key={i} style={styles.row}>
+                                            <View style={styles.numberView}>
+                                                <Text style={styles.number}>{item.week_in_program}</Text>
+                                            </View>
+                                            <View style={styles.missionData}>
+                                                <Text style={styles.missionHead}>{item.heading}</Text>
+                                                {/*  <Text style={styles.missionContent}>
+                                            โปรแกรมออกกำลังกายลดความเสี่ยงโรคเบาหวาน
+                                        </Text> */}
+                                                <View style={{ flexDirection: "row" }}>
+                                                    {
+
+
+                                                        trophy == 1 ?
+                                                            <Image style={{ width: 24, height: 24, marginTop: 8 }} source={require('../../assets/images/icon/Trophy.png')} />
+                                                            :
+                                                            startData && startData.map((item, i) => {
+                                                                return (
+                                                                    <Image style={[i > 0 ? { marginLeft: 4 } : null, { width: 16, height: 16, marginTop: 8 }]} source={
+                                                                        start >= ++i ?
+                                                                            require('../../assets/images/icon/Star_3.png')
+                                                                            :
+                                                                            require('../../assets/images/icon/Star.png')
+                                                                    } />
+                                                                )
+                                                            })
+                                                    }
+                                                </View>
+                                            </View>
+                                            <View style={styles.viewIconRight}>
+                                                <AntDesign name="check" style={styles.iconRight} />
                                             </View>
                                         </View>
-                                        <View style={styles.viewIconRight}>
-                                            <AntDesign name="check" style={styles.iconRight} />
-                                        </View>
-                                    </View>
-                                </Pressable>
-                            ))
+                                    </Pressable>
+                                )
+                            })
                         }
                     </ScrollView>
                 </View>
@@ -158,8 +200,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = ({ personalDataUser, authUser, getData }) => {
     const { number } = personalDataUser;
     const { user } = authUser;
-    const { statusGetNutritionActivity, nutrition_activity } = getData;
-    return { number, statusGetNutritionActivity, nutrition_activity, user };
+    const { statusGetNutritionActivity, nutrition_activity, exerciserActivity } = getData;
+    return { number, statusGetNutritionActivity, nutrition_activity, exerciserActivity, user };
 };
 
 const mapActionsToProps = { getNutritionActivity };
