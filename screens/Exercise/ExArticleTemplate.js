@@ -26,7 +26,7 @@ import C6 from '../../components/exercise/C6';
 
 
 const data = Array.from({ length: 3 });
-const startData = Array.from({ length: 3 })
+
 
 class ArticleTemplate extends Component {
     constructor(props) {
@@ -39,14 +39,16 @@ class ArticleTemplate extends Component {
             statusBarColor: "light",
             id: null,
             expanded: false,
-            start: 1
+            start: 1,
+            heading: null,
+            mission_activities: null,
         };
     }
 
     componentDidMount() {
         const { nutrition_mission, user, nutrition_activity_id_Mission, route } = this.props;
 
-        const { statusPags, id } = this.props.route.params;
+        const { statusPags, id, heading, mission_activities } = this.props.route.params;
 
 
         if (statusPags == "ExHistory") {
@@ -55,11 +57,13 @@ class ArticleTemplate extends Component {
             })
         }
         this.setState({
-            id: id
+            id: id,
+            heading: heading,
+            mission_activities: JSON.parse(mission_activities)
         })
         // this.props.routeName('null');
-        const { mission_id } = this.props.route.params;
-        console.log("mission_id", mission_id);
+
+
 
     }
 
@@ -72,6 +76,7 @@ class ArticleTemplate extends Component {
     slideDown = () => {
         Animated.timing(this.slideAnim, {
             toValue: 1,
+            /* duration: 400, */ //ถ้าต้องการให้มันเร็วขึ้นเวลาเลื่อนขขึ้น
             duration: 500,
             useNativeDriver: false
         }).start();
@@ -80,6 +85,7 @@ class ArticleTemplate extends Component {
     slideUp = () => {
         Animated.timing(this.slideAnim, {
             toValue: 0,
+            /*  duration: 200, */ // ถ้าต้องการให้มันเร็วขึ้นเวลาเลื่อนลง
             duration: 500,
             useNativeDriver: false
         }).start();
@@ -102,7 +108,7 @@ class ArticleTemplate extends Component {
 
     renderCheckArticle() { //เช็คว่าจะแสดงบทความไหน โดยใช้ mission_id
         const { mission_id } = this.props.route.params;
-        console.log("mission_id", mission_id);
+
         return (
             <View style={{ flex: 1, marginHorizontal: 16, }}>
                 {(mission_id === '1ab') && <Ab1 />}
@@ -124,19 +130,29 @@ class ArticleTemplate extends Component {
         })
     };
 
-    missionDataView() {
-        const { expanded, start } = this.state
+    missionDataView(data) {
+        const { expanded, start, mission_activities } = this.state
         const scoreProgress = 50;
         const deviceWidth = Math.round(Dimensions.get('window').width - 30);
-        const multiple = 100 / 4;
+        const deviceHeight = Math.round(Dimensions.get('window').height + 100);
+        const maxNumber = []
+        const maxScoreCompleted = []
+        data && data.map((item, i) => {
+            maxScoreCompleted.push(item.number_completed)
+            maxNumber.push(item.number)
+        })
+        const sumMaxNumber = maxNumber.reduce((partialSum, a) => partialSum + a, 0);
+        const summaxScoreCompleted = maxScoreCompleted.reduce((partialSum, a) => partialSum + a, 0);
+
+
         return (
-            <View style={{ flex: 1, marginTop: 24, marginHorizontal: 16 }}>
+            <View style={{ flex: 1, marginTop: 24, marginHorizontal: 16, height: deviceHeight }}>
                 <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                     <Text style={styles.target}>เป้าหมายสัปดาห์นี้</Text>
                     <View style={{ flexDirection: "row" }}>
-                        <Text style={styles.score}>12</Text>
+                        <Text style={styles.score}>{(summaxScoreCompleted)}</Text>
                         <View style={{ flexDirection: "row" }}>
-                            <Text style={styles.maxScore}>/15</Text>
+                            <Text style={styles.maxScore}>/{sumMaxNumber}</Text>
                             <Image source={require('../../assets/images/icon/Firepoint.png')}
                                 style={{ width: 12, height: 12, marginLeft: 4, marginTop: 8 }}
                             />
@@ -147,7 +163,7 @@ class ArticleTemplate extends Component {
                 <View style={{ backgroundColor: colors.grey6, borderRadius: 4, marginTop: 8, zIndex: 1 }}>
                     <ProgressBarAnimated
                         width={deviceWidth}
-                        value={scoreProgress}
+                        value={(summaxScoreCompleted * (100 / sumMaxNumber))}
                         height={24}
                         marginRight={150}
                         backgroundColor={colors.orange}
@@ -174,71 +190,70 @@ class ArticleTemplate extends Component {
                             />}
                         expanded={expanded}
                         onPress={this.handlePress}>
-                        <View style={{ marginLeft: 16, backgroundColor: colors.grey7, paddingHorizontal: 16, borderTopLeftRadius: 8, borderTopRightRadius: 8, flexDirection: "row", justifyContent: "space-between" }}>
-                            <Text style={styles.expand_answerText}>
-                                กิจกรรมความเข้มข้นปานกลาง 1 ครั้ง
-                            </Text>
-                            <View style={{ flexDirection: "row" }}>
-                                <Image source={require('../../assets/images/icon/Firepoint.png')}
-                                    style={{ width: 12, height: 12, marginTop: 7 }}
-                                />
-                                <Image source={require('../../assets/images/icon/Firepoint.png')}
-                                    style={{ width: 12, height: 12, marginLeft: 4, marginTop: 7 }}
-                                />
-                            </View>
-                        </View>
-                        <View style={{ marginLeft: 16, backgroundColor: colors.grey6, paddingHorizontal: 16, flexDirection: "row", justifyContent: "space-between" }}>
-                            <Text style={styles.expand_answerText}>
-                                Cardio 1 ครั้ง
-                            </Text>
-                            <View style={{ flexDirection: "row" }}>
-                                <Image source={require('../../assets/images/icon/Firepoint.png')}
-                                    style={{ width: 12, height: 12, marginTop: 7 }}
-                                />
-                                <Image source={require('../../assets/images/icon/Firepoint.png')}
-                                    style={{ width: 12, height: 12, marginLeft: 4, marginTop: 7 }}
-                                />
-                            </View>
-                        </View>
-                        <View style={{ marginLeft: 16, backgroundColor: colors.grey7, paddingHorizontal: 16, flexDirection: "row", justifyContent: "space-between" }}>
-                            <Text style={styles.expand_answerText}>
-                                Core+Balance+plyo 1 ครั้ง
-                            </Text>
-                            <View style={{ flexDirection: "row" }}>
-                                <Image source={require('../../assets/images/icon/Firepoint.png')}
-                                    style={{ width: 12, height: 12, marginTop: 7 }}
-                                />
-                                <Image source={require('../../assets/images/icon/Firepoint.png')}
-                                    style={{ width: 12, height: 12, marginLeft: 4, marginTop: 7 }}
-                                />
-                                <Image source={require('../../assets/images/icon/Firepoint.png')}
-                                    style={{ width: 12, height: 12, marginLeft: 4, marginTop: 7 }}
-                                />
-                            </View>
-                        </View>
-                        <View style={{ marginLeft: 16, backgroundColor: colors.grey6, paddingHorizontal: 16, borderBottomLeftRadius: 8, borderBottomRightRadius: 8, flexDirection: "row", justifyContent: "space-between", marginBottom: 24 }}>
-                            <Text style={styles.expand_answerText}>
-                                Resistance 1 ครั้ง
-                            </Text>
-                            <View style={{ flexDirection: "row" }}>
-                                <Image source={require('../../assets/images/icon/Firepoint.png')}
-                                    style={{ width: 12, height: 12, marginTop: 7 }}
-                                />
-                                <Image source={require('../../assets/images/icon/Firepoint.png')}
-                                    style={{ width: 12, height: 12, marginLeft: 4, marginTop: 7 }}
-                                />
-                                <Image source={require('../../assets/images/icon/Firepoint.png')}
-                                    style={{ width: 12, height: 12, marginLeft: 4, marginTop: 7 }}
-                                />
-                            </View>
-                        </View>
+                        {
+                            data && data.map((item, i) => {
+                                var datalength = data.length;
+                                var index = i + 1;
+                                var score = item.score;
+
+                                return (
+                                    <View style={{
+                                        marginLeft: 16, backgroundColor: (i % 2) == 0 ? colors.grey7 : colors.grey6,
+                                        paddingHorizontal: 16, borderTopLeftRadius: index == 1 ? 8 : 0, borderTopRightRadius: index == 1 ? 8 : 0,
+                                        borderBottomLeftRadius: index == datalength ? 8 : 0, borderBottomRightRadius: index == datalength ? 8 : 0,
+                                        flexDirection: "row", justifyContent: "space-between"
+                                    }}>
+                                        <Text style={styles.expand_answerText}>
+                                            {item.name}  {item.number} ครั้ง
+                                        </Text>
+                                        <View style={{ flexDirection: "row" }}>
+                                            {
+                                                score == "1" ?
+                                                    <Image source={require('../../assets/images/icon/Firepoint.png')}
+                                                        style={{ width: 12, height: 12, marginTop: 7 }}
+                                                    />
+                                                    : score == 2 ?
+                                                        <>
+                                                            <Image source={require('../../assets/images/icon/Firepoint.png')}
+                                                                style={{ width: 12, height: 12, marginTop: 7 }}
+                                                            />
+                                                            <Image source={require('../../assets/images/icon/Firepoint.png')}
+                                                                style={{ width: 12, height: 12, marginLeft: 4, marginTop: 7 }}
+                                                            />
+                                                        </>
+                                                        :
+                                                        score == 3 ?
+                                                            <>
+                                                                <Image source={require('../../assets/images/icon/Firepoint.png')}
+                                                                    style={{ width: 12, height: 12, marginTop: 7 }}
+                                                                />
+                                                                <Image source={require('../../assets/images/icon/Firepoint.png')}
+                                                                    style={{ width: 12, height: 12, marginLeft: 4, marginTop: 7 }}
+                                                                />
+                                                                <Image source={require('../../assets/images/icon/Firepoint.png')}
+                                                                    style={{ width: 12, height: 12, marginLeft: 4, marginTop: 7 }}
+                                                                />
+                                                            </>
+                                                            : null
+                                            }
+
+                                        </View>
+                                    </View>
+                                )
+                            })
+                        }
                     </List.Accordion>
                 </List.Section >
                 <Text style={styles.challenge}>ชาเลนจ์</Text>
                 {
                     data && data.map((item, i) => {
+
+                        var dataLength = data.length;
+                        const multiple = (100 / item.number) * item.number_completed;
+                        var maxScore = item.number;
+                        var score_completed = item.number_completed;
                         return (
-                            <Pressable onPress={() => this.props.navigation.popToTop()} key={i + "tfb"}>
+                            <Pressable onPress={() => this.props.navigation.popToTop()} key={i + "tfb"} >
                                 <View key={i} style={styles.row}>
                                     <View style={styles.numberView}>
                                         <AnimatedCircularProgress
@@ -254,8 +269,8 @@ class ArticleTemplate extends Component {
                                                 (fill) => (
                                                     <>
                                                         <View style={{ flexDirection: "row", marginTop: 10 }}>
-                                                            <Text style={{ color: colors.grey1, fontSize: 16, fontFamily: "IBMPlexSansThai-Bold", marginTop: 0 }}>2</Text>
-                                                            <Text style={{ color: colors.grey1, fontSize: 14, fontFamily: "IBMPlexSansThai-Regular", marginTop: 4 }}> /4</Text>
+                                                            <Text style={{ color: colors.grey1, fontSize: 16, fontFamily: "IBMPlexSansThai-Bold", marginTop: 0 }}>{item.number_completed}</Text>
+                                                            <Text style={{ color: colors.grey1, fontSize: 14, fontFamily: "IBMPlexSansThai-Regular", marginTop: 4 }}> /{item.number}</Text>
                                                         </View>
                                                         <Text style={{ color: colors.grey2, fontSize: 16, fontFamily: "IBMPlexSansThai-Regular", marginTop: -10 }}>ครั้ง</Text>
                                                     </>
@@ -265,14 +280,13 @@ class ArticleTemplate extends Component {
                                         </AnimatedCircularProgress>
                                     </View>
                                     <View style={styles.missionData}>
-                                        <Text style={styles.missionHead}>กิจกรรมความเข้มข้นปานกลาง</Text>
-
+                                        <Text style={styles.missionHead}>{item.name}</Text>
                                         <View style={{ flexDirection: "row" }}>
                                             {
-                                                startData && startData.map((item, i) => {
+                                                Array.from({ length: maxScore }) && Array.from({ length: maxScore }).map((item, i) => {
                                                     return (
                                                         <Image style={[i > 0 ? { marginLeft: 4 } : null, { width: 16, height: 16, marginTop: 8 }]} source={
-                                                            start >= ++i ?
+                                                            score_completed >= ++i ?
                                                                 require('../../assets/images/icon/Firepoint.png')
                                                                 :
                                                                 require('../../assets/images/icon/Firepoint2.png')
@@ -299,9 +313,7 @@ class ArticleTemplate extends Component {
 
 
     render() {
-        const { study, statusBarColor, id } = this.state;
-
-        const { heading } = this.props.route.params;
+        const { study, statusBarColor, id, heading, mission_activities } = this.state;
 
         return (
             <View style={styles.container}>
@@ -383,14 +395,13 @@ class ArticleTemplate extends Component {
 
                         >
 
+
                             {
                                 study ?
                                     this.renderCheckArticle()
                                     :
-                                    this.missionDataView()
-
+                                    this.missionDataView(mission_activities)
                             }
-
                         </ScrollView>
                     </View >
                 </Animated.View >
@@ -448,6 +459,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 16,
 
     },
+
     boxHeadingActive: {
         alignItems: "center",
         justifyContent: "center",
@@ -666,6 +678,7 @@ const styles = StyleSheet.create({
         fontSize: ComponentsStyle.fontSize16,
         fontFamily: "IBMPlexSansThai-Bold",
         color: colors.grey1,
+        marginRight: 16
     },
     missionContent: {
         fontSize: ComponentsStyle.fontSize14,

@@ -329,9 +329,10 @@ const Exercise = ({ navigation }) => {
                                 exerciserActivity ?
 
                                     exerciserActivity.map((item, i) => {
+
                                         if (true) {
                                             return (
-                                                <Pressable onPress={() => navigation.navigate("ExArticleTemplate", { id: item.week_in_program, mission_id: item.mission_id, heading: item.heading, statusPags: "Exercise" })} key={i + "tfb"}>
+                                                <Pressable onPress={() => navigation.navigate("ExArticleTemplate", { id: item.week_in_program, mission_id: item.mission_id, heading: item.heading, mission_activities: item.mission_activities, statusPags: "Exercise" })} key={i + "tfb"}>
                                                     <View key={i} style={styles.row}>
                                                         <View style={styles.numberView} key="i+ v1">
                                                             <Text style={styles.number} key="i+ v1t">{item.week_in_program}</Text>
