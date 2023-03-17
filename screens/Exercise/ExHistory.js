@@ -37,56 +37,48 @@ class History extends Component {
 
     }
 
-    fuStary = (mission_activities, week_in_program) => {
+    checkStar = (mission_activities, activities_level) => {
         var sumScoreInWeek = 0;
         mission_activities && mission_activities.map((itemMa, i) => {
             var sumItem = itemMa.number_completed * itemMa.score
             sumScoreInWeek = sumScoreInWeek + sumItem
         })
-        return sumScoreInWeek;
-    }
 
-    activitiesLevelStary = () => {
-        var scoreInWeek = null;
-        const level = [
-            {
-                "pts_length_max": 0,
-                "pts_length_min": 0,
-                "star_numb": 0,
-                "week_in_program": 1,
-            },
-            {
-                "pts_length_max": 3,
-                "pts_length_min": 1,
-                "star_numb": 1,
-                "week_in_program": 1,
-            },
-            {
-                "pts_length_max": 5,
-                "pts_length_min": 4,
-                "star_numb": 2,
-                "week_in_program": 1,
-            },
-            {
-                "pts_length_max": 30,
-                "pts_length_min": 6,
-                "star_numb": 3,
-                "week_in_program": 1,
-            },
-        ];
-        const score = [5, 6, 8];
-
-        level && level.map((itemMa, i) => {
-
-            if (score >= itemMa.pts_length_min && score <= itemMa.pts_length_max) {
-                scoreInWeek = itemMa.star_numb;
-            } else if (score > itemMa.pts_length_max) {
-                scoreInWeek = "trophy";
+        var star_numb = 0;
+        var trophy = 0;
+        activities_level && activities_level.map((item, i) => {
+            if (sumScoreInWeek >= item.pts_length_min && sumScoreInWeek <= item.pts_length_max) {
+                star_numb = item.star_numb;
+            }
+            if ((star_numb === 3) && (sumScoreInWeek > item.pts_length_min)) {
+                trophy = 1;
             }
 
         });
+        console.log("star_numb :", star_numb);
+        return star_numb;
+    };
 
+    checkTrophy = (mission_activities, activities_level) => {
+        var sumScoreInWeek = 0;
+        mission_activities && mission_activities.map((itemMa, i) => {
+            var sumItem = itemMa.number_completed * itemMa.score
+            sumScoreInWeek = sumScoreInWeek + sumItem
+        })
 
+        var star_numb = 0;
+        var trophy = 0;
+        activities_level && activities_level.map((item, i) => {
+            if (sumScoreInWeek >= item.pts_length_min && sumScoreInWeek <= item.pts_length_max) {
+                star_numb = item.star_numb;
+            }
+            if ((star_numb === 3) && (sumScoreInWeek > item.pts_length_min)) {
+                trophy = 1;
+            }
+
+        });
+        console.log("trophy:", trophy);
+        return trophy;
     }
 
     render() {
@@ -107,7 +99,7 @@ class History extends Component {
                                 activities_level.forEach((animal) => {
                                     animal.week_in_program = item.week_in_program
                                 })
-                                const score = this.fuStary(mission_activities, week_in_program);
+
                                 return (
                                     //ส่ง params ผ่าน route
                                     <Pressable onPress={() => this.props.navigation.navigate("ExArticleTemplate", { id: item.week_in_program, mission_id: item.mission_id, heading: item.heading, mission_activities: item.mission_activities, statusPags: "ExHistory" })} key={i + "fee"}>
@@ -120,27 +112,17 @@ class History extends Component {
                                                 {/*  <Text style={styles.missionContent}>
                                             โปรแกรมออกกำลังกายลดความเสี่ยงโรคเบาหวาน
                                         </Text> */}
-                                                <Text>
-                                                    {`คะแนน ${this.fuStary(mission_activities, week_in_program)}`}
-                                                </Text>
-
-                                                <Text>
-                                                    {
-                                                        this.activitiesLevelStary(activities_level, score, week_in_program)
-
-                                                    }
-                                                </Text>
                                                 <View style={{ flexDirection: "row" }}>
                                                     {
 
 
-                                                        trophy == 1 ?
+                                                        this.checkTrophy(mission_activities, activities_level) == 1 ?
                                                             <Image style={{ width: 24, height: 24, marginTop: 8 }} source={require('../../assets/images/icon/Trophy.png')} />
                                                             :
                                                             startData && startData.map((item, i) => {
                                                                 return (
                                                                     <Image style={[i > 0 ? { marginLeft: 4 } : null, { width: 16, height: 16, marginTop: 8 }]} source={
-                                                                        start >= ++i ?
+                                                                        this.checkStar(mission_activities, activities_level) >= ++i ?
                                                                             require('../../assets/images/icon/Star_3.png')
                                                                             :
                                                                             require('../../assets/images/icon/Star.png')
