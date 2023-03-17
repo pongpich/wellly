@@ -6,7 +6,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { missionNumber } from "../../redux/personalUser";
 import { connect } from 'react-redux';
 import { getNutritionActivity } from "../../redux/get";
-
+import { checkStar, checkTrophy } from "../../helpers/utils";
 
 
 const data = Array.from({ length: 3 });
@@ -18,8 +18,6 @@ class History extends Component {
         this.slideAnim = new Animated.Value(0);
 
         this.state = {
-            start: 2,
-            trophy: 0,
             exerciserActivity: null
         };
     }
@@ -37,49 +35,8 @@ class History extends Component {
 
     }
 
-    checkStar = (mission_activities, activities_level) => {
-        var sumScoreInWeek = 0;
-        mission_activities && mission_activities.map((itemMa, i) => {
-            var sumItem = itemMa.number_completed * itemMa.score
-            sumScoreInWeek = sumScoreInWeek + sumItem
-        })
 
-        var star_numb = 0;
-        var trophy = 0;
-        activities_level && activities_level.map((item, i) => {
-            if (sumScoreInWeek >= item.pts_length_min && sumScoreInWeek <= item.pts_length_max) {
-                star_numb = item.star_numb;
-            }
-            if ((star_numb === 3) && (sumScoreInWeek > item.pts_length_min)) {
-                trophy = 1;
-            }
 
-        });
-        console.log("star_numb :", star_numb);
-        return star_numb;
-    };
-
-    checkTrophy = (mission_activities, activities_level) => {
-        var sumScoreInWeek = 0;
-        mission_activities && mission_activities.map((itemMa, i) => {
-            var sumItem = itemMa.number_completed * itemMa.score
-            sumScoreInWeek = sumScoreInWeek + sumItem
-        })
-
-        var star_numb = 0;
-        var trophy = 0;
-        activities_level && activities_level.map((item, i) => {
-            if (sumScoreInWeek >= item.pts_length_min && sumScoreInWeek <= item.pts_length_max) {
-                star_numb = item.star_numb;
-            }
-            if ((star_numb === 3) && (sumScoreInWeek > item.pts_length_min)) {
-                trophy = 1;
-            }
-
-        });
-        console.log("trophy:", trophy);
-        return trophy;
-    }
 
     render() {
         const { start, trophy, exerciserActivity } = this.state;
@@ -114,15 +71,13 @@ class History extends Component {
                                         </Text> */}
                                                 <View style={{ flexDirection: "row" }}>
                                                     {
-
-
-                                                        this.checkTrophy(mission_activities, activities_level) == 1 ?
+                                                        checkTrophy(mission_activities, activities_level) == 1 ?
                                                             <Image style={{ width: 24, height: 24, marginTop: 8 }} source={require('../../assets/images/icon/Trophy.png')} />
                                                             :
                                                             startData && startData.map((item, i) => {
                                                                 return (
                                                                     <Image style={[i > 0 ? { marginLeft: 4 } : null, { width: 16, height: 16, marginTop: 8 }]} source={
-                                                                        this.checkStar(mission_activities, activities_level) >= ++i ?
+                                                                        checkStar(mission_activities, activities_level) >= ++i ?
                                                                             require('../../assets/images/icon/Star_3.png')
                                                                             :
                                                                             require('../../assets/images/icon/Star.png')

@@ -36,3 +36,46 @@ export function convertFormatDate() {
 
   return days[d.getDay()]
 }
+
+
+export function checkStar(mission_activities, activities_level) {
+  var sumScoreInWeek = 0;
+  mission_activities && mission_activities.map((itemMa, i) => {
+    var sumItem = itemMa.number_completed * itemMa.score
+    sumScoreInWeek = sumScoreInWeek + sumItem
+  })
+  var star_numb = 0;
+  var trophy = 0;
+  activities_level && activities_level.map((item, i) => {
+    if (sumScoreInWeek >= item.pts_length_min && sumScoreInWeek <= item.pts_length_max) {
+      star_numb = item.star_numb;
+    }
+    if ((star_numb === 3) && (sumScoreInWeek > item.pts_length_min)) {
+      trophy = 1;
+    }
+
+  });
+  return star_numb;
+};
+
+export function checkTrophy(mission_activities, activities_level) {
+  var sumScoreInWeek = 0;
+  mission_activities && mission_activities.map((itemMa, i) => {
+    var sumItem = itemMa.number_completed * itemMa.score
+    sumScoreInWeek = sumScoreInWeek + sumItem
+  })
+
+  var star_numb = 0;
+  var trophy = 0;
+  activities_level && activities_level.map((item, i) => {
+    if (sumScoreInWeek >= item.pts_length_min && sumScoreInWeek <= item.pts_length_max) {
+      star_numb = item.star_numb;
+    }
+    if ((star_numb === 3) && (sumScoreInWeek > item.pts_length_min)) {
+      trophy = 1;
+    }
+
+  });
+  console.log("trophy:", trophy);
+  return trophy;
+}
