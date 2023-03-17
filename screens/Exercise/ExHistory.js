@@ -38,21 +38,59 @@ class History extends Component {
     }
 
     fuStary = (mission_activities, week_in_program) => {
-        console.log("week_in_program :", week_in_program);
         var sumScoreInWeek = 0;
         mission_activities && mission_activities.map((itemMa, i) => {
             var sumItem = itemMa.number_completed * itemMa.score
             sumScoreInWeek = sumScoreInWeek + sumItem
         })
-        console.log("sumScoreInWeek", sumScoreInWeek);
-
         return sumScoreInWeek;
     }
 
+    activitiesLevelStary = () => {
+        var scoreInWeek = null;
+        const level = [
+            {
+                "pts_length_max": 0,
+                "pts_length_min": 0,
+                "star_numb": 0,
+                "week_in_program": 1,
+            },
+            {
+                "pts_length_max": 3,
+                "pts_length_min": 1,
+                "star_numb": 1,
+                "week_in_program": 1,
+            },
+            {
+                "pts_length_max": 5,
+                "pts_length_min": 4,
+                "star_numb": 2,
+                "week_in_program": 1,
+            },
+            {
+                "pts_length_max": 30,
+                "pts_length_min": 6,
+                "star_numb": 3,
+                "week_in_program": 1,
+            },
+        ];
+        const score = [5, 6, 8];
+
+        level && level.map((itemMa, i) => {
+
+            if (score >= itemMa.pts_length_min && score <= itemMa.pts_length_max) {
+                scoreInWeek = itemMa.star_numb;
+            } else if (score > itemMa.pts_length_max) {
+                scoreInWeek = "trophy";
+            }
+
+        });
+
+
+    }
+
     render() {
-
         const { start, trophy, exerciserActivity } = this.state;
-
         return (
             <SafeAreaView style={styles.container}>
                 <View style={styles.marginBox}>
@@ -66,7 +104,10 @@ class History extends Component {
                                 mission_activities.forEach((animal) => {
                                     animal.week_in_program = item.week_in_program
                                 })
-
+                                activities_level.forEach((animal) => {
+                                    animal.week_in_program = item.week_in_program
+                                })
+                                const score = this.fuStary(mission_activities, week_in_program);
                                 return (
                                     //ส่ง params ผ่าน route
                                     <Pressable onPress={() => this.props.navigation.navigate("ExArticleTemplate", { id: item.week_in_program, mission_id: item.mission_id, heading: item.heading, mission_activities: item.mission_activities, statusPags: "ExHistory" })} key={i + "fee"}>
@@ -81,6 +122,13 @@ class History extends Component {
                                         </Text> */}
                                                 <Text>
                                                     {`คะแนน ${this.fuStary(mission_activities, week_in_program)}`}
+                                                </Text>
+
+                                                <Text>
+                                                    {
+                                                        this.activitiesLevelStary(activities_level, score, week_in_program)
+
+                                                    }
                                                 </Text>
                                                 <View style={{ flexDirection: "row" }}>
                                                     {
