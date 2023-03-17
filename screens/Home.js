@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Pressable, SafeAreaView, Image, ScrollView, StatusBar, statusBarStyle, statusBarTransition, hidden, TouchableOpacity, TextInput, Text, Linking, KeyboardAvoidingView, Platform, Dimensions, Modal, InputAccessoryView, Keyboard } from 'react-native';
-import { logoutUser } from "../redux/auth";
+import { logoutUser, loginUser } from "../redux/auth";
 import { getNutritionMission } from "../redux/get";
-import { insertNutritionActivity, insertExerciseActivity } from "../redux/update";
+import { insertNutritionActivity, insertExerciseActivity, } from "../redux/update";
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 import { routeName } from "../redux/personalUser";
@@ -18,14 +18,21 @@ class Home extends Component {
             // do something
             //  console.log("user.user_id", user.user_id);
             this.props.insertNutritionActivity(user && user.user_id);
+
+            if (!user) { // $student_two["Chemistry"] = 92
+                this.props.navigation.navigate("Login");
+            }
+
+            if (user) {
+                console.log("user", user);
+                this.props.insertNutritionActivity(user.user_id)
+                this.props.insertExerciseActivity(user.user_id)
+                // this.props.loginUser(user.user_id)
+            }
         });
 
-        if (!user) {
-            this.props.navigation.navigate("Login");
-        } else if (user) {
-            this.props.insertNutritionActivity(user.user_id)
-            this.props.insertExerciseActivity(user.user_id)
-        }
+
+
 
         // this.props.routeName(null); // ถ้าเข้าให้ home ให้ทำคำสั่งนี้ 1 ครั้ง
 
@@ -116,7 +123,7 @@ const mapStateToProps = ({ authUser, getData, personalDataUser }) => {
     return { user, nutrition_mission, statusGetNutritionMission, route_name };
 };
 
-const mapActionsToProps = { logoutUser, getNutritionMission, routeName, insertNutritionActivity, insertExerciseActivity };
+const mapActionsToProps = { logoutUser, getNutritionMission, routeName, insertNutritionActivity, insertExerciseActivity, loginUser };
 
 export default connect(
     mapStateToProps,

@@ -153,7 +153,7 @@ const Nutrition = ({ navigation }) => {
                                                                 วันสุดท้าย
                                                             </Text>
                                                         </View> :
-                                                        ((!quiz_activities) && (!quiz_activities_number)) || ((!assessment_kit_activties) && (!assessment_kit_number)) ?
+                                                        ((!quiz_activities) && (!quiz_activities_number) && (week_program_user != item.week_in_program)) || ((!assessment_kit_activties) && (!assessment_kit_number) && (week_program_user != item.week_in_program)) ?
                                                             <View style={styles.notifiedYellow}>
                                                                 <Text style={styles.notifiedTextYellow}>
                                                                     ภารกิจที่ยังทำไม่เสร็จ

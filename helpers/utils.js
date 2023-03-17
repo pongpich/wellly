@@ -76,6 +76,5 @@ export function checkTrophy(mission_activities, activities_level) {
     }
 
   });
-  console.log("trophy:", trophy);
   return trophy;
 }
