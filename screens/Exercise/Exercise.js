@@ -131,7 +131,7 @@ const Exercise = ({ navigation }) => {
 
         return unsubscribe;
 
-    });
+    }, [navigation]);
 
     useEffect(() => {
         if (statusExerciserActivity === "success") {
