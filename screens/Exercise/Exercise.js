@@ -135,7 +135,6 @@ const Exercise = ({ navigation }) => {
 
     useEffect(() => {
         if (statusExerciserActivity === "success") {
-            console.log("exerciserActivity", exerciserActivity);
             //setExerciser_activity(exerciserActivity);
             const week_program_user = calculateWeekInProgram(user.start_date);
             if (week_program_user) {
@@ -152,7 +151,7 @@ const Exercise = ({ navigation }) => {
             if (week_program_user != 1) {
                 exerciserActivity && exerciserActivity.map((item, i) => {
                     let weekStary = week_program_user - 1;
-                    console.log("item", item);
+
                     if ((weekStary == item.week_in_program && (item.popup_stary == null))) {
 
                         setWeekStaryLevel(JSON.parse(item.activities_level))
