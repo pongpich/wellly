@@ -269,7 +269,7 @@ const INIT_STATE = {
   nutrition_activity_id_Mission: null,
   statusGetNutritionActivity: "default",
   nutrition_activity: null,
-  statusExerxiserActivity: "default",
+  statusExerciserActivity: "default",
   exerciserActivity: null
 
 };

@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, StyleSheet, Animated, Image, ImageBackground, Dimensions, Pressable, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Animated, Image, ImageBackground, Dimensions, Pressable, ScrollView, TouchableWithoutFeedback } from 'react-native';
 import colors from '../../constants/colors';
 import ComponentsStyle from '../../constants/components';
 import Modal from "react-native-modal";
@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import { getExerciserActivity } from "../../redux/get";
 import { List } from 'react-native-paper';
 import { Video, AVPlaybackStatus } from 'expo-av';
+import { update_popUp_stars } from "../../redux/update";
 import { checkStar, checkTrophy, calculateWeekInProgram, convertFormatDate } from "../../helpers/utils";
 
 
@@ -31,7 +32,8 @@ const Exercise = ({ navigation }) => {
 
     const dispatch = useDispatch();
     const user = useSelector(({ authUser }) => authUser ? authUser.user : "");
-    const { exerciserActivity, nutrition_activity } = useSelector(({ getData }) => getData ? getData : "");
+    const { exerciserActivity, nutrition_activity, statusExerciserActivity } = useSelector(({ getData }) => getData ? getData : "");
+    const { statusPopupSary } = useSelector(({ updateData }) => updateData ? updateData : "");
 
     const [statusNotified, setStatusNotified] = useState(null);
     const [statusMission, setStatusMission] = useState(true);
@@ -50,6 +52,7 @@ const Exercise = ({ navigation }) => {
     const [week_program_user, setWeek_program_user] = useState(null);
     const [weekStaryLevel, setWeekStaryLevel] = useState(null);
     const [weekStaryMission, setWeekStaryMission] = useState(null);
+    const [exerciser_activity, setExerciser_activity] = useState(null);
     const deviceHeight = Math.round(Dimensions.get('window').height);
     const animatedScrollYValue = useRef(new Animated.Value(0)).current;
 
@@ -88,6 +91,7 @@ const Exercise = ({ navigation }) => {
 
     })
 
+
     const refresh = () => {
         navigation.navigate("ExHistory")
     }
@@ -97,6 +101,8 @@ const Exercise = ({ navigation }) => {
         setTimeout(() => {
             navigation.navigate("ExProgram")
         }, 200);
+
+
     }
 
     /*   const toggleModal = (isModalVisible) => {
@@ -119,48 +125,49 @@ const Exercise = ({ navigation }) => {
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
+            dispatch(getExerciserActivity((user && user.user_id))); //
 
-            dispatch(getExerciserActivity((user && user.user_id)));
 
-            const week_program_user = calculateWeekInProgram(user.start_date);
-            if (week_program_user) {
-                setWeek_program_user(week_program_user)
+            if (statusExerciserActivity === "success") {
+                console.log("statusExerciserActivity", statusExerciserActivity);
+                console.log("exerciserActivity", exerciserActivity);
+                //  setExerciser_activity(exerciserActivity);
+                /*    const week_program_user = calculateWeekInProgram(user.start_date);
+                   if (week_program_user) {
+                       setWeek_program_user(week_program_user)
+                   }
+                   const days = convertFormatDate();
+                   if (days == "Sunday") {
+                       setDays("Sunday")
+                   } else {
+                       setDays(null)
+                   }
+   
+   
+                   if (week_program_user != 1) {
+                       exerciser_activity && exerciser_activity.map((item, i) => {
+                           let weekStary = week_program_user - 1;
+                           console.log("item", item);
+                           if ((weekStary == item.week_in_program && (item.popup_stary == null))) {
+   
+                               setWeekStaryLevel(JSON.parse(item.activities_level))
+                               setWeekStaryMission(JSON.parse(item.mission_activities))
+                               if (exerciser_activity) {
+                                   setModalVisibleEx(true)
+                               }
+   
+                               dispatch(update_popUp_stars(user.user_id, weekStary, "1"));
+                           }
+                       })
+                   } */
             }
-            const days = convertFormatDate();
-
-            if (days == "Sunday") {
-                setDays("Sunday")
-            } else {
-                setDays(null)
-            }
-
-            if (week_program_user != 1) {
-
-                exerciserActivity && exerciserActivity.map((item, i) => {
-
-                    let weekStary = week_program_user - 1;
-                    if (weekStary == item.week_in_program) {
-                        setModalVisibleEx(true)
-                        setTimeout(() => {
-                            setModalVisibleEx(false)
-                        }, 2000);
-
-
-                        setWeekStaryLevel(JSON.parse(item.activities_level))
-                        setWeekStaryMission(JSON.parse(item.mission_activities))
-                    }
-
-                })
-
-            }
-
         });
 
 
 
         return unsubscribe;
 
-    }, [navigation]);
+    });
 
     const videoPlay = () => {
         return (
@@ -354,9 +361,9 @@ const Exercise = ({ navigation }) => {
                     {statusMission === true ?
                         <>
                             {
-                                exerciserActivity ?
+                                exerciser_activity ?
 
-                                    exerciserActivity.map((item, i) => {
+                                    exerciser_activity.map((item, i) => {
                                         if (item.quiz_activities_number == null) {
                                             return (
                                                 <Pressable onPress={() => navigation.navigate("ExArticleTemplate", { id: item.week_in_program, mission_id: item.mission_id, heading: item.heading, mission_activities: item.mission_activities, statusPags: "Exercise" })} key={i + "tfb"}>
@@ -472,7 +479,7 @@ const Exercise = ({ navigation }) => {
                                 statusMission == true ?
                                     <>
                                         {
-                                            exerciserActivity && exerciserActivity.length > 0 ?
+                                            exerciser_activity && exerciser_activity.length > 0 ?
                                                 <Pressable Pressable onPress={() => refresh()} style={styles.historyRight}>
                                                     <Image style={styles.iconImageRight} source={require('../../assets/images/icon/History1.png')} />
                                                 </Pressable>
@@ -517,80 +524,82 @@ const Exercise = ({ navigation }) => {
 
                     style={{ margin: 0 }}
                 >
-                    <View style={styles.centeredView}>
-                        <View style={styles.centeredView2}>
-                            <Text style={styles.textHeadWeek}>ผลลัพธ์ภารกิจสัปดาห์ที่ 1 </Text>
-                            <Image
-                                style={{ width: 160, height: 160, }}
-                                source={
-                                    checkTrophy(weekStaryMission, weekStaryLevel) == 1 && checkStar(weekStaryMission, weekStaryLevel) == 3 ?
-                                        require('../../assets/images/icon/Trophy.png')
-                                        :
-                                        require('../../assets/images/icon/Trophy2.png')
-                                }
-                            />
-                            <View style={styles.starView}>
+                    <TouchableWithoutFeedback onPress={() => setModalVisibleEx(false)}>
+                        <View style={styles.centeredView}>
+                            <View style={styles.centeredView2}>
+                                <Text style={styles.textHeadWeek}>ผลลัพธ์ภารกิจสัปดาห์ที่ {week_program_user - 1} </Text>
+                                <Image
+                                    style={{ width: 160, height: 160, }}
+                                    source={
+                                        checkTrophy(weekStaryMission, weekStaryLevel) == 1 && checkStar(weekStaryMission, weekStaryLevel) == 3 ?
+                                            require('../../assets/images/icon/Trophy.png')
+                                            :
+                                            require('../../assets/images/icon/Trophy2.png')
+                                    }
+                                />
+                                <View style={styles.starView}>
+                                    {
+                                        startData && startData.map((item, i) => {
+                                            return (
+                                                <Image style={[i > 0 ? { marginLeft: 16 } : null, { width: 40, height: 40, }]} key={i + "sr"} source={
+                                                    /* const [weekStaryLevel, setWeekStaryLevel] = useState(null);
+                                                    const [weekStaryMission, setWeekStaryMission] = useState(null); */
+
+                                                    checkStar(weekStaryMission, weekStaryLevel) >= ++i ?
+                                                        require('../../assets/images/icon/Star_3.png')
+                                                        :
+                                                        require('../../assets/images/icon/Star.png')
+
+
+                                                } />
+                                            )
+
+                                        })
+                                    }
+                                </View>
+
+
                                 {
-                                    startData && startData.map((item, i) => {
-                                        return (
-                                            <Image style={[i > 0 ? { marginLeft: 16 } : null, { width: 40, height: 40, }]} key={i + "sr"} source={
-                                                /* const [weekStaryLevel, setWeekStaryLevel] = useState(null);
-                                                const [weekStaryMission, setWeekStaryMission] = useState(null); */
-
-                                                checkStar(weekStaryMission, weekStaryLevel) >= ++i ?
-                                                    require('../../assets/images/icon/Star_3.png')
-                                                    :
-                                                    require('../../assets/images/icon/Star.png')
-
-
-                                            } />
-                                        )
-
-                                    })
-                                }
-                            </View>
-
-
-                            {
-                                checkStar(weekStaryMission, weekStaryLevel) == 0 ?
-                                    <>
-                                        <Text style={styles.textStar}>ไม่เป็นไร!</Text>
-                                        <Text style={styles.textStar2}>ลองพยายามอีกครั้งในสัปดาห์นี้</Text>
-                                    </>
-                                    :
-                                    checkStar(weekStaryMission, weekStaryLevel) == 1 ?
+                                    checkStar(weekStaryMission, weekStaryLevel) == 0 ?
                                         <>
-                                            <Text style={styles.textStar}>ค่อนข้างดีแล้ว!</Text>
-                                            <Text style={styles.textStar2}>สัปดาห์นี้พยายามขึ้นอีกนิด เพื่อรับดาวเพิ่มเติม</Text>
+                                            <Text style={styles.textStar}>ไม่เป็นไร!</Text>
+                                            <Text style={styles.textStar2}>ลองพยายามอีกครั้งในสัปดาห์นี้</Text>
                                         </>
                                         :
-                                        checkStar(weekStaryMission, weekStaryLevel) == 2 ?
+                                        checkStar(weekStaryMission, weekStaryLevel) == 1 ?
                                             <>
-                                                <Text style={styles.textStar}>ทำได้ดีแล้ว!</Text>
+                                                <Text style={styles.textStar}>ค่อนข้างดีแล้ว!</Text>
                                                 <Text style={styles.textStar2}>สัปดาห์นี้พยายามขึ้นอีกนิด เพื่อรับดาวเพิ่มเติม</Text>
                                             </>
                                             :
-                                            checkStar(weekStaryMission, weekStaryLevel) == 3 ?
+                                            checkStar(weekStaryMission, weekStaryLevel) == 2 ?
                                                 <>
-                                                    <Text style={styles.textStar}>ดีมาก!</Text>
-                                                    <Text style={styles.textStar2}>ลองพิชิตภารกิจให้สำเร็จในสัปดาห์นี้ เพื่อรับถ้วยรางวัลเพิ่มเติม</Text>
+                                                    <Text style={styles.textStar}>ทำได้ดีแล้ว!</Text>
+                                                    <Text style={styles.textStar2}>สัปดาห์นี้พยายามขึ้นอีกนิด เพื่อรับดาวเพิ่มเติม</Text>
                                                 </>
                                                 :
                                                 checkStar(weekStaryMission, weekStaryLevel) == 3 ?
                                                     <>
                                                         <Text style={styles.textStar}>ดีมาก!</Text>
-                                                        <Text style={styles.textStar2}>คุณพิชิตภารกิจสำเร็จ พยายามรักษาวินัยเอาไว้ในสัปดาห์นี้</Text>
+                                                        <Text style={styles.textStar2}>ลองพิชิตภารกิจให้สำเร็จในสัปดาห์นี้ เพื่อรับถ้วยรางวัลเพิ่มเติม</Text>
                                                     </>
                                                     :
-                                                    <>
-                                                        <Text style={styles.textStar}>ไม่เป็นไร!</Text>
-                                                        <Text style={styles.textStar2}>ลองพยายามอีกครั้งในสัปดาห์นี้</Text>
-                                                    </>
-                            }
+                                                    checkStar(weekStaryMission, weekStaryLevel) == 3 ?
+                                                        <>
+                                                            <Text style={styles.textStar}>ดีมาก!</Text>
+                                                            <Text style={styles.textStar2}>คุณพิชิตภารกิจสำเร็จ พยายามรักษาวินัยเอาไว้ในสัปดาห์นี้</Text>
+                                                        </>
+                                                        :
+                                                        <>
+                                                            <Text style={styles.textStar}>ไม่เป็นไร!</Text>
+                                                            <Text style={styles.textStar2}>ลองพยายามอีกครั้งในสัปดาห์นี้</Text>
+                                                        </>
+                                }
+                            </View>
+                            <View style={styles.modalView2}>
+                            </View>
                         </View>
-                        <View style={styles.modalView2}>
-                        </View>
-                    </View>
+                    </TouchableWithoutFeedback>
                 </Modal>
             </View>
 

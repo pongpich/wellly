@@ -12,6 +12,8 @@ export const types = {
     UPDATE_ASSESSMENT_KIT_ACIVTIES_SUCCESS: "UPDATE_ASSESSMENT_KIT_ACIVTIES_SUCCESS",
     INSERT_EXERCISE_ACTIVITY: "INSERT_EXERCISE_ACTIVITY",
     INSERT_EXERCISE_ACTIVITY_SUCCESS: "INSERT_EXERCISE_ACTIVITY_SUCCESS",
+    UPDARE_POPUP_STARS: "UPDARE_POPUP_STARS",
+    UPDARE_POPUP_STARS_SUCCESS: "UPDARE_POPUP_STARS_SUCCESS",
 
 };
 
@@ -36,6 +38,16 @@ export const update_assessment_kit_activties = (user_id, week_in_program, assess
         assessment_kit_number,
     },
 });
+
+export const update_popUp_stars = (user_id, week_in_program, popup_stary) => ({
+    type: types.UPDARE_POPUP_STARS,
+    payload: {
+        user_id,
+        week_in_program,
+        popup_stary
+    },
+});
+
 
 export const insertNutritionActivity = (user_id) => ({
     type: types.INSERT_NUTRITION_ACTIVITY,
@@ -97,6 +109,29 @@ const update_assessment_kit_activtiesSagaAsync = async (
 
         return apiResult
     } catch (error) {
+        return { error, messsage: error.message };
+    }
+};
+
+const update_popUp_starsSagaAsync = async (
+    user_id,
+    week_in_program,
+    popup_stary
+) => {
+
+    try {
+
+        const apiResult = await API.post("planforfit", "/updatPopupSatry", {
+            body: {
+                user_id,
+                week_in_program,
+                popup_stary
+            }
+        });
+
+        return apiResult
+    } catch (error) {
+
         return { error, messsage: error.message };
     }
 };
@@ -188,6 +223,29 @@ function* update_assessment_kit_activtiesSaga({ payload }) {
     }
 }
 
+function* update_popUp_starsSaga({ payload }) {
+    const {
+        user_id,
+        week_in_program,
+        popup_stary
+    } = payload
+
+    try {
+        const apiResult = yield call(
+            update_popUp_starsSagaAsync,
+            user_id,
+            week_in_program,
+            popup_stary
+        );
+        yield put({
+            type: types.UPDARE_POPUP_STARS_SUCCESS,
+            payload: popup_stary
+        })
+    } catch (error) {
+        console.log("error form update_popUp_starsSaga", error);
+    }
+}
+
 function* insertNutritionActivitySaga({ payload }) {
     const {
         user_id
@@ -229,6 +287,9 @@ export function* watchUpdate_quiz_activities() {
 export function* watchUpdate_assessment_kit_activties() {
     yield takeEvery(types.UPDATE_ASSESSMENT_KIT_ACIVTIES, update_assessment_kit_activtiesSaga)
 }
+export function* watchUpdate_popUp_stars() {
+    yield takeEvery(types.UPDARE_POPUP_STARS, update_popUp_starsSaga)
+}
 
 export function* watchInsertNutritionActivity() {
     yield takeEvery(types.INSERT_NUTRITION_ACTIVITY, insertNutritionActivitySaga)
@@ -246,6 +307,7 @@ export function* saga() {
         fork(watchInsertNutritionActivity),
         fork(watchUpdate_assessment_kit_activties),
         fork(watchInsertExerciseActivity),
+        fork(watchUpdate_popUp_stars)
     ]);
 }
 
@@ -258,6 +320,7 @@ const INIT_STATE = {
     statusInsertNutritionActivity: "default",
     statusAssessment_kit_activties: "default",
     statusInsertExerciseActivity: "default",
+    statusPopupSary: "default",
 };
 
 export function reducer(state = INIT_STATE, action) {
@@ -305,6 +368,16 @@ export function reducer(state = INIT_STATE, action) {
             return {
                 ...state,
                 statusAssessment_kit_activties: "success"
+            };
+        case types.UPDARE_POPUP_STARS:
+            return {
+                ...state,
+                statusPopupSary: "loading"
+            };
+        case types.UPDARE_POPUP_STARS_SUCCESS:
+            return {
+                ...state,
+                statusPopupSary: "success"
             };
         default:
             return { ...state };

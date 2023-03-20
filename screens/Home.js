@@ -23,12 +23,8 @@ class Home extends Component {
                 this.props.navigation.navigate("Login");
             }
 
-            if (user) {
-                console.log("user", user);
-                this.props.insertNutritionActivity(user.user_id)
-                this.props.insertExerciseActivity(user.user_id)
-                // this.props.loginUser(user.user_id)
-            }
+            this.props.insertNutritionActivity(user.user_id)
+            this.props.insertExerciseActivity(user.user_id)
         });
 
 
