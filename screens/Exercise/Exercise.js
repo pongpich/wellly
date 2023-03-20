@@ -52,7 +52,6 @@ const Exercise = ({ navigation }) => {
     const [week_program_user, setWeek_program_user] = useState(null);
     const [weekStaryLevel, setWeekStaryLevel] = useState(null);
     const [weekStaryMission, setWeekStaryMission] = useState(null);
-    const [exerciser_activity, setExerciser_activity] = useState(null);
     const deviceHeight = Math.round(Dimensions.get('window').height);
     const animatedScrollYValue = useRef(new Animated.Value(0)).current;
 
@@ -361,9 +360,9 @@ const Exercise = ({ navigation }) => {
                     {statusMission === true ?
                         <>
                             {
-                                exerciser_activity ?
+                                exerciserActivity ?
 
-                                    exerciser_activity.map((item, i) => {
+                                    exerciserActivity.map((item, i) => {
                                         if (item.quiz_activities_number == null) {
                                             return (
                                                 <Pressable onPress={() => navigation.navigate("ExArticleTemplate", { id: item.week_in_program, mission_id: item.mission_id, heading: item.heading, mission_activities: item.mission_activities, statusPags: "Exercise" })} key={i + "tfb"}>
@@ -479,7 +478,7 @@ const Exercise = ({ navigation }) => {
                                 statusMission == true ?
                                     <>
                                         {
-                                            exerciser_activity && exerciser_activity.length > 0 ?
+                                            exerciserActivity && exerciserActivity.length > 0 ?
                                                 <Pressable Pressable onPress={() => refresh()} style={styles.historyRight}>
                                                     <Image style={styles.iconImageRight} source={require('../../assets/images/icon/History1.png')} />
                                                 </Pressable>
