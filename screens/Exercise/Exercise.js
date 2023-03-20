@@ -125,42 +125,7 @@ const Exercise = ({ navigation }) => {
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
-            dispatch(getExerciserActivity((user && user.user_id))); //
-
-
-            if (statusExerciserActivity === "success") {
-                console.log("statusExerciserActivity", statusExerciserActivity);
-                console.log("exerciserActivity", exerciserActivity);
-                //  setExerciser_activity(exerciserActivity);
-                /*    const week_program_user = calculateWeekInProgram(user.start_date);
-                   if (week_program_user) {
-                       setWeek_program_user(week_program_user)
-                   }
-                   const days = convertFormatDate();
-                   if (days == "Sunday") {
-                       setDays("Sunday")
-                   } else {
-                       setDays(null)
-                   }
-   
-   
-                   if (week_program_user != 1) {
-                       exerciser_activity && exerciser_activity.map((item, i) => {
-                           let weekStary = week_program_user - 1;
-                           console.log("item", item);
-                           if ((weekStary == item.week_in_program && (item.popup_stary == null))) {
-   
-                               setWeekStaryLevel(JSON.parse(item.activities_level))
-                               setWeekStaryMission(JSON.parse(item.mission_activities))
-                               if (exerciser_activity) {
-                                   setModalVisibleEx(true)
-                               }
-   
-                               dispatch(update_popUp_stars(user.user_id, weekStary, "1"));
-                           }
-                       })
-                   } */
-            }
+            dispatch(getExerciserActivity((user && user.user_id)));
         });
 
 
@@ -168,6 +133,41 @@ const Exercise = ({ navigation }) => {
         return unsubscribe;
 
     });
+
+    useEffect(() => {
+        if (statusExerciserActivity === "success") {
+            console.log("exerciserActivity", exerciserActivity);
+            //setExerciser_activity(exerciserActivity);
+            const week_program_user = calculateWeekInProgram(user.start_date);
+            if (week_program_user) {
+                setWeek_program_user(week_program_user)
+            }
+            const days = convertFormatDate();
+            if (days == "Sunday") {
+                setDays("Sunday")
+            } else {
+                setDays(null)
+            }
+
+
+            if (week_program_user != 1) {
+                exerciserActivity && exerciserActivity.map((item, i) => {
+                    let weekStary = week_program_user - 1;
+                    console.log("item", item);
+                    if ((weekStary == item.week_in_program && (item.popup_stary == null))) {
+
+                        setWeekStaryLevel(JSON.parse(item.activities_level))
+                        setWeekStaryMission(JSON.parse(item.mission_activities))
+                        if (exerciserActivity) {
+                            setModalVisibleEx(true)
+                        }
+
+                        dispatch(update_popUp_stars(user.user_id, weekStary, "1"));
+                    }
+                })
+            }
+        }
+    }, [statusExerciserActivity])
 
     const videoPlay = () => {
         return (
