@@ -27,6 +27,8 @@ export default {
   mayaBlue20: '#DEF5FA',
   neutralGrey: '#D4E0F0',
   neutralGrey3: '#93A8C1',
+  tertiaryYellow: "#F0AB44",
+  tertiaryMagenta: "#F15E79",
   secondary_MayaBlue: '#59CBE4'
 
 

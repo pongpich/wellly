@@ -6,6 +6,8 @@ import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { useRoute } from '@react-navigation/native';
 import colors from '../constants/colors';
 import Activity from '../screens/Activity/Activity';
+import ActHistoty from '../screens/Activity/ActHistoty';
+import ActAcivity from '../screens/Activity/ActAcivity';
 
 
 
@@ -16,6 +18,24 @@ function ActivityStackScreen() {
     return (
         <ActivityStack.Navigator>
             <ActivityStack.Screen name="Activity" component={Activity} options={{ headerShown: false }} />
+            <ActivityStack.Screen name="ActHistoty" component={ActHistoty} options={({ route, navigation }) => ({
+                title: "",
+                headerShadowVisible: false,
+                headerStyle: {
+                    backgroundColor: colors.grey7,
+                },
+                showLabel: false,
+                headerLeft: () => (
+                    <View style={{ marginLeft: 16 }}>
+                        <TouchableOpacity onPress={() => navigation.pop()}>
+                            <Image
+                                source={require('../assets/images/icon/caret.png')}
+                            />
+                        </TouchableOpacity>
+                    </View>
+                ),
+            })} />
+            <ActivityStack.Screen name="ActAcivity" component={ActAcivity} options={{ headerShown: false }} />
         </ActivityStack.Navigator>
     );
 }

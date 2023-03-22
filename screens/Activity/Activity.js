@@ -107,7 +107,7 @@ const Exercise = ({ navigation }) => {
                                 data.map((item, i) => {
 
                                     return (
-                                        <Pressable key={i + "tfb"}>
+                                        <Pressable key={i + "tfb"} onPress={() => navigation.navigate("ActAcivity")}>
                                             <View key={i} style={styles.row}>
                                                 <Image style={styles.activityImage} source={require('../../assets/images/activity/Activitylow.png')} />
                                                 <View style={styles.missionData}>
@@ -132,12 +132,10 @@ const Exercise = ({ navigation }) => {
 
                                                 </View>
                                                 <View style={styles.viewIconRight}>
-                                                    <Pressable onPress={() => refresh()}>
-                                                        <Image
-                                                            style={{ height: 24, width: 24, zIndex: 1, marginRight: 8 }}
-                                                            source={require('../../assets/images/icon/right.png')}
-                                                        />
-                                                    </Pressable>
+                                                    <Image
+                                                        style={{ height: 24, width: 24, zIndex: 1, marginRight: 8 }}
+                                                        source={require('../../assets/images/icon/right.png')}
+                                                    />
                                                 </View>
                                             </View>
                                         </Pressable>
