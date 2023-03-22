@@ -112,13 +112,13 @@ class ArticleTemplate extends Component {
         return (
             <View style={{ flex: 1, marginHorizontal: 16, }}>
                 {(mission_id === '1ab') && <Ab1 />}
-                {(mission_id === '1cd') && <Ab2 />}
-                {(mission_id === '2ab') && <Cd1 />}
-                {(mission_id === '2c') && <C2 />}
-                {(mission_id === '3c') && <C3 />}
-                {(mission_id === '4c') && <C4 />}
-                {(mission_id === '5c') && <C5 />}
-                {(mission_id === '6c') && <C6 />}
+                {(mission_id === '2ab') && <Ab2 />}
+                {(mission_id === '1cd') && <Cd1 />}
+                {((mission_id === '2c_1') || (mission_id === '2c_2')) && <C2 />}
+                {((mission_id === '3c_1') || (mission_id === '3c_2')) && <C3 />}
+                {((mission_id === '4c_1') || (mission_id === '4c_2')) && <C4 />}
+                {((mission_id === '5c_1') || (mission_id === '5c_2')) && <C5 />}
+                {((mission_id === '6c_1') || (mission_id === '6c_2')) && <C6 />}
             </View>
         )
     }
