@@ -5,7 +5,7 @@ import '../languages/i18n'; //ใช้สำหรับ 2ภาษา
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { useRoute } from '@react-navigation/native';
 import colors from '../constants/colors';
-import Activity from '../screens/Nutrition/Activity';
+import Activity from '../screens/Activity/Activity';
 
 
 
@@ -15,7 +15,7 @@ function ActivityStackScreen() {
     const navigation = useNavigation();
     return (
         <ActivityStack.Navigator>
-            <ActivityStack.Screen name="Activity" component={Activity} />
+            <ActivityStack.Screen name="Activity" component={Activity} options={{ headerShown: false }} />
         </ActivityStack.Navigator>
     );
 }
