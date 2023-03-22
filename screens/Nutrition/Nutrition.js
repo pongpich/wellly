@@ -44,9 +44,9 @@ const Nutrition = ({ navigation }) => {
     });
 
     const refresh = () => {
-        if (data.length) {
-            navigation.navigate("History")
-        }
+
+        navigation.navigate("History")
+
 
 
     }
@@ -111,7 +111,7 @@ const Nutrition = ({ navigation }) => {
                     <View style={styles.missionText}>
                         <Text style={styles.mission}>ภารกิจล่าสุด</Text>
                         {
-                            (week_program_user > 1) ?
+                            (nutrition_activity && nutrition_activity.length > 0) ?
                                 <Pressable onPress={() => refresh()}>
                                     <Image
                                         style={styles.iconImageRight}
