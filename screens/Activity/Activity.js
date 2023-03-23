@@ -12,14 +12,6 @@ import { List } from 'react-native-paper';
 import { Video, AVPlaybackStatus } from 'expo-av';
 import { update_popUp_stars } from "../../redux/update";
 import { checkStar, checkTrophy, calculateWeekInProgram, convertFormatDate } from "../../helpers/utils";
-import {
-    LineChart,
-    BarChart,
-    PieChart,
-    ProgressChart,
-    ContributionGraph,
-    StackedBarChart
-} from "react-native-chart-kit";
 
 
 

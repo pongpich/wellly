@@ -45,35 +45,35 @@ class ActHistoty extends Component {
                             <Pressable style={[{ marginLeft: 8, paddingHorizontal: 8, width: "auto" }, statusMonth === "ก.พ." ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth("ก.พ.")} >
                                 <Text style={[styles.mission, statusMonth === "ก.พ." ? { color: colors.white } : { color: colors.persianBlue }]}>ก.พ.</Text>
                             </Pressable>
-                            <Pressable style={[{ marginLeft: 8, paddingHorizontal: 8, width: "auto" }, statusMonth === "ก.พ." ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth("ก.พ.")} >
-                                <Text style={[styles.mission, statusMonth === "ก.พ." ? { color: colors.white } : { color: colors.persianBlue }]}>มี.ค.</Text>
+                            <Pressable style={[{ marginLeft: 8, paddingHorizontal: 8, width: "auto" }, statusMonth === "มี.ค." ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth("มี.ค.")} >
+                                <Text style={[styles.mission, statusMonth === "มี.ค." ? { color: colors.white } : { color: colors.persianBlue }]}>มี.ค.</Text>
                             </Pressable>
-                            <Pressable style={[{ marginLeft: 8, paddingHorizontal: 8, width: "auto" }, statusMonth === "ก.พ." ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth("ก.พ.")} >
-                                <Text style={[styles.mission, statusMonth === "ก.พ." ? { color: colors.white } : { color: colors.persianBlue }]}>เม.ย.</Text>
+                            <Pressable style={[{ marginLeft: 8, paddingHorizontal: 8, width: "auto" }, statusMonth === "เม.ย." ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth("เม.ย.")} >
+                                <Text style={[styles.mission, statusMonth === "เม.ย." ? { color: colors.white } : { color: colors.persianBlue }]}>เม.ย.</Text>
                             </Pressable>
-                            <Pressable style={[{ marginLeft: 8, paddingHorizontal: 8, width: "auto" }, statusMonth === "ก.พ." ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth("ก.พ.")} >
-                                <Text style={[styles.mission, statusMonth === "ก.พ." ? { color: colors.white } : { color: colors.persianBlue }]}>พ.ค.</Text>
+                            <Pressable style={[{ marginLeft: 8, paddingHorizontal: 8, width: "auto" }, statusMonth === "พ.ค." ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth("พ.ค.")} >
+                                <Text style={[styles.mission, statusMonth === "พ.ค." ? { color: colors.white } : { color: colors.persianBlue }]}>พ.ค.</Text>
                             </Pressable>
-                            <Pressable style={[{ marginLeft: 8, paddingHorizontal: 8, width: "auto" }, statusMonth === "ก.พ." ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth("ก.พ.")} >
-                                <Text style={[styles.mission, statusMonth === "ก.พ." ? { color: colors.white } : { color: colors.persianBlue }]}>มิ.ย.</Text>
+                            <Pressable style={[{ marginLeft: 8, paddingHorizontal: 8, width: "auto" }, statusMonth === "มิ.ย." ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth("มิ.ย.")} >
+                                <Text style={[styles.mission, statusMonth === "มิ.ย." ? { color: colors.white } : { color: colors.persianBlue }]}>มิ.ย.</Text>
                             </Pressable>
-                            <Pressable style={[{ marginLeft: 8, paddingHorizontal: 8, width: "auto" }, statusMonth === "ก.พ." ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth("ก.พ.")} >
-                                <Text style={[styles.mission, statusMonth === "ก.พ." ? { color: colors.white } : { color: colors.persianBlue }]}>ก.ค.</Text>
+                            <Pressable style={[{ marginLeft: 8, paddingHorizontal: 8, width: "auto" }, statusMonth === "ก.ค." ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth("ก.ค.")} >
+                                <Text style={[styles.mission, statusMonth === "ก.ค." ? { color: colors.white } : { color: colors.persianBlue }]}>ก.ค.</Text>
                             </Pressable>
-                            <Pressable style={[{ marginLeft: 8, paddingHorizontal: 8, width: "auto" }, statusMonth === "ก.พ." ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth("ก.พ.")} >
-                                <Text style={[styles.mission, statusMonth === "ก.พ." ? { color: colors.white } : { color: colors.persianBlue }]}>ส.ค.</Text>
+                            <Pressable style={[{ marginLeft: 8, paddingHorizontal: 8, width: "auto" }, statusMonth === "ส.ค." ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth("ส.ค.")} >
+                                <Text style={[styles.mission, statusMonth === "ส.ค." ? { color: colors.white } : { color: colors.persianBlue }]}>ส.ค.</Text>
                             </Pressable>
-                            <Pressable style={[{ marginLeft: 8, paddingHorizontal: 8, width: "auto" }, statusMonth === "ก.พ." ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth("ก.พ.")} >
-                                <Text style={[styles.mission, statusMonth === "ก.พ." ? { color: colors.white } : { color: colors.persianBlue }]}>ก.ย.</Text>
+                            <Pressable style={[{ marginLeft: 8, paddingHorizontal: 8, width: "auto" }, statusMonth === "ก.ย." ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth("ก.ย.")} >
+                                <Text style={[styles.mission, statusMonth === "ก.ย." ? { color: colors.white } : { color: colors.persianBlue }]}>ก.ย.</Text>
                             </Pressable>
-                            <Pressable style={[{ marginLeft: 8, paddingHorizontal: 8, width: "auto" }, statusMonth === "ก.พ." ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth("ก.พ.")} >
-                                <Text style={[styles.mission, statusMonth === "ก.พ." ? { color: colors.white } : { color: colors.persianBlue }]}>ต.ค.</Text>
+                            <Pressable style={[{ marginLeft: 8, paddingHorizontal: 8, width: "auto" }, statusMonth === "ต.ค." ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth("ต.ค.")} >
+                                <Text style={[styles.mission, statusMonth === "ต.ค." ? { color: colors.white } : { color: colors.persianBlue }]}>ต.ค.</Text>
                             </Pressable>
-                            <Pressable style={[{ marginLeft: 8, paddingHorizontal: 8, width: "auto" }, statusMonth === "ก.พ." ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth("ก.พ.")} >
-                                <Text style={[styles.mission, statusMonth === "ก.พ." ? { color: colors.white } : { color: colors.persianBlue }]}>พ.ย.</Text>
+                            <Pressable style={[{ marginLeft: 8, paddingHorizontal: 8, width: "auto" }, statusMonth === "พ.ย." ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth("พ.ย.")} >
+                                <Text style={[styles.mission, statusMonth === "พ.ย." ? { color: colors.white } : { color: colors.persianBlue }]}>พ.ย.</Text>
                             </Pressable>
-                            <Pressable style={[{ marginLeft: 8, paddingHorizontal: 8, width: "auto" }, statusMonth === "ก.พ." ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth("ก.พ.")} >
-                                <Text style={[styles.mission, statusMonth === "ก.พ." ? { color: colors.white } : { color: colors.persianBlue }]}>ธ.ค.</Text>
+                            <Pressable style={[{ marginLeft: 8, paddingHorizontal: 8, width: "auto" }, statusMonth === "ธ.ค." ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth("ธ.ค.")} >
+                                <Text style={[styles.mission, statusMonth === "ธ.ค." ? { color: colors.white } : { color: colors.persianBlue }]}>ธ.ค.</Text>
                             </Pressable>
 
                         </View>
