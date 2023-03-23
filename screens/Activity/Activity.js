@@ -13,7 +13,14 @@ import { Video, AVPlaybackStatus } from 'expo-av';
 import { update_popUp_stars } from "../../redux/update";
 import { checkStar, checkTrophy, calculateWeekInProgram, convertFormatDate } from "../../helpers/utils";
 
-
+import {
+    LineChart,
+    BarChart,
+    PieChart,
+    ProgressChart,
+    ContributionGraph,
+    StackedBarChart
+} from "react-native-chart-kit";
 
 
 const HEADER_MAX_HEIGHT = 500;
@@ -26,6 +33,14 @@ const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 const data = Array.from({ length: 30 });
 
 
+
+function* yLabel() {
+    yield* [0, 1.5, 3];
+}
+
+/* const datapoints = [0, 88, 96, 97, 94, 91, 88].map(
+    (datapoint) => datapoint - minValue - 1,
+); */
 
 
 const Exercise = ({ navigation }) => {
@@ -69,7 +84,8 @@ const Exercise = ({ navigation }) => {
     }, [navigation]);
 
 
-
+    const screenWidth = Dimensions.get('window').width;
+    const yLabelIterator = yLabel();
     return (
         <View style={styles.fill}>
             <Animated.ScrollView
@@ -93,8 +109,48 @@ const Exercise = ({ navigation }) => {
                                 </Pressable>
                             </View>
 
-
-
+                            <View>
+                                <Text>Bezier Line Chart</Text>
+                                <StackedBarChart
+                                    data={{
+                                        labels: ["Test1", "Test2"],
+                                        legend: ["L1", "L2", "L3"],
+                                        data: [
+                                            [60, 60, 60],
+                                            [30, 30, 60]
+                                        ],
+                                        barColors: ["#59CBE4", "#FDAB44", "#F15E79"]
+                                    }}
+                                    width={Dimensions.get("window").width} // from react-native
+                                    height={220}
+                                    yAxisLabel="$"
+                                    yAxisSuffix="k"
+                                    yAxisInterval={1} // optional, defaults to 1
+                                    barPercentage={1}
+                                    showLegend={true}
+                                    chartConfig={{
+                                        backgroundColor: "#fff",
+                                        backgroundGradientFrom: "#fff",
+                                        backgroundGradientTo: "#fff",
+                                        decimalPlaces: 2, // optional, defaults to 2dp
+                                        color: (opacity = 1) => `rgba(255, 0, 0, ${opacity})`,
+                                        labelColor: (opacity = 1) => `rgba(255, 0, 0, ${opacity})`,
+                                        style: {
+                                            borderRadius: 16
+                                        },
+                                        propsForDots: {
+                                            r: "6",
+                                            strokeWidth: "2",
+                                            stroke: "#ffa726"
+                                        }
+                                    }}
+                                    bezier
+                                    style={{
+                                        marginVertical: 8,
+                                        borderRadius: 16
+                                    }}
+                                />
+                            </View>
                         </View>
                         <Text style={styles.nutritionWeek}>กิจกรรมสัปดาห์นี้</Text>
                         {
