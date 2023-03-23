@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, StyleSheet, Animated, Image, ImageBackground, Dimensions, Pressable, ScrollView, TouchableWithoutFeedback } from 'react-native';
+import { View, Text, StyleSheet, Animated, Image, Dimensions, Pressable, ScrollView, TouchableWithoutFeedback } from 'react-native';
 import colors from '../../constants/colors';
 import ComponentsStyle from '../../constants/components';
 import Modal from "react-native-modal";
@@ -22,6 +22,8 @@ import {
 } from "react-native-chart-kit";
 
 
+
+
 const HEADER_MAX_HEIGHT = 500;
 const HEADER_MIN_HEIGHT = 10;
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
@@ -30,7 +32,6 @@ const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
 
 const data = Array.from({ length: 30 });
-
 
 
 
@@ -99,6 +100,8 @@ const Exercise = ({ navigation }) => {
                                     <Text style={[styles.mission, statusChart === 3 ? { color: colors.white } : { color: colors.persianBlue }]}>ปี</Text>
                                 </Pressable>
                             </View>
+
+
 
                         </View>
                         <Text style={styles.nutritionWeek}>กิจกรรมสัปดาห์นี้</Text>
@@ -361,7 +364,7 @@ const styles = StyleSheet.create({
         borderRadius: 16
     },
     nutritionWeek: {
-        marginTop: 24,
+        marginTop: 80,
         marginBottom: 8,
         marginHorizontal: 16,
         fontFamily: "IBMPlexSansThai-Bold",
