@@ -3,6 +3,10 @@ import { SafeAreaView, StatusBar, View, Text, StyleSheet, Animated, Image, Image
 import colors from '../../constants/colors';
 import ComponentsStyle from '../../constants/components';
 import Modal from "react-native-modal";
+import { withTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
+import { getActivityList, getExerciserActivity } from "../../redux/get";
+import { updateNumberCompleted } from "../../redux/update";
 
 class AddActivity extends Component {
 
@@ -14,6 +18,15 @@ class AddActivity extends Component {
             isModalConter: false,
             study: "ทั้งหมด"
         };
+    }
+
+    componentDidUpdate(prevProps) {
+        const { statusUpdateNumbComp, user } = this.props;
+
+        if ((prevProps.statusUpdateNumbComp !== statusUpdateNumbComp) && (statusUpdateNumbComp === "success")) {
+            this.props.getExerciserActivity(user && user.user_id);
+            this.props.navigation.navigate("Add");
+        }
     }
 
 
@@ -40,8 +53,13 @@ class AddActivity extends Component {
     }
 
     saveMission() {
-        this.props.navigation.navigate("Add")
+        const { user } = this.props;
+        //this.props.navigation.navigate("Add")
+        const activity_id = 'moderate_intensity';
+        const week_in_program = 5;
+        this.props.updateNumberCompleted((user && user.user_id), activity_id, week_in_program);
     }
+
     render() {
         const { stsusColor, isModalVisible, isModalConter, study } = this.state;
         return (
@@ -109,7 +127,7 @@ class AddActivity extends Component {
                                 style={styles.chevronImage}
                                 source={require('../../assets/images/activity/Note.png')}
                             />
-                            <Text style={styles.textDetails}>เดินกินลม</Text>
+                            <Text style={styles.textDetails}>เดินกินลมม</Text>
                         </View>
                         <View
                             style={{
@@ -507,4 +525,17 @@ const styles = StyleSheet.create({
 
 
 })
-export default AddActivity;
+
+const mapStateToProps = ({ authUser, getData, updateData }) => {
+    const { user } = authUser;
+    const { activity_list, statusGetActivityList } = getData;
+    const { statusUpdateNumbComp } = updateData;
+    return { user, activity_list, statusGetActivityList, statusUpdateNumbComp };
+};
+
+const mapActionsToProps = { getActivityList, updateNumberCompleted, getExerciserActivity };
+
+export default connect(
+    mapStateToProps,
+    mapActionsToProps
+)(withTranslation()(AddActivity));

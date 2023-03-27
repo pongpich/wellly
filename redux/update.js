@@ -14,9 +14,17 @@ export const types = {
     INSERT_EXERCISE_ACTIVITY_SUCCESS: "INSERT_EXERCISE_ACTIVITY_SUCCESS",
     UPDARE_POPUP_STARS: "UPDARE_POPUP_STARS",
     UPDARE_POPUP_STARS_SUCCESS: "UPDARE_POPUP_STARS_SUCCESS",
+    UPDATE_NUMBER_COMPLETED: "UPDATE_NUMBER_COMPLETED",
+    UPDATE_NUMBER_COMPLETED_SUCCESS: "UPDATE_NUMBER_COMPLETED_SUCCESS"
 
 };
 
+export const updateNumberCompleted = (user_id, activity_id, week_in_program) => ({
+    type: types.UPDATE_NUMBER_COMPLETED,
+    payload: {
+        user_id, activity_id, week_in_program
+    },
+})
 
 export const update_quiz_activities = (user_id, week_in_program, quiz_activities, quiz_activities_number) => ({
     type: types.UPDATE_QUIZ_ACTIVITIES,
@@ -168,6 +176,22 @@ const insertExerciseActivitySagaAsync = async (
         return { error, messsage: error.message };
     }
 };
+const updateNumberCompletedSagaAsync = async (
+    user_id, activity_id, week_in_program
+) => {
+
+    try {
+        const apiResult = await API.post("planforfit", "/updateNumberCompleted", {
+            body: {
+                user_id, activity_id, week_in_program
+            }
+        });
+
+        return apiResult
+    } catch (error) {
+        return { error, messsage: error.message };
+    }
+};
 
 
 
@@ -281,6 +305,24 @@ function* insertExerciseActivitySaga({ payload }) {
     }
 }
 
+function* updateNumberCompletedSaga({ payload }) {
+    const {
+        user_id, activity_id, week_in_program 
+    } = payload
+
+    try {
+        const apiResult = yield call(
+            updateNumberCompletedSagaAsync,
+            user_id, activity_id, week_in_program 
+        );
+        yield put({
+            type: types.UPDATE_NUMBER_COMPLETED_SUCCESS
+        })
+    } catch (error) {
+        console.log("error form updateNumberCompletedSaga", error);
+    }
+}
+
 export function* watchUpdate_quiz_activities() {
     yield takeEvery(types.UPDATE_QUIZ_ACTIVITIES, update_quiz_activitiesSaga)
 }
@@ -299,6 +341,10 @@ export function* watchInsertExerciseActivity() {
     yield takeEvery(types.INSERT_EXERCISE_ACTIVITY, insertExerciseActivitySaga)
 }
 
+export function* watchUpdateNumberCompleted() {
+    yield takeEvery(types.UPDATE_NUMBER_COMPLETED, updateNumberCompletedSaga)
+}
+
 
 
 export function* saga() {
@@ -307,7 +353,8 @@ export function* saga() {
         fork(watchInsertNutritionActivity),
         fork(watchUpdate_assessment_kit_activties),
         fork(watchInsertExerciseActivity),
-        fork(watchUpdate_popUp_stars)
+        fork(watchUpdate_popUp_stars),
+        fork(watchUpdateNumberCompleted),
     ]);
 }
 
@@ -321,6 +368,7 @@ const INIT_STATE = {
     statusAssessment_kit_activties: "default",
     statusInsertExerciseActivity: "default",
     statusPopupSary: "default",
+    statusUpdateNumbComp: "default"
 };
 
 export function reducer(state = INIT_STATE, action) {
@@ -338,6 +386,16 @@ export function reducer(state = INIT_STATE, action) {
                     ...state.user,
                     quiz_activities: action.payload
                 }
+            };
+        case types.UPDATE_NUMBER_COMPLETED:
+            return {
+                ...state,
+                statusUpdateNumbComp: "loading"
+            };
+        case types.UPDATE_NUMBER_COMPLETED_SUCCESS:
+            return {
+                ...state,
+                statusUpdateNumbComp: "success"
             };
         case types.INSERT_NUTRITION_ACTIVITY:
             return {
