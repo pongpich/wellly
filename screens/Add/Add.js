@@ -110,6 +110,13 @@ class Add extends Component {
         })
     }
 
+    nextAddActivity() {
+        this.setState({
+            isModalConter: false,
+        })
+        this.props.navigation.navigate("AddActivity")
+    }
+
 
     listDataViews() {
         const { stsusColor, isModalVisible, isModalConter, study, data, } = this.state;
@@ -163,18 +170,20 @@ class Add extends Component {
                         {data == true ?
 
                             <>
-                                <View>
-                                    <View style={styles.missionView}>
-                                        <Image style={styles.activityImage} source={stsusColor == "เข้มข้นต่ำ" ? require('../../assets/images/activity/Activitylow.png') : stsusColor == "เข้มข้นปานกลาง" ? require('../../assets/images/activity/Activitycenter.png') : require('../../assets/images/activity/Activityhign.png')} />
-                                        <View style={styles.groupText2}>
-                                            <Text style={styles.headText2}>เดินเร็ว</Text>
+                                <TouchableWithoutFeedback onPress={() => this.nextAddActivity()}>
+                                    <View>
+                                        <View style={styles.missionView}>
+                                            <Image style={styles.activityImage} source={stsusColor == "เข้มข้นต่ำ" ? require('../../assets/images/activity/Activitylow.png') : stsusColor == "เข้มข้นปานกลาง" ? require('../../assets/images/activity/Activitycenter.png') : require('../../assets/images/activity/Activityhign.png')} />
+                                            <View style={styles.groupText2}>
+                                                <Text style={styles.headText2}>เดินเร็วaaa</Text>
+                                                <Text style={[styles.groupStatus, { color: stsusColor == "เข้มข้นต่ำ" ? colors.secondary_MayaBlue : stsusColor == "เข้มข้นปานกลาง" ? colors.tertiaryYellow : colors.tertiaryMagenta }]}>เข้มข้นต่ำ</Text>
+                                            </View>
+                                        </View>
+                                        <View style={styles.viewIconRight2}>
                                             <Text style={[styles.groupStatus, { color: stsusColor == "เข้มข้นต่ำ" ? colors.secondary_MayaBlue : stsusColor == "เข้มข้นปานกลาง" ? colors.tertiaryYellow : colors.tertiaryMagenta }]}>เข้มข้นต่ำ</Text>
                                         </View>
                                     </View>
-                                    <View style={styles.viewIconRight2}>
-                                        <Text style={[styles.groupStatus, { color: stsusColor == "เข้มข้นต่ำ" ? colors.secondary_MayaBlue : stsusColor == "เข้มข้นปานกลาง" ? colors.tertiaryYellow : colors.tertiaryMagenta }]}>เข้มข้นต่ำ</Text>
-                                    </View>
-                                </View>
+                                </TouchableWithoutFeedback>
                                 <View>
                                     <View style={styles.missionView}>
                                         <Image style={styles.activityImage} source={stsusColor == "เข้มข้นต่ำ" ? require('../../assets/images/activity/Activitylow.png') : stsusColor == "เข้มข้นปานกลาง" ? require('../../assets/images/activity/Activitycenter.png') : require('../../assets/images/activity/Activityhign.png')} />
@@ -299,7 +308,6 @@ class Add extends Component {
 
     editView() {
         const { stsusColor, isModalVisible, isModalConter, study, data, message, confirmActivityDeleted, confirmDelete, editmission, statusViolence, missionName } = this.state;
-        console.log("statusViolence", statusViolence);
         return (
             <>
 
@@ -524,10 +532,20 @@ class Add extends Component {
                         </Modal>
                     </View>
                 </View >
+                <View style={[styles.activityDeleted, { marginRight: 16 }]}>
+                    <View style={styles.boxActivityDeleted}>
+                        <Image
+                            style={{ height: 32, width: 32, zIndex: 1 }}
+                            source={require('../../assets/images/activity/Checked.png')}
+                        />
+                        <Text style={styles.textActivityDeleted}> บันทึกกิจกรรมแล้ว</Text>
+                    </View>
+                </View>
             </>
         )
     }
 }
+const deviceWidth = Math.round(Dimensions.get('window').width);
 const styles = StyleSheet.create({
     fill: {
         flex: 1,
@@ -812,7 +830,7 @@ const styles = StyleSheet.create({
         /*     alignItems: "center", */
         justifyContent: "flex-end",
         height: "100%",
-        width: "100%",
+        width: deviceWidth - 30,
         zIndex: 7,
     },
     boxActivityDeleted: {

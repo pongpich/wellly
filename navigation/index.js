@@ -157,15 +157,41 @@ function MyHome() {
           title: languages === "th" ? "โภชนาการ" : "Nutrition",
         })} />
       <Tab.Screen name="Add" component={AddStackScreen}
-        options={{
-          title: '',
+        /*  options={{
+           title: '',
+           tabBarIcon: ({ size, color }) => (
+             <Image
+               style={{ width: 80, height: 80 }}
+               source={require('../assets/images/icon/Add.png')}
+             />
+           ),
+         }} */
+        options={({ route }) => ({
           tabBarIcon: ({ size, color }) => (
             <Image
               style={{ width: 80, height: 80 }}
               source={require('../assets/images/icon/Add.png')}
             />
-          )
-        }} />
+          ),
+          tabBarStyle: {
+            display: getBottomTabse(route),
+            paddingTop: 16,
+            shadowColor: "#000",
+            shadowOffset: {
+              width: 0,
+              height: 4,
+            },
+            shadowOpacity: 0.32,
+            shadowRadius: 5.46,
+            elevation: 9,
+            height: (devicehHeight < 668) ? 70 : (devicehHeight < 801) ? 70 : 100,
+            borderTopLeftRadius: 16,
+            borderTopRightRadius: 16,
+            backgroundColor: colors.white,
+          },
+          title: '',
+        })}
+      />
       <Tab.Screen name="ExerciseTab" component={ExerciseStackScreen}
         options={({ route }) => ({
           tabBarStyle: {
@@ -348,6 +374,9 @@ function getBottomTabse(route) {
     return 'none';
   }
   if (routeName == "ActHistoty") {
+    return 'none';
+  }
+  if (routeName == "AddActivity") {
     return 'none';
   }
 
