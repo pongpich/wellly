@@ -19,6 +19,7 @@ class Add extends Component {
             editmission: false,
             confirmDelete: false,
             confirmActivityDeleted: false,
+            message: null,
             data: true
         };
     }
@@ -60,7 +61,7 @@ class Add extends Component {
             isModalConter: !isModalConter
         })
     };
-    deleteActivity(isModalVisible) {
+    deleteActivity(mess) {
 
         this.setState({
             confirmActivityDeleted: true,
@@ -69,6 +70,7 @@ class Add extends Component {
             missionName: null,
             editmission: false,
             confirmDelete: false,
+            message: mess
         })
         setTimeout(() => {
             this.setState({
@@ -296,7 +298,7 @@ class Add extends Component {
     }
 
     editView() {
-        const { stsusColor, isModalVisible, isModalConter, study, data, confirmActivityDeleted, confirmDelete, editmission, statusViolence, missionName } = this.state;
+        const { stsusColor, isModalVisible, isModalConter, study, data, message, confirmActivityDeleted, confirmDelete, editmission, statusViolence, missionName } = this.state;
         console.log("statusViolence", statusViolence);
         return (
             <>
@@ -377,7 +379,7 @@ class Add extends Component {
                                                     style={{ height: 32, width: 32, zIndex: 1 }}
                                                     source={require('../../assets/images/activity/Checked.png')}
                                                 />
-                                                <Text style={styles.textActivityDeleted}>ลบกิจกรรมแล้ว</Text>
+                                                <Text style={styles.textActivityDeleted}> {message}</Text>
                                             </View>
                                         </View>
                                         : null
@@ -478,7 +480,7 @@ class Add extends Component {
                                                     <Text style={styles.textButtonWhite}>ย้อนกลับ</Text>
                                                 </View>
                                             </TouchableWithoutFeedback>
-                                            <TouchableWithoutFeedback onPress={() => this.deleteActivity()}>
+                                            <TouchableWithoutFeedback onPress={() => this.deleteActivity("ลบกิจกรรมแล้ว")}>
                                                 <View style={styles.buttonRed}>
                                                     <Text style={styles.textButtonRed}>ลบกิจกรรม</Text>
                                                 </View>
