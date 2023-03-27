@@ -346,6 +346,9 @@ const Exercise = ({ navigation }) => {
         )
     }
 
+
+
+
     return (
         <View style={styles.fill}>
 
@@ -371,7 +374,7 @@ const Exercise = ({ navigation }) => {
                                                         </View>
                                                         <View style={styles.missionData}>
                                                             <Text style={styles.missionHead} >{item.heading}</Text>
-                                                            <Text style={styles.missionContent} key="i+ v3t">
+                                                            <Text style={[styles.missionContent, { marginRight: 16 }]} key="i+ v3t">
                                                                 {item.short_content}
                                                             </Text>
                                                             {

@@ -29,6 +29,7 @@ class Add extends Component {
         const { user } = this.props;
 
         this._unsubscribe = this.props.navigation.addListener('focus', () => {
+            console.log("aaa", this.props.route.params);
 
             this.setState({
                 isModalConter: true,
@@ -87,7 +88,7 @@ class Add extends Component {
     }
 
     addMissionName(e) {
-        console.log("addMissionName");
+
         this.setState({
             statusCreate: e,
             data: true
@@ -511,7 +512,7 @@ class Add extends Component {
 
     render() {
         const { stsusColor, isModalVisible, isModalConter, study, data, statusCreate, statusViolence, missionName } = this.state;
-        console.log("missionName", missionName);
+
         return (
             <>
                 <View style={styles.fill}>

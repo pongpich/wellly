@@ -329,6 +329,7 @@ function MyStack(props) {
         headerShown: false,
       }} />
 
+
     </Stack.Navigator>
   );
 }

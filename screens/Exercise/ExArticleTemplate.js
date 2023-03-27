@@ -13,6 +13,9 @@ import ProgressBarAnimated from 'react-native-progress-bar-animated';
 import { List } from 'react-native-paper';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import { convertFormatDate, calculateWeekInProgram } from "../../helpers/utils";
+import { StackActions } from '@react-navigation/native';
+import { CommonActions } from '@react-navigation/native';
+
 
 //บทความ
 import Ab1 from '../../components/exercise/Ab1';
@@ -130,6 +133,21 @@ class ArticleTemplate extends Component {
         })
     };
 
+    actionPress(e) {
+        const resetAction = CommonActions.reset({
+            index: 0, // ตำแหน่งของหน้าที่จะใช้เป็นหน้าแรก
+            routes: [{
+                name: 'Add',
+                params: {
+                    itemId: null,
+                    otherParam: e
+                }
+            }
+                ,], // เส้นทางที่ต้องการเปลี่ยน
+        });
+        this.props.navigation.dispatch(resetAction)
+    }
+
     missionDataView(data) {
         const { expanded, start, mission_activities } = this.state
         const scoreProgress = 50;
@@ -143,6 +161,7 @@ class ArticleTemplate extends Component {
         })
         const sumMaxNumber = maxNumber.reduce((partialSum, a) => partialSum + a, 0);
         const summaxScoreCompleted = maxScoreCompleted.reduce((partialSum, a) => partialSum + a, 0);
+
 
 
         return (
@@ -253,7 +272,7 @@ class ArticleTemplate extends Component {
                         var maxScore = item.number;
                         var score_completed = item.number_completed;
                         return (
-                            <Pressable onPress={() => this.props.navigation.popToTop()} key={i + "tfb"} >
+                            <Pressable onPress={() => this.actionPress(item.name)} key={i + "tfb"} >
                                 <View key={i} style={styles.row}>
                                     <View style={styles.numberView}>
                                         <AnimatedCircularProgress
