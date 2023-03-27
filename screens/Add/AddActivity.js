@@ -17,7 +17,9 @@ class AddActivity extends Component {
             stsusColor: "เข้มข้นต่ำ",
             isModalVisible: false,
             isModalConter: false,
-            study: "ทั้งหมด"
+            study: "ทั้งหมด",
+            activity: '',
+            intensity: '',
         };
     }
 
@@ -25,7 +27,12 @@ class AddActivity extends Component {
 
         this._unsubscribe = this.props.navigation.addListener('focus', () => {
 
-
+            // รับ   params จาก  route
+            const { activity, intensity } = this.props.route.params;
+            this.setState({
+                activity: activity,
+                intensity: intensity
+            })
         });
 
     }
@@ -65,18 +72,16 @@ class AddActivity extends Component {
     saveMission() {
         const { user } = this.props;
 
-        //this.props.navigation.navigate("Add")
-
-        // activity_id คือ  params จาก  route
-        const { activity_id } = this.props.route.params;
+        // ใช้ params จาก  route ในหน้า Add.js
+        const { intensity } = this.props.route.params;
         // ** หมายเหตุ ปัจจุบันใช้การคำนวน week ปัจจุบัน, - ซึ่งถ้าอนาคตมีการดูย้อนหลังสัปดาห์เก่า ต้องมาปรับปรุงส่วนนี้นะ -
         const week_in_program = calculateWeekInProgram(user.start_date);
         console.log("week_in_program :", week_in_program);
-        this.props.updateNumberCompleted((user && user.user_id), activity_id, week_in_program);
+        this.props.updateNumberCompleted((user && user.user_id), intensity, week_in_program);
     }
 
     render() {
-        const { stsusColor, isModalVisible, isModalConter, study } = this.state;
+        const { stsusColor, isModalVisible, isModalConter, study, activity, intensity } = this.state;
         return (
             <View style={styles.fill}>
                 <View style={{ height: 58, zIndex: 10, width: "100%", backgroundColor: colors.white }}>
@@ -94,10 +99,21 @@ class AddActivity extends Component {
                 </View>
                 <View style={styles.boxConter}>
                     <View style={styles.missionView}>
-                        <Image style={styles.activityImage} source={require('../../assets/images/activity/Activitylow.png')} />
+                        <Image
+                            style={styles.activityImage}
+                            source={intensity === 'light_intensity' ? require('../../assets/images/activity/Activitylow.png') : intensity === 'moderate_intensity' ? require('../../assets/images/activity/Activitycenter.png') : require('../../assets/images/activity/Activityhign.png')}
+                        />
                         <View style={styles.groupText}>
-                            <Text style={styles.headText}>เดินเร็ว</Text>
-                            <Text style={[styles.groupStatus, { color: stsusColor == "เข้มข้นต่ำ" ? colors.secondary_MayaBlue : stsusColor == "เข้มข้นปานกลาง" ? colors.tertiaryYellow : colors.tertiaryMagenta }]}>เข้มข้นต่ำ</Text>
+                            <Text style={styles.headText}>{activity}</Text>
+                            <Text
+                                style={[styles.groupStatus,
+                                { color: (intensity === 'light_intensity') ? colors.secondary_MayaBlue : (intensity === 'moderate_intensity') ? colors.tertiaryYellow : colors.tertiaryMagenta }]
+                                }
+                            >
+                                {(intensity === 'light_intensity') && 'เข้มข้นต่ำ'}
+                                {(intensity === 'moderate_intensity') && 'เข้มข้นปานกลาง'}
+                                {(intensity === 'vigorous_intensity') && 'เข้มข้นสูง'}
+                            </Text>
                         </View>
                     </View>
                     <View style={styles.viewIconRight}>

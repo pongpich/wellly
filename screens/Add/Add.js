@@ -116,11 +116,11 @@ class Add extends Component {
         })
     }
 
-    nextAddActivity(activity_id) {
+    nextAddActivity(activity, intensity) {
         this.setState({
             isModalConter: false,
         })
-        this.props.navigation.navigate("AddActivity", { activity_id: activity_id })
+        this.props.navigation.navigate("AddActivity", { activity: activity, intensity: intensity,  })
     }
 
 
@@ -185,7 +185,7 @@ class Add extends Component {
                                     activity_list_show &&
                                     activity_list_show.map((item, i) => {
                                         return (
-                                            <TouchableWithoutFeedback onPress={() => this.nextAddActivity(item.intensity)}>
+                                            <TouchableWithoutFeedback onPress={() => this.nextAddActivity(item.activity, item.intensity)}>
                                                 <View>
                                                     <View style={styles.missionView}>
                                                         <Image
