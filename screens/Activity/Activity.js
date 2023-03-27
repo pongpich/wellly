@@ -23,6 +23,10 @@ import {
 } from "react-native-chart-kit";
 
 
+
+
+
+
 const HEADER_MAX_HEIGHT = 500;
 const HEADER_MIN_HEIGHT = 10;
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
@@ -32,18 +36,28 @@ const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
 const data = Array.from({ length: 30 });
 
-
+/* 
+const minValue = 80;
 
 function* yLabel() {
-    yield* [0, 1.5, 3];
+    yield* [minValue, 90, 100];
 }
 
-/* const datapoints = [0, 88, 96, 97, 94, 91, 88].map(
+const datapoints = [89, 88, 96, 97, 94, 91, 88].map(
     (datapoint) => datapoint - minValue - 1,
-); */
+);
 
+const data2 = {
+    labels: ['Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+    datasets: [
+        {
+            data: datapoints,
+        },
+    ],
+};
+ */
 
-const Exercise = ({ navigation }) => {
+const Activity = ({ navigation }) => {
 
     const dispatch = useDispatch();
 
@@ -84,8 +98,9 @@ const Exercise = ({ navigation }) => {
     }, [navigation]);
 
 
-    const screenWidth = Dimensions.get('window').width;
-    const yLabelIterator = yLabel();
+    /*   const screenWidth = Dimensions.get('window').width;
+      const yLabelIterator = yLabel(); */
+
     return (
         <View style={styles.fill}>
             <Animated.ScrollView
@@ -123,20 +138,20 @@ const Exercise = ({ navigation }) => {
                                     }}
                                     width={Dimensions.get("window").width} // from react-native
                                     height={220}
-                                    yAxisLabel="$"
-                                    yAxisSuffix="k"
-                                    yAxisInterval={1} // optional, defaults to 1
-                                    barPercentage={1}
+                                    yAxisLabel=""
+                                    yAxisSuffix=""
+                                    yAxisInterval={0} // optional, defaults to 1
                                     showLegend={true}
                                     chartConfig={{
                                         backgroundColor: "#fff",
                                         backgroundGradientFrom: "#fff",
                                         backgroundGradientTo: "#fff",
+                                        decimalPlaces: 0,
                                         decimalPlaces: 2, // optional, defaults to 2dp
                                         color: (opacity = 1) => `rgba(255, 0, 0, ${opacity})`,
                                         labelColor: (opacity = 1) => `rgba(255, 0, 0, ${opacity})`,
                                         style: {
-                                            borderRadius: 16
+                                            borderRadius: 16,
                                         },
                                         propsForDots: {
                                             r: "6",
@@ -150,6 +165,7 @@ const Exercise = ({ navigation }) => {
                                         borderRadius: 16
                                     }}
                                 />
+
                             </View>
                         </View>
                         <Text style={styles.nutritionWeek}>กิจกรรมสัปดาห์นี้</Text>
@@ -254,7 +270,7 @@ const Exercise = ({ navigation }) => {
 }
 
 
-Exercise.propTypes = {
+Activity.propTypes = {
     navigation: PropTypes.shape({
         navigate: PropTypes.func.isRequired,
     }).isRequired,
@@ -455,4 +471,4 @@ const styles = StyleSheet.create({
 
 
 
-export default Exercise;
+export default Activity;

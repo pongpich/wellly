@@ -1,0 +1,18 @@
+[
+  {
+    "id": "Moderate intensity",
+    "name": "ทำกิจกรรมระดับความเข้มข้นปานกลาง",
+    "index": 1,
+    "score": 2,
+    "number": 4,
+    "number_completed": 3
+  },
+  {
+    "id": "Vigorous intensity",
+    "name": "ทำกิจกรรมระดับความเข้มข้นสูง",
+    "index": 2,
+    "score": 3,
+    "number": 2,
+    "number_completed": 2
+  }
+]
