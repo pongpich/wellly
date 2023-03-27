@@ -98,7 +98,7 @@ class Home extends Component {
                     <Text style={styles.content}>ภารกิจของคุณในสัปดาห์นี้</Text>
 
                     <Pressable
-                    /* onPress={() => navigation.navigate("ArticleTemplate", { id: latest_nutrition_activity.week_in_program, mission_id: latest_nutrition_activity.mission_id, heading: latest_nutrition_activity.heading })} key={latest_nutrition_activity.week_in_program + "tfb"} */
+                        onPress={() => this.props.navigation.navigate("ArticleTemplate", { id: latest_nutrition_activity.week_in_program, mission_id: latest_nutrition_activity.mission_id, heading: latest_nutrition_activity.heading })} key={latest_nutrition_activity.week_in_program + "_na"}
                     >
                         <View style={styles.row}>
                             <View style={[styles.numberView, { backgroundColor: colors.mayaBlue20, }]}>
@@ -118,7 +118,7 @@ class Home extends Component {
                     </Pressable>
 
                     <Pressable
-                    //onPress={() => navigation.navigate("ExArticleTemplate", { id: item.week_in_program, mission_id: item.mission_id, heading: item.heading, mission_activities: item.mission_activities, statusPags: "Exercise" })} key={i + "tfb"}
+                        onPress={() => this.props.navigation.navigate("ExArticleTemplate", { id: latest_exercise_activity.week_in_program, mission_id: latest_exercise_activity.mission_id, heading: latest_exercise_activity.heading, mission_activities: latest_exercise_activity.mission_activities, statusPags: "Exercise" })} key={latest_exercise_activity.week_in_program + "_ea"}
                     >
                         <View style={styles.row}>
                             <View style={[styles.numberView, { backgroundColor: colors.persianBlue20 }]}>
