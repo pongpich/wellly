@@ -4,6 +4,7 @@ import colors from '../../constants/colors';
 import ComponentsStyle from '../../constants/components';
 import Modal from "react-native-modal";
 import { withTranslation } from 'react-i18next';
+import { calculateWeekInProgram } from "../../helpers/utils";
 import { connect } from 'react-redux';
 import { getActivityList, getExerciserActivity } from "../../redux/get";
 import { updateNumberCompleted } from "../../redux/update";
@@ -18,6 +19,15 @@ class AddActivity extends Component {
             isModalConter: false,
             study: "ทั้งหมด"
         };
+    }
+
+    componentDidMount() {
+
+        this._unsubscribe = this.props.navigation.addListener('focus', () => {
+
+
+        });
+
     }
 
     componentDidUpdate(prevProps) {
@@ -54,9 +64,14 @@ class AddActivity extends Component {
 
     saveMission() {
         const { user } = this.props;
+
         //this.props.navigation.navigate("Add")
-        const activity_id = 'moderate_intensity';
-        const week_in_program = 5;
+
+        // activity_id คือ  params จาก  route
+        const { activity_id } = this.props.route.params;
+        // ** หมายเหตุ ปัจจุบันใช้การคำนวน week ปัจจุบัน, - ซึ่งถ้าอนาคตมีการดูย้อนหลังสัปดาห์เก่า ต้องมาปรับปรุงส่วนนี้นะ -
+        const week_in_program = calculateWeekInProgram(user.start_date);
+        console.log("week_in_program :", week_in_program);
         this.props.updateNumberCompleted((user && user.user_id), activity_id, week_in_program);
     }
 

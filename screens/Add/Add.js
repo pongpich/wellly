@@ -116,11 +116,11 @@ class Add extends Component {
         })
     }
 
-    nextAddActivity() {
+    nextAddActivity(activity_id) {
         this.setState({
             isModalConter: false,
         })
-        this.props.navigation.navigate("AddActivity")
+        this.props.navigation.navigate("AddActivity", { activity_id: activity_id })
     }
 
 
@@ -154,7 +154,7 @@ class Add extends Component {
                         <View style={study == "ต่ำ" ? styles.boxHeadingActive : styles.boxHeading}>
                             <Pressable onPress={() => this.setState({
                                 study: "ต่ำ",
-                                activity_list_show:  activity_list.filter(item => item.intensity === 'light_intensity')
+                                activity_list_show: activity_list.filter(item => item.intensity === 'light_intensity')
                             })}>
                                 <Text style={study == "ต่ำ" ? styles.sectionActive : styles.section}> ต่ำ</Text>
                             </Pressable>
@@ -162,7 +162,7 @@ class Add extends Component {
                         <View style={study == "ปานกลาง" ? styles.boxHeadingActive : styles.boxHeading}>
                             <Pressable onPress={() => this.setState({
                                 study: "ปานกลาง",
-                                activity_list_show:  activity_list.filter(item => item.intensity === 'moderate_intensity')
+                                activity_list_show: activity_list.filter(item => item.intensity === 'moderate_intensity')
                             })}>
                                 <Text style={study == "ปานกลาง" ? styles.sectionActive : styles.section}> ปานกลาง</Text>
                             </Pressable>
@@ -170,7 +170,7 @@ class Add extends Component {
                         <View style={study == "สูง" ? styles.boxHeadingActive : styles.boxHeading}>
                             <Pressable onPress={() => this.setState({
                                 study: "สูง",
-                                activity_list_show:  activity_list.filter(item => item.intensity === 'vigorous_intensity')
+                                activity_list_show: activity_list.filter(item => item.intensity === 'vigorous_intensity')
                             })}>
                                 <Text style={study == "สูง" ? styles.sectionActive : styles.section}> สูง</Text>
                             </Pressable>
@@ -185,7 +185,7 @@ class Add extends Component {
                                     activity_list_show &&
                                     activity_list_show.map((item, i) => {
                                         return (
-                                            <TouchableWithoutFeedback onPress={() => this.nextAddActivity()}>
+                                            <TouchableWithoutFeedback onPress={() => this.nextAddActivity(item.intensity)}>
                                                 <View>
                                                     <View style={styles.missionView}>
                                                         <Image
@@ -215,7 +215,7 @@ class Add extends Component {
                                         )
                                     })
                                 }
-                      {/*            <TouchableWithoutFeedback onPress={() => this.nextAddActivity()}>
+                                {/*            <TouchableWithoutFeedback onPress={() => this.nextAddActivity()}>
                                     <View>
                                         <View style={styles.missionView}>
                                             <Image style={styles.activityImage} source={stsusColor == "เข้มข้นต่ำ" ? require('../../assets/images/activity/Activitylow.png') : stsusColor == "เข้มข้นปานกลาง" ? require('../../assets/images/activity/Activitycenter.png') : require('../../assets/images/activity/Activityhign.png')} />

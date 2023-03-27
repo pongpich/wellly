@@ -85,7 +85,7 @@ class Home extends Component {
     render() {
         const { user, activity_list } = this.props;
         const { latest_nutrition_activity, latest_exercise_activity, latest_exercise_mission } = this.state;
-        console.log("activity_list :", activity_list);
+       
         return (
             <View style={ComponentsStyle.container}>
                 <ScrollView>
