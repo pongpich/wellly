@@ -14,8 +14,13 @@ export const types = {
   GET_NUTRITION_ACTIVITY_ID_MISSION_SUCCESS: "GET_NUTRITION_ACTIVITY_ID_MISSION_SUCCESS",
   GET_EXERCISE_ACTIVITY: "GET_EXERCISE_ACTIVITY",
   GET_EXERCISE_ACTIVITY_SUCCESS: "GET_EXERCISE_ACTIVITY_SUCCESS",
+  GET_ACTIVITY_LIST: "GET_ACTIVITY_LIST",
+  GET_ACTIVITY_LIST_SUCCESS: "GET_ACTIVITY_LIST_SUCCESS"
 };
 
+export const getActivityList = () => ({
+  type: types.GET_ACTIVITY_LIST
+});
 
 export const getProfanity = () => ({
   type: types.GET_PROFANITY
@@ -59,6 +64,21 @@ export const getExerciserActivity = (user_id) => ({
 const getProfanitySagaAsync = async () => {
   try {
     const apiResult = await API.get("planforfit", "/getProfanity", {
+      queryStringParameters: {
+
+      }
+
+    });
+    // console.log("apiResult", apiResult);
+    return apiResult
+  } catch (error) {
+    return { error, messsage: error.message };
+  }
+};
+
+const getActivityListSagaAsync = async () => {
+  try {
+    const apiResult = await API.get("planforfit", "/getActivityList", {
       queryStringParameters: {
 
       }
@@ -141,6 +161,23 @@ function* getProfanitySaga({ }) {
 
   } catch (error) {
     console.log("error form getProfanitySaga", error);
+  }
+}
+
+function* getActivityListSaga({ }) {
+  try {
+    const apiResult = yield call(
+      getActivityListSagaAsync
+    );
+/*     console.log("apiResult gals:", apiResult);
+    if(apiResult) { }; */
+    yield put({
+      type: types.GET_ACTIVITY_LIST_SUCCESS,
+      payload: apiResult.results.activity_list
+    })
+
+  } catch (error) {
+    console.log("error form getActivityListSaga", error);
   }
 }
 
@@ -230,6 +267,10 @@ export function* watchGetProfanity() {
   yield takeEvery(types.GET_PROFANITY, getProfanitySaga)
 }
 
+export function* watchGetActivityList() {
+  yield takeEvery(types.GET_ACTIVITY_LIST, getActivityListSaga)
+}
+
 export function* watchGetNutritionMission() {
   yield takeEvery(types.GET_NUTRITION_MISSION, getNutritionMissionSaga)
 }
@@ -252,6 +293,7 @@ export function* saga() {
     fork(watchGetNutritionActivity),
     fork(watchGetNutritionActivityIdMission),
     fork(watchGetExerciserActivity),
+    fork(watchGetActivityList),
   ]);
 }
 
@@ -270,7 +312,9 @@ const INIT_STATE = {
   statusGetNutritionActivity: "default",
   nutrition_activity: null,
   statusExerciserActivity: "default",
-  exerciserActivity: null
+  exerciserActivity: null,
+  statusGetActivityList: "default",
+  activity_list: null
 
 };
 
@@ -285,6 +329,17 @@ export function reducer(state = INIT_STATE, action) {
       return {
         ...state,
         profanity: action.payload,
+      }
+    case types.GET_ACTIVITY_LIST:
+      return {
+        ...state,
+        statusGetActivityList: "loading"
+      }
+    case types.GET_ACTIVITY_LIST_SUCCESS:
+      return {
+        ...state,
+        statusGetActivityList: "success",
+        activity_list: action.payload,
       }
     case types.GET_NUTRITION_MISSION:
       return {

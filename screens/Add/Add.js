@@ -3,6 +3,9 @@ import { SafeAreaView, StatusBar, View, Text, StyleSheet, TextInput, Image, Imag
 import colors from '../../constants/colors';
 import ComponentsStyle from '../../constants/components';
 import Modal from "react-native-modal";
+import { withTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
+import { getActivityList } from "../../redux/get";
 
 class Add extends Component {
 
@@ -20,19 +23,21 @@ class Add extends Component {
             confirmDelete: false,
             confirmActivityDeleted: false,
             message: null,
-            data: true
+            data: true,
+            activity_list_show: []
         };
     }
 
 
     componentDidMount() {
-        const { user } = this.props;
+        const { user, activity_list } = this.props;
 
         this._unsubscribe = this.props.navigation.addListener('focus', () => {
             console.log("aaa", this.props.route.params);
 
             this.setState({
                 isModalConter: true,
+                activity_list_show: activity_list
             })
 
         });
@@ -120,7 +125,8 @@ class Add extends Component {
 
 
     listDataViews() {
-        const { stsusColor, isModalVisible, isModalConter, study, data, } = this.state;
+        const { stsusColor, isModalVisible, isModalConter, study, data, activity_list_show } = this.state;
+        const { activity_list } = this.props;
         return (
             <View style={{ flex: 1, justifyContent: "flex-end" }} onPress={() => this.toggleModal(isModalVisible)} >
                 <View style={styles.modalViewConter}>
@@ -139,28 +145,32 @@ class Add extends Component {
                     <View style={[styles.missionView, { marginTop: 16, justifyContent: "space-between" }]}>
                         <View style={study == "ทั้งหมด" ? styles.boxHeadingActive : styles.boxHeading}>
                             <Pressable onPress={() => this.setState({
-                                study: "ทั้งหมด"
+                                study: "ทั้งหมด",
+                                activity_list_show: activity_list
                             })}>
                                 <Text style={study == "ทั้งหมด" ? styles.sectionActive : styles.section}> ทั้งหมด</Text>
                             </Pressable>
                         </View>
                         <View style={study == "ต่ำ" ? styles.boxHeadingActive : styles.boxHeading}>
                             <Pressable onPress={() => this.setState({
-                                study: "ต่ำ"
+                                study: "ต่ำ",
+                                activity_list_show:  activity_list.filter(item => item.intensity === 'light_intensity')
                             })}>
                                 <Text style={study == "ต่ำ" ? styles.sectionActive : styles.section}> ต่ำ</Text>
                             </Pressable>
                         </View>
                         <View style={study == "ปานกลาง" ? styles.boxHeadingActive : styles.boxHeading}>
                             <Pressable onPress={() => this.setState({
-                                study: "ปานกลาง"
+                                study: "ปานกลาง",
+                                activity_list_show:  activity_list.filter(item => item.intensity === 'moderate_intensity')
                             })}>
                                 <Text style={study == "ปานกลาง" ? styles.sectionActive : styles.section}> ปานกลาง</Text>
                             </Pressable>
                         </View>
                         <View style={study == "สูง" ? styles.boxHeadingActive : styles.boxHeading}>
                             <Pressable onPress={() => this.setState({
-                                study: "สูง"
+                                study: "สูง",
+                                activity_list_show:  activity_list.filter(item => item.intensity === 'vigorous_intensity')
                             })}>
                                 <Text style={study == "สูง" ? styles.sectionActive : styles.section}> สูง</Text>
                             </Pressable>
@@ -170,8 +180,42 @@ class Add extends Component {
 
                         {data == true ?
 
-                            <>
-                                <TouchableWithoutFeedback onPress={() => this.nextAddActivity()}>
+                            <ScrollView>
+                                {
+                                    activity_list_show &&
+                                    activity_list_show.map((item, i) => {
+                                        return (
+                                            <TouchableWithoutFeedback onPress={() => this.nextAddActivity()}>
+                                                <View>
+                                                    <View style={styles.missionView}>
+                                                        <Image
+                                                            style={styles.activityImage}
+                                                            source={item.intensity === 'light_intensity' ? require('../../assets/images/activity/Activitylow.png') : item.intensity === 'moderate_intensity' ? require('../../assets/images/activity/Activitycenter.png') : require('../../assets/images/activity/Activityhign.png')}
+                                                        />
+                                                        <View style={styles.groupText2}>
+                                                            <Text style={styles.headText2}>{item.activity}</Text>
+                                                            <Text
+                                                                style={[styles.groupStatus, { color: item.intensity === 'light_intensity' ? colors.secondary_MayaBlue : item.intensity === 'moderate_intensity' ? colors.tertiaryYellow : colors.tertiaryMagenta }]}
+                                                            >
+                                                                {(item.intensity === 'light_intensity') && 'เข้มข้นต่ำ'}
+                                                                {(item.intensity === 'moderate_intensity') && 'เข้มข้นปานกลาง'}
+                                                                {(item.intensity === 'vigorous_intensity') && 'เข้มข้นสูง'}
+                                                            </Text>
+                                                        </View>
+                                                    </View>
+                                                    <View style={styles.viewIconRight2}>
+                                                        <Text style={[styles.groupStatus, { color: item.intensity === 'light_intensity' ? colors.secondary_MayaBlue : item.intensity === 'moderate_intensity' ? colors.tertiaryYellow : colors.tertiaryMagenta }]}>
+                                                            {(item.intensity === 'light_intensity') && 'เข้มข้นต่ำ'}
+                                                            {(item.intensity === 'moderate_intensity') && 'เข้มข้นปานกลาง'}
+                                                            {(item.intensity === 'vigorous_intensity') && 'เข้มข้นสูง'}
+                                                        </Text>
+                                                    </View>
+                                                </View>
+                                            </TouchableWithoutFeedback>
+                                        )
+                                    })
+                                }
+                      {/*            <TouchableWithoutFeedback onPress={() => this.nextAddActivity()}>
                                     <View>
                                         <View style={styles.missionView}>
                                             <Image style={styles.activityImage} source={stsusColor == "เข้มข้นต่ำ" ? require('../../assets/images/activity/Activitylow.png') : stsusColor == "เข้มข้นปานกลาง" ? require('../../assets/images/activity/Activitycenter.png') : require('../../assets/images/activity/Activityhign.png')} />
@@ -184,8 +228,8 @@ class Add extends Component {
                                             <Text style={[styles.groupStatus, { color: stsusColor == "เข้มข้นต่ำ" ? colors.secondary_MayaBlue : stsusColor == "เข้มข้นปานกลาง" ? colors.tertiaryYellow : colors.tertiaryMagenta }]}>เข้มข้นต่ำ</Text>
                                         </View>
                                     </View>
-                                </TouchableWithoutFeedback>
-                                <View>
+                                </TouchableWithoutFeedback> */}
+                                {/* <View>
                                     <View style={styles.missionView}>
                                         <Image style={styles.activityImage} source={stsusColor == "เข้มข้นต่ำ" ? require('../../assets/images/activity/Activitylow.png') : stsusColor == "เข้มข้นปานกลาง" ? require('../../assets/images/activity/Activitycenter.png') : require('../../assets/images/activity/Activityhign.png')} />
                                         <View style={styles.groupText2}>
@@ -196,8 +240,8 @@ class Add extends Component {
                                     <View style={styles.viewIconRight2}>
                                         <Text style={[styles.groupStatus, { color: stsusColor == "เข้มข้นต่ำ" ? colors.secondary_MayaBlue : stsusColor == "เข้มข้นปานกลาง" ? colors.tertiaryYellow : colors.tertiaryMagenta }]}>เข้มข้นต่ำ</Text>
                                     </View>
-                                </View>
-                                <View>
+                                </View> */}
+                                {/*  <View>
                                     <View style={styles.missionView}>
                                         <Image style={styles.activityImage} source={stsusColor == "เข้มข้นต่ำ" ? require('../../assets/images/activity/Activitylow.png') : stsusColor == "เข้มข้นปานกลาง" ? require('../../assets/images/activity/Activitycenter.png') : require('../../assets/images/activity/Activityhign.png')} />
                                         <View style={styles.groupText2}>
@@ -208,7 +252,7 @@ class Add extends Component {
                                     <View style={styles.viewIconRight2}>
                                         <Text style={[styles.groupStatus, { color: stsusColor == "เข้มข้นต่ำ" ? colors.secondary_MayaBlue : stsusColor == "เข้มข้นปานกลาง" ? colors.tertiaryYellow : colors.tertiaryMagenta }]}>เข้มข้นต่ำ</Text>
                                     </View>
-                                </View>
+                                </View> */}
                                 <TouchableWithoutFeedback onPress={() => this.setState({ statusCreate: "createView" })}>
                                     <View>
                                         <View style={styles.missionView}>
@@ -219,7 +263,7 @@ class Add extends Component {
                                         </View>
                                     </View>
                                 </TouchableWithoutFeedback>
-                            </>
+                            </ScrollView>
                             :
                             <View style={styles.emptyStateCenter}>
                                 <Image
@@ -863,4 +907,16 @@ const styles = StyleSheet.create({
     }
 
 })
-export default Add;
+
+const mapStateToProps = ({ authUser, getData }) => {
+    const { user } = authUser;
+    const { activity_list, statusGetActivityList } = getData;
+    return { user, activity_list, statusGetActivityList };
+};
+
+const mapActionsToProps = { getActivityList };
+
+export default connect(
+    mapStateToProps,
+    mapActionsToProps
+)(withTranslation()(Add));

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Pressable, SafeAreaView, Image, ScrollView, StatusBar, statusBarStyle, statusBarTransition, hidden, TouchableOpacity, TextInput, Text, Linking, KeyboardAvoidingView, Platform, Dimensions, Modal, InputAccessoryView, Keyboard } from 'react-native';
 import { logoutUser, loginUser } from "../redux/auth";
-import { getNutritionMission, getNutritionActivity, getExerciserActivity } from "../redux/get";
+import { getNutritionMission, getNutritionActivity, getExerciserActivity, getActivityList } from "../redux/get";
 import { insertNutritionActivity, insertExerciseActivity, } from "../redux/update";
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
@@ -31,6 +31,7 @@ class Home extends Component {
             this.props.insertNutritionActivity(user && user.user_id);
             this.props.getNutritionActivity(user && user.user_id);
             this.props.getExerciserActivity(user && user.user_id);
+            this.props.getActivityList()
 
             if (!user) { // $student_two["Chemistry"] = 92
                 this.props.navigation.navigate("Login");
@@ -78,11 +79,13 @@ class Home extends Component {
             })
 
         }
+
     }
 
     render() {
-        const { user } = this.props;
+        const { user, activity_list } = this.props;
         const { latest_nutrition_activity, latest_exercise_activity, latest_exercise_mission } = this.state;
+        console.log("activity_list :", activity_list);
         return (
             <View style={ComponentsStyle.container}>
                 <ScrollView>
@@ -317,11 +320,11 @@ const styles = StyleSheet.create({
 const mapStateToProps = ({ authUser, getData, personalDataUser }) => {
     const { user } = authUser;
     const { route_name } = personalDataUser;
-    const { nutrition_mission, nutrition_activity, statusGetNutritionMission, statusGetNutritionActivity, statusInsertNutritionActivity, statusExerciserActivity, exerciserActivity } = getData;
-    return { user, nutrition_mission, nutrition_activity, statusGetNutritionMission, statusGetNutritionActivity, statusInsertNutritionActivity, statusExerciserActivity, exerciserActivity, route_name };
+    const { nutrition_mission, nutrition_activity, statusGetNutritionMission, statusGetNutritionActivity, statusInsertNutritionActivity, statusExerciserActivity, exerciserActivity, activity_list, statusGetActivityList } = getData;
+    return { user, nutrition_mission, nutrition_activity, statusGetNutritionMission, statusGetNutritionActivity, statusInsertNutritionActivity, statusExerciserActivity, exerciserActivity, activity_list, statusGetActivityList, route_name };
 };
 
-const mapActionsToProps = { logoutUser, getNutritionMission, routeName, insertNutritionActivity, insertExerciseActivity, loginUser, getNutritionActivity, getExerciserActivity };
+const mapActionsToProps = { logoutUser, getNutritionMission, routeName, insertNutritionActivity, insertExerciseActivity, loginUser, getNutritionActivity, getExerciserActivity, getActivityList };
 
 export default connect(
     mapStateToProps,
