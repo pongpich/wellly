@@ -371,9 +371,9 @@ const Exercise = ({ navigation }) => {
                                                         </View>
                                                         <View style={styles.missionData}>
                                                             <Text style={styles.missionHead} >{item.heading}</Text>
-                                                            {/* <Text style={styles.missionContent} key="i+ v3t">
-                                                                โปรแกรมออกกำลังกายลดความเสี่ยงโรคเบาหวาน
-                                                            </Text> */}
+                                                            <Text style={styles.missionContent} key="i+ v3t">
+                                                                {item.short_content}
+                                                            </Text>
                                                             {
                                                                 (days == "Sunday") && (week_program_user == item.week_in_program) ?
                                                                     <View style={styles.notifiedRed}>
