@@ -26,8 +26,11 @@ export const setIntensityFromExArticleTemplate = (intensity) => ({
   }
 })
 
-export const getActivityList = () => ({
-  type: types.GET_ACTIVITY_LIST
+export const getActivityList = (user_id) => ({
+  type: types.GET_ACTIVITY_LIST,
+  payload: {
+    user_id
+  }
 });
 
 export const getProfanity = () => ({
@@ -84,11 +87,11 @@ const getProfanitySagaAsync = async () => {
   }
 };
 
-const getActivityListSagaAsync = async () => {
+const getActivityListSagaAsync = async (user_id) => {
   try {
     const apiResult = await API.get("planforfit", "/getActivityList", {
       queryStringParameters: {
-
+        user_id
       }
 
     });
@@ -172,13 +175,15 @@ function* getProfanitySaga({ }) {
   }
 }
 
-function* getActivityListSaga({ }) {
+function* getActivityListSaga({ payload }) {
+  const { user_id } = payload;
   try {
     const apiResult = yield call(
-      getActivityListSagaAsync
+      getActivityListSagaAsync,
+      user_id
     );
-    /*     console.log("apiResult gals:", apiResult);
-        if(apiResult) { }; */
+    console.log("apiResult gals:", apiResult);
+    if (apiResult) { };
     yield put({
       type: types.GET_ACTIVITY_LIST_SUCCESS,
       payload: apiResult.results.activity_list

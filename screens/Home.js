@@ -39,7 +39,7 @@ class Home extends Component {
             this.props.insertNutritionActivity(user && user.user_id);
             this.props.getNutritionActivity(user && user.user_id);
             this.props.getExerciserActivity(user && user.user_id);
-            this.props.getActivityList()
+            this.props.getActivityList(user && user.user_id)
 
             if (!user) { // $student_two["Chemistry"] = 92
                 this.props.navigation.navigate("Login");
