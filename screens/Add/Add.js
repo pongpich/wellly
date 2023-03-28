@@ -442,7 +442,7 @@ class Add extends Component {
                                             <View style={styles.missionView}>
                                                 <Image style={styles.activityImage} source={stsusColor == "เข้มข้นต่ำ" ? require('../../assets/images/activity/Activitylow.png') : stsusColor == "เข้มข้นปานกลาง" ? require('../../assets/images/activity/Activitycenter.png') : require('../../assets/images/activity/Activityhign.png')} />
                                                 <View style={styles.groupText2}>
-                                                    <Text style={styles.headText2}>เดินเร็ว</Text>
+                                                    <Text style={styles.headText2}>เดินเร็ว22333</Text>
                                                     <Text style={[styles.groupStatus, { color: stsusColor == "เข้มข้นต่ำ" ? colors.secondary_MayaBlue : stsusColor == "เข้มข้นปานกลาง" ? colors.tertiaryYellow : colors.tertiaryMagenta }]}>เข้มข้นต่ำ</Text>
                                                 </View>
                                             </View>
