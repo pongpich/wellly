@@ -163,7 +163,7 @@ class ArticleTemplate extends Component {
 
 
         return (
-            <View style={{ flex: 1, marginTop: 24, marginHorizontal: 16, height: deviceHeight }}>
+            <View style={{ flex: 1, marginTop: 24, marginHorizontal: 16, height: deviceHeight }} key={"vre"}>
                 <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                     <Text style={styles.target}>เป้าหมายสัปดาห์นี้</Text>
                     <View style={{ flexDirection: "row" }}>
@@ -219,7 +219,7 @@ class ArticleTemplate extends Component {
                                         paddingHorizontal: 16, borderTopLeftRadius: index == 1 ? 8 : 0, borderTopRightRadius: index == 1 ? 8 : 0,
                                         borderBottomLeftRadius: index == datalength ? 8 : 0, borderBottomRightRadius: index == datalength ? 8 : 0,
                                         flexDirection: "row", justifyContent: "space-between"
-                                    }}>
+                                    }} key={i + "vi"}>
                                         <Text style={styles.expand_answerText}>
                                             {item.name}  {item.number} ครั้ง
                                         </Text>
@@ -270,57 +270,59 @@ class ArticleTemplate extends Component {
                         var maxScore = item.number;
                         var score_completed = item.number_completed;
                         return (
-                            <Pressable onPress={() => this.actionPress(item.id)} key={i + "tfb"} >
-                                <View key={i} style={styles.row}>
-                                    <View style={styles.numberView}>
-                                        <AnimatedCircularProgress
-                                            size={64}
-                                            width={8}
-                                            fill={multiple}
-                                            tintTransparency={true}
-                                            rotation={360}
-                                            tintColor={colors.positive1}
-                                            backgroundColor={colors.grey6} >
-                                            {
+                            <View key={i + "vid"}>
+                                <Pressable onPress={() => this.actionPress(item.id)} key={i + "tfb"} >
+                                    <View key={i} style={styles.row}>
+                                        <View style={styles.numberView}>
+                                            <AnimatedCircularProgress
+                                                size={64}
+                                                width={8}
+                                                fill={multiple}
+                                                tintTransparency={true}
+                                                rotation={360}
+                                                tintColor={colors.positive1}
+                                                backgroundColor={colors.grey6} >
+                                                {
 
-                                                (fill) => (
-                                                    <>
-                                                        <View style={{ flexDirection: "row", marginTop: 10 }}>
-                                                            <Text style={{ color: colors.grey1, fontSize: 16, fontFamily: "IBMPlexSansThai-Bold", marginTop: 0 }}>{item.number_completed}</Text>
-                                                            <Text style={{ color: colors.grey1, fontSize: 14, fontFamily: "IBMPlexSansThai-Regular", marginTop: 4 }}> /{item.number}</Text>
-                                                        </View>
-                                                        <Text style={{ color: colors.grey2, fontSize: 16, fontFamily: "IBMPlexSansThai-Regular", marginTop: -10 }}>ครั้ง</Text>
-                                                    </>
-                                                )
-
-                                            }
-                                        </AnimatedCircularProgress>
-                                    </View>
-                                    <View style={styles.missionData}>
-                                        <Text style={styles.missionHead}>{item.name}</Text>
-                                        <View style={{ flexDirection: "row" }}>
-                                            {
-                                                Array.from({ length: maxScore }) && Array.from({ length: maxScore }).map((item, i) => {
-                                                    return (
-                                                        <Image style={[i > 0 ? { marginLeft: 4 } : null, { width: 16, height: 16, marginTop: 8 }]} source={
-                                                            score_completed >= ++i ?
-                                                                require('../../assets/images/icon/Firepoint.png')
-                                                                :
-                                                                require('../../assets/images/icon/Firepoint2.png')
-                                                        } />
+                                                    (fill) => (
+                                                        <>
+                                                            <View style={{ flexDirection: "row", marginTop: 10 }}>
+                                                                <Text style={{ color: colors.grey1, fontSize: 16, fontFamily: "IBMPlexSansThai-Bold", marginTop: 0 }}>{item.number_completed}</Text>
+                                                                <Text style={{ color: colors.grey1, fontSize: 14, fontFamily: "IBMPlexSansThai-Regular", marginTop: 4 }}> /{item.number}</Text>
+                                                            </View>
+                                                            <Text style={{ color: colors.grey2, fontSize: 16, fontFamily: "IBMPlexSansThai-Regular", marginTop: -10 }}>ครั้ง</Text>
+                                                        </>
                                                     )
-                                                })
-                                            }
+
+                                                }
+                                            </AnimatedCircularProgress>
+                                        </View>
+                                        <View style={styles.missionData}>
+                                            <Text style={styles.missionHead}>{item.name}</Text>
+                                            <View style={{ flexDirection: "row" }}>
+                                                {
+                                                    Array.from({ length: maxScore }) && Array.from({ length: maxScore }).map((item, i) => {
+                                                        return (
+                                                            <Image style={[i > 0 ? { marginLeft: 4 } : null, { width: 16, height: 16, marginTop: 8 }]} source={
+                                                                score_completed >= ++i ?
+                                                                    require('../../assets/images/icon/Firepoint.png')
+                                                                    :
+                                                                    require('../../assets/images/icon/Firepoint2.png')
+                                                            } />
+                                                        )
+                                                    })
+                                                }
+                                            </View>
+                                        </View>
+                                        <View style={styles.viewIconRight}>
+                                            <Image
+                                                style={{ height: 24, width: 24, zIndex: 1, marginRight: 8 }}
+                                                source={require('../../assets/images/icon/right.png')}
+                                            />
                                         </View>
                                     </View>
-                                    <View style={styles.viewIconRight}>
-                                        <Image
-                                            style={{ height: 24, width: 24, zIndex: 1, marginRight: 8 }}
-                                            source={require('../../assets/images/icon/right.png')}
-                                        />
-                                    </View>
-                                </View>
-                            </Pressable>
+                                </Pressable>
+                            </View>
                         )
                     })
                 }

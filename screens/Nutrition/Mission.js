@@ -30,9 +30,9 @@ class Mission extends Component {
                     mission && mission.map((value, i,) => {
 
                         return (
-                            <View style={{ flexDirection: "row", marginRight: 16 }} key={i + "i"}>
-                                <Text style={styles.textMission}> {value.index}. </Text>
-                                <Text style={styles.textMission}> {value.title}</Text>
+                            <View style={{ flexDirection: "row", marginRight: 16 }} key={i + "iv"}>
+                                <Text style={styles.textMission} key={i + "iv2"}> {value.index}. </Text>
+                                <Text style={styles.textMission} key={i + "iv3"}> {value.title}</Text>
                             </View>
 
 
