@@ -35,8 +35,10 @@ class Add extends Component {
 
         this._unsubscribe = this.props.navigation.addListener('focus', () => {
             const { intensityFromExArticleTemplate } = this.props;
-            console.log("intensityFromExArticleTemplate", intensityFromExArticleTemplate);
 
+            this.setState({
+                intensityFromExArticle: null
+            })
 
             this.setState({
                 activity_list_show: [...activity_list.light_intensity, ...activity_list.moderate_intensity, ...activity_list.vigorous_intensity]
@@ -65,7 +67,25 @@ class Add extends Component {
 
     componentDidUpdate(prevProps, prevState) {
         const { intensityFromExArticle } = this.state;
-        if ((prevState.intensityFromExArticle === intensityFromExArticle) && (intensityFromExArticle !== null)) {
+        const { user, activity_list, intensityFromExArticleTemplate } = this.props;
+        if ((prevState.intensityFromExArticle !== intensityFromExArticle) && (intensityFromExArticle !== null)) {
+
+            if (intensityFromExArticle == "light_intensity") {
+                this.setState({
+                    activity_list_show: [...activity_list.light_intensity]
+                })
+            }
+            if (intensityFromExArticle == "moderate_intensity") {
+                this.setState({
+                    activity_list_show: [...activity_list.moderate_intensity]
+                })
+            }
+            if (intensityFromExArticle == "vigorous_intensity") {
+                this.setState({
+                    activity_list_show: [...activity_list.vigorous_intensity]
+                })
+            }
+
             this.setState({
                 isModalConter: true,
             })
@@ -147,56 +167,90 @@ class Add extends Component {
     listDataViews() {
         const { stsusColor, isModalVisible, isModalConter, study, data, activity_list_show, intensityFromExArticle } = this.state;
         const { activity_list } = this.props;
+        console.log("activity_list", activity_list);
         console.log("intensityFromExArticle", intensityFromExArticle);
         return (
             <View style={{ flex: 1, justifyContent: "flex-end" }} onPress={() => this.toggleModal(isModalVisible)} >
                 <View style={styles.modalViewConter}>
-                    <View style={[styles.missionView, { marginTop: 20, justifyContent: "space-between" }]}>
-                        <TouchableWithoutFeedback onPress={() => this.isModalConter(isModalConter)}>
-                            <Image
-                                style={styles.cross}
-                                source={require('../../assets/images/activity/cross.png')}
-                            />
-                        </TouchableWithoutFeedback>
-                        <Text style={styles.headActivity}>กิจกรรมตามความเข้มข้น</Text>
-                        <TouchableWithoutFeedback onPress={() => this.setState({ statusCreate: "editView" })}>
-                            <Text style={styles.headEdit}>เเก้ไข</Text>
-                        </TouchableWithoutFeedback>
+                    <View style={[styles.missionView, { marginTop: 20, justifyContent: "space-between", marginHorizontal: 16 }]}>
+
+                        {
+                            intensityFromExArticle === null ?
+                                <TouchableWithoutFeedback onPress={() => this.isModalConter(isModalConter)}>
+                                    <Image
+                                        style={styles.cross}
+                                        source={require('../../assets/images/activity/cross.png')}
+                                    />
+                                </TouchableWithoutFeedback>
+                                : <View></View>
+                        }
+
+                        {intensityFromExArticle === null ? <Text style={styles.headActivity}>กิจกรรมตามความเข้มข้น</Text>
+                            :
+                            intensityFromExArticle == "light_intensity" ? <Text style={styles.headActivity}>กิจกรรมตามความเข้มข้นต่ำ</Text>
+                                :
+                                intensityFromExArticle == "moderate_intensity" ? <Text style={styles.headActivity}>กิจกรรมตามความเข้มข้นปานกลาง</Text>
+                                    : <Text style={styles.headActivity}>กิจกรรมตามความเข้มข้นสูง</Text>
+                        }
+
+                        {
+                            intensityFromExArticle === null ?
+                                <TouchableWithoutFeedback onPress={() => this.setState({ statusCreate: "editView" })}>
+                                    <Text style={styles.headEdit}>เเก้ไข</Text>
+                                </TouchableWithoutFeedback>
+                                :
+                                <TouchableWithoutFeedback onPress={() => {
+                                    this.props.navigation.navigate('Exercise')
+                                    this.isModalConter(isModalConter);
+
+                                }}>
+                                    <Image
+                                        style={styles.cross}
+                                        source={require('../../assets/images/activity/cross.png')}
+                                    />
+                                </TouchableWithoutFeedback>
+                        }
+
                     </View>
-                    <View style={[styles.missionView, { marginTop: 16, justifyContent: "space-between" }]}>
-                        <View style={study == "ทั้งหมด" ? styles.boxHeadingActive : styles.boxHeading}>
-                            <Pressable onPress={() => this.setState({
-                                study: "ทั้งหมด",
-                                activity_list_show: [...activity_list.light_intensity, ...activity_list.moderate_intensity, ...activity_list.vigorous_intensity]
-                            })}>
-                                <Text style={study == "ทั้งหมด" ? styles.sectionActive : styles.section}> ทั้งหมด</Text>
-                            </Pressable>
-                        </View>
-                        <View style={study == "ต่ำ" ? styles.boxHeadingActive : styles.boxHeading}>
-                            <Pressable onPress={() => this.setState({
-                                study: "ต่ำ",
-                                activity_list_show: [...activity_list.light_intensity]
-                            })}>
-                                <Text style={study == "ต่ำ" ? styles.sectionActive : styles.section}> ต่ำ</Text>
-                            </Pressable>
-                        </View>
-                        <View style={study == "ปานกลาง" ? styles.boxHeadingActive : styles.boxHeading}>
-                            <Pressable onPress={() => this.setState({
-                                study: "ปานกลาง",
-                                activity_list_show: [...activity_list.moderate_intensity]
-                            })}>
-                                <Text style={study == "ปานกลาง" ? styles.sectionActive : styles.section}> ปานกลาง</Text>
-                            </Pressable>
-                        </View>
-                        <View style={study == "สูง" ? styles.boxHeadingActive : styles.boxHeading}>
-                            <Pressable onPress={() => this.setState({
-                                study: "สูง",
-                                activity_list_show: [...activity_list.vigorous_intensity]
-                            })}>
-                                <Text style={study == "สูง" ? styles.sectionActive : styles.section}> สูง</Text>
-                            </Pressable>
-                        </View>
-                    </View>
+                    {
+                        intensityFromExArticle === null ?
+                            <View style={[styles.missionView, { marginTop: 16, justifyContent: "space-between", marginHorizontal: 16 }]}>
+                                <View style={study == "ทั้งหมด" ? styles.boxHeadingActive : styles.boxHeading}>
+                                    <Pressable onPress={() => this.setState({
+                                        study: "ทั้งหมด",
+                                        activity_list_show: [...activity_list.light_intensity, ...activity_list.moderate_intensity, ...activity_list.vigorous_intensity]
+                                    })}>
+                                        <Text style={study == "ทั้งหมด" ? styles.sectionActive : styles.section}> ทั้งหมด</Text>
+                                    </Pressable>
+                                </View>
+                                <View style={study == "ต่ำ" ? styles.boxHeadingActive : styles.boxHeading}>
+                                    <Pressable onPress={() => this.setState({
+                                        study: "ต่ำ",
+                                        activity_list_show: [...activity_list.light_intensity]
+                                    })}>
+                                        <Text style={study == "ต่ำ" ? styles.sectionActive : styles.section}> ต่ำ</Text>
+                                    </Pressable>
+                                </View>
+                                <View style={study == "ปานกลาง" ? styles.boxHeadingActive : styles.boxHeading}>
+                                    <Pressable onPress={() => this.setState({
+                                        study: "ปานกลาง",
+                                        activity_list_show: [...activity_list.moderate_intensity]
+                                    })}>
+                                        <Text style={study == "ปานกลาง" ? styles.sectionActive : styles.section}> ปานกลาง</Text>
+                                    </Pressable>
+                                </View>
+                                <View style={study == "สูง" ? styles.boxHeadingActive : styles.boxHeading}>
+                                    <Pressable onPress={() => this.setState({
+                                        study: "สูง",
+                                        activity_list_show: [...activity_list.vigorous_intensity]
+                                    })}>
+                                        <Text style={study == "สูง" ? styles.sectionActive : styles.section}> สูง</Text>
+                                    </Pressable>
+                                </View>
+                            </View>
+                            : null
+                    }
+
                     <View style={{ marginTop: 24 }}>
 
                         {data == true ?
@@ -207,7 +261,7 @@ class Add extends Component {
                                     activity_list_show.map((item, i) => {
                                         return (
                                             <TouchableWithoutFeedback key={i} onPress={() => this.nextAddActivity(item.activity, item.intensity, item.type)}>
-                                                <View>
+                                                <View style={{ marginRight: 16 }}>
                                                     <View style={styles.missionView}>
                                                         <Image
                                                             style={styles.activityImage}
@@ -236,46 +290,8 @@ class Add extends Component {
                                         )
                                     })
                                 }
-                                {/*            <TouchableWithoutFeedback onPress={() => this.nextAddActivity()}>
-                                    <View>
-                                        <View style={styles.missionView}>
-                                            <Image style={styles.activityImage} source={stsusColor == "เข้มข้นต่ำ" ? require('../../assets/images/activity/Activitylow.png') : stsusColor == "เข้มข้นปานกลาง" ? require('../../assets/images/activity/Activitycenter.png') : require('../../assets/images/activity/Activityhign.png')} />
-                                            <View style={styles.groupText2}>
-                                                <Text style={styles.headText2}>เดินเร็วaaa</Text>
-                                                <Text style={[styles.groupStatus, { color: stsusColor == "เข้มข้นต่ำ" ? colors.secondary_MayaBlue : stsusColor == "เข้มข้นปานกลาง" ? colors.tertiaryYellow : colors.tertiaryMagenta }]}>เข้มข้นต่ำ</Text>
-                                            </View>
-                                        </View>
-                                        <View style={styles.viewIconRight2}>
-                                            <Text style={[styles.groupStatus, { color: stsusColor == "เข้มข้นต่ำ" ? colors.secondary_MayaBlue : stsusColor == "เข้มข้นปานกลาง" ? colors.tertiaryYellow : colors.tertiaryMagenta }]}>เข้มข้นต่ำ</Text>
-                                        </View>
-                                    </View>
-                                </TouchableWithoutFeedback> */}
-                                {/* <View>
-                                    <View style={styles.missionView}>
-                                        <Image style={styles.activityImage} source={stsusColor == "เข้มข้นต่ำ" ? require('../../assets/images/activity/Activitylow.png') : stsusColor == "เข้มข้นปานกลาง" ? require('../../assets/images/activity/Activitycenter.png') : require('../../assets/images/activity/Activityhign.png')} />
-                                        <View style={styles.groupText2}>
-                                            <Text style={styles.headText2}>เดินเร็ว</Text>
-                                            <Text style={[styles.groupStatus, { color: stsusColor == "เข้มข้นต่ำ" ? colors.secondary_MayaBlue : stsusColor == "เข้มข้นปานกลาง" ? colors.tertiaryYellow : colors.tertiaryMagenta }]}>เข้มข้นต่ำ</Text>
-                                        </View>
-                                    </View>
-                                    <View style={styles.viewIconRight2}>
-                                        <Text style={[styles.groupStatus, { color: stsusColor == "เข้มข้นต่ำ" ? colors.secondary_MayaBlue : stsusColor == "เข้มข้นปานกลาง" ? colors.tertiaryYellow : colors.tertiaryMagenta }]}>เข้มข้นต่ำ</Text>
-                                    </View>
-                                </View> */}
-                                {/*  <View>
-                                    <View style={styles.missionView}>
-                                        <Image style={styles.activityImage} source={stsusColor == "เข้มข้นต่ำ" ? require('../../assets/images/activity/Activitylow.png') : stsusColor == "เข้มข้นปานกลาง" ? require('../../assets/images/activity/Activitycenter.png') : require('../../assets/images/activity/Activityhign.png')} />
-                                        <View style={styles.groupText2}>
-                                            <Text style={styles.headText2}>เดินเร็ว</Text>
-                                            <Text style={[styles.groupStatus, { color: stsusColor == "เข้มข้นต่ำ" ? colors.secondary_MayaBlue : stsusColor == "เข้มข้นปานกลาง" ? colors.tertiaryYellow : colors.tertiaryMagenta }]}>เข้มข้นต่ำ</Text>
-                                        </View>
-                                    </View>
-                                    <View style={styles.viewIconRight2}>
-                                        <Text style={[styles.groupStatus, { color: stsusColor == "เข้มข้นต่ำ" ? colors.secondary_MayaBlue : stsusColor == "เข้มข้นปานกลาง" ? colors.tertiaryYellow : colors.tertiaryMagenta }]}>เข้มข้นต่ำ</Text>
-                                    </View>
-                                </View> */}
                                 <TouchableWithoutFeedback onPress={() => this.setState({ statusCreate: "createView" })}>
-                                    <View>
+                                    <View style={{ marginBottom: 200 }}>
                                         <View style={styles.missionView}>
                                             <Image style={styles.activityImage} source={require('../../assets/images/activity/frame13811.png')} />
                                             <View style={styles.groupText2}>
@@ -311,7 +327,7 @@ class Add extends Component {
         return (
             <>
                 <View style={{ flex: 1, justifyContent: "flex-end" }} onPress={() => this.toggleModal(isModalVisible)} >
-                    <View style={styles.modalViewConter}>
+                    <View style={[styles.modalViewConter, { paddingHorizontal: 16 }]}>
                         <View style={[styles.missionView, { marginTop: 20, justifyContent: "space-between" }]}>
                             <TouchableWithoutFeedback onPress={() => this.setState({ statusCreate: "listDataViews" })}>
                                 <Text style={styles.headEdit}>ยกเลิก</Text>
@@ -374,6 +390,7 @@ class Add extends Component {
 
     editView() {
         const { stsusColor, isModalVisible, isModalConter, study, data, message, confirmActivityDeleted, confirmDelete, editmission, statusViolence, missionName } = this.state;
+        console.log("editmission", editmission);
         return (
             <>
 
@@ -381,70 +398,6 @@ class Add extends Component {
                     editmission === false ?
                         <View style={{ flex: 1, justifyContent: "flex-end" }} onPress={() => this.toggleModal(isModalVisible)} >
                             <View style={styles.modalViewConter}>
-                                <View style={[styles.missionView, { marginTop: 20, justifyContent: "space-between", alignItems: "center" }]}>
-                                    <View></View>
-                                    <Text style={styles.headActivity}>เเก้ไขกิจกรรมตามความเข้มข้น</Text>
-                                    <TouchableWithoutFeedback onPress={() => this.setState({ statusCreate: "listDataViews" })}>
-                                        <Text style={styles.headEdit}>เสร็จ</Text>
-                                    </TouchableWithoutFeedback>
-                                </View>
-                                <View style={[styles.missionView, { marginTop: 16, justifyContent: "space-between" }]}>
-                                    <View style={study == "ทั้งหมด" ? styles.boxHeadingActive : styles.boxHeading}>
-                                        <Pressable onPress={() => this.setState({
-                                            study: "ทั้งหมด"
-                                        })}>
-                                            <Text style={study == "ทั้งหมด" ? styles.sectionActive : styles.section}> ทั้งหมด</Text>
-                                        </Pressable>
-                                    </View>
-                                    <View style={study == "ต่ำ" ? styles.boxHeadingActive : styles.boxHeading}>
-                                        <Pressable onPress={() => this.setState({
-                                            study: "ต่ำ"
-                                        })}>
-                                            <Text style={study == "ต่ำ" ? styles.sectionActive : styles.section}> ต่ำ</Text>
-                                        </Pressable>
-                                    </View>
-                                    <View style={study == "ปานกลาง" ? styles.boxHeadingActive : styles.boxHeading}>
-                                        <Pressable onPress={() => this.setState({
-                                            study: "ปานกลาง"
-                                        })}>
-                                            <Text style={study == "ปานกลาง" ? styles.sectionActive : styles.section}> ปานกลาง</Text>
-                                        </Pressable>
-                                    </View>
-                                    <View style={study == "สูง" ? styles.boxHeadingActive : styles.boxHeading}>
-                                        <Pressable onPress={() => this.setState({
-                                            study: "สูง"
-                                        })}>
-                                            <Text style={study == "สูง" ? styles.sectionActive : styles.section}> สูง</Text>
-                                        </Pressable>
-                                    </View>
-                                </View>
-                                <View style={{ marginTop: 24 }}>
-                                    <TouchableWithoutFeedback onPress={() => this.editMissionName("เข้มข้นต่ำ", "เดินเร็ว")}>
-                                        <View>
-                                            <View style={styles.missionView}>
-                                                <Image style={styles.activityImage} source={stsusColor == "เข้มข้นต่ำ" ? require('../../assets/images/activity/Activitylow.png') : stsusColor == "เข้มข้นปานกลาง" ? require('../../assets/images/activity/Activitycenter.png') : require('../../assets/images/activity/Activityhign.png')} />
-                                                <View style={styles.groupText2}>
-                                                    <Text style={styles.headText2}>เดินเร็ว</Text>
-                                                    <Text style={[styles.groupStatus, { color: stsusColor == "เข้มข้นต่ำ" ? colors.secondary_MayaBlue : stsusColor == "เข้มข้นปานกลาง" ? colors.tertiaryYellow : colors.tertiaryMagenta }]}>เข้มข้นต่ำ</Text>
-                                                </View>
-                                            </View>
-                                            <View style={styles.viewIconRight2}>
-                                                <Text style={[styles.groupStatus, { color: stsusColor == "เข้มข้นต่ำ" ? colors.secondary_MayaBlue : stsusColor == "เข้มข้นปานกลาง" ? colors.tertiaryYellow : colors.tertiaryMagenta }]}>เข้มข้นต่ำ</Text>
-                                            </View>
-                                        </View>
-                                    </TouchableWithoutFeedback>
-                                    <TouchableWithoutFeedback onPress={() => this.setState({ statusCreate: "createView" })}>
-                                        <View>
-                                            <View style={styles.missionView}>
-                                                <Image style={styles.activityImage} source={require('../../assets/images/activity/frame13811.png')} />
-                                                <View style={styles.groupText2}>
-                                                    <Text style={styles.headText3}>เพิ่มกิจกรรมใหม่</Text>
-                                                </View>
-                                            </View>
-                                        </View>
-                                    </TouchableWithoutFeedback>
-                                </View>
-
                                 {
                                     confirmActivityDeleted === true ?
                                         <View style={styles.activityDeleted}>
@@ -466,7 +419,7 @@ class Add extends Component {
 
                         <>
                             <View style={{ flex: 1, justifyContent: "flex-end" }} onPress={() => this.toggleModal(isModalVisible)} >
-                                <View style={styles.modalViewConter}>
+                                <View style={[styles.modalViewConter, { paddingHorizontal: 16 }]}>
                                     <View style={[styles.missionView, { marginTop: 20, justifyContent: "space-between" }]}>
                                         <TouchableWithoutFeedback onPress={() => this.setState({ editmission: false })}>
                                             <Image
@@ -750,7 +703,6 @@ const styles = StyleSheet.create({
         zIndex: 3,
         backgroundColor: "white",
         width: "100%",
-        paddingHorizontal: 16,
         height: "90%",
         borderTopLeftRadius: 24,
         borderTopRightRadius: 24,
