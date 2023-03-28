@@ -5,7 +5,7 @@ import ComponentsStyle from '../../constants/components';
 import Modal from "react-native-modal";
 import { withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
-import { getActivityList } from "../../redux/get";
+import { getActivityList, setIntensityFromExArticleTemplate } from "../../redux/get";
 
 class Add extends Component {
 
@@ -24,26 +24,35 @@ class Add extends Component {
             confirmActivityDeleted: false,
             message: null,
             data: true,
-            activity_list_show: []
+            activity_list_show: [],
+            intensityFromExArticle: null
         };
     }
 
 
     componentDidMount() {
-        const { user, activity_list } = this.props;
+        const { user, activity_list, intensityFromExArticleTemplate } = this.props;
 
         this._unsubscribe = this.props.navigation.addListener('focus', () => {
-            console.log("aaa", this.props.route.params);
+            const { intensityFromExArticleTemplate } = this.props;
+            console.log("intensityFromExArticleTemplate", intensityFromExArticleTemplate);
+
 
             this.setState({
-                isModalConter: true,
                 activity_list_show: [...activity_list.light_intensity, ...activity_list.moderate_intensity, ...activity_list.vigorous_intensity]
             })
+            if (intensityFromExArticleTemplate.intensity !== null) {
+                this.setState({
+                    intensityFromExArticle: intensityFromExArticleTemplate.intensity
+                })
+            } else {
+                this.setState({
+                    isModalConter: true,
+                })
+            }
+
 
         });
-
-
-
 
         // this.props.routeName(null); // ถ้าเข้าให้ home ให้ทำคำสั่งนี้ 1 ครั้ง
 
@@ -51,6 +60,17 @@ class Add extends Component {
 
     componentWillUnmount() {
         this._unsubscribe();
+    }
+
+
+    componentDidUpdate(prevProps, prevState) {
+        const { intensityFromExArticle } = this.state;
+        if ((prevState.intensityFromExArticle === intensityFromExArticle) && (intensityFromExArticle !== null)) {
+            this.setState({
+                isModalConter: true,
+            })
+            this.props.setIntensityFromExArticleTemplate(null)
+        }
     }
 
     toggleModal(isModalVisible) {
@@ -125,8 +145,9 @@ class Add extends Component {
 
 
     listDataViews() {
-        const { stsusColor, isModalVisible, isModalConter, study, data, activity_list_show } = this.state;
+        const { stsusColor, isModalVisible, isModalConter, study, data, activity_list_show, intensityFromExArticle } = this.state;
         const { activity_list } = this.props;
+        console.log("intensityFromExArticle", intensityFromExArticle);
         return (
             <View style={{ flex: 1, justifyContent: "flex-end" }} onPress={() => this.toggleModal(isModalVisible)} >
                 <View style={styles.modalViewConter}>
@@ -185,7 +206,7 @@ class Add extends Component {
                                     activity_list_show &&
                                     activity_list_show.map((item, i) => {
                                         return (
-                                            <TouchableWithoutFeedback onPress={() => this.nextAddActivity(item.activity, item.intensity, item.type)}>
+                                            <TouchableWithoutFeedback key={i} onPress={() => this.nextAddActivity(item.activity, item.intensity, item.type)}>
                                                 <View>
                                                     <View style={styles.missionView}>
                                                         <Image
@@ -910,11 +931,11 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = ({ authUser, getData }) => {
     const { user } = authUser;
-    const { activity_list, statusGetActivityList } = getData;
-    return { user, activity_list, statusGetActivityList };
+    const { activity_list, statusGetActivityList, intensityFromExArticleTemplate } = getData;
+    return { user, activity_list, statusGetActivityList, intensityFromExArticleTemplate };
 };
 
-const mapActionsToProps = { getActivityList };
+const mapActionsToProps = { getActivityList, setIntensityFromExArticleTemplate };
 
 export default connect(
     mapStateToProps,

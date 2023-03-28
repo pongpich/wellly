@@ -13,8 +13,8 @@ import ProgressBarAnimated from 'react-native-progress-bar-animated';
 import { List } from 'react-native-paper';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import { convertFormatDate, calculateWeekInProgram } from "../../helpers/utils";
-/* import { StackActions } from '@react-navigation/native';
-import { CommonActions } from '@react-navigation/native'; */
+import { StackActions } from '@react-navigation/native';
+import { CommonActions } from '@react-navigation/native';
 
 
 //บทความ
@@ -133,18 +133,18 @@ class ArticleTemplate extends Component {
         })
     };
 
-    /*   actionPress(id) {
-          const resetAction = CommonActions.reset({
-              index: 0, // ตำแหน่งของหน้าที่จะใช้เป็นหน้าแรก
-              routes: [{
-                  name: 'Add'
-              }
-                  ,], // เส้นทางที่ต้องการเปลี่ยน
-          });
-          // set ความเข้มไปใน redux
-          this.props.setIntensityFromExArticleTemplate(id)
-          this.props.navigation.dispatch(resetAction);
-      } */
+    actionPress(id) {
+
+        const resetAction = CommonActions.reset({
+            index: 0, // ตำแหน่งของหน้าที่จะใช้เป็นหน้าแรก
+            routes: [{
+                name: 'Add',
+            }], // เส้นทางที่ต้องการเปลี่ยน
+        });
+        // set ความเข้มไปใน redux
+        this.props.setIntensityFromExArticleTemplate(id)
+        this.props.navigation.dispatch(resetAction);
+    }
 
     missionDataView(data) {
         const { expanded, start, mission_activities } = this.state
@@ -270,7 +270,7 @@ class ArticleTemplate extends Component {
                         var maxScore = item.number;
                         var score_completed = item.number_completed;
                         return (
-                            <Pressable /* onPress={() => this.actionPress(item.id)} */ key={i + "tfb"} >
+                            <Pressable onPress={() => this.actionPress(item.id)} key={i + "tfb"} >
                                 <View key={i} style={styles.row}>
                                     <View style={styles.numberView}>
                                         <AnimatedCircularProgress
