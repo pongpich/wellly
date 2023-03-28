@@ -6,6 +6,8 @@ import '../languages/i18n'; //ใช้สำหรับ 2ภาษา
 import { useRoute } from '@react-navigation/native';
 import colors from '../constants/colors';
 import Home from '../screens/Home';
+import ArticleTemplate from '../screens/Nutrition/ArticleTemplate';
+import ExArticleTemplate from '../screens/Exercise/ExArticleTemplate';
 
 
 const HomeStack = createStackNavigator();
@@ -15,6 +17,8 @@ function HomeStackScreen() {
     return (
         <HomeStack.Navigator>
             <HomeStack.Screen name="Home" component={Home} />
+            <HomeStack.Screen name="ArticleTemplate" component={ArticleTemplate} options={{ headerShown: false }} />
+            <HomeStack.Screen name="ExArticleTemplate" component={ExArticleTemplate} options={{ headerShown: false }} />
         </HomeStack.Navigator>
     );
 }

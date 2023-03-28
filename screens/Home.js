@@ -85,7 +85,7 @@ class Home extends Component {
     render() {
         const { user, activity_list } = this.props;
         const { latest_nutrition_activity, latest_exercise_activity, latest_exercise_mission } = this.state;
-       
+
         return (
             <View style={ComponentsStyle.container}>
                 <ScrollView>
@@ -101,7 +101,7 @@ class Home extends Component {
                     <Text style={styles.content}>ภารกิจของคุณในสัปดาห์นี้</Text>
 
                     <Pressable
-                        onPress={() => this.props.navigation.navigate("ArticleTemplate", { id: latest_nutrition_activity.week_in_program, mission_id: latest_nutrition_activity.mission_id, heading: latest_nutrition_activity.heading })} key={latest_nutrition_activity.week_in_program + "_na"}
+                        onPress={() => this.props.navigation.navigate("ArticleTemplate", { id: latest_nutrition_activity.week_in_program, mission_id: latest_nutrition_activity.mission_id, heading: latest_nutrition_activity.heading, statusPags: "Home" })} key={latest_nutrition_activity.week_in_program + "_na"}
                     >
                         <View style={styles.row}>
                             <View style={[styles.numberView, { backgroundColor: colors.mayaBlue20, }]}>
@@ -121,7 +121,7 @@ class Home extends Component {
                     </Pressable>
 
                     <Pressable
-                        onPress={() => this.props.navigation.navigate("ExArticleTemplate", { id: latest_exercise_activity.week_in_program, mission_id: latest_exercise_activity.mission_id, heading: latest_exercise_activity.heading, mission_activities: latest_exercise_activity.mission_activities, statusPags: "Exercise" })} key={latest_exercise_activity.week_in_program + "_ea"}
+                        onPress={() => this.props.navigation.navigate("ExArticleTemplate", { id: latest_exercise_activity.week_in_program, mission_id: latest_exercise_activity.mission_id, heading: latest_exercise_activity.heading, mission_activities: latest_exercise_activity.mission_activities, statusPags: "Home" })} key={latest_exercise_activity.week_in_program + "_ea"}
                     >
                         <View style={styles.row}>
                             <View style={[styles.numberView, { backgroundColor: colors.persianBlue20 }]}>
