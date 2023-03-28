@@ -37,7 +37,7 @@ class Add extends Component {
 
             this.setState({
                 isModalConter: true,
-                activity_list_show: activity_list
+                activity_list_show: [...activity_list.light_intensity, ...activity_list.moderate_intensity, ...activity_list.vigorous_intensity]
             })
 
         });
@@ -146,7 +146,7 @@ class Add extends Component {
                         <View style={study == "ทั้งหมด" ? styles.boxHeadingActive : styles.boxHeading}>
                             <Pressable onPress={() => this.setState({
                                 study: "ทั้งหมด",
-                                activity_list_show: activity_list
+                                activity_list_show: [...activity_list.light_intensity, ...activity_list.moderate_intensity, ...activity_list.vigorous_intensity]
                             })}>
                                 <Text style={study == "ทั้งหมด" ? styles.sectionActive : styles.section}> ทั้งหมด</Text>
                             </Pressable>
@@ -154,7 +154,7 @@ class Add extends Component {
                         <View style={study == "ต่ำ" ? styles.boxHeadingActive : styles.boxHeading}>
                             <Pressable onPress={() => this.setState({
                                 study: "ต่ำ",
-                                activity_list_show: activity_list.filter(item => item.intensity === 'light_intensity')
+                                activity_list_show: [...activity_list.light_intensity]
                             })}>
                                 <Text style={study == "ต่ำ" ? styles.sectionActive : styles.section}> ต่ำ</Text>
                             </Pressable>
@@ -162,7 +162,7 @@ class Add extends Component {
                         <View style={study == "ปานกลาง" ? styles.boxHeadingActive : styles.boxHeading}>
                             <Pressable onPress={() => this.setState({
                                 study: "ปานกลาง",
-                                activity_list_show: activity_list.filter(item => item.intensity === 'moderate_intensity')
+                                activity_list_show: [...activity_list.moderate_intensity]
                             })}>
                                 <Text style={study == "ปานกลาง" ? styles.sectionActive : styles.section}> ปานกลาง</Text>
                             </Pressable>
@@ -170,7 +170,7 @@ class Add extends Component {
                         <View style={study == "สูง" ? styles.boxHeadingActive : styles.boxHeading}>
                             <Pressable onPress={() => this.setState({
                                 study: "สูง",
-                                activity_list_show: activity_list.filter(item => item.intensity === 'vigorous_intensity')
+                                activity_list_show: [...activity_list.vigorous_intensity]
                             })}>
                                 <Text style={study == "สูง" ? styles.sectionActive : styles.section}> สูง</Text>
                             </Pressable>

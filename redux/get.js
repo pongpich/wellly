@@ -182,7 +182,7 @@ function* getActivityListSaga({ payload }) {
       getActivityListSagaAsync,
       user_id
     );
-    console.log("apiResult gals:", apiResult);
+
     if (apiResult) { };
     yield put({
       type: types.GET_ACTIVITY_LIST_SUCCESS,
