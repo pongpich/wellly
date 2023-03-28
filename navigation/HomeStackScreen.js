@@ -16,7 +16,7 @@ function HomeStackScreen() {
     const navigation = useNavigation();
     return (
         <HomeStack.Navigator>
-            <HomeStack.Screen name="Home" component={Home} />
+            <HomeStack.Screen name="Home" component={Home} options={{ headerShown: false }} />
             <HomeStack.Screen name="ArticleTemplate" component={ArticleTemplate} options={{ headerShown: false }} />
             <HomeStack.Screen name="ExArticleTemplate" component={ExArticleTemplate} options={{ headerShown: false }} />
         </HomeStack.Navigator>

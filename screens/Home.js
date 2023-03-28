@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Pressable, SafeAreaView, Image, ScrollView, StatusBar, statusBarStyle, statusBarTransition, hidden, TouchableOpacity, TextInput, Text, Linking, KeyboardAvoidingView, Platform, Dimensions, Modal, InputAccessoryView, Keyboard } from 'react-native';
+import { View, StyleSheet, Pressable, ImageBackground, Image, ScrollView, StatusBar, statusBarStyle, statusBarTransition, hidden, TouchableOpacity, TextInput, Text, Linking, KeyboardAvoidingView, Platform, Dimensions, Modal, InputAccessoryView, Keyboard } from 'react-native';
 import { logoutUser, loginUser } from "../redux/auth";
 import { getNutritionMission, getNutritionActivity, getExerciserActivity, getActivityList } from "../redux/get";
 import { insertNutritionActivity, insertExerciseActivity, } from "../redux/update";
@@ -9,6 +9,14 @@ import { routeName } from "../redux/personalUser";
 import ComponentsStyle from '../constants/components';
 import colors from '../constants/colors';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
+import {
+    LineChart,
+    BarChart,
+    PieChart,
+    ProgressChart,
+    ContributionGraph,
+    StackedBarChart
+} from "react-native-chart-kit";
 
 
 class Home extends Component {
@@ -88,7 +96,27 @@ class Home extends Component {
         const { latest_nutrition_activity, latest_exercise_activity, latest_exercise_mission } = this.state;
 
         return (
-            <View style={ComponentsStyle.container}>
+            <View style={[ComponentsStyle.container, { backgroundColor: colors.grey6 }]}>
+                <ImageBackground source={require('../assets/images/home/Rectangl.png')} style={{ height: 164, zIndex: 10, width: "100%" }}  >
+                    <View style={{ height: 44, width: "100%", }}>
+                        <StatusBar barStyle="light-content" />
+                    </View>
+                    <View style={{ height: 48, flexDirection: "row", justifyContent: "space-between", marginTop: 24, paddingHorizontal: 16 }}>
+                        <View>
+                            <Text style={styles.contentHead}>สวัสดี {user && user.display_name}</Text>
+                            <Text style={styles.content}>ภารกิจของคุณในสัปดาห์นี้</Text>
+                        </View>
+                        <View>
+                            <Image
+                                style={{ height: 64, width: 64, zIndex: 1, marginRight: 8 }}
+                                source={require('../assets/images/home/Profile.png')}
+                            />
+                            <Pressable onPress={() => this.props.logoutUser()}  >
+                                <Text style={{ marginLeft: 10, marginTop: 5, color: colors.grey2 }}>Logout</Text>
+                            </Pressable>
+                        </View>
+                    </View>
+                </ImageBackground>
                 <ScrollView>
                     {/* <StatusBar
                     animated={false}
@@ -98,8 +126,7 @@ class Home extends Component {
                     hidden={hidden}
                 /> */}
 
-                    <Text style={styles.contentHead}>สวัสดี {user && user.display_name}</Text>
-                    <Text style={styles.content}>ภารกิจของคุณในสัปดาห์นี้</Text>
+
 
                     <Pressable
                         onPress={() => this.props.navigation.navigate("ArticleTemplate", { id: latest_nutrition_activity.week_in_program, mission_id: latest_nutrition_activity.mission_id, heading: latest_nutrition_activity.heading, statusPags: "Home" })} key={latest_nutrition_activity.week_in_program + "_na"}
@@ -110,7 +137,7 @@ class Home extends Component {
                             </View>
                             <View style={styles.missionData}>
                                 <Text style={styles.missionHead}>{latest_nutrition_activity.heading}</Text>
-                                <Text style={styles.missionContent}> {latest_nutrition_activity.short_content}</Text>
+                                <Text style={[styles.missionContent, { marginRight: 16 }]}> {latest_nutrition_activity.short_content}</Text>
                             </View>
                             <View style={styles.viewIconRight}>
                                 <Image
@@ -130,97 +157,139 @@ class Home extends Component {
                             </View>
                             <View style={styles.missionData}>
                                 <Text style={styles.missionHead}>{latest_exercise_activity.heading}</Text>
-                                <Text style={styles.missionContent}>{latest_exercise_activity.short_content}</Text>
+                                <Text style={[styles.missionContent, { marginRight: 16 }]}>{latest_exercise_activity.short_content}</Text>
                             </View>
                             <View style={styles.viewIconRight}>
                                 <Image
                                     style={{ height: 24, width: 24, zIndex: 1, marginRight: 8 }}
                                     source={require('../assets/images/icon/right.png')}
                                 />
+
                             </View>
                         </View>
                     </Pressable>
 
                     <Text style={styles.challenge}>ชาเลนจ์</Text>
-                    {
-                        latest_exercise_mission &&
-                        latest_exercise_mission.map((item, i) => {
-                            var dataLength = latest_exercise_mission.length;
-                            const multiple = (100 / item.number) * item.number_completed;
-                            var maxScore = item.number;
-                            var score_completed = item.number_completed;
-
-                            return (
-                                <Pressable
-                                //onPress={() => this.props.navigation.popToTop()} key={i + "tfb"}
-                                >
-                                    <View key={i} style={styles.row}>
-                                        <View style={styles.numberView}>
-                                            {/*  < Text > {item.name}</Text>
-                                            < Text >จน. {item.number_completed} / {item.number}</Text>
-                                            < Text >คะแนน {item.score * item.number_completed} / {item.score * item.number} </Text> */}
-                                            <AnimatedCircularProgress
-                                                size={64}
-                                                width={8}
-                                                fill={multiple}
-                                                tintTransparency={true}
-                                                rotation={360}
-                                                tintColor={colors.positive1}
-                                                backgroundColor={colors.grey6} >
-                                                {
-
-                                                    (fill) => (
-                                                        <>
-                                                            <View style={{ flexDirection: "row", marginTop: 10 }}>
-                                                                <Text style={{ color: colors.grey1, fontSize: 16, fontFamily: "IBMPlexSansThai-Bold", marginTop: 0 }}>{item.number_completed}</Text>
-                                                                <Text style={{ color: colors.grey1, fontSize: 14, fontFamily: "IBMPlexSansThai-Regular", marginTop: 4 }}> /{item.number}</Text>
-                                                            </View>
-                                                            <Text style={{ color: colors.grey2, fontSize: 16, fontFamily: "IBMPlexSansThai-Regular", marginTop: -10 }}>ครั้ง</Text>
-                                                        </>
-                                                    )
-
-                                                }
-                                            </AnimatedCircularProgress>
-                                        </View>
-                                        <View style={styles.missionData}>
-                                            <Text style={styles.missionHead}>{item.name}</Text>
-                                            <View style={{ flexDirection: "row" }}>
-                                                {
-                                                    Array.from({ length: maxScore }) && Array.from({ length: maxScore }).map((item, i) => {
-                                                        return (
-                                                            <Image style={[i > 0 ? { marginLeft: 4 } : null, { width: 16, height: 16, marginTop: 8 }]} source={
-                                                                score_completed >= ++i ?
-                                                                    require('../assets/images/icon/Firepoint.png')
-                                                                    :
-                                                                    require('../assets/images/icon/Firepoint2.png')
-                                                            } />
-                                                        )
-                                                    })
-                                                }
-                                            </View>
-                                        </View>
-                                        <View style={styles.viewIconRight}>
-                                            <Image
-                                                style={{ height: 24, width: 24, zIndex: 1, marginRight: 8 }}
-                                                source={require('../assets/images/icon/right.png')}
-                                            />
-                                        </View>
-
-                                    </View>
-                                </Pressable>
-                            )
-                        })
-                    }
-                    <Text></Text>
-
-                    <View style={styles.buttonTop}>
+                    <View style={styles.boxRowView}>
                         {
-                            <Pressable style={ComponentsStyle.button} onPress={() => this.props.logoutUser()}  >
-                                <Text style={ComponentsStyle.textButton}>{'Logout'}</Text>
-                            </Pressable>
+                            latest_exercise_mission &&
+                            latest_exercise_mission.map((item, i) => {
+                                var dataLength = latest_exercise_mission.length;
+                                const multiple = (100 / item.number) * item.number_completed;
+                                var maxScore = item.number;
+                                var score_completed = item.number_completed;
+
+                                return (
+                                    <Pressable
+                                    //onPress={() => this.props.navigation.popToTop()} key={i + "tfb"}
+                                    >
+                                        <View key={i} style={{ flexDirection: "row", marginBottom: 16 }}>
+                                            <View style={styles.numberView}>
+                                                <AnimatedCircularProgress
+                                                    size={64}
+                                                    width={8}
+                                                    fill={multiple}
+                                                    tintTransparency={true}
+                                                    rotation={360}
+                                                    tintColor={colors.positive1}
+                                                    backgroundColor={colors.grey6} >
+                                                    {
+
+                                                        (fill) => (
+                                                            <>
+                                                                <View style={{ flexDirection: "row", marginTop: 10 }}>
+                                                                    <Text style={{ color: colors.grey1, fontSize: 16, fontFamily: "IBMPlexSansThai-Bold", marginTop: 0 }}>{item.number_completed}</Text>
+                                                                    <Text style={{ color: colors.grey1, fontSize: 14, fontFamily: "IBMPlexSansThai-Regular", marginTop: 4 }}> /{item.number}</Text>
+                                                                </View>
+                                                                <Text style={{ color: colors.grey2, fontSize: 16, fontFamily: "IBMPlexSansThai-Regular", marginTop: -10 }}>ครั้ง</Text>
+                                                            </>
+                                                        )
+
+                                                    }
+                                                </AnimatedCircularProgress>
+                                            </View>
+                                            <View style={styles.missionData2}>
+                                                <Text style={[styles.missionHead, { marginLeft: 8, marginRight: 8 }]}>{item.name}</Text>
+                                                <View style={{ flexDirection: "row", marginLeft: 8 }}>
+                                                    {
+                                                        Array.from({ length: maxScore }) && Array.from({ length: maxScore }).map((item, i) => {
+                                                            return (
+                                                                <Image style={[i > 0 ? { marginLeft: 4 } : null, { width: 16, height: 16, marginTop: 8 }]} source={
+                                                                    score_completed >= ++i ?
+                                                                        require('../assets/images/icon/Firepoint.png')
+                                                                        :
+                                                                        require('../assets/images/icon/Firepoint2.png')
+                                                                } />
+                                                            )
+                                                        })
+                                                    }
+                                                </View>
+                                            </View>
+                                            <View style={styles.viewIconRight}>
+                                                <Image
+                                                    style={{ height: 24, width: 24, zIndex: 1, marginRight: 8 }}
+                                                    source={require('../assets/images/icon/right.png')}
+                                                />
+                                            </View>
+
+                                        </View>
+                                    </Pressable>
+                                )
+                            })
                         }
                     </View>
 
+                    <Text style={styles.reportChallenge}>รายงานการทำกิจกรรม</Text>
+                    <View style={{ margin: 16, padding: 16 }}>
+                        <Text>Bezier Line Chart</Text>
+                        <StackedBarChart
+                            data={{
+                                labels: ["Test1", "Test2"],
+                                legend: ["L1", "L2", "L3"],
+                                data: [
+                                    [60, 60, 60],
+                                    [30, 30, 60]
+                                ],
+                                barColors: ["#59CBE4", "#FDAB44", "#F15E79"]
+                            }}
+                            width={Dimensions.get("window").width}
+                            height={220}
+                            yAxisLabel="%"
+                            yAxisSuffix=""
+                            yAxisInterval={1}
+                            showLegend={true}
+                            chartConfig={{
+                                backgroundColor: "#fff",
+                                backgroundGradientFrom: "#fff",
+                                backgroundGradientTo: "#fff",
+                                decimalPlaces: 2,
+                                color: (opacity = 1) => `rgba(255, 0, 0, ${opacity})`,
+                                labelColor: (opacity = 1) => `rgba(255, 0, 0, ${opacity})`,
+                                style: {
+                                    borderRadius: 16,
+                                },
+                                propsForDots: {
+                                    r: "6",
+                                    strokeWidth: "2",
+                                    stroke: "#ffa726"
+                                }
+                            }}
+
+
+                            withCustomBarColorFromData={true} // ให้สีของแต่ละ bar มาจาก data.barColors
+                            flatColor={true} // ไม่ให้มี gradient สำหรับแต่ละ bar
+                            barPercentage={0.8} // กำหนดความกว้างของแต่ละ bar ใน 80% ของขนาด segment
+                            style={{ // กำหนด style ให้กับ container ที่ห่อ StackedBarChart
+                                marginVertical: 8,
+                                borderRadius: 16,
+                                marginLeft: 20, // กำหนดความห่าง 20px จากซ้าย
+                            }}
+                            hideLegend={false}
+                            segments={3} // จำนวนของ segments ที่ต้องการให้แต่ละ index ของ array
+
+                        />
+
+                    </View>
                 </ScrollView>
             </View >
 
@@ -243,14 +312,14 @@ const styles = StyleSheet.create({
         marginBottom: 8,
     },
     contentHead: {
-        fontSize: ComponentsStyle.fontSize24,
+        fontSize: ComponentsStyle.fontSize20,
         fontFamily: "IBMPlexSansThai-Bold",
         color: colors.grey1,
     },
     content: {
-        fontSize: ComponentsStyle.fontSize14,
+        fontSize: ComponentsStyle.fontSize16,
         fontFamily: "IBMPlexSansThai-Regular",
-        color: colors.grey2,
+        color: colors.grey1,
     },
     number: {
         fontSize: ComponentsStyle.fontSize20,
@@ -275,15 +344,28 @@ const styles = StyleSheet.create({
         margin: 16
 
     },
+    missionData2: {
+        /* marginHorizontal: 16, */
+        flexWrap: "nowrap",
+        width: "75%",
+        marginLeft: 16,
+
+    },
     row: {
-        position: "relative",
-        height: "auto",
         marginBottom: 16,
         backgroundColor: colors.white,
         borderRadius: 16,
+        position: "relative",
+        height: "auto",
         flexDirection: "row",
-        marginLeft: 16,
         marginRight: (deviceHeight > 1023) ? 32 : 16
+    },
+    boxRowView: {
+        backgroundColor: colors.white,
+        borderRadius: 16,
+        marginHorizontal: 16,
+        paddingHorizontal: 16,
+        paddingVertical: 14
     },
     missionHead: {
         fontSize: ComponentsStyle.fontSize16,
@@ -309,9 +391,19 @@ const styles = StyleSheet.create({
 
     },
     challenge: {
-        marginTop: 0,
+        marginTop: 8,
         zIndex: 3,
         fontSize: 16,
+        marginLeft: 16,
+        color: colors.grey1,
+        marginBottom: 8,
+        fontFamily: "IBMPlexSansThai-Bold",
+    },
+    reportChallenge: {
+        marginTop: 24,
+        zIndex: 3,
+        fontSize: 16,
+        marginLeft: 16,
         color: colors.grey1,
         marginBottom: 8,
         fontFamily: "IBMPlexSansThai-Bold",
