@@ -105,7 +105,6 @@ class Home extends Component {
         this.props.setIntensityFromExArticleTemplate(id)
         this.props.navigation.dispatch(resetAction);
 
-        console.log("id", id);
 
     }
 

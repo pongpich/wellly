@@ -390,7 +390,7 @@ class Add extends Component {
 
     editView() {
         const { stsusColor, isModalVisible, isModalConter, study, data, message, confirmActivityDeleted, confirmDelete, editmission, statusViolence, missionName } = this.state;
-        console.log("editmission", editmission);
+
         return (
             <>
 
