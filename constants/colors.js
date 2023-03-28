@@ -9,6 +9,7 @@ export default {
   grey4: '#C2D2E7',
   grey6: '#E5EEF9',
   grey7: '#F3F7FB',
+  grey8: '#92A4BB',
   white: '#FFFFFF',
   negative1: '#D43A3A',
   negative2: '#F6D8D8',

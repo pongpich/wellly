@@ -26,7 +26,8 @@ class Home extends Component {
         this.state = {
             latest_nutrition_activity: {},
             latest_exercise_activity: {},
-            latest_exercise_mission: []
+            latest_exercise_mission: [],
+            statusChart: 1
         };
     }
 
@@ -93,7 +94,7 @@ class Home extends Component {
 
     render() {
         const { user, activity_list } = this.props;
-        const { latest_nutrition_activity, latest_exercise_activity, latest_exercise_mission } = this.state;
+        const { latest_nutrition_activity, latest_exercise_activity, latest_exercise_mission, statusChart } = this.state;
 
         return (
             <View style={[ComponentsStyle.container, { backgroundColor: colors.grey6 }]}>
@@ -240,31 +241,45 @@ class Home extends Component {
                     </View>
 
                     <Text style={styles.reportChallenge}>รายงานการทำกิจกรรม</Text>
-                    <View style={{ margin: 16, padding: 16 }}>
-                        <Text>Bezier Line Chart</Text>
+                    <View style={{ marginHorizontal: 16, backgroundColor: colors.white, borderRadius: 16, paddingTop: 18, marginBottom: 40 }}>
+                        <View style={styles.missionView}>
+                            <Pressable style={[{ width: "auto", paddingHorizontal: 8 }, statusChart === 1 ? styles.missionPre : styles.programPre]} onPress={() => this.setState({ statusChart: 1 })} >
+                                <Text style={[styles.mission, statusChart === 1 ? { color: colors.white } : { color: colors.persianBlue }]}>สัปดาห์</Text>
+                            </Pressable>
+                            <Pressable style={[{ marginLeft: 8, width: "auto", paddingHorizontal: 8 }, statusChart === 2 ? styles.missionPre : styles.programPre]} onPress={() => this.setState({ statusChart: 2 })}>
+                                <Text style={[styles.mission, statusChart === 2 ? { color: colors.white } : { color: colors.persianBlue }]}>เดือน</Text>
+                            </Pressable>
+                            <Pressable style={[{ marginLeft: 8, width: "auto", paddingHorizontal: 16 }, statusChart === 3 ? styles.missionPre : styles.programPre]} onPress={() => this.setState({ statusChart: 3 })}>
+                                <Text style={[styles.mission, statusChart === 3 ? { color: colors.white } : { color: colors.persianBlue }]}>ปี</Text>
+                            </Pressable>
+                        </View>
+
+                        <Text style={styles.watch}>(ชม.)</Text>
                         <StackedBarChart
                             data={{
-                                labels: ["Test1", "Test2"],
-                                legend: ["L1", "L2", "L3"],
+                                labels: ["สัปดาห์ที่แล้ว", "สัปดาห์นี้"],
+                                legend: [],
                                 data: [
-                                    [60, 60, 60],
-                                    [30, 30, 60]
+                                    [1, 2.5, 3],
+                                    [1, 0.5, 2]
                                 ],
                                 barColors: ["#59CBE4", "#FDAB44", "#F15E79"]
                             }}
-                            width={Dimensions.get("window").width}
+                            width={Dimensions.get("window").width - 40} // from react-native
                             height={220}
-                            yAxisLabel="%"
+                            yAxisLabel=""
                             yAxisSuffix=""
-                            yAxisInterval={1}
-                            showLegend={true}
+                            yAxisInterval={1} // optional, defaults to 1
+
                             chartConfig={{
+                                barPercentage: 2,
                                 backgroundColor: "#fff",
                                 backgroundGradientFrom: "#fff",
                                 backgroundGradientTo: "#fff",
-                                decimalPlaces: 2,
-                                color: (opacity = 1) => `rgba(255, 0, 0, ${opacity})`,
-                                labelColor: (opacity = 1) => `rgba(255, 0, 0, ${opacity})`,
+                                decimalPlaces: 0,
+                                decimalPlaces: 2, // optional, defaults to 2dp
+                                color: (opacity = 1) => `rgba(146, 164, 187, ${opacity})`,
+                                labelColor: (opacity = 1) => `rgba(146, 164, 187, ${opacity})`,
                                 style: {
                                     borderRadius: 16,
                                 },
@@ -274,22 +289,28 @@ class Home extends Component {
                                     stroke: "#ffa726"
                                 }
                             }}
-
-
-                            withCustomBarColorFromData={true} // ให้สีของแต่ละ bar มาจาก data.barColors
-                            flatColor={true} // ไม่ให้มี gradient สำหรับแต่ละ bar
-                            barPercentage={0.8} // กำหนดความกว้างของแต่ละ bar ใน 80% ของขนาด segment
-                            style={{ // กำหนด style ให้กับ container ที่ห่อ StackedBarChart
+                            bezier
+                            style={{
                                 marginVertical: 8,
-                                borderRadius: 16,
-                                marginLeft: 20, // กำหนดความห่าง 20px จากซ้าย
+                                borderRadius: 16
                             }}
-                            hideLegend={false}
-                            segments={3} // จำนวนของ segments ที่ต้องการให้แต่ละ index ของ array
-
                         />
-
+                        <View style={{ flexDirection: "row", marginBottom: 40, justifyContent: "center" }}>
+                            <View style={{ justifyContent: "center", textAlign: "center", alignItems: "center" }}>
+                                <View style={{ width: 10, height: 10, backgroundColor: "#59CBE4", borderRadius: 100, }}></View>
+                                <Text style={styles.textWatch}>ต่ำ</Text>
+                            </View>
+                            <View style={{ justifyContent: "center", marginLeft: 10, textAlign: "center", alignItems: "center" }}>
+                                <View style={{ width: 10, height: 10, backgroundColor: "#FDAB44", borderRadius: 100, }}></View>
+                                <Text style={styles.textWatch}>กลาง</Text>
+                            </View>
+                            <View style={{ justifyContent: "center", marginLeft: 10, textAlign: "center", alignItems: "center" }}>
+                                <View style={{ width: 10, height: 10, backgroundColor: "#F15E79", borderRadius: 100, }}></View>
+                                <Text style={styles.textWatch}>สูง</Text>
+                            </View>
+                        </View>
                     </View>
+
                 </ScrollView>
             </View >
 
@@ -408,6 +429,43 @@ const styles = StyleSheet.create({
         marginBottom: 8,
         fontFamily: "IBMPlexSansThai-Bold",
     },
+    watch: {
+        fontSize: 12,
+        fontFamily: "IBMPlexSansThai-Regular",
+        color: colors.grey8,
+        marginLeft: 16,
+        marginTop: 16
+    },
+    textWatch: {
+
+        marginTop: 4,
+        fontSize: 12,
+        fontFamily: "IBMPlexSansThai-Regular",
+        color: colors.grey1,
+    },
+    missionPre: {
+        height: 37,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: colors.persianBlue,
+        borderRadius: 100,
+    },
+    programPre: {
+        height: 37,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: colors.persianBlue20,
+        borderRadius: 100,
+    },
+    missionView: {
+        flexDirection: "row",
+        marginLeft: 16
+    },
+    mission: {
+        fontFamily: "IBMPlexSansThai-Bold",
+        fontSize: ComponentsStyle.fontSize16,
+    },
+
 });
 
 const mapStateToProps = ({ authUser, getData, personalDataUser }) => {
