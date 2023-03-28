@@ -43,7 +43,7 @@ class Add extends Component {
             this.setState({
                 activity_list_show: [...activity_list.light_intensity, ...activity_list.moderate_intensity, ...activity_list.vigorous_intensity]
             })
-            if (intensityFromExArticleTemplate.intensity !== null) {
+            if (intensityFromExArticleTemplate) {
                 this.setState({
                     intensityFromExArticle: intensityFromExArticleTemplate.intensity
                 })
