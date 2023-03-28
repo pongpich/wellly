@@ -127,6 +127,8 @@ class Add extends Component {
         /*  this.props.navigation.popToTop() */
     }
     violence(e) {
+
+        console.log("asdas", e);
         this.setState({
             statusViolence: e
         })
@@ -167,8 +169,7 @@ class Add extends Component {
     listDataViews() {
         const { stsusColor, isModalVisible, isModalConter, study, data, activity_list_show, intensityFromExArticle } = this.state;
         const { activity_list } = this.props;
-        console.log("activity_list", activity_list);
-        console.log("intensityFromExArticle", intensityFromExArticle);
+
         return (
             <View style={{ flex: 1, justifyContent: "flex-end" }} onPress={() => this.toggleModal(isModalVisible)} >
                 <View style={styles.modalViewConter}>
@@ -436,7 +437,7 @@ class Add extends Component {
                                     </View>
                                 </View>
                                 <View style={{ marginTop: 24 }}>
-                                    <TouchableWithoutFeedback onPress={() => this.editMissionName("เข้มข้นต่ำ", "เดินเร็ว")}>
+                                    <TouchableWithoutFeedback onPress={() => this.editMissionName("ต่ำ", "เดินเร็ว")}>
                                         <View>
                                             <View style={styles.missionView}>
                                                 <Image style={styles.activityImage} source={stsusColor == "เข้มข้นต่ำ" ? require('../../assets/images/activity/Activitylow.png') : stsusColor == "เข้มข้นปานกลาง" ? require('../../assets/images/activity/Activitycenter.png') : require('../../assets/images/activity/Activityhign.png')} />
@@ -509,7 +510,7 @@ class Add extends Component {
                                         <View>
                                             <View style={[styles.missionView, { marginTop: 8 }]}>
                                                 <TouchableWithoutFeedback onPress={() => this.violence("ต่ำ")}>
-                                                    <View style={[styles.boxCreate, statusViolence == "เข้มข้นต่ำ" ? { borderWidth: 2, borderColor: colors.persianBlue } : null]}>
+                                                    <View style={[styles.boxCreate, statusViolence == "ต่ำ" ? { borderWidth: 2, borderColor: colors.persianBlue } : null]}>
                                                         <Image
                                                             style={{ height: 32, width: 32, zIndex: 1 }}
                                                             source={require('../../assets/images/activity/Activitylow.png')}
@@ -518,7 +519,7 @@ class Add extends Component {
                                                     </View>
                                                 </TouchableWithoutFeedback>
                                                 <TouchableWithoutFeedback onPress={() => this.violence("ปานกลาง")}>
-                                                    <View style={[styles.boxCreate, { marginLeft: 16 }, statusViolence == "เข้มข้นปานกลาง" ? { borderWidth: 2, borderColor: colors.persianBlue } : null]}>
+                                                    <View style={[styles.boxCreate, { marginLeft: 16 }, statusViolence == "ปานกลาง" ? { borderWidth: 2, borderColor: colors.persianBlue } : null]}>
                                                         <Image
                                                             style={{ height: 32, width: 32, zIndex: 1 }}
                                                             source={require('../../assets/images/activity/Activitycenter.png')}
@@ -527,7 +528,7 @@ class Add extends Component {
                                                     </View>
                                                 </TouchableWithoutFeedback>
                                                 <TouchableWithoutFeedback onPress={() => this.violence("สูง")}>
-                                                    <View style={[styles.boxCreate, { marginLeft: 16 }, statusViolence == "เข้มข้นสูง" ? { borderWidth: 2, borderColor: colors.persianBlue } : null]}>
+                                                    <View style={[styles.boxCreate, { marginLeft: 16 }, statusViolence == "สูง" ? { borderWidth: 2, borderColor: colors.persianBlue } : null]}>
                                                         <Image
                                                             style={{ height: 32, width: 32, zIndex: 1 }}
                                                             source={require('../../assets/images/activity/Activityhign.png')}
