@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { ScrollView, View, Dimensions, StyleSheet, StatusBar, AntDesign, Image, Text, Pressable, Animated } from 'react-native';
 import colors from '../../constants/colors';
-import { getNutritionMission, getNutritionActivityIdMission } from "../../redux/get";
+import { getNutritionMission, getNutritionActivityIdMission, setIntensityFromExArticleTemplate } from "../../redux/get";
 import ComponentsStyle from '../../constants/components';
 import { logoutUser } from "../../redux/auth";
 import { connect } from 'react-redux';
@@ -133,19 +133,17 @@ class ArticleTemplate extends Component {
         })
     };
 
-    actionPress(e) {
+    actionPress(id) {
         const resetAction = CommonActions.reset({
             index: 0, // ตำแหน่งของหน้าที่จะใช้เป็นหน้าแรก
             routes: [{
-                name: 'Add',
-                params: {
-                    itemId: null,
-                    otherParam: e
-                }
+                name: 'Add'
             }
                 ,], // เส้นทางที่ต้องการเปลี่ยน
         });
-        this.props.navigation.dispatch(resetAction)
+        // set ความเข้มไปใน redux
+        this.props.setIntensityFromExArticleTemplate(id)
+        this.props.navigation.dispatch(resetAction);
     }
 
     missionDataView(data) {
@@ -272,7 +270,7 @@ class ArticleTemplate extends Component {
                         var maxScore = item.number;
                         var score_completed = item.number_completed;
                         return (
-                            <Pressable onPress={() => this.actionPress(item.name)} key={i + "tfb"} >
+                            <Pressable onPress={() => this.actionPress(item.id)} key={i + "tfb"} >
                                 <View key={i} style={styles.row}>
                                     <View style={styles.numberView}>
                                         <AnimatedCircularProgress
@@ -725,7 +723,7 @@ const mapStateToProps = ({ authUser, getData }) => {
     return { nutrition_mission, statusGetNutritionMission, nutrition_activity_id_Mission, statusGetNutritionActivityIdMission, user };
 };
 
-const mapActionsToProps = { logoutUser, getNutritionMission, getNutritionActivityIdMission, routeName };
+const mapActionsToProps = { logoutUser, getNutritionMission, getNutritionActivityIdMission, routeName, setIntensityFromExArticleTemplate };
 
 export default connect(
     mapStateToProps,

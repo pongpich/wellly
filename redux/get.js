@@ -15,8 +15,16 @@ export const types = {
   GET_EXERCISE_ACTIVITY: "GET_EXERCISE_ACTIVITY",
   GET_EXERCISE_ACTIVITY_SUCCESS: "GET_EXERCISE_ACTIVITY_SUCCESS",
   GET_ACTIVITY_LIST: "GET_ACTIVITY_LIST",
-  GET_ACTIVITY_LIST_SUCCESS: "GET_ACTIVITY_LIST_SUCCESS"
+  GET_ACTIVITY_LIST_SUCCESS: "GET_ACTIVITY_LIST_SUCCESS",
+  SET_INTENS_FROM_EX_ART_TEMP: "SET_INTENS_FROM_EX_ART_TEMP"
 };
+
+export const setIntensityFromExArticleTemplate = (intensity) => ({
+  type: types.SET_INTENS_FROM_EX_ART_TEMP,
+  payload: {
+    intensity
+  }
+})
 
 export const getActivityList = () => ({
   type: types.GET_ACTIVITY_LIST
@@ -169,8 +177,8 @@ function* getActivityListSaga({ }) {
     const apiResult = yield call(
       getActivityListSagaAsync
     );
-/*     console.log("apiResult gals:", apiResult);
-    if(apiResult) { }; */
+    /*     console.log("apiResult gals:", apiResult);
+        if(apiResult) { }; */
     yield put({
       type: types.GET_ACTIVITY_LIST_SUCCESS,
       payload: apiResult.results.activity_list
@@ -314,8 +322,8 @@ const INIT_STATE = {
   statusExerciserActivity: "default",
   exerciserActivity: null,
   statusGetActivityList: "default",
-  activity_list: null
-
+  activity_list: null,
+  intensityFromExArticleTemplate: null
 };
 
 export function reducer(state = INIT_STATE, action) {
@@ -384,6 +392,11 @@ export function reducer(state = INIT_STATE, action) {
         ...state,
         statusExerciserActivity: "success",
         exerciserActivity: action.payload,
+      }
+    case types.SET_INTENS_FROM_EX_ART_TEMP:
+      return {
+        ...state,
+        intensityFromExArticleTemplate: action.payload
       }
     default:
       return { ...state };
