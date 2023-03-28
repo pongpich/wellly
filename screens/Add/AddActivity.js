@@ -20,6 +20,7 @@ class AddActivity extends Component {
             study: "ทั้งหมด",
             activity: '',
             intensity: '',
+            type: 'default',
         };
     }
 
@@ -28,10 +29,11 @@ class AddActivity extends Component {
         this._unsubscribe = this.props.navigation.addListener('focus', () => {
 
             // รับ   params จาก  route
-            const { activity, intensity } = this.props.route.params;
+            const { activity, intensity, type } = this.props.route.params;
             this.setState({
                 activity: activity,
-                intensity: intensity
+                intensity: intensity,
+                type: type
             })
 
             this.props.resetStatusUpdateNumbComp();
@@ -86,7 +88,7 @@ class AddActivity extends Component {
     }
 
     render() {
-        const { stsusColor, isModalVisible, isModalConter, study, activity, intensity } = this.state;
+        const { stsusColor, isModalVisible, isModalConter, study, activity, intensity, type } = this.state;
         return (
             <View style={styles.fill}>
                 <View style={{ height: 58, zIndex: 10, width: "100%", backgroundColor: colors.white }}>
@@ -122,12 +124,15 @@ class AddActivity extends Component {
                         </View>
                     </View>
                     <View style={styles.viewIconRight}>
-                        <Pressable onPress={() => this.isModalConter(isModalConter)}>
-                            <Image
-                                style={styles.chevronImage}
-                                source={require('../../assets/images/activity/Chevron.png')}
-                            />
-                        </Pressable>
+                        {
+                            (type !== 'default') &&
+                            <Pressable onPress={() => this.isModalConter(isModalConter)}>
+                                <Image
+                                    style={styles.chevronImage}
+                                    source={require('../../assets/images/activity/Chevron.png')}
+                                />
+                            </Pressable>
+                        }
                     </View>
                 </View>
                 <View style={[styles.boxConter2, { justifyContent: "space-between" }]}>
