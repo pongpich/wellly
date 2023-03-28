@@ -7,7 +7,7 @@ import { withTranslation } from 'react-i18next';
 import { calculateWeekInProgram } from "../../helpers/utils";
 import { connect } from 'react-redux';
 import { getActivityList, getExerciserActivity } from "../../redux/get";
-import { updateNumberCompleted } from "../../redux/update";
+import { updateNumberCompleted, resetStatusUpdateNumbComp } from "../../redux/update";
 
 class AddActivity extends Component {
 
@@ -33,6 +33,9 @@ class AddActivity extends Component {
                 activity: activity,
                 intensity: intensity
             })
+
+            this.props.resetStatusUpdateNumbComp();
+
         });
 
     }
@@ -70,14 +73,16 @@ class AddActivity extends Component {
     }
 
     saveMission() {
-        const { user } = this.props;
+        const { user, statusUpdateNumbComp } = this.props;
 
         // ใช้ params จาก  route ในหน้า Add.js
         const { intensity } = this.props.route.params;
         // ** หมายเหตุ ปัจจุบันใช้การคำนวน week ปัจจุบัน, - ซึ่งถ้าอนาคตมีการดูย้อนหลังสัปดาห์เก่า ต้องมาปรับปรุงส่วนนี้นะ -
         const week_in_program = calculateWeekInProgram(user.start_date);
-        console.log("week_in_program :", week_in_program);
-        this.props.updateNumberCompleted((user && user.user_id), intensity, week_in_program);
+
+        if (statusUpdateNumbComp !== 'loading') {
+            this.props.updateNumberCompleted((user && user.user_id), intensity, week_in_program);
+        }
     }
 
     render() {
@@ -564,7 +569,7 @@ const mapStateToProps = ({ authUser, getData, updateData }) => {
     return { user, activity_list, statusGetActivityList, statusUpdateNumbComp };
 };
 
-const mapActionsToProps = { getActivityList, updateNumberCompleted, getExerciserActivity };
+const mapActionsToProps = { getActivityList, updateNumberCompleted, getExerciserActivity, resetStatusUpdateNumbComp };
 
 export default connect(
     mapStateToProps,

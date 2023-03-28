@@ -15,9 +15,14 @@ export const types = {
     UPDARE_POPUP_STARS: "UPDARE_POPUP_STARS",
     UPDARE_POPUP_STARS_SUCCESS: "UPDARE_POPUP_STARS_SUCCESS",
     UPDATE_NUMBER_COMPLETED: "UPDATE_NUMBER_COMPLETED",
-    UPDATE_NUMBER_COMPLETED_SUCCESS: "UPDATE_NUMBER_COMPLETED_SUCCESS"
+    UPDATE_NUMBER_COMPLETED_SUCCESS: "UPDATE_NUMBER_COMPLETED_SUCCESS",
+    RESET_STATUS_UPDATE_NUMB_COMP: "RESET_STATUS_UPDATE_NUMB_COMP"
 
 };
+
+export const resetStatusUpdateNumbComp = () => ({
+    type: types.RESET_STATUS_UPDATE_NUMB_COMP
+})
 
 export const updateNumberCompleted = (user_id, activity_id, week_in_program) => ({
     type: types.UPDATE_NUMBER_COMPLETED,
@@ -307,13 +312,13 @@ function* insertExerciseActivitySaga({ payload }) {
 
 function* updateNumberCompletedSaga({ payload }) {
     const {
-        user_id, activity_id, week_in_program 
+        user_id, activity_id, week_in_program
     } = payload
 
     try {
         const apiResult = yield call(
             updateNumberCompletedSagaAsync,
-            user_id, activity_id, week_in_program 
+            user_id, activity_id, week_in_program
         );
         yield put({
             type: types.UPDATE_NUMBER_COMPLETED_SUCCESS
@@ -396,6 +401,11 @@ export function reducer(state = INIT_STATE, action) {
             return {
                 ...state,
                 statusUpdateNumbComp: "success"
+            };
+        case types.RESET_STATUS_UPDATE_NUMB_COMP:
+            return {
+                ...state,
+                statusUpdateNumbComp: "default"
             };
         case types.INSERT_NUTRITION_ACTIVITY:
             return {
