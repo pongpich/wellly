@@ -397,7 +397,71 @@ class Add extends Component {
                 {
                     editmission === false ?
                         <View style={{ flex: 1, justifyContent: "flex-end" }} onPress={() => this.toggleModal(isModalVisible)} >
-                            <View style={styles.modalViewConter}>
+                            <View style={[styles.modalViewConter, { paddingHorizontal: 16 }]}>
+                                <View style={[styles.missionView, { marginTop: 20, justifyContent: "space-between", alignItems: "center" }]}>
+                                    <View></View>
+                                    <Text style={styles.headActivity}>เเก้ไขกิจกรรมตามความเข้มข้น</Text>
+                                    <TouchableWithoutFeedback onPress={() => this.setState({ statusCreate: "listDataViews" })}>
+                                        <Text style={styles.headEdit}>เสร็จ</Text>
+                                    </TouchableWithoutFeedback>
+                                </View>
+                                <View style={[styles.missionView, { marginTop: 16, justifyContent: "space-between" }]}>
+                                    <View style={study == "ทั้งหมด" ? styles.boxHeadingActive : styles.boxHeading}>
+                                        <Pressable onPress={() => this.setState({
+                                            study: "ทั้งหมด"
+                                        })}>
+                                            <Text style={study == "ทั้งหมด" ? styles.sectionActive : styles.section}> ทั้งหมด</Text>
+                                        </Pressable>
+                                    </View>
+                                    <View style={study == "ต่ำ" ? styles.boxHeadingActive : styles.boxHeading}>
+                                        <Pressable onPress={() => this.setState({
+                                            study: "ต่ำ"
+                                        })}>
+                                            <Text style={study == "ต่ำ" ? styles.sectionActive : styles.section}> ต่ำ</Text>
+                                        </Pressable>
+                                    </View>
+                                    <View style={study == "ปานกลาง" ? styles.boxHeadingActive : styles.boxHeading}>
+                                        <Pressable onPress={() => this.setState({
+                                            study: "ปานกลาง"
+                                        })}>
+                                            <Text style={study == "ปานกลาง" ? styles.sectionActive : styles.section}> ปานกลาง</Text>
+                                        </Pressable>
+                                    </View>
+                                    <View style={study == "สูง" ? styles.boxHeadingActive : styles.boxHeading}>
+                                        <Pressable onPress={() => this.setState({
+                                            study: "สูง"
+                                        })}>
+                                            <Text style={study == "สูง" ? styles.sectionActive : styles.section}> สูง</Text>
+                                        </Pressable>
+                                    </View>
+                                </View>
+                                <View style={{ marginTop: 24 }}>
+                                    <TouchableWithoutFeedback onPress={() => this.editMissionName("เข้มข้นต่ำ", "เดินเร็ว")}>
+                                        <View>
+                                            <View style={styles.missionView}>
+                                                <Image style={styles.activityImage} source={stsusColor == "เข้มข้นต่ำ" ? require('../../assets/images/activity/Activitylow.png') : stsusColor == "เข้มข้นปานกลาง" ? require('../../assets/images/activity/Activitycenter.png') : require('../../assets/images/activity/Activityhign.png')} />
+                                                <View style={styles.groupText2}>
+                                                    <Text style={styles.headText2}>เดินเร็ว</Text>
+                                                    <Text style={[styles.groupStatus, { color: stsusColor == "เข้มข้นต่ำ" ? colors.secondary_MayaBlue : stsusColor == "เข้มข้นปานกลาง" ? colors.tertiaryYellow : colors.tertiaryMagenta }]}>เข้มข้นต่ำ</Text>
+                                                </View>
+                                            </View>
+                                            <View style={styles.viewIconRight2}>
+                                                <Text style={[styles.groupStatus, { color: stsusColor == "เข้มข้นต่ำ" ? colors.secondary_MayaBlue : stsusColor == "เข้มข้นปานกลาง" ? colors.tertiaryYellow : colors.tertiaryMagenta }]}>เข้มข้นต่ำ</Text>
+                                            </View>
+                                        </View>
+                                    </TouchableWithoutFeedback>
+                                    <TouchableWithoutFeedback onPress={() => this.setState({ statusCreate: "createView" })}>
+                                        <View>
+                                            <View style={styles.missionView}>
+                                                <Image style={styles.activityImage} source={require('../../assets/images/activity/frame13811.png')} />
+                                                <View style={styles.groupText2}>
+                                                    <Text style={styles.headText3}>เพิ่มกิจกรรมใหม่</Text>
+                                                </View>
+                                            </View>
+                                        </View>
+                                    </TouchableWithoutFeedback>
+                                </View>
+
                                 {
                                     confirmActivityDeleted === true ?
                                         <View style={styles.activityDeleted}>
@@ -522,6 +586,136 @@ class Add extends Component {
                 </>
 
             </>
+            /*  <>
+ 
+                 {
+                     editmission === false ?
+                         <View style={{ flex: 1, justifyContent: "flex-end" }} onPress={() => this.toggleModal(isModalVisible)} >
+                             <View style={styles.modalViewConter}>
+                                 {
+                                     confirmActivityDeleted === true ?
+                                         <View style={styles.activityDeleted}>
+                                             <View style={styles.boxActivityDeleted}>
+                                                 <Image
+                                                     style={{ height: 32, width: 32, zIndex: 1 }}
+                                                     source={require('../../assets/images/activity/Checked.png')}
+                                                 />
+                                                 <Text style={styles.textActivityDeleted}> {message}</Text>
+                                             </View>
+                                         </View>
+                                         : null
+ 
+                                 }
+ 
+                             </View>
+                         </View>
+                         :
+ 
+                         <>
+                             <View style={{ flex: 1, justifyContent: "flex-end" }} onPress={() => this.toggleModal(isModalVisible)} >
+                                 <View style={[styles.modalViewConter, { paddingHorizontal: 16 }]}>
+                                     <View style={[styles.missionView, { marginTop: 20, justifyContent: "space-between" }]}>
+                                         <TouchableWithoutFeedback onPress={() => this.setState({ editmission: false })}>
+                                             <Image
+                                                 style={{ width: 24, height: 24 }}
+                                                 source={require('../../assets/images/activity/chenronLe.png')}
+                                             />
+                                         </TouchableWithoutFeedback>
+                                         <Text style={styles.headActivity}>เเก้ไขกิจกรรม</Text>
+                                         {
+                                             statusViolence !== null && missionName !== null ?
+                                                 <TouchableWithoutFeedback onPress={() => this.seveEitMissionName("listDataViews")}>
+                                                     <Text style={styles.headEdit}>บันทึก</Text>
+                                                 </TouchableWithoutFeedback>
+                                                 :
+                                                 <Text style={styles.headEditgrey}>บันทึก</Text>
+                                         }
+ 
+ 
+                                     </View>
+                                     <Text style={[styles.headActivity, { marginTop: 19 }]}>ความเข้มข้น</Text>
+ 
+                                     <View style={{ justifyContent: "space-between", flex: 1 }}>
+                                         <View>
+                                             <View style={[styles.missionView, { marginTop: 8 }]}>
+                                                 <TouchableWithoutFeedback onPress={() => this.violence("ต่ำ")}>
+                                                     <View style={[styles.boxCreate, statusViolence == "เข้มข้นต่ำ" ? { borderWidth: 2, borderColor: colors.persianBlue } : null]}>
+                                                         <Image
+                                                             style={{ height: 32, width: 32, zIndex: 1 }}
+                                                             source={require('../../assets/images/activity/Activitylow.png')}
+                                                         />
+                                                         <Text style={styles.textImageBoxCreate}>ต่ำ</Text>
+                                                     </View>
+                                                 </TouchableWithoutFeedback>
+                                                 <TouchableWithoutFeedback onPress={() => this.violence("ปานกลาง")}>
+                                                     <View style={[styles.boxCreate, { marginLeft: 16 }, statusViolence == "เข้มข้นปานกลาง" ? { borderWidth: 2, borderColor: colors.persianBlue } : null]}>
+                                                         <Image
+                                                             style={{ height: 32, width: 32, zIndex: 1 }}
+                                                             source={require('../../assets/images/activity/Activitycenter.png')}
+                                                         />
+                                                         <Text style={styles.textImageBoxCreate}>ปานกลาง</Text>
+                                                     </View>
+                                                 </TouchableWithoutFeedback>
+                                                 <TouchableWithoutFeedback onPress={() => this.violence("สูง")}>
+                                                     <View style={[styles.boxCreate, { marginLeft: 16 }, statusViolence == "เข้มข้นสูง" ? { borderWidth: 2, borderColor: colors.persianBlue } : null]}>
+                                                         <Image
+                                                             style={{ height: 32, width: 32, zIndex: 1 }}
+                                                             source={require('../../assets/images/activity/Activityhign.png')}
+                                                         />
+                                                         <Text style={styles.textImageBoxCreate}>สูง</Text>
+                                                     </View>
+                                                 </TouchableWithoutFeedback>
+                                             </View>
+                                             <TextInput
+                                                 style={styles.input}
+                                                 onChangeText={(text) => this.setState({ missionName: text })}
+                                                 value={missionName}
+                                                 placeholder="ชื่อกิจกรรม"
+                                                 keyboardType="numeric"
+                                             />
+                                         </View>
+                                         {confirmDelete === false ?
+                                             <View style={{ alignItems: "center" }}>
+                                                 <Pressable onPress={() => this.setState({ confirmDelete: true })} >
+                                                     <Text style={styles.deleteActivity}>ลบกิจกรรมนี้</Text>
+                                                 </Pressable>
+                                             </View>
+                                             : null}
+ 
+                                     </View>
+                                 </View>
+                             </View>
+ 
+                         </>
+                 }
+                 <>
+                     {
+                         confirmDelete === true ?
+                             <View style={styles.confirm}>
+                                 <View style={{ flex: 1, justifyContent: "flex-end" }} onPress={() => this.toggleModal(isModalVisible)} >
+                                     <View style={styles.modalView}>
+                                         <Text style={styles.headModal}>แน่ใจที่ลบกิจกรรมนี้หรือไม่</Text>
+                                         <View style={[styles.missionView, { marginTop: 32, marginBottom: 40, }]}>
+                                             <TouchableWithoutFeedback onPress={() => this.setState({ confirmDelete: false })}>
+                                                 <View style={styles.buttonWhite}>
+                                                     <Text style={styles.textButtonWhite}>ย้อนกลับ</Text>
+                                                 </View>
+                                             </TouchableWithoutFeedback>
+                                             <TouchableWithoutFeedback onPress={() => this.deleteActivity("ลบกิจกรรมแล้ว")}>
+                                                 <View style={styles.buttonRed}>
+                                                     <Text style={styles.textButtonRed}>ลบกิจกรรม</Text>
+                                                 </View>
+                                             </TouchableWithoutFeedback>
+                                         </View>
+                                     </View>
+                                 </View>
+                             </View>
+                             : null
+ 
+                     }
+                 </>
+ 
+             </> */
         )
     }
 
