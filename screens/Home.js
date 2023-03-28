@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Pressable, ImageBackground, Image, ScrollView, StatusBar, statusBarStyle, statusBarTransition, hidden, TouchableOpacity, TextInput, Text, Linking, KeyboardAvoidingView, Platform, Dimensions, Modal, InputAccessoryView, Keyboard } from 'react-native';
 import { logoutUser, loginUser } from "../redux/auth";
-import { getNutritionMission, getNutritionActivity, getExerciserActivity, getActivityList } from "../redux/get";
+import { getNutritionMission, getNutritionActivity, getExerciserActivity, getActivityList, setIntensityFromExArticleTemplate } from "../redux/get";
 import { insertNutritionActivity, insertExerciseActivity, } from "../redux/update";
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
@@ -17,6 +17,7 @@ import {
     ContributionGraph,
     StackedBarChart
 } from "react-native-chart-kit";
+import { CommonActions } from '@react-navigation/native';
 
 
 class Home extends Component {
@@ -89,6 +90,22 @@ class Home extends Component {
                 })
             }
         }
+    }
+
+
+    actionPress(id) {
+
+        const resetAction = CommonActions.reset({
+            index: 0, // ตำแหน่งของหน้าที่จะใช้เป็นหน้าแรก
+            routes: [{
+                name: 'Add',
+            }], // เส้นทางที่ต้องการเปลี่ยน
+        });
+        // set ความเข้มไปใน redux
+        this.props.setIntensityFromExArticleTemplate(id)
+        this.props.navigation.dispatch(resetAction);
+
+        console.log("id", id);
 
     }
 
@@ -183,7 +200,7 @@ class Home extends Component {
                                 return (
                                     <View key={i + "rv"}>
                                         <Pressable
-                                        //onPress={() => this.props.navigation.popToTop()} key={i + "tfb"}
+                                            onPress={() => this.actionPress(item.id)}
                                         >
                                             <View key={i + "h"} style={{ flexDirection: "row", marginBottom: 16 }}>
                                                 <View style={styles.numberView} key={i + "hom"}>
@@ -477,7 +494,7 @@ const mapStateToProps = ({ authUser, getData, personalDataUser }) => {
     return { user, nutrition_mission, nutrition_activity, statusGetNutritionMission, statusGetNutritionActivity, statusInsertNutritionActivity, statusExerciserActivity, exerciserActivity, activity_list, statusGetActivityList, route_name };
 };
 
-const mapActionsToProps = { logoutUser, getNutritionMission, routeName, insertNutritionActivity, insertExerciseActivity, loginUser, getNutritionActivity, getExerciserActivity, getActivityList };
+const mapActionsToProps = { logoutUser, getNutritionMission, routeName, insertNutritionActivity, insertExerciseActivity, loginUser, getNutritionActivity, getExerciserActivity, getActivityList, setIntensityFromExArticleTemplate };
 
 export default connect(
     mapStateToProps,
