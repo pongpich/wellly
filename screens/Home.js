@@ -72,12 +72,13 @@ class Home extends Component {
         }
 
         if ((prevProps.statusExerciserActivity !== statusExerciserActivity) && (statusExerciserActivity === "success")) {
-            const mission_activities = JSON.parse(exerciserActivity[0].mission_activities);
-            this.setState({
-                latest_exercise_activity: exerciserActivity[0],
-                latest_exercise_mission: mission_activities
-            })
-
+            if (exerciserActivity[0]) {
+                const mission_activities = JSON.parse(exerciserActivity[0].mission_activities);
+                this.setState({
+                    latest_exercise_activity: exerciserActivity[0],
+                    latest_exercise_mission: mission_activities
+                })
+            }
         }
 
     }
