@@ -7,11 +7,12 @@ import Modal from "react-native-modal";
 import { AntDesign } from '@expo/vector-icons';
 import { useSelector, useDispatch } from "react-redux";
 import { connect } from 'react-redux';
-import { getExerciserActivity } from "../../redux/get";
+import { getExerciserActivity, getMemberActivityLogInWeek } from "../../redux/get";
 import { List } from 'react-native-paper';
 import { Video, AVPlaybackStatus } from 'expo-av';
 import { update_popUp_stars } from "../../redux/update";
 import { checkStar, checkTrophy, calculateWeekInProgram, convertFormatDate } from "../../helpers/utils";
+import { withTranslation } from 'react-i18next'
 
 import {
     LineChart,
@@ -60,6 +61,8 @@ const data2 = {
 const Activity = ({ navigation }) => {
 
     const dispatch = useDispatch();
+    const user = useSelector(({ authUser }) => authUser ? authUser.user : "");
+    const { statusGetMemberActLogInWeek, member_activity_log_in_week } = useSelector(({ getData }) => getData ? getData : "");
 
     const [statusMission, setStatusMission] = useState(true);
     const [statusChart, setStatusChart] = useState(1);
@@ -90,7 +93,8 @@ const Activity = ({ navigation }) => {
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
-            ////*  */
+            dispatch(getMemberActivityLogInWeek((user && user.user_id)));
+            console.log("member_activity_log_in_week :", member_activity_log_in_week);
         });
 
         return unsubscribe;
@@ -170,31 +174,37 @@ const Activity = ({ navigation }) => {
                         </View>
                         <Text style={styles.nutritionWeek}>กิจกรรมสัปดาห์นี้</Text>
                         {
-                            data ?
-                                data.map((item, i) => {
+                            member_activity_log_in_week ?
+                                member_activity_log_in_week.map((item, i) => {
 
                                     return (
                                         <Pressable key={i + "tfb"} onPress={() => navigation.navigate("ActAcivity")}>
                                             <View key={i} style={styles.row}>
-                                                <Image style={styles.activityImage} source={require('../../assets/images/activity/Activitylow.png')} />
+                                                <Image
+                                                    style={styles.activityImage}
+                                                    source={item.intensity === 'light_intensity' ? require('../../assets/images/activity/Activitylow.png') : item.intensity === 'moderate_intensity' ? require('../../assets/images/activity/Activitycenter.png') : require('../../assets/images/activity/Activityhign.png')}
+                                                />
                                                 <View style={styles.missionData}>
-                                                    <Text style={styles.missionHead}>ปกติ</Text>
+                                                    <Text style={styles.missionHead}>{item.activity}</Text>
                                                     <View style={styles.missionView}>
                                                         <Text style={styles.dateData}>
-                                                            31 ธ.ค. 2566
+                                                            {/* 31 ธ.ค. 2566 */}
+                                                            {item.created_at}
                                                         </Text>
                                                         <Text style={styles.li}>{"\u2B24" + " "}</Text>
                                                         <Text style={styles.dateData}>
-                                                            เข้มข้นต่ำ
+                                                            {item.intensity === 'light_intensity' && 'เข้มข้นต่ำ'}
+                                                            {item.intensity === 'moderate_intensity' && 'เข้มข้นปานกลาง'}
+                                                            {item.intensity === 'vigorous_intensity' && 'เข้มข้นสูง'}
                                                         </Text>
                                                     </View>
-                                                    <Text style={styles.timeData}>29 นาที</Text>
+                                                    <Text style={styles.timeData}>{item.duration} นาที</Text>
                                                     <View style={styles.missionView}>
                                                         <Image
                                                             style={{ height: 12, width: 12, marginTop: 5, marginRight: 4 }}
                                                             source={require('../../assets/images/activity/Note.png')}
                                                         />
-                                                        <Text style={styles.editNote}>เดินกินลม</Text>
+                                                        <Text style={styles.editNote}>{item.note}</Text>
                                                     </View>
 
                                                 </View>
@@ -468,7 +478,5 @@ const styles = StyleSheet.create({
 
 
 });
-
-
 
 export default Activity;

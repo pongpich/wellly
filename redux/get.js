@@ -16,8 +16,17 @@ export const types = {
   GET_EXERCISE_ACTIVITY_SUCCESS: "GET_EXERCISE_ACTIVITY_SUCCESS",
   GET_ACTIVITY_LIST: "GET_ACTIVITY_LIST",
   GET_ACTIVITY_LIST_SUCCESS: "GET_ACTIVITY_LIST_SUCCESS",
-  SET_INTENS_FROM_EX_ART_TEMP: "SET_INTENS_FROM_EX_ART_TEMP"
+  SET_INTENS_FROM_EX_ART_TEMP: "SET_INTENS_FROM_EX_ART_TEMP",
+  GET_MEMBER_ACT_LOG_IN_WEEK: "GET_MEMBER_ACT_LOG_IN_WEEK",
+  GET_MEMBER_ACT_LOG_IN_WEEK_SUCCESS: "GET_MEMBER_ACT_LOG_IN_WEEK_SUCCESS"
 };
+
+export const getMemberActivityLogInWeek = (user_id) => ({
+  type: types.GET_MEMBER_ACT_LOG_IN_WEEK,
+  payload: {
+    user_id
+  }
+})
 
 export const setIntensityFromExArticleTemplate = (intensity) => ({
   type: types.SET_INTENS_FROM_EX_ART_TEMP,
@@ -159,6 +168,20 @@ const getExerciserActivitySagaAsync = async (user_id) => {
   }
 };
 
+const getMemberActivityLogInWeekSagaAsync = async (user_id) => {
+  try {
+    const apiResult = await API.get("planforfit", "/getMemberActivityLogInWeek", {
+      queryStringParameters: {
+        user_id
+      }
+    });
+    /*   console.log("apiResult", apiResult); */
+    return apiResult
+  } catch (error) {
+    return { error, messsage: error.message };
+  }
+};
+
 
 function* getProfanitySaga({ }) {
   try {
@@ -276,6 +299,27 @@ function* getExerciserActivitySaga({ payload }) {
   }
 }
 
+function* getMemberActivityLogInWeekSaga({ payload }) {
+  const {
+    user_id
+  } = payload
+
+  try {
+    const apiResult = yield call(
+      getMemberActivityLogInWeekSagaAsync,
+      user_id
+    )
+    console.log("apiResult", apiResult.results.member_activity_log_in_week);
+    yield put({
+      type: types.GET_MEMBER_ACT_LOG_IN_WEEK_SUCCESS,
+      payload: apiResult.results.member_activity_log_in_week
+    })
+
+  } catch (error) {
+    console.log("error form getMemberActivityLogInWeekSaga", error);
+  }
+}
+
 export function* watchGetProfanity() {
   yield takeEvery(types.GET_PROFANITY, getProfanitySaga)
 }
@@ -298,6 +342,9 @@ export function* watchGetNutritionActivityIdMission() {
 export function* watchGetExerciserActivity() {
   yield takeEvery(types.GET_EXERCISE_ACTIVITY, getExerciserActivitySaga)
 }
+export function* watchGetMemberActivityLogInWeek() {
+  yield takeEvery(types.GET_MEMBER_ACT_LOG_IN_WEEK, getMemberActivityLogInWeekSaga)
+}
 
 export function* saga() {
   yield all([
@@ -307,6 +354,7 @@ export function* saga() {
     fork(watchGetNutritionActivityIdMission),
     fork(watchGetExerciserActivity),
     fork(watchGetActivityList),
+    fork(watchGetMemberActivityLogInWeek),
   ]);
 }
 
@@ -328,7 +376,9 @@ const INIT_STATE = {
   exerciserActivity: null,
   statusGetActivityList: "default",
   activity_list: null,
-  intensityFromExArticleTemplate: null
+  intensityFromExArticleTemplate: null,
+  statusGetMemberActLogInWeek: "default",
+  member_activity_log_in_week: null
 };
 
 export function reducer(state = INIT_STATE, action) {
@@ -342,6 +392,17 @@ export function reducer(state = INIT_STATE, action) {
       return {
         ...state,
         profanity: action.payload,
+      }
+    case types.GET_MEMBER_ACT_LOG_IN_WEEK:
+      return {
+        ...state,
+        statusGetMemberActLogInWeek: "loading"
+      }
+    case types.GET_MEMBER_ACT_LOG_IN_WEEK_SUCCESS:
+      return {
+        ...state,
+        statusGetMemberActLogInWeek: "success",
+        member_activity_log_in_week: action.payload,
       }
     case types.GET_ACTIVITY_LIST:
       return {
