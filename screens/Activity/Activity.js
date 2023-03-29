@@ -94,7 +94,6 @@ const Activity = ({ navigation }) => {
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
             dispatch(getMemberActivityLogInWeek((user && user.user_id)));
-            console.log("member_activity_log_in_week :", member_activity_log_in_week);
         });
 
         return unsubscribe;

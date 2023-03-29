@@ -309,7 +309,6 @@ function* getMemberActivityLogInWeekSaga({ payload }) {
       getMemberActivityLogInWeekSagaAsync,
       user_id
     )
-    console.log("apiResult", apiResult.results.member_activity_log_in_week);
     yield put({
       type: types.GET_MEMBER_ACT_LOG_IN_WEEK_SUCCESS,
       payload: apiResult.results.member_activity_log_in_week
