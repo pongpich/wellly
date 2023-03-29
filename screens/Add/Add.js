@@ -6,6 +6,7 @@ import Modal from "react-native-modal";
 import { withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { getActivityList, setIntensityFromExArticleTemplate } from "../../redux/get";
+import { addActivityListAddOn, deleteActivityListAddOn } from "../../redux/update";
 
 class Add extends Component {
 
@@ -66,8 +67,8 @@ class Add extends Component {
 
 
     componentDidUpdate(prevProps, prevState) {
-        const { intensityFromExArticle } = this.state;
-        const { user, activity_list, intensityFromExArticleTemplate } = this.props;
+        const { intensityFromExArticle, study } = this.state;
+        const { user, activity_list, intensityFromExArticleTemplate, statusAddActListAddOn, statusGetActivityList } = this.props;
         if ((prevState.intensityFromExArticle !== intensityFromExArticle) && (intensityFromExArticle !== null)) {
 
             if (intensityFromExArticle == "light_intensity") {
@@ -91,6 +92,27 @@ class Add extends Component {
             })
             this.props.setIntensityFromExArticleTemplate(null)
         }
+
+        if ((prevProps.statusAddActListAddOn !== statusAddActListAddOn) && (statusAddActListAddOn === 'success')) {
+            this.props.getActivityList(user && user.user_id);
+        }
+        if ((prevProps.statusGetActivityList !== statusGetActivityList) && (statusGetActivityList === 'success')) { //ใช้เพื่อให้ตอน add รายการเพิ่มหน้าแสดงผลอัพเดทเรียลไทม์
+            if (study === 'ต่ำ') { }// ปานกลาง สูง ทั้งหมด
+            this.setState({
+                activity_list_show: (study === 'ทั้งหมด') ?
+                    [...activity_list.light_intensity, ...activity_list.moderate_intensity, ...activity_list.vigorous_intensity]
+                    :
+                    (study === 'ต่ำ') ?
+                        [...activity_list.light_intensity]
+                        :
+                        (study === 'ปานกลาง') ?
+                            [...activity_list.moderate_intensity]
+                            :
+                            //  (study === 'สูง')
+                            [...activity_list.vigorous_intensity]
+            })
+        }
+
     }
 
     toggleModal(isModalVisible) {
@@ -134,12 +156,14 @@ class Add extends Component {
         })
     }
 
-    addMissionName(e) {
-
+    addMissionName(e, activity_name, intensity) { //ใช้เพิ่มรายการ activity
+        const { user } = this.props;
         this.setState({
             statusCreate: e,
             data: true
         })
+
+        this.props.addActivityListAddOn(user.user_id, activity_name, intensity);
     }
 
 
@@ -325,6 +349,7 @@ class Add extends Component {
 
     createView() {
         const { isModalVisible, statusViolence, missionName } = this.state;
+        const { statusAddActListAddOn } = this.props;
         return (
             <>
                 <View style={{ flex: 1, justifyContent: "flex-end" }} onPress={() => this.toggleModal(isModalVisible)} >
@@ -335,8 +360,8 @@ class Add extends Component {
                             </TouchableWithoutFeedback>
                             <Text style={styles.headActivity}>เพิ่มกิจกรรม</Text>
                             {
-                                statusViolence !== null && missionName !== null ?
-                                    <TouchableWithoutFeedback onPress={() => this.addMissionName("listDataViews")}>
+                                statusViolence && missionName && (statusAddActListAddOn !== "loading") ?
+                                    <TouchableWithoutFeedback onPress={() => this.addMissionName("listDataViews", missionName, statusViolence)}>
                                         <Text style={styles.headEdit}>เพิ่ม</Text>
                                     </TouchableWithoutFeedback>
                                     :
@@ -348,8 +373,8 @@ class Add extends Component {
                         <Text style={[styles.headActivity, { marginTop: 19 }]}>ความเข้มข้น</Text>
                         {/*   <TouchableWithoutFeedback></TouchableWithoutFeedback> */}
                         <View style={[styles.missionView, { marginTop: 8 }]}>
-                            <TouchableWithoutFeedback onPress={() => this.violence("ต่ำ")}>
-                                <View style={[styles.boxCreate, statusViolence == "ต่ำ" ? { borderWidth: 2, borderColor: colors.persianBlue } : null]}>
+                            <TouchableWithoutFeedback onPress={() => this.violence("light_intensity")}>
+                                <View style={[styles.boxCreate, statusViolence == "light_intensity" ? { borderWidth: 2, borderColor: colors.persianBlue } : null]}>
                                     <Image
                                         style={{ height: 32, width: 32, zIndex: 1 }}
                                         source={require('../../assets/images/activity/Activitylow.png')}
@@ -357,8 +382,8 @@ class Add extends Component {
                                     <Text style={styles.textImageBoxCreate}>ต่ำ</Text>
                                 </View>
                             </TouchableWithoutFeedback>
-                            <TouchableWithoutFeedback onPress={() => this.violence("ปานกลาง")}>
-                                <View style={[styles.boxCreate, { marginLeft: 16 }, statusViolence == "ปานกลาง" ? { borderWidth: 2, borderColor: colors.persianBlue } : null]}>
+                            <TouchableWithoutFeedback onPress={() => this.violence("moderate_intensity")}>
+                                <View style={[styles.boxCreate, { marginLeft: 16 }, statusViolence == "moderate_intensity" ? { borderWidth: 2, borderColor: colors.persianBlue } : null]}>
                                     <Image
                                         style={{ height: 32, width: 32, zIndex: 1 }}
                                         source={require('../../assets/images/activity/Activitycenter.png')}
@@ -366,8 +391,8 @@ class Add extends Component {
                                     <Text style={styles.textImageBoxCreate}>ปานกลาง</Text>
                                 </View>
                             </TouchableWithoutFeedback>
-                            <TouchableWithoutFeedback onPress={() => this.violence("สูง")}>
-                                <View style={[styles.boxCreate, { marginLeft: 16 }, statusViolence == "สูง" ? { borderWidth: 2, borderColor: colors.persianBlue } : null]}>
+                            <TouchableWithoutFeedback onPress={() => this.violence("vigorous_intensity")}>
+                                <View style={[styles.boxCreate, { marginLeft: 16 }, statusViolence == "vigorous_intensity" ? { borderWidth: 2, borderColor: colors.persianBlue } : null]}>
                                     <Image
                                         style={{ height: 32, width: 32, zIndex: 1 }}
                                         source={require('../../assets/images/activity/Activityhign.png')}
@@ -379,7 +404,7 @@ class Add extends Component {
                         <TextInput
                             style={styles.input}
                             onChangeText={(text) => this.setState({ missionName: text })}
-                            /*  value={number} */
+                            value={missionName}
                             placeholder="ชื่อกิจกรรม"
                             keyboardType="numeric"
                         />
@@ -1076,13 +1101,14 @@ const styles = StyleSheet.create({
 
 })
 
-const mapStateToProps = ({ authUser, getData }) => {
+const mapStateToProps = ({ authUser, getData, updateData }) => {
     const { user } = authUser;
     const { activity_list, statusGetActivityList, intensityFromExArticleTemplate } = getData;
-    return { user, activity_list, statusGetActivityList, intensityFromExArticleTemplate };
+    const { statusAddActListAddOn, statusDeleteActListAddOn } = updateData;
+    return { user, activity_list, statusGetActivityList, intensityFromExArticleTemplate, statusAddActListAddOn, statusDeleteActListAddOn };
 };
 
-const mapActionsToProps = { getActivityList, setIntensityFromExArticleTemplate };
+const mapActionsToProps = { getActivityList, setIntensityFromExArticleTemplate, addActivityListAddOn, deleteActivityListAddOn };
 
 export default connect(
     mapStateToProps,

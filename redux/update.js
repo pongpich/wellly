@@ -16,9 +16,27 @@ export const types = {
     UPDARE_POPUP_STARS_SUCCESS: "UPDARE_POPUP_STARS_SUCCESS",
     UPDATE_NUMBER_COMPLETED: "UPDATE_NUMBER_COMPLETED",
     UPDATE_NUMBER_COMPLETED_SUCCESS: "UPDATE_NUMBER_COMPLETED_SUCCESS",
-    RESET_STATUS_UPDATE_NUMB_COMP: "RESET_STATUS_UPDATE_NUMB_COMP"
+    RESET_STATUS_UPDATE_NUMB_COMP: "RESET_STATUS_UPDATE_NUMB_COMP",
+    ADD_ACTIVITY_LIST_ADD_ON: "ADD_ACTIVITY_LIST_ADD_ON",
+    ADD_ACTIVITY_LIST_ADD_ON_SUCCESS: "ADD_ACTIVITY_LIST_ADD_ON_SUCCESS",
+    DELETE_ACTIVITY_LIST_ADD_ON: "DELETE_ACTIVITY_LIST_ADD_ON",
+    DELETE_ACTIVITY_LIST_ADD_ON_SUCCESS: "DELETE_ACTIVITY_LIST_ADD_ON_SUCCESS",
 
 };
+
+export const addActivityListAddOn = (user_id, activity_name, intensity) => ({
+    type: types.ADD_ACTIVITY_LIST_ADD_ON,
+    payload: {
+        user_id, activity_name, intensity
+    }
+});
+
+export const deleteActivityListAddOn = (user_id, activity_id) => ({
+    type: types.DELETE_ACTIVITY_LIST_ADD_ON,
+    payload: {
+        user_id, activity_id
+    }
+});
 
 export const resetStatusUpdateNumbComp = () => ({
     type: types.RESET_STATUS_UPDATE_NUMB_COMP
@@ -197,6 +215,39 @@ const updateNumberCompletedSagaAsync = async (
         return { error, messsage: error.message };
     }
 };
+const addActivityListAddOnSagaAsync = async (
+    user_id, activity_name, intensity
+) => {
+
+    try {
+        const apiResult = await API.post("planforfit", "/addActivityListAddOn", {
+            body: {
+                user_id, activity_name, intensity
+            }
+        });
+
+        return apiResult
+    } catch (error) {
+        return { error, messsage: error.message };
+    }
+};
+
+const deleteActivityListAddOnSagaAsync = async (
+    user_id, activity_id 
+) => {
+
+    try {
+        const apiResult = await API.post("planforfit", "/deleteActivityListAddOn", {
+            body: {
+                user_id, activity_id 
+            }
+        });
+
+        return apiResult
+    } catch (error) {
+        return { error, messsage: error.message };
+    }
+};
 
 
 
@@ -328,6 +379,42 @@ function* updateNumberCompletedSaga({ payload }) {
     }
 }
 
+function* addActivityListAddOnSaga({ payload }) {
+    const {
+        user_id, activity_name, intensity
+    } = payload
+
+    try {
+        const apiResult = yield call(
+            addActivityListAddOnSagaAsync,
+            user_id, activity_name, intensity
+        );
+        yield put({
+            type: types.ADD_ACTIVITY_LIST_ADD_ON_SUCCESS
+        })
+    } catch (error) {
+        console.log("error form addActivityListAddOnSaga", error);
+    }
+}
+
+function* deleteActivityListAddOnSaga({ payload }) {
+    const {
+        user_id, activity_id 
+    } = payload
+
+    try {
+        const apiResult = yield call(
+            deleteActivityListAddOnSagaAsync,
+            user_id, activity_id 
+        );
+        yield put({
+            type: types.DELETE_ACTIVITY_LIST_ADD_ON_SUCCESS
+        })
+    } catch (error) {
+        console.log("error form deleteActivityListAddOnSaga", error);
+    }
+}
+
 export function* watchUpdate_quiz_activities() {
     yield takeEvery(types.UPDATE_QUIZ_ACTIVITIES, update_quiz_activitiesSaga)
 }
@@ -349,8 +436,12 @@ export function* watchInsertExerciseActivity() {
 export function* watchUpdateNumberCompleted() {
     yield takeEvery(types.UPDATE_NUMBER_COMPLETED, updateNumberCompletedSaga)
 }
-
-
+export function* watchAddActivityListAddOn() {
+    yield takeEvery(types.ADD_ACTIVITY_LIST_ADD_ON, addActivityListAddOnSaga)
+}
+export function* watchDeleteActivityListAddOn() {
+    yield takeEvery(types.DELETE_ACTIVITY_LIST_ADD_ON, deleteActivityListAddOnSaga)
+}
 
 export function* saga() {
     yield all([
@@ -360,6 +451,8 @@ export function* saga() {
         fork(watchInsertExerciseActivity),
         fork(watchUpdate_popUp_stars),
         fork(watchUpdateNumberCompleted),
+        fork(watchAddActivityListAddOn),
+        fork(watchDeleteActivityListAddOn),
     ]);
 }
 
@@ -373,7 +466,9 @@ const INIT_STATE = {
     statusAssessment_kit_activties: "default",
     statusInsertExerciseActivity: "default",
     statusPopupSary: "default",
-    statusUpdateNumbComp: "default"
+    statusUpdateNumbComp: "default",
+    statusAddActListAddOn: "default",
+    statusDeleteActListAddOn: "default"
 };
 
 export function reducer(state = INIT_STATE, action) {
@@ -391,6 +486,26 @@ export function reducer(state = INIT_STATE, action) {
                     ...state.user,
                     quiz_activities: action.payload
                 }
+            };
+        case types.DELETE_ACTIVITY_LIST_ADD_ON:
+            return {
+                ...state,
+                statusDeleteActListAddOn: "loading"
+            };
+        case types.DELETE_ACTIVITY_LIST_ADD_ON_SUCCESS:
+            return {
+                ...state,
+                statusDeleteActListAddOn: "success"
+            };
+        case types.ADD_ACTIVITY_LIST_ADD_ON:
+            return {
+                ...state,
+                statusAddActListAddOn: "loading"
+            };
+        case types.ADD_ACTIVITY_LIST_ADD_ON_SUCCESS:
+            return {
+                ...state,
+                statusAddActListAddOn: "success"
             };
         case types.UPDATE_NUMBER_COMPLETED:
             return {
