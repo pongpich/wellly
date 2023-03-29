@@ -50,10 +50,10 @@ export const resetStatusUpdateNumbComp = () => ({
     type: types.RESET_STATUS_UPDATE_NUMB_COMP
 })
 
-export const updateNumberCompleted = (user_id, activity_id, week_in_program) => ({
+export const updateNumberCompleted = (user_id, activity_id, week_in_program, activity, intensity, type, duration, note) => ({
     type: types.UPDATE_NUMBER_COMPLETED,
     payload: {
-        user_id, activity_id, week_in_program
+        user_id, activity_id, week_in_program, activity, intensity, type, duration, note
     },
 })
 
@@ -208,13 +208,13 @@ const insertExerciseActivitySagaAsync = async (
     }
 };
 const updateNumberCompletedSagaAsync = async (
-    user_id, activity_id, week_in_program
+    user_id, activity_id, week_in_program, activity, intensity, type, duration, note
 ) => {
 
     try {
         const apiResult = await API.post("planforfit", "/updateNumberCompleted", {
             body: {
-                user_id, activity_id, week_in_program
+                user_id, activity_id, week_in_program, activity, intensity, type, duration, note
             }
         });
 
@@ -241,13 +241,13 @@ const addActivityListAddOnSagaAsync = async (
 };
 
 const deleteActivityListAddOnSagaAsync = async (
-    user_id, activity_id 
+    user_id, activity_id
 ) => {
 
     try {
         const apiResult = await API.post("planforfit", "/deleteActivityListAddOn", {
             body: {
-                user_id, activity_id 
+                user_id, activity_id
             }
         });
 
@@ -384,13 +384,13 @@ function* insertExerciseActivitySaga({ payload }) {
 
 function* updateNumberCompletedSaga({ payload }) {
     const {
-        user_id, activity_id, week_in_program
+        user_id, activity_id, week_in_program, activity, intensity, type, duration, note
     } = payload
 
     try {
         const apiResult = yield call(
             updateNumberCompletedSagaAsync,
-            user_id, activity_id, week_in_program
+            user_id, activity_id, week_in_program, activity, intensity, type, duration, note
         );
         yield put({
             type: types.UPDATE_NUMBER_COMPLETED_SUCCESS
@@ -420,13 +420,13 @@ function* addActivityListAddOnSaga({ payload }) {
 
 function* deleteActivityListAddOnSaga({ payload }) {
     const {
-        user_id, activity_id 
+        user_id, activity_id
     } = payload
 
     try {
         const apiResult = yield call(
             deleteActivityListAddOnSagaAsync,
-            user_id, activity_id 
+            user_id, activity_id
         );
         yield put({
             type: types.DELETE_ACTIVITY_LIST_ADD_ON_SUCCESS

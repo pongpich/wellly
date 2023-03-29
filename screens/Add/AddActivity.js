@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { SafeAreaView, StatusBar, View, Text, StyleSheet, Animated, Image, ImageBackground, Dimensions, Pressable, ScrollView, TouchableWithoutFeedback } from 'react-native';
+import { SafeAreaView, StatusBar, View, Text, StyleSheet, Animated, Image, ImageBackground, Dimensions, Pressable, ScrollView, TouchableWithoutFeedback, TextInput } from 'react-native';
 import colors from '../../constants/colors';
 import ComponentsStyle from '../../constants/components';
 import Modal from "react-native-modal";
@@ -21,6 +21,8 @@ class AddActivity extends Component {
             activity: '',
             intensity: '',
             type: 'default',
+            duration: '',
+            note: ''
         };
     }
 
@@ -75,20 +77,26 @@ class AddActivity extends Component {
     }
 
     saveMission() {
+        const { duration, note } = this.state;
         const { user, statusUpdateNumbComp } = this.props;
 
         // ใช้ params จาก  route ในหน้า Add.js
-        const { intensity } = this.props.route.params;
+        const { activity, intensity, type } = this.props.route.params;
         // ** หมายเหตุ ปัจจุบันใช้การคำนวน week ปัจจุบัน, - ซึ่งถ้าอนาคตมีการดูย้อนหลังสัปดาห์เก่า ต้องมาปรับปรุงส่วนนี้นะ -
         const week_in_program = calculateWeekInProgram(user.start_date);
 
         if (statusUpdateNumbComp !== 'loading') {
-            this.props.updateNumberCompleted((user && user.user_id), intensity, week_in_program);
+            this.props.updateNumberCompleted((user && user.user_id), intensity, week_in_program, activity, intensity, type, duration, note);
         }
     }
 
     render() {
-        const { stsusColor, isModalVisible, isModalConter, study, activity, intensity, type } = this.state;
+        const { stsusColor, isModalVisible, isModalConter, study, activity, intensity, type, duration, note } = this.state;
+        const date = new Date();
+        const day = date.getDate();
+        const month = date.getMonth() + 1;
+        const year = date.getFullYear();
+        const currentDate = `${day}-${month}-${year}`;
         return (
             <View style={styles.fill}>
                 <View style={{ height: 58, zIndex: 10, width: "100%", backgroundColor: colors.white }}>
@@ -142,7 +150,7 @@ class AddActivity extends Component {
                                 style={styles.chevronImage}
                                 source={require('../../assets/images/activity/Calendar.png')}
                             />
-                            <Text style={styles.textDetails}>31 ธ.ค. 2566 - 17:50 น.</Text>
+                            <Text style={styles.textDetails}>{currentDate}{/* 31 ธ.ค. 2566 - 17:50 น. */}</Text>
                         </View>
                         <View
                             style={{
@@ -155,7 +163,15 @@ class AddActivity extends Component {
                                 style={styles.chevronImage}
                                 source={require('../../assets/images/activity/Clock.png')}
                             />
-                            <Text style={styles.textDetails}>1 ชั่วโมง</Text>
+                            {/*  <Text style={styles.textDetails}>60 นาที</Text> */}
+                            <TextInput
+                                style={styles.textDetails}
+                                onChangeText={(text) => this.setState({ duration: text })}
+                                value={duration}
+                                keyboardType='numeric'
+                                placeholder="ระยะเวลาที่ใช้"
+                            />
+                            <Text style={styles.textDetails}>นาที</Text>
                         </View>
                         <View
                             style={{
@@ -168,7 +184,13 @@ class AddActivity extends Component {
                                 style={styles.chevronImage}
                                 source={require('../../assets/images/activity/Note.png')}
                             />
-                            <Text style={styles.textDetails}>เดินกินลมม</Text>
+                            {/*  <Text style={styles.textDetails}>เดินกินลมม</Text> */}
+                            <TextInput
+                                style={styles.textDetails}
+                                onChangeText={(text) => this.setState({ note: text })}
+                                value={note}
+                                placeholder="โน้ต"
+                            />
                         </View>
                         <View
                             style={{

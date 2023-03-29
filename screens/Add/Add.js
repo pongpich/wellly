@@ -446,7 +446,6 @@ class Add extends Component {
                             onChangeText={(text) => this.setState({ missionName: text })}
                             value={missionName}
                             placeholder="ชื่อกิจกรรม"
-                            keyboardType="numeric"
                         />
                     </View>
                 </View>
@@ -652,7 +651,6 @@ class Add extends Component {
                                                 onChangeText={(text) => this.setState({ missionName: text })}
                                                 value={missionName}
                                                 placeholder="ชื่อกิจกรรม"
-                                                keyboardType="numeric"
                                             />
                                         </View>
                                         {confirmDelete === false ?
