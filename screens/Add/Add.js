@@ -27,7 +27,8 @@ class Add extends Component {
             data: true,
             activity_list_show: [],
             activity_list_addon_show: [],
-            intensityFromExArticle: null
+            intensityFromExArticle: null,
+            activity_id_edit_focus: ''
         };
     }
 
@@ -74,7 +75,7 @@ class Add extends Component {
 
     componentDidUpdate(prevProps, prevState) {
         const { intensityFromExArticle, study } = this.state;
-        const { user, activity_list, intensityFromExArticleTemplate, statusAddActListAddOn, statusGetActivityList } = this.props;
+        const { user, activity_list, intensityFromExArticleTemplate, statusAddActListAddOn, statusDeleteActListAddOn, statusGetActivityList } = this.props;
         if ((prevState.intensityFromExArticle !== intensityFromExArticle) && (intensityFromExArticle !== null)) {
 
             if (intensityFromExArticle == "light_intensity") {
@@ -102,9 +103,13 @@ class Add extends Component {
         if ((prevProps.statusAddActListAddOn !== statusAddActListAddOn) && (statusAddActListAddOn === 'success')) {
             this.props.getActivityList(user && user.user_id);
         }
-        if ((prevProps.statusGetActivityList !== statusGetActivityList) && (statusGetActivityList === 'success')) { //ใช้เพื่อให้ตอน add รายการเพิ่มหน้าแสดงผลอัพเดทเรียลไทม์
+        if ((prevProps.statusDeleteActListAddOn !== statusDeleteActListAddOn) && (statusDeleteActListAddOn === 'success')) {
+            this.props.getActivityList(user && user.user_id);
+        }
+        if ((prevProps.statusGetActivityList !== statusGetActivityList) && (statusGetActivityList === 'success')) { //ใช้เพื่อให้ตอน add, delete รายการเพิ่มหน้าแสดงผลอัพเดทเรียลไทม์
             if (study === 'ต่ำ') { }// ปานกลาง สูง ทั้งหมด
             this.setState({
+                //activity_list_show ของหน้าปกติโชว์ทั้งหมด
                 activity_list_show: (study === 'ทั้งหมด') ?
                     [...activity_list.light_intensity, ...activity_list.moderate_intensity, ...activity_list.vigorous_intensity]
                     :
@@ -115,7 +120,24 @@ class Add extends Component {
                             [...activity_list.moderate_intensity]
                             :
                             //  (study === 'สูง')
-                            [...activity_list.vigorous_intensity]
+                            [...activity_list.vigorous_intensity],
+
+                //activity_list_show ของหน้าแก้ไขโชว์เฉพาะอันที่ผู้ใช้เพิ่มเอง
+                activity_list_addon_show: (study === 'ทั้งหมด') ?
+                    [
+                        ...(activity_list.light_intensity.filter(item => item.type === 'addon')),
+                        ...(activity_list.moderate_intensity.filter(item => item.type === 'addon')),
+                        ...(activity_list.vigorous_intensity.filter(item => item.type === 'addon')),
+                    ]
+                    :
+                    (study === 'ต่ำ') ?
+                        [...(activity_list.light_intensity.filter(item => item.type === 'addon')),]
+                        :
+                        (study === 'ปานกลาง') ?
+                            [ ...(activity_list.moderate_intensity.filter(item => item.type === 'addon'))]
+                            :
+                            //  (study === 'สูง')
+                            [...(activity_list.vigorous_intensity.filter(item => item.type === 'addon'))],
             })
         }
 
@@ -136,7 +158,10 @@ class Add extends Component {
         })
     };
     deleteActivity(mess) {
-
+        const { user } = this.props;
+        const { activity_id_edit_focus } = this.state;
+        console.log("activity_id_edit_focus :", activity_id_edit_focus);
+        this.props.deleteActivityListAddOn(user.user_id, activity_id_edit_focus)
         this.setState({
             confirmActivityDeleted: true,
             statusCreate: "editView",
@@ -174,11 +199,13 @@ class Add extends Component {
 
 
 
-    editMissionName(ev, value) {
+    editMissionName(ev, value, activity_id) {
+        //นำ activity_id ทีจะ edit มา
         this.setState({
             editmission: true,
             statusViolence: ev,
-            missionName: value
+            missionName: value,
+            activity_id_edit_focus: activity_id
         })
     }
 
@@ -421,7 +448,7 @@ class Add extends Component {
     }
 
     editView() {
-        const { stsusColor, isModalVisible, isModalConter, study, data, message, confirmActivityDeleted, confirmDelete, editmission, statusViolence, missionName, activity_list_addon_show } = this.state;
+        const { stsusColor, isModalVisible, isModalConter, study, data, message, confirmActivityDeleted, confirmDelete, editmission, statusViolence, missionName, activity_list_addon_show, activity_id_edit_focus } = this.state;
         const { activity_list } = this.props;
 
         return (
@@ -482,7 +509,7 @@ class Add extends Component {
                                             activity_list_addon_show &&
                                             activity_list_addon_show.map((item, i) => {
                                                 return (
-                                                    <TouchableWithoutFeedback key={i} onPress={() => this.editMissionName("ต่ำ", "เดินเร็ว")}>
+                                                    <TouchableWithoutFeedback key={i} onPress={() => this.editMissionName(item.intensity, item.activity, item.id)}>
                                                         <View style={{ marginRight: 16 }}>
                                                             <View style={styles.missionView}>
                                                                 <Image
@@ -568,9 +595,9 @@ class Add extends Component {
                                                 source={require('../../assets/images/activity/chenronLe.png')}
                                             />
                                         </TouchableWithoutFeedback>
-                                        <Text style={styles.headActivity}>เเก้ไขกิจกรรม</Text>
+                                        <Text style={styles.headActivity}>แก้ไขกิจกรรม</Text>
                                         {
-                                            statusViolence !== null && missionName !== null ?
+                                            statusViolence && missionName ?
                                                 <TouchableWithoutFeedback onPress={() => this.seveEitMissionName("listDataViews")}>
                                                     <Text style={styles.headEdit}>บันทึก</Text>
                                                 </TouchableWithoutFeedback>
@@ -585,8 +612,8 @@ class Add extends Component {
                                     <View style={{ justifyContent: "space-between", flex: 1 }}>
                                         <View>
                                             <View style={[styles.missionView, { marginTop: 8 }]}>
-                                                <TouchableWithoutFeedback onPress={() => this.violence("ต่ำ")}>
-                                                    <View style={[styles.boxCreate, statusViolence == "ต่ำ" ? { borderWidth: 2, borderColor: colors.persianBlue } : null]}>
+                                                <TouchableWithoutFeedback onPress={() => this.violence("light_intensity")}>
+                                                    <View style={[styles.boxCreate, statusViolence == "light_intensity" ? { borderWidth: 2, borderColor: colors.persianBlue } : null]}>
                                                         <Image
                                                             style={{ height: 32, width: 32, zIndex: 1 }}
                                                             source={require('../../assets/images/activity/Activitylow.png')}
@@ -594,8 +621,8 @@ class Add extends Component {
                                                         <Text style={styles.textImageBoxCreate}>ต่ำ</Text>
                                                     </View>
                                                 </TouchableWithoutFeedback>
-                                                <TouchableWithoutFeedback onPress={() => this.violence("ปานกลาง")}>
-                                                    <View style={[styles.boxCreate, { marginLeft: 16 }, statusViolence == "ปานกลาง" ? { borderWidth: 2, borderColor: colors.persianBlue } : null]}>
+                                                <TouchableWithoutFeedback onPress={() => this.violence("moderate_intensity")}>
+                                                    <View style={[styles.boxCreate, { marginLeft: 16 }, statusViolence == "moderate_intensity" ? { borderWidth: 2, borderColor: colors.persianBlue } : null]}>
                                                         <Image
                                                             style={{ height: 32, width: 32, zIndex: 1 }}
                                                             source={require('../../assets/images/activity/Activitycenter.png')}
@@ -603,8 +630,8 @@ class Add extends Component {
                                                         <Text style={styles.textImageBoxCreate}>ปานกลาง</Text>
                                                     </View>
                                                 </TouchableWithoutFeedback>
-                                                <TouchableWithoutFeedback onPress={() => this.violence("สูง")}>
-                                                    <View style={[styles.boxCreate, { marginLeft: 16 }, statusViolence == "สูง" ? { borderWidth: 2, borderColor: colors.persianBlue } : null]}>
+                                                <TouchableWithoutFeedback onPress={() => this.violence("vigorous_intensity")}>
+                                                    <View style={[styles.boxCreate, { marginLeft: 16 }, statusViolence == "vigorous_intensity" ? { borderWidth: 2, borderColor: colors.persianBlue } : null]}>
                                                         <Image
                                                             style={{ height: 32, width: 32, zIndex: 1 }}
                                                             source={require('../../assets/images/activity/Activityhign.png')}
@@ -623,7 +650,7 @@ class Add extends Component {
                                         </View>
                                         {confirmDelete === false ?
                                             <View style={{ alignItems: "center" }}>
-                                                <Pressable onPress={() => this.setState({ confirmDelete: true })} >
+                                                <Pressable onPress={() => this.setState({ confirmDelete: true, })} >
                                                     <Text style={styles.deleteActivity}>ลบกิจกรรมนี้</Text>
                                                 </Pressable>
                                             </View>
