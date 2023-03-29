@@ -21,8 +21,16 @@ export const types = {
     ADD_ACTIVITY_LIST_ADD_ON_SUCCESS: "ADD_ACTIVITY_LIST_ADD_ON_SUCCESS",
     DELETE_ACTIVITY_LIST_ADD_ON: "DELETE_ACTIVITY_LIST_ADD_ON",
     DELETE_ACTIVITY_LIST_ADD_ON_SUCCESS: "DELETE_ACTIVITY_LIST_ADD_ON_SUCCESS",
-
+    EDIT_ACT_LIST_ADD_ON: "EDIT_ACT_LIST_ADD_ON",
+    EDIT_ACT_LIST_ADD_ON_SUCCESS: "EDIT_ACT_LIST_ADD_ON_SUCCESS"
 };
+
+export const editActivityListAddOn = (user_id, activity_id, activity_name, intensity) => ({
+    type: types.EDIT_ACT_LIST_ADD_ON,
+    payload: {
+        user_id, activity_id, activity_name, intensity
+    }
+});
 
 export const addActivityListAddOn = (user_id, activity_name, intensity) => ({
     type: types.ADD_ACTIVITY_LIST_ADD_ON,
@@ -249,9 +257,22 @@ const deleteActivityListAddOnSagaAsync = async (
     }
 };
 
+const editActivityListAddOnSagaAsync = async (
+    user_id, activity_id, activity_name, intensity
+) => {
 
+    try {
+        const apiResult = await API.post("planforfit", "/editActivityListAddOn", {
+            body: {
+                user_id, activity_id, activity_name, intensity
+            }
+        });
 
-
+        return apiResult
+    } catch (error) {
+        return { error, messsage: error.message };
+    }
+};
 
 function* update_quiz_activitiesSaga({ payload }) {
     const {
@@ -415,6 +436,24 @@ function* deleteActivityListAddOnSaga({ payload }) {
     }
 }
 
+function* editActivityListAddOnSaga({ payload }) {
+    const {
+        user_id, activity_id, activity_name, intensity
+    } = payload
+
+    try {
+        const apiResult = yield call(
+            editActivityListAddOnSagaAsync,
+            user_id, activity_id, activity_name, intensity
+        );
+        yield put({
+            type: types.EDIT_ACT_LIST_ADD_ON_SUCCESS
+        })
+    } catch (error) {
+        console.log("error form editActivityListAddOnSaga", error);
+    }
+}
+
 export function* watchUpdate_quiz_activities() {
     yield takeEvery(types.UPDATE_QUIZ_ACTIVITIES, update_quiz_activitiesSaga)
 }
@@ -442,6 +481,9 @@ export function* watchAddActivityListAddOn() {
 export function* watchDeleteActivityListAddOn() {
     yield takeEvery(types.DELETE_ACTIVITY_LIST_ADD_ON, deleteActivityListAddOnSaga)
 }
+export function* watchEditActivityListAddOn() {
+    yield takeEvery(types.EDIT_ACT_LIST_ADD_ON, editActivityListAddOnSaga)
+}
 
 export function* saga() {
     yield all([
@@ -453,6 +495,7 @@ export function* saga() {
         fork(watchUpdateNumberCompleted),
         fork(watchAddActivityListAddOn),
         fork(watchDeleteActivityListAddOn),
+        fork(watchEditActivityListAddOn),
     ]);
 }
 
@@ -468,7 +511,8 @@ const INIT_STATE = {
     statusPopupSary: "default",
     statusUpdateNumbComp: "default",
     statusAddActListAddOn: "default",
-    statusDeleteActListAddOn: "default"
+    statusDeleteActListAddOn: "default",
+    statusEditActListAddOn: "default"
 };
 
 export function reducer(state = INIT_STATE, action) {
@@ -486,6 +530,16 @@ export function reducer(state = INIT_STATE, action) {
                     ...state.user,
                     quiz_activities: action.payload
                 }
+            };
+        case types.EDIT_ACT_LIST_ADD_ON:
+            return {
+                ...state,
+                statusEditActListAddOn: "loading"
+            };
+        case types.EDIT_ACT_LIST_ADD_ON_SUCCESS:
+            return {
+                ...state,
+                statusEditActListAddOn: "success"
             };
         case types.DELETE_ACTIVITY_LIST_ADD_ON:
             return {

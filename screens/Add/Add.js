@@ -6,7 +6,7 @@ import Modal from "react-native-modal";
 import { withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { getActivityList, setIntensityFromExArticleTemplate } from "../../redux/get";
-import { addActivityListAddOn, deleteActivityListAddOn } from "../../redux/update";
+import { addActivityListAddOn, deleteActivityListAddOn, editActivityListAddOn } from "../../redux/update";
 
 class Add extends Component {
 
@@ -75,7 +75,7 @@ class Add extends Component {
 
     componentDidUpdate(prevProps, prevState) {
         const { intensityFromExArticle, study } = this.state;
-        const { user, activity_list, intensityFromExArticleTemplate, statusAddActListAddOn, statusDeleteActListAddOn, statusGetActivityList } = this.props;
+        const { user, activity_list, intensityFromExArticleTemplate, statusAddActListAddOn, statusDeleteActListAddOn, statusGetActivityList, statusEditActListAddOn } = this.props;
         if ((prevState.intensityFromExArticle !== intensityFromExArticle) && (intensityFromExArticle !== null)) {
 
             if (intensityFromExArticle == "light_intensity") {
@@ -106,6 +106,9 @@ class Add extends Component {
         if ((prevProps.statusDeleteActListAddOn !== statusDeleteActListAddOn) && (statusDeleteActListAddOn === 'success')) {
             this.props.getActivityList(user && user.user_id);
         }
+        if ((prevProps.statusEditActListAddOn !== statusEditActListAddOn) && (statusEditActListAddOn === 'success')) {
+            this.props.getActivityList(user && user.user_id);
+        }
         if ((prevProps.statusGetActivityList !== statusGetActivityList) && (statusGetActivityList === 'success')) { //ใช้เพื่อให้ตอน add, delete รายการเพิ่มหน้าแสดงผลอัพเดทเรียลไทม์
             if (study === 'ต่ำ') { }// ปานกลาง สูง ทั้งหมด
             this.setState({
@@ -134,7 +137,7 @@ class Add extends Component {
                         [...(activity_list.light_intensity.filter(item => item.type === 'addon')),]
                         :
                         (study === 'ปานกลาง') ?
-                            [ ...(activity_list.moderate_intensity.filter(item => item.type === 'addon'))]
+                            [...(activity_list.moderate_intensity.filter(item => item.type === 'addon'))]
                             :
                             //  (study === 'สูง')
                             [...(activity_list.vigorous_intensity.filter(item => item.type === 'addon'))],
@@ -210,6 +213,10 @@ class Add extends Component {
     }
 
     seveEitMissionName() {
+        const { user } = this.props;
+        const { activity_id_edit_focus, missionName, statusViolence } = this.state;
+
+        this.props.editActivityListAddOn(user.user_id, activity_id_edit_focus, missionName, statusViolence)
         this.setState({
             editmission: false
         })
@@ -598,7 +605,7 @@ class Add extends Component {
                                         <Text style={styles.headActivity}>แก้ไขกิจกรรม</Text>
                                         {
                                             statusViolence && missionName ?
-                                                <TouchableWithoutFeedback onPress={() => this.seveEitMissionName("listDataViews")}>
+                                                <TouchableWithoutFeedback onPress={() => this.seveEitMissionName()}>
                                                     <Text style={styles.headEdit}>บันทึก</Text>
                                                 </TouchableWithoutFeedback>
                                                 :
@@ -1182,11 +1189,11 @@ const styles = StyleSheet.create({
 const mapStateToProps = ({ authUser, getData, updateData }) => {
     const { user } = authUser;
     const { activity_list, statusGetActivityList, intensityFromExArticleTemplate } = getData;
-    const { statusAddActListAddOn, statusDeleteActListAddOn } = updateData;
-    return { user, activity_list, statusGetActivityList, intensityFromExArticleTemplate, statusAddActListAddOn, statusDeleteActListAddOn };
+    const { statusAddActListAddOn, statusDeleteActListAddOn, statusEditActListAddOn } = updateData;
+    return { user, activity_list, statusGetActivityList, intensityFromExArticleTemplate, statusAddActListAddOn, statusDeleteActListAddOn, statusEditActListAddOn };
 };
 
-const mapActionsToProps = { getActivityList, setIntensityFromExArticleTemplate, addActivityListAddOn, deleteActivityListAddOn };
+const mapActionsToProps = { getActivityList, setIntensityFromExArticleTemplate, addActivityListAddOn, deleteActivityListAddOn, editActivityListAddOn };
 
 export default connect(
     mapStateToProps,
