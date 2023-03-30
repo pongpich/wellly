@@ -51,7 +51,7 @@ class Add extends Component {
                     ...(activity_list.vigorous_intensity.filter(item => item.type === 'addon')),
                 ]
             })
-            if (intensityFromExArticleTemplate) {
+            if (intensityFromExArticleTemplate === true) {
                 this.setState({
                     intensityFromExArticle: intensityFromExArticleTemplate.intensity
                 })
