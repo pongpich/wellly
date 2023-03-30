@@ -34,10 +34,24 @@ class Add extends Component {
 
 
     componentDidMount() {
-        const { user, activity_list, intensityFromExArticleTemplate } = this.props;
+        const { user, activity_list, intensityFromExArticleTemplate, } = this.props;
+        const { isModalConter } = this.state;
 
         this._unsubscribe = this.props.navigation.addListener('focus', () => {
             const { intensityFromExArticleTemplate } = this.props;
+
+            /*  const { } = this.props.route.params; */
+            /*      console.log(this.props.route.params); */
+            if (this.props.route.params == true) {
+                console.log("555");
+                this.setState({
+                    isModalConter: !isModalConter,
+                })
+            }
+            this.setState({
+                isModalConter: !isModalConter,
+            })
+            console.log("isModalConter", isModalConter);
 
             this.setState({
                 intensityFromExArticle: null
@@ -55,6 +69,7 @@ class Add extends Component {
                 this.setState({
                     intensityFromExArticle: intensityFromExArticleTemplate.intensity
                 })
+
             } else {
                 this.setState({
                     isModalConter: true,

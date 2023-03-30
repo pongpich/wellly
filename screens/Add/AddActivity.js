@@ -68,12 +68,17 @@ class AddActivity extends Component {
             isModalConter: !isModalConter
         })
     };
-    deleteActivity(isModalVisible) {
+    deleteActivity(isModalConter) {
 
         this.setState({
-            isModalVisible: !isModalVisible
+            note: '',
+            duration: '',
+            isModalVisible: false,
+            isModalConter: !isModalConter
+
         })
-        this.props.navigation.popToTop()
+        this.props.navigation.navigate("Add", { namePage: "AddActivity" });
+
     }
 
     saveMission() {
@@ -113,6 +118,7 @@ class AddActivity extends Component {
                             <Image
                                 source={require('../../assets/images/icon/caret.png')}
                             />
+
                         </Pressable>
                     </View>
                 </View>
@@ -235,7 +241,7 @@ class AddActivity extends Component {
                                             <Text style={styles.textButtonWhite}>ย้อนกลับ</Text>
                                         </View>
                                     </TouchableWithoutFeedback>
-                                    <TouchableWithoutFeedback /* onPress={() => this.deleteActivity(isModalVisible)} */>
+                                    <TouchableWithoutFeedback onPress={() => this.deleteActivity(isModalConter)}>
                                         <View style={styles.buttonRed}>
                                             <Text style={styles.textButtonRed}>ละทิ้ง</Text>
                                         </View>
