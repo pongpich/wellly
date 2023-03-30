@@ -166,19 +166,13 @@ class Add extends Component {
         console.log("activity_id_edit_focus :", activity_id_edit_focus);
         this.props.deleteActivityListAddOn(user.user_id, activity_id_edit_focus)
         this.setState({
-            confirmActivityDeleted: true,
             statusCreate: "editView",
             statusViolence: null,
             missionName: null,
             editmission: false,
             confirmDelete: false,
-            message: mess
         })
-        setTimeout(() => {
-            this.setState({
-                confirmActivityDeleted: false
-            })
-        }, 2000);
+        this.setMessage(mess)
 
         /*  this.props.navigation.popToTop() */
     }
@@ -190,12 +184,13 @@ class Add extends Component {
         })
     }
 
-    addMissionName(e, activity_name, intensity) { //ใช้เพิ่มรายการ activity
+    addMissionName(e, activity_name, intensity, mess) { //ใช้เพิ่มรายการ activity
         const { user } = this.props;
         this.setState({
             statusCreate: e,
             data: true
         })
+        this.setMessage(mess)
 
         this.props.addActivityListAddOn(user.user_id, activity_name, intensity);
     }
@@ -212,7 +207,7 @@ class Add extends Component {
         })
     }
 
-    seveEitMissionName() {
+    seveEitMissionName(mess) {
         const { user } = this.props;
         const { activity_id_edit_focus, missionName, statusViolence } = this.state;
 
@@ -220,6 +215,8 @@ class Add extends Component {
         this.setState({
             editmission: false
         })
+
+        this.setMessage(mess)
     }
 
     nextAddActivity(activity, intensity, type) {
@@ -229,9 +226,24 @@ class Add extends Component {
         this.props.navigation.navigate("AddActivity", { activity: activity, intensity: intensity, type: type })
     }
 
+    setMessage(e) {
+
+        this.setState({
+            confirmActivityDeleted: true,
+            message: e
+        });
+
+        setTimeout(() => {
+            this.setState({
+                confirmActivityDeleted: false,
+                message: null
+            })
+        }, 2000);
+    }
+
 
     listDataViews() {
-        const { stsusColor, isModalVisible, isModalConter, study, data, activity_list_show, intensityFromExArticle } = this.state;
+        const { stsusColor, isModalVisible, isModalConter, study, data, activity_list_show, intensityFromExArticle, confirmActivityDeleted, message } = this.state;
         const { activity_list } = this.props;
 
         return (
@@ -383,6 +395,20 @@ class Add extends Component {
 
                     </View>
                 </View>
+                {
+                    confirmActivityDeleted === true ?
+                        <View style={styles.activityDeleted}>
+                            <View style={styles.boxActivityDeleted}>
+                                <Image
+                                    style={{ height: 32, width: 32, zIndex: 1 }}
+                                    source={require('../../assets/images/activity/Checked.png')}
+                                />
+                                <Text style={styles.textActivityDeleted}>{message}</Text>
+                            </View>
+                        </View>
+                        : null
+
+                }
             </View>
         )
     }
@@ -401,7 +427,7 @@ class Add extends Component {
                             <Text style={styles.headActivity}>เพิ่มกิจกรรม</Text>
                             {
                                 statusViolence && missionName && (statusAddActListAddOn !== "loading") ?
-                                    <TouchableWithoutFeedback onPress={() => this.addMissionName("listDataViews", missionName, statusViolence)}>
+                                    <TouchableWithoutFeedback onPress={() => this.addMissionName("listDataViews", missionName, statusViolence, "เพิ่มกิจกรรมแล้ว")}>
                                         <Text style={styles.headEdit}>เพิ่ม</Text>
                                     </TouchableWithoutFeedback>
                                     :
@@ -449,6 +475,8 @@ class Add extends Component {
                         />
                     </View>
                 </View>
+
+
             </>
         )
     }
@@ -604,7 +632,7 @@ class Add extends Component {
                                         <Text style={styles.headActivity}>แก้ไขกิจกรรม</Text>
                                         {
                                             statusViolence && missionName ?
-                                                <TouchableWithoutFeedback onPress={() => this.seveEitMissionName()}>
+                                                <TouchableWithoutFeedback onPress={() => this.seveEitMissionName("บันทึกกิจกรรมแล้ว")}>
                                                     <Text style={styles.headEdit}>บันทึก</Text>
                                                 </TouchableWithoutFeedback>
                                                 :
@@ -673,7 +701,7 @@ class Add extends Component {
                             <View style={styles.confirm}>
                                 <View style={{ flex: 1, justifyContent: "flex-end" }} onPress={() => this.toggleModal(isModalVisible)} >
                                     <View style={styles.modalView}>
-                                        <Text style={styles.headModal}>แน่ใจที่ลบกิจกรรมนี้หรือไม่</Text>
+                                        <Text style={styles.headModal}>แน่ใจที่ลบกิจกรรมนี้หรือไม่qq</Text>
                                         <View style={[styles.missionView, { marginTop: 32, marginBottom: 40, }]}>
                                             <TouchableWithoutFeedback onPress={() => this.setState({ confirmDelete: false })}>
                                                 <View style={styles.buttonWhite}>

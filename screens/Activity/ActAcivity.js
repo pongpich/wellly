@@ -3,7 +3,7 @@ import { SafeAreaView, StatusBar, View, Text, StyleSheet, Animated, Image, Image
 import colors from '../../constants/colors';
 import ComponentsStyle from '../../constants/components';
 import Modal from "react-native-modal";
-
+import { currentTime } from "../../helpers/utils";
 class ActAcivity extends Component {
 
     constructor(props) {
@@ -80,7 +80,7 @@ class ActAcivity extends Component {
                                 style={styles.chevronImage}
                                 source={require('../../assets/images/activity/Calendar.png')}
                             />
-                            <Text style={styles.textDetails}>31 ธ.ค. 2566 - 17:50 น.</Text>
+                            <Text style={styles.textDetails}>{currentTime()} น.</Text>
                         </View>
                         <View
                             style={{

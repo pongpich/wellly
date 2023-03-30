@@ -78,3 +78,12 @@ export function checkTrophy(mission_activities, activities_level) {
   });
   return trophy;
 }
+
+export function currentTime() {
+  const date = new Date();
+  const options = { day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: 'numeric' };
+  const currentDate = date.toLocaleDateString('th-TH', options);
+
+  return currentDate;
+}
+

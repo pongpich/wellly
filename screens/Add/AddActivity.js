@@ -4,7 +4,7 @@ import colors from '../../constants/colors';
 import ComponentsStyle from '../../constants/components';
 import Modal from "react-native-modal";
 import { withTranslation } from 'react-i18next';
-import { calculateWeekInProgram } from "../../helpers/utils";
+import { calculateWeekInProgram, currentTime } from "../../helpers/utils";
 import { connect } from 'react-redux';
 import { getActivityList, getExerciserActivity } from "../../redux/get";
 import { updateNumberCompleted, resetStatusUpdateNumbComp } from "../../redux/update";
@@ -92,11 +92,15 @@ class AddActivity extends Component {
 
     render() {
         const { stsusColor, isModalVisible, isModalConter, study, activity, intensity, type, duration, note } = this.state;
-        const date = new Date();
-        const day = date.getDate();
-        const month = date.getMonth() + 1;
-        const year = date.getFullYear();
-        const currentDate = `${day}-${month}-${year}`;
+        /*     const date = new Date();
+    
+            console.log("date", date);
+            const day = date.getDate();
+            const month = date.getMonth() + 1;
+            const year = date.getFullYear();
+            const currentDate = `${day}-${month}-${year}`; */
+        const currentDate = currentTime();
+
         return (
             <View style={styles.fill}>
                 <View style={{ height: 58, zIndex: 10, width: "100%", backgroundColor: colors.white }}>
@@ -224,7 +228,7 @@ class AddActivity extends Component {
                     >
                         <View style={{ flex: 1, justifyContent: "flex-end" }} onPress={() => this.toggleModal(isModalVisible)} >
                             <View style={styles.modalView}>
-                                <Text style={styles.headModal}>แน่ใจที่ลบกิจกรรมนี้หรือไม่</Text>
+                                <Text style={styles.headModal}>หากละทิ้งตอนนี้ ข้อมูลจะไม่ถูกบันทึก</Text>
                                 <View style={[styles.missionView, { marginTop: 32, marginBottom: 40, }]}>
                                     <TouchableWithoutFeedback onPress={() => this.toggleModal(isModalVisible)}>
                                         <View style={styles.buttonWhite}>
@@ -233,7 +237,7 @@ class AddActivity extends Component {
                                     </TouchableWithoutFeedback>
                                     <TouchableWithoutFeedback /* onPress={() => this.deleteActivity(isModalVisible)} */>
                                         <View style={styles.buttonRed}>
-                                            <Text style={styles.textButtonRed}>ลบกิจกรรม</Text>
+                                            <Text style={styles.textButtonRed}>ละทิ้ง</Text>
                                         </View>
                                     </TouchableWithoutFeedback>
                                 </View>

@@ -11,7 +11,7 @@ import { getExerciserActivity, getMemberActivityLogInWeek } from "../../redux/ge
 import { List } from 'react-native-paper';
 import { Video, AVPlaybackStatus } from 'expo-av';
 import { update_popUp_stars } from "../../redux/update";
-import { checkStar, checkTrophy, calculateWeekInProgram, convertFormatDate } from "../../helpers/utils";
+import { checkStar, checkTrophy, calculateWeekInProgram, convertFormatDate, currentTime } from "../../helpers/utils";
 import { withTranslation } from 'react-i18next'
 
 import {
@@ -187,8 +187,8 @@ const Activity = ({ navigation }) => {
                                                     <Text style={styles.missionHead}>{item.activity}</Text>
                                                     <View style={styles.missionView}>
                                                         <Text style={styles.dateData}>
-                                                            {/* 31 ธ.ค. 2566 */}
-                                                            {item.created_at}
+                                                            {/*           31 ธ.ค. 2566 */}
+                                                            {currentTime()}
                                                         </Text>
                                                         <Text style={styles.li}>{"\u2B24" + " "}</Text>
                                                         <Text style={styles.dateData}>
