@@ -177,18 +177,7 @@ function MyHome() {
           },
           title: languages === "th" ? "โภชนาการ" : "Nutrition",
         })} />
-      {/*       <Tab.Screen name="Add" component={AddStackScreen}
-         options={{
-           title: '',
-           tabBarIcon: ({ size, color }) => (
-             <Image
-               style={{ width: 80, height: 80 }}
-               source={require('../assets/images/icon/Add.png')}
-             />
-           ),options={{ cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS, headerShown: false }}
-         }}
-
-        initialParams={{ userId: 123 }}
+      <Tab.Screen name="AddHome" component={AddStackScreen}
         options={({ route }) => ({
           tabBarIcon: ({ size, color }) => (
             <Image
@@ -215,7 +204,7 @@ function MyHome() {
           },
           title: '',
         })}
-      /> */}
+      />
       <Tab.Screen name="ExerciseTab" component={ExerciseStackScreen}
         options={({ route }) => ({
           tabBarStyle: {
@@ -363,7 +352,7 @@ function getBottomTabse(route) {
 
   const routeName = getFocusedRouteNameFromRoute(route) ?? 'Feed';
 
-  console.log("routeName", routeName);
+  console.log("routeName", getFocusedRouteNameFromRoute(route));
   if (routeName == "History") {
     return 'none';
   }
@@ -407,6 +396,9 @@ function getBottomTabse(route) {
     return 'none';
   }
   if (routeName == "Add") {
+    return 'none';
+  }
+  if (routeName == "AddHom") {
     return 'none';
   }
 

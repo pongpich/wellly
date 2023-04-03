@@ -17,7 +17,7 @@ class Add extends Component {
         this.state = {
             stsusColor: "เข้มข้นต่ำ",
             isModalVisible: false,
-            isModalConter: true,
+            isModalConter: false,
             study: "ทั้งหมด",
             statusCreate: "listDataViews",
             statusViolence: null,
@@ -38,9 +38,9 @@ class Add extends Component {
     componentDidMount() {
         const { user, activity_list, intensityFromExArticleTemplate, } = this.props;
         const { isModalConter } = this.state;
-        /*  this.setState({
-             isModalConter: !isModalConter,
-         }) */
+        this.setState({
+            isModalConter: !isModalConter,
+        })
         this._unsubscribe = this.props.navigation.addListener('focus', () => {
             const { intensityFromExArticleTemplate } = this.props;
 
@@ -53,10 +53,10 @@ class Add extends Component {
                   })
               } */
 
-            /*     this.setState({
-                    isModalConter: !isModalConter,
-                })
-     */
+            /*   this.setState({
+                  isModalConter: !isModalConter,
+              })
+   */
             console.log("5555", isModalConter);
             this.setState({
                 intensityFromExArticle: null
@@ -898,7 +898,7 @@ class Add extends Component {
         return (
             <>
                 <View style={styles.fill}>
-                    {/*      <View style={{ zIndex: 0 }}>
+                    <View style={{ zIndex: 0 }}>
                         <Pressable title="Show modal" onPress={() => this.toggleModal(isModalVisible)} />
                         <Modal isVisible={isModalConter}
                             style={{ margin: 0 }}
@@ -913,15 +913,15 @@ class Add extends Component {
                             }
 
                         </Modal>
-                    </View> */}
-                    {statusCreate === "listDataViews" ?
+                    </View>
+                    {/*   {statusCreate === "listDataViews" ?
                         this.listDataViews()
                         :
                         statusCreate === "createView" ?
                             this.createView()
                             : this.editView()
 
-                    }
+                    } */}
                 </View >
             </>
         )
@@ -931,7 +931,7 @@ const deviceWidth = Math.round(Dimensions.get('window').width);
 const styles = StyleSheet.create({
     fill: {
         flex: 1,
-        backgroundColor: colors.grey2,
+        /*  backgroundColor: colors.grey2, */
         /*         opacity: 0.8, */
     },
     boxConter: {

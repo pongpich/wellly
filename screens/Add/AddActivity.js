@@ -8,6 +8,7 @@ import { calculateWeekInProgram, currentTime } from "../../helpers/utils";
 import { connect } from 'react-redux';
 import { getActivityList, getExerciserActivity } from "../../redux/get";
 import { updateNumberCompleted, resetStatusUpdateNumbComp } from "../../redux/update";
+import { CommonActions } from '@react-navigation/native';
 
 class AddActivity extends Component {
 
@@ -70,15 +71,21 @@ class AddActivity extends Component {
     };
     deleteActivity(isModalConter) {
         console.log("999");
-        /* 
-                this.setState({
-                    note: '',
-                    duration: '',
-                    isModalVisible: false,
-                    isModalConter: !isModalConter
-        
-                }) */
-        this.props.navigation.navigate("Add");
+        this.props.navigation.goBack()
+        /*   this.setState({
+              note: '',
+              duration: '',
+              isModalVisible: false,
+              isModalConter: !isModalConter
+  
+          }) */
+        /*     const resetAction = CommonActions.reset({
+                index: 0, // ตำแหน่งของหน้าที่จะใช้เป็นหน้าแรก
+                routes: [{
+                    name: 'Add',
+                }], // เส้นทางที่ต้องการเปลี่ยน
+            });
+            this.props.navigation.dispatch(resetAction); */
 
     }
 
