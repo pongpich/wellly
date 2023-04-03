@@ -28,6 +28,7 @@ import ActivityStackScreen from '../navigation/ActivityStackScreen';
 
 
 
+
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const config = {
@@ -132,9 +133,29 @@ function MyHome() {
       })}>
       <Tab.Screen name="HomeTab"
         component={HomeStackScreen}
-        options={{
+
+        /*   options={{
+            title: languages === "th" ? "หน้าแรก" : "Home",
+          }} */
+        options={({ route }) => ({
+          tabBarStyle: {
+            display: getBottomTabse(route),
+            paddingTop: 16,
+            shadowColor: "#000",
+            shadowOffset: {
+              width: 0,
+              height: 4,
+            },
+            shadowOpacity: 0.32,
+            shadowRadius: 5.46,
+            elevation: 9,
+            height: (devicehHeight < 668) ? 70 : (devicehHeight < 801) ? 70 : 100,
+            borderTopLeftRadius: 16,
+            borderTopRightRadius: 16,
+            backgroundColor: colors.white,
+          },
           title: languages === "th" ? "หน้าแรก" : "Home",
-        }}
+        })}
       />
       <Tab.Screen name="NutritionTab" component={NutritionStackScreen}
         options={({ route }) => ({
@@ -156,16 +177,18 @@ function MyHome() {
           },
           title: languages === "th" ? "โภชนาการ" : "Nutrition",
         })} />
-      <Tab.Screen name="Add" component={AddStackScreen}
-        /*  options={{
+      {/*       <Tab.Screen name="Add" component={AddStackScreen}
+         options={{
            title: '',
            tabBarIcon: ({ size, color }) => (
              <Image
                style={{ width: 80, height: 80 }}
                source={require('../assets/images/icon/Add.png')}
              />
-           ),
-         }} */
+           ),options={{ cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS, headerShown: false }}
+         }}
+
+        initialParams={{ userId: 123 }}
         options={({ route }) => ({
           tabBarIcon: ({ size, color }) => (
             <Image
@@ -173,6 +196,7 @@ function MyHome() {
               source={require('../assets/images/icon/Add.png')}
             />
           ),
+          ...TransitionPresets.ModalSlideFromBottomIOS,
           tabBarStyle: {
             display: getBottomTabse(route),
             paddingTop: 16,
@@ -191,7 +215,7 @@ function MyHome() {
           },
           title: '',
         })}
-      />
+      /> */}
       <Tab.Screen name="ExerciseTab" component={ExerciseStackScreen}
         options={({ route }) => ({
           tabBarStyle: {
@@ -338,6 +362,8 @@ function MyStack(props) {
 function getBottomTabse(route) {
 
   const routeName = getFocusedRouteNameFromRoute(route) ?? 'Feed';
+
+  console.log("routeName", routeName);
   if (routeName == "History") {
     return 'none';
   }
@@ -378,6 +404,9 @@ function getBottomTabse(route) {
     return 'none';
   }
   if (routeName == "AddActivity") {
+    return 'none';
+  }
+  if (routeName == "Add") {
     return 'none';
   }
 

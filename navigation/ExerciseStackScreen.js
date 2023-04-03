@@ -9,6 +9,8 @@ import Exercise from '../screens/Exercise/Exercise';
 import ExHistory from '../screens/Exercise/ExHistory';
 import ExArticleTemplate from '../screens/Exercise/ExArticleTemplate';
 import ExProgram from '../screens/Exercise/ExProgram';
+import Add from '../screens/Add/Add';
+import AddActivity from '../screens/Add/AddActivity';
 
 
 const HomeStack = createStackNavigator();
@@ -46,7 +48,8 @@ function HomeStackScreen() {
             <HomeStack.Screen name="ExProgram" component={ExProgram}
                 options={{ cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS, headerShown: false }}
             />
-
+            <HomeStack.Screen name="Add" component={Add} options={{ cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS, headerShown: false }} />
+            <HomeStack.Screen name="AddActivity" component={AddActivity} options={{ cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS, headerShown: false }} />
         </HomeStack.Navigator>
     );
 }

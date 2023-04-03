@@ -143,7 +143,8 @@ class ArticleTemplate extends Component {
         });
         // set ความเข้มไปใน redux
         this.props.setIntensityFromExArticleTemplate(id)
-        this.props.navigation.dispatch(resetAction);
+        /*      this.props.navigation.dispatch(resetAction); */
+        this.props.navigation.navigate("Add")
 
     }
 

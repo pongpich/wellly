@@ -4,11 +4,9 @@ import colors from '../../constants/colors';
 import ComponentsStyle from '../../constants/components';
 import Modal from "react-native-modal";
 import { withTranslation } from 'react-i18next';
-import { StackActions } from '@react-navigation/native';
 import { connect } from 'react-redux';
 import { getActivityList, setIntensityFromExArticleTemplate } from "../../redux/get";
 import { addActivityListAddOn, deleteActivityListAddOn, editActivityListAddOn } from "../../redux/update";
-import { CommonActions } from '@react-navigation/native';
 
 class Add extends Component {
 
@@ -17,7 +15,7 @@ class Add extends Component {
         this.state = {
             stsusColor: "เข้มข้นต่ำ",
             isModalVisible: false,
-            isModalConter: true,
+            isModalConter: false,
             study: "ทั้งหมด",
             statusCreate: "listDataViews",
             statusViolence: null,
@@ -38,26 +36,23 @@ class Add extends Component {
     componentDidMount() {
         const { user, activity_list, intensityFromExArticleTemplate, } = this.props;
         const { isModalConter } = this.state;
-        /*  this.setState({
-             isModalConter: !isModalConter,
-         }) */
+
         this._unsubscribe = this.props.navigation.addListener('focus', () => {
             const { intensityFromExArticleTemplate } = this.props;
 
-            /* const { } = this.props.route.params; */
-            console.log(this.props.route.params);
-            /*   if (this.props.route.params) {
+            /*  const { } = this.props.route.params; */
+            /*      console.log(this.props.route.params); */
+            /*   if (this.props.route.params == true) {
                   console.log("555");
                   this.setState({
-                      isModalConter: true,
+                      isModalConter: !isModalConter,
                   })
               } */
+            /*      this.setState({
+                     isModalConter: !isModalConter,
+                 }) */
+            console.log("isModalConter", isModalConter);
 
-            /*     this.setState({
-                    isModalConter: !isModalConter,
-                })
-     */
-            console.log("5555", isModalConter);
             this.setState({
                 intensityFromExArticle: null
             })
@@ -174,20 +169,11 @@ class Add extends Component {
         })
     };
     isModalConter(isModalConter) {
-
+        console.log("adas");
 
         this.setState({
             isModalConter: !isModalConter
         })
-        const resetAction = CommonActions.reset({
-            index: 0, // ตำแหน่งของหน้าที่จะใช้เป็นหน้าแรก
-            routes: [{
-                name: 'Home',
-            }], // เส้นทางที่ต้องการเปลี่ยน
-        });
-        // set ความเข้มไปใน redux
-        /*   this.props.navigation.dispatch(resetAction); */
-        this.props.navigation.goBack();
     };
     deleteActivity(mess) {
         const { user } = this.props;
@@ -282,11 +268,7 @@ class Add extends Component {
 
                         {
                             intensityFromExArticle === null ?
-                                <TouchableWithoutFeedback onPress={() => {
-
-
-                                    this.isModalConter(isModalConter);
-                                }}>
+                                <TouchableWithoutFeedback onPress={() => this.isModalConter(isModalConter)}>
                                     <Image
                                         style={styles.cross}
                                         source={require('../../assets/images/activity/cross.png')}
@@ -442,7 +424,7 @@ class Add extends Component {
                         : null
 
                 }
-            </View >
+            </View>
         )
     }
 
@@ -898,7 +880,7 @@ class Add extends Component {
         return (
             <>
                 <View style={styles.fill}>
-                    {/*      <View style={{ zIndex: 0 }}>
+                    {/*   <View style={{ zIndex: 0 }}>
                         <Pressable title="Show modal" onPress={() => this.toggleModal(isModalVisible)} />
                         <Modal isVisible={isModalConter}
                             style={{ margin: 0 }}
@@ -914,15 +896,16 @@ class Add extends Component {
 
                         </Modal>
                     </View> */}
-                    {statusCreate === "listDataViews" ?
-                        this.listDataViews()
-                        :
-                        statusCreate === "createView" ?
-                            this.createView()
-                            : this.editView()
-
-                    }
                 </View >
+                <View style={[styles.activityDeleted, { marginRight: 16 }]}>
+                    <View style={styles.boxActivityDeleted}>
+                        <Image
+                            style={{ height: 32, width: 32, zIndex: 1 }}
+                            source={require('../../assets/images/activity/Checked.png')}
+                        />
+                        <Text style={styles.textActivityDeleted}> บันทึกกิจกรรมแล้ว</Text>
+                    </View>
+                </View>
             </>
         )
     }
@@ -931,8 +914,7 @@ const deviceWidth = Math.round(Dimensions.get('window').width);
 const styles = StyleSheet.create({
     fill: {
         flex: 1,
-        backgroundColor: colors.grey2,
-        /*         opacity: 0.8, */
+        backgroundColor: "red",
     },
     boxConter: {
         backgroundColor: colors.white,

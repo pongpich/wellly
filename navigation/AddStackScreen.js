@@ -7,6 +7,7 @@ import { useRoute } from '@react-navigation/native';
 import colors from '../constants/colors';
 import Add from '../screens/Add/Add';
 import AddActivity from '../screens/Add/AddActivity';
+
 /* import ExArticleTemplate from '../screens/Exercise/ExArticleTemplate';
 import Exercise from '../screens/Exercise/Exercise'; */
 
@@ -15,7 +16,9 @@ const Stack = createStackNavigator();
 function AddStackScreen() {
     const navigation = useNavigation();
     return (
-        <Stack.Navigator>
+        <Stack.Navigator screenOptions={{
+            cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
+        }}>
             <Stack.Screen name="Add" component={Add} options={{ headerShown: false }} />
             <Stack.Screen name="AddActivity" component={AddActivity} options={{ cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS, headerShown: false }} />
 

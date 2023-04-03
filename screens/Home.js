@@ -98,12 +98,13 @@ class Home extends Component {
         const resetAction = CommonActions.reset({
             index: 0, // ตำแหน่งของหน้าที่จะใช้เป็นหน้าแรก
             routes: [{
-                name: 'Add',
+                name: 'Add2',
             }], // เส้นทางที่ต้องการเปลี่ยน
         });
         // set ความเข้มไปใน redux
         this.props.setIntensityFromExArticleTemplate(id)
-        this.props.navigation.dispatch(resetAction);
+        /*  this.props.navigation.dispatch(resetAction); */
+        this.props.navigation.navigate("Add");
 
 
     }

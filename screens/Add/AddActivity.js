@@ -69,15 +69,16 @@ class AddActivity extends Component {
         })
     };
     deleteActivity(isModalConter) {
-
-        this.setState({
-            note: '',
-            duration: '',
-            isModalVisible: false,
-            isModalConter: !isModalConter
-
-        })
-        this.props.navigation.navigate("Add", { namePage: "AddActivity" });
+        console.log("999");
+        /* 
+                this.setState({
+                    note: '',
+                    duration: '',
+                    isModalVisible: false,
+                    isModalConter: !isModalConter
+        
+                }) */
+        this.props.navigation.navigate("Add");
 
     }
 
@@ -215,7 +216,12 @@ class AddActivity extends Component {
                         </Pressable>
                     </View> */}
                     <View style={[styles.missionView, { marginTop: 32, marginBottom: 40, }]}>
-                        <TouchableWithoutFeedback onPress={() => this.toggleModal(isModalVisible)}>
+                        <TouchableWithoutFeedback onPress={() => {
+                            (duration != '') || (note != '') ?
+                                this.toggleModal(isModalVisible) :
+                                this.props.navigation.pop();
+
+                        }}>
                             <View style={styles.buttonWhite}>
                                 <Text style={styles.textButtonWhite}>ละทิ้ง</Text>
                             </View>

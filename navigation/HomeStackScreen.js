@@ -8,6 +8,8 @@ import colors from '../constants/colors';
 import Home from '../screens/Home';
 import ArticleTemplate from '../screens/Nutrition/ArticleTemplate';
 import ExArticleTemplate from '../screens/Exercise/ExArticleTemplate';
+import Add from '../screens/Add/Add';
+import AddActivity from '../screens/Add/AddActivity';
 
 
 const HomeStack = createStackNavigator();
@@ -19,6 +21,8 @@ function HomeStackScreen() {
             <HomeStack.Screen name="Home" component={Home} options={{ headerShown: false }} />
             <HomeStack.Screen name="ArticleTemplate" component={ArticleTemplate} options={{ headerShown: false }} />
             <HomeStack.Screen name="ExArticleTemplate" component={ExArticleTemplate} options={{ headerShown: false }} />
+            <HomeStack.Screen name="Add" component={Add} options={{ cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS, headerShown: false }} />
+            <HomeStack.Screen name="AddActivity" component={AddActivity} options={{ cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS, headerShown: false }} />
         </HomeStack.Navigator>
     );
 }
