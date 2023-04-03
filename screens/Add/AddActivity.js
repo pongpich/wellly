@@ -146,7 +146,7 @@ class AddActivity extends Component {
                     <View style={styles.viewIconRight}>
                         {
                             (type !== 'default') &&
-                            <Pressable onPress={() => this.isModalConter(isModalConter2)}>
+                            <Pressable onPress={() => this.props.navigation.goBack()}>
                                 <Image
                                     style={styles.chevronImage}
                                     source={require('../../assets/images/activity/Chevron.png')}
