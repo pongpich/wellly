@@ -16,8 +16,8 @@ class AddActivity extends Component {
         super(props);
         this.state = {
             stsusColor: "เข้มข้นต่ำ",
-            isModalVisible: false,
-            isModalConter: false,
+            isModalVisible2: false,
+            isModalConter2: false,
             study: "ทั้งหมด",
             activity: '',
             intensity: '',
@@ -45,48 +45,42 @@ class AddActivity extends Component {
 
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps, prevState) {
         const { statusUpdateNumbComp, user } = this.props;
+        const { isModalConter2 } = this.state;
 
         if ((prevProps.statusUpdateNumbComp !== statusUpdateNumbComp) && (statusUpdateNumbComp === "success")) {
             this.props.getExerciserActivity(user && user.user_id);
             this.props.navigation.navigate("Add");
         }
+
     }
 
 
-    toggleModal(isModalVisible) {
+    toggleModal(isModalVisible2) {
         console.log("adas");
 
         this.setState({
-            isModalVisible: !isModalVisible
+            isModalVisible2: !isModalVisible2
         })
     };
-    isModalConter(isModalConter) {
+    isModalConter(isModalConter2) {
         console.log("adas");
 
         this.setState({
-            isModalConter: !isModalConter
+            isModalConter2: !isModalConter2
         })
     };
-    deleteActivity(isModalConter) {
-        console.log("999");
-        this.props.navigation.goBack()
-        /*   this.setState({
-              note: '',
-              duration: '',
-              isModalVisible: false,
-              isModalConter: !isModalConter
-  
-          }) */
-        /*     const resetAction = CommonActions.reset({
-                index: 0, // ตำแหน่งของหน้าที่จะใช้เป็นหน้าแรก
-                routes: [{
-                    name: 'Add',
-                }], // เส้นทางที่ต้องการเปลี่ยน
-            });
-            this.props.navigation.dispatch(resetAction); */
+    deleteActivity2(isModalConter2) {
 
+        this.setState({
+            note: '',
+            duration: '',
+            isModalVisible2: false,
+            isModalConter2: !isModalConter2
+
+        })
+        this.props.navigation.goBack();
     }
 
     saveMission() {
@@ -104,7 +98,7 @@ class AddActivity extends Component {
     }
 
     render() {
-        const { stsusColor, isModalVisible, isModalConter, study, activity, intensity, type, duration, note } = this.state;
+        const { stsusColor, isModalVisible2, isModalConter2, study, activity, intensity, type, duration, note } = this.state;
         /*     const date = new Date();
     
             console.log("date", date);
@@ -152,7 +146,7 @@ class AddActivity extends Component {
                     <View style={styles.viewIconRight}>
                         {
                             (type !== 'default') &&
-                            <Pressable onPress={() => this.isModalConter(isModalConter)}>
+                            <Pressable onPress={() => this.isModalConter(isModalConter2)}>
                                 <Image
                                     style={styles.chevronImage}
                                     source={require('../../assets/images/activity/Chevron.png')}
@@ -225,8 +219,8 @@ class AddActivity extends Component {
                     <View style={[styles.missionView, { marginTop: 32, marginBottom: 40, }]}>
                         <TouchableWithoutFeedback onPress={() => {
                             (duration != '') || (note != '') ?
-                                this.toggleModal(isModalVisible) :
-                                this.props.navigation.pop();
+                                this.toggleModal(isModalVisible2) :
+                                this.props.navigation.goBack();
 
                         }}>
                             <View style={styles.buttonWhite}>
@@ -241,20 +235,20 @@ class AddActivity extends Component {
                     </View>
                 </View>
                 <View>
-                    <Pressable title="Show modal" onPress={() => this.toggleModal(isModalVisible)} />
-                    <Modal isVisible={isModalVisible}
+                    <Pressable title="Show modal" onPress={() => this.toggleModal(isModalVisible2)} />
+                    <Modal isVisible={isModalVisible2}
                         style={{ margin: 0 }}
                     >
-                        <View style={{ flex: 1, justifyContent: "flex-end" }} onPress={() => this.toggleModal(isModalVisible)} >
+                        <View style={{ flex: 1, justifyContent: "flex-end" }} onPress={() => this.toggleModal(isModalVisible2)} >
                             <View style={styles.modalView}>
                                 <Text style={styles.headModal}>หากละทิ้งตอนนี้ ข้อมูลจะไม่ถูกบันทึก</Text>
                                 <View style={[styles.missionView, { marginTop: 32, marginBottom: 40, }]}>
-                                    <TouchableWithoutFeedback onPress={() => this.toggleModal(isModalVisible)}>
+                                    <TouchableWithoutFeedback onPress={() => this.toggleModal(isModalVisible2)}>
                                         <View style={styles.buttonWhite}>
                                             <Text style={styles.textButtonWhite}>ย้อนกลับ</Text>
                                         </View>
                                     </TouchableWithoutFeedback>
-                                    <TouchableWithoutFeedback onPress={() => this.deleteActivity(isModalConter)}>
+                                    <TouchableWithoutFeedback onPress={() => this.deleteActivity2(isModalConter2)}>
                                         <View style={styles.buttonRed}>
                                             <Text style={styles.textButtonRed}>ละทิ้ง</Text>
                                         </View>
@@ -265,14 +259,14 @@ class AddActivity extends Component {
                     </Modal>
                 </View>
                 <View>
-                    <Pressable title="Show modal" onPress={() => this.toggleModal(isModalVisible)} />
-                    <Modal isVisible={isModalConter}
+                    <Pressable title="Show modal" onPress={() => this.toggleModal(isModalVisible2)} />
+                    <Modal isVisible={isModalConter2}
                         style={{ margin: 0 }}
                     >
-                        <View style={{ flex: 1, justifyContent: "flex-end" }} onPress={() => this.toggleModal(isModalVisible)} >
+                        <View style={{ flex: 1, justifyContent: "flex-end" }} onPress={() => this.toggleModal(isModalVisible2)} >
                             <View style={styles.modalViewConter}>
                                 <View style={[styles.missionView, { marginTop: 20, justifyContent: "space-between" }]}>
-                                    <TouchableWithoutFeedback onPress={() => this.isModalConter(isModalConter)}>
+                                    <TouchableWithoutFeedback onPress={() => this.isModalConter(isModalConter2)}>
                                         <Image
                                             style={styles.cross}
                                             source={require('../../assets/images/activity/cross.png')}

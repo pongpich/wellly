@@ -38,9 +38,7 @@ class Add extends Component {
     componentDidMount() {
         const { user, activity_list, intensityFromExArticleTemplate, } = this.props;
         const { isModalConter } = this.state;
-        this.setState({
-            isModalConter: !isModalConter,
-        })
+
         this._unsubscribe = this.props.navigation.addListener('focus', () => {
             const { intensityFromExArticleTemplate } = this.props;
 
@@ -75,12 +73,7 @@ class Add extends Component {
                     intensityFromExArticle: intensityFromExArticleTemplate.intensity
                 })
 
-            } else {
-                /*  this.setState({
-                     isModalConter: true,
-                 }) */
             }
-
 
         });
 
@@ -94,7 +87,8 @@ class Add extends Component {
 
 
     componentDidUpdate(prevProps, prevState) {
-        const { intensityFromExArticle, study } = this.state;
+
+        const { intensityFromExArticle, study, isModalConter } = this.state;
         const { user, activity_list, intensityFromExArticleTemplate, statusAddActListAddOn, statusDeleteActListAddOn, statusGetActivityList, statusEditActListAddOn } = this.props;
         if ((prevState.intensityFromExArticle !== intensityFromExArticle) && (intensityFromExArticle !== null)) {
 
@@ -113,10 +107,10 @@ class Add extends Component {
                     activity_list_show: [...activity_list.vigorous_intensity]
                 })
             }
-
-            this.setState({
-                isModalConter: true,
-            })
+            /* 
+                        this.setState({
+                            isModalConter: true,
+                        }) */
             this.props.setIntensityFromExArticleTemplate(null)
         }
 
@@ -163,6 +157,10 @@ class Add extends Component {
                             [...(activity_list.vigorous_intensity.filter(item => item.type === 'addon'))],
             })
         }
+
+        /*         if (prevState ==) {
+        
+                } */
 
     }
 
@@ -251,6 +249,7 @@ class Add extends Component {
     nextAddActivity(activity, intensity, type) {
         this.setState({
             isModalConter: false,
+            isModalVisible: false
         })
         this.props.navigation.navigate("AddActivity", { activity: activity, intensity: intensity, type: type })
     }
@@ -894,11 +893,11 @@ class Add extends Component {
 
     render() {
         const { stsusColor, isModalVisible, isModalConter, study, data, statusCreate, statusViolence, missionName } = this.state;
-
+        console.log("isModalVisible", isModalConter);
         return (
             <>
                 <View style={styles.fill}>
-                    <View style={{ zIndex: 0 }}>
+                    {/*  <View style={{ zIndex: 0 }}>
                         <Pressable title="Show modal" onPress={() => this.toggleModal(isModalVisible)} />
                         <Modal isVisible={isModalConter}
                             style={{ margin: 0 }}
@@ -913,16 +912,20 @@ class Add extends Component {
                             }
 
                         </Modal>
-                    </View>
-                    {/*   {statusCreate === "listDataViews" ?
+                    </View> */}
+
+
+                    {statusCreate === "listDataViews" ?
                         this.listDataViews()
                         :
                         statusCreate === "createView" ?
                             this.createView()
                             : this.editView()
 
-                    } */}
-                </View >
+                    }
+                </View>
+
+
             </>
         )
     }
@@ -931,8 +934,8 @@ const deviceWidth = Math.round(Dimensions.get('window').width);
 const styles = StyleSheet.create({
     fill: {
         flex: 1,
-        /*  backgroundColor: colors.grey2, */
-        /*         opacity: 0.8, */
+        backgroundColor: colors.grey1,
+
     },
     boxConter: {
         backgroundColor: colors.white,
