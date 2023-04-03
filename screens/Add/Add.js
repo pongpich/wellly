@@ -53,10 +53,10 @@ class Add extends Component {
                   })
               } */
 
-            /*   this.setState({
-                  isModalConter: !isModalConter,
-              })
-   */
+            this.setState({
+                isModalConter: !isModalConter,
+            })
+
             console.log("5555", isModalConter);
             this.setState({
                 intensityFromExArticle: null
