@@ -86,4 +86,11 @@ export function currentTime() {
 
   return currentDate;
 }
+export function currentDate() {
+  const date = new Date();
+  const options = { day: 'numeric', month: 'short', year: 'numeric' };
+  const currentDate = date.toLocaleDateString('th-TH', options);
+
+  return currentDate;
+}
 

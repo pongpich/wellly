@@ -53,6 +53,9 @@ class AddActivity extends Component {
             this.props.getExerciserActivity(user && user.user_id);
             this.props.navigation.navigate("Add");
         }
+        if ((prevState.isModalConter2 !== isModalConter2) && (isModalConter2 == true)) {
+            this.props.navigation.goBack();
+        }
 
     }
 
@@ -72,7 +75,7 @@ class AddActivity extends Component {
         })
     };
     deleteActivity2(isModalConter2) {
-
+        console.log("aa");
         this.setState({
             note: '',
             duration: '',
@@ -80,7 +83,7 @@ class AddActivity extends Component {
             isModalConter2: !isModalConter2
 
         })
-        this.props.navigation.goBack();
+        /*         this.props.navigation.goBack(); */
     }
 
     saveMission() {
@@ -234,130 +237,38 @@ class AddActivity extends Component {
                         </TouchableWithoutFeedback>
                     </View>
                 </View>
-                <View>
-                    <Pressable title="Show modal" onPress={() => this.toggleModal(isModalVisible2)} />
-                    <Modal isVisible={isModalVisible2}
-                        style={{ margin: 0 }}
-                    >
-                        <View style={{ flex: 1, justifyContent: "flex-end" }} onPress={() => this.toggleModal(isModalVisible2)} >
-                            <View style={styles.modalView}>
-                                <Text style={styles.headModal}>หากละทิ้งตอนนี้ ข้อมูลจะไม่ถูกบันทึก</Text>
-                                <View style={[styles.missionView, { marginTop: 32, marginBottom: 40, }]}>
-                                    <TouchableWithoutFeedback onPress={() => this.toggleModal(isModalVisible2)}>
-                                        <View style={styles.buttonWhite}>
-                                            <Text style={styles.textButtonWhite}>ย้อนกลับ</Text>
-                                        </View>
-                                    </TouchableWithoutFeedback>
-                                    <TouchableWithoutFeedback onPress={() => this.deleteActivity2(isModalConter2)}>
-                                        <View style={styles.buttonRed}>
-                                            <Text style={styles.textButtonRed}>ละทิ้ง</Text>
-                                        </View>
-                                    </TouchableWithoutFeedback>
-                                </View>
-                            </View>
-                        </View>
-                    </Modal>
-                </View>
-                <View>
-                    <Pressable title="Show modal" onPress={() => this.toggleModal(isModalVisible2)} />
-                    <Modal isVisible={isModalConter2}
-                        style={{ margin: 0 }}
-                    >
-                        <View style={{ flex: 1, justifyContent: "flex-end" }} onPress={() => this.toggleModal(isModalVisible2)} >
-                            <View style={styles.modalViewConter}>
-                                <View style={[styles.missionView, { marginTop: 20, justifyContent: "space-between" }]}>
-                                    <TouchableWithoutFeedback onPress={() => this.isModalConter(isModalConter2)}>
-                                        <Image
-                                            style={styles.cross}
-                                            source={require('../../assets/images/activity/cross.png')}
-                                        />
-                                    </TouchableWithoutFeedback>
-                                    <Text style={styles.headActivity}>กิจกรรมตามความเข้มข้น</Text>
 
-                                    <Text style={styles.headEdit}>เเก้ไข</Text>
-                                </View>
-                                <View style={[styles.missionView, { marginTop: 16, justifyContent: "space-between" }]}>
-                                    <View style={study == "ทั้งหมด" ? styles.boxHeadingActive : styles.boxHeading}>
-                                        <Pressable onPress={() => this.setState({
-                                            study: "ทั้งหมด"
-                                        })}>
-                                            <Text style={study == "ทั้งหมด" ? styles.sectionActive : styles.section}> ทั้งหมด</Text>
-                                        </Pressable>
-                                    </View>
-                                    <View style={study == "ต่ำ" ? styles.boxHeadingActive : styles.boxHeading}>
-                                        <Pressable onPress={() => this.setState({
-                                            study: "ต่ำ"
-                                        })}>
-                                            <Text style={study == "ต่ำ" ? styles.sectionActive : styles.section}> ต่ำ</Text>
-                                        </Pressable>
-                                    </View>
-                                    <View style={study == "ปานกลาง" ? styles.boxHeadingActive : styles.boxHeading}>
-                                        <Pressable onPress={() => this.setState({
-                                            study: "ปานกลาง"
-                                        })}>
-                                            <Text style={study == "ปานกลาง" ? styles.sectionActive : styles.section}> ปานกลาง</Text>
-                                        </Pressable>
-                                    </View>
-                                    <View style={study == "สูง" ? styles.boxHeadingActive : styles.boxHeading}>
-                                        <Pressable onPress={() => this.setState({
-                                            study: "สูง"
-                                        })}>
-                                            <Text style={study == "สูง" ? styles.sectionActive : styles.section}> สูง</Text>
-                                        </Pressable>
+                {
+                    isModalVisible2 === true ?
+                        < View >
+                            <Pressable title="Show modal" onPress={() => this.toggleModal(isModalVisible2)} />
+                            <Modal isVisible={isModalVisible2}
+                                style={{ margin: 0 }}
+                            >
+                                <View View style={{ flex: 1, justifyContent: "flex-end" }} onPress={() => this.toggleModal(isModalVisible2)} >
+                                    <View style={styles.modalView}>
+                                        <Text style={styles.headModal}>หากละทิ้งตอนนี้ ข้อมูลจะไม่ถูกบันทึก</Text>
+                                        <View style={[styles.missionView, { marginTop: 32, marginBottom: 40, }]}>
+                                            <TouchableWithoutFeedback onPress={() => this.toggleModal(isModalVisible2)}>
+                                                <View style={styles.buttonWhite}>
+                                                    <Text style={styles.textButtonWhite}>ย้อนกลับ</Text>
+                                                </View>
+                                            </TouchableWithoutFeedback>
+                                            <TouchableWithoutFeedback onPress={() => this.deleteActivity2(isModalConter2)}>
+                                                <View style={styles.buttonRed}>
+                                                    <Text style={styles.textButtonRed}>ละทิ้ง</Text>
+                                                </View>
+                                            </TouchableWithoutFeedback>
+                                        </View>
                                     </View>
                                 </View>
-                                <View style={{ marginTop: 24 }}>
-                                    <View>
-                                        <View style={styles.missionView}>
-                                            <Image style={styles.activityImage} source={stsusColor == "เข้มข้นต่ำ" ? require('../../assets/images/activity/Activitylow.png') : stsusColor == "เข้มข้นปานกลาง" ? require('../../assets/images/activity/Activitycenter.png') : require('../../assets/images/activity/Activityhign.png')} />
-                                            <View style={styles.groupText2}>
-                                                <Text style={styles.headText2}>เดินเร็ว</Text>
-                                                <Text style={[styles.groupStatus, { color: stsusColor == "เข้มข้นต่ำ" ? colors.secondary_MayaBlue : stsusColor == "เข้มข้นปานกลาง" ? colors.tertiaryYellow : colors.tertiaryMagenta }]}>เข้มข้นต่ำ</Text>
-                                            </View>
-                                        </View>
-                                        <View style={styles.viewIconRight2}>
-                                            <Text style={[styles.groupStatus, { color: stsusColor == "เข้มข้นต่ำ" ? colors.secondary_MayaBlue : stsusColor == "เข้มข้นปานกลาง" ? colors.tertiaryYellow : colors.tertiaryMagenta }]}>เข้มข้นต่ำ</Text>
-                                        </View>
-                                    </View>
-                                    <View>
-                                        <View style={styles.missionView}>
-                                            <Image style={styles.activityImage} source={stsusColor == "เข้มข้นต่ำ" ? require('../../assets/images/activity/Activitylow.png') : stsusColor == "เข้มข้นปานกลาง" ? require('../../assets/images/activity/Activitycenter.png') : require('../../assets/images/activity/Activityhign.png')} />
-                                            <View style={styles.groupText2}>
-                                                <Text style={styles.headText2}>เดินเร็ว</Text>
-                                                <Text style={[styles.groupStatus, { color: stsusColor == "เข้มข้นต่ำ" ? colors.secondary_MayaBlue : stsusColor == "เข้มข้นปานกลาง" ? colors.tertiaryYellow : colors.tertiaryMagenta }]}>เข้มข้นต่ำ</Text>
-                                            </View>
-                                        </View>
-                                        <View style={styles.viewIconRight2}>
-                                            <Text style={[styles.groupStatus, { color: stsusColor == "เข้มข้นต่ำ" ? colors.secondary_MayaBlue : stsusColor == "เข้มข้นปานกลาง" ? colors.tertiaryYellow : colors.tertiaryMagenta }]}>เข้มข้นต่ำ</Text>
-                                        </View>
-                                    </View>
-                                    <View>
-                                        <View style={styles.missionView}>
-                                            <Image style={styles.activityImage} source={stsusColor == "เข้มข้นต่ำ" ? require('../../assets/images/activity/Activitylow.png') : stsusColor == "เข้มข้นปานกลาง" ? require('../../assets/images/activity/Activitycenter.png') : require('../../assets/images/activity/Activityhign.png')} />
-                                            <View style={styles.groupText2}>
-                                                <Text style={styles.headText2}>เดินเร็ว</Text>
-                                                <Text style={[styles.groupStatus, { color: stsusColor == "เข้มข้นต่ำ" ? colors.secondary_MayaBlue : stsusColor == "เข้มข้นปานกลาง" ? colors.tertiaryYellow : colors.tertiaryMagenta }]}>เข้มข้นต่ำ</Text>
-                                            </View>
-                                        </View>
-                                        <View style={styles.viewIconRight2}>
-                                            <Text style={[styles.groupStatus, { color: stsusColor == "เข้มข้นต่ำ" ? colors.secondary_MayaBlue : stsusColor == "เข้มข้นปานกลาง" ? colors.tertiaryYellow : colors.tertiaryMagenta }]}>เข้มข้นต่ำ</Text>
-                                        </View>
-                                    </View>
-                                    <View>
-                                        <View style={styles.missionView}>
-                                            <Image style={styles.activityImage} source={require('../../assets/images/activity/frame13811.png')} />
-                                            <View style={styles.groupText2}>
-                                                <Text style={styles.headText3}>เพิ่มกิจกรรมใหม่</Text>
-                                            </View>
-                                        </View>
+                            </Modal>
+                        </View >
+                        : null
+                }
 
-                                    </View>
-                                </View>
-                            </View>
-                        </View>
-                    </Modal>
-                </View>
             </View >
+
         )
     }
 }

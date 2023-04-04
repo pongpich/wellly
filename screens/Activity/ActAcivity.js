@@ -1,46 +1,127 @@
 import React, { Component } from 'react';
-import { SafeAreaView, StatusBar, View, Text, StyleSheet, Animated, Image, ImageBackground, Dimensions, Pressable, ScrollView, TouchableWithoutFeedback } from 'react-native';
+import { SafeAreaView, StatusBar, View, Text, StyleSheet, Animated, Image, ImageBackground, Dimensions, Pressable, ScrollView, TouchableWithoutFeedback, TextInput } from 'react-native';
 import colors from '../../constants/colors';
 import ComponentsStyle from '../../constants/components';
 import Modal from "react-native-modal";
-import { currentTime } from "../../helpers/utils";
+import { withTranslation } from 'react-i18next';
+import { calculateWeekInProgram, currentTime } from "../../helpers/utils";
+import { connect } from 'react-redux';
+import { getActivityList, getExerciserActivity } from "../../redux/get";
+import { updateNumberCompleted, resetStatusUpdateNumbComp, deleteActivityListAddOn } from "../../redux/update";
+import { CommonActions } from '@react-navigation/native';
+
+
 class ActAcivity extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
             stsusColor: "เข้มข้นต่ำ",
-            isModalVisible: false,
-            isModalConter: false,
-            study: "ทั้งหมด"
+            isModalVisible2: false,
+            isModalConter2: false,
+            study: "ทั้งหมด",
+            activity: '',
+            intensity: '',
+            type: 'default',
+            duration: '',
+            note: '',
+            message: null
         };
     }
 
+    componentDidMount() {
 
-    toggleModal(isModalVisible) {
-        console.log("adas");
+        this._unsubscribe = this.props.navigation.addListener('focus', () => {
 
-        this.setState({
-            isModalVisible: !isModalVisible
-        })
-    };
-    isModalConter(isModalConter) {
-        console.log("adas");
+            // รับ   params จาก  route
+            const { activity, intensity, type, duration, note } = this.props.route.params;
+            this.setState({
+                activity: activity,
+                intensity: intensity,
+                type: type,
+                duration: duration,
+                note: note
+            })
 
-        this.setState({
-            isModalConter: !isModalConter
-        })
-    };
-    deleteActivity(isModalVisible) {
+            this.props.resetStatusUpdateNumbComp();
 
-        this.setState({
-            isModalVisible: !isModalVisible
-        })
-        this.props.navigation.popToTop()
+        });
+
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        const { statusUpdateNumbComp, user } = this.props;
+        const { isModalConter2 } = this.state;
+
+        if ((prevProps.statusUpdateNumbComp !== statusUpdateNumbComp) && (statusUpdateNumbComp === "success")) {
+            this.props.getExerciserActivity(user && user.user_id);
+            this.props.navigation.navigate("Add");
+        }
+
+    }
+
+
+    toggleModal(isModalVisible2) {
+        console.log("adas");
+
+        this.setState({
+            isModalVisible2: !isModalVisible2
+        })
+    };
+    isModalConter(isModalConter2) {
+        console.log("adas");
+
+        this.setState({
+            isModalConter2: !isModalConter2
+        })
+    };
+
+    deleteActivity(mess) {
+        const { user } = this.props;
+        const { activity_id_edit_focus } = this.state;
+        /*   console.log("activity_id_edit_focus :", activity_id_edit_focus); */
+        /*  this.props.deleteActivityListAddOn(user.user_id, activity_id_edit_focus)
+         this.setState({
+             statusCreate: "editView",
+             statusViolence: null,
+             missionName: null,
+             editmission: false,
+             confirmDelete: false,
+             message: mess
+         }) */
+
+
+        /*  this.props.navigation.popToTop() */
+    }
+
+    saveMission() {
+        const { duration, note } = this.state;
+        const { user, statusUpdateNumbComp } = this.props;
+
+        // ใช้ params จาก  route ในหน้า Add.js
+        const { activity, intensity, type } = this.props.route.params;
+        // ** หมายเหตุ ปัจจุบันใช้การคำนวน week ปัจจุบัน, - ซึ่งถ้าอนาคตมีการดูย้อนหลังสัปดาห์เก่า ต้องมาปรับปรุงส่วนนี้นะ -
+        const week_in_program = calculateWeekInProgram(user.start_date);
+
+        if (statusUpdateNumbComp !== 'loading') {
+            this.props.updateNumberCompleted((user && user.user_id), intensity, week_in_program, activity, intensity, type, duration, note);
+        }
+    }
+
+
+
     render() {
-        const { stsusColor, isModalVisible, isModalConter, study } = this.state;
+        const { stsusColor, isModalVisible2, isModalConter2, study, activity, intensity, type, duration, note } = this.state;
+        /*     const date = new Date();
+    
+            console.log("date", date);
+            const day = date.getDate();
+            const month = date.getMonth() + 1;
+            const year = date.getFullYear();
+            const currentDate = `${day}-${month}-${year}`; */
+        const currentDate = currentTime();
+
+
         return (
             <View style={styles.fill}>
                 <View style={{ height: 58, zIndex: 10, width: "100%", backgroundColor: colors.white }}>
@@ -58,14 +139,25 @@ class ActAcivity extends Component {
                 </View>
                 <View style={styles.boxConter}>
                     <View style={styles.missionView}>
-                        <Image style={styles.activityImage} source={require('../../assets/images/activity/Activitylow.png')} />
+                        <Image
+                            style={styles.activityImage}
+                            source={intensity === 'light_intensity' ? require('../../assets/images/activity/Activitylow.png') : intensity === 'moderate_intensity' ? require('../../assets/images/activity/Activitycenter.png') : require('../../assets/images/activity/Activityhign.png')}
+                        />
                         <View style={styles.groupText}>
-                            <Text style={styles.headText}>เดินเร็ว</Text>
-                            <Text style={[styles.groupStatus, { color: stsusColor == "เข้มข้นต่ำ" ? colors.secondary_MayaBlue : stsusColor == "เข้มข้นปานกลาง" ? colors.tertiaryYellow : colors.tertiaryMagenta }]}>เข้มข้นต่ำ</Text>
+                            <Text style={styles.headText}>{activity}</Text>
+                            <Text
+                                style={[styles.groupStatus,
+                                { color: (intensity === 'light_intensity') ? colors.secondary_MayaBlue : (intensity === 'moderate_intensity') ? colors.tertiaryYellow : colors.tertiaryMagenta }]
+                                }
+                            >
+                                {(intensity === 'light_intensity') && 'เข้มข้นต่ำ'}
+                                {(intensity === 'moderate_intensity') && 'เข้มข้นปานกลาง'}
+                                {(intensity === 'vigorous_intensity') && 'เข้มข้นสูง'}
+                            </Text>
                         </View>
                     </View>
                     <View style={styles.viewIconRight}>
-                        <Pressable onPress={() => this.isModalConter(isModalConter)}>
+                        <Pressable onPress={() => this.isModalConter(isModalConter2)}>
                             <Image
                                 style={styles.chevronImage}
                                 source={require('../../assets/images/activity/Chevron.png')}
@@ -80,7 +172,7 @@ class ActAcivity extends Component {
                                 style={styles.chevronImage}
                                 source={require('../../assets/images/activity/Calendar.png')}
                             />
-                            <Text style={styles.textDetails}>{currentTime()} น.</Text>
+                            <Text style={styles.textDetails}>{currentDate}{/* 31 ธ.ค. 2566 - 17:50 น. */}</Text>
                         </View>
                         <View
                             style={{
@@ -93,7 +185,15 @@ class ActAcivity extends Component {
                                 style={styles.chevronImage}
                                 source={require('../../assets/images/activity/Clock.png')}
                             />
-                            <Text style={styles.textDetails}>1 ชั่วโมง</Text>
+                            {/*  <Text style={styles.textDetails}>60 นาที</Text> */}
+                            <TextInput
+                                style={styles.textDetails}
+                                onChangeText={(text) => this.setState({ duration: text })}
+                                value={duration}
+                                keyboardType='numeric'
+                                placeholder="ระยะเวลาที่ใช้"
+                            />
+                            <Text style={styles.textDetails}>นาที</Text>
                         </View>
                         <View
                             style={{
@@ -106,7 +206,13 @@ class ActAcivity extends Component {
                                 style={styles.chevronImage}
                                 source={require('../../assets/images/activity/Note.png')}
                             />
-                            <Text style={styles.textDetails}>เดินกินลม</Text>
+                            {/*  <Text style={styles.textDetails}>เดินกินลมม</Text> */}
+                            <TextInput
+                                style={styles.textDetails}
+                                onChangeText={(text) => this.setState({ note: text })}
+                                value={note}
+                                placeholder="โน้ต"
+                            />
                         </View>
                         <View
                             style={{
@@ -116,26 +222,26 @@ class ActAcivity extends Component {
                         />
                     </View>
                     <View style={{ alignItems: "center" }}>
-                        <Pressable onPress={() => this.toggleModal(isModalVisible)} >
+                        <Pressable onPress={() => this.toggleModal(isModalVisible2)} >
                             <Text style={styles.deleteActivity}>ลบกิจกรรมนี้</Text>
                         </Pressable>
                     </View>
                 </View>
                 <View>
-                    <Pressable title="Show modal" onPress={() => this.toggleModal(isModalVisible)} />
-                    <Modal isVisible={isModalVisible}
+                    <Pressable title="Show modal" onPress={() => this.toggleModal(isModalVisible2)} />
+                    <Modal isVisible={isModalVisible2}
                         style={{ margin: 0 }}
                     >
-                        <View style={{ flex: 1, justifyContent: "flex-end" }} onPress={() => this.toggleModal(isModalVisible)} >
+                        <View style={{ flex: 1, justifyContent: "flex-end" }} onPress={() => this.toggleModal(isModalVisible2)} >
                             <View style={styles.modalView}>
                                 <Text style={styles.headModal}>แน่ใจที่ลบกิจกรรมนี้หรือไม่</Text>
                                 <View style={[styles.missionView, { marginTop: 32, marginBottom: 40, }]}>
-                                    <TouchableWithoutFeedback onPress={() => this.toggleModal(isModalVisible)}>
+                                    <TouchableWithoutFeedback onPress={() => this.toggleModal(isModalVisible2)}>
                                         <View style={styles.buttonWhite}>
                                             <Text style={styles.textButtonWhite}>ย้อนกลับ</Text>
                                         </View>
                                     </TouchableWithoutFeedback>
-                                    <TouchableWithoutFeedback onPress={() => this.deleteActivity(isModalVisible)}>
+                                    <TouchableWithoutFeedback onPress={() => this.deleteActivity("ลบกิจกรรมแล้ว")}>
                                         <View style={styles.buttonRed}>
                                             <Text style={styles.textButtonRed}>ลบกิจกรรม</Text>
                                         </View>
@@ -146,14 +252,14 @@ class ActAcivity extends Component {
                     </Modal>
                 </View>
                 <View>
-                    <Pressable title="Show modal" onPress={() => this.toggleModal(isModalVisible)} />
-                    <Modal isVisible={isModalConter}
+                    <Pressable title="Show modal" onPress={() => this.toggleModal(isModalVisible2)} />
+                    <Modal isVisible={isModalConter2}
                         style={{ margin: 0 }}
                     >
-                        <View style={{ flex: 1, justifyContent: "flex-end" }} onPress={() => this.toggleModal(isModalVisible)} >
+                        <View style={{ flex: 1, justifyContent: "flex-end" }} onPress={() => this.toggleModal(isModalVisible2)} >
                             <View style={styles.modalViewConter}>
                                 <View style={[styles.missionView, { marginTop: 20, justifyContent: "space-between" }]}>
-                                    <TouchableWithoutFeedback onPress={() => this.isModalConter(isModalConter)}>
+                                    <TouchableWithoutFeedback onPress={() => this.isModalConter(isModalConter2)}>
                                         <Image
                                             style={styles.cross}
                                             source={require('../../assets/images/activity/cross.png')}
@@ -478,4 +584,16 @@ const styles = StyleSheet.create({
 
 
 })
-export default ActAcivity;
+
+const mapStateToProps = ({ authUser, getData, updateData }) => {
+    const { user } = authUser;
+    const { activity_list, statusGetActivityList } = getData;
+    const { statusUpdateNumbComp } = updateData;
+    return { user, activity_list, statusGetActivityList, statusUpdateNumbComp };
+};
+
+const mapActionsToProps = { getActivityList, updateNumberCompleted, getExerciserActivity, resetStatusUpdateNumbComp, deleteActivityListAddOn };
+
+
+
+export default connect(mapStateToProps, mapActionsToProps)(ActAcivity);

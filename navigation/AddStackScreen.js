@@ -7,7 +7,6 @@ import { useRoute } from '@react-navigation/native';
 import colors from '../constants/colors';
 import Add from '../screens/Add/Add';
 import AddActivity from '../screens/Add/AddActivity';
-import AddHom from '../screens/Add/AddHom';
 
 /* import ExArticleTemplate from '../screens/Exercise/ExArticleTemplate';
 import Exercise from '../screens/Exercise/Exercise'; */

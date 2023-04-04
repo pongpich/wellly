@@ -43,7 +43,7 @@ class Add extends Component {
             const { intensityFromExArticleTemplate } = this.props;
 
             /* const { } = this.props.route.params; */
-            console.log(this.props.route.params);
+            //console.log(this.props.route.params);
             /*   if (this.props.route.params) {
                   console.log("555");
                   this.setState({
@@ -55,7 +55,7 @@ class Add extends Component {
                 isModalConter: !isModalConter,
             })
 
-            console.log("5555", isModalConter);
+            /*  console.log("5555", isModalConter); */
             this.setState({
                 intensityFromExArticle: null
             })
@@ -165,13 +165,13 @@ class Add extends Component {
     }
 
     toggleModal(isModalVisible) {
-        console.log("adas");
+
 
         this.setState({
             isModalVisible: !isModalVisible
         })
     };
-    isModalConter(isModalConter) {
+    modalConter(isModalConter) {
 
 
         this.setState({
@@ -190,8 +190,8 @@ class Add extends Component {
     deleteActivity(mess) {
         const { user } = this.props;
         const { activity_id_edit_focus } = this.state;
-        console.log("activity_id_edit_focus :", activity_id_edit_focus);
-        this.props.deleteActivityListAddOn(user.user_id, activity_id_edit_focus)
+        /*  console.log("activity_id_edit_focus :", activity_id_edit_focus); */
+        /* this.props.deleteActivityListAddOn(user.user_id, activity_id_edit_focus)
         this.setState({
             statusCreate: "editView",
             statusViolence: null,
@@ -199,13 +199,13 @@ class Add extends Component {
             editmission: false,
             confirmDelete: false,
         })
-        this.setMessage(mess)
+        this.setMessage(mess) */
 
         /*  this.props.navigation.popToTop() */
     }
     violence(e) {
-
-        console.log("asdas", e);
+        /* 
+                console.log("asdas", e); */
         this.setState({
             statusViolence: e
         })
@@ -284,7 +284,7 @@ class Add extends Component {
                                 <TouchableWithoutFeedback onPress={() => {
 
 
-                                    this.isModalConter(isModalConter);
+                                    this.modalConter(isModalConter);
                                 }}>
                                     <Image
                                         style={styles.cross}
@@ -310,7 +310,7 @@ class Add extends Component {
                                 :
                                 <TouchableWithoutFeedback onPress={() => {
                                     this.props.navigation.goBack()
-                                    this.isModalConter(isModalConter);
+                                    this.modalConter(isModalConter);
 
                                 }}>
                                     <Image
@@ -733,7 +733,7 @@ class Add extends Component {
                             <View style={styles.confirm}>
                                 <View style={{ flex: 1, justifyContent: "flex-end" }} onPress={() => this.toggleModal(isModalVisible)} >
                                     <View style={styles.modalView}>
-                                        <Text style={styles.headModal}>แน่ใจที่ลบกิจกรรมนี้หรือไม่qq</Text>
+                                        <Text style={styles.headModal}>แน่ใจที่ลบกิจกรรมนี้หรือไม่</Text>
                                         <View style={[styles.missionView, { marginTop: 32, marginBottom: 40, }]}>
                                             <TouchableWithoutFeedback onPress={() => this.setState({ confirmDelete: false })}>
                                                 <View style={styles.buttonWhite}>
@@ -893,11 +893,11 @@ class Add extends Component {
 
     render() {
         const { stsusColor, isModalVisible, isModalConter, study, data, statusCreate, statusViolence, missionName } = this.state;
-        console.log("isModalVisible", isModalConter);
+        /*    console.log("isModalVisible", isModalConter); */
         return (
             <>
                 <View style={styles.fill}>
-                    {/*  <View style={{ zIndex: 0 }}>
+                    <View style={{ zIndex: 0 }}>
                         <Pressable title="Show modal" onPress={() => this.toggleModal(isModalVisible)} />
                         <Modal isVisible={isModalConter}
                             style={{ margin: 0 }}
@@ -912,9 +912,9 @@ class Add extends Component {
                             }
 
                         </Modal>
-                    </View> */}
+                    </View>
 
-
+                    {/* 
                     {statusCreate === "listDataViews" ?
                         this.listDataViews()
                         :
@@ -922,7 +922,7 @@ class Add extends Component {
                             this.createView()
                             : this.editView()
 
-                    }
+                    } */}
                 </View>
 
 
@@ -934,7 +934,7 @@ const deviceWidth = Math.round(Dimensions.get('window').width);
 const styles = StyleSheet.create({
     fill: {
         flex: 1,
-        backgroundColor: colors.grey1,
+        /*   backgroundColor: colors.grey1, */
 
     },
     boxConter: {

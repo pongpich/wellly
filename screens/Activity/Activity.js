@@ -11,7 +11,7 @@ import { getExerciserActivity, getMemberActivityLogInWeek } from "../../redux/ge
 import { List } from 'react-native-paper';
 import { Video, AVPlaybackStatus } from 'expo-av';
 import { update_popUp_stars } from "../../redux/update";
-import { checkStar, checkTrophy, calculateWeekInProgram, convertFormatDate, currentTime } from "../../helpers/utils";
+import { checkStar, checkTrophy, calculateWeekInProgram, convertFormatDate, currentDate } from "../../helpers/utils";
 import { withTranslation } from 'react-i18next'
 
 import {
@@ -175,9 +175,10 @@ const Activity = ({ navigation }) => {
                         {
                             member_activity_log_in_week ?
                                 member_activity_log_in_week.map((item, i) => {
+                                    console.log("item", member_activity_log_in_week);
 
                                     return (
-                                        <Pressable key={i + "tfb"} onPress={() => navigation.navigate("ActAcivity")}>
+                                        <Pressable key={i + "tfb"} onPress={() => navigation.navigate("ActAcivity", { activity: item.activity, duration: item.duration, note: item.note, intensity: item.intensity, type: item.type })/* navigation.navigate("ActAcivity") */}>
                                             <View key={i} style={styles.row}>
                                                 <Image
                                                     style={styles.activityImage}
@@ -188,7 +189,7 @@ const Activity = ({ navigation }) => {
                                                     <View style={styles.missionView}>
                                                         <Text style={styles.dateData}>
                                                             {/*           31 ธ.ค. 2566 */}
-                                                            {currentTime()}
+                                                            {currentDate()}
                                                         </Text>
                                                         <Text style={styles.li}>{"\u2B24" + " "}</Text>
                                                         <Text style={styles.dateData}>
@@ -465,7 +466,7 @@ const styles = StyleSheet.create({
         marginLeft: 4,
         marginRight: 4,
         marginTop: 6,
-        fontSize: 5,
+        fontSize: 3,
         color: colors.grey4,
     },
     editNote: {
