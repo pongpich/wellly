@@ -55,6 +55,7 @@ const Exercise = ({ navigation }) => {
     const [group, setGroup] = useState(null);
     const [groupName, setGroupName] = useState(null);
     const [urlPlay, setUrlPlay] = useState(null);
+    const [status_resistance, setStatus_resistance] = useState("ยิม");
     const deviceHeight = Math.round(Dimensions.get('window').height);
     const animatedScrollYValue = useRef(new Animated.Value(0)).current;
 
@@ -115,17 +116,12 @@ const Exercise = ({ navigation }) => {
       }; */
 
     const closeeModal = (e, m) => {
-        console.log('e', e);
-
+        setStatus_resistance("ยิม")
+        setStatus_male_female("ชาย")
+        setExpanded(false)
         setGroup(e)
         setGroupName(m)
-        if (e === "resistance") {
-            dispatch(getTrainingSet("resistance_fullbody_gym"));
-        } else {
-            dispatch(getTrainingSet(e));
-        }
-
-
+        dispatch(getTrainingSet("resistance_fullbody_gym"));
 
         if (statusTrainingSet === "success") {
             setIsModalVisibleVedio(!isModalVisibleVedio)
@@ -207,6 +203,21 @@ const Exercise = ({ navigation }) => {
             }
         }
     }, [statusExerciserActivity])
+
+
+    const statusResistance = (e) => {
+        setStatus_resistance(e)
+
+        if (e === "ยิม") {
+            dispatch(getTrainingSet("resistance_fullbody_gym"));
+        }
+        if (e === "ดัมเบล") {
+            dispatch(getTrainingSet("resistance_home_gym"));
+        }
+        if (e === "ตัวเปล่า") {
+            dispatch(getTrainingSet("resistance_body_weight"));
+        }
+    }
 
     const videoPlay = () => {
 
@@ -327,6 +338,25 @@ const Exercise = ({ navigation }) => {
                                                     </Pressable>
 
                                                 }
+
+                                            </View>
+                                        </View>
+                                    </View>
+                                    <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: 22 }}>
+                                        <Text style={styles.missionHead}>อุปกรณ์</Text>
+                                        <View>
+                                            <View style={styles.missionView}>
+                                                <Pressable style={[{ width: 63 }, status_resistance === "ยิม" ? styles.missionPre : styles.programPre]} onPress={() => statusResistance("ยิม")} >
+                                                    <Text style={[styles.mission, status_resistance === "ยิม" ? { color: colors.white } : { color: colors.persianBlue }]}>ยิม</Text>
+                                                </Pressable>
+
+                                                <Pressable Pressable style={[{ marginLeft: 8, width: 71 }, status_resistance === "ดัมเบล" ? styles.missionPre : styles.programPre]} onPress={() => statusResistance("ดัมเบล")} >
+                                                    <Text style={[styles.mission, status_resistance === "ดัมเบล" ? { color: colors.white } : { color: colors.persianBlue }]}>ดัมเบล</Text>
+                                                </Pressable>
+                                                <Pressable Pressable style={[{ marginLeft: 8, width: 71 }, status_resistance === "ตัวเปล่า" ? styles.missionPre : styles.programPre]} onPress={() => statusResistance("ตัวเปล่า")} >
+                                                    <Text style={[styles.mission, status_resistance === "ตัวเปล่า" ? { color: colors.white } : { color: colors.persianBlue }]}>ตัวเปล่า</Text>
+                                                </Pressable>
+
 
                                             </View>
                                         </View>
