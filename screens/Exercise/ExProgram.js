@@ -101,7 +101,6 @@ const ExProgram = ({ navigation }) => {
 
     const dataTrainingSet = trainingSet && Object.entries(trainingSet);
 
-    console.log("finishedPlayingSet", finishedPlayingSet);
 
     return (
         <View style={styles.centered}>
@@ -147,19 +146,8 @@ const ExProgram = ({ navigation }) => {
                 <View style={styles.conterVideo}>
                     <ScrollView>
                         <View style={{ marginBottom: 400, }}>
-                            {/*   {dataTrainingSet.map((item) => {
-                                const bgColor = finishedPlayingSet.includes(item) ? '#00FF00' : '#FFFFFF';
-                                return (
-                                    <View key={item} style={{ backgroundColor: bgColor, padding: 10 }}>
-                                        <Text>{item}</Text>
-                                    </View>
-                                );
-                            })} */}
                             {
                                 dataTrainingSet && dataTrainingSet.map((item, i) => {
-                                    console.log("finishedPlayingSet", finishedPlayingSet);
-                                    /*    const bgColor = finishedPlayingSet.includes(i + 1) ? styles.rowProgramPlay : styles.rowProgram; */
-
                                     return (
                                         <Pressable key={i + "vp"} onPress={() => clickPlayVide(item[1][0], i + 1)}>
                                             <View style={playVideo == i + 1 ? styles.rowProgramPlay : styles.rowProgram}>
