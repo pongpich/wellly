@@ -148,6 +148,8 @@ const ExProgram = ({ navigation }) => {
                         <View style={{ marginBottom: 400, }}>
                             {
                                 dataTrainingSet && dataTrainingSet.map((item, i) => {
+
+                                    console.log("ststus_m_f", ststus_m_f, item);
                                     return (
                                         <Pressable key={i + "vp"} onPress={() => clickPlayVide(item[1][0], i + 1)}>
                                             <View style={playVideo == i + 1 ? styles.rowProgramPlay : styles.rowProgram}>
@@ -159,8 +161,9 @@ const ExProgram = ({ navigation }) => {
                                                         />
                                                         : null}
                                                     <Image
-                                                        style={{ height: 80, width: 140, zIndex: 1, opacity: 0.3, borderRadius: 8 }}
-                                                        source={require('../../assets/images/exercise/Alternating.png')}
+                                                        style={[{ height: 80, width: 140, zIndex: 1, borderRadius: 8 }, finishedPlayingSet.includes(i + 1) ? { opacity: 0.3 } : null]}
+                                                        /*    source={require('../../assets/images/exercise/Alternating.png')} */
+                                                        source={{ uri: ststus_m_f === "ชาย" ? item[1][0].thumbnail_m : item[1][0].thumbnail_f }}
                                                     />
                                                 </View>
 
