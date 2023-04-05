@@ -6,7 +6,7 @@ import ComponentsStyle from '../../constants/components';
 import { logoutUser } from "../../redux/auth";
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
-import { routeName } from "../../redux/personalUser";
+import { routeName, coreBalance } from "../../redux/personalUser";
 import Mission from '../Nutrition/Mission';
 import Modal from "react-native-modal";
 import ProgressBarAnimated from 'react-native-progress-bar-animated';
@@ -64,7 +64,7 @@ class ArticleTemplate extends Component {
             heading: heading,
             mission_activities: JSON.parse(mission_activities)
         })
-        // this.props.routeName('null');
+
 
 
 
@@ -133,18 +133,16 @@ class ArticleTemplate extends Component {
         })
     };
 
-    actionPress(id) {
+    actionPress(id, name) {
+        //  Core+Balance+Plyometric  Core+Balance
+        /*    console.log('nameaa', name); */
+        if ((name == "Core+Balance+Plyometric") || (name == "Core+Balance")) {
+            this.props.navigation.navigate("Exercise", { name: name })
+        } else {
+            this.props.setIntensityFromExArticleTemplate(id)
+            this.props.navigation.navigate("Add")
+        }
 
-        const resetAction = CommonActions.reset({
-            index: 0, // ตำแหน่งของหน้าที่จะใช้เป็นหน้าแรก
-            routes: [{
-                name: 'Add',
-            }], // เส้นทางที่ต้องการเปลี่ยน
-        });
-        // set ความเข้มไปใน redux
-        this.props.setIntensityFromExArticleTemplate(id)
-        /*      this.props.navigation.dispatch(resetAction); */
-        this.props.navigation.navigate("Add")
 
     }
 
@@ -302,7 +300,7 @@ class ArticleTemplate extends Component {
                         var score_completed = item.number_completed;
                         return (
                             <View key={i + "vid"}>
-                                <Pressable onPress={() => this.actionPress(item.id)} key={i + "tfb"} >
+                                <Pressable onPress={() => (item.name == "Core+Balance+Plyometric") || (item.name == "Core+Balance") ? null : this.actionPress(item.id, item.name)} key={i + "tfb"} >
                                     <View key={i} style={styles.row}>
                                         <View style={styles.numberView}>
                                             <AnimatedCircularProgress
@@ -346,10 +344,15 @@ class ArticleTemplate extends Component {
                                             </View>
                                         </View>
                                         <View style={styles.viewIconRight}>
-                                            <Image
-                                                style={{ height: 24, width: 24, zIndex: 1, marginRight: 8 }}
-                                                source={require('../../assets/images/icon/right.png')}
-                                            />
+                                            {
+                                                (item.name == "Core+Balance+Plyometric") || (item.name == "Core+Balance") ?
+                                                    null :
+                                                    <Image
+                                                        style={{ height: 24, width: 24, zIndex: 1, marginRight: 8 }}
+                                                        source={require('../../assets/images/icon/right.png')}
+                                                    />
+                                            }
+
                                         </View>
                                     </View>
                                 </Pressable>
@@ -750,13 +753,14 @@ const styles = StyleSheet.create({
     },
 });
 
-const mapStateToProps = ({ authUser, getData }) => {
+const mapStateToProps = ({ authUser, getData, personalDataUser }) => {
     const { user } = authUser;
+    const { coreBalanceRoute } = personalDataUser;
     const { nutrition_mission, statusGetNutritionMission, statusGetNutritionActivityIdMission, nutrition_activity_id_Mission } = getData;
-    return { nutrition_mission, statusGetNutritionMission, nutrition_activity_id_Mission, statusGetNutritionActivityIdMission, user };
+    return { nutrition_mission, statusGetNutritionMission, nutrition_activity_id_Mission, statusGetNutritionActivityIdMission, user, coreBalanceRoute };
 };
 
-const mapActionsToProps = { logoutUser, getNutritionMission, getNutritionActivityIdMission, routeName, setIntensityFromExArticleTemplate };
+const mapActionsToProps = { logoutUser, getNutritionMission, getNutritionActivityIdMission, coreBalance, setIntensityFromExArticleTemplate };
 
 export default connect(
     mapStateToProps,

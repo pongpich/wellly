@@ -53,6 +53,7 @@ class Add extends Component {
 
             this.setState({
                 isModalConter: !isModalConter,
+                study: "ทั้งหมด",
             })
 
             /*  console.log("5555", isModalConter); */

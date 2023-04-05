@@ -8,7 +8,8 @@ export const types = {
   HEALT_USER: "HEALT_USER",
   LENG_APP: "LENG_APP",
   LENG_APP: "LENG_APP",
-  ROUTE_NAME: "ROUTE_NAME"
+  ROUTE_NAME: "ROUTE_NAME",
+  COREBALNCE_BALANCE: "COREBALNCE_BALANCE"
 };
 
 
@@ -51,6 +52,14 @@ export const routeName = (route_name) => ({
 });
 
 
+export const coreBalance = (core_balance) => ({
+  type: types.COREBALNCE_BALANCE,
+  payload: {
+    core_balance,
+  },
+});
+
+
 
 
 
@@ -68,7 +77,8 @@ const INIT_STATE = {
   healtDataUser: null,
   profanity: null,
   leng: "th",
-  route_name: "null"
+  route_name: "null",
+  coreBalanceRoute: null
 };
 
 export function reducer(state = INIT_STATE, action) {
@@ -92,6 +102,11 @@ export function reducer(state = INIT_STATE, action) {
       return {
         ...state,
         route_name: action.payload,
+      };
+    case types.COREBALNCE_BALANCE:
+      return {
+        ...state,
+        coreBalanceRoute: action.payload,
       };
     default:
       return { ...state };

@@ -12,6 +12,7 @@ import { List } from 'react-native-paper';
 import { Video, AVPlaybackStatus } from 'expo-av';
 import { update_popUp_stars } from "../../redux/update";
 import { checkStar, checkTrophy, calculateWeekInProgram, convertFormatDate } from "../../helpers/utils";
+import { useRoute } from '@react-navigation/native';
 
 
 const HEADER_MAX_HEIGHT = 500;
@@ -29,11 +30,12 @@ const data2 = Array.from({ length: 30 });
 
 
 const Exercise = ({ navigation }) => {
-
+    const route = useRoute();
     const dispatch = useDispatch();
     const user = useSelector(({ authUser }) => authUser ? authUser.user : "");
     const { exerciserActivity, nutrition_activity, statusExerciserActivity, statusAllTrainingSet, allTrainingSet, statusTrainingSet, trainingSet } = useSelector(({ getData }) => getData ? getData : "");
     const { statusPopupSary } = useSelector(({ updateData }) => updateData ? updateData : "");
+    const { coreBalanceRoute } = useSelector(({ personalDataUser }) => personalDataUser ? personalDataUser : "");
 
     const [statusNotified, setStatusNotified] = useState(null);
     const [statusMission, setStatusMission] = useState(true);
@@ -166,16 +168,28 @@ const Exercise = ({ navigation }) => {
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
+
+
             dispatch(getExerciserActivity((user && user.user_id)));
             const week_program_user = calculateWeekInProgram(user.start_date);
             dispatch(getAllTrainingSet((user && user.user_id), week_program_user));
         });
 
-
-
         return unsubscribe;
 
     }, [navigation]);
+
+
+    /*   useEffect(() => {  // ตอนกดมาจากหน้าภารกิจ
+          const unsubscribe = navigation.addListener('focus', () => {
+  
+              const { name } = route.params;
+              console.log("coreBalanceRoute", name);
+          });
+  
+          return unsubscribe;
+  
+      }, [route.params]); */
 
     useEffect(() => {
         if (statusExerciserActivity === "success") {
