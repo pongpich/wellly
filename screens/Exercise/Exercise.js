@@ -116,17 +116,24 @@ const Exercise = ({ navigation }) => {
       }; */
 
     const closeeModal = (e, m) => {
+        console.log("e", e);
         setStatus_resistance("ยิม")
         setStatus_male_female("ชาย")
         setExpanded(false)
         setGroup(e)
         setGroupName(m)
-        dispatch(getTrainingSet("resistance_fullbody_gym"));
+
+        if (e === "resistance") {
+            dispatch(getTrainingSet("resistance_fullbody_gym"));
+        } else {
+            dispatch(getTrainingSet(e));
+        }
+
 
         if (statusTrainingSet === "success") {
             setIsModalVisibleVedio(!isModalVisibleVedio)
         }
-        /*    setIsModalVisibleVedio(!isModalVisibleVedio) */
+        /*  setIsModalVisibleVedio(!isModalVisibleVedio) */
 
 
     };
@@ -342,25 +349,29 @@ const Exercise = ({ navigation }) => {
                                             </View>
                                         </View>
                                     </View>
-                                    <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: 22 }}>
-                                        <Text style={styles.missionHead}>อุปกรณ์</Text>
-                                        <View>
-                                            <View style={styles.missionView}>
-                                                <Pressable style={[{ width: 63 }, status_resistance === "ยิม" ? styles.missionPre : styles.programPre]} onPress={() => statusResistance("ยิม")} >
-                                                    <Text style={[styles.mission, status_resistance === "ยิม" ? { color: colors.white } : { color: colors.persianBlue }]}>ยิม</Text>
-                                                </Pressable>
+                                    {
+                                        group === "resistance" &&
+                                        <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: 22 }}>
+                                            <Text style={styles.missionHead}>อุปกรณ์</Text>
+                                            <View>
+                                                <View style={styles.missionView}>
+                                                    <Pressable style={[{ width: 63 }, status_resistance === "ยิม" ? styles.missionPre : styles.programPre]} onPress={() => statusResistance("ยิม")} >
+                                                        <Text style={[styles.mission, status_resistance === "ยิม" ? { color: colors.white } : { color: colors.persianBlue }]}>ยิม</Text>
+                                                    </Pressable>
 
-                                                <Pressable Pressable style={[{ marginLeft: 8, width: 71 }, status_resistance === "ดัมเบล" ? styles.missionPre : styles.programPre]} onPress={() => statusResistance("ดัมเบล")} >
-                                                    <Text style={[styles.mission, status_resistance === "ดัมเบล" ? { color: colors.white } : { color: colors.persianBlue }]}>ดัมเบล</Text>
-                                                </Pressable>
-                                                <Pressable Pressable style={[{ marginLeft: 8, width: 71 }, status_resistance === "ตัวเปล่า" ? styles.missionPre : styles.programPre]} onPress={() => statusResistance("ตัวเปล่า")} >
-                                                    <Text style={[styles.mission, status_resistance === "ตัวเปล่า" ? { color: colors.white } : { color: colors.persianBlue }]}>ตัวเปล่า</Text>
-                                                </Pressable>
+                                                    <Pressable Pressable style={[{ marginLeft: 8, width: 71 }, status_resistance === "ดัมเบล" ? styles.missionPre : styles.programPre]} onPress={() => statusResistance("ดัมเบล")} >
+                                                        <Text style={[styles.mission, status_resistance === "ดัมเบล" ? { color: colors.white } : { color: colors.persianBlue }]}>ดัมเบล</Text>
+                                                    </Pressable>
+                                                    <Pressable Pressable style={[{ marginLeft: 8, width: 71 }, status_resistance === "ตัวเปล่า" ? styles.missionPre : styles.programPre]} onPress={() => statusResistance("ตัวเปล่า")} >
+                                                        <Text style={[styles.mission, status_resistance === "ตัวเปล่า" ? { color: colors.white } : { color: colors.persianBlue }]}>ตัวเปล่า</Text>
+                                                    </Pressable>
 
 
+                                                </View>
                                             </View>
                                         </View>
-                                    </View>
+                                    }
+
                                     <List.Section style={{ marginLeft: -16, marginTop: 16, zIndex: 0, marginBottom: 60 }}>
                                         <List.Accordion style={{ backgroundColor: colors.white }}
                                             title={<Text style={styles.missionHead}>ท่าฝึก</Text>}
