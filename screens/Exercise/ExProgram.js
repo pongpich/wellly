@@ -4,19 +4,60 @@ import { Video, AVPlaybackStatus } from 'expo-av';
 import Modal from "react-native-modal";
 import colors from '../../constants/colors';
 import ComponentsStyle from '../../constants/components';
+import { useSelector, useDispatch } from "react-redux";
+import { useRoute } from '@react-navigation/native';
+
+
 
 const data = Array.from({ length: 30 });
 
 
+
 const ExProgram = ({ navigation }) => {
+    const dispatch = useDispatch()
+    const { trainingSet } = useSelector(({ getData }) => getData ? getData : "");
+
     const video = React.useRef(null);
     const [status, setStatus] = React.useState({});
     const [modalVisible, setModalVisible] = React.useState(true);
     const [statusMoadal, setStatusMoadal] = React.useState(false);
     const [playVideo, setPlayVideo] = React.useState(1);
+    const [urlPlay, setUrlPlay] = React.useState(null);
+    const [playSet, setPlaySet] = React.useState(null);
+    const [playRest, setPlayRest] = React.useState(null);
+    const [playRep, setPlayRep] = React.useState(null);
+    const [playTempo, setPlayTempo] = React.useState(null);
+    const [playName, setPlayName] = React.useState(null);
+    const [ststus_m_f, setStstus_m_f] = React.useState(null);
     const deviceWidth = Math.round(Dimensions.get('window').width);
-    const clickPlayVide = (e) => {
-        setPlayVideo(e)
+
+    const route = useRoute();
+
+
+    useEffect(() => {
+        const { status_male_female } = route.params;
+        setStstus_m_f(status_male_female)
+        const dataTrainingSet = Object.entries(trainingSet);
+        const data = dataTrainingSet[0][1][0];
+        console.log('ataTrainingSet', dataTrainingSet[0][1][0].name);
+        setPlayTempo(data.tempo)
+        setPlayRep(data.rep)
+        setPlaySet(data.set)
+        setPlayName(data.name)
+        setUrlPlay(data.img_url_m)
+        setPlayVideo(1)
+    }, []);
+
+
+
+    const clickPlayVide = (e, i) => {
+
+        setPlayTempo(e.tempo)
+        setPlayRep(e.rep)
+        setPlaySet(e.set)
+        setPlayName(e.name)
+        setUrlPlay(e.img_url_m)
+        setPlayVideo(i)
         setModalVisible(!modalVisible)
     }
     const clickMoadal = () => {
@@ -24,7 +65,7 @@ const ExProgram = ({ navigation }) => {
     }
 
 
-
+    const dataTrainingSet = Object.entries(trainingSet);
 
     return (
         <View style={styles.centered}>
@@ -41,30 +82,25 @@ const ExProgram = ({ navigation }) => {
                         }}
                     />
                 </Pressable>
-                <Video
-                    ref={video}
+                <Image
                     style={styles.video}
-                    source={{
-                        uri: 'https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4',
-                    }}
-                    useNativeControls
+                    source={{ uri: urlPlay }}
                     resizeMode="contain"
-                    isLooping
-                    onPlaybackStatusUpdate={status => setStatus(() => status)}
+                    animated={true}
                 />
             </View>
             <View style={styles.headTime}>
-                <Text style={styles.nameProgram}>Prone Arm and Opposite Leg Raise</Text>
-                <Text style={styles.playTime}>0:16</Text>
+                <Text style={styles.nameProgram}>{playName}</Text>
+                {/*  <Text style={styles.playTime}>0:16</Text> */}
             </View>
             <View style={styles.setConter}>
                 <View>
                     <Text style={styles.setText}>เซต</Text>
-                    <Text style={styles.setTextBold}>2</Text>
+                    <Text style={styles.setTextBold}>{playSet}</Text>
                 </View>
                 <View style={styles.viewSet}>
                     <Text style={styles.setText}>ครั้ง</Text>
-                    <Text style={styles.setTextBold}>12-20</Text>
+                    <Text style={styles.setTextBold}>{playRep}</Text>
                 </View>
                 <View style={styles.viewSet}>
                     <Text style={styles.setText}>จังหวะ</Text>
@@ -75,9 +111,9 @@ const ExProgram = ({ navigation }) => {
                 <ScrollView>
                     <View style={{ marginBottom: 400 }}>
                         {
-                            data.map((item, i) => {
+                            dataTrainingSet && dataTrainingSet.map((item, i) => {
                                 return (
-                                    <Pressable key={i + "vp"} onPress={() => clickPlayVide(i + 1)}>
+                                    <Pressable key={i + "vp"} onPress={() => clickPlayVide(item[1][0], i + 1)}>
                                         <View style={playVideo == i + 1 ? styles.rowProgramPlay : styles.rowProgram}>
                                             <View style={1 == i + 1 ? styles.imageProgramViewSucceed : styles.imageProgramView}>
                                                 {1 === i + 1 ?
@@ -92,9 +128,9 @@ const ExProgram = ({ navigation }) => {
                                                 />
                                             </View>
                                             <View style={styles.programData} key={i + 'vd2'}>
-                                                <Text style={[styles.missionHead, 1 == i + 1 ? { color: colors.positive1 } : { color: null }]}>Core + Balance Training</Text>
+                                                <Text style={[styles.missionHead, 1 == i + 1 ? { color: colors.positive1 } : { color: null }]}>{item[1][0].name}</Text>
                                                 <Text style={styles.missionContent}>
-                                                    45 นาที
+                                                    {item[1][0].rest}
                                                 </Text>
                                             </View>
                                         </View>
@@ -106,7 +142,7 @@ const ExProgram = ({ navigation }) => {
                 </ScrollView>
             </View>
 
-            <View style={styles.centeredView}>
+            {/*    <View style={styles.centeredView}>
 
                 <Modal animationType="slide"
                     transparent={true}
@@ -143,7 +179,7 @@ const ExProgram = ({ navigation }) => {
                         </View>
                     </View>
                 </Modal>
-            </View>
+            </View> */}
         </View>
     )
 }
@@ -243,6 +279,7 @@ const styles = StyleSheet.create({
         fontSize: ComponentsStyle.fontSize16,
         fontFamily: "IBMPlexSansThai-Bold",
         color: colors.grey1,
+        width: "70%"
     },
     missionContent: {
         fontSize: ComponentsStyle.fontSize14,

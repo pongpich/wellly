@@ -7,7 +7,7 @@ import Modal from "react-native-modal";
 import { AntDesign } from '@expo/vector-icons';
 import { useSelector, useDispatch } from "react-redux";
 import { connect } from 'react-redux';
-import { getExerciserActivity } from "../../redux/get";
+import { getExerciserActivity, getAllTrainingSet, getTrainingSet } from "../../redux/get";
 import { List } from 'react-native-paper';
 import { Video, AVPlaybackStatus } from 'expo-av';
 import { update_popUp_stars } from "../../redux/update";
@@ -23,7 +23,7 @@ const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
 const data = Array.from({ length: 30 });
 const startData = Array.from({ length: 3 });
-const data2 = Array.from({ length: 3 });
+const data2 = Array.from({ length: 30 });
 
 
 
@@ -32,12 +32,12 @@ const Exercise = ({ navigation }) => {
 
     const dispatch = useDispatch();
     const user = useSelector(({ authUser }) => authUser ? authUser.user : "");
-    const { exerciserActivity, nutrition_activity, statusExerciserActivity } = useSelector(({ getData }) => getData ? getData : "");
+    const { exerciserActivity, nutrition_activity, statusExerciserActivity, statusAllTrainingSet, allTrainingSet, statusTrainingSet, trainingSet } = useSelector(({ getData }) => getData ? getData : "");
     const { statusPopupSary } = useSelector(({ updateData }) => updateData ? updateData : "");
 
     const [statusNotified, setStatusNotified] = useState(null);
     const [statusMission, setStatusMission] = useState(true);
-    const [status_male_female, setStatus_male_female] = useState(true);
+    const [status_male_female, setStatus_male_female] = useState("ชาย");
     const [modalVisibleEx, setModalVisibleEx] = useState(false);
     const [isModalVisibleEx, setIsModalVisibleEx] = useState(false);
     const [isModalVisibleVedio, setIsModalVisibleVedio] = useState(false);
@@ -52,6 +52,7 @@ const Exercise = ({ navigation }) => {
     const [week_program_user, setWeek_program_user] = useState(null);
     const [weekStaryLevel, setWeekStaryLevel] = useState(null);
     const [weekStaryMission, setWeekStaryMission] = useState(null);
+    const [urlPlay, setUrlPlay] = useState(null);
     const deviceHeight = Math.round(Dimensions.get('window').height);
     const animatedScrollYValue = useRef(new Animated.Value(0)).current;
 
@@ -98,7 +99,7 @@ const Exercise = ({ navigation }) => {
         setIsModalVisibleVedio(!isModalVisibleVedio);
 
         setTimeout(() => {
-            navigation.navigate("ExProgram")
+            navigation.navigate("ExProgram", { status_male_female: status_male_female })
         }, 200);
 
 
@@ -112,19 +113,47 @@ const Exercise = ({ navigation }) => {
       }; */
 
     const closeeModal = (e) => {
-        setIsModalVisibleVedio(!isModalVisibleVedio)
+
+        dispatch(getTrainingSet(e));
+
+        if (statusTrainingSet === "success") {
+            setIsModalVisibleVedio(!isModalVisibleVedio)
+        }
+        /*    setIsModalVisibleVedio(!isModalVisibleVedio) */
 
 
     };
-    const clickPlayExample = () => {
+    const closeeModalPlayExample = (e) => {
+
+
+        setUrlPlay(null)
 
         setIsModalVisibleExVideo(!isModalVisibleExVideo)
+
     };
+    const clickPlayExample = (e) => {
+
+        setUrlPlay(e)
+
+
+
+
+    };
+    useEffect(() => {
+
+        if (urlPlay !== null) {
+            setIsModalVisibleExVideo(!isModalVisibleExVideo)
+        }
+
+    }, [urlPlay]);
+
 
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
             dispatch(getExerciserActivity((user && user.user_id)));
+            const week_program_user = calculateWeekInProgram(user.start_date);
+            dispatch(getAllTrainingSet((user && user.user_id), week_program_user));
         });
 
 
@@ -168,9 +197,12 @@ const Exercise = ({ navigation }) => {
     }, [statusExerciserActivity])
 
     const videoPlay = () => {
+
+
         return (
+
             <View style={{ position: "relative", width: 375, alignItems: "flex-end" }}>
-                <Pressable onPress={() => clickPlayExample()} style={{ zIndex: 3, position: "absolute" }}>
+                <Pressable onPress={() => closeeModalPlayExample()} style={{ zIndex: 3, position: "absolute" }}>
                     <Image
                         source={require('../../assets/images/icon/close_white.png')}
                         style={{
@@ -179,23 +211,36 @@ const Exercise = ({ navigation }) => {
                         }}
                     />
                 </Pressable>
-                <Video
-                    ref={video}
+                {/*    <Video
+                     ref={video}
+                     style={styles.video}
+                     source={{
+                         uri: e,
+                     }}
+                     useNativeControls
+                     resizeMode="contain"
+                     isLooping
+                     onPlaybackStatusUpdate={status => setStatus(() => status)}
+                 >
+                 </Video> */}
+                <Image
                     style={styles.video}
-                    source={{
-                        uri: 'https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4',
-                    }}
-                    useNativeControls
+                    source={{ uri: urlPlay }}
                     resizeMode="contain"
-                    isLooping
-                    onPlaybackStatusUpdate={status => setStatus(() => status)}
-                >
-                </Video>
+                    animated={true}
+                />
             </View>
+
         )
+
     }
 
     const program = () => {
+        const dataTrainingSet = Object.entries(trainingSet);
+        /*  console.log("dataTrainingSet", dataTrainingSet); */
+
+
+
         return (
             <>
                 <View style={[styles.centeredVedio, { marginTop: play == true ? 0 : 150 }]}>
@@ -256,11 +301,11 @@ const Exercise = ({ navigation }) => {
                                         <Text style={styles.missionHead}>ผู้ฝึกสอน</Text>
                                         <View>
                                             <View style={styles.missionView}>
-                                                <Pressable style={[{ width: 63 }, status_male_female === true ? styles.missionPre : styles.programPre]} onPress={() => setStatus_male_female(true)} >
-                                                    <Text style={[styles.mission, status_male_female === true ? { color: colors.white } : { color: colors.persianBlue }]}>ชาย</Text>
+                                                <Pressable style={[{ width: 63 }, status_male_female === "ชาย" ? styles.missionPre : styles.programPre]} onPress={() => setStatus_male_female("ชาย")} >
+                                                    <Text style={[styles.mission, status_male_female === "ชาย" ? { color: colors.white } : { color: colors.persianBlue }]}>ชาย</Text>
                                                 </Pressable>
-                                                <Pressable style={[{ marginLeft: 8, width: 71 }, status_male_female !== true ? styles.missionPre : styles.programPre]} onPress={() => setStatus_male_female(false)} >
-                                                    <Text style={[styles.mission, status_male_female !== true ? { color: colors.white } : { color: colors.persianBlue }]}>หญิง</Text>
+                                                <Pressable style={[{ marginLeft: 8, width: 71 }, status_male_female === "หญิง" ? styles.missionPre : styles.programPre]} onPress={() => setStatus_male_female("หญิง")} >
+                                                    <Text style={[styles.mission, status_male_female === "หญิง" ? { color: colors.white } : { color: colors.persianBlue }]}>หญิง</Text>
                                                 </Pressable>
                                             </View>
                                         </View>
@@ -286,11 +331,11 @@ const Exercise = ({ navigation }) => {
                                             expanded={expanded}
                                             onPress={() => setExpanded(!expanded)}>
                                             {
-                                                data2.map((item, i) => {
+                                                dataTrainingSet && dataTrainingSet.map((item, i) => {
                                                     return (
                                                         <View style={styles.exerciseBox} key={i + "box"}>
                                                             <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-                                                                <Text style={styles.missionHead}>Single-Leg Windmill</Text>
+                                                                <Text style={styles.missionHead}>{item[1][0].name}</Text>
                                                                 <View style={{ flexDirection: "row" }}>
                                                                     <Pressable onPress={() => clickPlayExample()}>
                                                                         <Image
@@ -298,7 +343,7 @@ const Exercise = ({ navigation }) => {
                                                                             style={{ width: 24, height: 24 }}
                                                                         />
                                                                     </Pressable>
-                                                                    <Pressable onPress={() => clickPlayExample()}>
+                                                                    <Pressable onPress={() => clickPlayExample(status_male_female === "ชาย" ? item[1][0].img_url_m : item[1][0].img_url_f)}>
                                                                         <Image
                                                                             source={require('../../assets/images/icon/Play3x.png')}
                                                                             style={{ width: 24, height: 24, marginLeft: 16 }}
@@ -309,19 +354,20 @@ const Exercise = ({ navigation }) => {
                                                             <View style={{ flexDirection: "row" }}>
                                                                 <View>
                                                                     <Text style={styles.setText}>เซต</Text>
-                                                                    <Text style={styles.setText2}>2</Text>
+                                                                    <Text style={styles.setText2}>{item[1][0].set}</Text>
                                                                 </View>
                                                                 <View style={{ marginLeft: 16 }}>
                                                                     <Text style={styles.setText}>ครั้ง</Text>
-                                                                    <Text style={styles.setText2}>12-20</Text>
+                                                                    <Text style={styles.setText2}>{item[1][0].rep}</Text>
                                                                 </View>
                                                                 <View style={{ marginLeft: 16 }}>
                                                                     <Text style={styles.setText}>จังหวะ</Text>
-                                                                    <Text style={styles.setText2}>ช้า (4-6 วินาที/ครั้ง)</Text>
+                                                                    <Text style={styles.setText2}>{item[1][0].tempo}</Text>
                                                                 </View>
                                                             </View>
                                                         </View>
                                                     )
+
                                                 })
                                             }
                                         </List.Accordion>
@@ -347,6 +393,7 @@ const Exercise = ({ navigation }) => {
     }
 
 
+    /*     console.log("statusAllTrainingSet ", statusAllTrainingSet, allTrainingSet); */
 
 
     return (
@@ -419,11 +466,11 @@ const Exercise = ({ navigation }) => {
                         :
                         <>
                             {
-                                data ?
+                                allTrainingSet && allTrainingSet ?
 
-                                    data.map((item, i) => {
+                                    allTrainingSet && allTrainingSet.map((item, i) => {
                                         return (
-                                            <Pressable key={i + "vp"} onPress={() => closeeModal(1)} >
+                                            <Pressable key={i + "vp"} onPress={() => closeeModal(item.id)} >
                                                 <View key={i + "vd"} style={styles.rowProgram}>
                                                     <View style={styles.imageProgramView} key={i + "vd2"}>
                                                         <Image
@@ -432,7 +479,7 @@ const Exercise = ({ navigation }) => {
                                                         />
                                                     </View>
                                                     <View style={styles.programData}>
-                                                        <Text style={styles.missionHead}>Core + Balance Training</Text>
+                                                        <Text style={styles.missionHead}>{item.name}</Text>
                                                         <Text style={styles.missionContent} >
                                                             45 นาที
                                                         </Text>

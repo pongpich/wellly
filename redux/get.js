@@ -18,7 +18,11 @@ export const types = {
   GET_ACTIVITY_LIST_SUCCESS: "GET_ACTIVITY_LIST_SUCCESS",
   SET_INTENS_FROM_EX_ART_TEMP: "SET_INTENS_FROM_EX_ART_TEMP",
   GET_MEMBER_ACT_LOG_IN_WEEK: "GET_MEMBER_ACT_LOG_IN_WEEK",
-  GET_MEMBER_ACT_LOG_IN_WEEK_SUCCESS: "GET_MEMBER_ACT_LOG_IN_WEEK_SUCCESS"
+  GET_MEMBER_ACT_LOG_IN_WEEK_SUCCESS: "GET_MEMBER_ACT_LOG_IN_WEEK_SUCCESS",
+  GET_ALL_TRAINING_SET: "GET_ALL_TRAINING_SET",
+  GET_ALL_TRAINING_SET_SUCCESS: "GET_ALL_TRAINING_SET_SUCCESS",
+  GET_TRAINING_SET: "GET_TRAINING_SET",
+  GET_TRAINING_SET_SUCCESS: "GET_TRAINING_SET_SUCCESS",
 };
 
 export const getMemberActivityLogInWeek = (user_id) => ({
@@ -72,6 +76,19 @@ export const getExerciserActivity = (user_id) => ({
   type: types.GET_EXERCISE_ACTIVITY,
   payload: {
     user_id
+  }
+});
+export const getAllTrainingSet = (user_id, week_in_program) => ({
+  type: types.GET_ALL_TRAINING_SET,
+  payload: {
+    user_id,
+    week_in_program
+  }
+});
+export const getTrainingSet = (set_code) => ({
+  type: types.GET_TRAINING_SET,
+  payload: {
+    set_code
   }
 });
 
@@ -164,6 +181,37 @@ const getExerciserActivitySagaAsync = async (user_id) => {
     /*   console.log("apiResult", apiResult); */
     return apiResult
   } catch (error) {
+    return { error, messsage: error.message };
+  }
+};
+const getAllTrainingSetSagaAsync = async (user_id, week_in_program) => {
+
+  try {
+    const apiResult = await API.get("planforfit", "/getAllTrainingSet", {
+      queryStringParameters: {
+        user_id,
+        week_in_program
+      }
+    });
+
+    return apiResult
+  } catch (error) {
+    console.log("error", error);
+    return { error, messsage: error.message };
+  }
+};
+const getTrainingSetSagaAsync = async (set_code) => {
+
+  try {
+    const apiResult = await API.get("planforfit", "/getTrainingSet", {
+      queryStringParameters: {
+        set_code
+      }
+    });
+
+    return apiResult
+  } catch (error) {
+    console.log("error", error);
     return { error, messsage: error.message };
   }
 };
@@ -298,6 +346,48 @@ function* getExerciserActivitySaga({ payload }) {
     console.log("error form getExerciserActivitySaga", error);
   }
 }
+function* getAllTrainingSetSaga({ payload }) {
+  const {
+    user_id,
+    week_in_program
+  } = payload
+
+  try {
+    const apiResult = yield call(
+      getAllTrainingSetSagaAsync,
+      user_id,
+      week_in_program
+    )
+    //console.log("apiResult", apiResult);
+    yield put({
+      type: types.GET_ALL_TRAINING_SET_SUCCESS,
+      payload: apiResult.results.allTrainingSet
+    })
+
+  } catch (error) {
+    console.log("error form getAllTrainingSetSaga", error);
+  }
+}
+function* getTrainingSetSaga({ payload }) {
+  const {
+    set_code
+  } = payload
+
+  try {
+    const apiResult = yield call(
+      getTrainingSetSagaAsync,
+      set_code
+    )
+    //console.log("apiResult", apiResult);
+    yield put({
+      type: types.GET_TRAINING_SET_SUCCESS,
+      payload: apiResult.results.trainingSet
+    })
+
+  } catch (error) {
+    console.log("error form getTrainingSetSaga", error);
+  }
+}
 
 function* getMemberActivityLogInWeekSaga({ payload }) {
   const {
@@ -341,6 +431,12 @@ export function* watchGetNutritionActivityIdMission() {
 export function* watchGetExerciserActivity() {
   yield takeEvery(types.GET_EXERCISE_ACTIVITY, getExerciserActivitySaga)
 }
+export function* watchGetAllTrainingSet() {
+  yield takeEvery(types.GET_ALL_TRAINING_SET, getAllTrainingSetSaga)
+}
+export function* watchGetTrainingSet() {
+  yield takeEvery(types.GET_TRAINING_SET, getTrainingSetSaga)
+}
 export function* watchGetMemberActivityLogInWeek() {
   yield takeEvery(types.GET_MEMBER_ACT_LOG_IN_WEEK, getMemberActivityLogInWeekSaga)
 }
@@ -354,6 +450,8 @@ export function* saga() {
     fork(watchGetExerciserActivity),
     fork(watchGetActivityList),
     fork(watchGetMemberActivityLogInWeek),
+    fork(watchGetAllTrainingSet),
+    fork(watchGetTrainingSet),
   ]);
 }
 
@@ -377,7 +475,11 @@ const INIT_STATE = {
   activity_list: null,
   intensityFromExArticleTemplate: null,
   statusGetMemberActLogInWeek: "default",
-  member_activity_log_in_week: null
+  member_activity_log_in_week: null,
+  statusAllTrainingSet: "default",
+  allTrainingSet: null,
+  statusTrainingSet: "default",
+  trainingSet: null,
 };
 
 export function reducer(state = INIT_STATE, action) {
@@ -457,6 +559,28 @@ export function reducer(state = INIT_STATE, action) {
         ...state,
         statusExerciserActivity: "success",
         exerciserActivity: action.payload,
+      }
+    case types.GET_ALL_TRAINING_SET:
+      return {
+        ...state,
+        statusAllTrainingSet: "loading",
+      }
+    case types.GET_ALL_TRAINING_SET_SUCCESS:
+      return {
+        ...state,
+        statusAllTrainingSet: "success",
+        allTrainingSet: action.payload,
+      }
+    case types.GET_TRAINING_SET:
+      return {
+        ...state,
+        statusTrainingSet: "loading",
+      }
+    case types.GET_TRAINING_SET_SUCCESS:
+      return {
+        ...state,
+        statusTrainingSet: "success",
+        trainingSet: action.payload,
       }
     case types.SET_INTENS_FROM_EX_ART_TEMP:
       return {
