@@ -22,6 +22,7 @@ const ExProgram = ({ navigation }) => {
     const [modalVisible, setModalVisible] = React.useState(true);
     const [statusMoadal, setStatusMoadal] = React.useState(false);
     const [playVideo, setPlayVideo] = React.useState(1);
+    const [finishedPlayingSet, setFinishedPlayingSet] = React.useState([]);
     const [urlPlay, setUrlPlay] = React.useState(null);
     const [playSet, setPlaySet] = React.useState(null);
     const [playRest, setPlayRest] = React.useState(null);
@@ -80,15 +81,27 @@ const ExProgram = ({ navigation }) => {
         }
     }
 
+    const finishedPlaying = () => {
+
+        setFinishedPlayingSet((prevArray) => [...prevArray, playVideo]);
+    }
+
 
     const clickMoadal = () => {
         setModalVisible(!modalVisible)
     }
+    /*     const finishedPlayingMap = (e) => {
+    
+            finishedPlayingSet && finishedPlayingSet.filter((val, j) => {
+    
+                return val = e;
+            })
+        } */
 
 
     const dataTrainingSet = trainingSet && Object.entries(trainingSet);
-    /* 
-        console.log("urlPlay", urlPlay); */
+
+    console.log("finishedPlayingSet", finishedPlayingSet);
 
     return (
         <View style={styles.centered}>
@@ -134,13 +147,24 @@ const ExProgram = ({ navigation }) => {
                 <View style={styles.conterVideo}>
                     <ScrollView>
                         <View style={{ marginBottom: 400, }}>
+                            {/*   {dataTrainingSet.map((item) => {
+                                const bgColor = finishedPlayingSet.includes(item) ? '#00FF00' : '#FFFFFF';
+                                return (
+                                    <View key={item} style={{ backgroundColor: bgColor, padding: 10 }}>
+                                        <Text>{item}</Text>
+                                    </View>
+                                );
+                            })} */}
                             {
                                 dataTrainingSet && dataTrainingSet.map((item, i) => {
+                                    console.log("finishedPlayingSet", finishedPlayingSet);
+                                    /*    const bgColor = finishedPlayingSet.includes(i + 1) ? styles.rowProgramPlay : styles.rowProgram; */
+
                                     return (
                                         <Pressable key={i + "vp"} onPress={() => clickPlayVide(item[1][0], i + 1)}>
                                             <View style={playVideo == i + 1 ? styles.rowProgramPlay : styles.rowProgram}>
-                                                <View style={1 == i + 1 ? styles.imageProgramViewSucceed : styles.imageProgramView}>
-                                                    {1 === i + 1 ?
+                                                <View style={finishedPlayingSet.includes(i + 1) ? styles.imageProgramViewSucceed : styles.imageProgramView}>
+                                                    {finishedPlayingSet.includes(i + 1) ?
                                                         <Image
                                                             style={styles.checkIcon}
                                                             source={require('../../assets/images/exercise/Tick3x.png')}
@@ -151,8 +175,10 @@ const ExProgram = ({ navigation }) => {
                                                         source={require('../../assets/images/exercise/Alternating.png')}
                                                     />
                                                 </View>
+
+
                                                 <View style={styles.programData} key={i + 'vd2'}>
-                                                    <Text style={[styles.missionHead, 1 == i + 1 ? { color: colors.positive1 } : { color: null }]}>{item[1][0].name}</Text>
+                                                    <Text style={[styles.missionHead, finishedPlayingSet.includes(i + 1) ? { color: colors.positive1 } : { color: null }]}>{item[1][0].name}</Text>
                                                     <Text style={styles.missionContent}>
                                                         {item[1][0].rest}
                                                     </Text>
@@ -168,15 +194,20 @@ const ExProgram = ({ navigation }) => {
                     </ScrollView>
                 </View>
             </View>
-            <View style={styles.buotonBadgeBox}>
-                <View style={{ zIndex: 10 }}>
-                    <View style={ComponentsStyle.button} >
-                        <Text style={ComponentsStyle.textButton}>
-                            เล่นท่านี้เสร็จแล้ว
-                        </Text>
+            {
+                finishedPlayingSet.includes(playVideo) ? null :
+                    <View style={styles.buotonBadgeBox}>
+                        <Pressable onPress={() => finishedPlaying()}>
+                            <View style={ComponentsStyle.button} >
+                                <Text style={ComponentsStyle.textButton}>
+                                    เล่นท่านี้เสร็จแล้ว
+                                </Text>
+                            </View>
+                        </Pressable>
                     </View>
-                </View>
-            </View>
+
+            }
+
             {/* <View style={styles.centeredView}>
 
                 <Modal animationType="slide"
@@ -379,6 +410,8 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     buotonBadgeBox: {
+
+        marginTop: 30,
         width: "100%",
         paddingHorizontal: 16,
         flex: 0.1,
@@ -387,13 +420,11 @@ const styles = StyleSheet.create({
         shadowColor: colors.white,
         shadowOffset: {
             width: 0,
-            height: 12,
+            height: 10,
         },
-        shadowOpacity: 0.58,
-        shadowRadius: 16.00,
-
-        elevation: 24,
-        /*         paddingTop: 16 */
+        shadowOpacity: 32,
+        shadowRadius: 32.00,
+        elevation: 1,
     },
 });
 
