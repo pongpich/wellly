@@ -148,19 +148,48 @@ class ArticleTemplate extends Component {
 
     }
 
+    calPercent(summaxScoreCompleted, sumMaxNumber) {
+        const maxPercent = 100;
+        let currPercent = summaxScoreCompleted * (100 / sumMaxNumber)
+        if (currPercent > maxPercent) {
+            currPercent = 100
+        }
+        return currPercent;
+    }
+
+    calMaxScore(data) {
+        let maxScore = 0;
+        data && data.map((item, i) => {
+            maxScore += item.number * item.score;
+        })
+
+        return maxScore;
+    }
+
+    calScoreSum(data) {
+        let sumScore = 0;
+
+        data && data.map((item, i) => {
+            const maxScore = item.number * item.score;
+
+            if ((item.number_completed * item.score) > maxScore) {
+                sumScore += maxScore;
+            } else {
+                sumScore += item.number_completed * item.score;
+            }
+            //sumScore += item.number_completed * item.score;
+        })
+
+        return sumScore;
+    }
+
     missionDataView(data) {
         const { expanded, start, mission_activities } = this.state
         const scoreProgress = 50;
         const deviceWidth = Math.round(Dimensions.get('window').width - 30);
         const deviceHeight = Math.round(Dimensions.get('window').height + 100);
-        const maxNumber = []
-        const maxScoreCompleted = []
-        data && data.map((item, i) => {
-            maxScoreCompleted.push(item.number_completed)
-            maxNumber.push(item.number)
-        })
-        const sumMaxNumber = maxNumber.reduce((partialSum, a) => partialSum + a, 0);
-        const summaxScoreCompleted = maxScoreCompleted.reduce((partialSum, a) => partialSum + a, 0);
+        const sumMaxNumber = this.calMaxScore(data);
+        const summaxScoreCompleted = this.calScoreSum(data);
 
 
 
@@ -182,7 +211,7 @@ class ArticleTemplate extends Component {
                 <View style={{ backgroundColor: colors.grey6, borderRadius: 4, marginTop: 8, zIndex: 1 }}>
                     <ProgressBarAnimated
                         width={deviceWidth}
-                        value={(summaxScoreCompleted * (100 / sumMaxNumber))}
+                        value={this.calPercent(summaxScoreCompleted, sumMaxNumber)}
                         height={24}
                         marginRight={150}
                         backgroundColor={colors.orange}
