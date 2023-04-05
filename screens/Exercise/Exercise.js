@@ -268,7 +268,11 @@ const Exercise = ({ navigation }) => {
                                         borderTopLeftRadius: 16,
                                         borderTopRightRadius: 16,
                                     }}
-                                    source={require('../../assets/images/exercise/Alternating.png')}
+                                    source={
+                                        group === "core_balance" ? require('../../assets/images/cover_page/core_balance.jpg') :
+                                            group === "core_balance_plyo" ? require('../../assets/images/cover_page/core_balance_plyo.jpg') :
+                                                group === "flexibility" ? require('../../assets/images/cover_page/flexibility.jpg') :
+                                                    require('../../assets/images/cover_page/resistance.jpg')}
                                 />
                                 <View style={{ position: "absolute", width: "100%", alignItems: "flex-end" }}>
                                     <Pressable onPress={() => closeeModal()}>
@@ -349,7 +353,7 @@ const Exercise = ({ navigation }) => {
                                             onPress={() => setExpanded(!expanded)}>
                                             {
                                                 dataTrainingSet && dataTrainingSet.map((item, i) => {
-                                                    console.log("item", item);
+                                                    /*             console.log("item", item); */
                                                     return (
                                                         <View style={styles.exerciseBox} key={i + "box"}>
                                                             <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
@@ -493,14 +497,18 @@ const Exercise = ({ navigation }) => {
                                                     <View style={styles.imageProgramView} key={i + "vd2"}>
                                                         <Image
                                                             style={{ height: "100%", width: "100%", zIndex: 1 }}
-                                                            source={require('../../assets/images/exercise/Group13765.png')}
+                                                            source={
+                                                                item.id === "core_balance" ? require('../../assets/images/cover_page/core_balance.jpg') :
+                                                                    item.id === "core_balance_plyo" ? require('../../assets/images/cover_page/core_balance_plyo.jpg') :
+                                                                        item.id === "flexibility" ? require('../../assets/images/cover_page/flexibility.jpg') :
+                                                                            require('../../assets/images/cover_page/resistance.jpg')}
                                                         />
                                                     </View>
                                                     <View style={styles.programData}>
                                                         <Text style={styles.missionHead}>{item.name}</Text>
-                                                        <Text style={styles.missionContent} >
+                                                        {/*  <Text style={styles.missionContent} >
                                                             45 นาที
-                                                        </Text>
+                                                        </Text> */}
                                                     </View>
                                                 </View>
                                             </Pressable>
