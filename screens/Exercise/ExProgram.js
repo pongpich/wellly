@@ -37,7 +37,7 @@ const ExProgram = ({ navigation }) => {
     useEffect(() => {
         const { status_male_female } = route.params;
         setStstus_m_f(status_male_female)
-        const dataTrainingSet = Object.entries(trainingSet);
+        const dataTrainingSet = trainingSet && Object.entries(trainingSet);
         const data = dataTrainingSet[0][1][0];
         console.log('ataTrainingSet', dataTrainingSet[0][1][0]);
         setPlayTempo(data.tempo)
@@ -84,84 +84,96 @@ const ExProgram = ({ navigation }) => {
     }
 
 
-    const dataTrainingSet = Object.entries(trainingSet);
+    const dataTrainingSet = trainingSet && Object.entries(trainingSet);
 
     return (
         <View style={styles.centered}>
-            <View style={{ height: 44, zIndex: 10, width: "100%", backgroundColor: colors.white }}>
-                <StatusBar barStyle="dark-content" />
-            </View>
-            <View style={{ position: "relative", height: 212, width: deviceWidth, alignItems: "flex-end" }}>
-                <Pressable onPress={() => navigation.popToTop()} style={{ zIndex: 3, position: "absolute" }}>
+            <View style={{ flex: 0.9 }}>
+                <View style={{ height: 44, zIndex: 10, width: "100%", backgroundColor: colors.white }}>
+                    <StatusBar barStyle="dark-content" />
+                </View>
+                <View style={{ position: "relative", height: 212, width: deviceWidth, alignItems: "flex-end" }}>
+                    <Pressable onPress={() => navigation.popToTop()} style={{ zIndex: 3, position: "absolute" }}>
+                        <Image
+                            source={require('../../assets/images/icon/close_white.png')}
+                            style={{
+                                width: 24, height: 24, marginTop: 16, marginRight: 16
+
+                            }}
+                        />
+                    </Pressable>
                     <Image
-                        source={require('../../assets/images/icon/close_white.png')}
-                        style={{
-                            width: 24, height: 24, marginTop: 16, marginRight: 16
-
-                        }}
+                        style={styles.video}
+                        source={{ uri: urlPlay }}
+                        resizeMode="contain"
+                        animated={true}
                     />
-                </Pressable>
-                <Image
-                    style={styles.video}
-                    source={{ uri: urlPlay }}
-                    resizeMode="contain"
-                    animated={true}
-                />
-            </View>
-            <View style={styles.headTime}>
-                <Text style={styles.nameProgram}>{playName}</Text>
-                {/*  <Text style={styles.playTime}>0:16</Text> */}
-            </View>
-            <View style={styles.setConter}>
-                <View>
-                    <Text style={styles.setText}>เซต</Text>
-                    <Text style={styles.setTextBold}>{playSet}</Text>
                 </View>
-                <View style={styles.viewSet}>
-                    <Text style={styles.setText}>ครั้ง</Text>
-                    <Text style={styles.setTextBold}>{playRep}</Text>
+                <View style={styles.headTime}>
+                    <Text style={styles.nameProgram}>{playName}</Text>
+                    {/*  <Text style={styles.playTime}>0:16</Text> */}
                 </View>
-                <View style={styles.viewSet}>
-                    <Text style={styles.setText}>จังหวะ</Text>
-                    <Text style={styles.setTextBold}>ช้า (4-6 วินาที/ครั้ง)</Text>
-                </View>
-            </View>
-            <View style={styles.conterVideo}>
-                <ScrollView>
-                    <View style={{ marginBottom: 400 }}>
-                        {
-                            dataTrainingSet && dataTrainingSet.map((item, i) => {
-                                return (
-                                    <Pressable key={i + "vp"} onPress={() => clickPlayVide(item[1][0], i + 1)}>
-                                        <View style={playVideo == i + 1 ? styles.rowProgramPlay : styles.rowProgram}>
-                                            <View style={1 == i + 1 ? styles.imageProgramViewSucceed : styles.imageProgramView}>
-                                                {1 === i + 1 ?
-                                                    <Image
-                                                        style={styles.checkIcon}
-                                                        source={require('../../assets/images/exercise/Tick3x.png')}
-                                                    />
-                                                    : null}
-                                                <Image
-                                                    style={{ height: 80, width: 140, zIndex: 1, opacity: 0.3, borderRadius: 8 }}
-                                                    source={require('../../assets/images/exercise/Alternating.png')}
-                                                />
-                                            </View>
-                                            <View style={styles.programData} key={i + 'vd2'}>
-                                                <Text style={[styles.missionHead, 1 == i + 1 ? { color: colors.positive1 } : { color: null }]}>{item[1][0].name}</Text>
-                                                <Text style={styles.missionContent}>
-                                                    {item[1][0].rest}
-                                                </Text>
-                                            </View>
-                                        </View>
-                                    </Pressable>
-                                )
-                            })
-                        }
+                <View style={styles.setConter}>
+                    <View>
+                        <Text style={styles.setText}>เซต</Text>
+                        <Text style={styles.setTextBold}>{playSet}</Text>
                     </View>
-                </ScrollView>
-            </View>
+                    <View style={styles.viewSet}>
+                        <Text style={styles.setText}>ครั้ง</Text>
+                        <Text style={styles.setTextBold}>{playRep}</Text>
+                    </View>
+                    <View style={styles.viewSet}>
+                        <Text style={styles.setText}>จังหวะ</Text>
+                        <Text style={styles.setTextBold}>ช้า (4-6 วินาที/ครั้ง)</Text>
+                    </View>
+                </View>
+                <View style={styles.conterVideo}>
+                    <ScrollView>
+                        <View style={{ marginBottom: 400, }}>
+                            {
+                                dataTrainingSet && dataTrainingSet.map((item, i) => {
+                                    return (
+                                        <Pressable key={i + "vp"} onPress={() => clickPlayVide(item[1][0], i + 1)}>
+                                            <View style={playVideo == i + 1 ? styles.rowProgramPlay : styles.rowProgram}>
+                                                <View style={1 == i + 1 ? styles.imageProgramViewSucceed : styles.imageProgramView}>
+                                                    {1 === i + 1 ?
+                                                        <Image
+                                                            style={styles.checkIcon}
+                                                            source={require('../../assets/images/exercise/Tick3x.png')}
+                                                        />
+                                                        : null}
+                                                    <Image
+                                                        style={{ height: 80, width: 140, zIndex: 1, opacity: 0.3, borderRadius: 8 }}
+                                                        source={require('../../assets/images/exercise/Alternating.png')}
+                                                    />
+                                                </View>
+                                                <View style={styles.programData} key={i + 'vd2'}>
+                                                    <Text style={[styles.missionHead, 1 == i + 1 ? { color: colors.positive1 } : { color: null }]}>{item[1][0].name}</Text>
+                                                    <Text style={styles.missionContent}>
+                                                        {item[1][0].rest}
+                                                    </Text>
+                                                </View>
+                                            </View>
+                                        </Pressable>
+                                    )
+                                })
+                            }
 
-            {/*    <View style={styles.centeredView}>
+                        </View>
+
+                    </ScrollView>
+                </View>
+            </View>
+            <View style={styles.buotonBadgeBox}>
+                <View style={{ zIndex: 10 }}>
+                    <View style={ComponentsStyle.button} >
+                        <Text style={ComponentsStyle.textButton}>
+                            เล่นท่านี้เสร็จแล้ว
+                        </Text>
+                    </View>
+                </View>
+            </View>
+            {/* <View style={styles.centeredView}>
 
                 <Modal animationType="slide"
                     transparent={true}
@@ -253,7 +265,7 @@ const styles = StyleSheet.create({
     },
     conterVideo: {
         marginTop: 32,
-
+        zIndex: 1
 
     },
     rowProgram: {
@@ -361,6 +373,23 @@ const styles = StyleSheet.create({
         fontFamily: "IBMPlexSansThai-Bold",
         color: colors.white,
         alignItems: "center"
+    },
+    buotonBadgeBox: {
+        width: "100%",
+        paddingHorizontal: 16,
+        flex: 0.1,
+        zIndex: 0,
+        backgroundColor: colors.white,
+        shadowColor: colors.white,
+        shadowOffset: {
+            width: 0,
+            height: 12,
+        },
+        shadowOpacity: 0.58,
+        shadowRadius: 16.00,
+
+        elevation: 24,
+        /*         paddingTop: 16 */
     },
 });
 

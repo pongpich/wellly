@@ -52,6 +52,8 @@ const Exercise = ({ navigation }) => {
     const [week_program_user, setWeek_program_user] = useState(null);
     const [weekStaryLevel, setWeekStaryLevel] = useState(null);
     const [weekStaryMission, setWeekStaryMission] = useState(null);
+    const [group, setGroup] = useState(null);
+    const [groupName, setGroupName] = useState(null);
     const [urlPlay, setUrlPlay] = useState(null);
     const deviceHeight = Math.round(Dimensions.get('window').height);
     const animatedScrollYValue = useRef(new Animated.Value(0)).current;
@@ -112,9 +114,18 @@ const Exercise = ({ navigation }) => {
           })
       }; */
 
-    const closeeModal = (e) => {
+    const closeeModal = (e, m) => {
+        console.log('e', e);
 
-        dispatch(getTrainingSet(e));
+        setGroup(e)
+        setGroupName(m)
+        if (e === "resistance") {
+            dispatch(getTrainingSet("resistance_fullbody_gym"));
+        } else {
+            dispatch(getTrainingSet(e));
+        }
+
+
 
         if (statusTrainingSet === "success") {
             setIsModalVisibleVedio(!isModalVisibleVedio)
@@ -132,6 +143,7 @@ const Exercise = ({ navigation }) => {
 
     };
     const clickPlayExample = (e) => {
+
 
         setUrlPlay(e)
 
@@ -236,7 +248,7 @@ const Exercise = ({ navigation }) => {
     }
 
     const program = () => {
-        const dataTrainingSet = Object.entries(trainingSet);
+        const dataTrainingSet = trainingSet && Object.entries(trainingSet);
         /*  console.log("dataTrainingSet", dataTrainingSet); */
 
 
@@ -275,10 +287,10 @@ const Exercise = ({ navigation }) => {
                             </View>
                             <ScrollView>
                                 <View style={{ marginTop: 16, marginHorizontal: 16, height: "auto" }}>
-                                    <Text style={styles.textModeHead}>Core + Balance Training</Text>
+                                    <Text style={styles.textModeHead}>{groupName}</Text>
                                     <Text style={styles.textModeConter}>เสริมสร้างความแข็งแรงของกล้ามท้อง และ ลำตัว ป้องกันการบาดเจ็บกระดูกสันหลัง เคลื่อนไหวได้ปลอดภัย ลดอาการปวดหลัง</Text>
                                     <View style={{ flexDirection: "row", marginTop: 16 }}>
-                                        <View style={{ flexDirection: "row" }}>
+                                        {/*      <View style={{ flexDirection: "row" }}>
                                             <Image
                                                 style={{
                                                     height: 16, width: 16,
@@ -286,8 +298,8 @@ const Exercise = ({ navigation }) => {
                                                 source={require('../../assets/images/icon/Clock3x.png')}
                                             />
                                             <Text style={styles.textMinute}>45 นาที</Text>
-                                        </View>
-                                        <View style={{ flexDirection: "row", marginLeft: 37 }}>
+                                        </View> */}
+                                        <View style={{ flexDirection: "row",/*  marginLeft: 37 */ }}>
                                             <Image
                                                 style={{
                                                     height: 16, width: 16,
@@ -304,9 +316,14 @@ const Exercise = ({ navigation }) => {
                                                 <Pressable style={[{ width: 63 }, status_male_female === "ชาย" ? styles.missionPre : styles.programPre]} onPress={() => setStatus_male_female("ชาย")} >
                                                     <Text style={[styles.mission, status_male_female === "ชาย" ? { color: colors.white } : { color: colors.persianBlue }]}>ชาย</Text>
                                                 </Pressable>
-                                                <Pressable style={[{ marginLeft: 8, width: 71 }, status_male_female === "หญิง" ? styles.missionPre : styles.programPre]} onPress={() => setStatus_male_female("หญิง")} >
-                                                    <Text style={[styles.mission, status_male_female === "หญิง" ? { color: colors.white } : { color: colors.persianBlue }]}>หญิง</Text>
-                                                </Pressable>
+                                                {
+                                                    group === "resistance" &&
+                                                    <Pressable Pressable style={[{ marginLeft: 8, width: 71 }, status_male_female === "หญิง" ? styles.missionPre : styles.programPre]} onPress={() => setStatus_male_female("หญิง")} >
+                                                        <Text style={[styles.mission, status_male_female === "หญิง" ? { color: colors.white } : { color: colors.persianBlue }]}>หญิง</Text>
+                                                    </Pressable>
+
+                                                }
+
                                             </View>
                                         </View>
                                     </View>
@@ -332,6 +349,7 @@ const Exercise = ({ navigation }) => {
                                             onPress={() => setExpanded(!expanded)}>
                                             {
                                                 dataTrainingSet && dataTrainingSet.map((item, i) => {
+                                                    console.log("item", item);
                                                     return (
                                                         <View style={styles.exerciseBox} key={i + "box"}>
                                                             <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
@@ -376,7 +394,7 @@ const Exercise = ({ navigation }) => {
                             </ScrollView>
                         </View>
                     </View>
-                </View>
+                </View >
                 <Text style={styles.textSub}>โปรแกรมจะบันทึกคะแนนเมื่อเล่นวีดีโอจนจบ</Text>
                 <View style={styles.boxSub}>
                     <Pressable onPress={() => clickProgram()}>
@@ -470,7 +488,7 @@ const Exercise = ({ navigation }) => {
 
                                     allTrainingSet && allTrainingSet.map((item, i) => {
                                         return (
-                                            <Pressable key={i + "vp"} onPress={() => closeeModal(item.id)} >
+                                            <Pressable key={i + "vp"} onPress={() => closeeModal(item.id, item.name)} >
                                                 <View key={i + "vd"} style={styles.rowProgram}>
                                                     <View style={styles.imageProgramView} key={i + "vd2"}>
                                                         <Image
