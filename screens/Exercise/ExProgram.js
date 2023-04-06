@@ -6,6 +6,8 @@ import colors from '../../constants/colors';
 import ComponentsStyle from '../../constants/components';
 import { useSelector, useDispatch } from "react-redux";
 import { useRoute } from '@react-navigation/native';
+import { updateNumberCompleted } from "../../redux/update";
+import { calculateWeekInProgram } from "../../helpers/utils";
 
 
 
@@ -16,6 +18,7 @@ const data = Array.from({ length: 30 });
 const ExProgram = ({ navigation }) => {
     const dispatch = useDispatch()
     const { trainingSet } = useSelector(({ getData }) => getData ? getData : "");
+    const user = useSelector(({ authUser }) => authUser ? authUser.user : "");
 
     const video = React.useRef(null);
     const [status, setStatus] = React.useState({});
@@ -81,10 +84,7 @@ const ExProgram = ({ navigation }) => {
         }
     }
 
-    const finishedPlaying = () => {
 
-        setFinishedPlayingSet((prevArray) => [...prevArray, playVideo]);
-    }
 
 
     const clickMoadal = () => {
@@ -101,6 +101,30 @@ const ExProgram = ({ navigation }) => {
 
     const dataTrainingSet = trainingSet && Object.entries(trainingSet);
 
+    const finishedPlaying = () => {
+        setFinishedPlayingSet((prevArray) => [...prevArray, playVideo]);
+    }
+
+    useEffect(() => {
+        const { category } = route.params;
+        const numbCompleted = finishedPlayingSet.length;
+        const dataLength = dataTrainingSet.length;
+        const week_program_user = calculateWeekInProgram(user.start_date);
+
+        //ถ้าออกกำลังกายครบทุกท่า สั่งให้้อัพเดทคะแนน
+        if (numbCompleted >= dataLength) {
+            dispatch(updateNumberCompleted(
+                user.user_id,
+                category,
+                week_program_user,
+                null,
+                null,
+                null,
+                null,
+                null
+            ));
+        }
+    }, [finishedPlayingSet]);
 
     return (
         <View style={styles.centered}>

@@ -102,9 +102,8 @@ const Exercise = ({ navigation }) => {
     }
     const clickProgram = () => {
         setIsModalVisibleVedio(!isModalVisibleVedio);
-
         setTimeout(() => {
-            navigation.navigate("ExProgram", { status_male_female: status_male_female })
+            navigation.navigate("ExProgram", { status_male_female: status_male_female, category: group })
         }, 200);
 
 
