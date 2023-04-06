@@ -135,12 +135,11 @@ class ArticleTemplate extends Component {
 
     actionPress(id, name) {
         //  Core+Balance+Plyometric  Core+Balance
-        /*    console.log('nameaa', name); */
         if ((name == "Core+Balance+Plyometric") || (name == "Core+Balance")) {
             this.props.navigation.navigate("Exercise", { name: name })
         } else {
             this.props.setIntensityFromExArticleTemplate(id)
-            this.props.navigation.navigate("Add")
+            this.props.navigation.navigate("Add", { activity_id: id })
         }
 
 

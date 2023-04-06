@@ -252,7 +252,9 @@ class Add extends Component {
             isModalConter: false,
             isModalVisible: false
         })
-        this.props.navigation.navigate("AddActivity", { activity: activity, intensity: intensity, type: type })
+
+        const { activity_id } = this.props.route.params;
+        this.props.navigation.navigate("AddActivity", { activity: activity, intensity: intensity, type: type, activity_id: activity_id })
     }
 
     setMessage(e) {
