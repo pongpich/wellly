@@ -192,7 +192,7 @@ class ArticleTemplate extends Component {
 
 
         return (
-            <View style={{ flex: 1, marginTop: 24, marginHorizontal: 16, height: deviceHeight }} key={"vre"}>
+            <View style={{ flex: 1, marginTop: 24, marginHorizontal: 16, height: deviceHeight, marginBottom: 80 }} key={"vre"}>
                 <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                     <Text style={styles.target}>เป้าหมายสัปดาห์นี้</Text>
                     <View style={{ flexDirection: "row" }}>
@@ -293,11 +293,11 @@ class ArticleTemplate extends Component {
                 <Text style={styles.challenge}>ชาเลนจ์</Text>
                 {
                     data && data.map((item, i) => {
-
+                        console.log("item", item);
                         var dataLength = data.length;
                         const multiple = (100 / item.number) * item.number_completed;
-                        var maxScore = item.number;
-                        var score_completed = item.number_completed;
+                        var maxScore = item.number * item.score;
+                        var score_completed = item.number_completed * item.score;
                         return (
                             <View key={i + "vid"}>
                                 <Pressable onPress={() => (item.name == "Core+Balance+Plyometric") || (item.name == "Core+Balance") ? null : this.actionPress(item.id, item.name)} key={i + "tfb"} >
