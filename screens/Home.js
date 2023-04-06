@@ -200,7 +200,7 @@ class Home extends Component {
                                 return (
                                     <View key={i + "rv"}>
                                         <Pressable
-                                            onPress={() => this.actionPress(item.id)}
+                                            onPress={(item.name == "Core+Balance+Plyometric") || (item.name == "Core+Balance") ? null : () => this.actionPress(item.id)}
                                         >
                                             <View key={i + "h"} style={{ flexDirection: "row", marginBottom: 16 }}>
                                                 <View style={styles.numberView} key={i + "hom"}>
@@ -244,12 +244,16 @@ class Home extends Component {
                                                         }
                                                     </View>
                                                 </View>
-                                                <View style={styles.viewIconRight} key={i + "home6"}>
-                                                    <Image
-                                                        style={{ height: 24, width: 24, zIndex: 1, marginRight: 8 }}
-                                                        source={require('../assets/images/icon/right.png')}
-                                                        key={i + "home7"} />
-                                                </View>
+                                                {
+                                                    (item.name == "Core+Balance+Plyometric") || (item.name == "Core+Balance") ? null :
+                                                        <View style={styles.viewIconRight} key={i + "home6"}>
+                                                            <Image
+                                                                style={{ height: 24, width: 24, zIndex: 1, marginRight: 8 }}
+                                                                source={require('../assets/images/icon/right.png')}
+                                                                key={i + "home7"} />
+                                                        </View>
+                                                }
+
 
                                             </View>
                                         </Pressable>
