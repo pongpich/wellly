@@ -194,8 +194,8 @@ class Home extends Component {
                             latest_exercise_mission.map((item, i) => {
                                 var dataLength = latest_exercise_mission.length;
                                 const multiple = (100 / item.number) * item.number_completed;
-                                var maxScore = item.number;
-                                var score_completed = item.number_completed;
+                                var maxScore = item.number * item.score;
+                                var score_completed = item.number_completed * item.score;
 
                                 return (
                                     <View key={i + "rv"}>
