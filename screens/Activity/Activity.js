@@ -198,7 +198,7 @@ const Activity = ({ navigation }) => {
                                                             {item.intensity === 'vigorous_intensity' && 'เข้มข้นสูง'}
                                                         </Text>
                                                     </View>
-                                                    <Text style={styles.timeData}>{item.duration} นาที</Text>
+                                                    <Text style={styles.timeData}>{item.duration} {item.id} นาที</Text>
                                                     <View style={styles.missionView}>
                                                         <Image
                                                             style={{ height: 12, width: 12, marginTop: 5, marginRight: 4 }}

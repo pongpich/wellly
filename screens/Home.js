@@ -109,6 +109,19 @@ class Home extends Component {
 
     }
 
+    checkFistChar(name) {
+        let firstChar;
+        if (name.match(/^[\u0E00-\u0E7F\s]+$/)) {
+            let consonants = name.match(/[ก-ฮ]/g);
+            firstChar = consonants[0];
+        } else {
+
+            firstChar = name.charAt(0)
+
+        }
+        return firstChar;
+    }
+
     render() {
         const { user, activity_list } = this.props;
         const { latest_nutrition_activity, latest_exercise_activity, latest_exercise_mission, statusChart } = this.state;
@@ -124,11 +137,13 @@ class Home extends Component {
                             <Text style={styles.contentHead}>สวัสดี {user && user.display_name}</Text>
                             <Text style={styles.content}>ภารกิจของคุณในสัปดาห์นี้</Text>
                         </View>
+
                         <View>
-                            <Image
+                            {/*  <Image
                                 style={{ height: 64, width: 64, zIndex: 1, marginRight: 8 }}
                                 source={require('../assets/images/home/Profile.png')}
-                            />
+                            /> */}
+                            <Text>{user && this.checkFistChar(user.display_name)}</Text>
                             <Pressable onPress={() => this.props.logoutUser()}  >
                                 <Text style={{ marginLeft: 10, marginTop: 5, color: colors.grey2 }}>Logout</Text>
                             </Pressable>

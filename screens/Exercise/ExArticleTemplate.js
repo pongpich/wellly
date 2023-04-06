@@ -454,6 +454,20 @@ class ArticleTemplate extends Component {
                                     :
                                     this.missionDataView(mission_activities)
                             }
+                            <View style={[styles.areaViewText, { marginTop: 30, marginBottom: 100 }]}>
+                                <Text style={{
+                                    color: colors.grey1,
+                                    fontSize: ComponentsStyle.fontSize16,
+                                    fontFamily: "IBMPlexSansThai-Regular",
+                                    textAlign: "center"
+                                }}>{'Ref. (อ้างอิง)'}</Text>
+                                <Text style={{
+                                    color: colors.grey1,
+                                    fontSize: ComponentsStyle.fontSize16,
+                                    fontFamily: "IBMPlexSansThai-Regular",
+                                    textAlign: "center"
+                                }}>{`Campbell , B. (2021). NSCA's guide to sport and exercise nutrition, 2nd edition.`}</Text>
+                            </View>
                         </ScrollView>
                     </View >
                 </Animated.View >
@@ -477,7 +491,7 @@ class ArticleTemplate extends Component {
                         }}
                     >
 
-                        {
+                        {/* {
                             study ?
                                 <Pressable onPress={() => this.props.navigation.navigate("Quiz")} >
                                     <View style={ComponentsStyle.button} >
@@ -488,7 +502,7 @@ class ArticleTemplate extends Component {
                                 </Pressable>
                                 :
                                 null
-                        }
+                        } */}
                     </Animated.View>
                 </View>
             </View >
