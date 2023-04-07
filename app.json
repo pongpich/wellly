@@ -27,7 +27,7 @@
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "versionCode": 1,
+      "versionCode": 3,
       "package": "com.planforfit.wellly",
       "permissions": [
         "android.permission.RECORD_AUDIO"
