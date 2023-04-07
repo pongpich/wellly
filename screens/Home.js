@@ -154,7 +154,7 @@ class Home extends Component {
             <View style={[ComponentsStyle.container, { backgroundColor: colors.mayaBlue60 }]}>
                 <ScrollView>
 
-                    <ImageBackground source={require('../assets/images/home/Logo.png')} style={{ marginTop: 32 }}  >
+                    <ImageBackground source={require('../assets/images/home/Logo.png')} style={{ marginTop: 0 }}  >
                         <View style={{ marginBottom: 80 }}>
 
                             <View style={{ height: 44, width: "100%" }}>
@@ -176,9 +176,7 @@ class Home extends Component {
                                     <View style={styles.boxName}>
                                         <Text style={styles.nameIcon}>{user && this.checkFistChar(user.display_name)}</Text>
                                     </View>
-
-                                    <Pressable onPress={() => this.animate()}  >
-                                        {/* <Pressable onPress={() => this.props.logoutUser()}  > */}
+                                    <Pressable onPress={() => this.props.logoutUser()}  >
                                         <Text style={{ marginLeft: 10, marginTop: 5, color: colors.grey2 }}>Logout</Text>
                                     </Pressable>
                                 </View>
@@ -268,17 +266,18 @@ class Home extends Component {
 
                     </View>
 
-                    <View style={styles.boxRowView}>
-                        <Text style={styles.challenge}>ชาเลนจ์</Text>
-                        {
 
-                            latest_exercise_mission.map((item, i) => {
-                                var dataLength = latest_exercise_mission.length;
-                                const multiple = (100 / item.number) * item.number_completed;
-                                var maxScore = item.number * item.score;
-                                var score_completed = item.number_completed * item.score;
+                    {
 
-                                return (
+                        latest_exercise_mission.map((item, i) => {
+                            var dataLength = latest_exercise_mission.length;
+                            const multiple = (100 / item.number) * item.number_completed;
+                            var maxScore = item.number * item.score;
+                            var score_completed = item.number_completed * item.score;
+
+                            return (
+                                <View style={styles.boxRowView} key={i + "brv"}>
+                                    <Text style={styles.challenge}>ชาเลนจ์</Text>
                                     <View key={i + "rv"}>
                                         <Pressable
                                             onPress={(item.name == "Core+Balance+Plyometric") || (item.name == "Core+Balance") ? null : () => this.actionPress(item.id)}
@@ -339,12 +338,13 @@ class Home extends Component {
                                             </View>
                                         </Pressable>
                                     </View>
-                                )
-                            })
+                                </View>
+                            )
+                        })
 
 
-                        }
-                    </View>
+                    }
+
 
 
 
