@@ -238,86 +238,87 @@ class Home extends Component {
                         </Pressable>
 
                     </View>
-                    {
-                        latest_exercise_mission === true &&
-                        <View style={styles.boxRowView}>
-                            <Text style={styles.challenge}>ชาเลนจ์</Text>
-                            {
-                                latest_exercise_mission &&
-                                latest_exercise_mission.map((item, i) => {
-                                    var dataLength = latest_exercise_mission.length;
-                                    const multiple = (100 / item.number) * item.number_completed;
-                                    var maxScore = item.number * item.score;
-                                    var score_completed = item.number_completed * item.score;
 
-                                    return (
-                                        <View key={i + "rv"}>
-                                            <Pressable
-                                                onPress={(item.name == "Core+Balance+Plyometric") || (item.name == "Core+Balance") ? null : () => this.actionPress(item.id)}
-                                            >
-                                                <View key={i + "h"} style={{ flexDirection: "row", marginBottom: 16 }}>
-                                                    <View style={styles.numberView} key={i + "hom"}>
-                                                        <AnimatedCircularProgress
-                                                            size={64}
-                                                            width={8}
-                                                            fill={multiple}
-                                                            tintTransparency={true}
-                                                            rotation={360}
-                                                            tintColor={colors.positive1}
-                                                            backgroundColor={colors.grey6} key={i + "hom2"}>
-                                                            {
+                    <View style={styles.boxRowView}>
+                        <Text style={styles.challenge}>ชาเลนจ์</Text>
+                        {
 
-                                                                (fill) => (
-                                                                    <>
-                                                                        <View style={{ flexDirection: "row", marginTop: 10 }} key={i + "an"}>
-                                                                            <Text style={{ color: colors.grey1, fontSize: 16, fontFamily: "IBMPlexSansThai-Bold", marginTop: 0 }} key={i + "an2"}>{item.number_completed}</Text>
-                                                                            <Text style={{ color: colors.grey1, fontSize: 14, fontFamily: "IBMPlexSansThai-Regular", marginTop: 4 }} key={i + "an3"}> /{item.number}</Text>
-                                                                        </View>
-                                                                        <Text style={{ color: colors.grey2, fontSize: 16, fontFamily: "IBMPlexSansThai-Regular", marginTop: -10 }} key={i + "an4"}>ครั้ง</Text>
-                                                                    </>
-                                                                )
+                            latest_exercise_mission.map((item, i) => {
+                                var dataLength = latest_exercise_mission.length;
+                                const multiple = (100 / item.number) * item.number_completed;
+                                var maxScore = item.number * item.score;
+                                var score_completed = item.number_completed * item.score;
 
-                                                            }
-                                                        </AnimatedCircularProgress>
-                                                    </View>
-                                                    <View style={styles.missionData2} key={i + "home3"}>
-                                                        <Text style={[styles.missionHead, { marginLeft: 8, marginRight: 8 }]} key={i + "home4"}>{item.name}</Text>
-                                                        <View style={{ flexDirection: "row", marginLeft: 8 }} key={i + "home5"}>
-                                                            {
-                                                                Array.from({ length: maxScore }) && Array.from({ length: maxScore }).map((item, i) => {
-                                                                    return (
-                                                                        <Image style={[i > 0 ? { marginLeft: 4 } : null, { width: 16, height: 16, marginTop: 8 }]} source={
-                                                                            score_completed >= ++i ?
-                                                                                require('../assets/images/icon/Firepoint.png')
-                                                                                :
-                                                                                require('../assets/images/icon/Firepoint2.png')
-                                                                        } key={i + "img"} />
-                                                                    )
-                                                                })
-                                                            }
-                                                        </View>
-                                                    </View>
-                                                    {
-                                                        (item.name == "Core+Balance+Plyometric") || (item.name == "Core+Balance") ? null :
-                                                            <View style={styles.viewIconRight} key={i + "home6"}>
-                                                                <Image
-                                                                    style={{ height: 24, width: 24, zIndex: 1, marginRight: 8 }}
-                                                                    source={require('../assets/images/icon/right.png')}
-                                                                    key={i + "home7"} />
-                                                            </View>
-                                                    }
+                                return (
+                                    <View key={i + "rv"}>
+                                        <Pressable
+                                            onPress={(item.name == "Core+Balance+Plyometric") || (item.name == "Core+Balance") ? null : () => this.actionPress(item.id)}
+                                        >
+                                            <View key={i + "h"} style={{ flexDirection: "row", marginBottom: 16 }}>
+                                                <View style={styles.numberView} key={i + "hom"}>
+                                                    <AnimatedCircularProgress
+                                                        size={64}
+                                                        width={8}
+                                                        fill={multiple}
+                                                        tintTransparency={true}
+                                                        rotation={360}
+                                                        tintColor={colors.positive1}
+                                                        backgroundColor={colors.grey6} key={i + "hom2"}>
+                                                        {
 
+                                                            (fill) => (
+                                                                <>
+                                                                    <View style={{ flexDirection: "row", marginTop: 10 }} key={i + "an"}>
+                                                                        <Text style={{ color: colors.grey1, fontSize: 16, fontFamily: "IBMPlexSansThai-Bold", marginTop: 0 }} key={i + "an2"}>{item.number_completed}</Text>
+                                                                        <Text style={{ color: colors.grey1, fontSize: 14, fontFamily: "IBMPlexSansThai-Regular", marginTop: 4 }} key={i + "an3"}> /{item.number}</Text>
+                                                                    </View>
+                                                                    <Text style={{ color: colors.grey2, fontSize: 16, fontFamily: "IBMPlexSansThai-Regular", marginTop: -10 }} key={i + "an4"}>ครั้ง</Text>
+                                                                </>
+                                                            )
 
+                                                        }
+                                                    </AnimatedCircularProgress>
                                                 </View>
-                                            </Pressable>
-                                        </View>
-                                    )
-                                })
+                                                <View style={styles.missionData2} key={i + "home3"}>
+                                                    <Text style={[styles.missionHead, { marginLeft: 8, marginRight: 8 }]} key={i + "home4"}>{item.name}</Text>
+                                                    <View style={{ flexDirection: "row", marginLeft: 8 }} key={i + "home5"}>
+                                                        {
+                                                            Array.from({ length: maxScore }) && Array.from({ length: maxScore }).map((item, i) => {
+                                                                return (
+                                                                    <Image style={[i > 0 ? { marginLeft: 4 } : null, { width: 16, height: 16, marginTop: 8 }]} source={
+                                                                        score_completed >= ++i ?
+                                                                            require('../assets/images/icon/Firepoint.png')
+                                                                            :
+                                                                            require('../assets/images/icon/Firepoint2.png')
+                                                                    } key={i + "img"} />
+                                                                )
+                                                            })
+                                                        }
+                                                    </View>
+                                                </View>
+                                                {
+                                                    (item.name == "Core+Balance+Plyometric") || (item.name == "Core+Balance") ? null :
+                                                        <View style={styles.viewIconRight} key={i + "home6"}>
+                                                            <Image
+                                                                style={{ height: 24, width: 24, zIndex: 1, marginRight: 8 }}
+                                                                source={require('../assets/images/icon/right.png')}
+                                                                key={i + "home7"} />
+                                                        </View>
+                                                }
 
 
-                            }
-                        </View>
-                    }
+                                            </View>
+                                        </Pressable>
+                                    </View>
+                                )
+                            })
+
+
+                        }
+                    </View>
+
+
+
 
 
                     {/*          <Text style={styles.reportChallenge}>รายงานการทำกิจกรรม</Text>
