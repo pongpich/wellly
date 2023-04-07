@@ -344,12 +344,11 @@ class ArticleTemplate extends Component {
                                         </View>
                                         <View style={styles.viewIconRight}>
                                             {
-                                                (item.name == "Core+Balance+Plyometric") || (item.name == "Core+Balance") ?
-                                                    null :
-                                                    <Image
-                                                        style={{ height: 24, width: 24, zIndex: 1, marginRight: 8 }}
-                                                        source={require('../../assets/images/icon/right.png')}
-                                                    />
+                                                ((item.id === "light_intensity") || (item.id === "moderate_intensity") || (item.id === "vigorous_intensity") || (item.id === "cardio")) &&
+                                                <Image
+                                                    style={{ height: 24, width: 24, zIndex: 1, marginRight: 8 }}
+                                                    source={require('../../assets/images/icon/right.png')}
+                                                />
                                             }
 
                                         </View>
