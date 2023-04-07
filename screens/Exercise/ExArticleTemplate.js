@@ -299,7 +299,11 @@ class ArticleTemplate extends Component {
                         var score_completed = item.number_completed * item.score;
                         return (
                             <View key={i + "vid"}>
-                                <Pressable onPress={() => (item.name == "Core+Balance+Plyometric") || (item.name == "Core+Balance") ? null : this.actionPress(item.id, item.name)} key={i + "tfb"} >
+                                <Pressable
+                                    onPress={() =>
+                                        ((item.id === "light_intensity") || (item.id === "moderate_intensity") || (item.id === "vigorous_intensity") || (item.id === "cardio")) &&
+                                        this.actionPress(item.id, item.name)} key={i + "tfb"}
+                                >
                                     <View key={i} style={styles.row}>
                                         <View style={styles.numberView}>
                                             <AnimatedCircularProgress

@@ -280,7 +280,9 @@ class Home extends Component {
 
                                     <View key={i + "rv"}>
                                         <Pressable
-                                            onPress={(item.name == "Core+Balance+Plyometric") || (item.name == "Core+Balance") ? null : () => this.actionPress(item.id)}
+                                            onPress={() =>
+                                                ((item.id === "light_intensity") || (item.id === "moderate_intensity") || (item.id === "vigorous_intensity") || (item.id === "cardio")) && this.actionPress(item.id)
+                                            }
                                         >
                                             <View key={i + "h"} style={{ flexDirection: "row", marginBottom: 16 }}>
                                                 <View style={styles.numberView} key={i + "hom"}>
