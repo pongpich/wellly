@@ -127,83 +127,85 @@ class Home extends Component {
         const { latest_nutrition_activity, latest_exercise_activity, latest_exercise_mission, statusChart } = this.state;
 
         return (
-            <View style={[ComponentsStyle.container, { backgroundColor: colors.grey6 }]}>
-                <ImageBackground source={require('../assets/images/home/Rectangl.png')} style={{ height: 164, zIndex: 10, width: "100%" }}  >
-                    <View style={{ height: 44, width: "100%", }}>
-                        <StatusBar barStyle="light-content" />
-                    </View>
-                    <View style={{ height: 48, flexDirection: "row", justifyContent: "space-between", marginTop: 24, paddingHorizontal: 16 }}>
-                        <View>
-                            <Text style={styles.contentHead}>สวัสดี {user && user.display_name}</Text>
-                            <Text style={styles.content}>ภารกิจของคุณในสัปดาห์นี้</Text>
-                        </View>
+            <View style={[ComponentsStyle.container, { backgroundColor: colors.mayaBlue60 }]}>
+                <ScrollView>
 
-                        <View>
-                            {/*  <Image
+                    <ImageBackground source={require('../assets/images/home/Logo.png')} style={{ marginTop: 32 }}  >
+                        <View style={{ marginBottom: 80 }}>
+
+                            <View style={{ height: 44, width: "100%" }}>
+                                <StatusBar barStyle="dark-content" />
+                            </View>
+                            <View style={{ height: 48, flexDirection: "row", justifyContent: "space-between", marginTop: 24, paddingHorizontal: 16 }}>
+                                <View>
+
+                                    <Text style={styles.contentHead}>สวัสดี {user && user.display_name}</Text>
+
+                                    <Text style={styles.content}>ภารกิจของคุณในสัปดาห์นี้</Text>
+                                </View>
+
+                                <View>
+                                    {/*  <Image
                                 style={{ height: 64, width: 64, zIndex: 1, marginRight: 8 }}
                                 source={require('../assets/images/home/Profile.png')}
                             /> */}
-                            <Text>{user && this.checkFistChar(user.display_name)}</Text>
-                            <Pressable onPress={() => this.props.logoutUser()}  >
-                                <Text style={{ marginLeft: 10, marginTop: 5, color: colors.grey2 }}>Logout</Text>
-                            </Pressable>
+                                    <View style={styles.boxName}>
+                                        <Text style={styles.nameIcon}>{user && this.checkFistChar(user.display_name)}</Text>
+                                    </View>
+
+                                    <Pressable onPress={() => this.props.logoutUser()}  >
+                                        <Text style={{ marginLeft: 10, marginTop: 5, color: colors.grey2 }}>Logout</Text>
+                                    </Pressable>
+                                </View>
+                            </View>
                         </View>
+                    </ImageBackground>
+                    <View style={{ paddingLeft: 16, marginTop: -33 }}>
+                        <Pressable
+                            onPress={() => this.props.navigation.navigate("ArticleTemplate", { id: latest_nutrition_activity.week_in_program, mission_id: latest_nutrition_activity.mission_id, heading: latest_nutrition_activity.heading, statusPags: "Home" })} key={latest_nutrition_activity.week_in_program + "_na"}
+                        >
+                            <View style={styles.row}>
+                                <View style={[styles.numberView, { backgroundColor: colors.mayaBlue20, }]}>
+                                    <Text style={[styles.number, { color: colors.mayaBlue }]}>{latest_nutrition_activity.week_in_program}</Text>
+                                </View>
+                                <View style={styles.missionData}>
+                                    <Text style={styles.missionHead}>{latest_nutrition_activity.heading}</Text>
+                                    <Text style={[styles.missionContent, { marginRight: 16 }]}> {latest_nutrition_activity.short_content}</Text>
+                                </View>
+                                <View style={styles.viewIconRight}>
+                                    <Image
+                                        style={{ height: 24, width: 24, zIndex: 1, marginRight: 8 }}
+                                        source={require('../assets/images/icon/right.png')}
+                                    />
+                                </View>
+                            </View>
+                        </Pressable>
+
+                        <Pressable
+                            onPress={() => this.props.navigation.navigate("ExArticleTemplate", { id: latest_exercise_activity.week_in_program, mission_id: latest_exercise_activity.mission_id, heading: latest_exercise_activity.heading, mission_activities: latest_exercise_activity.mission_activities, statusPags: "Home" })} key={latest_exercise_activity.week_in_program + "_ea"}
+                        >
+                            <View style={styles.row}>
+                                <View style={[styles.numberView, { backgroundColor: colors.persianBlue20 }]}>
+                                    <Text style={[styles.number, { color: colors.persianBlue }]}>{latest_exercise_activity.week_in_program}</Text>
+                                </View>
+                                <View style={styles.missionData}>
+                                    <Text style={styles.missionHead}>{latest_exercise_activity.heading}</Text>
+                                    <Text style={[styles.missionContent, { marginRight: 16 }]}>{latest_exercise_activity.short_content}</Text>
+                                </View>
+                                <View style={styles.viewIconRight}>
+                                    <Image
+                                        style={{ height: 24, width: 24, zIndex: 1, marginRight: 8 }}
+                                        source={require('../assets/images/icon/right.png')}
+                                    />
+
+                                </View>
+                            </View>
+                        </Pressable>
+
                     </View>
-                </ImageBackground>
-                <ScrollView>
-                    {/* <StatusBar
-                    animated={false}
-                    backgroundColor="blue"
-                    barStyle="default"
-                    showHideTransition={statusBarTransition}
-                    hidden={hidden}
-                /> */}
 
-
-
-                    <Pressable
-                        onPress={() => this.props.navigation.navigate("ArticleTemplate", { id: latest_nutrition_activity.week_in_program, mission_id: latest_nutrition_activity.mission_id, heading: latest_nutrition_activity.heading, statusPags: "Home" })} key={latest_nutrition_activity.week_in_program + "_na"}
-                    >
-                        <View style={styles.row}>
-                            <View style={[styles.numberView, { backgroundColor: colors.mayaBlue20, }]}>
-                                <Text style={[styles.number, { color: colors.mayaBlue }]}>{latest_nutrition_activity.week_in_program}</Text>
-                            </View>
-                            <View style={styles.missionData}>
-                                <Text style={styles.missionHead}>{latest_nutrition_activity.heading}</Text>
-                                <Text style={[styles.missionContent, { marginRight: 16 }]}> {latest_nutrition_activity.short_content}</Text>
-                            </View>
-                            <View style={styles.viewIconRight}>
-                                <Image
-                                    style={{ height: 24, width: 24, zIndex: 1, marginRight: 8 }}
-                                    source={require('../assets/images/icon/right.png')}
-                                />
-                            </View>
-                        </View>
-                    </Pressable>
-
-                    <Pressable
-                        onPress={() => this.props.navigation.navigate("ExArticleTemplate", { id: latest_exercise_activity.week_in_program, mission_id: latest_exercise_activity.mission_id, heading: latest_exercise_activity.heading, mission_activities: latest_exercise_activity.mission_activities, statusPags: "Home" })} key={latest_exercise_activity.week_in_program + "_ea"}
-                    >
-                        <View style={styles.row}>
-                            <View style={[styles.numberView, { backgroundColor: colors.persianBlue20 }]}>
-                                <Text style={[styles.number, { color: colors.persianBlue }]}>{latest_exercise_activity.week_in_program}</Text>
-                            </View>
-                            <View style={styles.missionData}>
-                                <Text style={styles.missionHead}>{latest_exercise_activity.heading}</Text>
-                                <Text style={[styles.missionContent, { marginRight: 16 }]}>{latest_exercise_activity.short_content}</Text>
-                            </View>
-                            <View style={styles.viewIconRight}>
-                                <Image
-                                    style={{ height: 24, width: 24, zIndex: 1, marginRight: 8 }}
-                                    source={require('../assets/images/icon/right.png')}
-                                />
-
-                            </View>
-                        </View>
-                    </Pressable>
-
-                    <Text style={styles.challenge}>ชาเลนจ์</Text>
                     <View style={styles.boxRowView}>
+                        <Text style={styles.challenge}>ชาเลนจ์</Text>
                         {
                             latest_exercise_mission &&
                             latest_exercise_mission.map((item, i) => {
@@ -278,7 +280,7 @@ class Home extends Component {
                         }
                     </View>
 
-                    <Text style={styles.reportChallenge}>รายงานการทำกิจกรรม</Text>
+                    {/*          <Text style={styles.reportChallenge}>รายงานการทำกิจกรรม</Text>
                     <View style={{ marginHorizontal: 16, backgroundColor: colors.white, borderRadius: 16, paddingTop: 18, marginBottom: 40 }}>
                         <View style={styles.missionView}>
                             <Pressable style={[{ width: "auto", paddingHorizontal: 8 }, statusChart === 1 ? styles.missionPre : styles.programPre]} onPress={() => this.setState({ statusChart: 1 })} >
@@ -347,7 +349,7 @@ class Home extends Component {
                                 <Text style={styles.textWatch}>สูง</Text>
                             </View>
                         </View>
-                    </View>
+                    </View> */}
 
                 </ScrollView>
             </View >
@@ -420,11 +422,13 @@ const styles = StyleSheet.create({
         marginRight: (deviceHeight > 1023) ? 32 : 16
     },
     boxRowView: {
+        marginTop: -16,
         backgroundColor: colors.white,
         borderRadius: 16,
         marginHorizontal: 16,
         paddingHorizontal: 16,
-        paddingVertical: 14
+        paddingVertical: 14,
+        marginBottom: 40
     },
     missionHead: {
         fontSize: ComponentsStyle.fontSize16,
@@ -450,10 +454,10 @@ const styles = StyleSheet.create({
 
     },
     challenge: {
-        marginTop: 8,
+        /*         marginTop: 8, */
         zIndex: 3,
         fontSize: 16,
-        marginLeft: 16,
+        /*         marginLeft: 16, */
         color: colors.grey1,
         marginBottom: 8,
         fontFamily: "IBMPlexSansThai-Bold",
@@ -503,7 +507,21 @@ const styles = StyleSheet.create({
         fontFamily: "IBMPlexSansThai-Bold",
         fontSize: ComponentsStyle.fontSize16,
     },
-
+    boxName: {
+        height: 64,
+        width: 64,
+        borderColor: colors.white,
+        borderWidth: 4,
+        borderRadius: 100,
+        alignItems: "center",
+        backgroundColor: colors.grey4,
+        justifyContent: "center"
+    },
+    nameIcon: {
+        color: colors.grey3,
+        fontFamily: "IBMPlexSansThai-Bold",
+        fontSize: 32
+    }
 });
 
 const mapStateToProps = ({ authUser, getData, personalDataUser }) => {
