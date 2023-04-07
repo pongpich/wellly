@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Pressable, ImageBackground, Image, ScrollView, StatusBar, statusBarStyle, statusBarTransition, hidden, TouchableOpacity, TextInput, Text, Linking, KeyboardAvoidingView, Platform, Dimensions, Modal, InputAccessoryView, Keyboard } from 'react-native';
+import { View, StyleSheet, Pressable, ImageBackground, Image, ScrollView, StatusBar, statusBarStyle, statusBarTransition, Animated, Easing, hidden, TouchableOpacity, TextInput, Text, Linking, KeyboardAvoidingView, Platform, Dimensions, Modal, InputAccessoryView, Keyboard } from 'react-native';
 import { logoutUser, loginUser } from "../redux/auth";
 import { getNutritionMission, getNutritionActivity, getExerciserActivity, getActivityList, setIntensityFromExArticleTemplate } from "../redux/get";
 import { insertNutritionActivity, insertExerciseActivity, } from "../redux/update";
@@ -24,6 +24,7 @@ class Home extends Component {
 
     constructor(props) {
         super(props);
+        this.animatedValue = new Animated.Value(0);
         this.state = {
             latest_nutrition_activity: {},
             latest_exercise_activity: {},
@@ -38,6 +39,7 @@ class Home extends Component {
 
         this._unsubscribe = this.props.navigation.addListener('focus', () => {
             // do something
+
             //  console.log("user.user_id", user.user_id);
             this.props.insertNutritionActivity(user && user.user_id);
             this.props.getNutritionActivity(user && user.user_id);
@@ -53,6 +55,7 @@ class Home extends Component {
             this.props.insertExerciseActivity(user.user_id);
             this.props.getNutritionActivity(user && user.user_id);
             this.props.getExerciserActivity(user && user.user_id);
+            this.animate();
         });
 
 
@@ -123,9 +126,29 @@ class Home extends Component {
         return firstChar;
     }
 
+    animate = () => {
+        this.animatedValue.setValue(0);
+        Animated.timing(
+            this.animatedValue,
+            {
+                toValue: 1,
+                duration: 1000,
+                useNativeDriver: true,
+            }
+        ).start(() => this.animate());
+    }
+
     render() {
         const { user, activity_list } = this.props;
         const { latest_nutrition_activity, latest_exercise_activity, latest_exercise_mission, statusChart, isLoading } = this.state;
+        const opacity = this.animatedValue.interpolate({
+            inputRange: [0, 0.5, 1],
+            outputRange: [0.5, 1, 0.5],
+        });
+        const scale = this.animatedValue.interpolate({
+            inputRange: [0, 0.5, 1],
+            outputRange: [1, 1, 1],
+        });
 
         return (
             <View style={[ComponentsStyle.container, { backgroundColor: colors.mayaBlue60 }]}>
@@ -154,7 +177,8 @@ class Home extends Component {
                                         <Text style={styles.nameIcon}>{user && this.checkFistChar(user.display_name)}</Text>
                                     </View>
 
-                                    <Pressable onPress={() => this.props.logoutUser()}  >
+                                    <Pressable onPress={() => this.animate()}  >
+                                        {/* <Pressable onPress={() => this.props.logoutUser()}  > */}
                                         <Text style={{ marginLeft: 10, marginTop: 5, color: colors.grey2 }}>Logout</Text>
                                     </Pressable>
                                 </View>
@@ -177,10 +201,13 @@ class Home extends Component {
                                         </>
                                         :
                                         <>
-                                            <View style={styles.activityindicator}></View>
-                                            <View style={styles.activityindicator1}></View>
-                                            <View style={styles.activityindicator2}></View>
-                                            <View style={styles.activityindicator2}></View>
+                                            <Animated.View style={{ opacity, transform: [{ scale }] }}>
+                                                <View style={styles.activityindicator}></View>
+                                                <View style={styles.activityindicator1}></View>
+                                                <View style={styles.activityindicator2}></View>
+                                                <View style={styles.activityindicator2}></View>
+                                            </Animated.View>
+
                                         </>
                                     }
 
@@ -214,10 +241,12 @@ class Home extends Component {
                                         </>
                                         :
                                         <>
-                                            <View style={styles.activityindicator}></View>
-                                            <View style={styles.activityindicator1}></View>
-                                            <View style={styles.activityindicator2}></View>
-                                            <View style={styles.activityindicator2}></View>
+                                            <Animated.View style={{ opacity, transform: [{ scale }] }}>
+                                                <View style={styles.activityindicator}></View>
+                                                <View style={styles.activityindicator1}></View>
+                                                <View style={styles.activityindicator2}></View>
+                                                <View style={styles.activityindicator2}></View>
+                                            </Animated.View>
                                         </>
                                     }
 
