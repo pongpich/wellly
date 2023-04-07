@@ -265,19 +265,19 @@ class Home extends Component {
                         </Pressable>
 
                     </View>
+                    <View style={styles.boxRowView} >
+                        <Text style={styles.challenge}>ชาเลนจ์</Text>
 
+                        {
 
-                    {
+                            latest_exercise_mission.map((item, i) => {
+                                var dataLength = latest_exercise_mission.length;
+                                const multiple = (100 / item.number) * item.number_completed;
+                                var maxScore = item.number * item.score;
+                                var score_completed = item.number_completed * item.score;
 
-                        latest_exercise_mission.map((item, i) => {
-                            var dataLength = latest_exercise_mission.length;
-                            const multiple = (100 / item.number) * item.number_completed;
-                            var maxScore = item.number * item.score;
-                            var score_completed = item.number_completed * item.score;
+                                return (
 
-                            return (
-                                <View style={styles.boxRowView} key={i + "brv"}>
-                                    <Text style={styles.challenge}>ชาเลนจ์</Text>
                                     <View key={i + "rv"}>
                                         <Pressable
                                             onPress={(item.name == "Core+Balance+Plyometric") || (item.name == "Core+Balance") ? null : () => this.actionPress(item.id)}
@@ -338,13 +338,13 @@ class Home extends Component {
                                             </View>
                                         </Pressable>
                                     </View>
-                                </View>
-                            )
-                        })
+
+                                )
+                            })
 
 
-                    }
-
+                        }
+                    </View>
 
 
 
