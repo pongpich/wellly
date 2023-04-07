@@ -156,14 +156,14 @@ class ActAcivity extends Component {
                             </Text>
                         </View>
                     </View>
-                    <View style={styles.viewIconRight}>
+                    {/* <View style={styles.viewIconRight}>
                         <Pressable onPress={() => this.isModalConter(isModalConter2)}>
                             <Image
                                 style={styles.chevronImage}
                                 source={require('../../assets/images/activity/Chevron.png')}
                             />
                         </Pressable>
-                    </View>
+                    </View> */}
                 </View>
                 <View style={[styles.boxConter2, { justifyContent: "space-between" }]}>
                     <View>
@@ -221,11 +221,11 @@ class ActAcivity extends Component {
                             }}
                         />
                     </View>
-                    <View style={{ alignItems: "center" }}>
+                   {/*  <View style={{ alignItems: "center" }}>
                         <Pressable onPress={() => this.toggleModal(isModalVisible2)} >
                             <Text style={styles.deleteActivity}>ลบกิจกรรมนี้</Text>
                         </Pressable>
-                    </View>
+                    </View> */}
                 </View>
                 <View>
                     <Pressable title="Show modal" onPress={() => this.toggleModal(isModalVisible2)} />

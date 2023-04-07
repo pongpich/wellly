@@ -114,7 +114,7 @@ const Activity = ({ navigation }) => {
             >
                 <View style={styles.scrollViewContent}>
                     <>
-                        <View style={styles.boxChart}>
+                        {/* <View style={styles.boxChart}>
                             <View style={styles.missionView}>
                                 <Pressable style={[{ width: "auto", paddingHorizontal: 8 }, statusChart === 1 ? styles.missionPre : styles.programPre]} onPress={() => setStatusChart(1)} >
                                     <Text style={[styles.mission, statusChart === 1 ? { color: colors.white } : { color: colors.persianBlue }]}>สัปดาห์</Text>
@@ -170,7 +170,7 @@ const Activity = ({ navigation }) => {
                                 />
 
                             </View>
-                        </View>
+                        </View> */}
                         <Text style={styles.nutritionWeek}>กิจกรรมสัปดาห์นี้</Text>
                         {
                             member_activity_log_in_week ?
@@ -233,7 +233,7 @@ const Activity = ({ navigation }) => {
                 </View>
             </Animated.ScrollView >
             <Text style={styles.nutritionText}>กิจกรรม</Text>
-            <View style={styles.nutritionBox}>
+            {/* <View style={styles.nutritionBox}>
                 <Animated.View
                     style={[
                         styles.header2,
@@ -273,7 +273,7 @@ const Activity = ({ navigation }) => {
                         </View>
                     </View>
                 </Animated.View >
-            </View >
+            </View > */}
 
         </View >
     )
