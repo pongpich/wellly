@@ -28,7 +28,8 @@ class Home extends Component {
             latest_nutrition_activity: {},
             latest_exercise_activity: {},
             latest_exercise_mission: [],
-            statusChart: 1
+            statusChart: 1,
+            isLoading: false
         };
     }
 
@@ -124,7 +125,7 @@ class Home extends Component {
 
     render() {
         const { user, activity_list } = this.props;
-        const { latest_nutrition_activity, latest_exercise_activity, latest_exercise_mission, statusChart } = this.state;
+        const { latest_nutrition_activity, latest_exercise_activity, latest_exercise_mission, statusChart, isLoading } = this.state;
 
         return (
             <View style={[ComponentsStyle.container, { backgroundColor: colors.mayaBlue60 }]}>
@@ -162,123 +163,162 @@ class Home extends Component {
                     </ImageBackground>
                     <View style={{ paddingLeft: 16, marginTop: -33 }}>
                         <Pressable
-                            onPress={() => this.props.navigation.navigate("ArticleTemplate", { id: latest_nutrition_activity.week_in_program, mission_id: latest_nutrition_activity.mission_id, heading: latest_nutrition_activity.heading, statusPags: "Home" })} key={latest_nutrition_activity.week_in_program + "_na"}
+                            onPress={() => latest_nutrition_activity.short_content && this.props.navigation.navigate("ArticleTemplate", { id: latest_nutrition_activity.week_in_program, mission_id: latest_nutrition_activity.mission_id, heading: latest_nutrition_activity.heading, statusPags: "Home" })} key={latest_nutrition_activity.week_in_program + "_na"}
                         >
                             <View style={styles.row}>
                                 <View style={[styles.numberView, { backgroundColor: colors.mayaBlue20, }]}>
                                     <Text style={[styles.number, { color: colors.mayaBlue }]}>{latest_nutrition_activity.week_in_program}</Text>
                                 </View>
                                 <View style={styles.missionData}>
-                                    <Text style={styles.missionHead}>{latest_nutrition_activity.heading}</Text>
-                                    <Text style={[styles.missionContent, { marginRight: 16 }]}> {latest_nutrition_activity.short_content}</Text>
+                                    {latest_nutrition_activity.heading && latest_nutrition_activity.short_content ?
+                                        <>
+                                            <Text style={styles.missionHead}>{latest_nutrition_activity.heading}</Text>
+                                            <Text style={[styles.missionContent, { marginRight: 16 }]}> {latest_nutrition_activity.short_content}</Text>
+                                        </>
+                                        :
+                                        <>
+                                            <View style={styles.activityindicator}></View>
+                                            <View style={styles.activityindicator1}></View>
+                                            <View style={styles.activityindicator2}></View>
+                                            <View style={styles.activityindicator2}></View>
+                                        </>
+                                    }
+
                                 </View>
-                                <View style={styles.viewIconRight}>
-                                    <Image
-                                        style={{ height: 24, width: 24, zIndex: 1, marginRight: 8 }}
-                                        source={require('../assets/images/icon/right.png')}
-                                    />
-                                </View>
+                                {
+                                    latest_nutrition_activity.heading && latest_nutrition_activity.short_content &&
+                                    <View style={styles.viewIconRight}>
+                                        <Image
+                                            style={{ height: 24, width: 24, zIndex: 1, marginRight: 8 }}
+                                            source={require('../assets/images/icon/right.png')}
+                                        />
+                                    </View>
+                                }
+
                             </View>
                         </Pressable>
 
                         <Pressable
-                            onPress={() => this.props.navigation.navigate("ExArticleTemplate", { id: latest_exercise_activity.week_in_program, mission_id: latest_exercise_activity.mission_id, heading: latest_exercise_activity.heading, mission_activities: latest_exercise_activity.mission_activities, statusPags: "Home" })} key={latest_exercise_activity.week_in_program + "_ea"}
+                            onPress={() => latest_exercise_activity.short_content && this.props.navigation.navigate("ExArticleTemplate", { id: latest_exercise_activity.week_in_program, mission_id: latest_exercise_activity.mission_id, heading: latest_exercise_activity.heading, mission_activities: latest_exercise_activity.mission_activities, statusPags: "Home" })} key={latest_exercise_activity.week_in_program + "_ea"}
                         >
                             <View style={styles.row}>
+                                {/*   <Text style={styles.activityindicator}></Text> */}
                                 <View style={[styles.numberView, { backgroundColor: colors.persianBlue20 }]}>
                                     <Text style={[styles.number, { color: colors.persianBlue }]}>{latest_exercise_activity.week_in_program}</Text>
                                 </View>
                                 <View style={styles.missionData}>
-                                    <Text style={styles.missionHead}>{latest_exercise_activity.heading}</Text>
-                                    <Text style={[styles.missionContent, { marginRight: 16 }]}>{latest_exercise_activity.short_content}</Text>
-                                </View>
-                                <View style={styles.viewIconRight}>
-                                    <Image
-                                        style={{ height: 24, width: 24, zIndex: 1, marginRight: 8 }}
-                                        source={require('../assets/images/icon/right.png')}
-                                    />
+                                    {latest_exercise_activity.heading && latest_exercise_activity.short_content ?
+                                        <>
+                                            <Text style={styles.missionHead}>{latest_exercise_activity.heading}</Text>
+                                            <Text style={[styles.missionContent, { marginRight: 16 }]}>{latest_exercise_activity.short_content}</Text>
+                                        </>
+                                        :
+                                        <>
+                                            <View style={styles.activityindicator}></View>
+                                            <View style={styles.activityindicator1}></View>
+                                            <View style={styles.activityindicator2}></View>
+                                            <View style={styles.activityindicator2}></View>
+                                        </>
+                                    }
+
 
                                 </View>
+                                {
+                                    latest_exercise_activity.heading && latest_exercise_activity.short_content &&
+                                    <View style={styles.viewIconRight}>
+                                        <Image
+                                            style={{ height: 24, width: 24, zIndex: 1, marginRight: 8 }}
+                                            source={require('../assets/images/icon/right.png')}
+                                        />
+
+                                    </View>
+                                }
+
                             </View>
                         </Pressable>
 
                     </View>
+                    {
+                        latest_exercise_mission === true &&
+                        <View style={styles.boxRowView}>
+                            <Text style={styles.challenge}>ชาเลนจ์</Text>
+                            {
+                                latest_exercise_mission &&
+                                latest_exercise_mission.map((item, i) => {
+                                    var dataLength = latest_exercise_mission.length;
+                                    const multiple = (100 / item.number) * item.number_completed;
+                                    var maxScore = item.number * item.score;
+                                    var score_completed = item.number_completed * item.score;
 
-                    <View style={styles.boxRowView}>
-                        <Text style={styles.challenge}>ชาเลนจ์</Text>
-                        {
-                            latest_exercise_mission &&
-                            latest_exercise_mission.map((item, i) => {
-                                var dataLength = latest_exercise_mission.length;
-                                const multiple = (100 / item.number) * item.number_completed;
-                                var maxScore = item.number * item.score;
-                                var score_completed = item.number_completed * item.score;
+                                    return (
+                                        <View key={i + "rv"}>
+                                            <Pressable
+                                                onPress={(item.name == "Core+Balance+Plyometric") || (item.name == "Core+Balance") ? null : () => this.actionPress(item.id)}
+                                            >
+                                                <View key={i + "h"} style={{ flexDirection: "row", marginBottom: 16 }}>
+                                                    <View style={styles.numberView} key={i + "hom"}>
+                                                        <AnimatedCircularProgress
+                                                            size={64}
+                                                            width={8}
+                                                            fill={multiple}
+                                                            tintTransparency={true}
+                                                            rotation={360}
+                                                            tintColor={colors.positive1}
+                                                            backgroundColor={colors.grey6} key={i + "hom2"}>
+                                                            {
 
-                                return (
-                                    <View key={i + "rv"}>
-                                        <Pressable
-                                            onPress={(item.name == "Core+Balance+Plyometric") || (item.name == "Core+Balance") ? null : () => this.actionPress(item.id)}
-                                        >
-                                            <View key={i + "h"} style={{ flexDirection: "row", marginBottom: 16 }}>
-                                                <View style={styles.numberView} key={i + "hom"}>
-                                                    <AnimatedCircularProgress
-                                                        size={64}
-                                                        width={8}
-                                                        fill={multiple}
-                                                        tintTransparency={true}
-                                                        rotation={360}
-                                                        tintColor={colors.positive1}
-                                                        backgroundColor={colors.grey6} key={i + "hom2"}>
-                                                        {
-
-                                                            (fill) => (
-                                                                <>
-                                                                    <View style={{ flexDirection: "row", marginTop: 10 }} key={i + "an"}>
-                                                                        <Text style={{ color: colors.grey1, fontSize: 16, fontFamily: "IBMPlexSansThai-Bold", marginTop: 0 }} key={i + "an2"}>{item.number_completed}</Text>
-                                                                        <Text style={{ color: colors.grey1, fontSize: 14, fontFamily: "IBMPlexSansThai-Regular", marginTop: 4 }} key={i + "an3"}> /{item.number}</Text>
-                                                                    </View>
-                                                                    <Text style={{ color: colors.grey2, fontSize: 16, fontFamily: "IBMPlexSansThai-Regular", marginTop: -10 }} key={i + "an4"}>ครั้ง</Text>
-                                                                </>
-                                                            )
-
-                                                        }
-                                                    </AnimatedCircularProgress>
-                                                </View>
-                                                <View style={styles.missionData2} key={i + "home3"}>
-                                                    <Text style={[styles.missionHead, { marginLeft: 8, marginRight: 8 }]} key={i + "home4"}>{item.name}</Text>
-                                                    <View style={{ flexDirection: "row", marginLeft: 8 }} key={i + "home5"}>
-                                                        {
-                                                            Array.from({ length: maxScore }) && Array.from({ length: maxScore }).map((item, i) => {
-                                                                return (
-                                                                    <Image style={[i > 0 ? { marginLeft: 4 } : null, { width: 16, height: 16, marginTop: 8 }]} source={
-                                                                        score_completed >= ++i ?
-                                                                            require('../assets/images/icon/Firepoint.png')
-                                                                            :
-                                                                            require('../assets/images/icon/Firepoint2.png')
-                                                                    } key={i + "img"} />
+                                                                (fill) => (
+                                                                    <>
+                                                                        <View style={{ flexDirection: "row", marginTop: 10 }} key={i + "an"}>
+                                                                            <Text style={{ color: colors.grey1, fontSize: 16, fontFamily: "IBMPlexSansThai-Bold", marginTop: 0 }} key={i + "an2"}>{item.number_completed}</Text>
+                                                                            <Text style={{ color: colors.grey1, fontSize: 14, fontFamily: "IBMPlexSansThai-Regular", marginTop: 4 }} key={i + "an3"}> /{item.number}</Text>
+                                                                        </View>
+                                                                        <Text style={{ color: colors.grey2, fontSize: 16, fontFamily: "IBMPlexSansThai-Regular", marginTop: -10 }} key={i + "an4"}>ครั้ง</Text>
+                                                                    </>
                                                                 )
-                                                            })
-                                                        }
+
+                                                            }
+                                                        </AnimatedCircularProgress>
                                                     </View>
-                                                </View>
-                                                {
-                                                    (item.name == "Core+Balance+Plyometric") || (item.name == "Core+Balance") ? null :
-                                                        <View style={styles.viewIconRight} key={i + "home6"}>
-                                                            <Image
-                                                                style={{ height: 24, width: 24, zIndex: 1, marginRight: 8 }}
-                                                                source={require('../assets/images/icon/right.png')}
-                                                                key={i + "home7"} />
+                                                    <View style={styles.missionData2} key={i + "home3"}>
+                                                        <Text style={[styles.missionHead, { marginLeft: 8, marginRight: 8 }]} key={i + "home4"}>{item.name}</Text>
+                                                        <View style={{ flexDirection: "row", marginLeft: 8 }} key={i + "home5"}>
+                                                            {
+                                                                Array.from({ length: maxScore }) && Array.from({ length: maxScore }).map((item, i) => {
+                                                                    return (
+                                                                        <Image style={[i > 0 ? { marginLeft: 4 } : null, { width: 16, height: 16, marginTop: 8 }]} source={
+                                                                            score_completed >= ++i ?
+                                                                                require('../assets/images/icon/Firepoint.png')
+                                                                                :
+                                                                                require('../assets/images/icon/Firepoint2.png')
+                                                                        } key={i + "img"} />
+                                                                    )
+                                                                })
+                                                            }
                                                         </View>
-                                                }
+                                                    </View>
+                                                    {
+                                                        (item.name == "Core+Balance+Plyometric") || (item.name == "Core+Balance") ? null :
+                                                            <View style={styles.viewIconRight} key={i + "home6"}>
+                                                                <Image
+                                                                    style={{ height: 24, width: 24, zIndex: 1, marginRight: 8 }}
+                                                                    source={require('../assets/images/icon/right.png')}
+                                                                    key={i + "home7"} />
+                                                            </View>
+                                                    }
 
 
-                                            </View>
-                                        </Pressable>
-                                    </View>
-                                )
-                            })
-                        }
-                    </View>
+                                                </View>
+                                            </Pressable>
+                                        </View>
+                                    )
+                                })
+
+
+                            }
+                        </View>
+                    }
+
 
                     {/*          <Text style={styles.reportChallenge}>รายงานการทำกิจกรรม</Text>
                     <View style={{ marginHorizontal: 16, backgroundColor: colors.white, borderRadius: 16, paddingTop: 18, marginBottom: 40 }}>
@@ -359,6 +399,7 @@ class Home extends Component {
 }
 
 const deviceHeight = Math.round(Dimensions.get('window').height);
+const deviceWidth = Math.round(Dimensions.get('window').width);
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -521,6 +562,27 @@ const styles = StyleSheet.create({
         color: colors.grey3,
         fontFamily: "IBMPlexSansThai-Bold",
         fontSize: 32
+    },
+    activityindicator: {
+        height: 15,
+        backgroundColor: colors.neutralGrey,
+        width: "100%",
+        marginBottom: 8,
+        borderRadius: 16,
+    },
+    activityindicator1: {
+        height: 15,
+        backgroundColor: colors.neutralGrey,
+        width: "50%",
+        marginBottom: 8,
+        borderRadius: 16,
+    },
+    activityindicator2: {
+        height: 10,
+        backgroundColor: colors.neutralGrey,
+        width: "100%",
+        marginBottom: 8,
+        borderRadius: 16,
     }
 });
 
