@@ -17,6 +17,8 @@ export const types = {
   REGISTER: "REGISTER",
   REGISTER_SUCCESS: "REGISTER_SUCCESS",
   REGISTER_FAIL: "REGISTER_FAIL",
+  DELETE_ACCOUNT: "DELETE_ACCOUNT",
+  DELETE_ACCOUNT_SUCCESS: "DELETE_ACCOUNT_SUCCESS",
 };
 
 
@@ -38,6 +40,13 @@ export const register = (email, password) => ({
   payload: {
     email,
     password
+  }
+});
+
+export const deleteAccount = (user_id) => ({
+  type: types.DELETE_ACCOUNT,
+  payload: {
+    user_id
   }
 });
 
@@ -142,6 +151,21 @@ const loginUserSagaAsync = async (
   }
 };
 
+const deleteAccountSagaAsync = async (
+  user_id
+) => {
+  try {
+    const apiResult = await API.get("planforfit", "/deleteAccount", {
+      queryStringParameters: {
+        user_id
+      }
+    });
+    return apiResult
+  } catch (error) {
+    return { error, messsage: error.message };
+  }
+};
+
 const registerSagaAsync = async (
   email,
   password
@@ -194,6 +218,31 @@ function* loginUserSaga({ payload }) {
 
   } catch (error) {
     console.log("error form login", error);
+  }
+}
+function* deleteAccountSaga({ payload }) {
+  const {
+    user_id
+  } = payload
+
+  try {
+    const apiResult = yield call(
+      deleteAccountSagaAsync,
+      user_id
+    );
+
+    if (apiResult && apiResult.results) {
+      if (apiResult.results.message === "success") {
+
+        yield put({
+          type: types.DELETE_ACCOUNT_SUCCESS
+        })
+
+      }
+    }
+
+  } catch (error) {
+    console.log("error form deleteAccountSaga", error);
   }
 }
 
@@ -313,6 +362,10 @@ export function* watchRegister() {
   yield takeEvery(types.REGISTER, registerSaga)
 }
 
+export function* watchDeleteAccount() {
+  yield takeEvery(types.DELETE_ACCOUNT, deleteAccountSaga)
+}
+
 export function* saga() {
   yield all([
     fork(watchLoginUser),
@@ -320,6 +373,7 @@ export function* saga() {
     fork(watchUpdatePersonalData),
     fork(watchUpdateHealthData),
     fork(watchRegister),
+    fork(watchDeleteAccount),
   ]);
 }
 
@@ -334,10 +388,21 @@ const INIT_STATE = {
   statusUpdatePersonalData: "default",
   statusUpdateHealthData: "default",
   statusRegister: "default",
+  statusDeleteAcc: "statusDeleteAcc"
 };
 
 export function reducer(state = INIT_STATE, action) {
   switch (action.type) {
+    case types.DELETE_ACCOUNT:
+      return {
+        ...state,
+        statusDeleteAcc: "loading",
+      };
+    case types.DELETE_ACCOUNT_SUCCESS:
+      return {
+        ...state,
+        statusDeleteAcc: "success",
+      };
     case types.LOGIN_USER:
       return {
         ...state,
