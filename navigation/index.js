@@ -9,6 +9,7 @@ import ForgotPassword from '../screens/ForgotPassword';
 import { connect } from 'react-redux';
 import Walkthrough from '../screens/Walkthrough';
 import OnboardingResults from '../screens/OnboardingResults';
+import Profile from '../screens/Profile/Profile';
 import PersonalData from '../screens/PersonalData';
 import HealthData from '../screens/HealthData';
 import OnboardingName from '../screens/OnboardingName';
@@ -334,6 +335,13 @@ function MyStack(props) {
       <Stack.Screen name="OnboardingResults" component={OnboardingResults} options={{
         title: "",
         headerShown: false,
+        headerShadowVisible: false,
+        gestureEnabled: false,
+        cardOverlayEnabled: false,
+      }} />
+      <Stack.Screen name="Profile" component={Profile} options={{
+        title: "",
+
         headerShadowVisible: false,
         gestureEnabled: false,
         cardOverlayEnabled: false,

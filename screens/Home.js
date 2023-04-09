@@ -173,9 +173,11 @@ class Home extends Component {
                                 style={{ height: 64, width: 64, zIndex: 1, marginRight: 8 }}
                                 source={require('../assets/images/home/Profile.png')}
                             /> */}
-                                    <View style={styles.boxName}>
-                                        <Text style={styles.nameIcon}>{user && this.checkFistChar(user.display_name)}</Text>
-                                    </View>
+                                    <Pressable onPress={() => this.props.navigation.navigate("Profile")}  >
+                                        <View style={styles.boxName}>
+                                            <Text style={styles.nameIcon}>{user && this.checkFistChar(user.display_name)}</Text>
+                                        </View>
+                                    </Pressable>
                                     <Pressable onPress={() => this.props.logoutUser()}  >
                                         <Text style={{ marginLeft: 10, marginTop: 5, color: colors.grey2 }}>Logout</Text>
                                     </Pressable>

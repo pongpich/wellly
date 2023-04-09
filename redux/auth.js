@@ -19,6 +19,7 @@ export const types = {
   REGISTER_FAIL: "REGISTER_FAIL",
   DELETE_ACCOUNT: "DELETE_ACCOUNT",
   DELETE_ACCOUNT_SUCCESS: "DELETE_ACCOUNT_SUCCESS",
+  RESET_STATUS_DELETE_ACC: "RESET_STATUS_DELETE_ACC"
 };
 
 
@@ -48,6 +49,11 @@ export const deleteAccount = (user_id) => ({
   payload: {
     user_id
   }
+});
+
+export const resetStatusDeleteAcc = () => ({
+  type: types.RESET_STATUS_DELETE_ACC
+
 });
 
 
@@ -388,11 +394,16 @@ const INIT_STATE = {
   statusUpdatePersonalData: "default",
   statusUpdateHealthData: "default",
   statusRegister: "default",
-  statusDeleteAcc: "statusDeleteAcc"
+  statusDeleteAcc: "default"
 };
 
 export function reducer(state = INIT_STATE, action) {
   switch (action.type) {
+    case types.RESET_STATUS_DELETE_ACC:
+      return {
+        ...state,
+        statusDeleteAcc: "default",
+      };
     case types.DELETE_ACCOUNT:
       return {
         ...state,
