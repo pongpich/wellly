@@ -428,7 +428,7 @@ const styles = StyleSheet.create({
         width: "100%",
         paddingHorizontal: 16,
         flex: 0.1,
-        zIndex: 0,
+        zIndex: 1,
         backgroundColor: colors.white,
         shadowColor: colors.white,
         shadowOffset: {
