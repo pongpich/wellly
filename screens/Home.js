@@ -178,9 +178,9 @@ class Home extends Component {
                                             <Text style={styles.nameIcon}>{user && this.checkFistChar(user.display_name)}</Text>
                                         </View>
                                     </Pressable>
-                                    <Pressable onPress={() => this.props.logoutUser()}  >
+                                    {/*  <Pressable onPress={() => this.props.logoutUser()}  >
                                         <Text style={{ marginLeft: 10, marginTop: 5, color: colors.grey2 }}>Logout</Text>
-                                    </Pressable>
+                                    </Pressable> */}
                                 </View>
                             </View>
                         </View>

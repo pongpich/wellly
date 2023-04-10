@@ -180,7 +180,7 @@ class QuizAnswer extends Component {
                             {
                                 data && data.map((value, i,) => {
                                     const choice = value.choice;
-                                    console.log("value", value.image);
+                                    /*                       console.log("value", value.image); */
 
                                     var result = allSelectChoice && allSelectChoice.filter((member) => {
                                         return member.index === value.index
@@ -188,7 +188,7 @@ class QuizAnswer extends Component {
                                     return (
                                         <View key={i + "v1"}>
                                             {value && value.image != "" ?
-                                                <Image source={{ uri: value.image }} style={{ width: "100%", height: 280, marginTop: 16 }} resizeMode="stretch" />
+                                                <Image source={{ uri: value.image }} style={{ width: "100%", height: value.index == 3 ? 350 : 200, marginTop: 16 }} resizeMode="stretch" />
                                                 : null}
                                             <Text style={styles.question} key={i + "t1"}>
                                                 {value.index}. {value.question}
