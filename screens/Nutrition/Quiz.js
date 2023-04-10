@@ -33,7 +33,7 @@ class QuizAnswer extends Component {
 
     componentDidMount() {
         const { nutrition_mission, statusGetNutritionMission, nutrition_activity_id_Mission, user, route } = this.props;
-        const data = JSON.parse(nutrition_mission.quiz)
+        const data = JSON.parse(nutrition_mission && nutrition_mission.quiz)
         this.props.getNutritionActivityIdMission(user.user_id, nutrition_mission.id)
 
         this.setState({

@@ -34,8 +34,8 @@ class QuizAnswer extends Component {
 
         if (nutrition_activity_id_Mission.quiz_activities_number !== null) {
             this.setState({
-                fillNumber: nutrition_activity_id_Mission.quiz_activities_number * multiple,
-                numberQ: nutrition_activity_id_Mission.quiz_activities_number,
+                fillNumber: nutrition_activity_id_Mission && nutrition_activity_id_Mission.quiz_activities_number * multiple,
+                numberQ: nutrition_activity_id_Mission && nutrition_activity_id_Mission.quiz_activities_number,
                 nutrition_activity_Mission: JSON.parse(nutrition_activity_id_Mission.quiz_activities)
 
             })
@@ -72,7 +72,7 @@ class QuizAnswer extends Component {
         if ((prevProps.nutrition_activity_id_Mission !== nutrition_activity_id_Mission) || (nutrition_activity_id_Mission === "success")) {
             this.setState({
                 fillNumber: nutrition_activity_id_Mission.quiz_activities_number * multiple,
-                numberQ: nutrition_activity_id_Mission.quiz_activities_number,
+                numberQ: nutrition_activity_id_Mission && nutrition_activity_id_Mission.quiz_activities_number,
                 nutrition_activity_Mission: JSON.parse(nutrition_activity_id_Mission.quiz_activities)
             })
 
