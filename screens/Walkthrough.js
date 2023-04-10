@@ -48,48 +48,49 @@ class Walkthrough extends Component {
         const { t } = this.props;
 
         return (
-            <Swiper style={styles.wrapper} showsButtons={false} showsPagination={false}
-                index={swiperIndex}
-                loop={false}
-                bounces={false}
-                automaticallyAdjustContentInsets={true}
-                onIndexChanged={this.onSwipe}
-                ref={'swiper'}
-            /*   dot={<View style={{ backgroundColor: 'rgba(0,0,0,.2)', width: 8, height: 8, borderRadius: 4, marginLeft: 3, marginRight: 3, marginTop: 3, marginBottom: 70, }} />}
-              activeDot={<View style={{ backgroundColor: '#007aff', width: 8, height: 8, borderRadius: 4, marginLeft: 3, marginRight: 3, marginTop: 3, marginBottom: 70, }} />} */
-            >
-                <View style={styles.slide1} >
-                    <Image
-                        style={styles.entryImage}
-                        source={require('../assets/images/icon/walkthrough_1.png')}
-                    />
-                    <Text style={styles.textWellly}>{t('welcome_to_Wellly')}</Text>
-                    <View style={styles.areaText}>
-                        <Text style={styles.textWellly_2}>{t('health_app')}</Text>
+            <>
+                <Swiper style={styles.wrapper} showsButtons={false} showsPagination={false}
+                    index={swiperIndex}
+                    loop={false}
+                    bounces={false}
+                    automaticallyAdjustContentInsets={true}
+                    onIndexChanged={this.onSwipe}
+                    ref={'swiper'}
+                /*   dot={<View style={{ backgroundColor: 'rgba(0,0,0,.2)', width: 8, height: 8, borderRadius: 4, marginLeft: 3, marginRight: 3, marginTop: 3, marginBottom: 70, }} />}
+                  activeDot={<View style={{ backgroundColor: '#007aff', width: 8, height: 8, borderRadius: 4, marginLeft: 3, marginRight: 3, marginTop: 3, marginBottom: 70, }} />} */
+                >
+                    <View style={styles.slide1} >
+                        <Image
+                            style={styles.entryImage}
+                            source={require('../assets/images/icon/walkthrough_1.png')}
+                        />
+                        <Text style={styles.textWellly}>{t('welcome_to_Wellly')}</Text>
+                        <View style={styles.areaText}>
+                            <Text style={styles.textWellly_2}>{t('health_app')}</Text>
+                        </View>
                     </View>
-                </View>
-                <View style={styles.slide1} >
-                    <Image
-                        style={styles.entryImage}
-                        source={require('../assets/images/icon/walkthrough_2.png')}
-                    />
-                    <Text style={styles.textWellly}>{t('health_better_way')}</Text>
-                    <View style={styles.areaText}>
-                        <Text style={styles.textWellly_2}>{t('start_exercising')}</Text>
+                    <View style={styles.slide1} >
+                        <Image
+                            style={styles.entryImage}
+                            source={require('../assets/images/icon/walkthrough_2.png')}
+                        />
+                        <Text style={styles.textWellly}>{t('health_better_way')}</Text>
+                        <View style={styles.areaText}>
+                            <Text style={styles.textWellly_2}>{t('start_exercising')}</Text>
+                        </View>
                     </View>
-                </View>
-                <View style={styles.slide1}>
-                    <Image
-                        style={styles.entryImage}
-                        source={require('../assets/images/icon/walkthrough_3.png')}
-                    />
-                    <Text style={styles.textWellly}>{t('proper_way')}</Text>
-                    <View style={styles.areaText}>
-                        <Text style={styles.textWellly_2}>{t('lets_get_started')}</Text>
+                    <View style={styles.slide1}>
+                        <Image
+                            style={styles.entryImage}
+                            source={require('../assets/images/icon/walkthrough_3.png')}
+                        />
+                        <Text style={styles.textWellly}>{t('proper_way')}</Text>
+                        <View style={styles.areaText}>
+                            <Text style={styles.textWellly_2}>{t('lets_get_started')}</Text>
+                        </View>
                     </View>
-                </View>
-
-            </Swiper >
+                </Swiper >
+            </>
 
         )
 
@@ -119,17 +120,19 @@ class Walkthrough extends Component {
         return (
             <View style={styles.container}>
                 <View style={styles.swiperBox}>
-                    {
-                        this.swiper()
-                    }
-                </View>
-                <View style={styles.boxView}>
+                    <>
+                        {
+                            this.swiper()
+
+                        }
+                    </>
                     <View style={styles.circle}>
                         <View style={swiperIndex == "0" ? styles.circleActive : styles.circleDot} />
                         <View style={swiperIndex == "1" ? styles.circleActive : styles.circleDot} />
                         <View style={swiperIndex == "2" ? styles.circleActive : styles.circleDot} />
                     </View>
                 </View>
+
                 <View style={styles.buttonView}>
                     {swiperIndex < 2 ?
                         <>
@@ -162,10 +165,12 @@ const styles = StyleSheet.create({
     },
     wrapper: {
         marginTop: (devicehHeight > 668) ? "30%" : "10%",
+
+        marginBottom: 0
     },
     slide1: {
         width: "100%",
-        maxHeight: "100%",
+        height: "auto",
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -178,8 +183,7 @@ const styles = StyleSheet.create({
 
     },
     swiperBox: {
-        flex: 1
-
+        flex: 0.9,
 
     },
     welllyView: {
@@ -205,8 +209,6 @@ const styles = StyleSheet.create({
         textAlign: "center",
     },
     circle: {
-
-        marginTop: (devicehHeight < 668) ? -59 : (devicehHeight < 801) ? -166 : -94,
         flexDirection: "row",
         while: "100%",
         justifyContent: "center",
