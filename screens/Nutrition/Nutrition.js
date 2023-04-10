@@ -133,44 +133,87 @@ const Nutrition = ({ navigation }) => {
                     {nutrition_activity ?
 
                         nutrition_activity.map((item, i) => {
+                            console.log("item", item.mission_id);
                             if (((item.quiz_activities == null) || (item.assessment_kit_number != "1")) && (item.week_in_program != "4")) {
-                                return (
-                                    <Pressable onPress={() => navigation.navigate("ArticleTemplate", { id: item.week_in_program, mission_id: item.mission_id, heading: item.heading })} key={i + "tfb"}>
-                                        <View key={i} style={styles.row}>
-                                            <View style={styles.numberView}>
-                                                <Text style={styles.number}>{item.week_in_program}</Text>
-                                            </View>
-                                            <View style={styles.missionData}>
-                                                <Text style={styles.missionHead}>{item.heading}</Text>
-                                                <Text style={styles.missionContent}>
-                                                    {item.short_content}
-                                                </Text>
-                                                {
+                                if ((item.mission_id == "snc1") && (item.assessment_kit_number == null)) {
+                                    return (
+                                        <Pressable onPress={() => navigation.navigate("ArticleTemplate", { id: item.week_in_program, mission_id: item.mission_id, heading: item.heading })} key={i + "tfb"}>
+                                            <View key={i} style={styles.row}>
+                                                <View style={styles.numberView}>
+                                                    <Text style={styles.number}>{item.week_in_program}</Text>
+                                                </View>
+                                                <View style={styles.missionData}>
+                                                    <Text style={styles.missionHead}>{item.heading}</Text>
+                                                    <Text style={styles.missionContent}>
+                                                        {item.short_content}
+                                                    </Text>
+                                                    {
 
-                                                    (days == "Sunday") && (week_program_user == item.week_in_program) ?
-                                                        <View style={styles.notifiedRed}>
-                                                            <Text style={styles.notifiedTextRed}>
-                                                                วันสุดท้าย
-                                                            </Text>
-                                                        </View> :
-                                                        ((!quiz_activities) && (!quiz_activities_number) && (week_program_user != item.week_in_program)) || ((!assessment_kit_activties) && (!assessment_kit_number) && (week_program_user != item.week_in_program)) ?
-                                                            <View style={styles.notifiedYellow}>
-                                                                <Text style={styles.notifiedTextYellow}>
-                                                                    ภารกิจที่ยังทำไม่เสร็จ
+                                                        (days == "Sunday") && (week_program_user == item.week_in_program) ?
+                                                            <View style={styles.notifiedRed}>
+                                                                <Text style={styles.notifiedTextRed}>
+                                                                    วันสุดท้าย
                                                                 </Text>
-                                                            </View> : null
-                                                }
+                                                            </View> :
+                                                            ((!quiz_activities) && (!quiz_activities_number) && (week_program_user != item.week_in_program)) || ((!assessment_kit_activties) && (!assessment_kit_number) && (week_program_user != item.week_in_program)) ?
+                                                                <View style={styles.notifiedYellow}>
+                                                                    <Text style={styles.notifiedTextYellow}>
+                                                                        ภารกิจที่ยังทำไม่เสร็จ
+                                                                    </Text>
+                                                                </View> : null
+                                                    }
+                                                </View>
+                                                <View style={styles.viewIconRight}>
+                                                    <Image
+                                                        style={{ height: 24, width: 24, zIndex: 1, marginRight: 8 }}
+                                                        source={require('../../assets/images/icon/right.png')}
+                                                    />
+                                                    {/*   <AntDesign name="right" style={styles.iconRight} /> */}
+                                                </View>
                                             </View>
-                                            <View style={styles.viewIconRight}>
-                                                <Image
-                                                    style={{ height: 24, width: 24, zIndex: 1, marginRight: 8 }}
-                                                    source={require('../../assets/images/icon/right.png')}
-                                                />
-                                                {/*   <AntDesign name="right" style={styles.iconRight} /> */}
+                                        </Pressable>
+                                    )
+                                }
+                                if ((item.mission_id !== "snc1")) {
+                                    return (
+                                        <Pressable onPress={() => navigation.navigate("ArticleTemplate", { id: item.week_in_program, mission_id: item.mission_id, heading: item.heading })} key={i + "tfb"}>
+                                            <View key={i} style={styles.row}>
+                                                <View style={styles.numberView}>
+                                                    <Text style={styles.number}>{item.week_in_program}</Text>
+                                                </View>
+                                                <View style={styles.missionData}>
+                                                    <Text style={styles.missionHead}>{item.heading}</Text>
+                                                    <Text style={styles.missionContent}>
+                                                        {item.short_content}
+                                                    </Text>
+                                                    {
+
+                                                        (days == "Sunday") && (week_program_user == item.week_in_program) ?
+                                                            <View style={styles.notifiedRed}>
+                                                                <Text style={styles.notifiedTextRed}>
+                                                                    วันสุดท้าย
+                                                                </Text>
+                                                            </View> :
+                                                            ((!quiz_activities) && (!quiz_activities_number) && (week_program_user != item.week_in_program)) || ((!assessment_kit_activties) && (!assessment_kit_number) && (week_program_user != item.week_in_program)) ?
+                                                                <View style={styles.notifiedYellow}>
+                                                                    <Text style={styles.notifiedTextYellow}>
+                                                                        ภารกิจที่ยังทำไม่เสร็จ
+                                                                    </Text>
+                                                                </View> : null
+                                                    }
+                                                </View>
+                                                <View style={styles.viewIconRight}>
+                                                    <Image
+                                                        style={{ height: 24, width: 24, zIndex: 1, marginRight: 8 }}
+                                                        source={require('../../assets/images/icon/right.png')}
+                                                    />
+                                                    {/*   <AntDesign name="right" style={styles.iconRight} /> */}
+                                                </View>
                                             </View>
-                                        </View>
-                                    </Pressable>
-                                )
+                                        </Pressable>
+                                    )
+                                }
+
                             }
 
 
