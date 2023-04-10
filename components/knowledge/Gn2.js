@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
     boxImage2: {
         marginTop: 32,
         width: (deviceHeight > 1023) ? "100%" : 343,
-        height: (deviceHeight > 1023) ? 1100 : 525,
+        height: (deviceHeight > 1023) ? 1100 : 425,
     },
 })
 
