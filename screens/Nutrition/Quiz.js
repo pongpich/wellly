@@ -129,7 +129,7 @@ class QuizAnswer extends Component {
             numberArray: result.length
         })
 
-        this.props.update_quiz_activities(user_id, week_in_program, allSelectChoice, 'null');
+        this.props.update_quiz_activities(user_id, week_in_program, allSelectChoice, null);
 
     }
 
