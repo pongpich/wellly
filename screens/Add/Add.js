@@ -42,7 +42,8 @@ class Add extends Component {
         this._unsubscribe = this.props.navigation.addListener('focus', () => {
             const { intensityFromExArticleTemplate } = this.props;
 
-            /* const { } = this.props.route.params; */
+            const { activity_id } = this.props.route.params;
+            console.log("activity_id", activity_id);
             //console.log(this.props.route.params);
             /*   if (this.props.route.params) {
                   console.log("555");
@@ -51,9 +52,46 @@ class Add extends Component {
                   })
               } */
 
+            if (activity_id == "light_intensity") {
+                this.setState({
+                    study: "ต่ำ",
+                    intensityFromExArticle: "light_intensity",
+                    activity_list_show: [...activity_list.light_intensity]
+                })
+                console.log("ต่ำ");
+            }
+            else if (activity_id == "moderate_intensity") {
+                this.setState({
+                    study: "ปานกลาง",
+                    intensityFromExArticle: "moderate_intensity",
+                    activity_list_show: [...activity_list.moderate_intensity]
+                })
+
+                console.log("ปานกลาง");
+            } else if (activity_id == "vigorous_intensity") {
+                this.setState({
+                    study: "สูง",
+                    intensityFromExArticle: "vigorous_intensity",
+                    activity_list_show: [...activity_list.vigorous_intensity]
+                })
+
+            } else {
+
+                this.setState({
+                    activity_list_show: [...activity_list.light_intensity, ...activity_list.moderate_intensity, ...activity_list.vigorous_intensity],
+                    activity_list_addon_show: [
+                        ...(activity_list.light_intensity.filter(item => item.type === 'addon')),
+                        ...(activity_list.moderate_intensity.filter(item => item.type === 'addon')),
+                        ...(activity_list.vigorous_intensity.filter(item => item.type === 'addon')),
+                    ],
+                    study: "ทั้งหมด",
+                })
+            }
+            /*           */
+
             this.setState({
                 isModalConter: !isModalConter,
-                study: "ทั้งหมด",
+                /*  study: activity_id, */
             })
 
             /*  console.log("5555", isModalConter); */
@@ -61,14 +99,7 @@ class Add extends Component {
                 intensityFromExArticle: null
             })
 
-            this.setState({
-                activity_list_show: [...activity_list.light_intensity, ...activity_list.moderate_intensity, ...activity_list.vigorous_intensity],
-                activity_list_addon_show: [
-                    ...(activity_list.light_intensity.filter(item => item.type === 'addon')),
-                    ...(activity_list.moderate_intensity.filter(item => item.type === 'addon')),
-                    ...(activity_list.vigorous_intensity.filter(item => item.type === 'addon')),
-                ]
-            })
+
             if (intensityFromExArticleTemplate === true) {
                 this.setState({
                     intensityFromExArticle: intensityFromExArticleTemplate.intensity
@@ -281,6 +312,7 @@ class Add extends Component {
     listDataViews() {
         const { stsusColor, isModalVisible, isModalConter, study, data, activity_list_show, intensityFromExArticle, confirmActivityDeleted, message } = this.state;
         const { activity_list } = this.props;
+        console.log("study", study);
 
         return (
             <View style={{ flex: 1, justifyContent: "flex-end" }} onPress={() => this.toggleModal(isModalVisible)} >

@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import Modal from "react-native-modal";
 import i18next from 'i18next';
 import { withTranslation } from 'react-i18next';
-
+const deviceHeight = Math.round(Dimensions.get('window').height);
 class Login extends Component {
 
     constructor(props) {
@@ -143,7 +143,6 @@ class Login extends Component {
         const handleBlur = () => this.setState({ isFocused: false })
         const handleFocus2 = () => this.setState({ isFocused2: true })
         const handleBlur2 = () => this.setState({ isFocused2: false })
-
         return (
             <LinearGradient
                 style={ComponentsStyle.container}
@@ -151,10 +150,10 @@ class Login extends Component {
                 start={{ x: 1, y: 0 }}
                 end={{ x: 1, y: 1 }}
             >
-                {/* */}
-                <View style={ComponentsStyle.viewStyle}>
+
+                <View style={[ComponentsStyle.viewStyle]}>
                     <ScrollView>
-                        <View style={ComponentsStyle.viewStyle_1}>
+                        <View style={[ComponentsStyle.viewStyle_1, { marginTop: -10 }]}>
                             <View style={styles.viewtinyLogo}>
                                 <View style={styles.circle_1} />
                                 <View style={styles.circle_2} />
@@ -238,7 +237,7 @@ class Login extends Component {
                                             zIndex: 0,
                                             borderColor: stylePassword ? isFocused2 ? colors.persianBlue : colors.grey4 : colors.negative1,
                                             fontSize: (entry && password) ? 25 : 16,
-                                            /*   letterSpacing: (entry && password) ? -5 : 'normal', */ //เอาออกเพราะ android Error
+                                            //เอาออกเพราะ android Error
                                             paddingTop: (entry && password) ? 10 : 0
                                         }}
                                         onChangeText={(text) => this.handleChange("password", text)}
@@ -276,7 +275,7 @@ class Login extends Component {
                             </View>
                         </View>
                     </ScrollView>
-                    <View style={[ComponentsStyle.viewStyle_2, { marginBottom: 0 }]}>
+                    <View style={[ComponentsStyle.viewStyle_2]}>
                         {
                             (i18next.language === 'th') ?
                                 <Pressable style={styles.buttonThi_eng} onPress={() => i18next.changeLanguage("en")} >
@@ -288,10 +287,9 @@ class Login extends Component {
                                 </Pressable>
                         }
                     </View>
-                </View>
+                </View >
 
-                {/*  */}
-                <View style={styles.centeredView}>
+                <View View style={styles.centeredView} >
                     <Pressable title="Show modal" onPress={() => this.toggleModal(isModalVisible)} />
 
                     <Modal isVisible={isModalVisible}
@@ -314,8 +312,8 @@ class Login extends Component {
                             </View>
                         </View>
                     </Modal>
-                </View>
-            </LinearGradient>
+                </View >
+            </LinearGradient >
 
         )
     }
