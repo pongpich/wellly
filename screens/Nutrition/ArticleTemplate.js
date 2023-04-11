@@ -128,7 +128,6 @@ class ArticleTemplate extends Component {
         const { nutrition_activity_id_Mission } = this.props;
         const { mission_id } = this.state;
 
-        console.log("week_in_program", mission_id);
         // console.log("nutrition_activity_id_Mission.quiz_activities_number :", nutrition_activity_id_Mission.quiz_activities_number);
         if (nutrition_activity_id_Mission) {
             if (nutrition_activity_id_Mission.quiz_activities_number) {
@@ -148,7 +147,7 @@ class ArticleTemplate extends Component {
         this.setState({
             isModalVisible: !isModalVisible
         })
-        if (e === 'Report') {
+        if (e == 'Report') {
             this.props.navigation.navigate("Report")
         } else {
             this.props.navigation.navigate("Quiz")
@@ -343,7 +342,7 @@ class ArticleTemplate extends Component {
 
 
                 <View>
-                    <Pressable title="Show modal" onPress={() => this.toggleModal(isModalVisible)} />
+
 
                     <Modal isVisible={isModalVisible}
 

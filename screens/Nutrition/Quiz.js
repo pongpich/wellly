@@ -185,6 +185,7 @@ class QuizAnswer extends Component {
                                     var result = allSelectChoice && allSelectChoice.filter((member) => {
                                         return member.index === value.index
                                     })
+
                                     return (
                                         <View key={i + "v1"}>
                                             {value && value.image != "" ?

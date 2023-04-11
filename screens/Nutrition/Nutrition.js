@@ -133,7 +133,7 @@ const Nutrition = ({ navigation }) => {
                     {nutrition_activity ?
 
                         nutrition_activity.map((item, i) => {
-                            console.log("item", item.mission_id);
+
                             if (((item.quiz_activities == null) || (item.assessment_kit_number != "1")) && (item.week_in_program != "4")) {
                                 if ((item.mission_id == "snc1") && (item.assessment_kit_number == null)) {
                                     return (
