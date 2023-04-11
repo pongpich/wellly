@@ -599,7 +599,7 @@ const styles = StyleSheet.create({
         marginTop: 16,
         marginBottom: 16,
         width: (deviceHeight > 1023) ? "100%" : "100%",
-        height: (deviceHeight > 1023) ? 500 : 300
+        height: (deviceHeight > 1023) ? 500 : 290
     },
 });
 
