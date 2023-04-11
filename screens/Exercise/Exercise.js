@@ -488,7 +488,7 @@ const Exercise = ({ navigation }) => {
                                 exerciserActivity ?
 
                                     exerciserActivity.map((item, i) => {
-                                        if (item.quiz_activities_number == null) {
+                                        if (item.status_mission_activities !== "completed") {
                                             return (
                                                 <Pressable onPress={() => navigation.navigate("ExArticleTemplate", { id: item.week_in_program, mission_id: item.mission_id, heading: item.heading, mission_activities: item.mission_activities, statusPags: "Exercise" })} key={i + "tfb"}>
                                                     <View key={i} style={styles.row}>
