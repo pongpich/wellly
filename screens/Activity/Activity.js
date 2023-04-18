@@ -104,6 +104,7 @@ const Activity = ({ navigation }) => {
     /*   const screenWidth = Dimensions.get('window').width;
       const yLabelIterator = yLabel(); */
 
+
     return (
         <View style={styles.fill}>
             <Animated.ScrollView
@@ -114,9 +115,9 @@ const Activity = ({ navigation }) => {
             >
                 <View style={styles.scrollViewContent}>
                     <>
-                        {/* <View style={styles.boxChart}>
+                        <View style={{ marginHorizontal: 16, backgroundColor: colors.white, borderRadius: 16, paddingTop: 18 }}>
                             <View style={styles.missionView}>
-                                <Pressable style={[{ width: "auto", paddingHorizontal: 8 }, statusChart === 1 ? styles.missionPre : styles.programPre]} onPress={() => setStatusChart(1)} >
+                                <Pressable style={[{ width: "auto", paddingHorizontal: 8, marginLeft: 16 }, statusChart === 1 ? styles.missionPre : styles.programPre]} onPress={() => setStatusChart(1)} >
                                     <Text style={[styles.mission, statusChart === 1 ? { color: colors.white } : { color: colors.persianBlue }]}>สัปดาห์</Text>
                                 </Pressable>
                                 <Pressable style={[{ marginLeft: 8, width: "auto", paddingHorizontal: 8 }, statusChart === 2 ? styles.missionPre : styles.programPre]} onPress={() => setStatusChart(2)}>
@@ -127,50 +128,62 @@ const Activity = ({ navigation }) => {
                                 </Pressable>
                             </View>
 
-                            <View>
-                                <Text>Bezier Line Chart</Text>
-                                <StackedBarChart
-                                    data={{
-                                        labels: ["Test1", "Test2"],
-                                        legend: ["L1", "L2", "L3"],
-                                        data: [
-                                            [60, 60, 60],
-                                            [30, 30, 60]
-                                        ],
-                                        barColors: ["#59CBE4", "#FDAB44", "#F15E79"]
-                                    }}
-                                    width={Dimensions.get("window").width} // from react-native
-                                    height={220}
-                                    yAxisLabel=""
-                                    yAxisSuffix=""
-                                    yAxisInterval={0} // optional, defaults to 1
-                                    showLegend={true}
-                                    chartConfig={{
-                                        backgroundColor: "#fff",
-                                        backgroundGradientFrom: "#fff",
-                                        backgroundGradientTo: "#fff",
-                                        decimalPlaces: 0,
-                                        decimalPlaces: 2, // optional, defaults to 2dp
-                                        color: (opacity = 1) => `rgba(255, 0, 0, ${opacity})`,
-                                        labelColor: (opacity = 1) => `rgba(255, 0, 0, ${opacity})`,
-                                        style: {
-                                            borderRadius: 16,
-                                        },
-                                        propsForDots: {
-                                            r: "6",
-                                            strokeWidth: "2",
-                                            stroke: "#ffa726"
-                                        }
-                                    }}
-                                    bezier
-                                    style={{
-                                        marginVertical: 8,
-                                        borderRadius: 16
-                                    }}
-                                />
+                            <Text style={styles.watch}>(ชม.)</Text>
+                            <StackedBarChart
+                                data={{
+                                    labels: ["สัปดาห์ที่แล้ว", "สัปดาห์นี้"],
+                                    legend: [],
+                                    data: [
+                                        [1, 2.5, 3],
+                                        [1, 0.5, 2]
+                                    ],
+                                    barColors: ["#59CBE4", "#FDAB44", "#F15E79"]
+                                }}
+                                width={Dimensions.get("window").width - 40} // from react-native
+                                height={220}
+                                yAxisLabel=""
+                                yAxisSuffix=""
+                                yAxisInterval={1} // optional, defaults to 1
 
+                                chartConfig={{
+                                    barPercentage: 2,
+                                    backgroundColor: "#fff",
+                                    backgroundGradientFrom: "#fff",
+                                    backgroundGradientTo: "#fff",
+                                    decimalPlaces: 0,
+                                    decimalPlaces: 2, // optional, defaults to 2dp
+                                    color: (opacity = 1) => `rgba(146, 164, 187, ${opacity})`,
+                                    labelColor: (opacity = 1) => `rgba(146, 164, 187, ${opacity})`,
+                                    style: {
+                                        borderRadius: 16,
+                                    },
+                                    propsForDots: {
+                                        r: "6",
+                                        strokeWidth: "2",
+                                        stroke: "#ffa726"
+                                    }
+                                }}
+                                bezier
+                                style={{
+                                    marginVertical: 8,
+                                    borderRadius: 16
+                                }}
+                            />
+                            <View style={{ flexDirection: "row", marginBottom: 40, justifyContent: "center" }}>
+                                <View style={{ justifyContent: "center", textAlign: "center", alignItems: "center" }}>
+                                    <View style={{ width: 10, height: 10, backgroundColor: "#59CBE4", borderRadius: 100, }}></View>
+                                    <Text style={styles.textWatch}>ต่ำ</Text>
+                                </View>
+                                <View style={{ justifyContent: "center", marginLeft: 10, textAlign: "center", alignItems: "center" }}>
+                                    <View style={{ width: 10, height: 10, backgroundColor: "#FDAB44", borderRadius: 100, }}></View>
+                                    <Text style={styles.textWatch}>กลาง</Text>
+                                </View>
+                                <View style={{ justifyContent: "center", marginLeft: 10, textAlign: "center", alignItems: "center" }}>
+                                    <View style={{ width: 10, height: 10, backgroundColor: "#F15E79", borderRadius: 100, }}></View>
+                                    <Text style={styles.textWatch}>สูง</Text>
+                                </View>
                             </View>
-                        </View> */}
+                        </View>
                         <Text style={styles.nutritionWeek}>กิจกรรมสัปดาห์นี้</Text>
                         {
                             member_activity_log_in_week ?
@@ -233,7 +246,7 @@ const Activity = ({ navigation }) => {
                 </View>
             </Animated.ScrollView >
             <Text style={styles.nutritionText}>กิจกรรม</Text>
-            {/* <View style={styles.nutritionBox}>
+            <View style={styles.nutritionBox}>
                 <Animated.View
                     style={[
                         styles.header2,
@@ -273,7 +286,7 @@ const Activity = ({ navigation }) => {
                         </View>
                     </View>
                 </Animated.View >
-            </View > */}
+            </View >
 
         </View >
     )
@@ -438,7 +451,7 @@ const styles = StyleSheet.create({
         borderRadius: 16
     },
     nutritionWeek: {
-        marginTop: 80,
+        marginTop: 24,
         marginBottom: 8,
         marginHorizontal: 16,
         fontFamily: "IBMPlexSansThai-Bold",
@@ -473,7 +486,21 @@ const styles = StyleSheet.create({
         fontSize: 14,
         fontFamily: "IBMPlexSansThai-Regular",
         color: colors.grey2,
-    }
+    },
+    watch: {
+        fontSize: 12,
+        fontFamily: "IBMPlexSansThai-Regular",
+        color: colors.grey8,
+        marginLeft: 16,
+        marginTop: 16
+    },
+    textWatch: {
+
+        marginTop: 4,
+        fontSize: 12,
+        fontFamily: "IBMPlexSansThai-Regular",
+        color: colors.grey1,
+    },
 
 
 
