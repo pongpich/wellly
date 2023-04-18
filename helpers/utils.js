@@ -42,13 +42,7 @@ export function checkStar(mission_activities, activities_level) {
   var sumScoreInWeek = 0;
   mission_activities && mission_activities.map((itemMa, i) => {
     var sumItem = itemMa.number_completed * itemMa.score
-    let sumScoreMax = itemMa.number * itemMa.score
-
-    if (itemMa.number_completed > itemMa.number) {
-      sumScoreInWeek = sumScoreMax + sumScoreInWeek
-    } else {
-      sumScoreInWeek = sumScoreInWeek + sumItem
-    }
+    sumScoreInWeek = sumScoreInWeek + sumItem
 
   })
   var star_numb = 0;
