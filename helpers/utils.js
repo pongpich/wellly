@@ -42,7 +42,14 @@ export function checkStar(mission_activities, activities_level) {
   var sumScoreInWeek = 0;
   mission_activities && mission_activities.map((itemMa, i) => {
     var sumItem = itemMa.number_completed * itemMa.score
-    sumScoreInWeek = sumScoreInWeek + sumItem
+    let sumScoreMax = itemMa.number * itemMa.score
+
+    if (itemMa.number_completed > itemMa.number) {
+      sumScoreInWeek = sumScoreMax + sumScoreInWeek
+    } else {
+      sumScoreInWeek = sumScoreInWeek + sumItem
+    }
+
   })
   var star_numb = 0;
   var trophy = 0;
@@ -62,12 +69,22 @@ export function checkTrophy(mission_activities, activities_level) {
   var sumScoreInWeek = 0;
   mission_activities && mission_activities.map((itemMa, i) => {
     var sumItem = itemMa.number_completed * itemMa.score
-    sumScoreInWeek = sumScoreInWeek + sumItem
+    let sumScoreMax = itemMa.number * itemMa.score
+
+    if (itemMa.number_completed > itemMa.number) {
+      sumScoreInWeek = sumScoreMax + sumScoreInWeek
+    } else {
+      sumScoreInWeek = sumScoreInWeek + sumItem
+    }
+
   })
 
+
+  console.log("sumScoreInWeek", sumScoreInWeek);
   var star_numb = 0;
   var trophy = 0;
   activities_level && activities_level.map((item, i) => {
+
     if (sumScoreInWeek >= item.pts_length_min && sumScoreInWeek <= item.pts_length_max) {
       star_numb = item.star_numb;
     }

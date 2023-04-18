@@ -487,7 +487,7 @@ class ArticleTemplate extends Component {
                             }],
                             marginBottom: 0,
                             bottom: 0,
-                            height: study == true ? 80 : 0,
+                            height: study == true ? 0 : 0,
                             paddingHorizontal: 16,
                             backgroundColor: colors.white,
                             // statusBarColor: "light"

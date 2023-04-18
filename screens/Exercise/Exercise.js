@@ -172,11 +172,15 @@ const Exercise = ({ navigation }) => {
             dispatch(getExerciserActivity((user && user.user_id)));
             const week_program_user = calculateWeekInProgram(user.start_date);
             dispatch(getAllTrainingSet((user && user.user_id), week_program_user));
+
         });
 
         return unsubscribe;
 
     }, [navigation]);
+
+
+
 
 
     /*   useEffect(() => {  // ตอนกดมาจากหน้าภารกิจ
@@ -218,6 +222,7 @@ const Exercise = ({ navigation }) => {
                         }
 
                         dispatch(update_popUp_stars(user.user_id, weekStary, "1"));
+
                     }
                 })
             }
@@ -668,6 +673,8 @@ const Exercise = ({ navigation }) => {
                                 <View style={styles.starView}>
                                     {
                                         startData && startData.map((item, i) => {
+                                            /*         console.log("weekStaryMission", weekStaryMission);
+                                                    console.log("weekStaryLevel", weekStaryLevel); */
                                             return (
                                                 <Image style={[i > 0 ? { marginLeft: 16 } : null, { width: 40, height: 40, }]} key={i + "sr"} source={
                                                     /* const [weekStaryLevel, setWeekStaryLevel] = useState(null);
