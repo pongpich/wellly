@@ -42,17 +42,16 @@ class Add extends Component {
         this._unsubscribe = this.props.navigation.addListener('focus', () => {
             const { intensityFromExArticleTemplate } = this.props;
 
-            const { activity_id } = this.props.route.params;
-            console.log("activity_id", activity_id);
-            //console.log(this.props.route.params);
-            /*   if (this.props.route.params) {
-                  console.log("555");
-                  this.setState({
-                      isModalConter: true,
-                  })
-              } */
+            var activityId2 = null;
 
-            if (activity_id == "light_intensity") {
+            if (this.props.route.params == null || this.props.route.params == "undefined") {
+                activityId2 = "null";
+            } else {
+                activityId2 = this.props.route.params.activity_id;
+            }
+
+
+            if (activityId2 == "light_intensity") {
                 this.setState({
                     study: "ต่ำ",
                     intensityFromExArticle: "light_intensity",
@@ -60,7 +59,7 @@ class Add extends Component {
                 })
                 console.log("ต่ำ");
             }
-            else if (activity_id == "moderate_intensity") {
+            else if (activityId2 == "moderate_intensity") {
                 this.setState({
                     study: "ปานกลาง",
                     intensityFromExArticle: "moderate_intensity",
@@ -68,7 +67,7 @@ class Add extends Component {
                 })
 
                 console.log("ปานกลาง");
-            } else if (activity_id == "vigorous_intensity") {
+            } else if (activityId2 == "vigorous_intensity") {
                 this.setState({
                     study: "สูง",
                     intensityFromExArticle: "vigorous_intensity",
@@ -87,7 +86,7 @@ class Add extends Component {
                     study: "ทั้งหมด",
                 })
             }
-            /*           */
+
 
             this.setState({
                 isModalConter: !isModalConter,
@@ -796,7 +795,7 @@ class Add extends Component {
 
             </>
             /*  <>
- 
+     
                  {
                      editmission === false ?
                          <View style={{ flex: 1, justifyContent: "flex-end" }} onPress={() => this.toggleModal(isModalVisible)} >
@@ -813,13 +812,13 @@ class Add extends Component {
                                              </View>
                                          </View>
                                          : null
- 
+     
                                  }
- 
+     
                              </View>
                          </View>
                          :
- 
+     
                          <>
                              <View style={{ flex: 1, justifyContent: "flex-end" }} onPress={() => this.toggleModal(isModalVisible)} >
                                  <View style={[styles.modalViewConter, { paddingHorizontal: 16 }]}>
@@ -839,11 +838,11 @@ class Add extends Component {
                                                  :
                                                  <Text style={styles.headEditgrey}>บันทึก</Text>
                                          }
- 
- 
+     
+     
                                      </View>
                                      <Text style={[styles.headActivity, { marginTop: 19 }]}>ความเข้มข้น</Text>
- 
+     
                                      <View style={{ justifyContent: "space-between", flex: 1 }}>
                                          <View>
                                              <View style={[styles.missionView, { marginTop: 8 }]}>
@@ -890,11 +889,11 @@ class Add extends Component {
                                                  </Pressable>
                                              </View>
                                              : null}
- 
+     
                                      </View>
                                  </View>
                              </View>
- 
+     
                          </>
                  }
                  <>
@@ -920,10 +919,10 @@ class Add extends Component {
                                  </View>
                              </View>
                              : null
- 
+     
                      }
                  </>
- 
+     
              </> */
         )
     }
