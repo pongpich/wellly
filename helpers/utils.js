@@ -80,7 +80,6 @@ export function checkTrophy(mission_activities, activities_level) {
   })
 
 
-  console.log("sumScoreInWeek", sumScoreInWeek);
   var star_numb = 0;
   var trophy = 0;
   activities_level && activities_level.map((item, i) => {
