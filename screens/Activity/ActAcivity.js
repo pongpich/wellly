@@ -62,15 +62,12 @@ class ActAcivity extends Component {
 
 
     toggleModal(isModalVisible2) {
-        console.log("adas");
 
         this.setState({
             isModalVisible2: !isModalVisible2
         })
     };
     isModalConter(isModalConter2) {
-        console.log("adas");
-
         this.setState({
             isModalConter2: !isModalConter2
         })
@@ -79,7 +76,6 @@ class ActAcivity extends Component {
     deleteActivity(mess) {
         const { user } = this.props;
         const { activity_id_edit_focus } = this.state;
-        /*   console.log("activity_id_edit_focus :", activity_id_edit_focus); */
         /*  this.props.deleteActivityListAddOn(user.user_id, activity_id_edit_focus)
          this.setState({
              statusCreate: "editView",
@@ -114,7 +110,6 @@ class ActAcivity extends Component {
         const { stsusColor, isModalVisible2, isModalConter2, study, activity, intensity, type, duration, note } = this.state;
         /*     const date = new Date();
     
-            console.log("date", date);
             const day = date.getDate();
             const month = date.getMonth() + 1;
             const year = date.getFullYear();
@@ -221,7 +216,7 @@ class ActAcivity extends Component {
                             }}
                         />
                     </View>
-                   {/*  <View style={{ alignItems: "center" }}>
+                    {/*  <View style={{ alignItems: "center" }}>
                         <Pressable onPress={() => this.toggleModal(isModalVisible2)} >
                             <Text style={styles.deleteActivity}>ลบกิจกรรมนี้</Text>
                         </Pressable>

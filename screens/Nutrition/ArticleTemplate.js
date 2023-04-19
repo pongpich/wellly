@@ -48,7 +48,6 @@ class ArticleTemplate extends Component {
 
         // รับ   params จาก  route
         const { id, mission_id } = this.props.route.params;
-        //  console.log("nutrition_mission", nutrition_activity_id_Mission.week_in_program);
 
         this.props.getNutritionActivityIdMission(user.user_id, mission_id);
         this.props.getNutritionMission(mission_id);
@@ -128,7 +127,6 @@ class ArticleTemplate extends Component {
         const { nutrition_activity_id_Mission } = this.props;
         const { mission_id } = this.state;
 
-        // console.log("nutrition_activity_id_Mission.quiz_activities_number :", nutrition_activity_id_Mission.quiz_activities_number);
         if (nutrition_activity_id_Mission) {
             if (nutrition_activity_id_Mission.quiz_activities_number) {
                 this.props.navigation.navigate("Report")
@@ -179,7 +177,7 @@ class ArticleTemplate extends Component {
         const { statusBarColor, numberMission, study, statusQuiz, statusMission, isModalVisible, week_in_program, mission_id } = this.state;
         const { nutrition_activity_id_Mission } = this.props;
         const { heading } = this.props.route.params;
-        //console.log("statusMission", week_in_program, statusMission, statusQuiz);
+
         return (
             <View style={styles.container}>
                 <View style={{ height: 44, zIndex: 10, width: "100%", backgroundColor: statusBarColor === "light" ? colors.persianBlue : colors.white }}>

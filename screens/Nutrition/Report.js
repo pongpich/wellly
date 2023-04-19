@@ -35,7 +35,6 @@ class Report extends Component {
     componentDidMount() {
         const { nutrition_mission, user, nutrition_activity_id_Mission, statusGetNutritionActivityIdMission } = this.props;
         const { assessmentKit, assessmentKitActivities, multiplChoice, checkList } = this.state;
-        //console.log("nutrition_mission", nutrition_mission);
         if (nutrition_mission.assessment_kit) {
             var assessment_kit = JSON.parse(nutrition_mission.assessment_kit);
             this.setState({
@@ -89,8 +88,6 @@ class Report extends Component {
                 this.setState({
                     assessmentKitActivities: value,
                 })
-
-                //console.log("assessmentKitActivities", assessment_kit);
                 let result2 = assessment_kit && assessment_kit.filter((member2) => {
                     return member2.type == "check_list"
                 })
@@ -192,7 +189,6 @@ class Report extends Component {
             return ke && ke.filter((key_name, l) => {
                 if (key_name != "index") {
                     if (member[key_name] == true) {
-                        // console.log("member", member);
                         return member;
                     }
                 }

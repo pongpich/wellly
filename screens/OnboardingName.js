@@ -82,7 +82,6 @@ class OnboardingName extends React.Component {
         const { name, switchOn, isFocused, errorInput, word } = this.state;
         const handleFocus = () => this.setState({ isFocused: true })
         const handleBlur = () => this.setState({ isFocused: false })
-        /*  console.log("word",word); */
         const { t } = this.props;
         return (
             <View style={styles.container}>

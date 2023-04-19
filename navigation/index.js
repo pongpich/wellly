@@ -351,7 +351,6 @@ function getBottomTabse(route) {
 
   const routeName = getFocusedRouteNameFromRoute(route) ?? 'Feed';
 
-  /*   console.log("routeName", getFocusedRouteNameFromRoute(route)); */
   if (routeName == "History") {
     return 'none';
   }

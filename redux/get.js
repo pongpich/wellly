@@ -115,7 +115,6 @@ const getProfanitySagaAsync = async () => {
       }
 
     });
-    // console.log("apiResult", apiResult);
     return apiResult
   } catch (error) {
     return { error, messsage: error.message };
@@ -130,7 +129,6 @@ const getActivityListSagaAsync = async (user_id) => {
       }
 
     });
-    // console.log("apiResult", apiResult);
     return apiResult
   } catch (error) {
     return { error, messsage: error.message };
@@ -145,7 +143,6 @@ const getNutritionMissionSagaAsync = async (mission_id) => {
       }
 
     });
-    // console.log("apiResult", apiResult);
     return apiResult
   } catch (error) {
     return { error, messsage: error.message };
@@ -160,7 +157,6 @@ const getNutritionActivityIdMissionSagaAsync = async (user_id, mission_id) => {
         mission_id
       }
     });
-    //  console.log("apiResult", apiResult);
     return apiResult
   } catch (error) {
     return { error, messsage: error.message };
@@ -187,7 +183,6 @@ const getExerciserActivitySagaAsync = async (user_id) => {
         user_id
       }
     });
-    /*   console.log("apiResult", apiResult); */
     return apiResult
   } catch (error) {
     return { error, messsage: error.message };
@@ -232,7 +227,7 @@ const getMemberActivityLogInWeekSagaAsync = async (user_id) => {
         user_id
       }
     });
-    /*   console.log("apiResult", apiResult); */
+
     return apiResult
   } catch (error) {
     return { error, messsage: error.message };
@@ -359,7 +354,6 @@ function* getExerciserActivitySaga({ payload }) {
       getExerciserActivitySagaAsync,
       user_id
     )
-    // console.log("apiResult", apiResult);
     yield put({
       type: types.GET_EXERCISE_ACTIVITY_SUCCESS,
       payload: apiResult.results.exerciser_activity
@@ -381,7 +375,6 @@ function* getAllTrainingSetSaga({ payload }) {
       user_id,
       week_in_program
     )
-    //console.log("apiResult", apiResult);
     yield put({
       type: types.GET_ALL_TRAINING_SET_SUCCESS,
       payload: apiResult.results.allTrainingSet
@@ -401,7 +394,6 @@ function* getTrainingSetSaga({ payload }) {
       getTrainingSetSagaAsync,
       set_code
     )
-    //console.log("apiResult", apiResult);
     yield put({
       type: types.GET_TRAINING_SET_SUCCESS,
       payload: apiResult.results.trainingSet

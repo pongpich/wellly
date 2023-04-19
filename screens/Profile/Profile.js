@@ -144,7 +144,6 @@ class Profile extends Component {
         const { user, statusDeleteAcc } = this.props;
         const { popupDeleteAccShow, isModalVisible, userName, errorInput, message, statusMessage } = this.state;
         const { t } = this.props;
-        /*    console.log("user", user); */
         return (
             <View style={styles.container}>
                 <ImageBackground source={require('../../assets/images/icon/Logo_profile.png')} style={{ height: 180, backgroundColor: colors.mayaBlue60 }}>

@@ -41,7 +41,7 @@ class QuizAnswer extends Component {
             user_id: user.user_id,
             week_in_program: nutrition_mission.week_in_program
         })
-        //console.log("route.name", route.name);
+
         this.props.routeName(route.name);
 
     }
@@ -180,7 +180,6 @@ class QuizAnswer extends Component {
                             {
                                 data && data.map((value, i,) => {
                                     const choice = value.choice;
-                                    /*                       console.log("value", value.image); */
 
                                     var result = allSelectChoice && allSelectChoice.filter((member) => {
                                         return member.index === value.index

@@ -13,7 +13,6 @@ class ConfirmSubmit extends Component {
     componentDidMount() {
 
         const { route } = this.props;
-        //console.log("route", route);
         this.props.routeName(route.name);
     }
 

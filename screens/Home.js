@@ -39,8 +39,6 @@ class Home extends Component {
 
         this._unsubscribe = this.props.navigation.addListener('focus', () => {
             // do something
-
-            //  console.log("user.user_id", user.user_id);
             this.props.insertNutritionActivity(user && user.user_id);
             this.props.getNutritionActivity(user && user.user_id);
             this.props.getExerciserActivity(user && user.user_id);

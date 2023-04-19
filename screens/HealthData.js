@@ -209,7 +209,6 @@ class HealthData extends Component {
             //check health_type
             let stRe = statusResultsUser(diabetes, hypertension, exercise)
             const health_type = stRe && stRe.resultsUser;
-            console.log("health_type :", health_type);
             this.props.updateHealthData((user && user.user_id), health_data, health_type)
         }
     }
@@ -413,7 +412,7 @@ class HealthData extends Component {
 
                                 </View>
                             </View>
-                            <View style={[styles.areaViewText, {marginTop: 30}]}>
+                            <View style={[styles.areaViewText, { marginTop: 30 }]}>
                                 <Text style={styles.text_2}>{'Ref. (อ้างอิง)'}</Text>
                                 <Pressable onPress={() => this.setState({ popupShow: true, selectedRef: 'diabetes' })}>
                                     <Text style={styles.text_3}>{'- ภาวะเบาหวาน (type 2 diabetes)'}</Text>

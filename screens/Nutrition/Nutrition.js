@@ -68,12 +68,7 @@ const Nutrition = ({ navigation }) => {
                 setDays(null)
             }
 
-            //console.log("nutrition_activity", nutrition_activity);
-            /* console.log("nutrition_activity", nutrition_activity.quiz_activities);
-            console.log("nutrition_activity", nutrition_activity.quiz_activities_number); */
-            /*  console.log("nutrition_activity", nutrition_activity);
-             console.log("nutrition_activity", nutrition_activity.assessment_kit_activties);
-             console.log("nutrition_activity", nutrition_activity.assessment_kit_number); */
+
 
 
             if (statusGetNutritionActivity == 'success') {

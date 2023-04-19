@@ -84,7 +84,6 @@ class ReportFeedback extends Component {
 
     render() {
         const { statusBarColor, routName, mission, assessment_kit, typeChoice, typeCheckList, week_in_program } = this.state;
-        //console.log("assessment_kit", assessment_kit)
         return (
             <View style={styles.container}>
                 <View style={{ height: 44, width: "100%", backgroundColor: statusBarColor === "light" ? colors.secondary_MayaBlue : colors.white }}>
@@ -187,12 +186,9 @@ class ReportFeedback extends Component {
                                                                     if (ke != "index") {
                                                                         if (ke != "clause_question") {
                                                                             if (value[ke] == true) {
-                                                                                //console.log("value", value);
                                                                                 let resflie = mission.find((member) => {
                                                                                     return member.index == value.index
                                                                                 })
-                                                                                //   console.log("resflie", resflie);
-                                                                                //  console.log("resflie", resflie.question);
                                                                             }
                                                                         }
                                                                     }

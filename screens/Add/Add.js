@@ -57,7 +57,6 @@ class Add extends Component {
                     intensityFromExArticle: "light_intensity",
                     activity_list_show: [...activity_list.light_intensity]
                 })
-                console.log("ต่ำ");
             }
             else if (activityId2 == "moderate_intensity") {
                 this.setState({
@@ -65,8 +64,6 @@ class Add extends Component {
                     intensityFromExArticle: "moderate_intensity",
                     activity_list_show: [...activity_list.moderate_intensity]
                 })
-
-                console.log("ปานกลาง");
             } else if (activityId2 == "vigorous_intensity") {
                 this.setState({
                     study: "สูง",
@@ -92,8 +89,6 @@ class Add extends Component {
                 isModalConter: !isModalConter,
                 /*  study: activity_id, */
             })
-
-            /*  console.log("5555", isModalConter); */
             this.setState({
                 intensityFromExArticle: null
             })
@@ -221,7 +216,6 @@ class Add extends Component {
     deleteActivity(mess) {
         const { user } = this.props;
         const { activity_id_edit_focus } = this.state;
-        /*  console.log("activity_id_edit_focus :", activity_id_edit_focus); */
         /* this.props.deleteActivityListAddOn(user.user_id, activity_id_edit_focus)
         this.setState({
             statusCreate: "editView",
@@ -235,8 +229,6 @@ class Add extends Component {
         /*  this.props.navigation.popToTop() */
     }
     violence(e) {
-        /* 
-                console.log("asdas", e); */
         this.setState({
             statusViolence: e
         })
@@ -311,7 +303,6 @@ class Add extends Component {
     listDataViews() {
         const { stsusColor, isModalVisible, isModalConter, study, data, activity_list_show, intensityFromExArticle, confirmActivityDeleted, message } = this.state;
         const { activity_list } = this.props;
-        console.log("study", study);
 
         return (
             <View style={{ flex: 1, justifyContent: "flex-end" }} onPress={() => this.toggleModal(isModalVisible)} >
@@ -932,7 +923,6 @@ class Add extends Component {
 
     render() {
         const { stsusColor, isModalVisible, isModalConter, study, data, statusCreate, statusViolence, missionName } = this.state;
-        /*    console.log("isModalVisible", isModalConter); */
         return (
             <>
                 <View style={styles.fill}>

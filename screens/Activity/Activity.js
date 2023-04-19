@@ -188,8 +188,6 @@ const Activity = ({ navigation }) => {
                         {
                             member_activity_log_in_week ?
                                 member_activity_log_in_week.map((item, i) => {
-                                    console.log("item", member_activity_log_in_week);
-
                                     return (
                                         <Pressable key={i + "tfb"} onPress={() => navigation.navigate("ActAcivity", { activity: item.activity, duration: item.duration, note: item.note, intensity: item.intensity, type: item.type })/* navigation.navigate("ActAcivity") */}>
                                             <View key={i} style={styles.row}>

@@ -292,7 +292,6 @@ class ArticleTemplate extends Component {
                 <Text style={styles.challenge}>ชาเลนจ์</Text>
                 {
                     data && data.map((item, i) => {
-                        /*  console.log("item", item); */
                         var dataLength = data.length;
                         const multiple = (100 / item.number) * item.number_completed;
                         var maxScore = item.number * item.score;

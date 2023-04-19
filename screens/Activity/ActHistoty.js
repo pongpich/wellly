@@ -11,7 +11,7 @@ class ActHistoty extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: null,
+            data: [],
             selected_month: 1,
             selected_year: 1,
             currYear: 2023,
@@ -53,16 +53,28 @@ class ActHistoty extends Component {
             this.setState({ data: month_act_log })
         }
         if (prevState.selected_year !== selected_year) {
-            console.log("selected_year :", selected_year);
             this.props.getMonthActivityLog(user_id, selected_year, selected_month);
         }
         if (prevState.selected_month !== selected_month) {
             this.props.getMonthActivityLog(user_id, selected_year, selected_month);
         }
     }
+    noActivity() {
+        return (
+            <View style={{ justifyContent: "center", alignItems: "center", white: "100%", height: "80%", }}>
+                <Image
+                    style={{ height: 84, width: 120, marginLeft: 4 }}
+                    source={require('../../assets/images/exercise/Empty_State.png')}
+                />
+                <Text style={styles.imptyTextHead}>ยังไม่มีกิจกรรม</Text>
+            </View>
+        )
+    }
+
 
     render() {
         const { selected_year, selected_month, data, currYear, currMonth } = this.state;
+
         return (
             <SafeAreaView style={styles.container}>
                 <View style={styles.marginBox}>
@@ -94,6 +106,7 @@ class ActHistoty extends Component {
                                 <Pressable style={[{ width: "auto", paddingHorizontal: 8 }, selected_month === 1 ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth(1)} >
                                     <Text style={[styles.mission, selected_month === 1 ? { color: colors.white } : { color: colors.persianBlue }]}>ม.ค.</Text>
                                 </Pressable>
+
                             }
                             {
                                 ((selected_year < currYear) || ((selected_year === currYear) && (currMonth >= 2))) &&
@@ -164,62 +177,63 @@ class ActHistoty extends Component {
                         </View>
                     </ScrollView>
                 </View>
-                <View>
+                <View >
+                    {
+                        data.length == 0 && this.noActivity()
+                    }
                     <ScrollView>
-                        {
-                            <View style={{
-                                marginTop: 20
-                            }}>
-                                {
-                                    data &&
-                                    data.map((item, i) => {
+                        <View style={{
+                            marginTop: 20, flex: 1
+                        }}>
+                            {
 
-                                        return (
-                                            <Pressable key={i + "tfb"}>
-                                                <View key={i} style={styles.row}>
-                                                    <Image
-                                                        style={styles.activityImage}
-                                                        source={item.intensity === 'light_intensity' ? require('../../assets/images/activity/Activitylow.png') : item.intensity === 'moderate_intensity' ? require('../../assets/images/activity/Activitycenter.png') : require('../../assets/images/activity/Activityhign.png')}
-                                                    />
-                                                    <View style={styles.missionData}>
-                                                        <Text style={styles.missionHead}>{item.activity}</Text>
-                                                        <View style={styles.rowView}>
-                                                            <Text style={styles.dateData}>
-                                                                {item.created_at}
-                                                            </Text>
-                                                            <Text style={styles.li}>{"\u2B24" + " "}</Text>
-                                                            <Text style={styles.dateData}>
-                                                                {item.intensity === 'light_intensity' && 'เข้มข้นต่ำ'}
-                                                                {item.intensity === 'moderate_intensity' && 'เข้มข้นปานกลาง'}
-                                                                {item.intensity === 'vigorous_intensity' && 'เข้มข้นสูง'}
-                                                            </Text>
-                                                        </View>
-                                                        <Text style={styles.timeData}>{item.duration} นาที</Text>
-                                                        <View style={styles.rowView}>
-                                                            <Image
-                                                                style={{ height: 12, width: 12, marginTop: 5, marginRight: 4 }}
-                                                                source={require('../../assets/images/activity/Note.png')}
-                                                            />
-                                                            <Text style={styles.editNote}>{item.note}</Text>
-                                                        </View>
+                                data && data.map((item, i) => {
+
+                                    return (
+                                        <Pressable key={i + "tfb"}>
+                                            <View key={i} style={styles.row}>
+                                                <Image
+                                                    style={styles.activityImage}
+                                                    source={item.intensity === 'light_intensity' ? require('../../assets/images/activity/Activitylow.png') : item.intensity === 'moderate_intensity' ? require('../../assets/images/activity/Activitycenter.png') : require('../../assets/images/activity/Activityhign.png')}
+                                                />
+                                                <View style={styles.missionData}>
+                                                    <Text style={styles.missionHead}>{item.activity}</Text>
+                                                    <View style={styles.rowView}>
+                                                        <Text style={styles.dateData}>
+                                                            {item.created_at}
+                                                        </Text>
+                                                        <Text style={styles.li}>{"\u2B24" + " "}</Text>
+                                                        <Text style={styles.dateData}>
+                                                            {item.intensity === 'light_intensity' && 'เข้มข้นต่ำ'}
+                                                            {item.intensity === 'moderate_intensity' && 'เข้มข้นปานกลาง'}
+                                                            {item.intensity === 'vigorous_intensity' && 'เข้มข้นสูง'}
+                                                        </Text>
                                                     </View>
-                                                    <View style={styles.viewIconRight}>
-                                                        <Pressable /* onPress={() => refresh()} */>
-                                                            <Image
-                                                                style={{ height: 24, width: 24, zIndex: 1, marginRight: 8 }}
-                                                                source={require('../../assets/images/icon/right.png')}
-                                                            />
-                                                        </Pressable>
+                                                    <Text style={styles.timeData}>{item.duration} นาที</Text>
+                                                    <View style={styles.rowView}>
+                                                        <Image
+                                                            style={{ height: 12, width: 12, marginTop: 5, marginRight: 4 }}
+                                                            source={require('../../assets/images/activity/Note.png')}
+                                                        />
+                                                        <Text style={styles.editNote}>{item.note}</Text>
                                                     </View>
                                                 </View>
-                                            </Pressable>
-                                        )
+                                                <View style={styles.viewIconRight}>
+                                                    <Pressable >
+                                                        <Image
+                                                            style={{ height: 24, width: 24, zIndex: 1, marginRight: 8 }}
+                                                            source={require('../../assets/images/icon/right.png')}
+                                                        />
+                                                    </Pressable>
+                                                </View>
+                                            </View>
+                                        </Pressable>
+                                    )
 
-                                    })
-                                }
-                            </View>
+                                })
 
-                        }
+                            }
+                        </View>
                     </ScrollView>
                 </View>
             </SafeAreaView >
@@ -326,7 +340,12 @@ const styles = StyleSheet.create({
         height: "100%",
         alignItems: "flex-end",
         justifyContent: "center",
-
+    },
+    imptyTextHead: {
+        marginTop: 8,
+        color: colors.grey2,
+        fontSize: ComponentsStyle.fontSize16,
+        fontFamily: "IBMPlexSansThai-Bold",
     },
 })
 

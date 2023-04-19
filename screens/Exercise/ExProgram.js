@@ -43,7 +43,6 @@ const ExProgram = ({ navigation }) => {
         setStstus_m_f(status_male_female)
         const dataTrainingSet = trainingSet && Object.entries(trainingSet);
         const data = dataTrainingSet[0][1][0];
-        /*  console.log('ataTrainingSet', dataTrainingSet[0][1][0]); */
         setPlayTempo(data.tempo)
         setPlayRep(data.rep)
         setPlaySet(data.set)
@@ -70,8 +69,6 @@ const ExProgram = ({ navigation }) => {
         setPlaySet(e.set)
         setPlayName(e.name)
         setPlayVideo(i)
-        /* setUrlPlay(e.img_url_m) */
-        /*      console.log("e", e); */
         setModalVisible(!modalVisible)
         if (ststus_m_f === "ชาย") {
             setUrlPlay(e.img_url_m)

@@ -117,7 +117,6 @@ const Exercise = ({ navigation }) => {
       }; */
 
     const closeeModal = (e, m) => {
-        console.log("e", e);
         setStatus_resistance("ยิม")
         setStatus_male_female("ชาย")
         setExpanded(false)
@@ -187,7 +186,6 @@ const Exercise = ({ navigation }) => {
           const unsubscribe = navigation.addListener('focus', () => {
   
               const { name } = route.params;
-              console.log("coreBalanceRoute", name);
           });
   
           return unsubscribe;
@@ -285,9 +283,6 @@ const Exercise = ({ navigation }) => {
 
     const program = () => {
         const dataTrainingSet = trainingSet && Object.entries(trainingSet);
-        /*  console.log("dataTrainingSet", dataTrainingSet); */
-
-
 
         return (
             <>
@@ -412,7 +407,6 @@ const Exercise = ({ navigation }) => {
                                             onPress={() => setExpanded(!expanded)}>
                                             {
                                                 dataTrainingSet && dataTrainingSet.map((item, i) => {
-                                                    /*             console.log("item", item); */
                                                     return (
                                                         <View style={styles.exerciseBox} key={i + "box"}>
                                                             <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
@@ -472,9 +466,6 @@ const Exercise = ({ navigation }) => {
             </>
         )
     }
-
-
-    /*     console.log("statusAllTrainingSet ", statusAllTrainingSet, allTrainingSet); */
 
 
     return (
@@ -673,8 +664,6 @@ const Exercise = ({ navigation }) => {
                                 <View style={styles.starView}>
                                     {
                                         startData && startData.map((item, i) => {
-                                            /*         console.log("weekStaryMission", weekStaryMission);
-                                                    console.log("weekStaryLevel", weekStaryLevel); */
                                             return (
                                                 <Image style={[i > 0 ? { marginLeft: 16 } : null, { width: 40, height: 40, }]} key={i + "sr"} source={
                                                     /* const [weekStaryLevel, setWeekStaryLevel] = useState(null);

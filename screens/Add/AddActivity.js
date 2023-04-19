@@ -61,21 +61,16 @@ class AddActivity extends Component {
 
 
     toggleModal(isModalVisible2) {
-        console.log("adas");
-
         this.setState({
             isModalVisible2: !isModalVisible2
         })
     };
     isModalConter(isModalConter2) {
-        console.log("adas");
-
         this.setState({
             isModalConter2: !isModalConter2
         })
     };
     deleteActivity2(isModalConter2) {
-        console.log("aa");
         this.setState({
             note: '',
             duration: '',
@@ -103,7 +98,6 @@ class AddActivity extends Component {
         const { stsusColor, isModalVisible2, isModalConter2, study, activity, intensity, type, duration, note } = this.state;
         /*     const date = new Date();
     
-            console.log("date", date);
             const day = date.getDate();
             const month = date.getMonth() + 1;
             const year = date.getFullYear();

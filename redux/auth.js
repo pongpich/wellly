@@ -126,7 +126,6 @@ const updateHealthDataSagaAsync = async (
 ) => {
 
   try {
-    console.log("health_type2 :", health_type);
     const apiResult = await API.post("planforfit", "/updateHealthData", {
       body: {
         user_id,
@@ -264,7 +263,7 @@ function* registerSaga({ payload }) {
       email,
       password
     );
-    console.log("register apiResult :", apiResult);
+
     if (apiResult && apiResult.results) {
       if (apiResult.results.message === "success") {
 
@@ -276,7 +275,6 @@ function* registerSaga({ payload }) {
         yield put({
           type: types.REGISTER_FAIL
         })
-        console.log("register Fail");
       }
     }
 
@@ -333,7 +331,6 @@ function* updateHealthDataSaga({ payload }) {
   } = payload
 
   try {
-    console.log("health_type1: ", health_type);
     const apiResult = yield call(
       updateHealthDataSagaAsync,
       user_id,
