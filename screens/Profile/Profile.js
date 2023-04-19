@@ -96,19 +96,19 @@ class Profile extends Component {
                 <ScrollView>
                     <View style={{ marginTop: 25 }}>
                         <Pressable onPress={() => this.props.navigation.navigate("Badge")}>
-                        <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
-                            <View style={{ flexDirection: "row" }}>
+                            <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
+                                <View style={{ flexDirection: "row" }}>
+                                    <Image
+                                        style={{ width: 24, height: 24, marginLeft: 16 }}
+                                        source={require('../../assets/images/icon/Badge_3x.png')}
+                                    />
+                                    <Text style={styles.manuName}>ตราของฉัน</Text>
+                                </View>
                                 <Image
-                                    style={{ width: 24, height: 24, marginLeft: 16 }}
-                                    source={require('../../assets/images/icon/Badge_3x.png')}
+                                    style={{ width: 24, height: 24, marginRight: 16 }}
+                                    source={require('../../assets/images/icon/right.png')}
                                 />
-                                <Text style={styles.manuName}>ตราของฉัน</Text>
                             </View>
-                            <Image
-                                style={{ width: 24, height: 24, marginRight: 16 }}
-                                source={require('../../assets/images/icon/right.png')}
-                            />
-                        </View>
                         </Pressable>
                         <View style={styles.line}>
                             <View style={styles.line1} />
@@ -239,12 +239,12 @@ class Profile extends Component {
                                         <Text style={styles.missionHead}>การลบบัญชีไม่สามารถย้อนกลับได้</Text>
                                         <Text style={styles.missionHead}>ข้อมูลบัญชีจะไม่สามารถกู้คืนได้</Text>
                                         <Text style={styles.missionHead}>คุณแน่ใจหรือไม่ ?</Text>
-                                        <View style={{ flexDirection: 'row', marginTop: 20 }}>
-                                            <View style={{ flex: 1, marginRight: 10 }}>
-                                                <Button title="ยกเลิก" onPress={() => this.setState({ popupDeleteAccShow: !popupDeleteAccShow })} />
+                                        <View style={{ flexDirection: 'row', marginTop: 20, justifyContent: "space-between", width: "100%" }}>
+                                            <View style={styles.button}>
+                                                <Text onPress={() => this.setState({ popupDeleteAccShow: !popupDeleteAccShow })} style={ComponentsStyle.textButton} >ยกเลิก</Text>
                                             </View>
-                                            <View style={{ flex: 1 }}>
-                                                <Button title="ยืนยัน" onPress={() => this.props.deleteAccount(user && user.user_id)} />
+                                            <View style={styles.buttonGrey}>
+                                                <Text onPress={() => this.props.deleteAccount(user && user.user_id)} style={ComponentsStyle.textButtonGrey} >ยืนยัน</Text>
                                             </View>
                                         </View>
                                     </View>
@@ -332,7 +332,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     modalView: {
-
+        width: "100%",
         backgroundColor: 'white',
         borderRadius: 16,
         padding: 35,
@@ -349,7 +349,44 @@ const styles = StyleSheet.create({
     modalText: {
         marginBottom: 15,
         textAlign: 'center',
-    }
+    },
+    missionHead: {
+        fontSize: ComponentsStyle.fontSize16,
+        fontFamily: "IBMPlexSansThai-Regular",
+        color: "red",
+    },
+    textButton: {
+        fontFamily: "IBMPlexSansThai-Bold",
+        fontSize: ComponentsStyle.fontSize16,
+        color: colors.persianBlue
+    },
+    deleteAccount: {
+        fontFamily: "IBMPlexSansThai-Bold",
+        fontSize: ComponentsStyle.fontSize16,
+    },
+    button: {
+        width: "48%",
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 12,
+        paddingHorizontal: 32,
+        borderRadius: 4,
+        elevation: 3,
+        backgroundColor: colors.persianBlue,
+        borderRadius: 24,
+        height: 48
+    },
+    buttonGrey: {
+        width: "48%",
+        alignItems: 'center',
+        paddingVertical: 12,
+        paddingHorizontal: 32,
+        borderRadius: 4,
+        elevation: 3,
+        backgroundColor: colors.grey4,
+        borderRadius: 24,
+        height: 50,
+    },
 });
 
 const mapStateToProps = ({ authUser }) => {
