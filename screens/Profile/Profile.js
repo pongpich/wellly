@@ -23,6 +23,8 @@ class Profile extends Component {
             userName: '',
             errorInput: false,
             words: null,
+            message: null,
+            statusMessage: false
         };
     }
 
@@ -36,9 +38,9 @@ class Profile extends Component {
         })
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps, prevState) {
         const { statusDeleteAcc, profanity, statusUpdateDisplayName } = this.props;
-
+        const { message } = this.state;
         if ((prevProps.profanity !== profanity) && (profanity !== "loading")) {
             let profanities = profanity && profanity.profanities;
             const keyWord = [];
@@ -53,6 +55,22 @@ class Profile extends Component {
             setTimeout(() => {
                 this.props.logoutUser();
             }, 5000);
+        }
+        if ((prevProps.statusUpdateDisplayName !== statusUpdateDisplayName) && (statusUpdateDisplayName === "success")) {
+            this.setState({
+                message: "บันทึกชื่อแล้ว"
+            })
+        }
+        if (prevState.message !== message && message !== null) {
+            this.setState({
+                statusMessage: true
+            })
+
+            setTimeout(() => {
+                this.setState({
+                    statusMessage: false
+                })
+            }, 1500);
         }
     }
 
@@ -124,7 +142,7 @@ class Profile extends Component {
     render() {
 
         const { user, statusDeleteAcc } = this.props;
-        const { popupDeleteAccShow, isModalVisible, userName, errorInput } = this.state;
+        const { popupDeleteAccShow, isModalVisible, userName, errorInput, message, statusMessage } = this.state;
         const { t } = this.props;
         /*    console.log("user", user); */
         return (
@@ -377,6 +395,19 @@ class Profile extends Component {
                         </KeyboardAvoidingView>
                     </Modal>
                 </View>
+                {
+                    statusMessage &&
+                    <View style={styles.activityDeleted}>
+                        <View style={styles.boxActivityDeleted}>
+                            <Image
+                                style={{ height: 32, width: 32, zIndex: 1 }}
+                                source={require('../../assets/images/activity/Checked.png')}
+                            />
+                            <Text style={styles.textActivityDeleted}>{message}</Text>
+                        </View>
+                    </View>
+                }
+
             </View>
         )
     }
@@ -554,6 +585,41 @@ const styles = StyleSheet.create({
         fontSize: 24,
         justifyContent: "center",
         marginBottom: 8
+    },
+    activityDeleted: {
+        position: "absolute",
+        /*     alignItems: "center", */
+        justifyContent: "flex-end",
+        height: "100%",
+        width: deviceWidth - 30,
+        zIndex: 7,
+    },
+    boxActivityDeleted: {
+        paddingLeft: 16,
+        paddingTop: 8,
+        flexDirection: "row",
+        backgroundColor: colors.white,
+        height: 50,
+        width: "100%",
+        shadowColor: colors.grey1,
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+
+        elevation: 5,
+        marginLeft: 16,
+        marginBottom: 40,
+        borderRadius: 8
+    },
+    textActivityDeleted: {
+        marginLeft: 8,
+        marginTop: 4,
+        fontFamily: "IBMPlexSansThai-Regular",
+        fontSize: ComponentsStyle.fontSize16,
+        color: colors.grey1,
     }
 
 });
