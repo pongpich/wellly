@@ -17,6 +17,7 @@ import Quiz from '../screens/Nutrition/Quiz';
 import QuizAnswer from '../screens/Nutrition/QuizAnswer';
 import Profile from '../screens/Profile/Profile';
 import MyHealth from '../screens/Profile/MyHealth';
+import Badge from '../screens/Profile/Badge';
 import { useSelector, useDispatch } from "react-redux";
 
 
@@ -123,6 +124,26 @@ function HomeStackScreen() {
                 options={{ headerShown: false }}
             />
             <HomeStack.Screen name="MyHealth" component={MyHealth}
+                options={({ route, navigation }) => ({
+                    title: "",
+                    headerStyle: {
+                        backgroundColor: colors.white,
+                    },
+                    showLabel: false,
+                    headerShadowVisible: false,
+                    headerLeft: () => (
+                        <View style={{ marginLeft: 16 }}>
+                            <TouchableOpacity onPress={() => navigation.pop()}>
+                                <Image
+                                    source={require('../assets/images/icon/caret.png')}
+                                />
+                            </TouchableOpacity>
+                        </View>
+                    ),
+
+                })}
+            />
+            <HomeStack.Screen name="Badge" component={Badge}
                 options={({ route, navigation }) => ({
                     title: "",
                     headerStyle: {

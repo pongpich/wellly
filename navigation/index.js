@@ -406,6 +406,9 @@ function getBottomTabse(route) {
   if (routeName == "MyHealth") {
     return 'none';
   }
+  if (routeName == "Badge") {
+    return 'none';
+  }
 
 
   return 'flex';

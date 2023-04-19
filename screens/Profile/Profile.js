@@ -95,6 +95,7 @@ class Profile extends Component {
                 </View>
                 <ScrollView>
                     <View style={{ marginTop: 25 }}>
+                        <Pressable onPress={() => this.props.navigation.navigate("Badge")}>
                         <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
                             <View style={{ flexDirection: "row" }}>
                                 <Image
@@ -108,6 +109,7 @@ class Profile extends Component {
                                 source={require('../../assets/images/icon/right.png')}
                             />
                         </View>
+                        </Pressable>
                         <View style={styles.line}>
                             <View style={styles.line1} />
                         </View>
@@ -219,40 +221,6 @@ class Profile extends Component {
                     </View>
                     <Text style={styles.version}>เวอร์ชั่น 1.2</Text>
                 </ScrollView>
-                {/*   <View style={styles.centeredView}>
-                    <Modal
-                        animationType="slide"
-                        transparent={true}
-                        visible={popupDeleteAccShow}
-                        onRequestClose={() => {
-                            Alert.alert('Modal has been closed.');
-                            this.setState({ popupDeleteAccShow: !popupDeleteAccShow });
-                        }}>
-                        <View style={styles.centeredView}>
-                            {
-                                statusDeleteAcc === "success" ?
-                                    <View style={styles.modalView}>
-                                        <Text style={styles.missionHead}>ระบบทำการลบบัญชีของคุณแล้ว</Text>
-                                    </View>
-                                    :
-                                    <View style={styles.modalView}>
-                                        <Text style={styles.missionHead}>การลบบัญชีไม่สามารถย้อนกลับได้</Text>
-                                        <Text style={styles.missionHead}>ข้อมูลบัญชีจะไม่สามารถกู้คืนได้</Text>
-                                        <Text style={styles.missionHead}>คุณแน่ใจหรือไม่ ?</Text>
-                                        <View style={{ flexDirection: 'row' }}>
-                                            <View style={{ flex: 1, marginRight: 10 }}>
-                                                <Button title="ยกเลิก" onPress={() => this.setState({ popupDeleteAccShow: !popupDeleteAccShow })} />
-                                            </View>
-                                            <View style={{ flex: 1 }}>
-                                                <Button title="ยืนยัน" onPress={() => this.props.deleteAccount(user && user.user_id)} />
-                                            </View>
-                                        </View>
-                                    </View>
-                            }
-
-                        </View>
-                    </Modal>
-                </View> */}
                 <View View style={styles.centeredView} >
 
 
@@ -362,7 +330,6 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 22,
     },
     modalView: {
 
