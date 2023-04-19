@@ -14,8 +14,9 @@ import Report from '../screens/Nutrition/Report';
 import ConfirmSubmit from '../screens/Nutrition/ConfirmSubmit';
 import ReportFeedback from '../screens/Nutrition/ReportFeedback';
 import Quiz from '../screens/Nutrition/Quiz';
-import Profile from '../screens/Profile/Profile';
 import QuizAnswer from '../screens/Nutrition/QuizAnswer';
+import Profile from '../screens/Profile/Profile';
+import MyHealth from '../screens/Profile/MyHealth';
 import { useSelector, useDispatch } from "react-redux";
 
 
@@ -91,6 +92,7 @@ function HomeStackScreen() {
 
                 })}
             />
+
             <HomeStack.Screen name="Report" component={Report}
                 options={({ route, navigation }) => ({
                     title: "",
@@ -120,7 +122,26 @@ function HomeStackScreen() {
             <HomeStack.Screen name="Profile" component={Profile}
                 options={{ headerShown: false }}
             />
+            <HomeStack.Screen name="MyHealth" component={MyHealth}
+                options={({ route, navigation }) => ({
+                    title: "",
+                    headerStyle: {
+                        backgroundColor: colors.white,
+                    },
+                    showLabel: false,
+                    headerShadowVisible: false,
+                    headerLeft: () => (
+                        <View style={{ marginLeft: 16 }}>
+                            <TouchableOpacity onPress={() => navigation.pop()}>
+                                <Image
+                                    source={require('../assets/images/icon/caret.png')}
+                                />
+                            </TouchableOpacity>
+                        </View>
+                    ),
 
+                })}
+            />
         </HomeStack.Navigator>
     );
 }

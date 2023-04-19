@@ -111,20 +111,21 @@ class Profile extends Component {
                         <View style={styles.line}>
                             <View style={styles.line1} />
                         </View>
-                        <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
-                            <View style={{ flexDirection: "row" }}>
+                        <Pressable onPress={() => this.props.navigation.navigate("MyHealth")}>
+                            <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
+                                <View style={{ flexDirection: "row" }}>
+                                    <Image
+                                        style={{ width: 24, height: 24, marginLeft: 16 }}
+                                        source={require('../../assets/images/icon/My_health_3x.png')}
+                                    />
+                                    <Text style={styles.manuName}>ข้อมูลสุขภาพ</Text>
+                                </View>
                                 <Image
-                                    style={{ width: 24, height: 24, marginLeft: 16 }}
-                                    source={require('../../assets/images/icon/My_health_3x.png')}
+                                    style={{ width: 24, height: 24, marginRight: 16 }}
+                                    source={require('../../assets/images/icon/right.png')}
                                 />
-                                <Text style={styles.manuName}>ข้อมูลสุขภาพ</Text>
                             </View>
-                            <Image
-                                style={{ width: 24, height: 24, marginRight: 16 }}
-                                source={require('../../assets/images/icon/right.png')}
-                            />
-                        </View>
-
+                        </Pressable>
                         <View style={styles.line2} />
                         <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
                             <View style={{ flexDirection: "row" }}>
