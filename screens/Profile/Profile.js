@@ -18,6 +18,7 @@ class Profile extends Component {
 
         this.state = {
             popupDeleteAccShow: false,
+            isModalVisible: false
         };
     }
 
@@ -56,11 +57,18 @@ class Profile extends Component {
     }
 
 
+    onEditName() {
+        const { isModalVisible } = this.state;
+        this.setState({
+            isModalVisible: !isModalVisible
+        })
+    }
+
 
     render() {
 
         const { user, statusDeleteAcc } = this.props;
-        const { popupDeleteAccShow } = this.state;
+        const { popupDeleteAccShow, isModalVisible } = this.state;
         return (
             <View style={styles.container}>
                 <ImageBackground source={require('../../assets/images/icon/Logo_profile.png')} style={{ height: 180, backgroundColor: colors.mayaBlue60 }}>
@@ -87,10 +95,13 @@ class Profile extends Component {
                     </View>
                     <View style={{ marginTop: 8, flexDirection: "row" }}>
                         <Text style={styles.name}>{user && user.display_name}</Text>
-                        <Image
-                            style={{ width: 12, height: 12, marginLeft: 8, marginTop: 10 }}
-                            source={require('../../assets/images/activity/Note.png')}
-                        />
+                        <Pressable onPress={() => this.onEditName()}>
+                            <Image
+                                style={{ width: 12, height: 12, marginLeft: 8, marginTop: 10 }}
+                                source={require('../../assets/images/activity/Note.png')}
+                            />
+                        </Pressable>
+
                     </View>
                 </View>
                 <ScrollView>
@@ -222,11 +233,8 @@ class Profile extends Component {
                     <Text style={styles.version}>เวอร์ชั่น 1.2</Text>
                 </ScrollView>
                 <View View style={styles.centeredView} >
-
-
                     <Modal isVisible={popupDeleteAccShow}
-
-                        style={{}}
+                        style={{ margin: 0 }}
                     >
                         <View style={styles.centeredView}>
                             {
@@ -254,6 +262,20 @@ class Profile extends Component {
                                     </View>
                             }
 
+                        </View>
+                    </Modal>
+                </View>
+                <View View style={styles.centeredViewName} >
+                    <Pressable title="Show modal" onPress={() => this.toggleModal(isModalVisible)} />
+
+                    <Modal isVisible={isModalVisible}
+
+                        style={{ margin: 0 }}
+                    >
+                        <View style={styles.centeredViewName}>
+                            <View style={styles.modalViewName}>
+                                <Text style={styles.whatName}>อยากให้เราเรียกคุณว่าอะไร?</Text>
+                            </View>
                         </View>
                     </Modal>
                 </View>
@@ -332,14 +354,17 @@ const styles = StyleSheet.create({
     },
     centeredView: {
         flex: 1,
-        justifyContent: 'center',
+        justifyContent: "flex-end",
         alignItems: 'center',
     },
     modalView: {
         width: "100%",
         backgroundColor: 'white',
-        borderRadius: 16,
-        padding: 35,
+        borderTopLeftRadius: 16,
+        borderTopRightRadius: 16,
+        paddingHorizontal: 16,
+        paddingTop: 35,
+        paddingBottom: 40,
         alignItems: 'center',
         shadowColor: '#000',
         shadowOffset: {
@@ -391,6 +416,35 @@ const styles = StyleSheet.create({
         borderRadius: 24,
         height: 50,
     },
+    centeredViewName: {
+        flex: 1,
+        justifyContent: "flex-end",
+        alignItems: 'center',
+    },
+    modalViewName: {
+        width: "100%",
+        backgroundColor: 'white',
+        borderTopLeftRadius: 16,
+        borderTopRightRadius: 16,
+        height: "65%",
+        paddingTop: 32,
+        paddingHorizontal: 16,
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
+    },
+    whatName: {
+        fontFamily: "IBMPlexSansThai-Bold",
+        fontSize: 24,
+        justifyContent: "center",
+        marginBottom: 24
+    }
+
 });
 
 const mapStateToProps = ({ authUser }) => {
