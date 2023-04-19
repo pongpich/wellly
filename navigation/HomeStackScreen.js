@@ -14,6 +14,7 @@ import Report from '../screens/Nutrition/Report';
 import ConfirmSubmit from '../screens/Nutrition/ConfirmSubmit';
 import ReportFeedback from '../screens/Nutrition/ReportFeedback';
 import Quiz from '../screens/Nutrition/Quiz';
+import Profile from '../screens/Profile/Profile';
 import QuizAnswer from '../screens/Nutrition/QuizAnswer';
 import { useSelector, useDispatch } from "react-redux";
 
@@ -114,6 +115,9 @@ function HomeStackScreen() {
                 options={{ headerShown: false }}
             />
             <HomeStack.Screen name="ReportFeedback" component={ReportFeedback}
+                options={{ headerShown: false }}
+            />
+            <HomeStack.Screen name="Profile" component={Profile}
                 options={{ headerShown: false }}
             />
 

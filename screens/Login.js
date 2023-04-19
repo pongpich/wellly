@@ -312,7 +312,7 @@ class Login extends Component {
                             </View>
                         </View>
                     </Modal>
-                </View >
+                </View>
             </LinearGradient >
 
         )

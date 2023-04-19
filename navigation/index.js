@@ -9,7 +9,6 @@ import ForgotPassword from '../screens/ForgotPassword';
 import { connect } from 'react-redux';
 import Walkthrough from '../screens/Walkthrough';
 import OnboardingResults from '../screens/OnboardingResults';
-import Profile from '../screens/Profile/Profile';
 import PersonalData from '../screens/PersonalData';
 import HealthData from '../screens/HealthData';
 import OnboardingName from '../screens/OnboardingName';
@@ -20,7 +19,6 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useRoute } from '@react-navigation/native';
 import colors from '../constants/colors';
-
 import HomeStackScreen from '../navigation/HomeStackScreen';
 import NutritionStackScreen from '../navigation/NutritionStackScreen';
 import AddStackScreen from '../navigation/AddStackScreen';
@@ -339,13 +337,6 @@ function MyStack(props) {
         gestureEnabled: false,
         cardOverlayEnabled: false,
       }} />
-      <Stack.Screen name="Profile" component={Profile} options={{
-        title: "",
-
-        headerShadowVisible: false,
-        gestureEnabled: false,
-        cardOverlayEnabled: false,
-      }} />
       <Stack.Screen name="Home" component={MyHome} options={{
         headerShown: false,
       }} />
@@ -407,6 +398,9 @@ function getBottomTabse(route) {
     return 'none';
   }
   if (routeName == "AddHom") {
+    return 'none';
+  }
+  if (routeName == "Profile") {
     return 'none';
   }
 
