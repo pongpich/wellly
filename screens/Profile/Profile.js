@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, ImageBackground, Animated, StatusBar, Image, Pressable, ScrollView, Dimensions, TouchableWithoutFeedback, Button } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, KeyboardAvoidingView, ImageBackground, Animated, StatusBar, Image, Pressable, ScrollView, Dimensions, TouchableWithoutFeedback, TextInput } from 'react-native';
 import ComponentsStyle from '../../constants/components';
 import { getNutritionMission, getNutritionActivity, getExerciserActivity, getActivityList, setIntensityFromExArticleTemplate } from "../../redux/get";
 import { insertNutritionActivity, insertExerciseActivity, } from "../../redux/update";
 import colors from '../../constants/colors';
+import { getProfanity } from "../../redux/get";
 import { connect } from 'react-redux';
 import Modal from "react-native-modal";
-import { logoutUser, deleteAccount, resetStatusDeleteAcc } from "../../redux/auth";
+import { logoutUser, deleteAccount, resetStatusDeleteAcc, updateDisplayName } from "../../redux/auth";
 import { withTranslation } from 'react-i18next';
 
 class Profile extends Component {
@@ -18,17 +19,36 @@ class Profile extends Component {
 
         this.state = {
             popupDeleteAccShow: false,
-            isModalVisible: false
+            isModalVisible: false,
+            userName: '',
+            errorInput: false,
+            words: null,
         };
     }
 
 
     componentDidMount() {
+        const { user } = this.props;
+        this.props.getProfanity();
         this.props.resetStatusDeleteAcc();
+        this.setState({
+            userName: user && user.display_name
+        })
     }
 
     componentDidUpdate(prevProps) {
-        const { statusDeleteAcc } = this.props;
+        const { statusDeleteAcc, profanity, statusUpdateDisplayName } = this.props;
+
+        if ((prevProps.profanity !== profanity) && (profanity !== "loading")) {
+            let profanities = profanity && profanity.profanities;
+            const keyWord = [];
+            const map1 = profanities && profanities.map((val, i) => {
+                keyWord.push(val.word);
+            });
+            this.setState({
+                words: keyWord
+            })
+        }
         if ((prevProps.statusDeleteAcc !== statusDeleteAcc) && (statusDeleteAcc === "success")) {
             setTimeout(() => {
                 this.props.logoutUser();
@@ -57,18 +77,56 @@ class Profile extends Component {
     }
 
 
-    onEditName() {
-        const { isModalVisible } = this.state;
-        this.setState({
-            isModalVisible: !isModalVisible
-        })
+    onEditName(e) {
+        const { user } = this.props;
+
+        if (e == false) {
+            this.setState({
+                userName: '',
+                isModalVisible: e
+            })
+        } else {
+            this.setState({
+                userName: user && user.display_name,
+                isModalVisible: e
+            })
+        }
+    }
+    updateUserName() {
+        const { userName, words } = this.state;
+        const { user } = this.props;
+
+        let result = null;
+        for (let i = 0; i < words.length; i++) {
+            if (userName.includes(words[i])) {
+                result = true
+            }
+        }
+        if (result) {
+            this.setState({
+                errorInput: true
+            })
+        } else {
+
+
+
+            if (userName != null && userName != '') {
+                this.props.updateDisplayName(user.user_id, userName);
+                this.setState({
+                    errorInput: false,
+                    isModalVisible: false
+                })
+            }
+        }
     }
 
 
     render() {
 
         const { user, statusDeleteAcc } = this.props;
-        const { popupDeleteAccShow, isModalVisible } = this.state;
+        const { popupDeleteAccShow, isModalVisible, userName, errorInput } = this.state;
+        const { t } = this.props;
+        /*    console.log("user", user); */
         return (
             <View style={styles.container}>
                 <ImageBackground source={require('../../assets/images/icon/Logo_profile.png')} style={{ height: 180, backgroundColor: colors.mayaBlue60 }}>
@@ -95,7 +153,7 @@ class Profile extends Component {
                     </View>
                     <View style={{ marginTop: 8, flexDirection: "row" }}>
                         <Text style={styles.name}>{user && user.display_name}</Text>
-                        <Pressable onPress={() => this.onEditName()}>
+                        <Pressable onPress={() => this.onEditName(true)}>
                             <Image
                                 style={{ width: 12, height: 12, marginLeft: 8, marginTop: 10 }}
                                 source={require('../../assets/images/activity/Note.png')}
@@ -265,18 +323,58 @@ class Profile extends Component {
                         </View>
                     </Modal>
                 </View>
+
+
+                {/* ส่งนเเก้ไขชื่อ */}
+
                 <View View style={styles.centeredViewName} >
                     <Pressable title="Show modal" onPress={() => this.toggleModal(isModalVisible)} />
-
                     <Modal isVisible={isModalVisible}
-
                         style={{ margin: 0 }}
                     >
-                        <View style={styles.centeredViewName}>
-                            <View style={styles.modalViewName}>
-                                <Text style={styles.whatName}>อยากให้เราเรียกคุณว่าอะไร?</Text>
+                        <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
+                            <View style={styles.centeredViewName}>
+                                <View style={styles.modalViewName}>
+                                    <Text style={styles.whatName}>อยากให้เราเรียกคุณว่าอะไร?</Text>
+                                    <View>
+                                        <TextInput style={
+                                            ComponentsStyle.inputIsFocused}
+                                            numberOfLines={6}
+                                            maxLength={30}
+                                            placeholder={t('your_name')}
+                                            autoCapitalize='none'
+                                            value={userName}
+                                            onChangeText={(userName) => userName.length <= 30 && this.setState({ userName })}
+                                        />
+                                    </View>
+                                    <View style={styles.error}>
+
+                                        {
+                                            errorInput === true ?
+                                                <Text style={ComponentsStyle.textError}>{t('name_must_be_polite')}</Text>
+                                                : <Text style={ComponentsStyle.textError}></Text>
+                                        }
+
+                                        <Text style={{ textAlign: "right", marginTop: 6 }}>
+                                            {userName.length}/30
+                                        </Text>
+
+                                    </View>
+                                    <View style={{ flexDirection: 'row', marginTop: 20, justifyContent: "space-between", width: "100%" }}>
+                                        <TouchableWithoutFeedback onPress={() => this.onEditName(false)}>
+                                            <View style={styles.buttonWhite}>
+                                                <Text style={ComponentsStyle.textButtonWhite} >ยกเลิก</Text>
+                                            </View>
+                                        </TouchableWithoutFeedback>
+                                        <TouchableWithoutFeedback onPress={() => this.updateUserName()}>
+                                            <View style={styles.button}>
+                                                <Text style={ComponentsStyle.textButton} >บันทึก</Text>
+                                            </View>
+                                        </TouchableWithoutFeedback>
+                                    </View>
+                                </View>
                             </View>
-                        </View>
+                        </KeyboardAvoidingView>
                     </Modal>
                 </View>
             </View>
@@ -416,6 +514,19 @@ const styles = StyleSheet.create({
         borderRadius: 24,
         height: 50,
     },
+    buttonWhite: {
+
+        width: "48%",
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 4,
+        elevation: 3,
+        backgroundColor: colors.white,
+        borderRadius: 24,
+        height: 48,
+        borderColor: colors.persianBlue,
+        borderWidth: 2
+    },
     centeredViewName: {
         flex: 1,
         justifyContent: "flex-end",
@@ -426,7 +537,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         borderTopLeftRadius: 16,
         borderTopRightRadius: 16,
-        height: "65%",
+        height: 278,
         paddingTop: 32,
         paddingHorizontal: 16,
         shadowColor: '#000',
@@ -442,18 +553,18 @@ const styles = StyleSheet.create({
         fontFamily: "IBMPlexSansThai-Bold",
         fontSize: 24,
         justifyContent: "center",
-        marginBottom: 24
+        marginBottom: 8
     }
 
 });
 
-const mapStateToProps = ({ authUser }) => {
-    const { user, statusDeleteAcc } = authUser;
-
-    return { user, statusDeleteAcc };
+const mapStateToProps = ({ getData, authUser }) => {
+    const { user, statusDeleteAcc, statusUpdateDisplayName } = authUser;
+    const { profanity } = getData;
+    return { user, statusDeleteAcc, profanity, statusUpdateDisplayName };
 };
 
-const mapActionsToProps = { logoutUser, deleteAccount, resetStatusDeleteAcc };
+const mapActionsToProps = { logoutUser, getProfanity, deleteAccount, resetStatusDeleteAcc, updateDisplayName };
 
 export default connect(
     mapStateToProps,
