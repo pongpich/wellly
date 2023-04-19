@@ -14,11 +14,18 @@ class ActHistoty extends Component {
             data: null,
             selected_month: 1,
             selected_year: 1,
+            currYear: 2023,
+            currMonth: 1,
         };
     }
 
-    selectMonth(e) {
+    selectYear(e) {
+        this.setState({
+            selected_year: e
+        })
+    }
 
+    selectMonth(e) {
         this.setState({
             selected_month: e
         })
@@ -32,7 +39,7 @@ class ActHistoty extends Component {
         const currDate = new Date();
         const currYear = currDate.getFullYear();
         const currMonth = currDate.getMonth() + 1; //ต้อง +1 เพราะ index เริ่มจาก 0
-        this.setState({ selected_year: currYear, selected_month: currMonth })
+        this.setState({ selected_year: currYear, selected_month: currMonth, currYear: currYear, currMonth: currMonth })
         this.props.getMonthActivityLog(user_id, currYear, currMonth);
 
     }
@@ -46,6 +53,7 @@ class ActHistoty extends Component {
             this.setState({ data: month_act_log })
         }
         if (prevState.selected_year !== selected_year) {
+            console.log("selected_year :", selected_year);
             this.props.getMonthActivityLog(user_id, selected_year, selected_month);
         }
         if (prevState.selected_month !== selected_month) {
@@ -54,7 +62,7 @@ class ActHistoty extends Component {
     }
 
     render() {
-        const { selected_month, data } = this.state;
+        const { selected_year, selected_month, data, currYear, currMonth } = this.state;
         return (
             <SafeAreaView style={styles.container}>
                 <View style={styles.marginBox}>
@@ -63,7 +71,14 @@ class ActHistoty extends Component {
                         <View style={[styles.rowView, { marginTop: 10 }]}>
                             <Text style={[styles.month, { marginRight: 24 }]}>เดือนนี้</Text>
                             <View style={[styles.rowView, { marginRight: 16 }]}>
-                                <Text style={styles.textyy}>2556</Text>
+                                {/*  //ทดสอบโดย fixed ค่าเป็น 2023 ตอนกดเลือกปี */}
+                                <Pressable onPress={() => this.selectYear(2023)}>
+                                    <Text style={styles.textyy}>2556 </Text>
+                                </Pressable>
+                                {/*  //ทดสอบโดย fixed ค่าเป็น 2022 ตอนกดเลือกปี */}
+                                <Pressable onPress={() => this.selectYear(2022)}>
+                                    <Text style={styles.textyy}>2555</Text>
+                                </Pressable>
                                 <Image
                                     style={{ height: 16, width: 16, marginLeft: 4 }}
                                     source={require('../../assets/images/activity/Chevron.png')}
@@ -74,43 +89,78 @@ class ActHistoty extends Component {
                     <ScrollView horizontal={true}
                         style={{ paddingBottom: 20 }}>
                         <View style={[styles.rowView, { justifyContent: "flex-end" }]}>
-                            <Pressable style={[{ width: "auto", paddingHorizontal: 8 }, selected_month === 1 ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth(1)} >
-                                <Text style={[styles.mission, selected_month === 1 ? { color: colors.white } : { color: colors.persianBlue }]}>ม.ค.</Text>
-                            </Pressable>
-                            <Pressable style={[{ marginLeft: 8, paddingHorizontal: 8, width: "auto" }, selected_month === 2 ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth(2)} >
-                                <Text style={[styles.mission, selected_month === 2 ? { color: colors.white } : { color: colors.persianBlue }]}>ก.พ.</Text>
-                            </Pressable>
-                            <Pressable style={[{ marginLeft: 8, paddingHorizontal: 8, width: "auto" }, selected_month === 3 ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth(3)} >
-                                <Text style={[styles.mission, selected_month === 3 ? { color: colors.white } : { color: colors.persianBlue }]}>มี.ค.</Text>
-                            </Pressable>
-                            <Pressable style={[{ marginLeft: 8, paddingHorizontal: 8, width: "auto" }, selected_month === 4 ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth(4)} >
-                                <Text style={[styles.mission, selected_month === 4 ? { color: colors.white } : { color: colors.persianBlue }]}>เม.ย.</Text>
-                            </Pressable>
-                            <Pressable style={[{ marginLeft: 8, paddingHorizontal: 8, width: "auto" }, selected_month === 5 ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth(5)} >
-                                <Text style={[styles.mission, selected_month === 5 ? { color: colors.white } : { color: colors.persianBlue }]}>พ.ค.</Text>
-                            </Pressable>
-                            <Pressable style={[{ marginLeft: 8, paddingHorizontal: 8, width: "auto" }, selected_month === 6 ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth(6)} >
-                                <Text style={[styles.mission, selected_month === 6 ? { color: colors.white } : { color: colors.persianBlue }]}>มิ.ย.</Text>
-                            </Pressable>
-                            <Pressable style={[{ marginLeft: 8, paddingHorizontal: 8, width: "auto" }, selected_month === 7 ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth(7)} >
-                                <Text style={[styles.mission, selected_month === 7 ? { color: colors.white } : { color: colors.persianBlue }]}>ก.ค.</Text>
-                            </Pressable>
-                            <Pressable style={[{ marginLeft: 8, paddingHorizontal: 8, width: "auto" }, selected_month === 8 ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth(8)} >
-                                <Text style={[styles.mission, selected_month === 8 ? { color: colors.white } : { color: colors.persianBlue }]}>ส.ค.</Text>
-                            </Pressable>
-                            <Pressable style={[{ marginLeft: 8, paddingHorizontal: 8, width: "auto" }, selected_month === 9 ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth(9)} >
-                                <Text style={[styles.mission, selected_month === 9 ? { color: colors.white } : { color: colors.persianBlue }]}>ก.ย.</Text>
-                            </Pressable>
-                            <Pressable style={[{ marginLeft: 8, paddingHorizontal: 8, width: "auto" }, selected_month === 10 ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth(10)} >
-                                <Text style={[styles.mission, selected_month === 10 ? { color: colors.white } : { color: colors.persianBlue }]}>ต.ค.</Text>
-                            </Pressable>
-                            <Pressable style={[{ marginLeft: 8, paddingHorizontal: 8, width: "auto" }, selected_month === 11 ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth(11)} >
-                                <Text style={[styles.mission, selected_month === 11 ? { color: colors.white } : { color: colors.persianBlue }]}>พ.ย.</Text>
-                            </Pressable>
-                            <Pressable style={[{ marginLeft: 8, paddingHorizontal: 8, width: "auto" }, selected_month === 12 ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth(12)} >
-                                <Text style={[styles.mission, selected_month === 12 ? { color: colors.white } : { color: colors.persianBlue }]}>ธ.ค.</Text>
-                            </Pressable>
-
+                            {
+                                ((selected_year < currYear) || ((selected_year === currYear) && (currMonth >= 1))) &&
+                                <Pressable style={[{ width: "auto", paddingHorizontal: 8 }, selected_month === 1 ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth(1)} >
+                                    <Text style={[styles.mission, selected_month === 1 ? { color: colors.white } : { color: colors.persianBlue }]}>ม.ค.</Text>
+                                </Pressable>
+                            }
+                            {
+                                ((selected_year < currYear) || ((selected_year === currYear) && (currMonth >= 2))) &&
+                                <Pressable style={[{ marginLeft: 8, paddingHorizontal: 8, width: "auto" }, selected_month === 2 ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth(2)} >
+                                    <Text style={[styles.mission, selected_month === 2 ? { color: colors.white } : { color: colors.persianBlue }]}>ก.พ.</Text>
+                                </Pressable>
+                            }
+                            {
+                                ((selected_year < currYear) || ((selected_year === currYear) && (currMonth >= 3))) &&
+                                <Pressable style={[{ marginLeft: 8, paddingHorizontal: 8, width: "auto" }, selected_month === 3 ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth(3)} >
+                                    <Text style={[styles.mission, selected_month === 3 ? { color: colors.white } : { color: colors.persianBlue }]}>มี.ค.</Text>
+                                </Pressable>
+                            }
+                            {
+                                ((selected_year < currYear) || ((selected_year === currYear) && (currMonth >= 4))) &&
+                                <Pressable style={[{ marginLeft: 8, paddingHorizontal: 8, width: "auto" }, selected_month === 4 ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth(4)} >
+                                    <Text style={[styles.mission, selected_month === 4 ? { color: colors.white } : { color: colors.persianBlue }]}>เม.ย.</Text>
+                                </Pressable>
+                            }
+                            {
+                                ((selected_year < currYear) || ((selected_year === currYear) && (currMonth >= 5))) &&
+                                <Pressable style={[{ marginLeft: 8, paddingHorizontal: 8, width: "auto" }, selected_month === 5 ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth(5)} >
+                                    <Text style={[styles.mission, selected_month === 5 ? { color: colors.white } : { color: colors.persianBlue }]}>พ.ค.</Text>
+                                </Pressable>
+                            }
+                            {
+                                ((selected_year < currYear) || ((selected_year === currYear) && (currMonth >= 6))) &&
+                                <Pressable style={[{ marginLeft: 8, paddingHorizontal: 8, width: "auto" }, selected_month === 6 ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth(6)} >
+                                    <Text style={[styles.mission, selected_month === 6 ? { color: colors.white } : { color: colors.persianBlue }]}>มิ.ย.</Text>
+                                </Pressable>
+                            }
+                            {
+                                ((selected_year < currYear) || ((selected_year === currYear) && (currMonth >= 7))) &&
+                                <Pressable style={[{ marginLeft: 8, paddingHorizontal: 8, width: "auto" }, selected_month === 7 ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth(7)} >
+                                    <Text style={[styles.mission, selected_month === 7 ? { color: colors.white } : { color: colors.persianBlue }]}>ก.ค.</Text>
+                                </Pressable>
+                            }
+                            {
+                                ((selected_year < currYear) || ((selected_year === currYear) && (currMonth >= 8))) &&
+                                <Pressable style={[{ marginLeft: 8, paddingHorizontal: 8, width: "auto" }, selected_month === 8 ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth(8)} >
+                                    <Text style={[styles.mission, selected_month === 8 ? { color: colors.white } : { color: colors.persianBlue }]}>ส.ค.</Text>
+                                </Pressable>
+                            }
+                            {
+                                ((selected_year < currYear) || ((selected_year === currYear) && (currMonth >= 9))) &&
+                                <Pressable style={[{ marginLeft: 8, paddingHorizontal: 8, width: "auto" }, selected_month === 9 ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth(9)} >
+                                    <Text style={[styles.mission, selected_month === 9 ? { color: colors.white } : { color: colors.persianBlue }]}>ก.ย.</Text>
+                                </Pressable>
+                            }
+                            {
+                                ((selected_year < currYear) || ((selected_year === currYear) && (currMonth >= 10))) &&
+                                <Pressable style={[{ marginLeft: 8, paddingHorizontal: 8, width: "auto" }, selected_month === 10 ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth(10)} >
+                                    <Text style={[styles.mission, selected_month === 10 ? { color: colors.white } : { color: colors.persianBlue }]}>ต.ค.</Text>
+                                </Pressable>
+                            }
+                            {
+                                ((selected_year < currYear) || ((selected_year === currYear) && (currMonth >= 11))) &&
+                                <Pressable style={[{ marginLeft: 8, paddingHorizontal: 8, width: "auto" }, selected_month === 11 ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth(11)} >
+                                    <Text style={[styles.mission, selected_month === 11 ? { color: colors.white } : { color: colors.persianBlue }]}>พ.ย.</Text>
+                                </Pressable>
+                            }
+                            {
+                                ((selected_year < currYear) || ((selected_year === currYear) && (currMonth >= 12))) &&
+                                <Pressable style={[{ marginLeft: 8, paddingHorizontal: 8, width: "auto" }, selected_month === 12 ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth(12)} >
+                                    <Text style={[styles.mission, selected_month === 12 ? { color: colors.white } : { color: colors.persianBlue }]}>ธ.ค.</Text>
+                                </Pressable>
+                            }
                         </View>
                     </ScrollView>
                 </View>
