@@ -246,19 +246,21 @@ class Profile extends Component {
                             />
                         </View>
                         <View style={styles.line2} />
-                        <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
-                            <View style={{ flexDirection: "row" }}>
+                        <Pressable onPress={() => this.props.navigation.navigate("Pdpa")}>
+                            <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
+                                <View style={{ flexDirection: "row" }}>
+                                    <Image
+                                        style={{ width: 24, height: 24, marginLeft: 16 }}
+                                        source={require('../../assets/images/icon/PDPA_3x.png')}
+                                    />
+                                    <Text style={styles.manuName}>การยินยอมและเงื่อนไข</Text>
+                                </View>
                                 <Image
-                                    style={{ width: 24, height: 24, marginLeft: 16 }}
-                                    source={require('../../assets/images/icon/PDPA_3x.png')}
+                                    style={{ width: 24, height: 24, marginRight: 16 }}
+                                    source={require('../../assets/images/icon/right.png')}
                                 />
-                                <Text style={styles.manuName}>การยินยอมและเงื่อนไข</Text>
                             </View>
-                            <Image
-                                style={{ width: 24, height: 24, marginRight: 16 }}
-                                source={require('../../assets/images/icon/right.png')}
-                            />
-                        </View>
+                        </Pressable>
                         <View style={styles.line}>
                             <View style={styles.line1} />
                         </View>
