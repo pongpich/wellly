@@ -23,7 +23,16 @@ export const types = {
   GET_ALL_TRAINING_SET_SUCCESS: "GET_ALL_TRAINING_SET_SUCCESS",
   GET_TRAINING_SET: "GET_TRAINING_SET",
   GET_TRAINING_SET_SUCCESS: "GET_TRAINING_SET_SUCCESS",
+  GET_MONTH_ACTIVITY_LOG: "GET_MONTH_ACTIVITY_LOG",
+  GET_MONTH_ACTIVITY_LOG_SUCCESS: "GET_MONTH_ACTIVITY_LOG_SUCCESS"
 };
+
+export const getMonthActivityLog = (user_id, year, month) => ({
+  type: types.GET_MONTH_ACTIVITY_LOG,
+  payload: {
+    user_id, year, month
+  }
+})
 
 export const getMemberActivityLogInWeek = (user_id) => ({
   type: types.GET_MEMBER_ACT_LOG_IN_WEEK,
@@ -230,6 +239,20 @@ const getMemberActivityLogInWeekSagaAsync = async (user_id) => {
   }
 };
 
+const getMonthActivityLogSagaAsync = async (user_id, year, month) => {
+  try {
+    const apiResult = await API.get("planforfit", "/getMonthActivityLog", {
+      queryStringParameters: {
+        user_id, year, month
+      }
+    });
+    return apiResult
+  } catch (error) {
+    console.log("error", error);
+    return { error, messsage: error.message };
+  }
+}
+
 
 function* getProfanitySaga({ }) {
   try {
@@ -409,6 +432,26 @@ function* getMemberActivityLogInWeekSaga({ payload }) {
   }
 }
 
+function* getMonthActivityLogSaga({ payload }) {
+  const {
+    user_id, year, month
+  } = payload;
+
+  try {
+    const apiResult = yield call(
+      getMonthActivityLogSagaAsync,
+      user_id, year, month
+    )
+    yield put({
+      type: types.GET_MONTH_ACTIVITY_LOG_SUCCESS,
+      payload: apiResult.results.activityLog
+    })
+
+  } catch (error) {
+    console.log("error form getMonthActivityLogSaga", error);
+  }
+}
+
 export function* watchGetProfanity() {
   yield takeEvery(types.GET_PROFANITY, getProfanitySaga)
 }
@@ -440,6 +483,9 @@ export function* watchGetTrainingSet() {
 export function* watchGetMemberActivityLogInWeek() {
   yield takeEvery(types.GET_MEMBER_ACT_LOG_IN_WEEK, getMemberActivityLogInWeekSaga)
 }
+export function* watchGetMonthActivityLog() {
+  yield takeEvery(types.GET_MONTH_ACTIVITY_LOG, getMonthActivityLogSaga)
+}
 
 export function* saga() {
   yield all([
@@ -452,6 +498,7 @@ export function* saga() {
     fork(watchGetMemberActivityLogInWeek),
     fork(watchGetAllTrainingSet),
     fork(watchGetTrainingSet),
+    fork(watchGetMonthActivityLog),
   ]);
 }
 
@@ -480,10 +527,23 @@ const INIT_STATE = {
   allTrainingSet: null,
   statusTrainingSet: "default",
   trainingSet: null,
+  status_month_act_log: "default",
+  month_act_log: null,
 };
 
 export function reducer(state = INIT_STATE, action) {
   switch (action.type) {
+    case types.GET_MONTH_ACTIVITY_LOG:
+      return {
+        ...state,
+        status_month_act_log: "loading",
+      }
+    case types.GET_MONTH_ACTIVITY_LOG_SUCCESS:
+      return {
+        ...state,
+        status_month_act_log: "success",
+        month_act_log: action.payload,
+      }
     case types.GET_PROFANITY:
       return {
         ...state,

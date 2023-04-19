@@ -201,8 +201,8 @@ const Activity = ({ navigation }) => {
                                                     <Text style={styles.missionHead}>{item.activity}</Text>
                                                     <View style={styles.missionView}>
                                                         <Text style={styles.dateData}>
-                                                            {/*           31 ธ.ค. 2566 */}
-                                                            {currentDate()}
+                                                            {/* {currentDate()} */}
+                                                            {item.created_at}
                                                         </Text>
                                                         <Text style={styles.li}>{"\u2B24" + " "}</Text>
                                                         <Text style={styles.dateData}>

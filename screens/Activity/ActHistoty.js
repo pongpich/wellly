@@ -1,25 +1,60 @@
 import React, { Component } from 'react';
 import { SafeAreaView, View, Text, StyleSheet, Animated, Image, ImageBackground, Dimensions, Pressable, ScrollView, TouchableWithoutFeedback } from 'react-native';
 import colors from '../../constants/colors';
+import { getMonthActivityLog } from '../../redux/get';
 import ComponentsStyle from '../../constants/components';
-const data = Array.from({ length: 30 });
+import { connect } from 'react-redux';
+import { withTranslation } from 'react-i18next';
+//const data = Array.from({ length: 30 });
 class ActHistoty extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            statusMonth: "ม.ค."
+            data: null,
+            selected_month: 1,
+            selected_year: 1,
         };
     }
 
     selectMonth(e) {
 
         this.setState({
-            statusMonth: e
+            selected_month: e
         })
     }
+
+    componentDidMount() {
+        const { user } = this.props;
+
+        //เมื่อเปิดหน้าเช็คเดือนและปีปัจจุบัน เพื่อโชว์เป็นของมูล Default ก่อนผู้ใช้กดเลือก
+        const user_id = user && user.user_id;
+        const currDate = new Date();
+        const currYear = currDate.getFullYear();
+        const currMonth = currDate.getMonth() + 1; //ต้อง +1 เพราะ index เริ่มจาก 0
+        this.setState({ selected_year: currYear, selected_month: currMonth })
+        this.props.getMonthActivityLog(user_id, currYear, currMonth);
+
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        const { user, status_month_act_log, month_act_log } = this.props;
+        const { selected_year, selected_month } = this.state;
+        const user_id = user && user.user_id;
+
+        if ((prevProps.status_month_act_log !== status_month_act_log) && (status_month_act_log === 'success')) {
+            this.setState({ data: month_act_log })
+        }
+        if (prevState.selected_year !== selected_year) {
+            this.props.getMonthActivityLog(user_id, selected_year, selected_month);
+        }
+        if (prevState.selected_month !== selected_month) {
+            this.props.getMonthActivityLog(user_id, selected_year, selected_month);
+        }
+    }
+
     render() {
-        const { statusMonth } = this.state;
+        const { selected_month, data } = this.state;
         return (
             <SafeAreaView style={styles.container}>
                 <View style={styles.marginBox}>
@@ -39,41 +74,41 @@ class ActHistoty extends Component {
                     <ScrollView horizontal={true}
                         style={{ paddingBottom: 20 }}>
                         <View style={[styles.rowView, { justifyContent: "flex-end" }]}>
-                            <Pressable style={[{ width: "auto", paddingHorizontal: 8 }, statusMonth === "ม.ค." ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth("ม.ค.")} >
-                                <Text style={[styles.mission, statusMonth === "ม.ค." ? { color: colors.white } : { color: colors.persianBlue }]}>ม.ค.</Text>
+                            <Pressable style={[{ width: "auto", paddingHorizontal: 8 }, selected_month === 1 ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth(1)} >
+                                <Text style={[styles.mission, selected_month === 1 ? { color: colors.white } : { color: colors.persianBlue }]}>ม.ค.</Text>
                             </Pressable>
-                            <Pressable style={[{ marginLeft: 8, paddingHorizontal: 8, width: "auto" }, statusMonth === "ก.พ." ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth("ก.พ.")} >
-                                <Text style={[styles.mission, statusMonth === "ก.พ." ? { color: colors.white } : { color: colors.persianBlue }]}>ก.พ.</Text>
+                            <Pressable style={[{ marginLeft: 8, paddingHorizontal: 8, width: "auto" }, selected_month === 2 ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth(2)} >
+                                <Text style={[styles.mission, selected_month === 2 ? { color: colors.white } : { color: colors.persianBlue }]}>ก.พ.</Text>
                             </Pressable>
-                            <Pressable style={[{ marginLeft: 8, paddingHorizontal: 8, width: "auto" }, statusMonth === "มี.ค." ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth("มี.ค.")} >
-                                <Text style={[styles.mission, statusMonth === "มี.ค." ? { color: colors.white } : { color: colors.persianBlue }]}>มี.ค.</Text>
+                            <Pressable style={[{ marginLeft: 8, paddingHorizontal: 8, width: "auto" }, selected_month === 3 ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth(3)} >
+                                <Text style={[styles.mission, selected_month === 3 ? { color: colors.white } : { color: colors.persianBlue }]}>มี.ค.</Text>
                             </Pressable>
-                            <Pressable style={[{ marginLeft: 8, paddingHorizontal: 8, width: "auto" }, statusMonth === "เม.ย." ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth("เม.ย.")} >
-                                <Text style={[styles.mission, statusMonth === "เม.ย." ? { color: colors.white } : { color: colors.persianBlue }]}>เม.ย.</Text>
+                            <Pressable style={[{ marginLeft: 8, paddingHorizontal: 8, width: "auto" }, selected_month === 4 ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth(4)} >
+                                <Text style={[styles.mission, selected_month === 4 ? { color: colors.white } : { color: colors.persianBlue }]}>เม.ย.</Text>
                             </Pressable>
-                            <Pressable style={[{ marginLeft: 8, paddingHorizontal: 8, width: "auto" }, statusMonth === "พ.ค." ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth("พ.ค.")} >
-                                <Text style={[styles.mission, statusMonth === "พ.ค." ? { color: colors.white } : { color: colors.persianBlue }]}>พ.ค.</Text>
+                            <Pressable style={[{ marginLeft: 8, paddingHorizontal: 8, width: "auto" }, selected_month === 5 ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth(5)} >
+                                <Text style={[styles.mission, selected_month === 5 ? { color: colors.white } : { color: colors.persianBlue }]}>พ.ค.</Text>
                             </Pressable>
-                            <Pressable style={[{ marginLeft: 8, paddingHorizontal: 8, width: "auto" }, statusMonth === "มิ.ย." ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth("มิ.ย.")} >
-                                <Text style={[styles.mission, statusMonth === "มิ.ย." ? { color: colors.white } : { color: colors.persianBlue }]}>มิ.ย.</Text>
+                            <Pressable style={[{ marginLeft: 8, paddingHorizontal: 8, width: "auto" }, selected_month === 6 ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth(6)} >
+                                <Text style={[styles.mission, selected_month === 6 ? { color: colors.white } : { color: colors.persianBlue }]}>มิ.ย.</Text>
                             </Pressable>
-                            <Pressable style={[{ marginLeft: 8, paddingHorizontal: 8, width: "auto" }, statusMonth === "ก.ค." ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth("ก.ค.")} >
-                                <Text style={[styles.mission, statusMonth === "ก.ค." ? { color: colors.white } : { color: colors.persianBlue }]}>ก.ค.</Text>
+                            <Pressable style={[{ marginLeft: 8, paddingHorizontal: 8, width: "auto" }, selected_month === 7 ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth(7)} >
+                                <Text style={[styles.mission, selected_month === 7 ? { color: colors.white } : { color: colors.persianBlue }]}>ก.ค.</Text>
                             </Pressable>
-                            <Pressable style={[{ marginLeft: 8, paddingHorizontal: 8, width: "auto" }, statusMonth === "ส.ค." ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth("ส.ค.")} >
-                                <Text style={[styles.mission, statusMonth === "ส.ค." ? { color: colors.white } : { color: colors.persianBlue }]}>ส.ค.</Text>
+                            <Pressable style={[{ marginLeft: 8, paddingHorizontal: 8, width: "auto" }, selected_month === 8 ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth(8)} >
+                                <Text style={[styles.mission, selected_month === 8 ? { color: colors.white } : { color: colors.persianBlue }]}>ส.ค.</Text>
                             </Pressable>
-                            <Pressable style={[{ marginLeft: 8, paddingHorizontal: 8, width: "auto" }, statusMonth === "ก.ย." ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth("ก.ย.")} >
-                                <Text style={[styles.mission, statusMonth === "ก.ย." ? { color: colors.white } : { color: colors.persianBlue }]}>ก.ย.</Text>
+                            <Pressable style={[{ marginLeft: 8, paddingHorizontal: 8, width: "auto" }, selected_month === 9 ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth(9)} >
+                                <Text style={[styles.mission, selected_month === 9 ? { color: colors.white } : { color: colors.persianBlue }]}>ก.ย.</Text>
                             </Pressable>
-                            <Pressable style={[{ marginLeft: 8, paddingHorizontal: 8, width: "auto" }, statusMonth === "ต.ค." ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth("ต.ค.")} >
-                                <Text style={[styles.mission, statusMonth === "ต.ค." ? { color: colors.white } : { color: colors.persianBlue }]}>ต.ค.</Text>
+                            <Pressable style={[{ marginLeft: 8, paddingHorizontal: 8, width: "auto" }, selected_month === 10 ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth(10)} >
+                                <Text style={[styles.mission, selected_month === 10 ? { color: colors.white } : { color: colors.persianBlue }]}>ต.ค.</Text>
                             </Pressable>
-                            <Pressable style={[{ marginLeft: 8, paddingHorizontal: 8, width: "auto" }, statusMonth === "พ.ย." ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth("พ.ย.")} >
-                                <Text style={[styles.mission, statusMonth === "พ.ย." ? { color: colors.white } : { color: colors.persianBlue }]}>พ.ย.</Text>
+                            <Pressable style={[{ marginLeft: 8, paddingHorizontal: 8, width: "auto" }, selected_month === 11 ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth(11)} >
+                                <Text style={[styles.mission, selected_month === 11 ? { color: colors.white } : { color: colors.persianBlue }]}>พ.ย.</Text>
                             </Pressable>
-                            <Pressable style={[{ marginLeft: 8, paddingHorizontal: 8, width: "auto" }, statusMonth === "ธ.ค." ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth("ธ.ค.")} >
-                                <Text style={[styles.mission, statusMonth === "ธ.ค." ? { color: colors.white } : { color: colors.persianBlue }]}>ธ.ค.</Text>
+                            <Pressable style={[{ marginLeft: 8, paddingHorizontal: 8, width: "auto" }, selected_month === 12 ? styles.missionPre : styles.programPre]} onPress={() => this.selectMonth(12)} >
+                                <Text style={[styles.mission, selected_month === 12 ? { color: colors.white } : { color: colors.persianBlue }]}>ธ.ค.</Text>
                             </Pressable>
 
                         </View>
@@ -86,30 +121,36 @@ class ActHistoty extends Component {
                                 marginTop: 20
                             }}>
                                 {
+                                    data &&
                                     data.map((item, i) => {
 
                                         return (
                                             <Pressable key={i + "tfb"}>
                                                 <View key={i} style={styles.row}>
-                                                    <Image style={styles.activityImage} source={require('../../assets/images/activity/Activitylow.png')} />
+                                                    <Image
+                                                        style={styles.activityImage}
+                                                        source={item.intensity === 'light_intensity' ? require('../../assets/images/activity/Activitylow.png') : item.intensity === 'moderate_intensity' ? require('../../assets/images/activity/Activitycenter.png') : require('../../assets/images/activity/Activityhign.png')}
+                                                    />
                                                     <View style={styles.missionData}>
-                                                        <Text style={styles.missionHead}>ปกติ</Text>
+                                                        <Text style={styles.missionHead}>{item.activity}</Text>
                                                         <View style={styles.rowView}>
                                                             <Text style={styles.dateData}>
-                                                                31 ธ.ค. 2566
+                                                                {item.created_at}
                                                             </Text>
                                                             <Text style={styles.li}>{"\u2B24" + " "}</Text>
                                                             <Text style={styles.dateData}>
-                                                                เข้มข้นต่ำ
+                                                                {item.intensity === 'light_intensity' && 'เข้มข้นต่ำ'}
+                                                                {item.intensity === 'moderate_intensity' && 'เข้มข้นปานกลาง'}
+                                                                {item.intensity === 'vigorous_intensity' && 'เข้มข้นสูง'}
                                                             </Text>
                                                         </View>
-                                                        <Text style={styles.timeData}>29 นาที</Text>
+                                                        <Text style={styles.timeData}>{item.duration} นาที</Text>
                                                         <View style={styles.rowView}>
                                                             <Image
                                                                 style={{ height: 12, width: 12, marginTop: 5, marginRight: 4 }}
                                                                 source={require('../../assets/images/activity/Note.png')}
                                                             />
-                                                            <Text style={styles.editNote}>เดินกินลม</Text>
+                                                            <Text style={styles.editNote}>{item.note}</Text>
                                                         </View>
                                                     </View>
                                                     <View style={styles.viewIconRight}>
@@ -238,4 +279,16 @@ const styles = StyleSheet.create({
 
     },
 })
-export default ActHistoty;
+
+const mapStateToProps = ({ authUser, getData }) => {
+    const { user } = authUser;
+    const { status_month_act_log, month_act_log } = getData;
+    return { status_month_act_log, month_act_log, user };
+};
+
+const mapActionsToProps = { getMonthActivityLog };
+
+export default connect(
+    mapStateToProps,
+    mapActionsToProps
+)(withTranslation()(ActHistoty));
