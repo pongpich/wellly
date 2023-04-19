@@ -240,12 +240,16 @@ class Profile extends Component {
                                         <Text style={styles.missionHead}>ข้อมูลบัญชีจะไม่สามารถกู้คืนได้</Text>
                                         <Text style={styles.missionHead}>คุณแน่ใจหรือไม่ ?</Text>
                                         <View style={{ flexDirection: 'row', marginTop: 20, justifyContent: "space-between", width: "100%" }}>
-                                            <View style={styles.button}>
-                                                <Text onPress={() => this.setState({ popupDeleteAccShow: !popupDeleteAccShow })} style={ComponentsStyle.textButton} >ยกเลิก</Text>
-                                            </View>
-                                            <View style={styles.buttonGrey}>
-                                                <Text onPress={() => this.props.deleteAccount(user && user.user_id)} style={ComponentsStyle.textButtonGrey} >ยืนยัน</Text>
-                                            </View>
+                                            <TouchableWithoutFeedback onPress={() => this.setState({ popupDeleteAccShow: !popupDeleteAccShow })}>
+                                                <View style={styles.button}>
+                                                    <Text style={ComponentsStyle.textButton} >ยกเลิก</Text>
+                                                </View>
+                                            </TouchableWithoutFeedback>
+                                            <TouchableWithoutFeedback onPress={() => this.props.deleteAccount(user && user.user_id)}>
+                                                <View style={styles.buttonGrey}>
+                                                    <Text style={ComponentsStyle.textButtonGrey} >ยืนยัน</Text>
+                                                </View>
+                                            </TouchableWithoutFeedback>
                                         </View>
                                     </View>
                             }
