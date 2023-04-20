@@ -5,6 +5,11 @@ import { getMonthActivityLog } from '../../redux/get';
 import ComponentsStyle from '../../constants/components';
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
+import RNPickerSelect from 'react-native-picker-select';
+import { calculateWeekInProgram, currentTimeActivity } from "../../helpers/utils";
+
+
+
 //const data = Array.from({ length: 30 });
 class ActHistoty extends Component {
 
@@ -14,15 +19,34 @@ class ActHistoty extends Component {
             data: [],
             selected_month: 1,
             selected_year: 1,
-            currYear: 2023,
+            currYear: 1,
             currMonth: 1,
+            selectedValue: "java",
+            itemsYear2: []
         };
     }
 
     selectYear(e) {
+        const { currYear } = this.state;
         this.setState({
             selected_year: e
         })
+
+        if (e != currYear) {
+            this.setState({
+                selected_month: 1
+            })
+        } else {
+            const currDate = new Date();
+            const currYear = currDate.getFullYear();
+            const currMonth = currDate.getMonth() + 1; //ต้อง +1 เพราะ index เริ่มจาก 0
+            this.setState({
+                selected_month: currMonth
+            })
+
+        }
+
+
     }
 
     selectMonth(e) {
@@ -42,12 +66,23 @@ class ActHistoty extends Component {
         this.setState({ selected_year: currYear, selected_month: currMonth, currYear: currYear, currMonth: currMonth })
         this.props.getMonthActivityLog(user_id, currYear, currMonth);
 
+        const itemsYear = []; // สร้าง array เพื่อเก็บ object ปี
+
+        for (var year = currYear; year > currYear - 20; year--) {
+            var buddhistYear = year + 543; // แปลงเป็นปี พ.ศ.
+            itemsYear.push({ label: buddhistYear.toString(), value: year }); // เพิ่ม object ปีเข้าไปใน array
+        }
+        this.setState({
+            itemsYear2: itemsYear
+        })
+
     }
 
     componentDidUpdate(prevProps, prevState) {
         const { user, status_month_act_log, month_act_log } = this.props;
         const { selected_year, selected_month } = this.state;
         const user_id = user && user.user_id;
+
 
         if ((prevProps.status_month_act_log !== status_month_act_log) && (status_month_act_log === 'success')) {
             this.setState({ data: month_act_log })
@@ -72,8 +107,31 @@ class ActHistoty extends Component {
     }
 
 
+    dropdown = () => {
+        const { selected_year, currYear, itemsYear2 } = this.state;
+
+
+        console.log('selected_year', selected_year);
+
+        if (itemsYear2.length > 0) {
+            const items = itemsYear2
+            return (
+                <RNPickerSelect
+                    onValueChange={(value) => this.selectYear(value)}
+                    items={itemsYear2}
+                    value={selected_year}
+                    useNativeAndroidPickerStyle={false}
+                    placeholder={{ label: 'เลือกปี', value: null }}
+
+                />
+            );
+        }
+
+    };
+
     render() {
-        const { selected_year, selected_month, data, currYear, currMonth } = this.state;
+        const { selected_year, selected_month, data, currYear, currMonth, } = this.state;
+
 
         return (
             <SafeAreaView style={styles.container}>
@@ -84,17 +142,20 @@ class ActHistoty extends Component {
                             <Text style={[styles.month, { marginRight: 24 }]}>เดือนนี้</Text>
                             <View style={[styles.rowView, { marginRight: 16 }]}>
                                 {/*  //ทดสอบโดย fixed ค่าเป็น 2023 ตอนกดเลือกปี */}
-                                <Pressable onPress={() => this.selectYear(2023)}>
+                                {/*  <Pressable onPress={() => this.selectYear(2023)}>
                                     <Text style={styles.textyy}>2556 </Text>
-                                </Pressable>
+                                </Pressable> */}
                                 {/*  //ทดสอบโดย fixed ค่าเป็น 2022 ตอนกดเลือกปี */}
-                                <Pressable onPress={() => this.selectYear(2022)}>
+                                {/*     <Pressable onPress={() => this.selectYear(2022)}>
                                     <Text style={styles.textyy}>2555</Text>
-                                </Pressable>
+                                </Pressable> */}
+
+                                {this.dropdown()}
                                 <Image
                                     style={{ height: 16, width: 16, marginLeft: 4 }}
                                     source={require('../../assets/images/activity/Chevron.png')}
                                 />
+
                             </View>
                         </View>
                     </View>
@@ -200,7 +261,7 @@ class ActHistoty extends Component {
                                                     <Text style={styles.missionHead}>{item.activity}</Text>
                                                     <View style={styles.rowView}>
                                                         <Text style={styles.dateData}>
-                                                            {item.created_at}
+                                                            {currentTimeActivity(item.created_at)}
                                                         </Text>
                                                         <Text style={styles.li}>{"\u2B24" + " "}</Text>
                                                         <Text style={styles.dateData}>

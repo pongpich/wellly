@@ -96,8 +96,22 @@ export function currentTime() {
 
   return currentDate;
 }
+export function currentTimeActivity(e) {
+  const date = new Date(e);
+  const options = { day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: 'numeric' };
+  const currentDate = date.toLocaleDateString('th-TH', options);
+
+  return currentDate;
+}
 export function currentDate() {
   const date = new Date();
+  const options = { day: 'numeric', month: 'short', year: 'numeric' };
+  const currentDate = date.toLocaleDateString('th-TH', options);
+
+  return currentDate;
+}
+export function currentDateActivity(e) {
+  const date = new Date(e);
   const options = { day: 'numeric', month: 'short', year: 'numeric' };
   const currentDate = date.toLocaleDateString('th-TH', options);
 
