@@ -110,9 +110,6 @@ class ActHistoty extends Component {
     dropdown = () => {
         const { selected_year, currYear, itemsYear2 } = this.state;
 
-
-        console.log('selected_year', selected_year);
-
         if (itemsYear2.length > 0) {
             const items = itemsYear2
             return (
