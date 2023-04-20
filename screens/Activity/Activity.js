@@ -176,9 +176,13 @@ const Activity = ({ navigation }) => {
                                     <Text style={[styles.mission, statusChart === 3 ? { color: colors.white } : { color: colors.persianBlue }]}>ปี</Text>
                                 </Pressable>
                             </View>
-                            <Pressable onPress={() => setSelectedYear(2022)}><Text>2022</Text></Pressable>
-                            <Pressable onPress={() => setSelectedYear(2023)}><Text>2023</Text></Pressable>
-
+                            {
+                                statusChart === 3 &&
+                                < >
+                                    <Pressable onPress={() => setSelectedYear(2022)}><Text>2022</Text></Pressable>
+                                    <Pressable onPress={() => setSelectedYear(2023)}><Text>2023</Text></Pressable>
+                                </>
+                            }
                             <Text style={styles.watch}>(ชม.)</Text>
                             <StackedBarChart
                                 data={{
