@@ -24,8 +24,17 @@ export const types = {
   GET_TRAINING_SET: "GET_TRAINING_SET",
   GET_TRAINING_SET_SUCCESS: "GET_TRAINING_SET_SUCCESS",
   GET_MONTH_ACTIVITY_LOG: "GET_MONTH_ACTIVITY_LOG",
-  GET_MONTH_ACTIVITY_LOG_SUCCESS: "GET_MONTH_ACTIVITY_LOG_SUCCESS"
+  GET_MONTH_ACTIVITY_LOG_SUCCESS: "GET_MONTH_ACTIVITY_LOG_SUCCESS",
+  GET_YEAR_ACT_LOG_GRAPH: "GET_YEAR_ACT_LOG_GRAPH",
+  GET_YEAR_ACT_LOG_GRAPH_SUCCESS: "GET_YEAR_ACT_LOG_GRAPH_SUCCESS",
 };
+
+export const getYearActivityLogGraph = (user_id, year) => ({
+  type: types.GET_YEAR_ACT_LOG_GRAPH,
+  payload: {
+    user_id, year
+  }
+})
 
 export const getMonthActivityLog = (user_id, year, month) => ({
   type: types.GET_MONTH_ACTIVITY_LOG,
@@ -247,6 +256,18 @@ const getMonthActivityLogSagaAsync = async (user_id, year, month) => {
     return { error, messsage: error.message };
   }
 }
+const getYearActivityLogGraphSagaAsync = async (user_id, year) => {
+  try {
+    const apiResult = await API.get("planforfit", "/getYearActivityLogGraph", {
+      queryStringParameters: {
+        user_id, year
+      }
+    });
+    return apiResult
+  } catch (error) {
+    return { error, messsage: error.message };
+  }
+}
 
 
 function* getProfanitySaga({ }) {
@@ -280,6 +301,25 @@ function* getActivityListSaga({ payload }) {
 
   } catch (error) {
     console.log("error form getActivityListSaga", error);
+  }
+}
+
+function* getYearActivityLogGraphSaga({ payload }) {
+  const { user_id, year } = payload;
+  try {
+    const apiResult = yield call(
+      getYearActivityLogGraphSagaAsync,
+      user_id,
+      year
+    );
+
+    yield put({
+      type: types.GET_YEAR_ACT_LOG_GRAPH_SUCCESS,
+      payload: apiResult.results.yearLog
+    })
+
+  } catch (error) {
+    console.log("error form getYearActivityLogGraphSaga", error);
   }
 }
 
@@ -478,6 +518,9 @@ export function* watchGetMemberActivityLogInWeek() {
 export function* watchGetMonthActivityLog() {
   yield takeEvery(types.GET_MONTH_ACTIVITY_LOG, getMonthActivityLogSaga)
 }
+export function* watchGetYearActivityLogGraph() {
+  yield takeEvery(types.GET_YEAR_ACT_LOG_GRAPH, getYearActivityLogGraphSaga)
+}
 
 export function* saga() {
   yield all([
@@ -491,6 +534,7 @@ export function* saga() {
     fork(watchGetAllTrainingSet),
     fork(watchGetTrainingSet),
     fork(watchGetMonthActivityLog),
+    fork(watchGetYearActivityLogGraph),
   ]);
 }
 
@@ -521,10 +565,23 @@ const INIT_STATE = {
   trainingSet: null,
   status_month_act_log: "default",
   month_act_log: null,
+  statusGetYearActLogGraph: "default",
+  yearLog: null
 };
 
 export function reducer(state = INIT_STATE, action) {
   switch (action.type) {
+    case types.GET_YEAR_ACT_LOG_GRAPH:
+      return {
+        ...state,
+        statusGetYearActLogGraph: "loading",
+      }
+    case types.GET_YEAR_ACT_LOG_GRAPH_SUCCESS:
+      return {
+        ...state,
+        statusGetYearActLogGraph: "success",
+        yearLog: action.payload,
+      }
     case types.GET_MONTH_ACTIVITY_LOG:
       return {
         ...state,

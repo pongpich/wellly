@@ -7,7 +7,7 @@ import Modal from "react-native-modal";
 import { AntDesign } from '@expo/vector-icons';
 import { useSelector, useDispatch } from "react-redux";
 import { connect } from 'react-redux';
-import { getExerciserActivity, getMemberActivityLogInWeek } from "../../redux/get";
+import { getExerciserActivity, getMemberActivityLogInWeek, getYearActivityLogGraph } from "../../redux/get";
 import { List } from 'react-native-paper';
 import { Video, AVPlaybackStatus } from 'expo-av';
 import { update_popUp_stars } from "../../redux/update";
@@ -62,10 +62,33 @@ const Activity = ({ navigation }) => {
 
     const dispatch = useDispatch();
     const user = useSelector(({ authUser }) => authUser ? authUser.user : "");
-    const { statusGetMemberActLogInWeek, member_activity_log_in_week } = useSelector(({ getData }) => getData ? getData : "");
+    const { statusGetMemberActLogInWeek, member_activity_log_in_week, statusGetYearActLogGraph, yearLog } = useSelector(({ getData }) => getData ? getData : "");
 
     const [statusMission, setStatusMission] = useState(true);
     const [statusChart, setStatusChart] = useState(1);
+    const [labelsWeek, setLabelsWeek] = useState(["สัปดาห์ที่แล้ว", "สัปดาห์นี้"]);
+    const [labelsMonth, setLabelsMonth] = useState(["1", "2", "3", "4", "5"]);
+    const [labelsYear, setLabelsYear] = useState(["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]);
+    const [yearDataItem, setYearDataItem] = useState({
+        "lightDuration": 0,
+        "moderateDuration": 0,
+        "virgorousDuration": 0
+    })
+    const [yearData, setYearData] = useState([
+        [yearDataItem.lightDuration, yearDataItem.moderateDuration, yearDataItem.virgorousDuration,],
+        [yearDataItem.lightDuration, yearDataItem.moderateDuration, yearDataItem.virgorousDuration,],
+        [yearDataItem.lightDuration, yearDataItem.moderateDuration, yearDataItem.virgorousDuration,],
+        [yearDataItem.lightDuration, yearDataItem.moderateDuration, yearDataItem.virgorousDuration,],
+        [yearDataItem.lightDuration, yearDataItem.moderateDuration, yearDataItem.virgorousDuration,],
+        [yearDataItem.lightDuration, yearDataItem.moderateDuration, yearDataItem.virgorousDuration,],
+        [yearDataItem.lightDuration, yearDataItem.moderateDuration, yearDataItem.virgorousDuration,],
+        [yearDataItem.lightDuration, yearDataItem.moderateDuration, yearDataItem.virgorousDuration,],
+        [yearDataItem.lightDuration, yearDataItem.moderateDuration, yearDataItem.virgorousDuration,],
+        [yearDataItem.lightDuration, yearDataItem.moderateDuration, yearDataItem.virgorousDuration,],
+        [yearDataItem.lightDuration, yearDataItem.moderateDuration, yearDataItem.virgorousDuration,],
+        [yearDataItem.lightDuration, yearDataItem.moderateDuration, yearDataItem.virgorousDuration,],
+    ]
+    );
     const deviceHeight = Math.round(Dimensions.get('window').height);
     const animatedScrollYValue = useRef(new Animated.Value(0)).current;
 
@@ -94,11 +117,30 @@ const Activity = ({ navigation }) => {
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
             dispatch(getMemberActivityLogInWeek((user && user.user_id)));
+            dispatch(getYearActivityLogGraph((user && user.user_id), 2023));
+            setStatusChart(3)
         });
 
         return unsubscribe;
 
     }, [navigation]);
+
+    useEffect(() => {
+        setYearData([
+            [yearLog[0][0].lightDuration, yearLog[0][0].moderateDuration, yearLog[0][0].virgorousDuration],
+            [yearLog[1][0].lightDuration, yearLog[1][0].moderateDuration, yearLog[1][0].virgorousDuration],
+            [yearLog[2][0].lightDuration, yearLog[2][0].moderateDuration, yearLog[2][0].virgorousDuration],
+            [yearLog[3][0].lightDuration, yearLog[3][0].moderateDuration, yearLog[3][0].virgorousDuration],
+            [yearLog[4][0].lightDuration, yearLog[4][0].moderateDuration, yearLog[4][0].virgorousDuration],
+            [yearLog[5][0].lightDuration, yearLog[5][0].moderateDuration, yearLog[5][0].virgorousDuration],
+            [yearLog[6][0].lightDuration, yearLog[6][0].moderateDuration, yearLog[6][0].virgorousDuration],
+            [yearLog[7][0].lightDuration, yearLog[7][0].moderateDuration, yearLog[7][0].virgorousDuration],
+            [yearLog[8][0].lightDuration, yearLog[8][0].moderateDuration, yearLog[8][0].virgorousDuration],
+            [yearLog[9][0].lightDuration, yearLog[9][0].moderateDuration, yearLog[9][0].virgorousDuration],
+            [yearLog[10][0].lightDuration, yearLog[10][0].moderateDuration, yearLog[10][0].virgorousDuration],
+            [yearLog[11][0].lightDuration, yearLog[11][0].moderateDuration, yearLog[11][0].virgorousDuration],
+        ])
+    }, [statusGetYearActLogGraph]);
 
 
     /*   const screenWidth = Dimensions.get('window').width;
@@ -131,12 +173,9 @@ const Activity = ({ navigation }) => {
                             <Text style={styles.watch}>(ชม.)</Text>
                             <StackedBarChart
                                 data={{
-                                    labels: ["สัปดาห์ที่แล้ว", "สัปดาห์นี้"],
+                                    labels: labelsYear,
                                     legend: [],
-                                    data: [
-                                        [1, 2.5, 3],
-                                        [1, 0.5, 2]
-                                    ],
+                                    data: yearData,
                                     barColors: ["#59CBE4", "#FDAB44", "#F15E79"]
                                 }}
                                 width={Dimensions.get("window").width - 40} // from react-native
@@ -146,7 +185,7 @@ const Activity = ({ navigation }) => {
                                 yAxisInterval={1} // optional, defaults to 1
 
                                 chartConfig={{
-                                    barPercentage: 2,
+                                    barPercentage: 0.5, //ตอนแรกที่หน่วยกำหนดไว้ 2
                                     backgroundColor: "#fff",
                                     backgroundGradientFrom: "#fff",
                                     backgroundGradientTo: "#fff",
