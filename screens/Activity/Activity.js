@@ -7,7 +7,7 @@ import Modal from "react-native-modal";
 import { AntDesign } from '@expo/vector-icons';
 import { useSelector, useDispatch } from "react-redux";
 import { connect } from 'react-redux';
-import { getExerciserActivity, getMemberActivityLogInWeek, getYearActivityLogGraph } from "../../redux/get";
+import { getExerciserActivity, getMemberActivityLogInWeek, getYearActivityLogGraph, getMonthActivityLogGraph, getWeekActivityLogGraph } from "../../redux/get";
 import { List } from 'react-native-paper';
 import { Video, AVPlaybackStatus } from 'expo-av';
 import { update_popUp_stars } from "../../redux/update";
@@ -62,34 +62,45 @@ const Activity = ({ navigation }) => {
 
     const dispatch = useDispatch();
     const user = useSelector(({ authUser }) => authUser ? authUser.user : "");
-    const { statusGetMemberActLogInWeek, member_activity_log_in_week, statusGetYearActLogGraph, yearLog } = useSelector(({ getData }) => getData ? getData : "");
+    const { statusGetMemberActLogInWeek, member_activity_log_in_week, statusGetYearActLogGraph, yearLog, statusGetMonthActLogGraph, monthLog, statusGetWeekActLogGraph, weekLog } = useSelector(({ getData }) => getData ? getData : "");
 
     const [statusMission, setStatusMission] = useState(true);
     const [statusChart, setStatusChart] = useState(1);
+    const [selectedYear, setSelectedYear] = useState(2023);
+    const [selectedMonth, setSelectedMonth] = useState(1);
     const [labelsWeek, setLabelsWeek] = useState(["สัปดาห์ที่แล้ว", "สัปดาห์นี้"]);
     const [labelsMonth, setLabelsMonth] = useState(["1", "2", "3", "4", "5"]);
-    const [selectedYear, setSelectedYear] = useState(2023)
     const [labelsYear, setLabelsYear] = useState(["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]);
-    const [yearDataItem, setYearDataItem] = useState({
+    const [dataItem, setDataItem] = useState({
         "lightDuration": 0,
         "moderateDuration": 0,
         "virgorousDuration": 0
     })
     const [yearData, setYearData] = useState([
-        [yearDataItem.lightDuration, yearDataItem.moderateDuration, yearDataItem.virgorousDuration,],
-        [yearDataItem.lightDuration, yearDataItem.moderateDuration, yearDataItem.virgorousDuration,],
-        [yearDataItem.lightDuration, yearDataItem.moderateDuration, yearDataItem.virgorousDuration,],
-        [yearDataItem.lightDuration, yearDataItem.moderateDuration, yearDataItem.virgorousDuration,],
-        [yearDataItem.lightDuration, yearDataItem.moderateDuration, yearDataItem.virgorousDuration,],
-        [yearDataItem.lightDuration, yearDataItem.moderateDuration, yearDataItem.virgorousDuration,],
-        [yearDataItem.lightDuration, yearDataItem.moderateDuration, yearDataItem.virgorousDuration,],
-        [yearDataItem.lightDuration, yearDataItem.moderateDuration, yearDataItem.virgorousDuration,],
-        [yearDataItem.lightDuration, yearDataItem.moderateDuration, yearDataItem.virgorousDuration,],
-        [yearDataItem.lightDuration, yearDataItem.moderateDuration, yearDataItem.virgorousDuration,],
-        [yearDataItem.lightDuration, yearDataItem.moderateDuration, yearDataItem.virgorousDuration,],
-        [yearDataItem.lightDuration, yearDataItem.moderateDuration, yearDataItem.virgorousDuration,],
-    ]
-    );
+        [dataItem.lightDuration, dataItem.moderateDuration, dataItem.virgorousDuration,],
+        [dataItem.lightDuration, dataItem.moderateDuration, dataItem.virgorousDuration,],
+        [dataItem.lightDuration, dataItem.moderateDuration, dataItem.virgorousDuration,],
+        [dataItem.lightDuration, dataItem.moderateDuration, dataItem.virgorousDuration,],
+        [dataItem.lightDuration, dataItem.moderateDuration, dataItem.virgorousDuration,],
+        [dataItem.lightDuration, dataItem.moderateDuration, dataItem.virgorousDuration,],
+        [dataItem.lightDuration, dataItem.moderateDuration, dataItem.virgorousDuration,],
+        [dataItem.lightDuration, dataItem.moderateDuration, dataItem.virgorousDuration,],
+        [dataItem.lightDuration, dataItem.moderateDuration, dataItem.virgorousDuration,],
+        [dataItem.lightDuration, dataItem.moderateDuration, dataItem.virgorousDuration,],
+        [dataItem.lightDuration, dataItem.moderateDuration, dataItem.virgorousDuration,],
+        [dataItem.lightDuration, dataItem.moderateDuration, dataItem.virgorousDuration,],
+    ]);
+    const [monthData, setMonthData] = useState([
+        [dataItem.lightDuration, dataItem.moderateDuration, dataItem.virgorousDuration,],
+        [dataItem.lightDuration, dataItem.moderateDuration, dataItem.virgorousDuration,],
+        [dataItem.lightDuration, dataItem.moderateDuration, dataItem.virgorousDuration,],
+        [dataItem.lightDuration, dataItem.moderateDuration, dataItem.virgorousDuration,],
+        [dataItem.lightDuration, dataItem.moderateDuration, dataItem.virgorousDuration,],
+    ]);
+    const [weekData, setWeekData] = useState([
+        [dataItem.lightDuration, dataItem.moderateDuration, dataItem.virgorousDuration,],
+        [dataItem.lightDuration, dataItem.moderateDuration, dataItem.virgorousDuration,],
+    ]);
     const deviceHeight = Math.round(Dimensions.get('window').height);
     const animatedScrollYValue = useRef(new Animated.Value(0)).current;
 
@@ -118,8 +129,18 @@ const Activity = ({ navigation }) => {
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
             dispatch(getMemberActivityLogInWeek((user && user.user_id)));
-            dispatch(getYearActivityLogGraph((user && user.user_id), selectedYear));
-            setStatusChart(3)
+
+            setStatusChart(1)
+
+            const currDate = new Date();
+            const currYear = currDate.getFullYear();
+            const currMonth = currDate.getMonth() + 1; //ต้อง +1 เพราะ index เริ่มจาก 0
+            setSelectedMonth(currMonth);
+            setSelectedYear(currYear);
+            dispatch(getYearActivityLogGraph((user && user.user_id), currYear));
+            dispatch(getMonthActivityLogGraph((user && user.user_id), currMonth));
+            dispatch(getWeekActivityLogGraph((user && user.user_id)));
+
         });
 
         return unsubscribe;
@@ -146,8 +167,33 @@ const Activity = ({ navigation }) => {
     }, [statusGetYearActLogGraph]);
 
     useEffect(() => {
+        if (statusGetMonthActLogGraph === "success") {
+            setMonthData([
+                [monthLog[0][0].lightDuration, monthLog[0][0].moderateDuration, monthLog[0][0].virgorousDuration],
+                [monthLog[1][0].lightDuration, monthLog[1][0].moderateDuration, monthLog[1][0].virgorousDuration],
+                [monthLog[2][0].lightDuration, monthLog[2][0].moderateDuration, monthLog[2][0].virgorousDuration],
+                [monthLog[3][0].lightDuration, monthLog[3][0].moderateDuration, monthLog[3][0].virgorousDuration],
+                [monthLog[4][0].lightDuration, monthLog[4][0].moderateDuration, monthLog[4][0].virgorousDuration],
+            ])
+        }
+    }, [statusGetMonthActLogGraph]);
+
+    useEffect(() => {
+        if (statusGetWeekActLogGraph === "success") {
+            setWeekData([
+                [weekLog[0][0].lightDuration, weekLog[0][0].moderateDuration, weekLog[0][0].virgorousDuration],
+                [weekLog[1][0].lightDuration, weekLog[1][0].moderateDuration, weekLog[1][0].virgorousDuration],
+            ])
+        }
+    }, [statusGetWeekActLogGraph]);
+
+    useEffect(() => {
         dispatch(getYearActivityLogGraph((user && user.user_id), selectedYear));
     }, [selectedYear])
+
+    useEffect(() => {
+        dispatch(getMonthActivityLogGraph((user && user.user_id), selectedMonth));
+    }, [selectedMonth])
 
 
     /*   const screenWidth = Dimensions.get('window').width;
@@ -177,18 +223,35 @@ const Activity = ({ navigation }) => {
                                 </Pressable>
                             </View>
                             {
+                                statusChart === 2 &&
+                                <View style={{ flexDirection: 'row' }}>
+                                    <Pressable onPress={() => setSelectedMonth(1)}><Text>ม.ค. </Text></Pressable>
+                                    <Pressable onPress={() => setSelectedMonth(2)}><Text>ก.พ. </Text></Pressable>
+                                    <Pressable onPress={() => setSelectedMonth(3)}><Text>มี.ค. </Text></Pressable>
+                                    <Pressable onPress={() => setSelectedMonth(4)}><Text>เม.ย. </Text></Pressable>
+                                    <Pressable onPress={() => setSelectedMonth(5)}><Text>พ.ค. </Text></Pressable>
+                                    <Pressable onPress={() => setSelectedMonth(6)}><Text>มิ.ย. </Text></Pressable>
+                                    <Pressable onPress={() => setSelectedMonth(7)}><Text>ก.ค. </Text></Pressable>
+                                    <Pressable onPress={() => setSelectedMonth(8)}><Text>ส.ค. </Text></Pressable>
+                                    <Pressable onPress={() => setSelectedMonth(9)}><Text>ก.ย. </Text></Pressable>
+                                    <Pressable onPress={() => setSelectedMonth(10)}><Text>ต.ค. </Text></Pressable>
+                                    <Pressable onPress={() => setSelectedMonth(11)}><Text>พ.ย. </Text></Pressable>
+                                    <Pressable onPress={() => setSelectedMonth(12)}><Text>ธ.ค. </Text></Pressable>
+                                </View>
+                            }
+                            {
                                 statusChart === 3 &&
-                                < >
-                                    <Pressable onPress={() => setSelectedYear(2022)}><Text>2022</Text></Pressable>
+                                <View style={{ flexDirection: 'row' }} >
+                                    <Pressable onPress={() => setSelectedYear(2022)}><Text>2022 </Text></Pressable>
                                     <Pressable onPress={() => setSelectedYear(2023)}><Text>2023</Text></Pressable>
-                                </>
+                                </View>
                             }
                             <Text style={styles.watch}>(ชม.)</Text>
                             <StackedBarChart
                                 data={{
-                                    labels: labelsYear,
+                                    labels: (statusChart === 1) ? labelsWeek : (statusChart === 2) ? labelsMonth : labelsYear,
                                     legend: [],
-                                    data: yearData,
+                                    data: (statusChart === 1) ? weekData : (statusChart === 2) ? monthData : yearData,
                                     barColors: ["#59CBE4", "#FDAB44", "#F15E79"]
                                 }}
                                 width={Dimensions.get("window").width - 40} // from react-native

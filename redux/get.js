@@ -27,7 +27,24 @@ export const types = {
   GET_MONTH_ACTIVITY_LOG_SUCCESS: "GET_MONTH_ACTIVITY_LOG_SUCCESS",
   GET_YEAR_ACT_LOG_GRAPH: "GET_YEAR_ACT_LOG_GRAPH",
   GET_YEAR_ACT_LOG_GRAPH_SUCCESS: "GET_YEAR_ACT_LOG_GRAPH_SUCCESS",
+  GET_MONTH_ACT_LOG_GRAPH: "GET_MONTH_ACT_LOG_GRAPH",
+  GET_MONTH_ACT_LOG_GRAPH_SUCCESS: "GET_MONTH_ACT_LOG_GRAPH_SUCCESS",
+  GET_WEEK_ACT_LOG_GRAPH: "GET_WEEK_ACT_LOG_GRAPH",
+  GET_WEEK_ACT_LOG_GRAPH_SUCCESS: "GET_WEEK_ACT_LOG_GRAPH_SUCCESS",
 };
+
+export const getWeekActivityLogGraph = (user_id) => ({
+  type: types.GET_WEEK_ACT_LOG_GRAPH,
+  payload: {
+    user_id
+  }
+})
+export const getMonthActivityLogGraph = (user_id, month) => ({
+  type: types.GET_MONTH_ACT_LOG_GRAPH,
+  payload: {
+    user_id, month
+  }
+})
 
 export const getYearActivityLogGraph = (user_id, year) => ({
   type: types.GET_YEAR_ACT_LOG_GRAPH,
@@ -268,6 +285,30 @@ const getYearActivityLogGraphSagaAsync = async (user_id, year) => {
     return { error, messsage: error.message };
   }
 }
+const getMonthActivityLogGraphSagaAsync = async (user_id, month) => {
+  try {
+    const apiResult = await API.get("planforfit", "/getMonthActivityLogGraph", {
+      queryStringParameters: {
+        user_id, month
+      }
+    });
+    return apiResult
+  } catch (error) {
+    return { error, messsage: error.message };
+  }
+}
+const getWeekActivityLogGraphSagaAsync = async (user_id) => {
+  try {
+    const apiResult = await API.get("planforfit", "/getWeekActivityLogGraph", {
+      queryStringParameters: {
+        user_id
+      }
+    });
+    return apiResult
+  } catch (error) {
+    return { error, messsage: error.message };
+  }
+}
 
 
 function* getProfanitySaga({ }) {
@@ -320,6 +361,41 @@ function* getYearActivityLogGraphSaga({ payload }) {
 
   } catch (error) {
     console.log("error form getYearActivityLogGraphSaga", error);
+  }
+}
+function* getMonthActivityLogGraphSaga({ payload }) {
+  const { user_id, month } = payload;
+  try {
+    const apiResult = yield call(
+      getMonthActivityLogGraphSagaAsync,
+      user_id,
+      month
+    );
+
+    yield put({
+      type: types.GET_MONTH_ACT_LOG_GRAPH_SUCCESS,
+      payload: apiResult.results.monthLog
+    })
+
+  } catch (error) {
+    console.log("error form getMonthActivityLogGraphSaga", error);
+  }
+}
+function* getWeekActivityLogGraphSaga({ payload }) {
+  const { user_id } = payload;
+  try {
+    const apiResult = yield call(
+      getWeekActivityLogGraphSagaAsync,
+      user_id
+    );
+
+    yield put({
+      type: types.GET_WEEK_ACT_LOG_GRAPH_SUCCESS,
+      payload: apiResult.results.weekLog
+    })
+
+  } catch (error) {
+    console.log("error form getWeekActivityLogGraphSaga", error);
   }
 }
 
@@ -521,6 +597,12 @@ export function* watchGetMonthActivityLog() {
 export function* watchGetYearActivityLogGraph() {
   yield takeEvery(types.GET_YEAR_ACT_LOG_GRAPH, getYearActivityLogGraphSaga)
 }
+export function* watchGetMonthActivityLogGraph() {
+  yield takeEvery(types.GET_MONTH_ACT_LOG_GRAPH, getMonthActivityLogGraphSaga)
+}
+export function* watchGetWeekActivityLogGraph() {
+  yield takeEvery(types.GET_WEEK_ACT_LOG_GRAPH, getWeekActivityLogGraphSaga)
+}
 
 export function* saga() {
   yield all([
@@ -535,6 +617,8 @@ export function* saga() {
     fork(watchGetTrainingSet),
     fork(watchGetMonthActivityLog),
     fork(watchGetYearActivityLogGraph),
+    fork(watchGetMonthActivityLogGraph),
+    fork(watchGetWeekActivityLogGraph),
   ]);
 }
 
@@ -566,11 +650,37 @@ const INIT_STATE = {
   status_month_act_log: "default",
   month_act_log: null,
   statusGetYearActLogGraph: "default",
-  yearLog: null
+  yearLog: null,
+  statusGetMonthActLogGraph: "default",
+  monthLog: null,
+  statusGetWeekActLogGraph: "default",
+  weekLog: null
 };
 
 export function reducer(state = INIT_STATE, action) {
   switch (action.type) {
+    case types.GET_WEEK_ACT_LOG_GRAPH:
+      return {
+        ...state,
+        statusGetWeekActLogGraph: "loading",
+      }
+    case types.GET_WEEK_ACT_LOG_GRAPH_SUCCESS:
+      return {
+        ...state,
+        statusGetWeekActLogGraph: "success",
+        weekLog: action.payload,
+      }
+    case types.GET_MONTH_ACT_LOG_GRAPH:
+      return {
+        ...state,
+        statusGetMonthActLogGraph: "loading",
+      }
+    case types.GET_MONTH_ACT_LOG_GRAPH_SUCCESS:
+      return {
+        ...state,
+        statusGetMonthActLogGraph: "success",
+        monthLog: action.payload,
+      }
     case types.GET_YEAR_ACT_LOG_GRAPH:
       return {
         ...state,
