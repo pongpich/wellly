@@ -215,7 +215,7 @@ class Profile extends Component {
                             </View>
                         </Pressable>
                         <View style={styles.line2} />
-                        <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
+                        {/* <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
                             <View style={{ flexDirection: "row" }}>
                                 <Image
                                     style={{ width: 24, height: 24, marginLeft: 16 }}
@@ -275,7 +275,7 @@ class Profile extends Component {
                                 style={{ width: 24, height: 24, marginRight: 16 }}
                                 source={require('../../assets/images/icon/right.png')}
                             />
-                        </View>
+                        </View> */}
                         <View style={styles.line2} />
                         <Pressable onPress={() => this.onDeleteAccount()}>
                             <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
