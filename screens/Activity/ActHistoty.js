@@ -290,7 +290,7 @@ class ActHistoty extends Component {
                     }
                     <ScrollView>
                         <View style={{
-                            marginTop: 20, flex: 1
+                            marginTop: 20, marginBottom: 100, flex: 1
                         }}>
                             {
 
