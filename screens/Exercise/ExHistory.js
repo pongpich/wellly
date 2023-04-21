@@ -44,57 +44,60 @@ class History extends Component {
             <SafeAreaView style={styles.container}>
                 <View style={styles.marginBox}>
                     <Text style={styles.missionHistory}>ประวัติภารกิจ</Text>
-                    <ScrollView>
-                        {
-                            exerciserActivity && exerciserActivity.map((item, i) => {
-                                const activities_level = JSON.parse(item.activities_level)
-                                const mission_activities = JSON.parse(item.mission_activities)
-                                const week_in_program = item.week_in_program;
-                                mission_activities.forEach((animal) => {
-                                    animal.week_in_program = item.week_in_program
-                                })
-                                activities_level.forEach((animal) => {
-                                    animal.week_in_program = item.week_in_program
-                                })
+                    <ScrollView >
+                        <View style={{ marginBottom: 60 }}>
 
-                                return (
-                                    //ส่ง params ผ่าน route
-                                    <Pressable onPress={() => this.props.navigation.navigate("ExArticleTemplate", { id: item.week_in_program, mission_id: item.mission_id, heading: item.heading, mission_activities: item.mission_activities, statusPags: "ExHistory" })} key={i + "fee"}>
-                                        <View key={i} style={styles.row}>
-                                            <View style={styles.numberView}>
-                                                <Text style={styles.number}>{item.week_in_program}</Text>
-                                            </View>
-                                            <View style={styles.missionData}>
-                                                <Text style={styles.missionHead}>{item.heading}</Text>
-                                                {/*  <Text style={styles.missionContent}>
+                            {
+                                exerciserActivity && exerciserActivity.map((item, i) => {
+                                    const activities_level = JSON.parse(item.activities_level)
+                                    const mission_activities = JSON.parse(item.mission_activities)
+                                    const week_in_program = item.week_in_program;
+                                    mission_activities.forEach((animal) => {
+                                        animal.week_in_program = item.week_in_program
+                                    })
+                                    activities_level.forEach((animal) => {
+                                        animal.week_in_program = item.week_in_program
+                                    })
+
+                                    return (
+                                        //ส่ง params ผ่าน route
+                                        <Pressable onPress={() => this.props.navigation.navigate("ExArticleTemplate", { id: item.week_in_program, mission_id: item.mission_id, heading: item.heading, mission_activities: item.mission_activities, statusPags: "ExHistory" })} key={i + "fee"}>
+                                            <View key={i} style={styles.row}>
+                                                <View style={styles.numberView}>
+                                                    <Text style={styles.number}>{item.week_in_program}</Text>
+                                                </View>
+                                                <View style={styles.missionData}>
+                                                    <Text style={styles.missionHead}>{item.heading}</Text>
+                                                    {/*  <Text style={styles.missionContent}>
                                             โปรแกรมออกกำลังกายลดความเสี่ยงโรคเบาหวาน
                                         </Text> */}
-                                                <View style={{ flexDirection: "row" }}>
-                                                    {
-                                                        checkTrophy(mission_activities, activities_level) == 1 ?
-                                                            <Image style={{ width: 24, height: 24, marginTop: 8 }} source={require('../../assets/images/icon/Trophy.png')} />
-                                                            :
-                                                            startData && startData.map((item, i) => {
-                                                                return (
-                                                                    <Image style={[i > 0 ? { marginLeft: 4 } : null, { width: 16, height: 16, marginTop: 8 }]} source={
-                                                                        checkStar(mission_activities, activities_level) >= ++i ?
-                                                                            require('../../assets/images/icon/Star_3.png')
-                                                                            :
-                                                                            require('../../assets/images/icon/Star.png')
-                                                                    } />
-                                                                )
-                                                            })
-                                                    }
+                                                    <View style={{ flexDirection: "row" }}>
+                                                        {
+                                                            checkTrophy(mission_activities, activities_level) == 1 ?
+                                                                <Image style={{ width: 24, height: 24, marginTop: 8 }} source={require('../../assets/images/icon/Trophy.png')} />
+                                                                :
+                                                                startData && startData.map((item, i) => {
+                                                                    return (
+                                                                        <Image style={[i > 0 ? { marginLeft: 4 } : null, { width: 16, height: 16, marginTop: 8 }]} source={
+                                                                            checkStar(mission_activities, activities_level) >= ++i ?
+                                                                                require('../../assets/images/icon/Star_3.png')
+                                                                                :
+                                                                                require('../../assets/images/icon/Star.png')
+                                                                        } />
+                                                                    )
+                                                                })
+                                                        }
+                                                    </View>
+                                                </View>
+                                                <View style={styles.viewIconRight}>
+                                                    <AntDesign name="check" style={styles.iconRight} />
                                                 </View>
                                             </View>
-                                            <View style={styles.viewIconRight}>
-                                                <AntDesign name="check" style={styles.iconRight} />
-                                            </View>
-                                        </View>
-                                    </Pressable>
-                                )
-                            })
-                        }
+                                        </Pressable>
+                                    )
+                                })
+                            }
+                        </View>
                     </ScrollView>
                 </View>
             </SafeAreaView>
