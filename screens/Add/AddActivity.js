@@ -89,7 +89,7 @@ class AddActivity extends Component {
         const { activity, intensity, type, activity_id } = this.props.route.params;
         // ** หมายเหตุ ปัจจุบันใช้การคำนวน week ปัจจุบัน, - ซึ่งถ้าอนาคตมีการดูย้อนหลังสัปดาห์เก่า ต้องมาปรับปรุงส่วนนี้นะ -
         const week_in_program = calculateWeekInProgram(user.start_date);
-        if (statusUpdateNumbComp !== 'loading') {
+        if ((statusUpdateNumbComp !== 'loading') && duration) {
             this.props.updateNumberCompleted((user && user.user_id), (activity_id && (activity_id === "cardio")) ? "cardio" : intensity, week_in_program, activity, intensity, type, duration, note);
         }
     }
