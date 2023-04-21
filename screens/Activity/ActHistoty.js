@@ -107,6 +107,7 @@ class ActHistoty extends Component {
     }
 
 
+
     dropdown = () => {
         const { selected_year, currYear, itemsYear2 } = this.state;
 
@@ -114,11 +115,37 @@ class ActHistoty extends Component {
             const items = itemsYear2
             return (
                 <RNPickerSelect
-                    onValueChange={(value) => this.selectYear(value)}
-                    items={itemsYear2}
+
+                    Icon={() => {
+                        return <Image style={{ height: 16, width: 16, marginRight: 10, marginTop: 16, zIndex: 1 }} source={require('../../assets/images/activity/Chevron.png')} />;;
+                    }}
+                    style={{
+                        inputIOS: {
+                            height: 50,
+                            /* backgroundColor: '#fff', */
+                            borderRadius: 4,
+                            fontSize: 16,
+                            zIndex: 2,
+                            paddingLeft: 30,
+                            paddingRight: 30, // ปรับเพิ่มความกว้างของ input เพื่อให้รูปภาพ dropdown พอดีกับ input
+                        },
+                        inputAndroid: {
+                            height: 50,
+                            zIndex: 2,
+                            /*  backgroundColor: '#fff', */
+                            borderRadius: 4,
+                            fontSize: 16,
+                            paddingLeft: 20,
+                            paddingRight: 40, // ปรับเพิ่มความกว้างของ input เพื่อให้รูปภาพ dropdown พอดีกับ input
+                        },
+                    }}
+                    onValueChange={(value) => this.selectYear(value)
+                    }
+                    items={items}
                     value={selected_year}
                     useNativeAndroidPickerStyle={false}
-                    placeholder={{ label: 'เลือกปี', value: null }}
+                    placeholder={{ label: 'เลือกปี', value: null }
+                    }
 
                 />
             );
@@ -136,26 +163,48 @@ class ActHistoty extends Component {
                     <View style={[styles.rowView, { justifyContent: "space-between" }]}>
                         <Text style={styles.missionHistory}>ประวัติภารกิจ</Text>
                         <View style={[styles.rowView, { marginTop: 10 }]}>
-                            <Text style={[styles.month, { marginRight: 24 }]}>เดือนนี้</Text>
-                            <View style={[styles.rowView, { marginRight: 16 }]}>
-                                {/*  //ทดสอบโดย fixed ค่าเป็น 2023 ตอนกดเลือกปี */}
-                                {/*  <Pressable onPress={() => this.selectYear(2023)}>
-                                    <Text style={styles.textyy}>2556 </Text>
-                                </Pressable> */}
-                                {/*  //ทดสอบโดย fixed ค่าเป็น 2022 ตอนกดเลือกปี */}
-                                {/*     <Pressable onPress={() => this.selectYear(2022)}>
-                                    <Text style={styles.textyy}>2555</Text>
-                                </Pressable> */}
-
+                            <Text style={[styles.month, { marginRight: 4 }]}>เดือนนี้</Text>
+                            <View style={{ marginTop: -12 }}>
                                 {this.dropdown()}
-                                <Image
-                                    style={{ height: 16, width: 16, marginLeft: 4 }}
-                                    source={require('../../assets/images/activity/Chevron.png')}
-                                />
-
                             </View>
+
+
+                            {/*    <RNPickerSelect
+                                Icon={() => {
+                                    return <Image style={{ height: 16, width: 16, marginRight: 4, marginTop: 16 }} source={require('../../assets/images/activity/Chevron.png')} />;;
+                                }}
+                                style={{
+                                    inputIOS: {
+                                        height: 50,
+                                        backgroundColor: '#fff',
+                                        borderRadius: 4,
+                                        fontSize: 16,
+                                        paddingLeft: 10,
+                                        paddingRight: 30, // ปรับเพิ่มความกว้างของ input เพื่อให้รูปภาพ dropdown พอดีกับ input
+                                    },
+                                    inputAndroid: {
+                                        height: 50,
+                                        backgroundColor: '#fff',
+                                        borderRadius: 4,
+                                        fontSize: 16,
+                                        paddingLeft: 10,
+                                        paddingRight: 100, // ปรับเพิ่มความกว้างของ input เพื่อให้รูปภาพ dropdown พอดีกับ input
+                                    },
+                                }}
+                                useNativeAndroidPickerStyle={false}
+                                placeholder={{ label: 'Select a value', value: null }}
+                                onValueChange={(value) => console.log(value)}
+                                items={[
+                                    { label: 'Football', value: 'football' },
+                                    { label: 'Baseball', value: 'baseball' },
+                                    { label: 'Hockey', value: 'hockey' },
+                                ]}
+                            /> */}
+
+
                         </View>
                     </View>
+
                     <ScrollView horizontal={true}
                         style={{ paddingBottom: 20 }}>
                         <View style={[styles.rowView, { justifyContent: "flex-end" }]}>
