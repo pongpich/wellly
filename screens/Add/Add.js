@@ -216,7 +216,7 @@ class Add extends Component {
     deleteActivity(mess) {
         const { user } = this.props;
         const { activity_id_edit_focus } = this.state;
-        /* this.props.deleteActivityListAddOn(user.user_id, activity_id_edit_focus)
+        this.props.deleteActivityListAddOn(user.user_id, activity_id_edit_focus)
         this.setState({
             statusCreate: "editView",
             statusViolence: null,
@@ -224,7 +224,7 @@ class Add extends Component {
             editmission: false,
             confirmDelete: false,
         })
-        this.setMessage(mess) */
+        this.setMessage(mess)
 
         /*  this.props.navigation.popToTop() */
     }
