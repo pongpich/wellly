@@ -11,7 +11,7 @@ import { getExerciserActivity, getMemberActivityLogInWeek, getYearActivityLogGra
 import { List } from 'react-native-paper';
 import { Video, AVPlaybackStatus } from 'expo-av';
 import { update_popUp_stars } from "../../redux/update";
-import { checkStar, checkTrophy, calculateWeekInProgram, convertFormatDate, currentDate } from "../../helpers/utils";
+import { checkStar, checkTrophy, calculateWeekInProgram, convertFormatDate, currentDate, currentDateActivity } from "../../helpers/utils";
 import { withTranslation } from 'react-i18next'
 
 import {
@@ -315,7 +315,7 @@ const Activity = ({ navigation }) => {
                                                     <View style={styles.missionView}>
                                                         <Text style={styles.dateData}>
                                                             {/* {currentDate()} */}
-                                                            {item.created_at}
+                                                            {currentDateActivity(item.created_at)}
                                                         </Text>
                                                         <Text style={styles.li}>{"\u2B24" + " "}</Text>
                                                         <Text style={styles.dateData}>
@@ -375,7 +375,7 @@ const Activity = ({ navigation }) => {
                                 <Pressable style={[{ width: "auto", paddingHorizontal: 8 }, statusMission === true ? styles.missionPre : styles.programPre]} onPress={() => setStatusMission(true)} >
                                     <Text style={[styles.mission, statusMission === true ? { color: colors.white } : { color: colors.persianBlue }]}>ออกกำลังการ</Text>
                                 </Pressable>
-                               {/*  <Pressable style={[{ marginLeft: 8, width: 89 }, statusMission !== true ? styles.missionPre : styles.programPre]} onPress={() => setStatusMission(false)} >
+                                {/*  <Pressable style={[{ marginLeft: 8, width: 89 }, statusMission !== true ? styles.missionPre : styles.programPre]} onPress={() => setStatusMission(false)} >
                                     <Text style={[styles.mission, statusMission !== true ? { color: colors.white } : { color: colors.persianBlue }]}>สุขภาพ</Text>
                                 </Pressable> */}
                             </View>
