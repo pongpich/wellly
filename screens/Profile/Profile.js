@@ -181,7 +181,7 @@ class Profile extends Component {
                 </View>
                 <ScrollView>
                     <View style={{ marginTop: 25 }}>
-                        <Pressable onPress={() => this.props.navigation.navigate("Badge")}>
+                        {/*     <Pressable onPress={() => this.props.navigation.navigate("Badge")}>
                             <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
                                 <View style={{ flexDirection: "row" }}>
                                     <Image
@@ -215,7 +215,7 @@ class Profile extends Component {
                             </View>
                         </Pressable>
                         <View style={styles.line2} />
-                        {/* <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
+                        <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
                             <View style={{ flexDirection: "row" }}>
                                 <Image
                                     style={{ width: 24, height: 24, marginLeft: 16 }}
@@ -263,19 +263,22 @@ class Profile extends Component {
                         <View style={styles.line}>
                             <View style={styles.line1} />
                         </View>
-                        <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
-                            <View style={{ flexDirection: "row" }}>
+                        <Pressable onPress={() => this.props.navigation.navigate("About")}>
+                            <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
+                                <View style={{ flexDirection: "row" }}>
+                                    <Image
+                                        style={{ width: 24, height: 24, marginLeft: 16 }}
+                                        source={require('../../assets/images/icon/About_3x.png')}
+                                    />
+                                    <Text style={styles.manuName}>เกี่ยวกับ Wellly</Text>
+                                </View>
                                 <Image
-                                    style={{ width: 24, height: 24, marginLeft: 16 }}
-                                    source={require('../../assets/images/icon/About_3x.png')}
+                                    style={{ width: 24, height: 24, marginRight: 16 }}
+                                    source={require('../../assets/images/icon/right.png')}
                                 />
-                                <Text style={styles.manuName}>เกี่ยวกับ Wellly</Text>
                             </View>
-                            <Image
-                                style={{ width: 24, height: 24, marginRight: 16 }}
-                                source={require('../../assets/images/icon/right.png')}
-                            />
-                        </View> */}
+                        </Pressable> */}
+
                         <View style={styles.line2} />
                         <Pressable onPress={() => this.onDeleteAccount()}>
                             <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
@@ -308,7 +311,7 @@ class Profile extends Component {
                         </Pressable>
                     </View>
                     <Text style={styles.version}>เวอร์ชั่น 1.2</Text>
-                </ScrollView>
+                </ScrollView >
                 <View View style={styles.centeredView} >
                     <Modal isVisible={popupDeleteAccShow}
                         style={{ margin: 0 }}
@@ -409,7 +412,7 @@ class Profile extends Component {
                     </View>
                 }
 
-            </View>
+            </View >
         )
     }
 }

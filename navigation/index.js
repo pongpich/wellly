@@ -408,6 +408,9 @@ function getBottomTabse(route) {
   if (routeName == "Badge") {
     return 'none';
   }
+  if (routeName == "About") {
+    return 'none';
+  }
 
 
   return 'flex';
