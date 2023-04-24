@@ -49,7 +49,7 @@ class ArticleTemplate extends Component {
     }
 
     componentDidMount() {
-        const { nutrition_mission, user, nutrition_activity_id_Mission, route } = this.props;
+        const { nutrition_mission, user, nutrition_activity_id_Mission, route, exerciserActivity, statusExerciserActivity } = this.props;
 
         const { statusPags, id, heading, mission_activities } = this.props.route.params;
 
@@ -62,7 +62,7 @@ class ArticleTemplate extends Component {
         this.setState({
             id: id,
             heading: heading,
-            mission_activities: JSON.parse(mission_activities)
+            mission_activities: JSON.parse(exerciserActivity[0] && exerciserActivity[0].mission_activities)
         })
 
 
@@ -73,7 +73,16 @@ class ArticleTemplate extends Component {
 
 
     componentDidUpdate(prevProps, prevState) {
-        const { nutrition_mission, user, nutrition_activity_id_Mission, statusGetNutritionActivityIdMission } = this.props;
+        const { nutrition_mission, user, nutrition_activity_id_Mission, statusGetNutritionActivityIdMission, exerciserActivity, statusExerciserActivity } = this.props;
+
+        if ((prevProps.statusExerciserActivity !== statusExerciserActivity) && (statusExerciserActivity === "success")) {
+            if (exerciserActivity[0]) {
+                const mission_activities = JSON.parse(exerciserActivity[0].mission_activities);
+                this.setState({
+                    mission_activities: mission_activities
+                })
+            }
+        }
     }
 
     slideDown = () => {
@@ -771,8 +780,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = ({ authUser, getData, personalDataUser }) => {
     const { user } = authUser;
     const { coreBalanceRoute } = personalDataUser;
-    const { nutrition_mission, statusGetNutritionMission, statusGetNutritionActivityIdMission, nutrition_activity_id_Mission } = getData;
-    return { nutrition_mission, statusGetNutritionMission, nutrition_activity_id_Mission, statusGetNutritionActivityIdMission, user, coreBalanceRoute };
+    const { nutrition_mission, statusGetNutritionMission, statusGetNutritionActivityIdMission, nutrition_activity_id_Mission, exerciserActivity, statusExerciserActivity } = getData;
+    return { nutrition_mission, statusGetNutritionMission, nutrition_activity_id_Mission, statusGetNutritionActivityIdMission, user, coreBalanceRoute, exerciserActivity, statusExerciserActivity };
 };
 
 const mapActionsToProps = { logoutUser, getNutritionMission, getNutritionActivityIdMission, coreBalance, setIntensityFromExArticleTemplate };
