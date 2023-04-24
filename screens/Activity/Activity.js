@@ -229,8 +229,6 @@ const Activity = ({ navigation }) => {
         return thaiMonths[month - 1];
     };
 
-    console.log("thisYear", thisYear);
-
     return (
         <View style={styles.fill}>
             <Animated.ScrollView
