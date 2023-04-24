@@ -184,85 +184,96 @@ class Home extends Component {
                         </View>
                     </ImageBackground>
                     <View style={{ paddingLeft: 16, marginTop: -33 }}>
-                        <Pressable
-                            onPress={() => latest_nutrition_activity.short_content && this.props.navigation.navigate("ArticleTemplate", { id: latest_nutrition_activity && latest_nutrition_activity.week_in_program, mission_id: latest_nutrition_activity && latest_nutrition_activity.mission_id, heading: latest_nutrition_activity && latest_nutrition_activity.heading, statusPags: "Home" })} key={latest_nutrition_activity && latest_nutrition_activity.week_in_program + "_na"}
-                        >
-                            <View style={styles.row}>
-                                <View style={[styles.numberView, { backgroundColor: colors.mayaBlue20, }]}>
-                                    <Text style={[styles.number, { color: colors.mayaBlue }]}>{latest_nutrition_activity && latest_nutrition_activity.week_in_program}</Text>
-                                </View>
-                                <View style={styles.missionData}>
-                                    {latest_nutrition_activity && latest_nutrition_activity.heading && latest_nutrition_activity.short_content ?
-                                        <>
-                                            <Text style={styles.missionHead}>{latest_nutrition_activity && latest_nutrition_activity.heading}</Text>
-                                            <Text style={[styles.missionContent, { marginRight: 16 }]}> {latest_nutrition_activity && latest_nutrition_activity.short_content}</Text>
-                                        </>
-                                        :
-                                        <>
-                                            <Animated.View style={{ opacity, transform: [{ scale }] }}>
-                                                <View style={styles.activityindicator}></View>
-                                                <View style={styles.activityindicator1}></View>
-                                                <View style={styles.activityindicator2}></View>
-                                                <View style={styles.activityindicator2}></View>
-                                            </Animated.View>
 
-                                        </>
+                        {
+
+                            latest_nutrition_activity && (latest_nutrition_activity.quiz_activities_number == null) || (latest_nutrition_activity.assessment_kit_number == null) &&
+
+                            <Pressable
+                                onPress={() => latest_nutrition_activity.short_content && this.props.navigation.navigate("ArticleTemplate", { id: latest_nutrition_activity && latest_nutrition_activity.week_in_program, mission_id: latest_nutrition_activity && latest_nutrition_activity.mission_id, heading: latest_nutrition_activity && latest_nutrition_activity.heading, statusPags: "Home" })} key={latest_nutrition_activity && latest_nutrition_activity.week_in_program + "_na"}
+                            >
+                                <View style={styles.row}>
+                                    <View style={[styles.numberView, { backgroundColor: colors.mayaBlue20, }]}>
+                                        <Text style={[styles.number, { color: colors.mayaBlue }]}>{latest_nutrition_activity && latest_nutrition_activity.week_in_program}</Text>
+                                    </View>
+                                    <View style={styles.missionData}>
+                                        {latest_nutrition_activity && latest_nutrition_activity.heading && latest_nutrition_activity.short_content ?
+                                            <>
+                                                <Text style={styles.missionHead}>{latest_nutrition_activity && latest_nutrition_activity.heading}</Text>
+                                                <Text style={[styles.missionContent, { marginRight: 16 }]}> {latest_nutrition_activity && latest_nutrition_activity.short_content}</Text>
+                                            </>
+                                            :
+                                            <>
+                                                <Animated.View style={{ opacity, transform: [{ scale }] }}>
+                                                    <View style={styles.activityindicator}></View>
+                                                    <View style={styles.activityindicator1}></View>
+                                                    <View style={styles.activityindicator2}></View>
+                                                    <View style={styles.activityindicator2}></View>
+                                                </Animated.View>
+
+                                            </>
+                                        }
+
+                                    </View>
+                                    {
+                                        latest_nutrition_activity && latest_nutrition_activity.heading && latest_nutrition_activity.short_content &&
+                                        <View style={styles.viewIconRight}>
+                                            <Image
+                                                style={{ height: 24, width: 24, zIndex: 1, marginRight: 8 }}
+                                                source={require('../assets/images/icon/right.png')}
+                                            />
+                                        </View>
                                     }
 
                                 </View>
-                                {
-                                    latest_nutrition_activity && latest_nutrition_activity.heading && latest_nutrition_activity.short_content &&
-                                    <View style={styles.viewIconRight}>
-                                        <Image
-                                            style={{ height: 24, width: 24, zIndex: 1, marginRight: 8 }}
-                                            source={require('../assets/images/icon/right.png')}
-                                        />
+                            </Pressable>
+                        }
+
+
+                        {
+                            latest_exercise_activity && latest_exercise_activity.status_mission_activities !== "completed" &&
+                            <Pressable
+                                onPress={() => latest_exercise_activity.short_content && this.props.navigation.navigate("ExArticleTemplate", { id: latest_exercise_activity.week_in_program, mission_id: latest_exercise_activity.mission_id, heading: latest_exercise_activity.heading, mission_activities: latest_exercise_activity.mission_activities, statusPags: "Home" })} key={latest_exercise_activity.week_in_program + "_ea"}
+                            >
+                                <View style={styles.row}>
+
+                                    <View style={[styles.numberView, { backgroundColor: colors.persianBlue20 }]}>
+                                        <Text style={[styles.number, { color: colors.persianBlue }]}>{latest_exercise_activity.week_in_program}</Text>
                                     </View>
-                                }
+                                    <View style={styles.missionData}>
+                                        {latest_exercise_activity.heading && latest_exercise_activity.short_content ?
+                                            <>
+                                                <Text style={styles.missionHead}>{latest_exercise_activity.heading}</Text>
+                                                <Text style={[styles.missionContent, { marginRight: 16 }]}>{latest_exercise_activity.short_content}</Text>
+                                            </>
+                                            :
+                                            <>
+                                                <Animated.View style={{ opacity, transform: [{ scale }] }}>
+                                                    <View style={styles.activityindicator}></View>
+                                                    <View style={styles.activityindicator1}></View>
+                                                    <View style={styles.activityindicator2}></View>
+                                                    <View style={styles.activityindicator2}></View>
+                                                </Animated.View>
+                                            </>
+                                        }
 
-                            </View>
-                        </Pressable>
 
-                        <Pressable
-                            onPress={() => latest_exercise_activity.short_content && this.props.navigation.navigate("ExArticleTemplate", { id: latest_exercise_activity.week_in_program, mission_id: latest_exercise_activity.mission_id, heading: latest_exercise_activity.heading, mission_activities: latest_exercise_activity.mission_activities, statusPags: "Home" })} key={latest_exercise_activity.week_in_program + "_ea"}
-                        >
-                            <View style={styles.row}>
-                                {/*   <Text style={styles.activityindicator}></Text> */}
-                                <View style={[styles.numberView, { backgroundColor: colors.persianBlue20 }]}>
-                                    <Text style={[styles.number, { color: colors.persianBlue }]}>{latest_exercise_activity.week_in_program}</Text>
-                                </View>
-                                <View style={styles.missionData}>
-                                    {latest_exercise_activity.heading && latest_exercise_activity.short_content ?
-                                        <>
-                                            <Text style={styles.missionHead}>{latest_exercise_activity.heading}</Text>
-                                            <Text style={[styles.missionContent, { marginRight: 16 }]}>{latest_exercise_activity.short_content}</Text>
-                                        </>
-                                        :
-                                        <>
-                                            <Animated.View style={{ opacity, transform: [{ scale }] }}>
-                                                <View style={styles.activityindicator}></View>
-                                                <View style={styles.activityindicator1}></View>
-                                                <View style={styles.activityindicator2}></View>
-                                                <View style={styles.activityindicator2}></View>
-                                            </Animated.View>
-                                        </>
+                                    </View>
+                                    {
+                                        latest_exercise_activity.heading && latest_exercise_activity.short_content &&
+                                        <View style={styles.viewIconRight}>
+                                            <Image
+                                                style={{ height: 24, width: 24, zIndex: 1, marginRight: 8 }}
+                                                source={require('../assets/images/icon/right.png')}
+                                            />
+
+                                        </View>
                                     }
 
-
                                 </View>
-                                {
-                                    latest_exercise_activity.heading && latest_exercise_activity.short_content &&
-                                    <View style={styles.viewIconRight}>
-                                        <Image
-                                            style={{ height: 24, width: 24, zIndex: 1, marginRight: 8 }}
-                                            source={require('../assets/images/icon/right.png')}
-                                        />
+                            </Pressable>}
 
-                                    </View>
-                                }
 
-                            </View>
-                        </Pressable>
 
                     </View>
                     <View style={styles.boxRowView} >
@@ -423,7 +434,7 @@ class Home extends Component {
                         </View>
                     </View> */}
 
-                </ScrollView>
+                </ScrollView >
             </View >
 
         )
