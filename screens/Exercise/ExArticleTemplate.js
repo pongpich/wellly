@@ -378,6 +378,7 @@ class ArticleTemplate extends Component {
     render() {
         const { study, statusBarColor, id, heading, mission_activities } = this.state;
 
+
         return (
             <View style={styles.container}>
                 <View style={{ height: 44, zIndex: 10, width: "100%", backgroundColor: statusBarColor === "light" ? colors.persianBlue : colors.white }}>

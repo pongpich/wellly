@@ -258,10 +258,10 @@ const Activity = ({ navigation }) => {
                                         {[...Array(month)].map((_, index) => (
                                             month === index + 1 ?
                                                 <Pressable key={index + 1} onPress={() => setSelectedMonth(index + 1)}>
-                                                    <Text style={styles.leftMonth2}>เดือนนี้</Text>
+                                                    <Text style={[styles.leftMonth2, selectedMonth === index + 1 ? null : { color: colors.grey1 }]}>เดือนนี้</Text>
                                                 </Pressable> :
                                                 <Pressable key={index + 1} onPress={() => setSelectedMonth(index + 1)}>
-                                                    <Text style={styles.leftMonth}>{`${getThaiMonth(index + 1)}`}</Text>
+                                                    <Text style={[styles.leftMonth, selectedMonth === index + 1 ? { color: colors.persianBlue } : null]}>{`${getThaiMonth(index + 1)}`}</Text>
                                                 </Pressable>
                                         ))}
 
@@ -274,10 +274,10 @@ const Activity = ({ navigation }) => {
                                     {year && year.map((item, i) => (
                                         thisYear == item.value ?
                                             <Pressable key={i + 1} onPress={() => setSelectedYear(item.value)}>
-                                                <Text style={styles.leftMonth2}>ปีนี้</Text>
+                                                <Text style={[styles.leftMonth2, selectedYear === item.value ? null : { color: colors.grey1 }]}>ปีนี้</Text>
                                             </Pressable> :
                                             <Pressable key={i + 1} onPress={() => setSelectedYear(item.value)}>
-                                                <Text style={styles.leftMonth}>{item.value} </Text>
+                                                <Text style={[styles.leftMonth, selectedYear === item.value ? { color: colors.persianBlue } : null]}>{item.value} </Text>
                                             </Pressable>
                                     ))}
                                 </View>
