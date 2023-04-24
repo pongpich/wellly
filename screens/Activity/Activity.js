@@ -67,7 +67,10 @@ const Activity = ({ navigation }) => {
     const [statusMission, setStatusMission] = useState(true);
     const [statusChart, setStatusChart] = useState(1);
     const [selectedYear, setSelectedYear] = useState(2023);
+    const [thisYear, setThisYear] = useState(2023);
+    const [year, setYear] = useState([]);
     const [selectedMonth, setSelectedMonth] = useState(1);
+    const [month, setMonth] = useState(1);
     const [labelsWeek, setLabelsWeek] = useState(["สัปดาห์ที่แล้ว", "สัปดาห์นี้"]);
     const [labelsMonth, setLabelsMonth] = useState(["1", "2", "3", "4", "5"]);
     const [labelsYear, setLabelsYear] = useState(["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]);
@@ -136,10 +139,20 @@ const Activity = ({ navigation }) => {
             const currYear = currDate.getFullYear();
             const currMonth = currDate.getMonth() + 1; //ต้อง +1 เพราะ index เริ่มจาก 0
             setSelectedMonth(currMonth);
+            setMonth(currMonth);
             setSelectedYear(currYear);
+            setThisYear(currYear)
             dispatch(getYearActivityLogGraph((user && user.user_id), currYear));
             dispatch(getMonthActivityLogGraph((user && user.user_id), currMonth));
             dispatch(getWeekActivityLogGraph((user && user.user_id)));
+
+            const itemsYear = []; // สร้าง array เพื่อเก็บ object ปี
+
+            for (var year = currYear - 5; year <= currYear; year++) {
+                var buddhistYear = year + 543; // แปลงเป็นปี พ.ศ.
+                itemsYear.push({ label: buddhistYear.toString(), value: year }); // เพิ่ม object ปีเข้าไปใน array
+            }
+            setYear(itemsYear)
 
         });
 
@@ -198,7 +211,25 @@ const Activity = ({ navigation }) => {
 
     /*   const screenWidth = Dimensions.get('window').width;
       const yLabelIterator = yLabel(); */
+    const getThaiMonth = (month) => {
+        const thaiMonths = [
+            'ม.ค.',
+            'ก.พ.',
+            'มี.ค.',
+            'เม.ย.',
+            'พ.ค.',
+            'มิ.ย.',
+            'ก.ค.',
+            'ส.ค.',
+            'ก.ย.',
+            'ต.ค.',
+            'พ.ย.',
+            'ธ.ค.',
+        ];
+        return thaiMonths[month - 1];
+    };
 
+    console.log("thisYear", thisYear);
 
     return (
         <View style={styles.fill}>
@@ -224,26 +255,33 @@ const Activity = ({ navigation }) => {
                             </View>
                             {
                                 statusChart === 2 &&
-                                <View style={{ flexDirection: 'row' }}>
-                                    <Pressable onPress={() => setSelectedMonth(1)}><Text>ม.ค. </Text></Pressable>
-                                    <Pressable onPress={() => setSelectedMonth(2)}><Text>ก.พ. </Text></Pressable>
-                                    <Pressable onPress={() => setSelectedMonth(3)}><Text>มี.ค. </Text></Pressable>
-                                    <Pressable onPress={() => setSelectedMonth(4)}><Text>เม.ย. </Text></Pressable>
-                                    <Pressable onPress={() => setSelectedMonth(5)}><Text>พ.ค. </Text></Pressable>
-                                    <Pressable onPress={() => setSelectedMonth(6)}><Text>มิ.ย. </Text></Pressable>
-                                    <Pressable onPress={() => setSelectedMonth(7)}><Text>ก.ค. </Text></Pressable>
-                                    <Pressable onPress={() => setSelectedMonth(8)}><Text>ส.ค. </Text></Pressable>
-                                    <Pressable onPress={() => setSelectedMonth(9)}><Text>ก.ย. </Text></Pressable>
-                                    <Pressable onPress={() => setSelectedMonth(10)}><Text>ต.ค. </Text></Pressable>
-                                    <Pressable onPress={() => setSelectedMonth(11)}><Text>พ.ย. </Text></Pressable>
-                                    <Pressable onPress={() => setSelectedMonth(12)}><Text>ธ.ค. </Text></Pressable>
-                                </View>
+                                <ScrollView horizontal={true}>
+                                    <View style={{ flexDirection: 'row', marginVertical: 8, paddingHorizontal: 16, paddingBottom: 8 }}>
+                                        {[...Array(month)].map((_, index) => (
+                                            month === index + 1 ?
+                                                <Pressable key={index + 1} onPress={() => setSelectedMonth(index + 1)}>
+                                                    <Text style={styles.leftMonth2}>เดือนนี้</Text>
+                                                </Pressable> :
+                                                <Pressable key={index + 1} onPress={() => setSelectedMonth(index + 1)}>
+                                                    <Text style={styles.leftMonth}>{`${getThaiMonth(index + 1)}`}</Text>
+                                                </Pressable>
+                                        ))}
+
+                                    </View>
+                                </ScrollView>
                             }
                             {
                                 statusChart === 3 &&
-                                <View style={{ flexDirection: 'row' }} >
-                                    <Pressable onPress={() => setSelectedYear(2022)}><Text>2022 </Text></Pressable>
-                                    <Pressable onPress={() => setSelectedYear(2023)}><Text>2023</Text></Pressable>
+                                <View style={{ flexDirection: 'row', marginVertical: 8, paddingHorizontal: 16, paddingBottom: 8 }} >
+                                    {year && year.map((item, i) => (
+                                        thisYear == item.value ?
+                                            <Pressable key={i + 1} onPress={() => setSelectedYear(item.value)}>
+                                                <Text style={styles.leftMonth2}>ปีนี้</Text>
+                                            </Pressable> :
+                                            <Pressable key={i + 1} onPress={() => setSelectedYear(item.value)}>
+                                                <Text style={styles.leftMonth}>{item.value} </Text>
+                                            </Pressable>
+                                    ))}
                                 </View>
                             }
                             <Text style={styles.watch}>(ชม.)</Text>
@@ -261,7 +299,7 @@ const Activity = ({ navigation }) => {
                                 yAxisInterval={1} // optional, defaults to 1
 
                                 chartConfig={{
-                                    barPercentage: 0.5, //ตอนแรกที่หน่วยกำหนดไว้ 2
+                                    barPercentage: statusChart == 1 ? 2 : 0.5, //ตอนแรกที่หน่วยกำหนดไว้ 2
                                     backgroundColor: "#fff",
                                     backgroundGradientFrom: "#fff",
                                     backgroundGradientTo: "#fff",
@@ -614,6 +652,18 @@ const styles = StyleSheet.create({
         fontFamily: "IBMPlexSansThai-Regular",
         color: colors.grey1,
     },
+    leftMonth: {
+        fontSize: ComponentsStyle.fontSize16,
+        fontFamily: "IBMPlexSansThai-Regular",
+        color: colors.grey1,
+        marginRight: 14
+    },
+    leftMonth2: {
+        fontSize: ComponentsStyle.fontSize16,
+        fontFamily: "IBMPlexSansThai-Bold",
+        color: colors.persianBlue,
+        marginRight: 14
+    }
 
 
 
