@@ -100,6 +100,16 @@ const ExProgram = ({ navigation }) => {
 
     const finishedPlaying = () => {
         setFinishedPlayingSet((prevArray) => [...prevArray, playVideo]);
+
+        setPlayVideo(playVideo + 1);
+
+        dataTrainingSet && dataTrainingSet.map((item, i) => {
+            if (playVideo + 1 === i + 1) {
+                clickPlayVide(item[1][0], i + 1)
+            }
+
+
+        })
     }
 
     useEffect(() => {
@@ -122,6 +132,7 @@ const ExProgram = ({ navigation }) => {
             ));
         }
     }, [finishedPlayingSet]);
+
 
     return (
         <View style={styles.centered}>
@@ -205,16 +216,18 @@ const ExProgram = ({ navigation }) => {
                 </View>
             </View>
             {
-                finishedPlayingSet.includes(playVideo) ? null :
-                    <View style={styles.buotonBadgeBox}>
-                        <Pressable onPress={() => finishedPlaying()}>
-                            <View style={ComponentsStyle.button} >
-                                <Text style={ComponentsStyle.textButton}>
-                                    เล่นท่านี้เสร็จแล้ว
-                                </Text>
-                            </View>
-                        </Pressable>
-                    </View>
+                dataTrainingSet.length >= playVideo ?
+                    finishedPlayingSet.includes(playVideo) ? null :
+                        <View style={styles.buotonBadgeBox}>
+                            <Pressable onPress={() => finishedPlaying()}>
+                                <View style={ComponentsStyle.button} >
+                                    <Text style={ComponentsStyle.textButton}>
+                                        เล่นท่านี้เสร็จแล้ว
+                                    </Text>
+                                </View>
+                            </Pressable>
+                        </View>
+                    : null
 
             }
 
