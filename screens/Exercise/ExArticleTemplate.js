@@ -456,7 +456,7 @@ class ArticleTemplate extends Component {
                                     :
                                     this.missionDataView(mission_activities)
                             }
-                            <View style={[styles.areaViewText, { marginTop: 30, marginBottom: 100 }]}>
+                            <View style={[styles.areaViewText, { marginTop: 30, marginBottom: 100, paddingBottom: 50 }]}>
                                 <Text style={{
                                     color: colors.grey1,
                                     fontSize: ComponentsStyle.fontSize16,
