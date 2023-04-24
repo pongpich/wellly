@@ -150,6 +150,8 @@ class QuizAnswer extends Component {
                 arr.push(result[0]);
             }
         })
+
+
         if (arr.length === data.length) {
             var data2 = "ถูกทุกข้อ"
         } else {
@@ -162,7 +164,13 @@ class QuizAnswer extends Component {
             numbeQuzi: arr.length
         })
 
-        this.props.update_quiz_activities(user_id, week_in_program, allSelectChoice, arr.length);
+        if (arr.length == 0) {
+            this.props.update_quiz_activities(user_id, week_in_program, allSelectChoice, "0");
+
+        } else {
+            this.props.update_quiz_activities(user_id, week_in_program, allSelectChoice, arr.length);
+        }
+
 
     }
 

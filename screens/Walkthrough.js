@@ -96,6 +96,8 @@ class Walkthrough extends Component {
 
     }
 
+
+
     onChanged() {
         const { user } = this.props;
 

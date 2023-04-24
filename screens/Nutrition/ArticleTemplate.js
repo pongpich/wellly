@@ -292,7 +292,7 @@ class ArticleTemplate extends Component {
                         {
                             study ?
                                 week_in_program != "4" ?
-                                    statusQuiz === null ?
+                                    statusQuiz == null ?
 
 
                                         <Pressable onPress={() => this.props.navigation.navigate("Quiz")} >
