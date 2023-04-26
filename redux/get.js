@@ -33,6 +33,8 @@ export const types = {
   GET_WEEK_ACT_LOG_GRAPH_SUCCESS: "GET_WEEK_ACT_LOG_GRAPH_SUCCESS",
   GET_NUTRITION_KNOWLEDGE: "GET_NUTRITION_KNOWLEDGE",
   GET_NUTRITION_KNOWLEDGE_SUCCESS: "GET_NUTRITION_KNOWLEDGE_SUCCESS",
+  GET_NUTRITION_KNOWLEDGE_ACTIVITY: "GET_NUTRITION_KNOWLEDGE_ACTIVITY",
+  GET_NUTRITION_KNOWLEDGE_ACTIVITY_SUCCESS: "GET_NUTRITION_KNOWLEDGE_ACTIVITY_SUCCESS",
 };
 
 export const getWeekActivityLogGraph = (user_id) => ({
@@ -131,6 +133,11 @@ export const getTrainingSet = (set_code) => ({
 export const getNutritionKnowledge = () => ({
   type: types.GET_NUTRITION_KNOWLEDGE,
   payload: {}
+});
+
+export const getNutritionKnowledgeActivity = (user_id) => ({
+  type: types.GET_NUTRITION_KNOWLEDGE_ACTIVITY,
+  payload: { user_id }
 });
 
 
@@ -322,6 +329,19 @@ const getNutritionKnowledgeSagaAsync = async () => {
       queryStringParameters: {
       }
     });
+    return apiResult
+  } catch (error) {
+    return { error, messsage: error.message };
+  }
+}
+const getNutritionKnowledgeActivitySagaAsync = async (user_id) => {
+  try {
+    const apiResult = await API.get("planforfit", "/getNutritionKnowledgeActivity", {
+      queryStringParameters: {
+        user_id
+      }
+    });
+    /*  console.log("apiResult", apiResult); */
     return apiResult
   } catch (error) {
     return { error, messsage: error.message };
@@ -594,6 +614,23 @@ function* getNutritionKnowledgeSaga({ payload }) {
     console.log("error form getMonthActivityLogSaga", error);
   }
 }
+function* getNutritionKnowledgeActivitySaga({ payload }) {
+  const { user_id } = payload;
+
+  try {
+    const apiResult = yield call(
+      getNutritionKnowledgeActivitySagaAsync,
+      user_id
+    )
+    yield put({
+      type: types.GET_NUTRITION_KNOWLEDGE_ACTIVITY_SUCCESS,
+      payload: apiResult.results.get_nutrition_knowledge_activity
+    })
+
+  } catch (error) {
+    console.log("error form getMonthActivityLogSaga", error);
+  }
+}
 
 export function* watchGetProfanity() {
   yield takeEvery(types.GET_PROFANITY, getProfanitySaga)
@@ -641,6 +678,9 @@ export function* watchGetWeekActivityLogGraph() {
 export function* watchGetNutritionKnowledge() {
   yield takeEvery(types.GET_NUTRITION_KNOWLEDGE, getNutritionKnowledgeSaga)
 }
+export function* watchetNutritionKnowledgeActivity() {
+  yield takeEvery(types.GET_NUTRITION_KNOWLEDGE_ACTIVITY, getNutritionKnowledgeActivitySaga)
+}
 
 export function* saga() {
   yield all([
@@ -658,6 +698,7 @@ export function* saga() {
     fork(watchGetMonthActivityLogGraph),
     fork(watchGetWeekActivityLogGraph),
     fork(watchGetNutritionKnowledge),
+    fork(watchetNutritionKnowledgeActivity),
   ]);
 }
 
@@ -695,7 +736,9 @@ const INIT_STATE = {
   statusGetWeekActLogGraph: "default",
   weekLog: null,
   statusNutritionKnowledge: "default",
-  nutritionKnowledge: null
+  nutritionKnowledge: null,
+  statusNutritionKnowledgeActivity: "default",
+  nutritionKnowledgeActivity: null
 
 };
 
@@ -853,6 +896,17 @@ export function reducer(state = INIT_STATE, action) {
         ...state,
         statusNutritionKnowledge: "success",
         nutritionKnowledge: action.payload,
+      }
+    case types.GET_NUTRITION_KNOWLEDGE_ACTIVITY:
+      return {
+        ...state,
+        statusNutritionKnowledge: "loading",
+      }
+    case types.GET_NUTRITION_KNOWLEDGE_ACTIVITY_SUCCESS:
+      return {
+        ...state,
+        statusNutritionKnowledgeActivity: "success",
+        nutritionKnowledgeActivity: action.payload,
       }
     case types.SET_INTENS_FROM_EX_ART_TEMP:
       return {

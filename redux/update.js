@@ -8,6 +8,8 @@ export const types = {
     UPDATE_QUIZ_ACTIVITIES_SUCCESS: "UPDATE_QUIZ_ACTIVITIES_SUCCESS",
     INSERT_NUTRITION_ACTIVITY: "INSERT_NUTRITION_ACTIVITY",
     INSERT_NUTRITION_ACTIVITY_SUCCESS: "INSERT_NUTRITION_ACTIVITY_SUCCESS",
+    INSERT_NUTRITION_KNOWLEDGA_ACTIVITY: "INSERT_NUTRITION_KNOWLEDGA_ACTIVITY",
+    INSERT_NUTRITION_KNOWLEDGA_ACTIVITY_SUCCESS: "INSERT_NUTRITION_KNOWLEDGA_ACTIVITY_SUCCESS",
     UPDATE_ASSESSMENT_KIT_ACIVTIES: "UPDATE_ASSESSMENT_KIT_ACIVTIES",
     UPDATE_ASSESSMENT_KIT_ACIVTIES_SUCCESS: "UPDATE_ASSESSMENT_KIT_ACIVTIES_SUCCESS",
     INSERT_EXERCISE_ACTIVITY: "INSERT_EXERCISE_ACTIVITY",
@@ -98,6 +100,13 @@ export const insertExerciseActivity = (user_id) => ({
     type: types.INSERT_EXERCISE_ACTIVITY,
     payload: {
         user_id
+    },
+})
+
+export const insertNutritionKnowledgeActivity = (user_id, knowledge, score, assess_knowledge) => ({
+    type: types.INSERT_NUTRITION_KNOWLEDGA_ACTIVITY,
+    payload: {
+        user_id, knowledge, score, assess_knowledge
     },
 })
 
@@ -199,6 +208,22 @@ const insertExerciseActivitySagaAsync = async (
         const apiResult = await API.post("planforfit", "/insertExerciseActivity", {
             body: {
                 user_id
+            }
+        });
+
+        return apiResult
+    } catch (error) {
+        return { error, messsage: error.message };
+    }
+};
+const insertNutritionKnowledgeActivitySagaAsync = async (
+    user_id, knowledge, score, assess_knowledge
+) => {
+
+    try {
+        const apiResult = await API.post("planforfit", "/insertNutritionKnowledgeActivity", {
+            body: {
+                user_id, knowledge, score, assess_knowledge
             }
         });
 
@@ -381,6 +406,23 @@ function* insertExerciseActivitySaga({ payload }) {
         console.log("error form insertExerciseActivitySaga", error);
     }
 }
+function* insertNutritionKnowledgeActivitySaga({ payload }) {
+    const {
+        user_id, knowledge, score, assess_knowledge
+    } = payload
+
+    try {
+        const apiResult = yield call(
+            insertNutritionKnowledgeActivitySagaAsync,
+            user_id, knowledge, score, assess_knowledge
+        );
+        yield put({
+            type: types.INSERT_NUTRITION_KNOWLEDGA_ACTIVITY_SUCCESS
+        })
+    } catch (error) {
+        console.log("error form insertExerciseActivitySaga", error);
+    }
+}
 
 function* updateNumberCompletedSaga({ payload }) {
     const {
@@ -472,6 +514,10 @@ export function* watchInsertExerciseActivity() {
     yield takeEvery(types.INSERT_EXERCISE_ACTIVITY, insertExerciseActivitySaga)
 }
 
+export function* watchInsertNutritionKnowledgeActivity() {
+    yield takeEvery(types.INSERT_NUTRITION_KNOWLEDGA_ACTIVITY, insertNutritionKnowledgeActivitySaga)
+}
+
 export function* watchUpdateNumberCompleted() {
     yield takeEvery(types.UPDATE_NUMBER_COMPLETED, updateNumberCompletedSaga)
 }
@@ -496,6 +542,7 @@ export function* saga() {
         fork(watchAddActivityListAddOn),
         fork(watchDeleteActivityListAddOn),
         fork(watchEditActivityListAddOn),
+        fork(watchInsertNutritionKnowledgeActivity),
     ]);
 }
 
@@ -512,7 +559,8 @@ const INIT_STATE = {
     statusUpdateNumbComp: "default",
     statusAddActListAddOn: "default",
     statusDeleteActListAddOn: "default",
-    statusEditActListAddOn: "default"
+    statusEditActListAddOn: "default",
+    statusInsertNutritionKnowledgeActivity: "default"
 };
 
 export function reducer(state = INIT_STATE, action) {
@@ -595,6 +643,16 @@ export function reducer(state = INIT_STATE, action) {
             return {
                 ...state,
                 statusInsertExerciseActivity: "success"
+            };
+        case types.INSERT_NUTRITION_KNOWLEDGA_ACTIVITY:
+            return {
+                ...state,
+                statusInsertNutritionKnowledgeActivity: "loading"
+            };
+        case types.INSERT_NUTRITION_KNOWLEDGA_ACTIVITY_SUCCESS:
+            return {
+                ...state,
+                statusInsertNutritionKnowledgeActivity: "success"
             };
         case types.UPDATE_ASSESSMENT_KIT_ACIVTIES:
             return {
