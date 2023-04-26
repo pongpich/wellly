@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, StyleSheet, Pressable, Image, Text, Dimensions } from 'react-native';
 import ComponentsStyle from '../../constants/components';
 import colors from '../../constants/colors';
-import { getNutritionKnowledge, getNutritionKnowledgeActivity } from "../../redux/get";
+import { getNutritionKnowledge, getNutritionKnowledgeActivity, resetStatusNutrionKuoeledeActivty } from "../../redux/get";
 import { insertNutritionKnowledgeActivity } from "../../redux/update";
 import { connect } from 'react-redux';
 
@@ -17,7 +17,6 @@ class Gn4 extends Component {
         this.state = {
             nutrition_knowledge: null,
             dataMassage: null,
-            sums: null
         };
     }
     componentDidMount() {
@@ -42,14 +41,26 @@ class Gn4 extends Component {
                         nutrition_knowledge: nutritionKnowledge && JSON.parse(nutritionKnowledge[0].knowledge),
                     })
                 }
+
+                this.props.resetStatusNutrionKuoeledeActivty()
             }
             this.setState({
                 assess_behavior: nutritionKnowledge && JSON.parse(nutritionKnowledge[0].assess_behavior)
             })
         }
 
-        if ((prevState.dataMassage !== dataMassage) && (dataMassage !== null)) {
-            this.props.insertNutritionKnowledgeActivity(user && user.user_id, nutrition_knowledge, sums, dataMassage)
+        if ((prevProps.statusInsertNutritionKnowledgeActivity !== statusInsertNutritionKnowledgeActivity) && (statusInsertNutritionKnowledgeActivity === "success")) {
+            this.props.getNutritionKnowledgeActivity(user && user.user_id)
+        }
+
+
+        if ((prevProps.statusNutritionKnowledgeActivity !== statusNutritionKnowledgeActivity) && (statusNutritionKnowledgeActivity === "success")) {
+            if (nutritionKnowledgeActivity.length > 0) {
+                this.setState({
+                    nutrition_knowledge: nutritionKnowledgeActivity && JSON.parse(nutritionKnowledgeActivity[0].knowledge),
+                    dataMassage: nutritionKnowledgeActivity && JSON.parse(nutritionKnowledgeActivity[0].assess_knowledge),
+                })
+            }
         }
 
     }
@@ -148,12 +159,13 @@ class Gn4 extends Component {
         if (dataMassage.length > 0) {
             this.setState({
                 dataMassage: dataMassage,
-                sums: { "score": sums }
-            })
-        }
-        /*       console.log("dataMassage", dataMassage); */
 
-        /*   this.props.insertNutritionKnowledgeActivity(user && user.user_id, nutrition_knowledge, { "score": sums }, dataMassage) */
+            })
+            this.props.insertNutritionKnowledgeActivity(user && user.user_id, nutrition_knowledge, { "score": sums }, dataMassage)
+        }
+
+
+
     }
 
 
@@ -161,6 +173,7 @@ class Gn4 extends Component {
     render() {
 
         const { nutrition_knowledge, dataMassage } = this.state;
+
 
         return (
             <View style={styles.scrollViewbox} >
@@ -224,8 +237,18 @@ class Gn4 extends Component {
                 }
 
                 {
+                    /*   dataMassage ? */
+                    /*   nutrition_knowledge && nutrition_knowledge.map((item, i) => {
+                          return item && item.data.map((value, j) => {
+                              var choice = [value.choice]
+                              return choice && choice.filter((chonices, k) => {
+                                  return value.selected !== null
+                              })
+                          })
+                      }) */
+
                     dataMassage ?
-                        <Pressable>
+                        <Pressable Pressable >
                             <View style={[ComponentsStyle.buttonGrey, { marginTop: 32 }]} >
                                 <Text style={ComponentsStyle.textButtonGrey}>
                                     ประเมินพฤติกรรม
@@ -358,7 +381,7 @@ const mapStateToProps = ({ getData, authUser, updateData }) => {
     return { statusNutritionKnowledge, nutritionKnowledge, user, statusUpdateDisplayName, statusNutritionKnowledgeActivity, nutritionKnowledgeActivity, statusInsertNutritionKnowledgeActivity };
 };
 
-const mapActionsToProps = { getNutritionKnowledge, getNutritionKnowledgeActivity, insertNutritionKnowledgeActivity };
+const mapActionsToProps = { getNutritionKnowledge, getNutritionKnowledgeActivity, insertNutritionKnowledgeActivity, resetStatusNutrionKuoeledeActivty };
 
 
 export default connect(

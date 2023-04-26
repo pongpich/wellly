@@ -35,12 +35,19 @@ export const types = {
   GET_NUTRITION_KNOWLEDGE_SUCCESS: "GET_NUTRITION_KNOWLEDGE_SUCCESS",
   GET_NUTRITION_KNOWLEDGE_ACTIVITY: "GET_NUTRITION_KNOWLEDGE_ACTIVITY",
   GET_NUTRITION_KNOWLEDGE_ACTIVITY_SUCCESS: "GET_NUTRITION_KNOWLEDGE_ACTIVITY_SUCCESS",
+  RESET_STATUS_NUTRITION_KNOWLEDGE_ACTIVITY: "RESET_STATUS_NUTRITION_KNOWLEDGE_ACTIVITY",
 };
 
 export const getWeekActivityLogGraph = (user_id) => ({
   type: types.GET_WEEK_ACT_LOG_GRAPH,
   payload: {
     user_id
+  }
+})
+
+export const resetStatusNutrionKuoeledeActivty = () => ({
+  type: types.RESET_STATUS_NUTRITION_KNOWLEDGE_ACTIVITY,
+  payload: {
   }
 })
 export const getMonthActivityLogGraph = (user_id, month) => ({
@@ -907,6 +914,11 @@ export function reducer(state = INIT_STATE, action) {
         ...state,
         statusNutritionKnowledgeActivity: "success",
         nutritionKnowledgeActivity: action.payload,
+      }
+    case types.RESET_STATUS_NUTRITION_KNOWLEDGE_ACTIVITY:
+      return {
+        ...state,
+        statusNutritionKnowledgeActivity: "default",
       }
     case types.SET_INTENS_FROM_EX_ART_TEMP:
       return {
