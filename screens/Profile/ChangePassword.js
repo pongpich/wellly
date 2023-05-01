@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TextInput, KeyboardAvoidingView, Image, Pressable, ScrollView, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, TextInput, KeyboardAvoidingView, Image, Pressable, ScrollView, Dimensions, Platform } from 'react-native';
 import ComponentsStyle from '../../constants/components';
 import colors from '../../constants/colors';
 import i18next from 'i18next';
@@ -94,7 +94,7 @@ class ChangePassword extends Component {
         const handleOutFocusOld = () => this.outFocusOld()
         return (
 
-            <KeyboardAvoidingView style={styles.container} /* behavior="padding" */ keyboardVerticalOffset={100}>
+            <KeyboardAvoidingView style={styles.container} behavior="padding" keyboardVerticalOffset={100} >
                 <View style={{ alignItems: "center", marginTop: 24 }}>
                     <Image style={{ width: 120, height: 120 }}
                         source={require('../../assets/images/icon/ChangePassword.png')}
@@ -145,14 +145,17 @@ class ChangePassword extends Component {
                         }
                     </View>
                 </View>
-                <Text style={styles.forgot}>ลืมรหัสผ่าน?</Text>
+                <Text style={[styles.forgot, { marginBottom: 70 }]}>ลืมรหัสผ่าน?</Text>
                 <View style={styles.submit}>
                     <Pressable style={ComponentsStyle.button} onPress={() => this.submitChange()} >
                         <Text style={ComponentsStyle.textButton}>{t('next')}</Text>
                     </Pressable>
                 </View>
-
             </KeyboardAvoidingView>
+            /*   <KeyboardAvoidingView style={styles.container} behavior="padding" keyboardVerticalOffset={100}> 
+ 
+ 
+  </KeyboardAvoidingView> */
         )
     }
 }
