@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import Modal from "react-native-modal";
 import { logoutUser, deleteAccount, resetStatusDeleteAcc, updateDisplayName } from "../../redux/auth";
 import { withTranslation } from 'react-i18next';
-
+import i18next from 'i18next';
 class Profile extends Component {
 
 
@@ -181,7 +181,7 @@ class Profile extends Component {
                 </View>
                 <ScrollView>
                     <View style={{ marginTop: 25 }}>
-                        {/*     <Pressable onPress={() => this.props.navigation.navigate("Badge")}>
+                        <Pressable onPress={() => this.props.navigation.navigate("Badge")}>
                             <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
                                 <View style={{ flexDirection: "row" }}>
                                     <Image
@@ -215,35 +215,66 @@ class Profile extends Component {
                             </View>
                         </Pressable>
                         <View style={styles.line2} />
-                        <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
-                            <View style={{ flexDirection: "row" }}>
+                        <Pressable onPress={() => this.props.navigation.navigate("ChangePassword")}>
+                            <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
+                                <View style={{ flexDirection: "row" }}>
+                                    <Image
+                                        style={{ width: 24, height: 24, marginLeft: 16 }}
+                                        source={require('../../assets/images/icon/Password_3x.png')}
+                                    />
+                                    <Text style={styles.manuName}>เปลี่ยนรหัสผ่าน</Text>
+                                </View>
                                 <Image
-                                    style={{ width: 24, height: 24, marginLeft: 16 }}
-                                    source={require('../../assets/images/icon/Password_3x.png')}
+                                    style={{ width: 24, height: 24, marginRight: 16 }}
+                                    source={require('../../assets/images/icon/right.png')}
                                 />
-                                <Text style={styles.manuName}>เปลี่ยนรหัสผ่าน</Text>
                             </View>
-                            <Image
-                                style={{ width: 24, height: 24, marginRight: 16 }}
-                                source={require('../../assets/images/icon/right.png')}
-                            />
-                        </View>
+                        </Pressable>
                         <View style={styles.line}>
                             <View style={styles.line1} />
                         </View>
-                        <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
-                            <View style={{ flexDirection: "row" }}>
-                                <Image
-                                    style={{ width: 24, height: 24, marginLeft: 16 }}
-                                    source={require('../../assets/images/icon/Language_3x.png')}
-                                />
-                                <Text style={styles.manuName}>ภาษา</Text>
-                            </View>
-                            <Image
-                                style={{ width: 24, height: 24, marginRight: 16 }}
-                                source={require('../../assets/images/icon/right.png')}
-                            />
-                        </View>
+
+                        {
+                            (i18next.language === 'th') ?
+                                <Pressable style={styles.buttonThi_eng} onPress={() => i18next.changeLanguage("en")} >
+                                    <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
+                                        <View style={{ flexDirection: "row" }}>
+                                            <Image
+                                                style={{ width: 24, height: 24, marginLeft: 16 }}
+                                                source={require('../../assets/images/icon/Language_3x.png')}
+                                            />
+                                            <View style={{ flexDirection: "row" }}>
+                                                <Text style={styles.manuName}>ภาษา</Text>
+                                                <Text style={{ marginLeft: 10, marginTop: 5, color: colors.grey4 }}>England</Text>
+                                            </View>
+                                        </View>
+                                        <Image
+                                            style={{ width: 24, height: 24, marginRight: 16 }}
+                                            source={require('../../assets/images/icon/right.png')}
+                                        />
+                                    </View>
+                                </Pressable>
+                                :
+                                <Pressable style={styles.buttonThi_eng} onPress={() => i18next.changeLanguage("th")} >
+                                    <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
+                                        <View style={{ flexDirection: "row" }}>
+                                            <Image
+                                                style={{ width: 24, height: 24, marginLeft: 16 }}
+                                                source={require('../../assets/images/icon/Language_3x.png')}
+                                            />
+                                            <View style={{ flexDirection: "row" }}>
+                                                <Text style={styles.manuName}>ภาษา</Text>
+                                                <Text style={{ marginLeft: 10, marginTop: 5, color: colors.grey4 }}>Thai</Text>
+                                            </View>
+                                        </View>
+                                        <Image
+                                            style={{ width: 24, height: 24, marginRight: 16 }}
+                                            source={require('../../assets/images/icon/right.png')}
+                                        />
+                                    </View>
+                                </Pressable>
+
+                        }
                         <View style={styles.line2} />
                         <Pressable onPress={() => this.props.navigation.navigate("Pdpa")}>
                             <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
@@ -277,7 +308,7 @@ class Profile extends Component {
                                     source={require('../../assets/images/icon/right.png')}
                                 />
                             </View>
-                        </Pressable> */}
+                        </Pressable>
 
                         <View style={styles.line2} />
                         <Pressable onPress={() => this.onDeleteAccount()}>
