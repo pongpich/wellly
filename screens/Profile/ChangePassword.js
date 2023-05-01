@@ -20,6 +20,11 @@ class ChangePassword extends Component {
         };
     }
 
+    componentDidMount() {
+        const { user } = this.props;
+        console.log("user", user);
+    }
+
 
     componentDidUpdate(prevProps, prevState) {
         const { statusSetPassword, statusSubmitChange } = this.state;

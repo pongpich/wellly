@@ -163,8 +163,7 @@ const update_assessment_kit_activtiesSagaAsync = async (
 
 const update_popUp_starsSagaAsync = async (
     user_id,
-    week_in_program,
-    popup_stary
+    password,
 ) => {
 
     try {
@@ -172,8 +171,7 @@ const update_popUp_starsSagaAsync = async (
         const apiResult = await API.post("planforfit", "/updatPopupSatry", {
             body: {
                 user_id,
-                week_in_program,
-                popup_stary
+                password
             }
         });
 
@@ -372,6 +370,7 @@ function* update_popUp_starsSaga({ payload }) {
     }
 }
 
+
 function* insertNutritionActivitySaga({ payload }) {
     const {
         user_id
@@ -531,6 +530,7 @@ export function* watchEditActivityListAddOn() {
     yield takeEvery(types.EDIT_ACT_LIST_ADD_ON, editActivityListAddOnSaga)
 }
 
+
 export function* saga() {
     yield all([
         fork(watchUpdate_quiz_activities),
@@ -543,6 +543,7 @@ export function* saga() {
         fork(watchDeleteActivityListAddOn),
         fork(watchEditActivityListAddOn),
         fork(watchInsertNutritionKnowledgeActivity),
+
     ]);
 }
 
@@ -560,7 +561,7 @@ const INIT_STATE = {
     statusAddActListAddOn: "default",
     statusDeleteActListAddOn: "default",
     statusEditActListAddOn: "default",
-    statusInsertNutritionKnowledgeActivity: "default"
+    statusInsertNutritionKnowledgeActivity: "default",
 };
 
 export function reducer(state = INIT_STATE, action) {
@@ -674,6 +675,7 @@ export function reducer(state = INIT_STATE, action) {
                 ...state,
                 statusPopupSary: "success"
             };
+
         default:
             return { ...state };
     }

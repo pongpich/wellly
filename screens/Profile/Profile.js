@@ -24,7 +24,8 @@ class Profile extends Component {
             errorInput: false,
             words: null,
             message: null,
-            statusMessage: false
+            statusMessage: false,
+            statusPageSetPassword: false
         };
     }
 
@@ -36,11 +37,13 @@ class Profile extends Component {
         this.setState({
             userName: user && user.display_name
         })
+
+
     }
 
     componentDidUpdate(prevProps, prevState) {
         const { statusDeleteAcc, profanity, statusUpdateDisplayName } = this.props;
-        const { message } = this.state;
+        const { message, statusPageSetPassword } = this.state;
         if ((prevProps.profanity !== profanity) && (profanity !== "loading")) {
             let profanities = profanity && profanity.profanities;
             const keyWord = [];
@@ -72,7 +75,21 @@ class Profile extends Component {
                 })
             }, 1500);
         }
+
+
+        if ((this.props.route.params) && (statusPageSetPassword === false)) {
+            this.setState({
+                statusMessage: true,
+                message: "ตั้งรหัสผ่านใหม่เรียบร้อย"
+            })
+            this.setState({
+                statusPageSetPassword: true,
+
+            })
+        }
     }
+
+
 
 
     onDeleteAccount() {

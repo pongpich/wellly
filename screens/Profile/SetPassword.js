@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TextInput, KeyboardAvoidingView, Image, Pressable, ScrollView, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, TextInput, KeyboardAvoidingView, Image, Pressable, ScrollView, Dimensions, Platform } from 'react-native';
 import ComponentsStyle from '../../constants/components';
 import colors from '../../constants/colors';
 import i18next from 'i18next';
+import { update_password, } from "../../redux/auth";
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 class SetPassword extends Component {
@@ -13,7 +14,6 @@ class SetPassword extends Component {
             entry2: true,
             stylePassword: true, // เปลี่ยนสี borderColor PassWord [true,false]
             isFocusNew: false,
-            password: null,
             statusSetPassword: false,
             textErrorPassWord: null,
             newpassword: null,
@@ -25,9 +25,29 @@ class SetPassword extends Component {
             isFocusConfirm: false,
             confirmStylePassword: true,
             confirmTextErrorPassWord: null,
-            confirmStatusPassword: false
+            confirmStatusPassword: false,
+            statusSubmit: false
 
         };
+    }
+
+
+
+    componentDidUpdate(prevProps, prevState) {
+        const { statusSubmit, textforgot1, textforgot2, textforgot3, newpassword } = this.state;
+        const { statusUpdatePassword, user } = this.props;
+
+        if ((prevState.statusSubmit !== statusSubmit) && (statusSubmit === true)) {
+
+            this.props.update_password(user && user.user_id, newpassword)
+        }
+
+        if ((prevProps.statusUpdatePassword !== statusUpdatePassword) && (statusUpdatePassword === "success")) {
+            console.log("statusUpdatePassword", statusUpdatePassword);
+            this.props.navigation.navigate("Profile", { msee: "ตั้งรหัสผ่านใหม่เรียบร้อย" });
+
+        }
+
     }
 
 
@@ -62,7 +82,7 @@ class SetPassword extends Component {
 
     outFocusNew() {
         const { newpassword } = this.state;
-        this.setState({ isFocusNew: false })
+        this.setState({ isFocusNew: false, confirmStatusPassword: false })
 
         if ((newpassword != null) && (newpassword != '')) {
             const hasperChar = this.hasUpperCaseChar(newpassword);
@@ -110,27 +130,36 @@ class SetPassword extends Component {
         this.setState({
             isFocusConfirm: true
         })
-        if ((confirmPassword !== null) && (confirmPassword != '')) {
-
-            if (confirmPassword === newpassword) {
-                this.setState({
-                    confirmStatusPassword: true
-                })
+        if ((confirmPassword !== null)) {
+            if (confirmPassword != '') {
+                if (confirmPassword === newpassword) {
+                    this.setState({
+                        confirmStatusPassword: true,
+                        confirmTextErrorPassWord: null
+                    })
+                } else {
+                    this.setState({
+                        confirmStylePassword: false,
+                        confirmTextErrorPassWord: 2
+                    })
+                }
             } else {
                 this.setState({
                     confirmStylePassword: false,
-                    confirmTextErrorPassWord: 2
+                    confirmTextErrorPassWord: 1
                 })
             }
 
-        } else {
-            this.setState({
-                confirmStylePassword: false,
-                confirmTextErrorPassWord: 1
-            })
+
         }
 
 
+    }
+
+    submitNewPassWord() {
+        this.setState({
+            statusSubmit: true
+        })
     }
 
     hasUpperCaseChar(newpassword) {
@@ -153,7 +182,7 @@ class SetPassword extends Component {
         const handleOutFocusConfirm = () => this.outFocusConfirm()
         return (
 
-            <KeyboardAvoidingView style={styles.container} behavior="padding" keyboardVerticalOffset={100}>
+            <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' && 'padding'} keyboardVerticalOffset={100}>
                 <ScrollView contentContainerStyle={styles.scrollContent}>
                     <View style={{ flex: 1, }}  >
                         <View style={{ alignItems: "center", marginTop: 24 }}>
@@ -255,7 +284,7 @@ class SetPassword extends Component {
                     <View style={[styles.submit, { marginBottom: 40, marginTop: 80 }]}>
                         {
                             (confirmStatusPassword === true) && (textforgot1 == 1) && (textforgot2 == 1) && (textforgot3 == 1) ?
-                                <Pressable style={ComponentsStyle.button} onPress={() => this.submitLogin()} >
+                                <Pressable style={ComponentsStyle.button} onPress={() => this.submitNewPassWord()} >
                                     <Text style={ComponentsStyle.textButton}>ยืนยัน</Text>
                                 </Pressable>
                                 :
@@ -350,12 +379,12 @@ const styles = StyleSheet.create({
 
 })
 
-const mapStateToProps = ({ authUser }) => {
-    const { user, status } = authUser;
-    return { user, status };
+const mapStateToProps = ({ authUser, }) => {
+    const { user, status, statusUpdatePassword } = authUser;
+    return { user, status, statusUpdatePassword };
 };
 
-const mapActionsToProps = {};
+const mapActionsToProps = { update_password };
 
 
 export default connect(

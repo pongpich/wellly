@@ -19,7 +19,9 @@ export const types = {
   REGISTER_FAIL: "REGISTER_FAIL",
   DELETE_ACCOUNT: "DELETE_ACCOUNT",
   DELETE_ACCOUNT_SUCCESS: "DELETE_ACCOUNT_SUCCESS",
-  RESET_STATUS_DELETE_ACC: "RESET_STATUS_DELETE_ACC"
+  RESET_STATUS_DELETE_ACC: "RESET_STATUS_DELETE_ACC",
+  UPDATE_PASSWORD: "UPDATE_PASSWORD",
+  UPDATE_PASSWORD_SUCCESS: "UPDATE_PASSWORD_SUCCESS",
 };
 
 
@@ -77,6 +79,14 @@ export const updateHealthData = (user_id, health_data, health_type) => ({
     user_id,
     health_data,
     health_type
+  },
+});
+
+export const update_password = (user_id, password) => ({
+  type: types.UPDATE_PASSWORD,
+  payload: {
+    user_id,
+    password,
   },
 });
 
@@ -188,6 +198,28 @@ const registerSagaAsync = async (
     return { error, messsage: error.message };
   }
 };
+
+const update_passwordSagaAsync = async (
+  user_id,
+  password,
+) => {
+
+  try {
+
+    const apiResult = await API.post("planforfit", "/updatePassword", {
+      body: {
+        user_id,
+        password
+      }
+    });
+
+    return apiResult
+  } catch (error) {
+
+    return { error, messsage: error.message };
+  }
+};
+
 
 
 
@@ -346,6 +378,31 @@ function* updateHealthDataSaga({ payload }) {
   }
 }
 
+
+function* update_passwordSaga({ payload }) {
+  const {
+    user_id,
+    password
+  } = payload
+
+  try {
+    const apiResult = yield call(
+      update_passwordSagaAsync,
+      user_id,
+      password
+    );
+    console.log("apiResult", apiResult);
+
+    yield put({
+      type: types.UPDATE_PASSWORD_SUCCESS,
+      payload: apiResult.results.password
+    })
+
+  } catch (error) {
+    console.log("error form update_password", error);
+  }
+}
+
 export function* watchLoginUser() {
   yield takeEvery(types.LOGIN_USER, loginUserSaga)
 }
@@ -369,6 +426,10 @@ export function* watchDeleteAccount() {
   yield takeEvery(types.DELETE_ACCOUNT, deleteAccountSaga)
 }
 
+export function* watchUpdate_password() {
+  yield takeEvery(types.UPDATE_PASSWORD, update_passwordSaga)
+}
+
 export function* saga() {
   yield all([
     fork(watchLoginUser),
@@ -377,6 +438,7 @@ export function* saga() {
     fork(watchUpdateHealthData),
     fork(watchRegister),
     fork(watchDeleteAccount),
+    fork(watchUpdate_password),
   ]);
 }
 
@@ -391,7 +453,8 @@ const INIT_STATE = {
   statusUpdatePersonalData: "default",
   statusUpdateHealthData: "default",
   statusRegister: "default",
-  statusDeleteAcc: "default"
+  statusDeleteAcc: "default",
+  statusUpdatePassword: "default"
 };
 
 export function reducer(state = INIT_STATE, action) {
@@ -483,6 +546,20 @@ export function reducer(state = INIT_STATE, action) {
       return {
         ...state,
         statusRegister: "fail"
+      };
+    case types.UPDATE_PASSWORD:
+      return {
+        ...state,
+        statusUpdatePassword: "loading"
+      };
+    case types.UPDATE_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        statusUpdatePassword: "success",
+        user: {
+          ...state.user,
+          password: action.payload
+        }
       };
     case types.LOGOUT_USER:
       return INIT_STATE;
