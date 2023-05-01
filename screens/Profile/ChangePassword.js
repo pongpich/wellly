@@ -94,7 +94,7 @@ class ChangePassword extends Component {
         const handleOutFocusOld = () => this.outFocusOld()
         return (
 
-            <KeyboardAvoidingView style={styles.container} behavior="padding" keyboardVerticalOffset={100}>
+            <KeyboardAvoidingView style={styles.container} /* behavior="padding" */ keyboardVerticalOffset={100}>
                 <View style={{ alignItems: "center", marginTop: 24 }}>
                     <Image style={{ width: 120, height: 120 }}
                         source={require('../../assets/images/icon/ChangePassword.png')}
@@ -151,6 +151,7 @@ class ChangePassword extends Component {
                         <Text style={ComponentsStyle.textButton}>{t('next')}</Text>
                     </Pressable>
                 </View>
+
             </KeyboardAvoidingView>
         )
     }
