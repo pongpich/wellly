@@ -30,25 +30,45 @@ class ChangePassword extends Component {
     submitChange() {
         const { password } = this.state;
         const { user } = this.props;
-        const md5Password = md5(password)
-        if (md5Password === user.password) {
 
-            console.log("",);
-            this.setState({ statusSetPassword: true })
-        } else {
-            this.setState({
-                stylePassword: true
-            })
-            if (password === null || password === '') {
-                this.setState({
-                    textErrorPassWord: 1
-                })
+        /*  if (md5Password === user.password) {
+ 
+             this.setState({ statusSetPassword: true })
+         } else {
+             this.setState({
+                 stylePassword: true
+             })
+             if (password === null || password === '') {
+                 this.setState({
+                     textErrorPassWord: 1
+                 })
+             } else {
+                 this.setState({
+                     textErrorPassWord: 2
+                 })
+             }
+         } */
+        console.log("password", password);
+
+        if ((password != null) && (password != '')) {
+            /*  console.log("password", "55"); */
+            const md5Password = md5(password)
+            if (md5Password === user.password) {
+
+                this.setState({ statusSetPassword: true })
             } else {
                 this.setState({
+                    stylePassword: false,
                     textErrorPassWord: 2
                 })
             }
+        } else {
+            this.setState({
+                stylePassword: false,
+                textErrorPassWord: 1
+            })
         }
+
     }
 
 
