@@ -10,6 +10,7 @@ class SetPassword extends Component {
         super(props);
         this.state = {
             entry: true,
+            entry2: true,
             stylePassword: true, // เปลี่ยนสี borderColor PassWord [true,false]
             isFocusNew: false,
             password: null,
@@ -53,9 +54,9 @@ class SetPassword extends Component {
     }
 
 
-    handleChangeEntry(e) {
+    handleChangeEntry(ent, e) {
         this.setState({
-            entry: e
+            [ent]: e
         })
     }
 
@@ -144,7 +145,7 @@ class SetPassword extends Component {
 
 
     render() {
-        const { stylePassword, isFocusNew, entry, password, textErrorPassWord, newpassword, textforgot1, textforgot2, textforgot3, confirmPassword, isFocusConfirm, confirmStylePassword, confirmTextErrorPassWord } = this.state;
+        const { stylePassword, isFocusNew, entry, entry2, confirmStatusPassword, newpassword, textforgot1, textforgot2, textforgot3, confirmPassword, isFocusConfirm, confirmStylePassword, confirmTextErrorPassWord } = this.state;
         const { t } = this.props;
         const handleFocusNew = () => this.setState({ isFocusNew: true })
         const handleOutFocusNew = () => this.outFocusNew()
@@ -152,9 +153,9 @@ class SetPassword extends Component {
         const handleOutFocusConfirm = () => this.outFocusConfirm()
         return (
 
-            <View style={styles.container} >
+            <KeyboardAvoidingView style={styles.container} behavior="padding" keyboardVerticalOffset={100}>
                 <ScrollView contentContainerStyle={styles.scrollContent}>
-                    <View style={{ flex: 1, marginBottom: 100 }}  >
+                    <View style={{ flex: 1, }}  >
                         <View style={{ alignItems: "center", marginTop: 24 }}>
                             <Image style={{ width: 120, height: 120 }}
                                 source={require('../../assets/images/icon/ChangePassword.png')}
@@ -189,7 +190,7 @@ class SetPassword extends Component {
                                     onFocus={handleFocusNew}
                                     onBlur={handleOutFocusNew}
                                 />
-                                <Pressable onPress={() => this.handleChangeEntry(!entry)} style={{ position: 'absolute', right: 16 }}>
+                                <Pressable onPress={() => this.handleChangeEntry("entry", !entry)} style={{ position: 'absolute', right: 16 }}>
                                     <Image source={entry ? require('../../assets/images/icon/entry_op.png') : require('../../assets/images/icon/entry_off.png')} />
                                 </Pressable>
                             </View>
@@ -219,8 +220,8 @@ class SetPassword extends Component {
                                         backgroundColor: ComponentsStyle.white,
                                         borderWidth: stylePassword ? isFocusConfirm ? 2 : 1 : 2,
                                         borderColor: stylePassword ? isFocusConfirm ? colors.persianBlue : colors.grey4 : colors.negative1,
-                                        fontSize: entry && confirmPassword ? 25 : 16,
-                                        paddingTop: entry && confirmPassword ? 10 : 0,
+                                        fontSize: entry2 && confirmPassword ? 25 : 16,
+                                        paddingTop: entry2 && confirmPassword ? 10 : 0,
                                         fontFamily: 'IBMPlexSansThai-Regular',
                                         color: colors.grey1,
                                     }}
@@ -228,13 +229,13 @@ class SetPassword extends Component {
                                     onChangeText={(text) => this.handleChange('confirmPassword', text)}
                                     placeholder={confirmPassword === null || confirmPassword === '' ? 'กรอกรหัสด้านบนอีกครั้ง' : null}
                                     autoCapitalize='none'
-                                    secureTextEntry={entry}
+                                    secureTextEntry={entry2}
                                     value={confirmPassword}
                                     onFocus={handleFocusConfirm}
                                     onBlur={handleOutFocusConfirm}
                                 />
-                                <Pressable onPress={() => this.handleChangeEntry(!entry)} style={{ position: 'absolute', right: 16 }}>
-                                    <Image source={entry ? require('../../assets/images/icon/entry_op.png') : require('../../assets/images/icon/entry_off.png')} />
+                                <Pressable onPress={() => this.handleChangeEntry("entry2", !entry2)} style={{ position: 'absolute', right: 16 }}>
+                                    <Image source={entry2 ? require('../../assets/images/icon/entry_op.png') : require('../../assets/images/icon/entry_off.png')} />
                                 </Pressable>
                             </View>
                             <View style={ComponentsStyle.viewTextError}>
@@ -251,9 +252,9 @@ class SetPassword extends Component {
                             </View>
                         </View>
                     </View>
-                    <View style={[styles.submit, { marginBottom: 40 }]}>
+                    <View style={[styles.submit, { marginBottom: 40, marginTop: 80 }]}>
                         {
-                            textforgot1 === 1 && textforgot2 === 1 && textforgot3 === 1 ?
+                            (confirmStatusPassword === true) && (textforgot1 == 1) && (textforgot2 == 1) && (textforgot3 == 1) ?
                                 <Pressable style={ComponentsStyle.button} onPress={() => this.submitLogin()} >
                                     <Text style={ComponentsStyle.textButton}>ยืนยัน</Text>
                                 </Pressable>
@@ -266,7 +267,7 @@ class SetPassword extends Component {
                 </ScrollView>
 
 
-            </View >
+            </KeyboardAvoidingView >
         )
     }
 }
