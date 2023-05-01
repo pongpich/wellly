@@ -151,7 +151,7 @@ class SetPassword extends Component {
         const handleFocusConfirm = () => this.setState({ isFocusConfirm: true })
         const handleOutFocusConfirm = () => this.outFocusConfirm()
         return (
-            <View style={styles.container} >
+            <KeyboardAvoidingView style={styles.container} behavior="padding" keyboardVerticalOffset={0}>
                 <ScrollView>
                     <View style={{ alignItems: "center", marginTop: 24 }}>
                         <Image style={{ width: 120, height: 120 }}
@@ -255,7 +255,7 @@ class SetPassword extends Component {
                         </Pressable>
                     </View>
                 </ScrollView>
-            </View>
+            </KeyboardAvoidingView>
         )
     }
 }

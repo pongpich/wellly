@@ -142,10 +142,7 @@ class ChangePassword extends Component {
                     </Pressable>
                 </View>
             </KeyboardAvoidingView>
-            /*   <KeyboardAvoidingView style={styles.container} behavior="padding" keyboardVerticalOffset={100}> 
- 
- 
-  </KeyboardAvoidingView> */
+
         )
     }
 }
