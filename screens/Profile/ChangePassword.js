@@ -20,6 +20,13 @@ class ChangePassword extends Component {
     }
 
 
+    componentDidUpdate(prevProps, prevState) {
+        const { statusSetPassword } = this.state;
+        if ((prevState.statusSetPassword !== statusSetPassword) && (statusSetPassword === true)) {
+            this.props.navigation.navigate("SetPassword");
+        }
+    }
+
     handleChange(p, e) {
         this.setState({
             [p]: e
@@ -29,24 +36,7 @@ class ChangePassword extends Component {
 
     submitChange() {
         const { statusSetPassword, password } = this.state
-
-        console.log("statusSetPassword", statusSetPassword);
-        if (statusSetPassword === true) {
-            this.props.navigation.navigate("SetPassword");
-        } else {
-            if ((password != null) && (password != '')) {
-                this.setState({
-                    stylePassword: false,
-                    textErrorPassWord: 2
-                })
-            } else {
-                this.setState({
-                    stylePassword: false,
-                    textErrorPassWord: 1
-                })
-            }
-
-        }
+        this.passwordOld()
     }
 
 
