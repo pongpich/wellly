@@ -21,6 +21,7 @@ import Badge from '../screens/Profile/Badge';
 import Pdpa from '../screens/Profile/Pdpa';
 import About from '../screens/Profile/About';
 import ChangePassword from '../screens/Profile/ChangePassword';
+import SetPassword from '../screens/Profile/SetPassword';
 import { useSelector, useDispatch } from "react-redux";
 
 
@@ -207,6 +208,26 @@ function HomeStackScreen() {
                 })}
             />
             <HomeStack.Screen name="ChangePassword" component={ChangePassword}
+                options={({ route, navigation }) => ({
+                    title: "",
+                    headerStyle: {
+                        backgroundColor: colors.white,
+                    },
+                    showLabel: false,
+                    headerShadowVisible: false,
+                    headerLeft: () => (
+                        <View style={{ marginLeft: 16 }}>
+                            <TouchableOpacity onPress={() => navigation.pop()}>
+                                <Image
+                                    source={require('../assets/images/icon/caret.png')}
+                                />
+                            </TouchableOpacity>
+                        </View>
+                    ),
+
+                })}
+            />
+            <HomeStack.Screen name="SetPassword" component={SetPassword}
                 options={({ route, navigation }) => ({
                     title: "",
                     headerStyle: {

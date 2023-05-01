@@ -12,7 +12,7 @@ class ChangePassword extends Component {
         this.state = {
             entry: true,
             stylePassword: true, // เปลี่ยนสี borderColor PassWord [true,false]
-            isFocused2: false,
+            isFocusOld: false,
             password: null,
             statusSetPassword: false,
             textErrorPassWord: null,
@@ -22,39 +22,46 @@ class ChangePassword extends Component {
 
     handleChange(p, e) {
         this.setState({
-            password: e
+            [p]: e
         })
     }
 
 
     submitChange() {
+        const { statusSetPassword, password } = this.state
+
+        console.log("statusSetPassword", statusSetPassword);
+        if (statusSetPassword === true) {
+            this.props.navigation.navigate("SetPassword");
+        } else {
+            if ((password != null) && (password != '')) {
+                this.setState({
+                    stylePassword: false,
+                    textErrorPassWord: 2
+                })
+            } else {
+                this.setState({
+                    stylePassword: false,
+                    textErrorPassWord: 1
+                })
+            }
+
+        }
+    }
+
+
+    handleChangeEntry(e) {
+        this.setState({
+            entry: e
+        })
+    }
+
+    passwordOld() {
         const { password } = this.state;
         const { user } = this.props;
-
-        /*  if (md5Password === user.password) {
- 
-             this.setState({ statusSetPassword: true })
-         } else {
-             this.setState({
-                 stylePassword: true
-             })
-             if (password === null || password === '') {
-                 this.setState({
-                     textErrorPassWord: 1
-                 })
-             } else {
-                 this.setState({
-                     textErrorPassWord: 2
-                 })
-             }
-         } */
-        console.log("password", password);
-
         if ((password != null) && (password != '')) {
-            /*  console.log("password", "55"); */
             const md5Password = md5(password)
             if (md5Password === user.password) {
-
                 this.setState({ statusSetPassword: true })
             } else {
                 this.setState({
@@ -68,24 +75,25 @@ class ChangePassword extends Component {
                 textErrorPassWord: 1
             })
         }
+    }
 
+    outFocusOld() {
+        this.setState({ isFocusOld: false })
+        this.passwordOld()
     }
 
 
-    handleChangeEntry(e) {
-        this.setState({
-            entry: e
-        })
-    }
 
 
-    changePassword() {
-        const { stylePassword, isFocused2, entry, password, textErrorPassWord } = this.state;
+
+
+    render() {
+        const { stylePassword, isFocusOld, entry, password, textErrorPassWord } = this.state;
         const { t } = this.props;
-        const handleFocus2 = () => this.setState({ isFocused2: true })
-        const handleBlur2 = () => this.setState({ isFocused2: false })
+        const handleFocusOld = () => this.setState({ isFocusOld: true })
+        const handleOutFocusOld = () => this.outFocusOld()
         return (
-            <>
+            <View style={styles.container}>
                 <View style={{ alignItems: "center", marginTop: 24 }}>
                     <Image style={{ width: 120, height: 120 }}
                         source={require('../../assets/images/icon/ChangePassword.png')}
@@ -94,56 +102,34 @@ class ChangePassword extends Component {
 
                 </View>
                 <View style={{ paddingHorizontal: 16 }}>
-                    <View style={{ flexDirection: "row" }}>
-                        <View style={{ width: "100%", zIndex: 1 }}>
+                    <View>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', marginTop: 19 }}>
                             <TextInput
                                 style={{
-                                    width: "100%",
+                                    width: '100%',
                                     height: 56,
-                                    borderWidth: stylePassword ? isFocused2 ? 2 : 1 : 2,
-                                    paddingLeft: 16,
-                                    paddingRight: 45,
-                                    justifyContent: "center",
-                                    marginTop: 19,
                                     borderRadius: 8,
-                                    color: colors.grey1,
+                                    paddingLeft: 16,
+                                    paddingRight: 60,
                                     backgroundColor: ComponentsStyle.white,
-                                    fontFamily: "IBMPlexSansThai-Regular",
-                                    zIndex: 0,
-                                    borderColor: stylePassword ? isFocused2 ? colors.persianBlue : colors.grey4 : colors.negative1,
-                                    fontSize: (entry && password) ? 25 : 16,
-                                    //เอาออกเพราะ android Error
-                                    paddingTop: (entry && password) ? 10 : 0
+                                    borderWidth: stylePassword ? isFocusOld ? 2 : 1 : 2,
+                                    borderColor: stylePassword ? isFocusOld ? colors.persianBlue : colors.grey4 : colors.negative1,
+                                    fontSize: entry && password ? 25 : 16,
+                                    paddingTop: entry && password ? 10 : 0,
+                                    fontFamily: 'IBMPlexSansThai-Regular',
+                                    color: colors.grey1,
                                 }}
-                                onChangeText={(text) => this.handleChange("password", text)}
-                                placeholder={(password === null) || (password === '') ? t('atleast8char') : null}
+                                onChangeText={(text) => this.handleChange('password', text)}
+                                placeholder={password === null || password === '' ? t('atleast8char') : null}
                                 autoCapitalize='none'
                                 secureTextEntry={entry}
                                 value={password}
-                                onFocus={handleFocus2}
-                                onBlur={handleBlur2}
+                                onFocus={handleFocusOld}
+                                onBlur={handleOutFocusOld}
                             />
-                        </View>
-                        <View style={{ zIndex: 4, marginRight: 50 }}>
-                            {
-                                entry === false ?
-
-                                    <Pressable /* style={styles.entry} */ onPress={() => this.handleChangeEntry(true)}>
-                                        <Image style={{ marginRight: 100 }}
-                                            source={require('../../assets/images/icon/entry_off.png')}
-                                        />
-                                    </Pressable>
-
-                                    :
-
-                                    <Pressable /* style={styles.entry} */ onPress={() => this.handleChangeEntry(false)}>
-                                        <Image
-                                            /*  style={styles.entryImage} */
-                                            source={require('../../assets/images/icon/entry_op.png')}
-                                        />
-                                    </Pressable>
-
-                            }
+                            <Pressable onPress={() => this.handleChangeEntry(!entry)} style={{ position: 'absolute', right: 16 }}>
+                                <Image source={entry ? require('../../assets/images/icon/entry_op.png') : require('../../assets/images/icon/entry_off.png')} />
+                            </Pressable>
                         </View>
                     </View>
                     <View style={ComponentsStyle.viewTextError}>
@@ -164,86 +150,7 @@ class ChangePassword extends Component {
                         <Text style={ComponentsStyle.textButton}>{t('next')}</Text>
                     </Pressable>
                 </View>
-            </>
-        )
-    }
-
-    setPassword() {
-        const { stylePassword, isFocused2, entry, password, textErrorPassWord } = this.state;
-        const { t } = this.props;
-        const handleFocus2 = () => this.setState({ isFocused2: true })
-        const handleBlur2 = () => this.setState({ isFocused2: false })
-        return (
-            <>
-                {/*  <View style={{ alignItems: "center", marginTop: 24 }}>
-                    <Image style={{ width: 120, height: 120 }}
-                        source={require('../../assets/images/icon/ChangePassword.png')}
-                    />
-                    <Text style={styles.headText}>ตั้งรหัสผ่านใหม่</Text>
-
-                </View>
-                <View style={{ paddingHorizontal: 16 }}>
-                    <View style={styles.inputPassword2}>
-                        <TextInput
-                            style={{
-                                width: "100%",
-                                height: 56,
-                                borderWidth: stylePassword ? isFocused2 ? 2 : 1 : 2,
-                                paddingLeft: 16,
-                                paddingRight: 45,
-                                justifyContent: "center",
-                                marginTop: 19,
-                                borderRadius: 8,
-                                color: colors.grey1,
-                                backgroundColor: ComponentsStyle.white,
-                                fontFamily: "IBMPlexSansThai-Regular",
-                                zIndex: 0,
-                                borderColor: stylePassword ? isFocused2 ? colors.persianBlue : colors.grey4 : colors.negative1,
-                                fontSize: (entry && password) ? 25 : 16,
-                                //เอาออกเพราะ android Error
-                                paddingTop: (entry && password) ? 10 : 0
-                            }}
-                            onChangeText={(text) => this.handleChange("password", text)}
-                            placeholder={(password === null) || (password === '') ? t('atleast8char') : null}
-                            autoCapitalize='none'
-                            secureTextEntry={entry}
-                            value={password}
-                            onFocus={handleFocus2}
-                            onBlur={handleBlur2}
-                        />
-                    </View>
-                    <View style={ComponentsStyle.viewTextError}>
-                        {
-                            stylePassword === false ?
-                                textErrorPassWord === 1 ?
-                                    <Text style={ComponentsStyle.textError}>{t('please_enter_password')}</Text>
-                                    : textErrorPassWord === 2 ?
-                                        <Text style={ComponentsStyle.textError}>รหัสผ่านไม่ถูกต้อง</Text>
-                                        : null
-                                : null
-                        }
-                    </View>
-                </View>
-                <Text style={styles.forgot}>ลืมรหัสผ่าน?</Text>
-                <View style={styles.submit}>
-                    <Pressable style={ComponentsStyle.button} onPress={() => this.submitLogin()} >
-                        <Text style={ComponentsStyle.textButton}>{t('login')}</Text>
-                    </Pressable>
-                </View> */}
-            </>
-        )
-    }
-
-    render() {
-        const { statusSetPassword } = this.state
-        return (
-            <KeyboardAvoidingView style={styles.container} behavior="padding" keyboardVerticalOffset={100}>
-                {
-                    statusSetPassword == true ?
-                        this.setPassword()
-                        : this.changePassword()
-                }
-            </KeyboardAvoidingView >
+            </View>
         )
     }
 }
@@ -271,6 +178,11 @@ const styles = StyleSheet.create({
     text: {
         color: colors.grey1,
         fontFamily: "IBMPlexSansThai-Regular",
+        fontSize: 16,
+    },
+    headTextInput: {
+        color: colors.grey1,
+        fontFamily: "IBMPlexSansThai-Bold",
         fontSize: 16,
     },
     submit: {
@@ -302,8 +214,18 @@ const styles = StyleSheet.create({
         alignItems: "center",
         position: "relative",
         zIndex: 0,
-
     },
+    textforgot: {
+        marginLeft: 4,
+        color: colors.grey2,
+        fontFamily: "IBMPlexSansThai-Regular",
+        fontSize: 14,
+    },
+    viewTextForgot: {
+        flexDirection: "row",
+        paddingHorizontal: 16,
+        marginBottom: 4
+    }
 })
 
 const mapStateToProps = ({ authUser }) => {
