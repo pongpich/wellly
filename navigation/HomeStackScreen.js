@@ -237,7 +237,7 @@ function HomeStackScreen() {
                     headerShadowVisible: false,
                     headerLeft: () => (
                         <View style={{ marginLeft: 16 }}>
-                            <TouchableOpacity onPress={() => navigation.pop()}>
+                            <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
                                 <Image
                                     source={require('../assets/images/icon/caret.png')}
                                 />

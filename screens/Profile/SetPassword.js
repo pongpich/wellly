@@ -3,7 +3,6 @@ import { View, Text, StyleSheet, TextInput, KeyboardAvoidingView, Image, Pressab
 import ComponentsStyle from '../../constants/components';
 import colors from '../../constants/colors';
 import i18next from 'i18next';
-import md5 from 'md5';
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 class SetPassword extends Component {
@@ -12,7 +11,6 @@ class SetPassword extends Component {
         this.state = {
             entry: true,
             stylePassword: true, // เปลี่ยนสี borderColor PassWord [true,false]
-            isFocusOld: false,
             isFocusNew: false,
             password: null,
             statusSetPassword: false,
@@ -153,109 +151,111 @@ class SetPassword extends Component {
         const handleFocusConfirm = () => this.setState({ isFocusConfirm: true })
         const handleOutFocusConfirm = () => this.outFocusConfirm()
         return (
-            <>
-                <View style={{ alignItems: "center", marginTop: 24 }}>
-                    <Image style={{ width: 120, height: 120 }}
-                        source={require('../../assets/images/icon/ChangePassword.png')}
-                    />
-                    <Text style={styles.headText}>ตั้งรหัสผ่านใหม่</Text>
-
-                </View>
-                <View style={{ paddingHorizontal: 16 }}>
-                    <Text style={[styles.headTextInput, { marginTop: 19 }]}>รหัสผ่านใหม่</Text>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', marginTop: 8 }}>
-                        <TextInput
-                            style={{
-                                width: '100%',
-                                height: 56,
-                                borderRadius: 8,
-                                paddingLeft: 16,
-                                paddingRight: 60,
-                                backgroundColor: ComponentsStyle.white,
-                                borderWidth: stylePassword ? isFocusNew ? 2 : 1 : 2,
-                                borderColor: stylePassword ? isFocusNew ? colors.persianBlue : colors.grey4 : colors.negative1,
-                                fontSize: entry && newpassword ? 25 : 16,
-                                paddingTop: entry && newpassword ? 10 : 0,
-                                fontFamily: 'IBMPlexSansThai-Regular',
-                                color: colors.grey1,
-                            }}
-                            maxLength={30}
-                            onChangeText={(text) => this.handleChange('newpassword', text)}
-                            placeholder={newpassword === null || newpassword === '' ? t('atleast8char') : null}
-                            autoCapitalize='none'
-                            secureTextEntry={entry}
-                            value={newpassword}
-                            onFocus={handleFocusNew}
-                            onBlur={handleOutFocusNew}
+            <View style={styles.container} >
+                <ScrollView>
+                    <View style={{ alignItems: "center", marginTop: 24 }}>
+                        <Image style={{ width: 120, height: 120 }}
+                            source={require('../../assets/images/icon/ChangePassword.png')}
                         />
-                        <Pressable onPress={() => this.handleChangeEntry(!entry)} style={{ position: 'absolute', right: 16 }}>
-                            <Image source={entry ? require('../../assets/images/icon/entry_op.png') : require('../../assets/images/icon/entry_off.png')} />
+                        <Text style={styles.headText}>ตั้งรหัสผ่านใหม่</Text>
+
+                    </View>
+                    <View style={{ paddingHorizontal: 16 }}>
+                        <Text style={[styles.headTextInput, { marginTop: 19 }]}>รหัสผ่านใหม่</Text>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', marginTop: 8 }}>
+                            <TextInput
+                                style={{
+                                    width: '100%',
+                                    height: 56,
+                                    borderRadius: 8,
+                                    paddingLeft: 16,
+                                    paddingRight: 60,
+                                    backgroundColor: ComponentsStyle.white,
+                                    borderWidth: stylePassword ? isFocusNew ? 2 : 1 : 2,
+                                    borderColor: stylePassword ? isFocusNew ? colors.persianBlue : colors.grey4 : colors.negative1,
+                                    fontSize: entry && newpassword ? 25 : 16,
+                                    paddingTop: entry && newpassword ? 10 : 0,
+                                    fontFamily: 'IBMPlexSansThai-Regular',
+                                    color: colors.grey1,
+                                }}
+                                maxLength={30}
+                                onChangeText={(text) => this.handleChange('newpassword', text)}
+                                placeholder={newpassword === null || newpassword === '' ? t('atleast8char') : null}
+                                autoCapitalize='none'
+                                secureTextEntry={entry}
+                                value={newpassword}
+                                onFocus={handleFocusNew}
+                                onBlur={handleOutFocusNew}
+                            />
+                            <Pressable onPress={() => this.handleChangeEntry(!entry)} style={{ position: 'absolute', right: 16 }}>
+                                <Image source={entry ? require('../../assets/images/icon/entry_op.png') : require('../../assets/images/icon/entry_off.png')} />
+                            </Pressable>
+                        </View>
+                    </View>
+                    <View style={[styles.viewTextForgot, { marginTop: 8 }]}>
+                        <Image style={{ width: 16, height: 16, marginTop: 4 }} source={textforgot1 == 1 ? require('../../assets/images/icon/radioButtonActive.png') : textforgot1 == 2 ? require('../../assets/images/icon/warningCircleSolid.png') : require('../../assets/images/icon/radioButtonChecked.png')} />
+                        <Text style={[styles.textforgot,]}>8-30 ตัวอักษร?</Text>
+                    </View>
+                    <View style={styles.viewTextForgot}>
+                        <Image style={{ width: 16, height: 16, marginTop: 4 }} source={textforgot2 == 1 ? require('../../assets/images/icon/radioButtonActive.png') : textforgot2 == 2 ? require('../../assets/images/icon/warningCircleSolid.png') : require('../../assets/images/icon/radioButtonChecked.png')} />
+                        <Text style={styles.textforgot}>ตัวพิมพ์ใหญ่อย่างน้อย 1 ตัว</Text>
+                    </View>
+                    <View style={styles.viewTextForgot}>
+                        <Image style={{ width: 16, height: 16, marginTop: 4 }} source={textforgot3 == 1 ? require('../../assets/images/icon/radioButtonActive.png') : textforgot3 == 2 ? require('../../assets/images/icon/warningCircleSolid.png') : require('../../assets/images/icon/radioButtonChecked.png')} />
+                        <Text style={styles.textforgot}>ตัวเลขอย่างน้อย 1 ตัว</Text>
+                    </View>
+                    <View style={{ paddingHorizontal: 16, marginTop: 20, marginBottom: 40 }}>
+                        <Text style={[styles.headTextInput, { marginTop: 19 }]}>ยืนยันรหัสผ่าน</Text>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', marginTop: 8 }}>
+                            <TextInput
+                                style={{
+                                    width: '100%',
+                                    height: 56,
+                                    borderRadius: 8,
+                                    paddingLeft: 16,
+                                    paddingRight: 60,
+                                    backgroundColor: ComponentsStyle.white,
+                                    borderWidth: stylePassword ? isFocusConfirm ? 2 : 1 : 2,
+                                    borderColor: stylePassword ? isFocusConfirm ? colors.persianBlue : colors.grey4 : colors.negative1,
+                                    fontSize: entry && confirmPassword ? 25 : 16,
+                                    paddingTop: entry && confirmPassword ? 10 : 0,
+                                    fontFamily: 'IBMPlexSansThai-Regular',
+                                    color: colors.grey1,
+                                }}
+                                maxLength={30}
+                                onChangeText={(text) => this.handleChange('confirmPassword', text)}
+                                placeholder={confirmPassword === null || confirmPassword === '' ? 'กรอกรหัสด้านบนอีกครั้ง' : null}
+                                autoCapitalize='none'
+                                secureTextEntry={entry}
+                                value={confirmPassword}
+                                onFocus={handleFocusConfirm}
+                                onBlur={handleOutFocusConfirm}
+                            />
+                            <Pressable onPress={() => this.handleChangeEntry(!entry)} style={{ position: 'absolute', right: 16 }}>
+                                <Image source={entry ? require('../../assets/images/icon/entry_op.png') : require('../../assets/images/icon/entry_off.png')} />
+                            </Pressable>
+                        </View>
+                        <View style={ComponentsStyle.viewTextError}>
+                            {
+                                confirmStylePassword === false ?
+
+                                    confirmTextErrorPassWord === 1 ?
+                                        <Text style={ComponentsStyle.textError}>{t('please_enter_password')}</Text>
+                                        : confirmTextErrorPassWord === 2 ?
+                                            <Text style={ComponentsStyle.textError}>รหัสผ่านไม่ถูกต้อง</Text>
+                                            : null
+                                    : null
+                            }
+                        </View>
+                    </View>
+
+                    <View style={[styles.submit, { marginBottom: 40 }]}>
+                        <Pressable style={ComponentsStyle.button} /* onPress={() => this.submitLogin()} */ >
+                            <Text style={ComponentsStyle.textButton}>{t('login')}</Text>
                         </Pressable>
                     </View>
-                </View>
-                <View style={[styles.viewTextForgot, { marginTop: 8 }]}>
-                    <Image style={{ width: 16, height: 16, marginTop: 4 }} source={textforgot1 == 1 ? require('../../assets/images/icon/radioButtonActive.png') : textforgot1 == 2 ? require('../../assets/images/icon/warningCircleSolid.png') : require('../../assets/images/icon/radioButtonChecked.png')} />
-                    <Text style={[styles.textforgot,]}>8-30 ตัวอักษร?</Text>
-                </View>
-                <View style={styles.viewTextForgot}>
-                    <Image style={{ width: 16, height: 16, marginTop: 4 }} source={textforgot2 == 1 ? require('../../assets/images/icon/radioButtonActive.png') : textforgot2 == 2 ? require('../../assets/images/icon/warningCircleSolid.png') : require('../../assets/images/icon/radioButtonChecked.png')} />
-                    <Text style={styles.textforgot}>ตัวพิมพ์ใหญ่อย่างน้อย 1 ตัว</Text>
-                </View>
-                <View style={styles.viewTextForgot}>
-                    <Image style={{ width: 16, height: 16, marginTop: 4 }} source={textforgot3 == 1 ? require('../../assets/images/icon/radioButtonActive.png') : textforgot3 == 2 ? require('../../assets/images/icon/warningCircleSolid.png') : require('../../assets/images/icon/radioButtonChecked.png')} />
-                    <Text style={styles.textforgot}>ตัวเลขอย่างน้อย 1 ตัว</Text>
-                </View>
-                <View style={{ paddingHorizontal: 16, marginTop: 20, marginBottom: 40 }}>
-                    <Text style={[styles.headTextInput, { marginTop: 19 }]}>ยืนยันรหัสผ่าน</Text>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', marginTop: 8 }}>
-                        <TextInput
-                            style={{
-                                width: '100%',
-                                height: 56,
-                                borderRadius: 8,
-                                paddingLeft: 16,
-                                paddingRight: 60,
-                                backgroundColor: ComponentsStyle.white,
-                                borderWidth: stylePassword ? isFocusConfirm ? 2 : 1 : 2,
-                                borderColor: stylePassword ? isFocusConfirm ? colors.persianBlue : colors.grey4 : colors.negative1,
-                                fontSize: entry && confirmPassword ? 25 : 16,
-                                paddingTop: entry && confirmPassword ? 10 : 0,
-                                fontFamily: 'IBMPlexSansThai-Regular',
-                                color: colors.grey1,
-                            }}
-                            maxLength={30}
-                            onChangeText={(text) => this.handleChange('confirmPassword', text)}
-                            placeholder={confirmPassword === null || confirmPassword === '' ? 'กรอกรหัสด้านบนอีกครั้ง' : null}
-                            autoCapitalize='none'
-                            secureTextEntry={entry}
-                            value={confirmPassword}
-                            onFocus={handleFocusConfirm}
-                            onBlur={handleOutFocusConfirm}
-                        />
-                        <Pressable onPress={() => this.handleChangeEntry(!entry)} style={{ position: 'absolute', right: 16 }}>
-                            <Image source={entry ? require('../../assets/images/icon/entry_op.png') : require('../../assets/images/icon/entry_off.png')} />
-                        </Pressable>
-                    </View>
-                    <View style={ComponentsStyle.viewTextError}>
-                        {
-                            confirmStylePassword === false ?
-
-                                confirmTextErrorPassWord === 1 ?
-                                    <Text style={ComponentsStyle.textError}>{t('please_enter_password')}</Text>
-                                    : confirmTextErrorPassWord === 2 ?
-                                        <Text style={ComponentsStyle.textError}>รหัสผ่านไม่ถูกต้อง</Text>
-                                        : null
-                                : null
-                        }
-                    </View>
-                </View>
-
-                {/*   <View style={styles.submit}>
-                    <Pressable style={ComponentsStyle.button} onPress={() => this.submitLogin()} >
-                        <Text style={ComponentsStyle.textButton}>{t('login')}</Text>
-                    </Pressable>
-                </View> */}
-            </>
+                </ScrollView>
+            </View>
         )
     }
 }

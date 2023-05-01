@@ -414,6 +414,9 @@ function getBottomTabse(route) {
   if (routeName == "ChangePassword") {
     return 'none';
   }
+  if (routeName == "SetPassword") {
+    return 'none';
+  }
 
 
   return 'flex';
