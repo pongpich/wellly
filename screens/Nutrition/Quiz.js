@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, Image, ScrollView, StatusBar, Modal, Pressable, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, Image, ScrollView, StatusBar, Modal, Pressable, Dimensions, TouchableOpacity } from 'react-native';
 import { getNutritionMission, getNutritionActivityIdMission } from "../../redux/get";
 import { logoutUser } from "../../redux/auth";
 import { update_quiz_activities } from "../../redux/update";
@@ -8,7 +8,11 @@ import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 import colors from '../../constants/colors';
 import ComponentsStyle from '../../constants/components';
-/* import Modal from "react-native-modal"; */
+import ImageZoom from 'react-native-image-pan-zoom';
+
+
+
+
 
 
 class QuizAnswer extends Component {
@@ -20,11 +24,13 @@ class QuizAnswer extends Component {
             allSelectChoice: null, // คำตอบที่ตอบ
             numberArray: null,
             modalVisibleQuiz: false,
+            modalVisible: false,
             quiz: null,  // ตอบถูกทุกข้อหรือไม่
             numbeQuzi: null,  //จำนวนคำตอบที่ตอบถูก
             week_in_program: null,
             user_id: null,
             missionId: null,
+            urlZoom: null,
             nutrition_activity_Mission: true
 
         };
@@ -176,7 +182,8 @@ class QuizAnswer extends Component {
 
 
     render() {
-        const { data, allSelectChoice, numberArray, quiz, numbeQuzi, modalVisibleQuiz, week_in_program } = this.state;
+        const { data, allSelectChoice, numberArray, quiz, numbeQuzi, modalVisibleQuiz, modalVisible, urlZoom, week_in_program } = this.state;
+        console.log("urlZoom", urlZoom);
         return (
             <SafeAreaView style={styles.container}>
                 <StatusBar barStyle="dark-content" />
@@ -196,7 +203,26 @@ class QuizAnswer extends Component {
                                     return (
                                         <View key={i + "v1"}>
                                             {value && value.image != "" ?
-                                                <Image source={{ uri: value.image }} style={{ width: "100%", height: value.index == 3 ? 350 : 200, marginTop: 16 }} resizeMode="stretch" />
+                                                /*  <ImageZoom cropWidth={Dimensions.get('window').width}
+                                                     cropHeight={Dimensions.get('window').height}
+                                                     imageWidth={"100%"}
+                                             imageHeight={200}>
+                                             <Image source={{ uri: value.image }} style={{ width: "100%", height: value.index == 3 ? 350 : 200, marginTop: 16 }} resizeMode="stretch" />
+                                         </ImageZoom> */
+
+
+                                                <>
+                                                    <TouchableOpacity onPress={() => this.setState({
+                                                        modalVisible: true,
+                                                        urlZoom: value.image
+                                                    })}>
+                                                        {/*  <Image source={{ uri: props.imageUrls[0] }} style={styles.imageThumbnail} /> */}
+                                                        <Image source={{ uri: value.image }} style={{ width: "100%", height: value.index == 3 ? 350 : 200, marginTop: 16 }} resizeMode="stretch" />
+                                                    </TouchableOpacity>
+
+
+                                                </>
+                                                /*  <Image source={{ uri: value.image }} style={{ width: "100%", height: value.index == 3 ? 350 : 200, marginTop: 16 }} resizeMode="stretch" /> */
                                                 : null}
                                             <Text style={styles.question} key={i + "t1"}>
                                                 {value.index}. {value.question}
@@ -287,7 +313,13 @@ class QuizAnswer extends Component {
                             }
                         </View>
                     </ScrollView>
-                </View>
+                </View >
+                {/* <TouchableOpacity onPress={() => setModalVisible(true)}>
+                    <Image source={{ uri: props.imageUrls[0] }} style={styles.imageThumbnail} />
+                </TouchableOpacity> */}
+
+
+
                 <View style={styles.centeredView}>
                     <Modal
                         animationType="slide"
@@ -318,7 +350,34 @@ class QuizAnswer extends Component {
                         </View>
                     </Modal>
                 </View>
-            </SafeAreaView>
+
+                <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={modalVisible}
+                    onRequestClose={() => {
+                        /*  Alert.alert('Modal has been closed.'); */
+                        this.setState({ modalVisible: !modalVisible });
+                    }}
+                >
+                    <View style={styles.modalContent}>
+                        <TouchableOpacity onPress={() => this.setState({
+                            modalVisible: false,
+                            urlZoom: null
+                        })} style={styles.closeButton}>
+                            <Text style={{ color: colors.white, fontSize: 24, marginRight: 16, marginTop: 16 }} >X</Text>
+                        </TouchableOpacity>
+                        <ImageZoom cropWidth={Dimensions.get('window').width}
+                            cropHeight={Dimensions.get('window').height}
+                            imageWidth={Dimensions.get('window').width}
+                            imageHeight={Dimensions.get('window').height}>
+                            <View style={{ justifyContent: "center", alignItems: "center", flex: 1 }}>
+                                <Image source={{ uri: urlZoom }} style={{ width: "100%", height: 350, marginTop: 16 }} resizeMode="stretch" />
+                            </View>
+                        </ImageZoom>
+                    </View>
+                </Modal>
+            </SafeAreaView >
         )
     }
 }
@@ -397,7 +456,32 @@ const styles = StyleSheet.create({
         color: colors.white,
         fontSize: ComponentsStyle.fontSize24,
         fontFamily: "IBMPlexSansThai-Bold",
-    }
+    },
+    imageThumbnail: {
+        width: 100,
+        height: 100,
+    },
+    modalContent: {
+        flex: 1,
+        backgroundColor: 'black',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    modalImageContainer: {
+        width: '100%',
+        height: '80%',
+    },
+    modalImage: {
+        width: '100%',
+        height: '100%',
+    },
+    closeButton: {
+        position: 'absolute',
+        top: 0,
+        right: 0,
+        padding: 10,
+        zIndex: 999,
+    },
 });
 const mapStateToProps = ({ authUser, getData, updateData, personalDataUser }) => {
     const { user } = authUser;
