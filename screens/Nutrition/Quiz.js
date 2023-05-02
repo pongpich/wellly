@@ -50,7 +50,15 @@ class QuizAnswer extends Component {
 
         this.props.routeName(route.name);
 
+
+
+
+
+
+
     }
+
+
 
     componentDidUpdate(prevProps, prevState) {
         const { modalVisibleQuiz, allSelectChoice, nutrition_activity_Mission } = this.state;
@@ -183,7 +191,6 @@ class QuizAnswer extends Component {
 
     render() {
         const { data, allSelectChoice, numberArray, quiz, numbeQuzi, modalVisibleQuiz, modalVisible, urlZoom, week_in_program } = this.state;
-        console.log("urlZoom", urlZoom);
         return (
             <SafeAreaView style={styles.container}>
                 <StatusBar barStyle="dark-content" />

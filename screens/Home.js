@@ -18,6 +18,8 @@ import {
     StackedBarChart
 } from "react-native-chart-kit";
 import { CommonActions } from '@react-navigation/native';
+import { BackHandler } from 'react-native';
+
 
 
 class Home extends Component {
@@ -54,6 +56,7 @@ class Home extends Component {
             this.props.getNutritionActivity(user && user.user_id);
             this.props.getExerciserActivity(user && user.user_id);
             this.animate();
+            BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
         });
 
 
@@ -63,9 +66,27 @@ class Home extends Component {
 
     }
 
+
+
+
     componentWillUnmount() {
         this._unsubscribe();
+        BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
     }
+
+
+    handleBackPress = () => {
+
+        const { navigation, route } = this.props;
+
+        if (navigation.canGoBack() && route.name === "Home") {
+            BackHandler.exitApp();
+            return true;
+        } else {
+            return false;
+        }
+    };
+
 
     componentDidUpdate(prevProps) {
         const { user, statusGetNutritionMission, statusGetNutritionActivity, nutrition_mission, route_name, nutrition_activity, exerciserActivity, statusExerciserActivity } = this.props;

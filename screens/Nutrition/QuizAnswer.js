@@ -8,10 +8,19 @@ import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import { List } from 'react-native-paper';
+import { BackHandler } from 'react-native';
+import { StackActions } from '@react-navigation/native';
+import { useRoute } from '@react-navigation/native';
+
+
+
+
 
 
 
 class QuizAnswer extends Component {
+
+
     constructor(props) {
         super(props);
         this.slideAnim = new Animated.Value(0);
@@ -59,8 +68,26 @@ class QuizAnswer extends Component {
             }
         }
 
+        BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
 
     }
+
+
+    componentWillUnmount() {
+        BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
+    }
+
+    handleBackPress = () => {
+
+        const { navigation, route } = this.props;
+
+        if (navigation.canGoBack() && route.name === "QuizAnswer") {
+            navigation.dispatch(StackActions.replace('Home'));
+            return true;
+        } else {
+            return false;
+        }
+    };
 
 
     componentDidUpdate(prevProps, prevState) {
