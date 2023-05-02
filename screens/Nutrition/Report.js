@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, SafeAreaView, TextInput, Image, ScrollView, Dimensions, Pressable, TouchableOpacity, StatusBar } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, TextInput, Image, ScrollView, Modal, Dimensions, Pressable, TouchableOpacity, StatusBar } from 'react-native';
 import colors from '../../constants/colors';
 import ComponentsStyle from '../../constants/components';
 import { logoutUser } from "../../redux/auth";
@@ -11,6 +11,9 @@ import { withTranslation } from 'react-i18next';
 import { Checkbox } from 'react-native-paper';
 import { Switch } from 'react-native-switch';
 import { update_assessment_kit_activties } from "../../redux/update";
+import ImageZoom from 'react-native-image-pan-zoom';
+
+
 //update_assessment_kit_activties
 class Report extends Component {
 
@@ -29,7 +32,9 @@ class Report extends Component {
             assessmentKitActivities: null,
             missionId: null,
             user_id: null,
-            week_in_program: null
+            week_in_program: null,
+            modalVisible: false,
+            urlZoom: null
         };
     }
     componentDidMount() {
@@ -227,7 +232,7 @@ class Report extends Component {
 
     render() {
         const { isFocused, switchOn, numberArray, assessmentKit, assessmentKitActivities,
-            multiplChoice, checkList, numberArrayCheck, user_id, week_in_program, missionId, numberCheck } = this.state;
+            multiplChoice, checkList, numberArrayCheck, user_id, week_in_program, missionId, numberCheck, modalVisible, urlZoom } = this.state;
         return (
             <View style={styles.container}>
                 <StatusBar barStyle="dark-content" />
@@ -275,7 +280,13 @@ class Report extends Component {
                                                                         <View style={week_in_program == "1" ? styles.boxImage1 : week_in_program == "2" ? styles.boxImage2 :
                                                                             missionId == "sna1" ? styles.boxImageSna1 : missionId == "sna2" ? styles.boxImageSna2 :
                                                                                 missionId == "snb2" ? styles.boxImageSnb2 : null} key={i + 'img'}>
-                                                                            <Image style={{ width: "100%", height: "100%", }} source={{ uri: img[1] }} resizeMode='stretch' />
+                                                                            <TouchableOpacity onPress={() => this.setState({
+                                                                                modalVisible: true,
+                                                                                urlZoom: img[1]
+                                                                            })}>
+                                                                                <Image style={{ width: "100%", height: "100%", }} source={{ uri: img[1] }} resizeMode='stretch' />
+                                                                            </TouchableOpacity>
+
                                                                         </View>
                                                                     )
                                                                 })
@@ -484,6 +495,32 @@ class Report extends Component {
                         </View>
                     </ScrollView>
                 </View >
+                <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={modalVisible}
+                    onRequestClose={() => {
+                        /*  Alert.alert('Modal has been closed.'); */
+                        this.setState({ modalVisible: !modalVisible });
+                    }}
+                >
+                    <View style={styles.modalContent}>
+                        <TouchableOpacity onPress={() => this.setState({
+                            modalVisible: false,
+                            urlZoom: null
+                        })} style={styles.closeButton}>
+                            <Text style={{ color: colors.white, fontSize: 24, marginRight: 16, marginTop: 16 }} >X</Text>
+                        </TouchableOpacity>
+                        <ImageZoom cropWidth={Dimensions.get('window').width}
+                            cropHeight={Dimensions.get('window').height}
+                            imageWidth={Dimensions.get('window').width}
+                            imageHeight={Dimensions.get('window').height}>
+                            <View style={{ justifyContent: "center", alignItems: "center", flex: 1 }}>
+                                <Image source={{ uri: urlZoom }} style={{ width: "100%", height: 350, marginTop: 16 }} resizeMode="stretch" />
+                            </View>
+                        </ImageZoom>
+                    </View>
+                </Modal>
             </View >
         )
     }
@@ -596,6 +633,27 @@ const styles = StyleSheet.create({
         marginBottom: 16,
         width: (deviceHeight > 1023) ? "100%" : "100%",
         height: (deviceHeight > 1023) ? 500 : 290
+    },
+    modalContent: {
+        flex: 1,
+        backgroundColor: 'black',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    modalImageContainer: {
+        width: '100%',
+        height: '80%',
+    },
+    modalImage: {
+        width: '100%',
+        height: '100%',
+    },
+    closeButton: {
+        position: 'absolute',
+        top: 0,
+        right: 0,
+        padding: 10,
+        zIndex: 999,
     },
 });
 
