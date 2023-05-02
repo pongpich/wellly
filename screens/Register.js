@@ -325,7 +325,7 @@ class Register extends Component {
 
                                 <View style={styles.buttonTop}>
                                     {
-                                     
+
                                         <Pressable style={ComponentsStyle.button} onPress={() => this.submitRegister()} >
                                             <Text style={ComponentsStyle.textButton}>{t('register')}</Text>
                                         </Pressable>

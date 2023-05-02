@@ -187,7 +187,7 @@ class Home extends Component {
 
                         {
 
-                            latest_nutrition_activity && (latest_nutrition_activity.quiz_activities_number == null) || (latest_nutrition_activity.assessment_kit_number == null) ?
+                            (latest_nutrition_activity && latest_nutrition_activity.quiz_activities_number == null) || (latest_nutrition_activity && latest_nutrition_activity.assessment_kit_number == null) ?
 
                                 <Pressable
                                     onPress={() => latest_nutrition_activity.short_content && this.props.navigation.navigate("ArticleTemplate", { id: latest_nutrition_activity && latest_nutrition_activity.week_in_program, mission_id: latest_nutrition_activity && latest_nutrition_activity.mission_id, heading: latest_nutrition_activity && latest_nutrition_activity.heading, statusPags: "Home" })} key={latest_nutrition_activity && latest_nutrition_activity.week_in_program + "_na"}
