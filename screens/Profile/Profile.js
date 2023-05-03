@@ -281,7 +281,7 @@ class Profile extends Component {
                                             />
                                             <View style={{ flexDirection: "row" }}>
                                                 <Text style={styles.manuName}>ภาษา</Text>
-                                                <Text style={{ marginLeft: 10, marginTop: 5, color: colors.grey4 }}>England</Text>
+                                                <Text style={{ marginLeft: 10, marginTop: 5, color: colors.grey4 }}>English</Text>
                                             </View>
                                         </View>
                                         <Image
