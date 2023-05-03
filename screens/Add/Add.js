@@ -316,15 +316,20 @@ class Add extends Component {
 
                                     this.modalConter(isModalConter);
                                 }}>
-                                    <Image
-                                        style={styles.cross}
-                                        source={require('../../assets/images/activity/cross.png')}
-                                    />
+
+                                    <View style={{ marginTop: -20, marginLeft: -20, width: 70, height: 60 }}>
+                                        <Image
+                                            style={[styles.cross, { marginLeft: 20, marginTop: 20 }]}
+                                            source={require('../../assets/images/activity/cross.png')}
+                                        />
+                                    </View>
                                 </TouchableWithoutFeedback>
+
+
                                 : <View></View>
                         }
 
-                        {intensityFromExArticle === null ? <Text style={styles.headActivity}>กิจกรรมตามความเข้มข้น</Text>
+                        {intensityFromExArticle === null ? <Text style={[styles.headActivity, { marginLeft: -20 }]}>กิจกรรมตามความเข้มข้น</Text>
                             :
                             intensityFromExArticle == "light_intensity" ? <Text style={styles.headActivity}>กิจกรรมตามความเข้มข้นต่ำ</Text>
                                 :
