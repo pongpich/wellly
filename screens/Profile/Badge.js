@@ -2,6 +2,10 @@ import React, { Component } from 'react'
 import { View, Text, StyleSheet, SafeAreaView, ImageBackground, Animated, StatusBar, Image, Pressable, ScrollView, Dimensions, TouchableWithoutFeedback, Button } from 'react-native';
 import ComponentsStyle from '../../constants/components';
 import colors from '../../constants/colors';
+import { connect } from 'react-redux';
+import { getBadge } from "../../redux/get";
+import { withTranslation } from 'react-i18next';
+
 class Badge extends Component {
     constructor(props) {
         super(props);
@@ -15,6 +19,55 @@ class Badge extends Component {
             greatWork: false,
             win: false,
         };
+    }
+
+
+    componentDidMount() {
+        const { user } = this.props;
+        this.props.getBadge(user && user.user_id)
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        const { getBadgeYou, statusGetBadge } = this.props;
+
+        /*         console.log(getBadgeYou, statusGetBadge); */
+        if ((prevProps.statusGetBadge !== statusGetBadge) && (statusGetBadge === "success")) {
+            /*  const getBadge = JSON.parse(getBadgeYou.badge) */
+            const badge = getBadgeYou[0].badge;
+
+            if (badge) {
+
+                const getBadge = JSON.parse(badge)
+
+
+                if (getBadge.includes("core_balance")) {
+                    this.setState({
+                        excellent: true
+                    })
+                }
+                if (getBadge.includes("core_balance_plyo")) {
+                    this.setState({
+                        awesome: true
+                    })
+                }
+                if (getBadge.includes("resistance")) {
+                    this.setState({
+                        welldone: true
+                    })
+                }
+                if (getBadge.includes("cardio")) {
+                    this.setState({
+                        goodJob: true
+                    })
+                }
+                if (getBadge.includes("cardio")) {
+                    this.setState({
+                        greatWork: true
+                    })
+                }
+            }
+
+        }
     }
 
     render() {
@@ -88,4 +141,22 @@ const styles = StyleSheet.create({
         height: 260
     }
 });
-export default Badge;
+/* export default Badge; */
+
+
+const mapStateToProps = ({ getData, authUser }) => {
+    const { user } = authUser;
+    const { getBadgeYou, statusGetBadge } = getData;
+    return { user, getBadgeYou, statusGetBadge };
+};
+
+const mapActionsToProps = { getBadge };
+
+export default connect(
+    mapStateToProps,
+    mapActionsToProps
+)(withTranslation()(Badge));
+
+
+
+

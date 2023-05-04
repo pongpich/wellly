@@ -35,6 +35,8 @@ export const types = {
   GET_NUTRITION_KNOWLEDGE_SUCCESS: "GET_NUTRITION_KNOWLEDGE_SUCCESS",
   GET_NUTRITION_KNOWLEDGE_ACTIVITY: "GET_NUTRITION_KNOWLEDGE_ACTIVITY",
   GET_NUTRITION_KNOWLEDGE_ACTIVITY_SUCCESS: "GET_NUTRITION_KNOWLEDGE_ACTIVITY_SUCCESS",
+  GET_BADGE: "GET_BADGE",
+  GET_BADGE_SUCCESS: "GET_BADGE_SUCCESS",
   RESET_STATUS_NUTRITION_KNOWLEDGE_ACTIVITY: "RESET_STATUS_NUTRITION_KNOWLEDGE_ACTIVITY",
 };
 
@@ -146,6 +148,14 @@ export const getNutritionKnowledgeActivity = (user_id) => ({
   type: types.GET_NUTRITION_KNOWLEDGE_ACTIVITY,
   payload: { user_id }
 });
+
+
+
+export const getBadge = (user_id) => ({
+  type: types.GET_BADGE,
+  payload: { user_id }
+});
+
 
 
 
@@ -344,6 +354,21 @@ const getNutritionKnowledgeSagaAsync = async () => {
 const getNutritionKnowledgeActivitySagaAsync = async (user_id) => {
   try {
     const apiResult = await API.get("planforfit", "/getNutritionKnowledgeActivity", {
+      queryStringParameters: {
+        user_id
+      }
+    });
+    /*  console.log("apiResult", apiResult); */
+    return apiResult
+  } catch (error) {
+    return { error, messsage: error.message };
+  }
+}
+
+
+const getBadgeSagaAsync = async (user_id) => {
+  try {
+    const apiResult = await API.get("planforfit", "/getBadge", {
       queryStringParameters: {
         user_id
       }
@@ -639,6 +664,26 @@ function* getNutritionKnowledgeActivitySaga({ payload }) {
   }
 }
 
+function* getBadgeSaga({ payload }) {
+  const { user_id } = payload;
+
+  try {
+    const apiResult = yield call(
+      getBadgeSagaAsync,
+      user_id
+    )
+    yield put({
+      type: types.GET_BADGE_SUCCESS,
+      payload: apiResult.results.get_badge
+    })
+
+  } catch (error) {
+    console.log("error form getBadgeSaga", error);
+  }
+}
+
+
+
 export function* watchGetProfanity() {
   yield takeEvery(types.GET_PROFANITY, getProfanitySaga)
 }
@@ -688,6 +733,9 @@ export function* watchGetNutritionKnowledge() {
 export function* watchetNutritionKnowledgeActivity() {
   yield takeEvery(types.GET_NUTRITION_KNOWLEDGE_ACTIVITY, getNutritionKnowledgeActivitySaga)
 }
+export function* watchetGetBadge() {
+  yield takeEvery(types.GET_BADGE, getBadgeSaga)
+}
 
 export function* saga() {
   yield all([
@@ -706,6 +754,7 @@ export function* saga() {
     fork(watchGetWeekActivityLogGraph),
     fork(watchGetNutritionKnowledge),
     fork(watchetNutritionKnowledgeActivity),
+    fork(watchetGetBadge),
   ]);
 }
 
@@ -745,7 +794,9 @@ const INIT_STATE = {
   statusNutritionKnowledge: "default",
   nutritionKnowledge: null,
   statusNutritionKnowledgeActivity: "default",
-  nutritionKnowledgeActivity: null
+  nutritionKnowledgeActivity: null,
+  statusGetBadge: "default",
+  getBadgeYou: null
 
 };
 
@@ -903,6 +954,17 @@ export function reducer(state = INIT_STATE, action) {
         ...state,
         statusNutritionKnowledge: "success",
         nutritionKnowledge: action.payload,
+      }
+    case types.GET_BADGE:
+      return {
+        ...state,
+        statusGetBadge: "loading",
+      }
+    case types.GET_BADGE_SUCCESS:
+      return {
+        ...state,
+        statusGetBadge: "success",
+        getBadgeYou: action.payload,
       }
     case types.GET_NUTRITION_KNOWLEDGE_ACTIVITY:
       return {
