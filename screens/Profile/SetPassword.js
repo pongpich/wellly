@@ -43,7 +43,7 @@ class SetPassword extends Component {
         }
 
         if ((prevProps.statusUpdatePassword !== statusUpdatePassword) && (statusUpdatePassword === "success")) {
-            console.log("statusUpdatePassword", statusUpdatePassword);
+            /*  console.log("statusUpdatePassword", statusUpdatePassword); */
             this.props.navigation.navigate("Profile", { msee: "ตั้งรหัสผ่านใหม่เรียบร้อย" });
 
         }

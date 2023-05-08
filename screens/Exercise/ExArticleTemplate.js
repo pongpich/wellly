@@ -92,6 +92,7 @@ class ArticleTemplate extends Component {
 
     componentDidUpdate(prevProps, prevState) {
         const { nutrition_mission, user, nutrition_activity_id_Mission, statusGetNutritionActivityIdMission, exerciserActivity, statusExerciserActivity } = this.props;
+        const { id } = this.state;
 
         if ((prevProps.statusExerciserActivity !== statusExerciserActivity) && (statusExerciserActivity === "success")) {
 
@@ -99,7 +100,6 @@ class ArticleTemplate extends Component {
                 if (item.week_in_program === id) {
                     this.setState({
                         id: id,
-                        heading: heading,
                         mission_activities: JSON.parse(item.mission_activities)
                     })
                 }

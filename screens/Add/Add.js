@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import { getActivityList, setIntensityFromExArticleTemplate } from "../../redux/get";
 import { addActivityListAddOn, deleteActivityListAddOn, editActivityListAddOn } from "../../redux/update";
 import { CommonActions } from '@react-navigation/native';
+import { BackHandler } from 'react-native';
 
 class Add extends Component {
 
@@ -101,6 +102,9 @@ class Add extends Component {
 
             }
 
+
+            BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
+
         });
 
         // this.props.routeName(null); // ถ้าเข้าให้ home ให้ทำคำสั่งนี้ 1 ครั้ง
@@ -110,6 +114,21 @@ class Add extends Component {
     componentWillUnmount() {
         this._unsubscribe();
     }
+
+
+    handleBackPress = () => {
+
+        const { navigation, route } = this.props;
+
+        console.log("55555");
+        if (navigation.canGoBack() && route.name === "Add") {
+            /*  BackHandler.exitApp(); */
+            navigation.dispatch(StackActions.replace('Home'));
+            return true;
+        } else {
+            return false;
+        }
+    };
 
 
     componentDidUpdate(prevProps, prevState) {

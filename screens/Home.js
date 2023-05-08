@@ -175,7 +175,7 @@ class Home extends Component {
             outputRange: [1, 1, 1],
         });
 
-        console.log(latest_nutrition_activity, latest_exercise_activity, latest_exercise_mission);
+
 
         return (
             <View style={[ComponentsStyle.container, { backgroundColor: colors.mayaBlue60 }]}>
