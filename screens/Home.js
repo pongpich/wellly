@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, StyleSheet, Pressable, ImageBackground, Image, ScrollView, StatusBar, statusBarStyle, statusBarTransition, Animated, Easing, hidden, TouchableOpacity, TextInput, Text, Linking, KeyboardAvoidingView, Platform, Dimensions, Modal, InputAccessoryView, Keyboard } from 'react-native';
 import { logoutUser, loginUser } from "../redux/auth";
 import { getNutritionMission, getNutritionActivity, getExerciserActivity, getActivityList, setIntensityFromExArticleTemplate } from "../redux/get";
-import { insertNutritionActivity, insertExerciseActivity, } from "../redux/update";
+import { insertNutritionActivity, insertExerciseActivity, checkUpdateBadgeWin } from "../redux/update";
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 import { routeName } from "../redux/personalUser";
@@ -45,7 +45,8 @@ class Home extends Component {
             this.props.insertNutritionActivity(user && user.user_id);
             this.props.getNutritionActivity(user && user.user_id);
             this.props.getExerciserActivity(user && user.user_id);
-            this.props.getActivityList(user && user.user_id)
+            this.props.getActivityList(user && user.user_id);
+            this.props.checkUpdateBadgeWin(user && user.user_id);
 
             if (!user) { // $student_two["Chemistry"] = 92
                 this.props.navigation.navigate("Login");
@@ -666,7 +667,7 @@ const mapStateToProps = ({ authUser, getData, personalDataUser }) => {
     return { user, nutrition_mission, nutrition_activity, statusGetNutritionMission, statusGetNutritionActivity, statusInsertNutritionActivity, statusExerciserActivity, exerciserActivity, activity_list, statusGetActivityList, route_name };
 };
 
-const mapActionsToProps = { logoutUser, getNutritionMission, routeName, insertNutritionActivity, insertExerciseActivity, loginUser, getNutritionActivity, getExerciserActivity, getActivityList, setIntensityFromExArticleTemplate };
+const mapActionsToProps = { logoutUser, getNutritionMission, routeName, insertNutritionActivity, insertExerciseActivity, loginUser, getNutritionActivity, getExerciserActivity, getActivityList, setIntensityFromExArticleTemplate, checkUpdateBadgeWin };
 
 export default connect(
     mapStateToProps,
