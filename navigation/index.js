@@ -268,7 +268,8 @@ function MyStack(props) {
       }}>
 
       <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} initialRouteName="Login" />
-      <Stack.Screen name="Register" component={Register} initialRouteName="Register" />
+      <Stack.Screen name="Register" component={Register} initialRouteName="Register" options={{ headerShown: false }}
+      />
       <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{
         title: "",
         headerShadowVisible: false, // applied here
@@ -415,6 +416,9 @@ function getBottomTabse(route) {
     return 'none';
   }
   if (routeName == "SetPassword") {
+    return 'none';
+  }
+  if (routeName == "Register") {
     return 'none';
   }
 

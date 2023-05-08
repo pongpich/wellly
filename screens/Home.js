@@ -37,6 +37,7 @@ class Home extends Component {
     }
 
     componentDidMount() {
+
         const { user } = this.props;
 
         this._unsubscribe = this.props.navigation.addListener('focus', () => {
@@ -57,6 +58,7 @@ class Home extends Component {
             this.props.getExerciserActivity(user && user.user_id);
             this.animate();
             BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
+
         });
 
 
@@ -65,6 +67,9 @@ class Home extends Component {
         // this.props.routeName(null); // ถ้าเข้าให้ home ให้ทำคำสั่งนี้ 1 ครั้ง
 
     }
+
+
+
 
 
 
@@ -96,11 +101,12 @@ class Home extends Component {
 
 
 
-        if ((prevProps.statusGetNutritionMission !== statusGetNutritionMission) && (statusGetNutritionMission === "success")) {
+        /* if ((prevProps.statusGetNutritionMission !== statusGetNutritionMission) && (statusGetNutritionMission === "success")) {
             //ถ้าตรงตามเงื่อนไขด้านบนแสดงว่าได้ค่า  nutrition_mission แล้ว
-        }
+        } */
 
         if ((prevProps.statusGetNutritionActivity !== statusGetNutritionActivity) && (statusGetNutritionActivity === "success")) {
+
             this.setState({ latest_nutrition_activity: nutrition_activity[0] })
         }
 
@@ -168,6 +174,8 @@ class Home extends Component {
             inputRange: [0, 0.5, 1],
             outputRange: [1, 1, 1],
         });
+
+        console.log(latest_nutrition_activity, latest_exercise_activity, latest_exercise_mission);
 
         return (
             <View style={[ComponentsStyle.container, { backgroundColor: colors.mayaBlue60 }]}>
