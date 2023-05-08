@@ -30,39 +30,39 @@ class Badge extends Component {
     componentDidUpdate(prevProps, prevState) {
         const { getBadgeYou, statusGetBadge } = this.props;
 
-        /*         console.log(getBadgeYou, statusGetBadge); */
         if ((prevProps.statusGetBadge !== statusGetBadge) && (statusGetBadge === "success")) {
-            /*  const getBadge = JSON.parse(getBadgeYou.badge) */
             const badge = getBadgeYou[0].badge;
+            const numbBadge = badge ? JSON.parse(badge).length : 0;
 
             if (badge) {
-
-                const getBadge = JSON.parse(badge)
-
-
-                if (getBadge.includes("core_balance")) {
+                if (numbBadge >= 1) {
                     this.setState({
                         excellent: true
                     })
                 }
-                if (getBadge.includes("core_balance_plyo")) {
+                if (numbBadge >= 2) {
                     this.setState({
                         awesome: true
                     })
                 }
-                if (getBadge.includes("resistance")) {
+                if (numbBadge >= 3) {
                     this.setState({
                         welldone: true
                     })
                 }
-                if (getBadge.includes("cardio")) {
+                if (numbBadge >= 4) {
                     this.setState({
                         goodJob: true
                     })
                 }
-                if (getBadge.includes("cardio")) {
+                if (numbBadge >= 5) {
                     this.setState({
                         greatWork: true
+                    })
+                }
+                if (numbBadge >= 6) {
+                    this.setState({
+                        win: true
                     })
                 }
             }
