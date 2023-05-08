@@ -24,8 +24,17 @@ export const types = {
     DELETE_ACTIVITY_LIST_ADD_ON: "DELETE_ACTIVITY_LIST_ADD_ON",
     DELETE_ACTIVITY_LIST_ADD_ON_SUCCESS: "DELETE_ACTIVITY_LIST_ADD_ON_SUCCESS",
     EDIT_ACT_LIST_ADD_ON: "EDIT_ACT_LIST_ADD_ON",
-    EDIT_ACT_LIST_ADD_ON_SUCCESS: "EDIT_ACT_LIST_ADD_ON_SUCCESS"
+    EDIT_ACT_LIST_ADD_ON_SUCCESS: "EDIT_ACT_LIST_ADD_ON_SUCCESS",
+    CHECK_UPDATE_BADGE_WIN: "CHECK_UPDATE_BADGE_WIN",
+    CHECK_UPDATE_BADGE_WIN_SUCCESS: "CHECK_UPDATE_BADGE_WIN_SUCCESS"
 };
+
+export const checkUpdateBadgeWin = (user_id) => ({
+    type: types.CHECK_UPDATE_BADGE_WIN,
+    payload: {
+        user_id
+    }
+})
 
 export const editActivityListAddOn = (user_id, activity_id, activity_name, intensity) => ({
     type: types.EDIT_ACT_LIST_ADD_ON,
@@ -254,6 +263,22 @@ const addActivityListAddOnSagaAsync = async (
         const apiResult = await API.post("planforfit", "/addActivityListAddOn", {
             body: {
                 user_id, activity_name, intensity
+            }
+        });
+
+        return apiResult
+    } catch (error) {
+        return { error, messsage: error.message };
+    }
+};
+const checkUpdateBadgeWinSagaAsync = async (
+    user_id
+) => {
+
+    try {
+        const apiResult = await API.post("planforfit", "/checkUpdateBadgeWin", {
+            body: {
+                user_id
             }
         });
 
@@ -494,6 +519,23 @@ function* editActivityListAddOnSaga({ payload }) {
         console.log("error form editActivityListAddOnSaga", error);
     }
 }
+function* checkUpdateBadgeWinSaga({ payload }) {
+    const {
+        user_id
+    } = payload
+
+    try {
+        const apiResult = yield call(
+            checkUpdateBadgeWinSagaAsync,
+            user_id
+        );
+/*         yield put({
+            type: types.CHECK_UPDATE_BADGE_WIN_SUCCESS
+        }) */
+    } catch (error) {
+        console.log("error form checkUpdateBadgeWinSaga", error);
+    }
+}
 
 export function* watchUpdate_quiz_activities() {
     yield takeEvery(types.UPDATE_QUIZ_ACTIVITIES, update_quiz_activitiesSaga)
@@ -529,6 +571,9 @@ export function* watchDeleteActivityListAddOn() {
 export function* watchEditActivityListAddOn() {
     yield takeEvery(types.EDIT_ACT_LIST_ADD_ON, editActivityListAddOnSaga)
 }
+export function* watchCheckUpdateBadgeWin() {
+    yield takeEvery(types.CHECK_UPDATE_BADGE_WIN, checkUpdateBadgeWinSaga)
+}
 
 
 export function* saga() {
@@ -543,6 +588,7 @@ export function* saga() {
         fork(watchDeleteActivityListAddOn),
         fork(watchEditActivityListAddOn),
         fork(watchInsertNutritionKnowledgeActivity),
+        fork(watchCheckUpdateBadgeWin),
 
     ]);
 }
@@ -675,7 +721,6 @@ export function reducer(state = INIT_STATE, action) {
                 ...state,
                 statusPopupSary: "success"
             };
-
         default:
             return { ...state };
     }
