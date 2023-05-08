@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { ScrollView, View, Dimensions, StyleSheet, StatusBar, AntDesign, Image, Text, Pressable, Animated } from 'react-native';
 import colors from '../../constants/colors';
-import { getNutritionMission, getNutritionActivityIdMission, setIntensityFromExArticleTemplate } from "../../redux/get";
+import { getNutritionMission, getNutritionActivityIdMission, getExerciserActivity, setIntensityFromExArticleTemplate } from "../../redux/get";
 import ComponentsStyle from '../../constants/components';
 import { logoutUser } from "../../redux/auth";
 import { connect } from 'react-redux';
@@ -59,29 +59,54 @@ class ArticleTemplate extends Component {
                 study: false
             })
         }
-        this.setState({
-            id: id,
-            heading: heading,
-            mission_activities: JSON.parse(exerciserActivity[0] && exerciserActivity[0].mission_activities)
+
+        exerciserActivity && exerciserActivity.map((item, i) => {
+            console.log(item.week_in_program);
+            if (item.week_in_program === id) {
+                this.setState({
+                    id: id,
+                    heading: heading,
+                    mission_activities: JSON.parse(item.mission_activities)
+                })
+            }
+
         })
 
+
+
+
+
+        this._unsubscribe = this.props.navigation.addListener('focus', () => {
+            this.props.getExerciserActivity(user && user.user_id)
+
+        });
 
 
 
     }
 
 
+    componentWillUnmount() {
+        this._unsubscribe();
+    }
+
 
     componentDidUpdate(prevProps, prevState) {
         const { nutrition_mission, user, nutrition_activity_id_Mission, statusGetNutritionActivityIdMission, exerciserActivity, statusExerciserActivity } = this.props;
 
         if ((prevProps.statusExerciserActivity !== statusExerciserActivity) && (statusExerciserActivity === "success")) {
-            if (exerciserActivity[0]) {
-                const mission_activities = JSON.parse(exerciserActivity[0].mission_activities);
-                this.setState({
-                    mission_activities: mission_activities
-                })
-            }
+
+            exerciserActivity && exerciserActivity.map((item, i) => {
+                console.log(item.week_in_program);
+                if (item.week_in_program === id) {
+                    this.setState({
+                        id: id,
+                        heading: heading,
+                        mission_activities: JSON.parse(item.mission_activities)
+                    })
+                }
+
+            })
         }
     }
 
@@ -190,6 +215,8 @@ class ArticleTemplate extends Component {
     }
 
     missionDataView(data) {
+
+
         const { expanded, start, mission_activities } = this.state
         const scoreProgress = 50;
         const deviceWidth = Math.round(Dimensions.get('window').width - 30);
@@ -785,7 +812,7 @@ const mapStateToProps = ({ authUser, getData, personalDataUser }) => {
     return { nutrition_mission, statusGetNutritionMission, nutrition_activity_id_Mission, statusGetNutritionActivityIdMission, user, coreBalanceRoute, exerciserActivity, statusExerciserActivity };
 };
 
-const mapActionsToProps = { logoutUser, getNutritionMission, getNutritionActivityIdMission, coreBalance, setIntensityFromExArticleTemplate };
+const mapActionsToProps = { logoutUser, getNutritionMission, getNutritionActivityIdMission, coreBalance, getExerciserActivity, setIntensityFromExArticleTemplate };
 
 export default connect(
     mapStateToProps,
