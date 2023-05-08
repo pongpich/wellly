@@ -61,7 +61,6 @@ class ArticleTemplate extends Component {
         }
 
         exerciserActivity && exerciserActivity.map((item, i) => {
-            console.log(item.week_in_program);
             if (item.week_in_program === id) {
                 this.setState({
                     id: id,
@@ -97,7 +96,6 @@ class ArticleTemplate extends Component {
         if ((prevProps.statusExerciserActivity !== statusExerciserActivity) && (statusExerciserActivity === "success")) {
 
             exerciserActivity && exerciserActivity.map((item, i) => {
-                console.log(item.week_in_program);
                 if (item.week_in_program === id) {
                     this.setState({
                         id: id,
