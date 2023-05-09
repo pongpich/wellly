@@ -232,7 +232,7 @@ class Login extends Component {
                                             marginTop: 16,
                                             borderRadius: 8,
                                             color: colors.grey1,
-                                            backgroundColor: ComponentsStyle.white,
+                                            backgroundColor: colors.white,
                                             fontFamily: "IBMPlexSansThai-Regular",
                                             zIndex: 0,
                                             borderColor: stylePassword ? isFocused2 ? colors.persianBlue : colors.grey4 : colors.negative1,
