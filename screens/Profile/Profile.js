@@ -358,7 +358,7 @@ class Profile extends Component {
                             </View>
                         </Pressable>
                     </View>
-                    <Text style={styles.version}>เวอร์ชั่น 1.4</Text>
+                    <Text style={styles.version}>เวอร์ชั่น 1.4.2</Text>
                 </ScrollView >
                 <View View style={styles.centeredView} >
                     <Modal isVisible={popupDeleteAccShow}
