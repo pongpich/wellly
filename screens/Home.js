@@ -80,19 +80,28 @@ class Home extends Component {
         BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
     }
 
+    /* 
+        handleBackPress = () => {
+    
+            const { navigation, route } = this.props;
+    
+            if (navigation.canGoBack() && route.name === "Home") {
+                BackHandler.exitApp();
+                return true;
+            } else {
+                return false;
+            }
+        };
+     */
 
     handleBackPress = () => {
-
-        const { navigation, route } = this.props;
-
-        if (navigation.canGoBack() && route.name === "Home") {
+        if (this.props.navigation.isFocused() && this.props.route.name === 'Home') {
             BackHandler.exitApp();
             return true;
         } else {
             return false;
         }
     };
-
 
     componentDidUpdate(prevProps) {
         const { user, statusGetNutritionMission, statusGetNutritionActivity, nutrition_mission, route_name, nutrition_activity, exerciserActivity, statusExerciserActivity } = this.props;
