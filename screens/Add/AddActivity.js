@@ -51,7 +51,7 @@ class AddActivity extends Component {
 
         if ((prevProps.statusUpdateNumbComp !== statusUpdateNumbComp) && (statusUpdateNumbComp === "success")) {
             this.props.getExerciserActivity(user && user.user_id);
-            this.props.navigation.navigate("Add");
+            this.props.navigation.navigate("Add", { message: "บันทึกกิจกรรมแล้ว" });
         }
         if ((prevState.isModalConter2 !== isModalConter2) && (isModalConter2 == true)) {
             this.props.navigation.goBack();

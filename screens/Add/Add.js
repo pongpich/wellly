@@ -52,6 +52,25 @@ class Add extends Component {
             }
 
 
+            if (this.props.route.params) {
+                const { message } = this.props.route.params
+                console.log("message", message);
+                this.setState({
+                    message: message,
+                    confirmActivityDeleted: true
+                })
+
+
+                setTimeout(() => {
+                    this.setState({
+                        message: null,
+                        confirmActivityDeleted: false
+                    })
+
+                }, 2000);
+
+            }
+
             if (activityId2 == "light_intensity") {
                 this.setState({
                     study: "ต่ำ",
