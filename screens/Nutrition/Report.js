@@ -39,7 +39,35 @@ class Report extends Component {
     }
     componentDidMount() {
         const { nutrition_mission, user, nutrition_activity_id_Mission, statusGetNutritionActivityIdMission } = this.props;
-        const { assessmentKit, assessmentKitActivities, multiplChoice, checkList } = this.state;
+        const { assessmentKit, assessmentKitActivities, multiplChoice, checkList, numberArrayCheck } = this.state;
+        
+        //START-----------------------------เพิ่มมาเพื่อแก้บัคข้อจาก Tester ข้อ 18-----------------------------
+        let result = assessmentKitActivities && assessmentKitActivities.map((member, i) => {
+            let ke = Object.keys(member);
+            return ke && ke.filter((key_name, l) => {
+                if (key_name != "index") {
+                    if (member[key_name] == true) {
+                        return member;
+                    }
+                }
+
+            })
+        })
+        let len = result && result.filter((res) => {
+            return res.length != 0
+        })
+
+        if (numberArrayCheck === (len && len.length)) {
+            this.setState({
+                numberCheck: true
+            })
+        } else {
+            this.setState({
+                numberCheck: false
+            })
+        }
+   //END-----------------------------เพิ่มมาเพื่อแก้บัคข้อจาก Tester ข้อ 18-----------------------------
+
         if (nutrition_mission.assessment_kit) {
             var assessment_kit = JSON.parse(nutrition_mission.assessment_kit);
             this.setState({
