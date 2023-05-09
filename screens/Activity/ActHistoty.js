@@ -73,7 +73,7 @@ class ActHistoty extends Component {
             itemsYear.push({ label: buddhistYear.toString(), value: year }); // เพิ่ม object ปีเข้าไปใน array
         }
         this.setState({
-            itemsYear2: itemsYear
+            itemsYear2: itemsYear,
         })
 
     }
@@ -154,7 +154,7 @@ class ActHistoty extends Component {
     };
 
     render() {
-        const { selected_year, selected_month, data, currYear, currMonth, } = this.state;
+        const { selected_year, selected_month, data, currYear, currMonth } = this.state;
 
 
         return (
@@ -163,7 +163,13 @@ class ActHistoty extends Component {
                     <View style={[styles.rowView, { justifyContent: "space-between" }]}>
                         <Text style={styles.missionHistory}>ประวัติภารกิจ</Text>
                         <View style={[styles.rowView, { marginTop: 10 }]}>
-                            <Text style={[styles.month, { marginRight: 4 }]}>เดือนนี้</Text>
+                            <TouchableWithoutFeedback onPress={() => this.setState({
+                                selected_month: currMonth,
+                                selected_year: currYear
+                            })}>
+                                <Text style={[styles.month, { marginRight: 4 }]}>เดือนนี้</Text>
+                            </TouchableWithoutFeedback>
+
                             <View style={{ marginTop: -12 }}>
                                 {this.dropdown()}
                             </View>
