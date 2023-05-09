@@ -25,6 +25,7 @@ class Register extends Component {
             isModalVisible: false,
             isFocused: false,
             isFocused2: false,
+            isFocused3: false,
             registerSuccess: false
         };
     }
@@ -154,12 +155,14 @@ class Register extends Component {
 
 
     render() {
-        const { registerSuccess, entry, styleEmil, textErrorEmail, textErrorPassWord, stylePassword, password, email, confirm_password, isModalVisible, isFocused, isFocused2 } = this.state;
+        const { registerSuccess, entry, styleEmil, textErrorEmail, textErrorPassWord, stylePassword, password, email, confirm_password, isModalVisible, isFocused, isFocused2, isFocused3 } = this.state;
         const { t, statusRegister } = this.props;
         const handleFocus = () => this.setState({ isFocused: true })
         const handleBlur = () => this.setState({ isFocused: false })
         const handleFocus2 = () => this.setState({ isFocused2: true })
         const handleBlur2 = () => this.setState({ isFocused2: false })
+        const handleFocus3 = () => this.setState({ isFocused3: true })
+        const handleBlur3 = () => this.setState({ isFocused3: false })
 
         return (
             <LinearGradient
@@ -306,7 +309,7 @@ class Register extends Component {
                                                     style={{
                                                         width: "100%",
                                                         height: 56,
-                                                        borderWidth: stylePassword ? isFocused2 ? 2 : 1 : 2,
+                                                        borderWidth: stylePassword ? isFocused3 ? 2 : 1 : 2,
                                                         paddingLeft: 16,
                                                         paddingRight: 45,
                                                         justifyContent: "center",
@@ -316,15 +319,15 @@ class Register extends Component {
                                                         backgroundColor: ComponentsStyle.white,
                                                         fontFamily: "IBMPlexSansThai-Regular",
                                                         zIndex: 0,
-                                                        borderColor: stylePassword ? isFocused2 ? colors.persianBlue : colors.grey4 : colors.negative1,
+                                                        borderColor: stylePassword ? isFocused3 ? colors.persianBlue : colors.grey4 : colors.negative1,
                                                     }}
                                                     onChangeText={(text) => this.handleChange("confirm_password", text)}
                                                     placeholder={(confirm_password === null) || (confirm_password === '') ? t('atleast8char') : null}
                                                     autoCapitalize='none'
                                                     secureTextEntry={true}
                                                     value={confirm_password}
-                                                    onFocus={handleFocus2}
-                                                    onBlur={handleBlur2}
+                                                    onFocus={handleFocus3}
+                                                    onBlur={handleBlur3}
                                                 />
                                             </View>
                                             <View style={ComponentsStyle.viewTextError}>
