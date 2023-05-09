@@ -269,7 +269,7 @@ class Login extends Component {
                                 <Pressable style={styles.buttonForgotPassword} onPress={() => this.props.navigation.navigate("ForgotPassword")} >
                                     <Text style={styles.textForgotPassword}>{t('forgot_password')}?</Text>
                                 </Pressable>
-                                <Pressable style={[styles.buttonForgotPassword, { marginTop: 2 }]} onPress={() => this.props.navigation.navigate("Register")} >
+                                <Pressable style={[styles.buttonForgotPassword, { marginTop: 0 }]} onPress={() => this.props.navigation.navigate("Register")} >
                                     <Text style={styles.textForgotPassword}>{t('register')}</Text>
                                 </Pressable>
                             </View>
