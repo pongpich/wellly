@@ -17,6 +17,7 @@ import { StackActions } from '@react-navigation/native';
 import { CommonActions } from '@react-navigation/native';
 
 
+
 //บทความ
 import Ab1 from '../../components/exercise/Ab1';
 import Ab2 from '../../components/exercise/Ab2';
@@ -45,6 +46,7 @@ class ArticleTemplate extends Component {
             start: 1,
             heading: null,
             mission_activities: null,
+            week_in_program: null
         };
     }
 
@@ -53,6 +55,10 @@ class ArticleTemplate extends Component {
 
         const { statusPags, id, heading, mission_activities } = this.props.route.params;
 
+        const week_in_program = calculateWeekInProgram(user.start_date);
+        this.setState({
+            week_in_program: week_in_program
+        })
 
         if (statusPags == "ExHistory") {
             this.setState({
@@ -215,7 +221,7 @@ class ArticleTemplate extends Component {
     missionDataView(data) {
 
 
-        const { expanded, start, mission_activities } = this.state
+        const { expanded, start, mission_activities, week_in_program, id } = this.state
         const scoreProgress = 50;
         const deviceWidth = Math.round(Dimensions.get('window').width - 30);
         const deviceHeight = Math.round(Dimensions.get('window').height + 100);
@@ -333,7 +339,11 @@ class ArticleTemplate extends Component {
                         return (
                             <View key={i + "vid"}>
                                 <Pressable
+
+
                                     onPress={() =>
+
+                                        week_in_program == id &&
                                         ((item.id === "light_intensity") || (item.id === "moderate_intensity") || (item.id === "vigorous_intensity") || (item.id === "cardio")) &&
                                         this.actionPress(item.id, item.name)} key={i + "tfb"}
                                 >
@@ -381,6 +391,7 @@ class ArticleTemplate extends Component {
                                         </View>
                                         <View style={styles.viewIconRight}>
                                             {
+                                                week_in_program == id &&
                                                 ((item.id === "light_intensity") || (item.id === "moderate_intensity") || (item.id === "vigorous_intensity") || (item.id === "cardio")) &&
                                                 <Image
                                                     style={{ height: 24, width: 24, zIndex: 1, marginRight: 8 }}
