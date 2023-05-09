@@ -441,7 +441,7 @@ class ArticleTemplate extends Component {
                             {id}
                         </Text>
                     </View>
-                    <View style={ComponentsStyle.nutritionMission}>
+                    <View style={[ComponentsStyle.nutritionMission, { paddingRight: 32 }]}>
                         <Text style={ComponentsStyle.missionHead}>ภารกิจออกกำลังกาย</Text>
                         <Text style={[ComponentsStyle.missionHeading, { marginRight: 32 }]}>{heading}</Text>
                     </View>
