@@ -49,36 +49,6 @@ class Login extends Component {
                 isModalVisible: !isModalVisible
             });
         }
-
-        if (prevState.email != email) {
-
-            let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
-            if (email && reg.test(email) === false) {
-                this.setState({
-                    styleEmil: false,
-                    textErrorEmail: 2
-                });
-            } else {
-                this.setState({
-                    styleEmil: true,
-                    textErrorEmail: null,
-                });
-            }
-        }
-
-        if (prevState.password != password) {
-            if (password && password.length < 8) {
-                this.setState({
-                    stylePassword: false,
-                    textErrorPassWord: 2
-                });
-            } else {
-                this.setState({
-                    stylePassword: true,
-                    textErrorPassWord: null
-                });
-            }
-        }
     }
 
     submitLogin() {
@@ -135,14 +105,48 @@ class Login extends Component {
         })
     };
 
+    outHandleBlur() {
+        const { email } = this.state;
+        this.setState({ isFocused: false });
+        let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+        if (email && reg.test(email) === false) {
+            this.setState({
+                styleEmil: false,
+                textErrorEmail: 2
+            });
+        } else {
+            this.setState({
+                styleEmil: true,
+                textErrorEmail: null,
+            });
+        }
+    }
+
+
+    outHandleBlur2() {
+        const { password } = this.state;
+        this.setState({ isFocused2: false })
+        if (password && password.length < 8) {
+            this.setState({
+                stylePassword: false,
+                textErrorPassWord: 2
+            });
+        } else {
+            this.setState({
+                stylePassword: true,
+                textErrorPassWord: null
+            });
+        }
+    }
+
 
     render() {
         const { entry, styleEmil, textErrorEmail, textErrorPassWord, stylePassword, password, email, isModalVisible, isFocused, isFocused2 } = this.state;
         const { t } = this.props;
         const handleFocus = () => this.setState({ isFocused: true })
-        const handleBlur = () => this.setState({ isFocused: false })
+        const handleBlur = () => this.outHandleBlur();
         const handleFocus2 = () => this.setState({ isFocused2: true })
-        const handleBlur2 = () => this.setState({ isFocused2: false })
+        const handleBlur2 = () => this.outHandleBlur2();
         return (
             <LinearGradient
                 style={ComponentsStyle.container}
