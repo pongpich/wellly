@@ -96,6 +96,7 @@ class AddActivity extends Component {
 
     render() {
         const { stsusColor, isModalVisible2, isModalConter2, study, activity, intensity, type, duration, note } = this.state;
+        const { statusUpdateNumbComp } = this.props;
         /*     const date = new Date();
     
             const day = date.getDate();
@@ -223,11 +224,18 @@ class AddActivity extends Component {
                                 <Text style={styles.textButtonWhite}>ละทิ้ง</Text>
                             </View>
                         </TouchableWithoutFeedback>
-                        <TouchableWithoutFeedback onPress={() => this.saveMission()}>
-                            <View style={styles.buttonBlue}>
-                                <Text style={styles.textButtonRed}>บันทึก</Text>
-                            </View>
-                        </TouchableWithoutFeedback>
+                        {
+                            (statusUpdateNumbComp !== "loading") ?
+                                <TouchableWithoutFeedback onPress={() => this.saveMission()}>
+                                    <View style={styles.buttonBlue}>
+                                        <Text style={styles.textButtonRed}>บันทึก</Text>
+                                    </View>
+                                </TouchableWithoutFeedback>
+                                :
+                                <View style={styles.buttonBlue}>
+                                    <Text style={styles.textButtonRed}>บันทึก</Text>
+                                </View>
+                        }
                     </View>
                 </View>
 
