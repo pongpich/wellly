@@ -13,13 +13,17 @@ import { Video, AVPlaybackStatus } from 'expo-av';
 import { update_popUp_stars } from "../../redux/update";
 import { checkStar, checkTrophy, calculateWeekInProgram, convertFormatDate } from "../../helpers/utils";
 import { useRoute } from '@react-navigation/native';
+import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
+import AnimatedHeader from './AnimatedHeader';
+
+import DATA from './data';
 
 
-const HEADER_MAX_HEIGHT = 500;
-const HEADER_MIN_HEIGHT = 10;
+const HEADER_MAX_HEIGHT = 600;
+const HEADER_MIN_HEIGHT = 100;
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
-
+const HEADER_HEIGHT = HEADER_SCROLL_DISTANCE;
 
 
 const data = Array.from({ length: 30 });
@@ -62,6 +66,7 @@ const Exercise = ({ navigation }) => {
     const animatedScrollYValue = useRef(new Animated.Value(0)).current;
 
 
+
     const Max_Header_Height = (deviceHeight <= 667) ? deviceHeight - 256 : (deviceHeight >= 668) && (deviceHeight <= 736) ? deviceHeight - 156 :
         (deviceHeight >= 737) && (deviceHeight <= 800) ? deviceHeight - 246 : (deviceHeight >= 801) && (deviceHeight <= 844) ? deviceHeight - 286 : (deviceHeight >= 845) && (deviceHeight <= 926) ? deviceHeight - 326 : deviceHeight - 276;
     const Min_Header_Height = 170;
@@ -74,28 +79,17 @@ const Exercise = ({ navigation }) => {
         outputRange: [1, 0.20],
         extrapolate: 'clamp',
     });
-    const headerHeight1 = animatedScrollYValue.interpolate({
-        inputRange: [0, HEADER_SCROLL_DISTANCE],
-        outputRange: [1, 1],
-        extrapolate: 'clamp',
+
+
+
+
+    const insets = useSafeAreaInsets();
+
+    const headerHeight2 = animatedScrollYValue.interpolate({
+        inputRange: [0, HEADER_HEIGHT],
+        outputRange: [HEADER_HEIGHT + insets.top, insets.top + 140],
+        extrapolate: 'clamp'
     });
-
-
-    const animatedHeaderHeight = animatedScrollYValue.interpolate({
-        inputRange: [0, Scroll_Distance],
-        outputRange: [Max_Header_Height, Min_Header_Height],
-        extrapolate: 'clamp',
-        zIndex: 20
-    })
-
-
-    const animateHeaderBackgroundColor = animatedScrollYValue.interpolate({
-        inputRange: [0, Max_Header_Height - Min_Header_Height],
-        outputRange: [1, 1],
-        extrapolate: 'clamp',
-
-    })
-
 
     const refresh = () => {
         navigation.navigate("ExHistory")
@@ -300,11 +294,12 @@ const Exercise = ({ navigation }) => {
     const program = () => {
         const dataTrainingSet = trainingSet && Object.entries(trainingSet);
 
+
         return (
             <>
                 <View style={[styles.centeredVedio, { marginTop: play == true ? 0 : 150 }]}>
                     <View style={styles.modalView}>
-                        <View style={styles.boxModel}>
+                        <View style={styles.boxModel} >
                             <View style={{
                                 height: 212,
                                 zIndex: 1,
@@ -336,7 +331,7 @@ const Exercise = ({ navigation }) => {
                                     </Pressable>
                                 </View>
                             </View>
-                            <ScrollView>
+                            <ScrollView >
                                 <View style={{ marginTop: 16, marginHorizontal: 16, height: "auto" }}>
                                     <Text style={styles.textModeHead}>{groupName}</Text>
                                     <Text style={styles.textModeConter}>เสริมสร้างความแข็งแรงของกล้ามท้อง และ ลำตัว ป้องกันการบาดเจ็บกระดูกสันหลัง เคลื่อนไหวได้ปลอดภัย ลดอาการปวดหลัง</Text>
@@ -483,15 +478,59 @@ const Exercise = ({ navigation }) => {
         )
     }
 
-
     return (
-        <View style={styles.fill}>
+        <View style={{ flex: 1 }} forceInset={{ top: 'always' }}>
+            <Animated.View
+                style={{
+                    position: "relative",
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    zIndex: 10,
+                    height: headerHeight2,
+                    /*  backgroundColor: "red" */
+                }}
+            >
 
-            <Animated.ScrollView
+                <View style={styles.nutritionBox}>
+                    <View style={styles.missionText}>
+                        <View style={styles.missionView}>
+                            <Pressable style={[{ width: 71 }, statusMission === true ? styles.missionPre : styles.programPre]} onPress={() => setStatusMission(true)} >
+                                <Text style={[styles.mission, statusMission === true ? { color: colors.white } : { color: colors.persianBlue }]}>ภารกิจ</Text>
+                            </Pressable>
+                            <Pressable style={[{ marginLeft: 8, width: 89 }, statusMission !== true ? styles.missionPre : styles.programPre]} onPress={() => setStatusMission(false)} >
+                                <Text style={[styles.mission, statusMission !== true ? { color: colors.white } : { color: colors.persianBlue }]}>โปรแกรม</Text>
+                            </Pressable>
+                        </View>
+                        {
+                            statusMission == true ?
+                                <>
+                                    {
+                                        exerciserActivity && exerciserActivity.length > 0 ?
+                                            <Pressable Pressable onPress={() => refresh()} style={styles.historyRight}>
+                                                <Image style={styles.iconImageRight} source={require('../../assets/images/icon/History1.png')} />
+                                            </Pressable>
+                                            :
+                                            <Pressable style={styles.historyRight}>
+                                                <Image style={styles.iconImageRight} source={require('../../assets/images/icon/History.png')} />
+                                            </Pressable>
+                                    }
+                                </>
+                                :
+                                null
+                        }
+
+                    </View>
+                </View>
+
+            </Animated.View>
+            <ScrollView
                 style={styles.fill2}
                 contentContainerStyle={styles.scrollViewContent}
                 scrollEventThrottle={16}
-                onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: animatedScrollYValue } } }], { useNativeDriver: false })}
+                showsVerticalScrollIndicator={false}
+                onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: animatedScrollYValue, } } }], { useNativeDriver: false })}
+
             >
                 <View style={styles.scrollViewContent}>
                     {statusMission === true ?
@@ -590,50 +629,8 @@ const Exercise = ({ navigation }) => {
 
                     }
                 </View>
-            </Animated.ScrollView >
+            </ScrollView >
             <Text style={styles.nutritionText}>ออกกำลังกาย</Text>
-            <View style={styles.nutritionBox}>
-                <Animated.View
-                    style={[
-                        styles.header2,
-                        {
-                            height: animatedHeaderHeight,
-                        }
-
-                    ]}
-                >
-                    <View style={styles.nutritionBox}>
-                        <View style={styles.missionText}>
-                            <View style={styles.missionView}>
-                                <Pressable style={[{ width: 71 }, statusMission === true ? styles.missionPre : styles.programPre]} onPress={() => setStatusMission(true)} >
-                                    <Text style={[styles.mission, statusMission === true ? { color: colors.white } : { color: colors.persianBlue }]}>ภารกิจ</Text>
-                                </Pressable>
-                                <Pressable style={[{ marginLeft: 8, width: 89 }, statusMission !== true ? styles.missionPre : styles.programPre]} onPress={() => setStatusMission(false)} >
-                                    <Text style={[styles.mission, statusMission !== true ? { color: colors.white } : { color: colors.persianBlue }]}>โปรแกรม</Text>
-                                </Pressable>
-                            </View>
-                            {
-                                statusMission == true ?
-                                    <>
-                                        {
-                                            exerciserActivity && exerciserActivity.length > 0 ?
-                                                <Pressable Pressable onPress={() => refresh()} style={styles.historyRight}>
-                                                    <Image style={styles.iconImageRight} source={require('../../assets/images/icon/History1.png')} />
-                                                </Pressable>
-                                                :
-                                                <Pressable style={styles.historyRight}>
-                                                    <Image style={styles.iconImageRight} source={require('../../assets/images/icon/History.png')} />
-                                                </Pressable>
-                                        }
-                                    </>
-                                    :
-                                    null
-                            }
-
-                        </View>
-                    </View>
-                </Animated.View >
-            </View >
             <Animated.View opacity={headerHeight} style={[styles.header]}>
                 <View style={styles.imageView}>
                     <ImageBackground
@@ -792,7 +789,7 @@ const styles = StyleSheet.create({
         backgroundColor: colors.grey7,
     },
     fill2: {
-        marginTop: 170,
+        marginTop: 0,
         zIndex: 1,
     },
 
@@ -809,10 +806,9 @@ const styles = StyleSheet.create({
     },
 
     nutritionBox: {
-        opacity: 1,
-        zIndex: 10,
-        position: 'absolute',
-        width: "100%"
+
+        flex: 1,
+        justifyContent: "flex-end",
     },
     row: {
         position: "relative",
@@ -904,7 +900,7 @@ const styles = StyleSheet.create({
         height: (deviceHeight > 1023) ? deviceHeight : 500
     },
     scrollViewContent: {
-        marginTop: (deviceHeight < 688) ? "33%" : (deviceHeight > 1023) ? "40%" : "51%",
+        marginTop: 16,
         opacity: 1,
         paddingBottom: 100
 
