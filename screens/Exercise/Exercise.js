@@ -182,15 +182,31 @@ const Exercise = ({ navigation }) => {
 
 
 
-    /*   useEffect(() => {  // ตอนกดมาจากหน้าภารกิจ
-          const unsubscribe = navigation.addListener('focus', () => {
-  
-              const { name } = route.params;
-          });
-  
-          return unsubscribe;
-  
-      }, [route.params]); */
+    useEffect(() => {  // ตอนกดมาจากหน้าภารกิจ
+        const unsubscribe = navigation.addListener('focus', () => {
+
+            if (route.params) {
+                const { name } = route.params;
+                allTrainingSet && allTrainingSet.map((item, i) => {
+
+                    if (name === item.name) {
+                        console.log("item", item);
+                        closeeModal(item.id, item.name)
+                        navigation.navigate("Exercise")
+                    }
+                })
+                setStatusMission(false)
+
+            } else {
+                setStatusMission(true)
+                setIsModalVisibleVedio(false)
+            }
+
+        });
+
+        return unsubscribe;
+
+    }, [route.params]);
 
     useEffect(() => {
         if (statusExerciserActivity === "success") {
@@ -556,9 +572,6 @@ const Exercise = ({ navigation }) => {
                                                     </View>
                                                     <View style={styles.programData}>
                                                         <Text style={styles.missionHead}>{item.name}</Text>
-                                                        {/*  <Text style={styles.missionContent} >
-                                                            45 นาที
-                                                        </Text> */}
                                                     </View>
                                                 </View>
                                             </Pressable>

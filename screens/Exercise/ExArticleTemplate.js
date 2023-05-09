@@ -172,8 +172,9 @@ class ArticleTemplate extends Component {
     };
 
     actionPress(id, name) {
+
         //  Core+Balance+Plyometric  Core+Balance
-        if ((name == "Core+Balance+Plyometric") || (name == "Core+Balance")) {
+        if ((name == "Core+Balance+Plyometric") || (name == "Core+Balance") || (name == "Resistance") || (name == "Flexibility")) {
             this.props.navigation.navigate("Exercise", { name: name })
         } else {
             this.props.setIntensityFromExArticleTemplate(id)
@@ -344,7 +345,7 @@ class ArticleTemplate extends Component {
                                     onPress={() =>
 
                                         week_in_program == id &&
-                                        ((item.id === "light_intensity") || (item.id === "moderate_intensity") || (item.id === "vigorous_intensity") || (item.id === "cardio")) &&
+                                        /*   ((item.id === "light_intensity") || (item.id === "moderate_intensity") || (item.id === "vigorous_intensity") || (item.id === "cardio")) && */
                                         this.actionPress(item.id, item.name)} key={i + "tfb"}
                                 >
                                     <View key={i} style={styles.row}>
@@ -392,7 +393,7 @@ class ArticleTemplate extends Component {
                                         <View style={styles.viewIconRight}>
                                             {
                                                 week_in_program == id &&
-                                                ((item.id === "light_intensity") || (item.id === "moderate_intensity") || (item.id === "vigorous_intensity") || (item.id === "cardio")) &&
+                                                /*   ((item.id === "light_intensity") || (item.id === "moderate_intensity") || (item.id === "vigorous_intensity") || (item.id === "cardio")) && */
                                                 <Image
                                                     style={{ height: 24, width: 24, zIndex: 1, marginRight: 8 }}
                                                     source={require('../../assets/images/icon/right.png')}
