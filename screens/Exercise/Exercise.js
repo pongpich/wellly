@@ -420,7 +420,7 @@ const Exercise = ({ navigation }) => {
                                                             <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                                                                 <Text style={styles.missionHead}>{item[1][0].name}</Text>
                                                                 <View style={{ flexDirection: "row" }}>
-                                                                    <Pressable onPress={() => clickPlayExample()}>
+                                                                    <Pressable onPress={() => clickPlayExample(status_male_female === "ชาย" ? item[1][0].img_url_m : item[1][0].img_url_f)}>
                                                                         <Image
                                                                             source={require('../../assets/images/icon/Howto3x.png')}
                                                                             style={{ width: 24, height: 24 }}
