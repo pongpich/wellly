@@ -110,7 +110,7 @@ class ArticleTemplate extends Component {
     slideDown = () => {
         Animated.timing(this.slideAnim, {
             toValue: 1,
-            duration: 500,
+            duration: 400,
             useNativeDriver: false
         }).start();
     };
@@ -118,7 +118,7 @@ class ArticleTemplate extends Component {
     slideUp = () => {
         Animated.timing(this.slideAnim, {
             toValue: 0,
-            duration: 500,
+            duration: 200,
             useNativeDriver: false
         }).start();
     };
@@ -254,6 +254,7 @@ class ArticleTemplate extends Component {
                                 this.slideUp()
                             }
                         }}
+                            showsVerticalScrollIndicator={false}
                             style={{ flex: 1, marginBottom: -40 }}
                         >
                             <View style={{ marginHorizontal: 16, marginTop: -30, height: "100%", }}>

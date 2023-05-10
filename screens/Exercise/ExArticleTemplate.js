@@ -118,7 +118,7 @@ class ArticleTemplate extends Component {
         Animated.timing(this.slideAnim, {
             toValue: 1,
             /* duration: 400, */ //ถ้าต้องการให้มันเร็วขึ้นเวลาเลื่อนขขึ้น
-            duration: 500,
+            duration: 400,
             useNativeDriver: false
         }).start();
     };
@@ -127,7 +127,7 @@ class ArticleTemplate extends Component {
         Animated.timing(this.slideAnim, {
             toValue: 0,
             /*  duration: 200, */ // ถ้าต้องการให้มันเร็วขึ้นเวลาเลื่อนลง
-            duration: 500,
+            duration: 200,
             useNativeDriver: false
         }).start();
     };
@@ -493,7 +493,7 @@ class ArticleTemplate extends Component {
                                 this.slideUp()
                             }
                         }}
-
+                            showsVerticalScrollIndicator={false}
                         >
 
 

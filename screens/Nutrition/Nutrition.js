@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { connect } from 'react-redux';
 import { getNutritionActivity } from "../../redux/get";
 import { convertFormatDate, calculateWeekInProgram } from "../../helpers/utils";
+import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 
 
 
@@ -41,6 +42,14 @@ const Nutrition = ({ navigation }) => {
         inputRange: [0, HEADER_SCROLL_DISTANCE],
         outputRange: [1, 0.20],
         extrapolate: 'clamp',
+    });
+
+    const insets = useSafeAreaInsets();
+
+    const headerHeight2 = animatedScrollYValue.interpolate({
+        inputRange: [0, HEADER_MAX_HEIGHT],
+        outputRange: [HEADER_MAX_HEIGHT + insets.top, insets.top + 140],
+        extrapolate: 'clamp'
     });
 
     const refresh = () => {
@@ -100,6 +109,7 @@ const Nutrition = ({ navigation }) => {
                 style={styles.fill2}
                 contentContainerStyle={styles.scrollViewContent}
                 scrollEventThrottle={16}
+                showsVerticalScrollIndicator={false}
                 onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: animatedScrollYValue } } }], { useNativeDriver: false })}
             >
                 <View style={styles.scrollViewContent}>
@@ -228,6 +238,9 @@ const Nutrition = ({ navigation }) => {
                 </View>
             </Animated.ScrollView >
             <Text style={styles.nutritionText}>โภชนาการ</Text>
+            <Animated.View opacity={headerHeight2} >
+
+            </Animated.View>
             <Animated.View opacity={headerHeight} style={[styles.header]}>
                 <View style={styles.imageView}>
                     <ImageBackground
