@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { SafeAreaView, StatusBar, View, Text, StyleSheet, Animated, Image, ImageBackground, Dimensions, Pressable, ScrollView, TouchableWithoutFeedback, TextInput } from 'react-native';
+import { SafeAreaView, StatusBar, View, Text, StyleSheet, Animated, Image, ImageBackground, Dimensions, Pressable, ScrollView, TouchableWithoutFeedback, TextInput, Keyboard } from 'react-native';
 import colors from '../../constants/colors';
 import ComponentsStyle from '../../constants/components';
 import Modal from "react-native-modal";
@@ -106,169 +106,171 @@ class AddActivity extends Component {
         const currentDate = currentTime();
 
         return (
-            <View style={styles.fill}>
-                <View style={{ height: 58, zIndex: 10, width: "100%", backgroundColor: colors.white }}>
-                    <StatusBar barStyle="dark-content" />
-                </View>
-                <View style={{ height: 48, width: "100%", backgroundColor: colors.white }}>
-                    <View style={{ marginLeft: 16 }}>
-                        {/*           //  this.props.navigation.dispatch(StackActions.replace('Home')) */}
-                        <Pressable onPress={() => this.props.navigation.goBack()}>
-                            <Image
-                                source={require('../../assets/images/icon/caret.png')}
-                            />
-
-                        </Pressable>
+            <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+                <View style={styles.fill}>
+                    <View style={{ height: 58, zIndex: 10, width: "100%", backgroundColor: colors.white }}>
+                        <StatusBar barStyle="dark-content" />
                     </View>
-                </View>
-                <View style={styles.boxConter}>
-                    <View style={styles.missionView}>
-                        <Image
-                            style={styles.activityImage}
-                            source={intensity === 'light_intensity' ? require('../../assets/images/activity/Activitylow.png') : intensity === 'moderate_intensity' ? require('../../assets/images/activity/Activitycenter.png') : require('../../assets/images/activity/Activityhign.png')}
-                        />
-                        <View style={styles.groupText}>
-                            <Text style={styles.headText}>{activity}</Text>
-                            <Text
-                                style={[styles.groupStatus,
-                                { color: (intensity === 'light_intensity') ? colors.secondary_MayaBlue : (intensity === 'moderate_intensity') ? colors.tertiaryYellow : colors.tertiaryMagenta }]
-                                }
-                            >
-                                {(intensity === 'light_intensity') && 'เข้มข้นต่ำ'}
-                                {(intensity === 'moderate_intensity') && 'เข้มข้นปานกลาง'}
-                                {(intensity === 'vigorous_intensity') && 'เข้มข้นสูง'}
-                            </Text>
-                        </View>
-                    </View>
-                    <View style={styles.viewIconRight}>
-                        {
-                            (type !== 'default') &&
+                    <View style={{ height: 48, width: "100%", backgroundColor: colors.white }}>
+                        <View style={{ marginLeft: 16 }}>
+                            {/*           //  this.props.navigation.dispatch(StackActions.replace('Home')) */}
                             <Pressable onPress={() => this.props.navigation.goBack()}>
                                 <Image
-                                    style={styles.chevronImage}
-                                    source={require('../../assets/images/activity/Chevron.png')}
+                                    source={require('../../assets/images/icon/caret.png')}
                                 />
+
                             </Pressable>
-                        }
+                        </View>
                     </View>
-                </View>
-                <View style={[styles.boxConter2, { justifyContent: "space-between" }]}>
-                    <View>
-                        <View style={styles.rowDetails}>
+                    <View style={styles.boxConter}>
+                        <View style={styles.missionView}>
                             <Image
-                                style={styles.chevronImage}
-                                source={require('../../assets/images/activity/Calendar.png')}
+                                style={styles.activityImage}
+                                source={intensity === 'light_intensity' ? require('../../assets/images/activity/Activitylow.png') : intensity === 'moderate_intensity' ? require('../../assets/images/activity/Activitycenter.png') : require('../../assets/images/activity/Activityhign.png')}
                             />
-                            <Text style={styles.textDetails}>{currentDate}{/* 31 ธ.ค. 2566 - 17:50 น. */}</Text>
+                            <View style={styles.groupText}>
+                                <Text style={styles.headText}>{activity}</Text>
+                                <Text
+                                    style={[styles.groupStatus,
+                                    { color: (intensity === 'light_intensity') ? colors.secondary_MayaBlue : (intensity === 'moderate_intensity') ? colors.tertiaryYellow : colors.tertiaryMagenta }]
+                                    }
+                                >
+                                    {(intensity === 'light_intensity') && 'เข้มข้นต่ำ'}
+                                    {(intensity === 'moderate_intensity') && 'เข้มข้นปานกลาง'}
+                                    {(intensity === 'vigorous_intensity') && 'เข้มข้นสูง'}
+                                </Text>
+                            </View>
                         </View>
-                        <View
-                            style={{
-                                borderBottomColor: colors.grey6,
-                                borderBottomWidth: StyleSheet.hairlineWidth,
-                            }}
-                        />
-                        <View style={styles.rowDetails}>
-                            <Image
-                                style={styles.chevronImage}
-                                source={require('../../assets/images/activity/Clock.png')}
-                            />
-                            {/*  <Text style={styles.textDetails}>60 นาที</Text> */}
-                            <TextInput
-                                style={styles.textDetails}
-                                onChangeText={(text) => this.setState({ duration: text })}
-                                value={duration}
-                                keyboardType='numeric'
-                                placeholder="ระยะเวลาที่ใช้"
-                            />
-                            <Text style={styles.textDetails}>นาที</Text>
+                        <View style={styles.viewIconRight}>
+                            {
+                                (type !== 'default') &&
+                                <Pressable onPress={() => this.props.navigation.goBack()}>
+                                    <Image
+                                        style={styles.chevronImage}
+                                        source={require('../../assets/images/activity/Chevron.png')}
+                                    />
+                                </Pressable>
+                            }
                         </View>
-                        <View
-                            style={{
-                                borderBottomColor: colors.grey6,
-                                borderBottomWidth: StyleSheet.hairlineWidth,
-                            }}
-                        />
-                        <View style={styles.rowDetails}>
-                            <Image
-                                style={styles.chevronImage}
-                                source={require('../../assets/images/activity/Note.png')}
-                            />
-                            {/*  <Text style={styles.textDetails}>เดินกินลมม</Text> */}
-                            <TextInput
-                                style={styles.textDetails}
-                                onChangeText={(text) => this.setState({ note: text })}
-                                value={note}
-                                placeholder="โน้ต"
-                            />
-                        </View>
-                        <View
-                            style={{
-                                borderBottomColor: colors.grey6,
-                                borderBottomWidth: StyleSheet.hairlineWidth,
-                            }}
-                        />
                     </View>
-                    {/*  <View style={{ alignItems: "center" }}>
+                    <View style={[styles.boxConter2, { justifyContent: "space-between" }]}>
+                        <View>
+                            <View style={styles.rowDetails}>
+                                <Image
+                                    style={styles.chevronImage}
+                                    source={require('../../assets/images/activity/Calendar.png')}
+                                />
+                                <Text style={styles.textDetails}>{currentDate}{/* 31 ธ.ค. 2566 - 17:50 น. */}</Text>
+                            </View>
+                            <View
+                                style={{
+                                    borderBottomColor: colors.grey6,
+                                    borderBottomWidth: StyleSheet.hairlineWidth,
+                                }}
+                            />
+                            <View style={styles.rowDetails}>
+                                <Image
+                                    style={styles.chevronImage}
+                                    source={require('../../assets/images/activity/Clock.png')}
+                                />
+                                {/*  <Text style={styles.textDetails}>60 นาที</Text> */}
+                                <TextInput
+                                    style={styles.textDetails}
+                                    onChangeText={(text) => this.setState({ duration: text })}
+                                    value={duration}
+                                    keyboardType='numeric'
+                                    placeholder="ระยะเวลาที่ใช้"
+                                />
+                                <Text style={styles.textDetails}>นาที</Text>
+                            </View>
+                            <View
+                                style={{
+                                    borderBottomColor: colors.grey6,
+                                    borderBottomWidth: StyleSheet.hairlineWidth,
+                                }}
+                            />
+                            <View style={styles.rowDetails}>
+                                <Image
+                                    style={styles.chevronImage}
+                                    source={require('../../assets/images/activity/Note.png')}
+                                />
+                                {/*  <Text style={styles.textDetails}>เดินกินลมม</Text> */}
+                                <TextInput
+                                    style={styles.textDetails}
+                                    onChangeText={(text) => this.setState({ note: text })}
+                                    value={note}
+                                    placeholder="โน้ต"
+                                />
+                            </View>
+                            <View
+                                style={{
+                                    borderBottomColor: colors.grey6,
+                                    borderBottomWidth: StyleSheet.hairlineWidth,
+                                }}
+                            />
+                        </View>
+                        {/*  <View style={{ alignItems: "center" }}>
                         <Pressable onPress={() => this.toggleModal(isModalVisible)} >
                             <Text style={styles.deleteActivity}>ลบกิจกรรมนี้</Text>
                         </Pressable>
                     </View> */}
-                    <View style={[styles.missionView, { marginTop: 32, marginBottom: 40, }]}>
-                        <TouchableWithoutFeedback onPress={() => {
-                            (duration != '') || (note != '') ?
-                                this.toggleModal(isModalVisible2) :
-                                this.props.navigation.goBack();
+                        <View style={[styles.missionView, { marginTop: 32, marginBottom: 40, }]}>
+                            <TouchableWithoutFeedback onPress={() => {
+                                (duration != '') || (note != '') ?
+                                    this.toggleModal(isModalVisible2) :
+                                    this.props.navigation.goBack();
 
-                        }}>
-                            <View style={styles.buttonWhite}>
-                                <Text style={styles.textButtonWhite}>ละทิ้ง</Text>
-                            </View>
-                        </TouchableWithoutFeedback>
-                        {
-                            (statusUpdateNumbComp !== "loading") ?
-                                <TouchableWithoutFeedback onPress={() => this.saveMission()}>
+                            }}>
+                                <View style={styles.buttonWhite}>
+                                    <Text style={styles.textButtonWhite}>ละทิ้ง</Text>
+                                </View>
+                            </TouchableWithoutFeedback>
+                            {
+                                (statusUpdateNumbComp !== "loading") ?
+                                    <TouchableWithoutFeedback onPress={() => this.saveMission()}>
+                                        <View style={styles.buttonBlue}>
+                                            <Text style={styles.textButtonRed}>บันทึก</Text>
+                                        </View>
+                                    </TouchableWithoutFeedback>
+                                    :
                                     <View style={styles.buttonBlue}>
                                         <Text style={styles.textButtonRed}>บันทึก</Text>
                                     </View>
-                                </TouchableWithoutFeedback>
-                                :
-                                <View style={styles.buttonBlue}>
-                                    <Text style={styles.textButtonRed}>บันทึก</Text>
-                                </View>
-                        }
+                            }
+                        </View>
                     </View>
-                </View>
 
-                {
-                    isModalVisible2 === true ?
-                        < View >
-                            <Pressable title="Show modal" onPress={() => this.toggleModal(isModalVisible2)} />
-                            <Modal isVisible={isModalVisible2}
-                                style={{ margin: 0 }}
-                            >
-                                <View View style={{ flex: 1, justifyContent: "flex-end" }} onPress={() => this.toggleModal(isModalVisible2)} >
-                                    <View style={styles.modalView}>
-                                        <Text style={styles.headModal}>หากละทิ้งตอนนี้ ข้อมูลจะไม่ถูกบันทึก</Text>
-                                        <View style={[styles.missionView, { marginTop: 32, marginBottom: 40, }]}>
-                                            <TouchableWithoutFeedback onPress={() => this.toggleModal(isModalVisible2)}>
-                                                <View style={styles.buttonWhite}>
-                                                    <Text style={styles.textButtonWhite}>ย้อนกลับ</Text>
-                                                </View>
-                                            </TouchableWithoutFeedback>
-                                            <TouchableWithoutFeedback onPress={() => this.deleteActivity2(isModalConter2)}>
-                                                <View style={styles.buttonRed}>
-                                                    <Text style={styles.textButtonRed}>ละทิ้ง</Text>
-                                                </View>
-                                            </TouchableWithoutFeedback>
+                    {
+                        isModalVisible2 === true ?
+                            < View >
+                                <Pressable title="Show modal" onPress={() => this.toggleModal(isModalVisible2)} />
+                                <Modal isVisible={isModalVisible2}
+                                    style={{ margin: 0 }}
+                                >
+                                    <View View style={{ flex: 1, justifyContent: "flex-end" }} onPress={() => this.toggleModal(isModalVisible2)} >
+                                        <View style={styles.modalView}>
+                                            <Text style={styles.headModal}>หากละทิ้งตอนนี้ ข้อมูลจะไม่ถูกบันทึก</Text>
+                                            <View style={[styles.missionView, { marginTop: 32, marginBottom: 40, }]}>
+                                                <TouchableWithoutFeedback onPress={() => this.toggleModal(isModalVisible2)}>
+                                                    <View style={styles.buttonWhite}>
+                                                        <Text style={styles.textButtonWhite}>ย้อนกลับ</Text>
+                                                    </View>
+                                                </TouchableWithoutFeedback>
+                                                <TouchableWithoutFeedback onPress={() => this.deleteActivity2(isModalConter2)}>
+                                                    <View style={styles.buttonRed}>
+                                                        <Text style={styles.textButtonRed}>ละทิ้ง</Text>
+                                                    </View>
+                                                </TouchableWithoutFeedback>
+                                            </View>
                                         </View>
                                     </View>
-                                </View>
-                            </Modal>
-                        </View >
-                        : null
-                }
+                                </Modal>
+                            </View >
+                            : null
+                    }
 
-            </View >
+                </View >
+            </TouchableWithoutFeedback>
 
         )
     }

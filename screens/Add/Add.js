@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { SafeAreaView, StatusBar, View, Text, StyleSheet, TextInput, Image, ImageBackground, Dimensions, Pressable, ScrollView, TouchableWithoutFeedback } from 'react-native';
+import { SafeAreaView, StatusBar, View, Text, StyleSheet, TextInput, Image, ImageBackground, Dimensions, Pressable, ScrollView, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import colors from '../../constants/colors';
 import ComponentsStyle from '../../constants/components';
 import Modal from "react-native-modal";
@@ -523,65 +523,66 @@ class Add extends Component {
         const { statusAddActListAddOn } = this.props;
         return (
             <>
-                <View style={{ flex: 1, justifyContent: "flex-end" }} onPress={() => this.toggleModal(isModalVisible)} >
-                    <View style={[styles.modalViewConter, { paddingHorizontal: 16 }]}>
-                        <View style={[styles.missionView, { marginTop: 20, justifyContent: "space-between" }]}>
-                            <TouchableWithoutFeedback onPress={() => this.setState({ statusCreate: "listDataViews" })}>
-                                <Text style={styles.headEdit}>ยกเลิก</Text>
-                            </TouchableWithoutFeedback>
-                            <Text style={styles.headActivity}>เพิ่มกิจกรรม</Text>
-                            {
-                                statusViolence && missionName && (statusAddActListAddOn !== "loading") ?
-                                    <TouchableWithoutFeedback onPress={() => this.addMissionName("listDataViews", missionName, statusViolence, "เพิ่มกิจกรรมแล้ว")}>
-                                        <Text style={styles.headEdit}>เพิ่ม</Text>
-                                    </TouchableWithoutFeedback>
-                                    :
-                                    <Text style={styles.headEditgrey}>เพิ่ม</Text>
-                            }
+                <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+                    <View style={{ flex: 1, justifyContent: "flex-end" }} onPress={() => this.toggleModal(isModalVisible)} >
+                        <View style={[styles.modalViewConter, { paddingHorizontal: 16 }]}>
+                            <View style={[styles.missionView, { marginTop: 20, justifyContent: "space-between" }]}>
+                                <TouchableWithoutFeedback onPress={() => this.setState({ statusCreate: "listDataViews" })}>
+                                    <Text style={styles.headEdit}>ยกเลิก</Text>
+                                </TouchableWithoutFeedback>
+                                <Text style={styles.headActivity}>เพิ่มกิจกรรม</Text>
+                                {
+                                    statusViolence && missionName && (statusAddActListAddOn !== "loading") ?
+                                        <TouchableWithoutFeedback onPress={() => this.addMissionName("listDataViews", missionName, statusViolence, "เพิ่มกิจกรรมแล้ว")}>
+                                            <Text style={styles.headEdit}>เพิ่ม</Text>
+                                        </TouchableWithoutFeedback>
+                                        :
+                                        <Text style={styles.headEditgrey}>เพิ่ม</Text>
+                                }
 
 
+                            </View>
+                            <Text style={[styles.headActivity, { marginTop: 19 }]}>ความเข้มข้น</Text>
+                            {/*   <TouchableWithoutFeedback></TouchableWithoutFeedback> */}
+                            <View style={[styles.missionView, { marginTop: 8 }]}>
+                                <TouchableWithoutFeedback onPress={() => this.violence("light_intensity")}>
+                                    <View style={[styles.boxCreate, statusViolence == "light_intensity" ? { borderWidth: 2, borderColor: colors.persianBlue } : null]}>
+                                        <Image
+                                            style={{ height: 32, width: 32, zIndex: 1 }}
+                                            source={require('../../assets/images/activity/Activitylow.png')}
+                                        />
+                                        <Text style={styles.textImageBoxCreate}>ต่ำ</Text>
+                                    </View>
+                                </TouchableWithoutFeedback>
+                                <TouchableWithoutFeedback onPress={() => this.violence("moderate_intensity")}>
+                                    <View style={[styles.boxCreate, { marginLeft: 16 }, statusViolence == "moderate_intensity" ? { borderWidth: 2, borderColor: colors.persianBlue } : null]}>
+                                        <Image
+                                            style={{ height: 32, width: 32, zIndex: 1 }}
+                                            source={require('../../assets/images/activity/Activitycenter.png')}
+                                        />
+                                        <Text style={styles.textImageBoxCreate}>ปานกลาง</Text>
+                                    </View>
+                                </TouchableWithoutFeedback>
+                                <TouchableWithoutFeedback onPress={() => this.violence("vigorous_intensity")}>
+                                    <View style={[styles.boxCreate, { marginLeft: 16 }, statusViolence == "vigorous_intensity" ? { borderWidth: 2, borderColor: colors.persianBlue } : null]}>
+                                        <Image
+                                            style={{ height: 32, width: 32, zIndex: 1 }}
+                                            source={require('../../assets/images/activity/Activityhign.png')}
+                                        />
+                                        <Text style={styles.textImageBoxCreate}>สูง</Text>
+                                    </View>
+                                </TouchableWithoutFeedback>
+                            </View>
+                            <TextInput
+                                style={styles.input}
+                                onChangeText={(text) => this.setState({ missionName: text })}
+                                value={missionName}
+                                placeholder="ชื่อกิจกรรม"
+                            />
                         </View>
-                        <Text style={[styles.headActivity, { marginTop: 19 }]}>ความเข้มข้น</Text>
-                        {/*   <TouchableWithoutFeedback></TouchableWithoutFeedback> */}
-                        <View style={[styles.missionView, { marginTop: 8 }]}>
-                            <TouchableWithoutFeedback onPress={() => this.violence("light_intensity")}>
-                                <View style={[styles.boxCreate, statusViolence == "light_intensity" ? { borderWidth: 2, borderColor: colors.persianBlue } : null]}>
-                                    <Image
-                                        style={{ height: 32, width: 32, zIndex: 1 }}
-                                        source={require('../../assets/images/activity/Activitylow.png')}
-                                    />
-                                    <Text style={styles.textImageBoxCreate}>ต่ำ</Text>
-                                </View>
-                            </TouchableWithoutFeedback>
-                            <TouchableWithoutFeedback onPress={() => this.violence("moderate_intensity")}>
-                                <View style={[styles.boxCreate, { marginLeft: 16 }, statusViolence == "moderate_intensity" ? { borderWidth: 2, borderColor: colors.persianBlue } : null]}>
-                                    <Image
-                                        style={{ height: 32, width: 32, zIndex: 1 }}
-                                        source={require('../../assets/images/activity/Activitycenter.png')}
-                                    />
-                                    <Text style={styles.textImageBoxCreate}>ปานกลาง</Text>
-                                </View>
-                            </TouchableWithoutFeedback>
-                            <TouchableWithoutFeedback onPress={() => this.violence("vigorous_intensity")}>
-                                <View style={[styles.boxCreate, { marginLeft: 16 }, statusViolence == "vigorous_intensity" ? { borderWidth: 2, borderColor: colors.persianBlue } : null]}>
-                                    <Image
-                                        style={{ height: 32, width: 32, zIndex: 1 }}
-                                        source={require('../../assets/images/activity/Activityhign.png')}
-                                    />
-                                    <Text style={styles.textImageBoxCreate}>สูง</Text>
-                                </View>
-                            </TouchableWithoutFeedback>
-                        </View>
-                        <TextInput
-                            style={styles.input}
-                            onChangeText={(text) => this.setState({ missionName: text })}
-                            value={missionName}
-                            placeholder="ชื่อกิจกรรม"
-                        />
                     </View>
-                </View>
 
-
+                </TouchableWithoutFeedback>
             </>
         )
     }
