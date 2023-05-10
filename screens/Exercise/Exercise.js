@@ -14,9 +14,6 @@ import { update_popUp_stars } from "../../redux/update";
 import { checkStar, checkTrophy, calculateWeekInProgram, convertFormatDate } from "../../helpers/utils";
 import { useRoute } from '@react-navigation/native';
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
-import AnimatedHeader from './AnimatedHeader';
-
-import DATA from './data';
 
 
 const HEADER_MAX_HEIGHT = 600;
@@ -463,7 +460,6 @@ const Exercise = ({ navigation }) => {
                         </View>
                     </View>
                 </View >
-                <Text style={styles.textSub}>โปรแกรมจะบันทึกคะแนนเมื่อเล่นวีดีโอจนจบ</Text>
                 <View style={styles.boxSub}>
                     <Pressable onPress={() => clickProgram()}>
                         <View style={ComponentsStyle.button} >
