@@ -526,8 +526,8 @@ const Exercise = ({ navigation }) => {
             </Animated.View>
             <ScrollView
                 style={styles.fill2}
-                /*   contentContainerStyle={styles.scrollViewContent} */
-                scrollEventThrottle={100}
+                /*  contentContainerStyle={styles.scrollViewContent} */
+                scrollEventThrottle={16}
                 showsVerticalScrollIndicator={false}
                 onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: animatedScrollYValue, } } }], { useNativeDriver: false })}
 
@@ -902,7 +902,7 @@ const styles = StyleSheet.create({
         height: (deviceHeight > 1023) ? deviceHeight : 500
     },
     scrollViewContent: {
-        marginTop: 400,
+        marginTop: 380,
         opacity: 1,
         paddingBottom: 100
 
