@@ -482,10 +482,10 @@ const Exercise = ({ navigation }) => {
         <View style={{ flex: 1 }} forceInset={{ top: 'always' }}>
             <Animated.View
                 style={{
-                    position: "relative",
-                    top: 0,
-                    left: 0,
-                    right: 0,
+                    position: 'absolute',
+                    /*                     top: 0,
+                                        left: 0,
+                                        right: 0, */
                     zIndex: 10,
                     height: headerHeight2,
                     /*  backgroundColor: "red" */
@@ -526,108 +526,110 @@ const Exercise = ({ navigation }) => {
             </Animated.View>
             <ScrollView
                 style={styles.fill2}
-                contentContainerStyle={styles.scrollViewContent}
-                scrollEventThrottle={16}
+                /*   contentContainerStyle={styles.scrollViewContent} */
+                scrollEventThrottle={100}
                 showsVerticalScrollIndicator={false}
                 onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: animatedScrollYValue, } } }], { useNativeDriver: false })}
 
             >
                 <View style={styles.scrollViewContent}>
-                    {statusMission === true ?
-                        <>
-                            {
-                                exerciserActivity ?
+                    <View >
+                        {statusMission === true ?
+                            <>
+                                {
+                                    exerciserActivity ?
 
-                                    exerciserActivity.map((item, i) => {
-                                        if (item.status_mission_activities !== "completed") {
-                                            return (
-                                                <Pressable onPress={() => navigation.navigate("ExArticleTemplate", { id: item.week_in_program, mission_id: item.mission_id, heading: item.heading, mission_activities: item.mission_activities, statusPags: "Exercise" })} key={i + "tfb"}>
-                                                    <View key={i} style={styles.row}>
-                                                        <View style={styles.numberView}>
-                                                            <Text style={styles.number}>{item.week_in_program}</Text>
-                                                        </View>
-                                                        <View style={styles.missionData}>
-                                                            <Text style={styles.missionHead} >{item.heading}</Text>
-                                                            <Text style={[styles.missionContent, { marginRight: 16 }]} key="i+ v3t">
-                                                                {item.short_content}
-                                                            </Text>
-                                                            {
-                                                                (days == "Sunday") && (week_program_user == item.week_in_program) ?
-                                                                    <View style={styles.notifiedRed}>
-                                                                        <Text style={styles.notifiedTextRed}>
-                                                                            วันสุดท้าย
-                                                                        </Text>
-                                                                    </View> :
-                                                                    ((item.quiz_activities_number == null) && (week_program_user != item.week_in_program)) ?
-                                                                        <View style={styles.notifiedYellow} >
-                                                                            <Text style={styles.notifiedTextYellow}>
-                                                                                ภารกิจที่ยังทำไม่เสร็จ
+                                        exerciserActivity.map((item, i) => {
+                                            if (item.status_mission_activities !== "completed") {
+                                                return (
+                                                    <Pressable onPress={() => navigation.navigate("ExArticleTemplate", { id: item.week_in_program, mission_id: item.mission_id, heading: item.heading, mission_activities: item.mission_activities, statusPags: "Exercise" })} key={i + "tfb"}>
+                                                        <View key={i} style={styles.row}>
+                                                            <View style={styles.numberView}>
+                                                                <Text style={styles.number}>{item.week_in_program}</Text>
+                                                            </View>
+                                                            <View style={styles.missionData}>
+                                                                <Text style={styles.missionHead} >{item.heading}</Text>
+                                                                <Text style={[styles.missionContent, { marginRight: 16 }]} key="i+ v3t">
+                                                                    {item.short_content}
+                                                                </Text>
+                                                                {
+                                                                    (days == "Sunday") && (week_program_user == item.week_in_program) ?
+                                                                        <View style={styles.notifiedRed}>
+                                                                            <Text style={styles.notifiedTextRed}>
+                                                                                วันสุดท้าย
                                                                             </Text>
-                                                                        </View> : null
-                                                            }
+                                                                        </View> :
+                                                                        ((item.quiz_activities_number == null) && (week_program_user != item.week_in_program)) ?
+                                                                            <View style={styles.notifiedYellow} >
+                                                                                <Text style={styles.notifiedTextYellow}>
+                                                                                    ภารกิจที่ยังทำไม่เสร็จ
+                                                                                </Text>
+                                                                            </View> : null
+                                                                }
+                                                            </View>
+                                                            <View style={styles.viewIconRight}>
+                                                                <Image
+                                                                    style={{ height: 24, width: 24, zIndex: 1, marginRight: 8 }}
+                                                                    source={require('../../assets/images/icon/right.png')}
+                                                                />
+                                                            </View>
                                                         </View>
-                                                        <View style={styles.viewIconRight}>
+                                                    </Pressable>
+                                                )
+                                            }
+
+
+                                        })
+                                        :
+                                        <View style={styles.imptyImage}>
+                                            <Image
+                                                style={{ height: 84, width: 120, zIndex: 1 }}
+                                                source={require('../../assets/images/exercise/Empty_State.png')}
+                                            />
+                                            <Text style={styles.imptyTextHead}>ยังไม่มีภารกิจในตอนนี้</Text>
+                                        </View>
+                                }
+
+                            </>
+                            :
+                            <>
+                                {
+                                    allTrainingSet && allTrainingSet ?
+
+                                        allTrainingSet && allTrainingSet.map((item, i) => {
+                                            return (
+                                                <Pressable key={i + "vp"} onPress={() => closeeModal(item.id, item.name)} >
+                                                    <View key={i + "vd"} style={styles.rowProgram}>
+                                                        <View style={styles.imageProgramView} key={i + "vd2"}>
                                                             <Image
-                                                                style={{ height: 24, width: 24, zIndex: 1, marginRight: 8 }}
-                                                                source={require('../../assets/images/icon/right.png')}
+                                                                style={{ height: "100%", width: "100%", zIndex: 1 }}
+                                                                source={
+                                                                    item.id === "core_balance" ? require('../../assets/images/cover_page/core_balance.jpg') :
+                                                                        item.id === "core_balance_plyo" ? require('../../assets/images/cover_page/core_balance_plyo.jpg') :
+                                                                            item.id === "flexibility" ? require('../../assets/images/cover_page/flexibility.jpg') :
+                                                                                require('../../assets/images/cover_page/resistance.jpg')}
                                                             />
+                                                        </View>
+                                                        <View style={styles.programData}>
+                                                            <Text style={styles.missionHead}>{item.name}</Text>
                                                         </View>
                                                     </View>
                                                 </Pressable>
                                             )
-                                        }
+                                        })
+                                        :
+                                        <View style={styles.imptyImage}>
+                                            <Image
+                                                style={{ height: 84, width: 120, zIndex: 1 }}
+                                                source={require('../../assets/images/exercise/Empty_State.png')}
+                                            />
+                                            <Text style={styles.imptyTextHeadProgram}>โปรแกรมออกกำลังกายจะปลดล็อคตั้งแต่ภารกิจที่ 4 เป็นต้นไป</Text>
+                                        </View>
+                                }
+                            </>
 
-
-                                    })
-                                    :
-                                    <View style={styles.imptyImage}>
-                                        <Image
-                                            style={{ height: 84, width: 120, zIndex: 1 }}
-                                            source={require('../../assets/images/exercise/Empty_State.png')}
-                                        />
-                                        <Text style={styles.imptyTextHead}>ยังไม่มีภารกิจในตอนนี้</Text>
-                                    </View>
-                            }
-
-                        </>
-                        :
-                        <>
-                            {
-                                allTrainingSet && allTrainingSet ?
-
-                                    allTrainingSet && allTrainingSet.map((item, i) => {
-                                        return (
-                                            <Pressable key={i + "vp"} onPress={() => closeeModal(item.id, item.name)} >
-                                                <View key={i + "vd"} style={styles.rowProgram}>
-                                                    <View style={styles.imageProgramView} key={i + "vd2"}>
-                                                        <Image
-                                                            style={{ height: "100%", width: "100%", zIndex: 1 }}
-                                                            source={
-                                                                item.id === "core_balance" ? require('../../assets/images/cover_page/core_balance.jpg') :
-                                                                    item.id === "core_balance_plyo" ? require('../../assets/images/cover_page/core_balance_plyo.jpg') :
-                                                                        item.id === "flexibility" ? require('../../assets/images/cover_page/flexibility.jpg') :
-                                                                            require('../../assets/images/cover_page/resistance.jpg')}
-                                                        />
-                                                    </View>
-                                                    <View style={styles.programData}>
-                                                        <Text style={styles.missionHead}>{item.name}</Text>
-                                                    </View>
-                                                </View>
-                                            </Pressable>
-                                        )
-                                    })
-                                    :
-                                    <View style={styles.imptyImage}>
-                                        <Image
-                                            style={{ height: 84, width: 120, zIndex: 1 }}
-                                            source={require('../../assets/images/exercise/Empty_State.png')}
-                                        />
-                                        <Text style={styles.imptyTextHeadProgram}>โปรแกรมออกกำลังกายจะปลดล็อคตั้งแต่ภารกิจที่ 4 เป็นต้นไป</Text>
-                                    </View>
-                            }
-                        </>
-
-                    }
+                        }
+                    </View>
                 </View>
             </ScrollView >
             <Text style={styles.nutritionText}>ออกกำลังกาย</Text>
@@ -789,7 +791,7 @@ const styles = StyleSheet.create({
         backgroundColor: colors.grey7,
     },
     fill2: {
-        marginTop: 0,
+        marginTop: 180,
         zIndex: 1,
     },
 
@@ -900,7 +902,7 @@ const styles = StyleSheet.create({
         height: (deviceHeight > 1023) ? deviceHeight : 500
     },
     scrollViewContent: {
-        marginTop: 16,
+        marginTop: 400,
         opacity: 1,
         paddingBottom: 100
 
