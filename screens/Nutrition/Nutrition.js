@@ -103,6 +103,14 @@ const Nutrition = ({ navigation }) => {
 
     }, [navigation]);
 
+
+    function substringText(text) {
+        const startIndex = 0;
+        const endIndex = 80;
+        const substring = text.substring(startIndex, endIndex);
+        return substring + "...";
+    };
+
     return (
         <View style={styles.fill}>
             <Animated.ScrollView
@@ -150,7 +158,8 @@ const Nutrition = ({ navigation }) => {
                                                 <View style={styles.missionData}>
                                                     <Text style={styles.missionHead}>{item.heading}</Text>
                                                     <Text style={styles.missionContent}>
-                                                        {item.short_content}
+                                                        {/* เพิ่ม substringText เพื่อย่อเนื้อหาใน card ให้เหลือ 2บรรทัด... */}
+                                                        {substringText(item.short_content)}
                                                     </Text>
                                                     {
 
@@ -189,7 +198,8 @@ const Nutrition = ({ navigation }) => {
                                                 <View style={styles.missionData}>
                                                     <Text style={styles.missionHead}>{item.heading}</Text>
                                                     <Text style={styles.missionContent}>
-                                                        {item.short_content}
+                                                        {/* เพิ่ม substringText เพื่อย่อเนื้อหาใน card ให้เหลือ 2บรรทัด... */}
+                                                        {substringText(item.short_content)}
                                                     </Text>
                                                     {
 
