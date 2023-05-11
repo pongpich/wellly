@@ -212,6 +212,7 @@ class ActHistoty extends Component {
                     </View>
 
                     <ScrollView horizontal={true}
+                        showsVerticalScrollIndicator={false}
                         style={{ paddingBottom: 20 }}>
                         <View style={[styles.rowView, { justifyContent: "flex-end" }]}>
                             {
@@ -294,7 +295,7 @@ class ActHistoty extends Component {
                     {
                         data.length == 0 && this.noActivity()
                     }
-                    <ScrollView>
+                    <ScrollView showsVerticalScrollIndicator={false}>
                         <View style={{
                             marginTop: 20, marginBottom: 100, flex: 1
                         }}>

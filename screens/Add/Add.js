@@ -437,7 +437,7 @@ class Add extends Component {
 
                         {data == true ?
 
-                            <ScrollView>
+                            <ScrollView showsVerticalScrollIndicator={false}>
                                 {
                                     activity_list_show &&
                                     activity_list_show.map((item, i) => {
@@ -644,7 +644,7 @@ class Add extends Component {
                                     </View>
                                 </View>
                                 <View style={{ marginTop: 24 }}>
-                                    <ScrollView>
+                                    <ScrollView showsVerticalScrollIndicator={false}>
                                         {
                                             activity_list_addon_show &&
                                             activity_list_addon_show.map((item, i) => {

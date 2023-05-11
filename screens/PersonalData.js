@@ -162,7 +162,7 @@ class PersonalData extends Component {
             <SafeAreaView style={styles.container}>
                 <View style={{ flex: 1, width: "100%" }}>
                     <KeyboardAwareScrollView keyboardShouldPersistTaps='always'>
-                        <ScrollView style={styles.areaView} keyboardShouldPersistTaps="always">
+                        <ScrollView style={styles.areaView} keyboardShouldPersistTaps="always" showsVerticalScrollIndicator={false}>
                             <View>
                                 <Text style={styles.textHead}>{t('personal_information')}</Text>
                                 <Text style={styles.textInputHead}>{t('sex')}</Text>

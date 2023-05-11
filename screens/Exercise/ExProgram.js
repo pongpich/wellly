@@ -176,7 +176,7 @@ const ExProgram = ({ navigation }) => {
                     </View>
                 </View>
                 <View style={styles.conterVideo}>
-                    <ScrollView>
+                    <ScrollView showsVerticalScrollIndicator={false}>
                         <View style={{ marginBottom: 400, }}>
                             {
                                 dataTrainingSet && dataTrainingSet.map((item, i) => {

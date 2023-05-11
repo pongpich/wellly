@@ -299,7 +299,7 @@ class OnboardingResults extends Component {
                     visible={popupShow}
                 >
                     <View style={{ backgroundColor: "#000000aa", flex: 1 }}>
-                        <ScrollView style={{ backgroundColor: "#ffffff", margin: 30, padding: 20, borderRadius: 10, flex: 1 }}>
+                        <ScrollView style={{ backgroundColor: "#ffffff", margin: 30, padding: 20, borderRadius: 10, flex: 1 }} showsVerticalScrollIndicator={false}>
                             {
                                 (selectedRef === 'diabetes') &&
                                 <Text style={{

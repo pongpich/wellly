@@ -189,7 +189,7 @@ class Register extends Component {
                         </Pressable>
                     </View>
                 </View>
-                <ScrollView style={{ flex: 1 }}>
+                <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
 
                     <View style={{ marginTop: -80, marginBottom: 40 }}>
                         {
