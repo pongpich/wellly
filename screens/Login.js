@@ -156,7 +156,7 @@ class Login extends Component {
             >
 
                 <View style={[ComponentsStyle.viewStyle]}>
-                    <ScrollView  showsVerticalScrollIndicator={false}>
+                    <ScrollView showsVerticalScrollIndicator={false}>
                         <View style={[ComponentsStyle.viewStyle_1, { marginTop: -10 }]}>
                             <View style={styles.viewtinyLogo}>
                                 <View style={styles.circle_1} />
@@ -209,7 +209,7 @@ class Login extends Component {
                                     entry === false ?
 
                                         <TouchableOpacity style={styles.entry} onPress={() => this.handleChangeEntry("entry", true)}>
-                                            <Image
+                                            <Image style={styles.entryImage}
                                                 source={require('../assets/images/icon/entry_off.png')}
                                             />
                                         </TouchableOpacity>
@@ -247,6 +247,7 @@ class Login extends Component {
                                         onChangeText={(text) => this.handleChange("password", text)}
                                         placeholder={(password === null) || (password === '') ? t('atleast8char') : null}
                                         autoCapitalize='none'
+                                        returnKeyType={'done'}
                                         secureTextEntry={entry}
                                         value={password}
                                         onFocus={handleFocus2}
@@ -393,7 +394,12 @@ const styles = StyleSheet.create({
         width: "12%"
     },
     entryImage: {
-        zIndex: 4
+        zIndex: 4,
+        /*  width: "100%",
+         height: "100%" */
+        height: 17,
+        width: 23,
+
     },
     buttonForgotPassword: {
         marginTop: 16,
