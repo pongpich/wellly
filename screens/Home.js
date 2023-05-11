@@ -185,7 +185,12 @@ class Home extends Component {
             outputRange: [1, 1, 1],
         });
 
-
+        function substringText(text) {
+            const startIndex = 0;
+            const endIndex = 70;
+            const substring = text.substring(startIndex, endIndex);
+            return substring + "...";
+        };
 
         return (
             <View style={[ComponentsStyle.container, { backgroundColor: colors.mayaBlue60 }]}>
@@ -239,7 +244,10 @@ class Home extends Component {
                                             {latest_nutrition_activity && latest_nutrition_activity.heading && latest_nutrition_activity.short_content ?
                                                 <>
                                                     <Text style={styles.missionHead}>{latest_nutrition_activity && latest_nutrition_activity.heading}</Text>
-                                                    <Text style={[styles.missionContent, { marginRight: 16 }]}> {latest_nutrition_activity && latest_nutrition_activity.short_content}</Text>
+                                                    <Text style={[styles.missionContent, { marginRight: 16 }]}>
+                                                        {/* เพิ่ม substringText เพื่อย่อเนื้อหาใน card ให้เหลือ 2บรรทัด... */}
+                                                        {substringText(latest_nutrition_activity && latest_nutrition_activity.short_content)}
+                                                    </Text>
                                                 </>
                                                 :
                                                 <>
@@ -284,7 +292,10 @@ class Home extends Component {
                                         {latest_exercise_activity.heading && latest_exercise_activity.short_content ?
                                             <>
                                                 <Text style={styles.missionHead}>{latest_exercise_activity.heading}</Text>
-                                                <Text style={[styles.missionContent, { marginRight: 16 }]}>{latest_exercise_activity.short_content}</Text>
+                                                <Text style={[styles.missionContent, { marginRight: 16 }]}>
+                                                    {/* เพิ่ม substringText เพื่อย่อเนื้อหาใน card ให้เหลือ 2บรรทัด... */}
+                                                    {substringText(latest_exercise_activity.short_content)}
+                                                </Text>
                                             </>
                                             :
                                             <>

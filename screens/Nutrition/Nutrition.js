@@ -106,7 +106,7 @@ const Nutrition = ({ navigation }) => {
 
     function substringText(text) {
         const startIndex = 0;
-        const endIndex = 80;
+        const endIndex = 70;
         const substring = text.substring(startIndex, endIndex);
         return substring + "...";
     };
@@ -157,7 +157,7 @@ const Nutrition = ({ navigation }) => {
                                                 </View>
                                                 <View style={styles.missionData}>
                                                     <Text style={styles.missionHead}>{item.heading}</Text>
-                                                    <Text style={styles.missionContent}>
+                                                    <Text style={[styles.missionContent, { marginRight: 16 }]}>
                                                         {/* เพิ่ม substringText เพื่อย่อเนื้อหาใน card ให้เหลือ 2บรรทัด... */}
                                                         {substringText(item.short_content)}
                                                     </Text>
@@ -197,7 +197,7 @@ const Nutrition = ({ navigation }) => {
                                                 </View>
                                                 <View style={styles.missionData}>
                                                     <Text style={styles.missionHead}>{item.heading}</Text>
-                                                    <Text style={styles.missionContent}>
+                                                    <Text style={[styles.missionContent, { marginRight: 16 }]}>
                                                         {/* เพิ่ม substringText เพื่อย่อเนื้อหาใน card ให้เหลือ 2บรรทัด... */}
                                                         {substringText(item.short_content)}
                                                     </Text>
