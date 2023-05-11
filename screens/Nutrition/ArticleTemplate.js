@@ -242,12 +242,6 @@ class ArticleTemplate extends Component {
                 <ScrollView
                     contentContainerStyle={styles.content}
                     showsVerticalScrollIndicator={false}
-
-                    /*  onScroll={
-                         Animated.event([{ nativeEvent: { contentOffset: { y: this.state.scrollY, } } }], {
-                             useNativeDriver: false,
- 
-                         })} */
                     onScroll={Animated.event(
                         [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
                         {
@@ -268,26 +262,8 @@ class ArticleTemplate extends Component {
                             }
                         }
                     )}
-
                     scrollEventThrottle={16}
-
                 >
-                    {/*  onScroll={(event) => {
-                        const scrolling = event.nativeEvent.contentOffset.y;
-                        if (scrolling > 100) {
-                            this.setState({
-                                statusBarColor: "dark"
-                            })
-
-                            this.slideDown()
-                        } else {
-                            this.setState({
-                                statusBarColor: "light"
-                            })
-                            this.slideUp()
-                        }
-                    }} */}
-
                     <View style={{ marginHorizontal: 16, marginTop: -30,/*  height: "100%", */ }}>
                         {
                             study ?
@@ -306,7 +282,7 @@ class ArticleTemplate extends Component {
                             transform: [{
                                 translateY: this.slideAnim.interpolate({
                                     inputRange: [0, 1],
-                                    outputRange: [0, 100]
+                                    outputRange: [0, 200]
                                 })
                             }],
 
