@@ -510,7 +510,7 @@ const Exercise = ({ navigation }) => {
                 }}
             >
 
-                {/*   <View style={styles.nutritionBox}>
+                <View style={styles.nutritionBox}>
                     <View style={styles.missionText}>
                         <View style={styles.missionView}>
                             <Pressable style={[{ width: 71 }, statusMission === true ? styles.missionPre : styles.programPre]} onPress={() => setStatusMission(true)} >
@@ -539,7 +539,7 @@ const Exercise = ({ navigation }) => {
                         }
 
                     </View>
-                </View> */}
+                </View>
 
             </Animated.View>
 
