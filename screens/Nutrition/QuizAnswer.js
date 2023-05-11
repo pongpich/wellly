@@ -130,7 +130,7 @@ class QuizAnswer extends Component {
         return (
             <View style={styles.container}>
                 {/* <StatusBar barStyle="dark-content" /> */}
-                <ScrollView style={styles.boxSelection}>
+                <ScrollView style={styles.boxSelection} showsVerticalScrollIndicator={false}>
                     <View style={styles.boxScore}>
                         <AnimatedCircularProgress
                             size={120}

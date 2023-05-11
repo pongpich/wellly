@@ -24,7 +24,7 @@ class History extends Component {
             <SafeAreaView style={styles.container}>
                 <View style={styles.marginBox}>
                     <Text style={styles.missionHistory}>ประวัติภารกิจ</Text>
-                    <ScrollView>
+                    <ScrollView  showsVerticalScrollIndicator={false}>
                         {
                             nutrition_activity && nutrition_activity.map((item, i) => (
                                 //ส่ง params ผ่าน route

@@ -197,7 +197,7 @@ class QuizAnswer extends Component {
                 <View>
                     <Text style={styles.exercise}>แบบฝึกหัด</Text>
                     <Text style={styles.week}>สัปดาห์ที่ {week_in_program}</Text>
-                    <ScrollView>
+                    <ScrollView showsVerticalScrollIndicator={false}>
                         <View style={styles.areaView}>
                             {
                                 data && data.map((value, i,) => {

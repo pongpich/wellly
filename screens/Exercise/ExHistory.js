@@ -44,7 +44,7 @@ class History extends Component {
             <SafeAreaView style={styles.container}>
                 <View style={styles.marginBox}>
                     <Text style={styles.missionHistory}>ประวัติภารกิจ</Text>
-                    <ScrollView >
+                    <ScrollView showsVerticalScrollIndicator={false} >
                         <View style={{ marginBottom: 60 }}>
 
                             {

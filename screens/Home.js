@@ -209,7 +209,7 @@ class Home extends Component {
 
         return (
             <View style={[ComponentsStyle.container, { backgroundColor: colors.mayaBlue60 }]}>
-                <ScrollView>
+                <ScrollView showsVerticalScrollIndicator={false}>
 
                     <ImageBackground source={require('../assets/images/home/Logo.png')} style={{ marginTop: 0 }}  >
                         <View style={{ marginBottom: 80 }}>

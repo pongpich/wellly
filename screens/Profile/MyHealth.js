@@ -15,7 +15,7 @@ class MyHealth extends Component {
         const personal_data = user && JSON.parse(user.personal_data)
         return (
             <View style={styles.container}>
-                <ScrollView>
+                <ScrollView showsVerticalScrollIndicator={false}>
                     <Text style={styles.headText}>ข้อมูลส่วนตัว</Text>
                     <View style={{ justifyContent: "space-between", flexDirection: "row", paddingHorizontal: 16 }}>
                         <Text style={styles.topic}>เพศ</Text>

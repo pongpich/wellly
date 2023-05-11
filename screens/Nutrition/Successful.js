@@ -28,7 +28,7 @@ export default class Successful extends Component {
         const { quiz } = this.state;
         return (
             <View style={styles.studyContent}>
-                <ScrollView style={{ flex: 1, }}>
+                <ScrollView style={{ flex: 1, }} showsVerticalScrollIndicator={false}>
                     <Carbohydrate />
                 </ScrollView>
                 <View style={styles.boxButtonWhite}>

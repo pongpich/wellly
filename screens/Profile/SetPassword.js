@@ -183,7 +183,7 @@ class SetPassword extends Component {
         return (
 
             <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' && 'padding'} keyboardVerticalOffset={100}>
-                <ScrollView contentContainerStyle={styles.scrollContent}>
+                <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
                     <View style={{ flex: 1, }}  >
                         <View style={{ alignItems: "center", marginTop: 24 }}>
                             <Image style={{ width: 120, height: 120 }}

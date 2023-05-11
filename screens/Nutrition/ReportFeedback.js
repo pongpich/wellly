@@ -145,7 +145,7 @@ class ReportFeedback extends Component {
                                     this.slideUp()
                                 }
                             }}
-
+                                showsVerticalScrollIndicator={false}
                             >
                                 <View style={styles.conterScrollView}>
 

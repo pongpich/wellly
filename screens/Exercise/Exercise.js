@@ -328,7 +328,9 @@ const Exercise = ({ navigation }) => {
                                     </Pressable>
                                 </View>
                             </View>
-                            <ScrollView >
+                            <ScrollView
+                                showsVerticalScrollIndicator={false}
+                            >
                                 <View style={{ marginTop: 16, marginHorizontal: 16, height: "auto" }}>
                                     <Text style={styles.textModeHead}>{groupName}</Text>
                                     <Text style={styles.textModeConter}>เสริมสร้างความแข็งแรงของกล้ามท้อง และ ลำตัว ป้องกันการบาดเจ็บกระดูกสันหลัง เคลื่อนไหวได้ปลอดภัย ลดอาการปวดหลัง</Text>

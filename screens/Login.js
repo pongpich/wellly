@@ -156,7 +156,7 @@ class Login extends Component {
             >
 
                 <View style={[ComponentsStyle.viewStyle]}>
-                    <ScrollView>
+                    <ScrollView  showsVerticalScrollIndicator={false}>
                         <View style={[ComponentsStyle.viewStyle_1, { marginTop: -10 }]}>
                             <View style={styles.viewtinyLogo}>
                                 <View style={styles.circle_1} />

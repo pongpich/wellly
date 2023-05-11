@@ -196,7 +196,7 @@ class Profile extends Component {
 
                     </View>
                 </View>
-                <ScrollView>
+                <ScrollView showsVerticalScrollIndicator={false}>
                     <View style={{ marginTop: 25 }}>
                         <Pressable onPress={() => this.props.navigation.navigate("Badge")}>
                             <View style={{ justifyContent: "space-between", flexDirection: "row" }}>

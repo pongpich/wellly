@@ -40,7 +40,7 @@ class Report extends Component {
     componentDidMount() {
         const { nutrition_mission, user, nutrition_activity_id_Mission, statusGetNutritionActivityIdMission } = this.props;
         const { assessmentKit, assessmentKitActivities, multiplChoice, checkList, numberArrayCheck } = this.state;
-        
+
         //START-----------------------------เพิ่มมาเพื่อแก้บัคข้อจาก Tester ข้อ 18-----------------------------
         let result = assessmentKitActivities && assessmentKitActivities.map((member, i) => {
             let ke = Object.keys(member);
@@ -66,7 +66,7 @@ class Report extends Component {
                 numberCheck: false
             })
         }
-   //END-----------------------------เพิ่มมาเพื่อแก้บัคข้อจาก Tester ข้อ 18-----------------------------
+        //END-----------------------------เพิ่มมาเพื่อแก้บัคข้อจาก Tester ข้อ 18-----------------------------
 
         if (nutrition_mission.assessment_kit) {
             var assessment_kit = JSON.parse(nutrition_mission.assessment_kit);
@@ -267,7 +267,7 @@ class Report extends Component {
                 <View>
                     <Text style={styles.exercise}>การประเมิน</Text>
                     <Text style={styles.week}>สัปดาห์ที่ {week_in_program}</Text>
-                    <ScrollView>
+                    <ScrollView showsVerticalScrollIndicator={false}>
                         <View style={styles.areaView}>
                             {
                                 assessmentKit && assessmentKit.map((value, i) => {

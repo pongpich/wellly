@@ -224,7 +224,8 @@ class HealthData extends Component {
             <SafeAreaView style={styles.container}>
                 <View style={styles.areaView}>
                     <KeyboardAwareScrollView keyboardShouldPersistTaps='always'>
-                        <ScrollView keyboardShouldPersistTaps="always">
+                        <ScrollView keyboardShouldPersistTaps="always"
+                            showsVerticalScrollIndicator={false}>
                             <View style={styles.areaViewPag}>
                                 <Text style={styles.textHead}>{t('health_information')}</Text>
                                 <Text style={styles.textInputHead}>{t('blood_sugar')}</Text>
@@ -452,7 +453,8 @@ class HealthData extends Component {
                     visible={popupShow}
                 >
                     <View style={{ backgroundColor: "#000000aa", flex: 1 }}>
-                        <ScrollView style={{ backgroundColor: "#ffffff", margin: 30, padding: 20, borderRadius: 10, flex: 1 }}>
+                        <ScrollView style={{ backgroundColor: "#ffffff", margin: 30, padding: 20, borderRadius: 10, flex: 1 }}
+                            showsVerticalScrollIndicator={false}>
                             {
                                 (selectedRef === 'diabetes') &&
                                 <Text style={{

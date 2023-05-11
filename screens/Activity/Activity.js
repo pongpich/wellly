@@ -253,7 +253,7 @@ const Activity = ({ navigation }) => {
                             </View>
                             {
                                 statusChart === 2 &&
-                                <ScrollView horizontal={true}>
+                                <ScrollView horizontal={true}  showsVerticalScrollIndicator={false}>
                                     <View style={{ flexDirection: 'row', marginVertical: 8, paddingHorizontal: 16, paddingBottom: 8 }}>
                                         {[...Array(month)].map((_, index) => (
                                             month === index + 1 ?
