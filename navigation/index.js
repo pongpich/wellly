@@ -421,6 +421,9 @@ function getBottomTabse(route) {
   if (routeName == "Register") {
     return 'none';
   }
+  if (routeName == "Pdpa") {
+    return 'none';
+  }
 
 
   return 'flex';
