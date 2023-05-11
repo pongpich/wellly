@@ -242,6 +242,7 @@ class Home extends Component {
                             </View>
                         </View>
                     </ImageBackground>
+
                     <View style={{ paddingLeft: 16, marginTop: -33 }}>
 
                         {
@@ -293,6 +294,7 @@ class Home extends Component {
                         }
 
 
+
                         {
                             latest_exercise_activity && latest_exercise_activity.status_mission_activities !== "completed" &&
                             <Pressable
@@ -342,7 +344,28 @@ class Home extends Component {
 
 
                     </View>
+
                     <View style={styles.boxRowView} >
+                        <View style={styles.line}>
+                            <View style={styles.line1} />
+                            <View style={styles.line2} />
+                            <View style={styles.line2} />
+                            <View style={styles.line2} />
+                            <View style={styles.line2} />
+                            <View style={styles.line2} />
+                            <View style={styles.line2} />
+                            <View style={styles.line2} />
+                            <View style={styles.line2} />
+                            <View style={styles.line2} />
+                            <View style={styles.line2} />
+                            <View style={styles.line2} />
+                            <View style={styles.line2} />
+                            <View style={styles.line2} />
+                            <View style={styles.line2} />
+                            <View style={styles.line2} />
+
+                            <View style={[styles.line1, { marginLeft: 15 }]} />
+                        </View>
                         <Text style={styles.challenge}>ชาเลนจ์</Text>
 
                         {
@@ -692,6 +715,30 @@ const styles = StyleSheet.create({
         width: "100%",
         marginBottom: 8,
         borderRadius: 16,
+    },
+    line: {
+        marginTop: -2,
+        position: "absolute",
+        paddingHorizontal: 16,
+        flexDirection: "row",
+        zIndex: 4
+    },
+    line1: {
+        zIndex: 4,
+        borderColor: colors.mayaBlue60,
+        borderWidth: 2,
+        width: 10
+
+
+    },
+    line2: {
+        marginLeft: 11,
+        zIndex: 4,
+        borderColor: colors.mayaBlue60,
+        borderWidth: 2,
+        width: 10
+
+
     }
 });
 
