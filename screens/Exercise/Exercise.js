@@ -474,6 +474,14 @@ const Exercise = ({ navigation }) => {
         )
     }
 
+
+    function substringText(text) {
+        const startIndex = 0;
+        const endIndex = 70;
+        const substring = text.substring(startIndex, endIndex);
+        return substring + "...";
+    };
+
     return (
         <View style={{ flex: 1 }} forceInset={{ top: 'always' }}>
             <Animated.View
@@ -546,7 +554,8 @@ const Exercise = ({ navigation }) => {
                                                             <View style={styles.missionData}>
                                                                 <Text style={styles.missionHead} >{item.heading}</Text>
                                                                 <Text style={[styles.missionContent, { marginRight: 16 }]} key="i+ v3t">
-                                                                    {item.short_content}
+                                                                    {/* เพิ่ม substringText เพื่อย่อเนื้อหาใน card ให้เหลือ 2บรรทัด... */}
+                                                                    {substringText(item.short_content)}
                                                                 </Text>
                                                                 {
                                                                     (days == "Sunday") && (week_program_user == item.week_in_program) ?
