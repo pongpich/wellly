@@ -137,12 +137,12 @@ const styles = StyleSheet.create({
     boxImage: {
         marginTop: 32,
         width: (deviceHeight > 1023) ? "100%" : 343,
-        height: (deviceHeight > 1023) ? 400 : 208
+        height: (deviceHeight > 1023) ? 390 : 208
     },
     boxImage2: {
         marginTop: 32,
         width: (deviceHeight > 1023) ? "100%" : 343,
-        height: (deviceHeight > 1023) ? 1100 : 425,
+        height: (deviceHeight > 1023) ? 390 : 390,
     },
 })
 
