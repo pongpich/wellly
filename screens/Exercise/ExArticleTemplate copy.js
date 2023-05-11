@@ -38,7 +38,7 @@ class ArticleTemplate extends Component {
         this.slideAnim = new Animated.Value(0);
 
         this.state = {
-            scrollY: new Animated.Value(0),
+
             study: true,
             statusBarColor: "light",
             id: null,
@@ -414,11 +414,7 @@ class ArticleTemplate extends Component {
 
     render() {
         const { study, statusBarColor, id, heading, mission_activities } = this.state;
-        const headerHeight = this.state.scrollY.interpolate({
-            inputRange: [0, 200],
-            outputRange: [150, 16],
-            extrapolate: 'clamp',
-        });
+
 
         return (
             <View style={styles.container}>
@@ -439,95 +435,95 @@ class ArticleTemplate extends Component {
                         </Pressable>
                     </View>
                 </View>
-                <Animated.View style={[styles.header, { height: headerHeight }]}>
-                    <View style={ComponentsStyle.headBox}>
-                        <View style={ComponentsStyle.areaNumber}>
-                            <Text style={ComponentsStyle.areaNumberText}>
-                                {id}
-                            </Text>
-                        </View>
-                        <View style={[ComponentsStyle.nutritionMission, { paddingRight: 32 }]}>
-                            <Text style={ComponentsStyle.missionHead}>ภารกิจออกกำลังกาย</Text>
-                            <Text style={[ComponentsStyle.missionHeading, { marginRight: 32 }]}>{heading}</Text>
-                        </View>
+                <View style={ComponentsStyle.headBox}>
+                    <View style={ComponentsStyle.areaNumber}>
+                        <Text style={ComponentsStyle.areaNumberText}>
+                            {id}
+                        </Text>
                     </View>
-
-                </Animated.View>
-                <View style={styles.heading}>
-                    <View style={{ paddingLeft: 16, width: "50%" }}>
-                        <View style={[study === true ? styles.boxHeadingActive : styles.boxHeading]}>
-                            <Pressable onPress={() => this.setState({
-                                study: true
-                            })}>
-                                <Text style={study === true ? styles.sectionActive : styles.section}> ความรู้</Text>
-                            </Pressable>
-                        </View>
-                    </View>
-
-                    <View style={{ paddingRight: 16, width: "50%" }}>
-
-                        <View style={study !== true ? styles.boxHeadingActive : styles.boxHeading}>
-                            <Pressable onPress={() => this.setState({
-                                study: false
-                            })}>
-                                <Text style={study !== true ? styles.sectionActive : styles.section}> ภารกิจ</Text>
-                            </Pressable>
-                        </View>
-
+                    <View style={[ComponentsStyle.nutritionMission, { paddingRight: 32 }]}>
+                        <Text style={ComponentsStyle.missionHead}>ภารกิจออกกำลังกาย</Text>
+                        <Text style={[ComponentsStyle.missionHeading, { marginRight: 32 }]}>{heading}</Text>
                     </View>
                 </View>
-                <ScrollView
-                    contentContainerStyle={styles.content}
-                    showsVerticalScrollIndicator={false}
-                    onScroll={Animated.event(
-                        [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
-                        {
-                            useNativeDriver: false,
-                            listener: event => {
-                                const scrolling = event.nativeEvent.contentOffset.y;
-                                if (scrolling > 200) {
-                                    this.setState({
-                                        statusBarColor: "dark"
-                                    });
-                                    this.slideDown();
-                                } else {
-                                    this.setState({
-                                        statusBarColor: "light"
-                                    });
-                                    this.slideUp();
-                                }
-                            }
-                        }
-                    )}
-                    scrollEventThrottle={16}
-                >
-                    <View style={{ marginTop: 0,/*  height: "100%", */ }}>
 
-                        {
-                            study ?
-                                this.renderCheckArticle()
-                                :
-                                this.missionDataView(mission_activities)
-                        }
-                        {
-                            study &&
-                            <View style={[styles.areaViewText, { marginTop: 30, marginBottom: 100, paddingBottom: 50 }]}>
-                                <Text style={{
-                                    color: colors.grey1,
-                                    fontSize: ComponentsStyle.fontSize16,
-                                    fontFamily: "IBMPlexSansThai-Regular",
-                                    textAlign: "center"
-                                }}>{'Ref. (อ้างอิง)'}</Text>
-                                <Text style={{
-                                    color: colors.grey1,
-                                    fontSize: ComponentsStyle.fontSize16,
-                                    fontFamily: "IBMPlexSansThai-Regular",
-                                    textAlign: "center"
-                                }}>{`Campbell , B. (2021). NSCA's guide to sport and exercise nutrition, 2nd edition.`}</Text>
+                <Animated.View style={{
+                    transform: [{
+                        translateY: this.slideAnim.interpolate({
+                            inputRange: [0, 1],
+                            outputRange: [0, -180]
+                        })
+                    }],
+                    flex: 1,
+                    zIndex: 2,
+                    marginTop: -10,
+                    marginBottom: -300,
+
+                }}>
+                    <View style={[ComponentsStyle.contentBox]}>
+                        <View style={styles.heading}>
+                            <View style={study === true ? styles.boxHeadingActive : styles.boxHeading}>
+                                <Pressable onPress={() => this.setState({
+                                    study: true
+                                })}>
+                                    <Text style={study === true ? styles.sectionActive : styles.section}> ความรู้</Text>
+                                </Pressable>
                             </View>
-                        }
-                    </View>
-                </ScrollView>
+                            <View style={study !== true ? styles.boxHeadingActive : styles.boxHeading}>
+                                <Pressable onPress={() => this.setState({
+                                    study: false
+                                })}>
+                                    <Text style={study !== true ? styles.sectionActive : styles.section}> ภารกิจ</Text>
+                                </Pressable>
+                            </View>
+                        </View>
+
+                        <ScrollView onScroll={(event) => {
+                            const scrolling = event.nativeEvent.contentOffset.y;
+                            if (scrolling > 100) {
+                                this.setState({
+                                    statusBarColor: "dark"
+                                })
+
+                                this.slideDown()
+                            } else {
+                                this.setState({
+                                    statusBarColor: "light"
+                                })
+                                this.slideUp()
+                            }
+                        }}
+                            showsVerticalScrollIndicator={false}
+                        >
+
+
+                            {
+                                study ?
+                                    this.renderCheckArticle()
+                                    :
+                                    this.missionDataView(mission_activities)
+                            }
+                            {
+                                study &&
+                                <View style={[styles.areaViewText, { marginTop: 30, marginBottom: 100, paddingBottom: 50 }]}>
+                                    <Text style={{
+                                        color: colors.grey1,
+                                        fontSize: ComponentsStyle.fontSize16,
+                                        fontFamily: "IBMPlexSansThai-Regular",
+                                        textAlign: "center"
+                                    }}>{'Ref. (อ้างอิง)'}</Text>
+                                    <Text style={{
+                                        color: colors.grey1,
+                                        fontSize: ComponentsStyle.fontSize16,
+                                        fontFamily: "IBMPlexSansThai-Regular",
+                                        textAlign: "center"
+                                    }}>{`Campbell , B. (2021). NSCA's guide to sport and exercise nutrition, 2nd edition.`}</Text>
+                                </View>
+                            }
+                        </ScrollView>
+                    </View >
+                </Animated.View >
+
 
                 <View style={{ zIndex: 10, }}>
                     <Animated.View
@@ -575,31 +571,18 @@ const styles = StyleSheet.create({
         backgroundColor: colors.white
 
     },
-    /*  heading: {
-         marginTop: 16,
-         flexDirection: "row",
-         marginHorizontal: 16,
- 
-     },
-  */
     heading: {
-        width: "100%",
-        marginTop: -16,
-        paddingTop: 16,
+        marginTop: 16,
         flexDirection: "row",
-        /*         marginHorizontal: 16, */
-        backgroundColor: colors.white,
-        zIndex: 10,
-        borderTopLeftRadius: 16,
-        borderTopRightRadius: 16,
-        justifyContent: "flex-end",
-        /*      marginBottom: 24 */
+        marginHorizontal: 16,
+
     },
+
     boxHeadingActive: {
         alignItems: "center",
         justifyContent: "center",
         height: 49,
-        /*   width: "50%", */
+        width: "50%",
         paddingTop: 8,
         paddingBottom: 10,
         borderBottomWidth: 2,
@@ -609,7 +592,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         height: 49,
-        /*   width: "50%", */
+        width: "50%",
         paddingTop: 8,
         paddingBottom: 10,
         borderBottomWidth: 2,
@@ -832,17 +815,6 @@ const styles = StyleSheet.create({
         alignItems: "flex-end",
         justifyContent: "center",
 
-    },
-    header: {
-        marginTop: -16,
-        backgroundColor: colors.persianBlue,
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: 200
-    },
-    content: {
-        backgroundColor: colors.white,
-        zIndex: 12
     },
 });
 
