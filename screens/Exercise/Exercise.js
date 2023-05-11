@@ -474,12 +474,26 @@ const Exercise = ({ navigation }) => {
         )
     }
 
-
     function substringText(text) {
         const startIndex = 0;
-        const endIndex = 70;
-        const substring = text.substring(startIndex, endIndex);
-        return substring + "...";
+        let endIndex = 0;
+        //วนลูปเพื่อทดลอง Text ว่าแต่ละอันควรกำหนด endIndex เป็นเท่าไหร่ เพื่อให้ได้ความกว้าง 59 ตัวอักษรแบบไม่นับสระที่อยู่ด้านบน กับ ด้านล่าง
+        for (let i = 0; i < text.length; i++) {
+            const substring1 = text.substring(startIndex, i);
+            let consonants = substring1.match(/[ก-ฮ ะาเแโใไำ]/g);
+            if (consonants) {
+                //ความกว้างที่เหมาะสมคือ 59 โดยไม่นับพวกสระที่อยู่ด้านบน,ล่างของพยัญชนะ เพราะไม่เพิ่มความกว้างข้อความ
+                if (consonants.length === 59) {
+                    endIndex = i;
+                }
+                //ถ้าวนลูปรอบสุดท้ายแล้วยังไม่ได้ 59 ก็ให้กำหนดความยาว i เลย
+                if ((i >= (text.length - 1)) && (consonants.length < 59)) {
+                    endIndex = i;
+                }
+            }
+        }
+        const substring2 = text.substring(startIndex, endIndex);
+        return substring2 + "...";
     };
 
     return (
