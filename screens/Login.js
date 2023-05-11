@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Pressable, SafeAreaView, Image, ScrollView, TouchableOpacity, TextInput, Text, Linking, KeyboardAvoidingView, Platform, Dimensions } from 'react-native';
+import { View, StyleSheet, Pressable, SafeAreaView, Image, ScrollView, TouchableOpacity, TextInput, Text, Linking, Platform, Dimensions } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { loginUser } from "../redux/auth";
 import colors from '../constants/colors';
@@ -52,6 +52,8 @@ class Login extends Component {
     }
 
     submitLogin() {
+
+        console.log("sadasdas");
         const { email, password } = this.state;
         let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
         if ((email === "") || (email === null)) {
@@ -184,7 +186,7 @@ class Login extends Component {
                                     onChangeText={(text) => this.handleChange("email", text)}
                                     keyboardType="email-address"
                                     returnKeyType={"next"}
-                                    autoFocus={true}
+                                    /* autoFocus={true} */
                                     onFocus={handleFocus}
                                     onBlur={handleBlur}
                                     placeholder={t('email')}
@@ -318,6 +320,7 @@ class Login extends Component {
                         </View>
                     </Modal>
                 </View>
+
             </LinearGradient >
 
         )
