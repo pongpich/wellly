@@ -156,21 +156,23 @@ export default StyleSheet.create({
     },
     headBox: {
         width: "100%",
-        height: "auto",
+        /*  height: "auto", */
         paddingHorizontal: 16,
-        paddingTop: 30,
-        paddingBottom: 32,
+        /*    paddingTop: 30, */
+        /*   paddingBottom: 32, */
         backgroundColor: colors.persianBlue,
         flexDirection: "row"
     },
     areaNumber: {
+
         height: 56,
         width: 56,
         borderColor: colors.secondary_MayaBlue,
         borderWidth: 4,
         borderRadius: 100,
         alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center",
+
     },
     areaNumberText: {
         fontSize: 32,

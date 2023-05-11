@@ -23,12 +23,13 @@ import Snb2 from '../../components/knowledge/Snb2';
 import Snc1 from '../../components/knowledge/Snc1';
 import Snc2 from '../../components/knowledge/Snc2';
 
+
 class ArticleTemplate extends Component {
     constructor(props) {
         super(props);
         this.slideAnim = new Animated.Value(0);
+
         this.state = {
-            scrollY: new Animated.Value(0),
             numberMission: null,
             study: true,
             quiz: null,
@@ -38,6 +39,7 @@ class ArticleTemplate extends Component {
             isModalVisible: false,
             week_in_program: null,
             mission_id: "null"
+
         };
     }
 
@@ -116,7 +118,7 @@ class ArticleTemplate extends Component {
     slideUp = () => {
         Animated.timing(this.slideAnim, {
             toValue: 0,
-            duration: 100,
+            duration: 200,
             useNativeDriver: false
         }).start();
     };
@@ -171,18 +173,11 @@ class ArticleTemplate extends Component {
         )
     }
 
-
     render() {
-        const headerHeight = this.state.scrollY.interpolate({
-            inputRange: [0, 200],
-            outputRange: [150, 16],
-            extrapolate: 'clamp',
-        });
-
-        const { statusBarColor, numberMission, study, statusQuiz, statusMission, isModalVisible, week_in_program, mission_id, scrollY, slideAnimation } = this.state;
+        const { statusBarColor, numberMission, study, statusQuiz, statusMission, isModalVisible, week_in_program, mission_id } = this.state;
         const { nutrition_activity_id_Mission } = this.props;
         const { heading } = this.props.route.params;
-        console.log("contentOffset", slideAnimation);
+
         return (
             <View style={styles.container}>
                 <View style={{ height: 44, zIndex: 10, width: "100%", backgroundColor: statusBarColor === "light" ? colors.persianBlue : colors.white }}>
@@ -202,103 +197,80 @@ class ArticleTemplate extends Component {
                         </Pressable>
                     </View>
                 </View>
-                <Animated.View style={[styles.header, { height: headerHeight }]}>
-                    <View style={ComponentsStyle.headBox}>
-                        <View style={ComponentsStyle.areaNumber}>
-                            <Text style={ComponentsStyle.areaNumberText}>
-                                {numberMission}
-                            </Text>
-                        </View>
-                        <View style={ComponentsStyle.nutritionMission}>
-                            <Text style={ComponentsStyle.missionHead}>ภารกิจโภชนาการ</Text>
-                            <Text style={[ComponentsStyle.missionHeading, { marginRight: 32 }]}>{heading}</Text>
-                        </View>
+                <View style={ComponentsStyle.headBox}>
+                    <View style={ComponentsStyle.areaNumber}>
+                        <Text style={ComponentsStyle.areaNumberText}>
+                            {numberMission}
+                        </Text>
                     </View>
-
-                </Animated.View>
-                <View style={styles.heading}>
-                    <View style={{ paddingLeft: 16, width: "50%" }}>
-                        <View style={[study === true ? styles.boxHeadingActive : styles.boxHeading]}>
-                            <Pressable onPress={() => this.setState({
-                                study: true
-                            })}>
-                                <Text style={study === true ? styles.sectionActive : styles.section}> ความรู้</Text>
-                            </Pressable>
-                        </View>
-                    </View>
-
-                    <View style={{ paddingRight: 16, width: "50%" }}>
-
-                        <View style={study !== true ? styles.boxHeadingActive : styles.boxHeading}>
-                            <Pressable onPress={() => this.setState({
-                                study: false
-                            })}>
-                                <Text style={study !== true ? styles.sectionActive : styles.section}> ภารกิจ</Text>
-                            </Pressable>
-                        </View>
-
+                    <View style={ComponentsStyle.nutritionMission}>
+                        <Text style={ComponentsStyle.missionHead}>ภารกิจโภชนาการ</Text>
+                        <Text style={[ComponentsStyle.missionHeading, { marginRight: 32 }]}>{heading}</Text>
                     </View>
                 </View>
-                <ScrollView
-                    contentContainerStyle={styles.content}
-                    showsVerticalScrollIndicator={false}
 
-                    /*  onScroll={
-                         Animated.event([{ nativeEvent: { contentOffset: { y: this.state.scrollY, } } }], {
-                             useNativeDriver: false,
- 
-                         })} */
-                    onScroll={Animated.event(
-                        [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
-                        {
-                            useNativeDriver: false,
-                            listener: event => {
-                                const scrolling = event.nativeEvent.contentOffset.y;
-                                if (scrolling > 200) {
-                                    this.setState({
-                                        statusBarColor: "dark"
-                                    });
-                                    this.slideDown();
-                                } else {
-                                    this.setState({
-                                        statusBarColor: "light"
-                                    });
-                                    this.slideUp();
-                                }
+                <Animated.View style={{
+                    transform: [{
+                        translateY: this.slideAnim.interpolate({
+                            inputRange: [0, 1],
+                            outputRange: (week_in_program == "3") || (week_in_program == "4") ? [0, -180] : [0, -140]
+                        })
+                    }],
+                    flex: 1,
+                    zIndex: 2,
+                    marginTop: -10,
+                    marginBottom: -200,
+                }}>
+                    <View style={ComponentsStyle.contentBox}>
+                        <View style={styles.heading}>
+                            <View style={study === true ? styles.boxHeadingActive : styles.boxHeading}>
+                                <Pressable onPress={() => this.setState({
+                                    study: true
+                                })}>
+                                    <Text style={study === true ? styles.sectionActive : styles.section}> ความรู้</Text>
+                                </Pressable>
+                            </View>
+                            <View style={study !== true ? styles.boxHeadingActive : styles.boxHeading}>
+                                <Pressable onPress={() => this.setState({
+                                    study: false
+                                })}>
+                                    <Text style={study !== true ? styles.sectionActive : styles.section}> ภารกิจ</Text>
+                                </Pressable>
+                            </View>
+                        </View>
+
+                        <ScrollView onScroll={(event) => {
+                            const scrolling = event.nativeEvent.contentOffset.y;
+                            if (scrolling > 100) {
+                                this.setState({
+                                    statusBarColor: "dark"
+                                })
+
+                                this.slideDown()
+                            } else {
+                                this.setState({
+                                    statusBarColor: "light"
+                                })
+                                this.slideUp()
                             }
-                        }
-                    )}
+                        }}
+                            showsVerticalScrollIndicator={false}
+                            style={{ flex: 1, marginBottom: -40 }}
+                        >
+                            <View style={{ marginHorizontal: 16, marginTop: -30, height: "100%", }}>
+                                {
+                                    study ?
+                                        this.renderCheckArticle()
+                                        :
+                                        <View style={{ marginTop: 2 }}>
+                                            <Mission />
+                                        </View>
+                                }
+                            </View>
+                        </ScrollView>
+                    </View >
+                </Animated.View >
 
-                    scrollEventThrottle={16}
-
-                >
-                    {/*  onScroll={(event) => {
-                        const scrolling = event.nativeEvent.contentOffset.y;
-                        if (scrolling > 100) {
-                            this.setState({
-                                statusBarColor: "dark"
-                            })
-
-                            this.slideDown()
-                        } else {
-                            this.setState({
-                                statusBarColor: "light"
-                            })
-                            this.slideUp()
-                        }
-                    }} */}
-
-                    <View style={{ marginHorizontal: 16, marginTop: -30,/*  height: "100%", */ }}>
-                        {
-                            study ?
-                                this.renderCheckArticle()
-                                :
-                                <View style={{ marginTop: 2 }}>
-                                    <Mission />
-                                </View>
-                        }
-                    </View>
-                </ScrollView>
 
                 <View style={{ zIndex: 10, }}>
                     <Animated.View
@@ -309,13 +281,12 @@ class ArticleTemplate extends Component {
                                     outputRange: [0, 100]
                                 })
                             }],
-
+                            marginBottom: 0,
                             bottom: 0,
                             height: ((week_in_program == "4") || (mission_id == "snc1") && study == true) ? 0 : 80,
                             paddingHorizontal: 16,
                             backgroundColor: colors.white,
-                            position: "absolute",
-                            width: "100%"
+
                         }}
                     >
 
@@ -366,6 +337,9 @@ class ArticleTemplate extends Component {
                         }
                     </Animated.View>
                 </View>
+
+
+
                 <View>
                     <Modal isVisible={isModalVisible}
 
@@ -389,10 +363,13 @@ class ArticleTemplate extends Component {
                         </View>
                     </Modal>
                 </View>
-            </View>
-        );
+            </View >
+
+
+        )
     }
 }
+
 const deviceHeight = Math.round(Dimensions.get('window').height);
 
 const styles = StyleSheet.create({
@@ -403,24 +380,17 @@ const styles = StyleSheet.create({
 
     },
     heading: {
-        width: "100%",
-        marginTop: -16,
-        paddingTop: 16,
+        marginTop: 16,
         flexDirection: "row",
-        /*         marginHorizontal: 16, */
-        backgroundColor: colors.white,
-        zIndex: 10,
-        borderTopLeftRadius: 16,
-        borderTopRightRadius: 16,
-        justifyContent: "flex-end",
-        /*      marginBottom: 24 */
+        marginHorizontal: 16,
+
     },
     boxHeadingActive: {
         alignItems: "center",
         justifyContent: "center",
         height: 49,
-        /* Í */
-        /*   paddingTop: 8, */
+        width: "50%",
+        paddingTop: 8,
         paddingBottom: 10,
         borderBottomWidth: 2,
         borderColor: colors.persianBlue
@@ -429,8 +399,8 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         height: 49,
-        /*  width: "50%", */
-        /*  paddingTop: 8, */
+        width: "50%",
+        paddingTop: 8,
         paddingBottom: 10,
         borderBottomWidth: 2,
         borderColor: colors.grey4
@@ -544,23 +514,9 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: colors.persianBlue,
         textAlign: "center",
-
     },
-    header: {
-        marginTop: -16,
-        backgroundColor: colors.persianBlue,
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: 200
-    },
-    content: {
-        backgroundColor: colors.white,
-        zIndex: 12
-    },
-
 
 });
-
 
 const mapStateToProps = ({ authUser, getData }) => {
     const { user } = authUser;
@@ -574,5 +530,3 @@ export default connect(
     mapStateToProps,
     mapActionsToProps
 )(withTranslation()(ArticleTemplate));
-
-/* export default ScrollableHeader; */
