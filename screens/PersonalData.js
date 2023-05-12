@@ -52,33 +52,13 @@ class PersonalData extends Component {
 
         // เช็ค ค่าที่กรอก age, weight, height,
         // อายุ
-        if (prevState.age !== age) {
-            let vaData = validatePersonalAge(age);
-            this.setState({
-                statusAge: vaData.statusAge,
-                statusTextAge: vaData.statusTextAge
-            })
-        }
+
 
         // น้ำหนัก
-        if (prevState.weight !== weight) {
-            let vaData = validatePersonalWeight(weight);
-            this.setState({
-                statusWeight: vaData.statusWeight,
-                statusTextWeight: vaData.statusTextWeight
-            })
-        }
+
 
         // ส่วนสุง
-        if (prevState.height !== height) {
-            validatePersonalHeight
-            let vaData = validatePersonalHeight(height);
-            this.setState({
-                statusHeight: vaData.statusHeight,
-                statusTextHeight: vaData.statusTextHeight
-            })
 
-        }
 
         if ((prevProps.statusUpdatePersonalData !== statusUpdatePersonalData) && (statusUpdatePersonalData === "success")) {
             this.props.navigation.navigate("HealthData");
@@ -153,6 +133,44 @@ class PersonalData extends Component {
 
     }
 
+
+    outHandleBlur() {
+        this.handleBlur("isFocusedAge", false)
+        const { age } = this.state
+        if (age !== null) {
+            let vaData = validatePersonalAge(age);
+            this.setState({
+                statusAge: vaData.statusAge,
+                statusTextAge: vaData.statusTextAge
+            })
+        }
+    }
+    outHandleBlur1() {
+        this.handleBlur("isFocusedWeight", false)
+        const { weight } = this.state
+        if (weight !== null) {
+            let vaData = validatePersonalWeight(weight);
+            this.setState({
+                statusWeight: vaData.statusWeight,
+                statusTextWeight: vaData.statusTextWeight
+            })
+        }
+    }
+    outHandleBlur2() {
+        this.handleBlur("isFocusedHeight", false)
+        const { height } = this.state
+        if (height !== null) {
+            validatePersonalHeight
+            let vaData = validatePersonalHeight(height);
+            this.setState({
+                statusHeight: vaData.statusHeight,
+                statusTextHeight: vaData.statusTextHeight
+            })
+
+        }
+    }
+
+
     render() {
         const { sexIndex, sex, age, weight, height, exercise, statusAge, statusTextAge, statusWeight, statusTextWeight, statusHeight, statusTextHeight,
             isFocusedAge, isFocusedWeight, isFocusedHeight } = this.state;
@@ -193,7 +211,7 @@ class PersonalData extends Component {
                                     <Text style={styles.textRightTnput}>{t('year')}</Text>
                                     <TextInput
                                         onFocus={(text) => this.handleFocus("isFocusedAge", true)}
-                                        onBlur={(text) => this.handleBlur("isFocusedAge", false)}
+                                        onBlur={(text) => this.outHandleBlur()}
                                         style={statusAge === true ? isFocusedAge === true ? ComponentsStyle.inputIsFocused : ComponentsStyle.input : ComponentsStyle.inputError}
 
                                         onChangeText={(text) => this.handleChange("age", text)}
@@ -232,7 +250,7 @@ class PersonalData extends Component {
                                     <Text style={styles.textRightTnput}>{t('kg')}</Text>
                                     <TextInput
                                         onFocus={(text) => this.handleFocus("isFocusedWeight", true)}
-                                        onBlur={(text) => this.handleBlur("isFocusedWeight", false)}
+                                        onBlur={(text) => this.outHandleBlur1()}
                                         style={statusWeight === true ? isFocusedWeight === true ? ComponentsStyle.inputIsFocused : ComponentsStyle.input : ComponentsStyle.inputError}
                                         onChangeText={(text) => this.handleChange("weight", text)}
                                         placeholder="0"
@@ -273,7 +291,7 @@ class PersonalData extends Component {
                                     <Text style={styles.textRightTnput}>{t('cm')}</Text>
                                     <TextInput
                                         onFocus={(text) => this.handleFocus("isFocusedHeight", true)}
-                                        onBlur={(text) => this.handleBlur("isFocusedHeight", false)}
+                                        onBlur={(text) => this.outHandleBlur2()}
                                         style={statusHeight === true ? isFocusedHeight === true ? ComponentsStyle.inputIsFocused : ComponentsStyle.input : ComponentsStyle.inputError}
                                         onChangeText={(text) => this.handleChange("height", text)}
                                         placeholder="0"
