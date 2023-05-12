@@ -15,7 +15,7 @@ class ForgotPassword extends Component {
           <View style={ComponentsStyle.viewStyle_1}>
             <View style={styles.imageContextual}>
               <Image
-                style={styles.entryImage}
+                style={{ width: 120, height: 120 }}
                 source={require('../assets/images/icon/contextual.png')}
               />
               <Text style={styles.textForgotPass}>{t('forgot_password')}</Text>
@@ -46,7 +46,7 @@ class ForgotPassword extends Component {
               </Pressable>
             </View>
           </View>
-          <View style={ComponentsStyle.viewStyle_2}>
+          <View style={[ComponentsStyle.viewStyle_2, { flex: 1, justifyContent: "flex-end" }]}>
             <View style={styles.viewButton}>
               <Pressable style={ComponentsStyle.button} onPress={() => this.props.navigation.goBack()}>
                 <Text style={ComponentsStyle.textButton}>{t('go_back')}</Text>
