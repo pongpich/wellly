@@ -44,14 +44,12 @@ class Register extends Component {
 
     componentDidUpdate(prevProps, prevState) {
         const { status, user, statusRegister } = this.props;
-        const { isModalVisible, email, password } = this.state;
+        const { isModalVisible, email, password, registerSuccess } = this.state;
 
 
         if ((prevProps.statusRegister !== statusRegister) && (statusRegister === "success")) {
-            console.log("statusRegister", statusRegister);
             this.setState({ registerSuccess: true })
         }
-
         if ((prevProps.statusRegister !== statusRegister) && (statusRegister === "fail")) {
             this.setState({ textErrorEmail: 3 });
         }
@@ -205,7 +203,6 @@ class Register extends Component {
         const handleFocus3 = () => this.setState({ isFocused3: true })
         const handleBlur3 = () => this.outHandleBlur3()
 
-        console.log("registerSuccess", registerSuccess);
         return (
             <LinearGradient
                 style={ComponentsStyle.container}
@@ -392,8 +389,8 @@ class Register extends Component {
                                         </View>
                                         <View style={styles.buttonTop}>
                                             {
-
-                                                <Pressable style={ComponentsStyle.button} onPress={() => this.submitRegister()} >
+                                                (statusRegister !== "loading") &&
+                                                < Pressable style={ComponentsStyle.button} onPress={() => this.submitRegister()} >
                                                     <Text style={ComponentsStyle.textButton}>{t('register')}</Text>
                                                 </Pressable>
                                             }

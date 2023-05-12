@@ -296,18 +296,14 @@ function* registerSaga({ payload }) {
       password
     );
 
-    if (apiResult && apiResult.results) {
-      if (apiResult.results.message === "success") {
-
-        yield put({
-          type: types.REGISTER_SUCCESS
-        })
-        console.log("register Success");
-      } else {
-        yield put({
-          type: types.REGISTER_FAIL
-        })
-      }
+    if (apiResult && apiResult.results && apiResult.results.message === "success") {
+      yield put({
+        type: types.REGISTER_SUCCESS
+      })
+    } else {
+      yield put({
+        type: types.REGISTER_FAIL
+      })
     }
 
   } catch (error) {
