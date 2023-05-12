@@ -239,12 +239,12 @@ class QuizAnswer extends Component {
                                                     (result && result[0].index === value.index) && result && result[0].select_choice == "a" ?
                                                         <>
                                                             <Pressable key={i + "i1a"} >
-                                                                <Image source={require('../../assets/images/icon/radioActive.png')} />
+                                                                <Image style={{ width: 24, height: 24 }} source={require('../../assets/images/icon/radioActive.png')} />
                                                             </Pressable>
                                                         </>
                                                         :
                                                         <Pressable onPress={() => this.allSelectChoice(value.index, 'a')} key={i + "i2a"} >
-                                                            <Image source={require('../../assets/images/icon/radio.png')} />
+                                                            <Image style={{ width: 24, height: 24 }} source={require('../../assets/images/icon/radio.png')} />
                                                         </Pressable>
                                                 }
 
@@ -254,11 +254,11 @@ class QuizAnswer extends Component {
                                                 {
                                                     (result && result[0].index == value.index) && result && result[0].select_choice == "b" ?
                                                         <Pressable key={i + "i1b"}>
-                                                            <Image source={require('../../assets/images/icon/radioActive.png')} />
+                                                            <Image style={{ width: 24, height: 24 }} source={require('../../assets/images/icon/radioActive.png')} />
                                                         </Pressable>
                                                         :
                                                         <Pressable onPress={() => this.allSelectChoice(value.index, 'b')} key={i + "i2b"}>
-                                                            <Image source={require('../../assets/images/icon/radio.png')} />
+                                                            <Image style={{ width: 24, height: 24 }} source={require('../../assets/images/icon/radio.png')} />
                                                         </Pressable>
                                                 }
                                                 <Text style={styles.responseView} key={i + "b"}>{choice.b}</Text>
@@ -267,11 +267,11 @@ class QuizAnswer extends Component {
                                                 {
                                                     (result && result[0].index === value.index) && result && result[0].select_choice == "c" ?
                                                         <Pressable key={i + "i1c"}>
-                                                            <Image source={require('../../assets/images/icon/radioActive.png')} />
+                                                            <Image style={{ width: 24, height: 24 }} source={require('../../assets/images/icon/radioActive.png')} />
                                                         </Pressable>
                                                         :
                                                         <Pressable onPress={() => this.allSelectChoice(value.index, 'c')} key={i + "i2c"}>
-                                                            <Image source={require('../../assets/images/icon/radio.png')} />
+                                                            <Image style={{ width: 24, height: 24 }} source={require('../../assets/images/icon/radio.png')} />
                                                         </Pressable>
                                                 }
                                                 <Text style={styles.responseView} key={i + "c"}>{choice.c}</Text>
@@ -280,11 +280,11 @@ class QuizAnswer extends Component {
                                                 {
                                                     (result && result[0].index === value.index) && result && result[0].select_choice == "d" ?
                                                         <Pressable key={i + "i1d"}>
-                                                            <Image source={require('../../assets/images/icon/radioActive.png')} />
+                                                            <Image style={{ width: 24, height: 24 }} source={require('../../assets/images/icon/radioActive.png')} />
                                                         </Pressable>
                                                         :
                                                         <Pressable onPress={() => this.allSelectChoice(value.index, 'd')} key={i + "i2d"}>
-                                                            <Image source={require('../../assets/images/icon/radio.png')} />
+                                                            <Image style={{ width: 24, height: 24 }} source={require('../../assets/images/icon/radio.png')} />
                                                         </Pressable>
 
                                                 }

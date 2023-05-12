@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { KeyboardAccessoryNavigation } from 'react-native-keyboard-accessory';
-import { View, StyleSheet, Pressable, SafeAreaView, Image, ScrollView, TouchableOpacity, TextInput, Text, Linking, KeyboardAvoidingView, Platform, Dimensions, Modal, InputAccessoryView, Button, Keyboard } from 'react-native';
+import { View, StyleSheet, Pressable, SafeAreaView, Image, ScrollView, TouchableOpacity, TextInput, Text, Linking, KeyboardAvoidingView, TouchableWithoutFeedback, Platform, Dimensions, Modal, InputAccessoryView, Button, Keyboard } from 'react-native';
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
 import { personal } from "../redux/personalUser";
 import { Feather } from '@expo/vector-icons';
@@ -161,29 +161,29 @@ class PersonalData extends Component {
         return (
             <SafeAreaView style={styles.container}>
                 <View style={{ flex: 1, width: "100%" }}>
-                    <KeyboardAwareScrollView keyboardShouldPersistTaps='always'>
-                        <ScrollView style={styles.areaView} keyboardShouldPersistTaps="always" showsVerticalScrollIndicator={false}>
+                    <KeyboardAwareScrollView keyboardShouldPersistTaps='always' showsVerticalScrollIndicator={false}>
+                        <ScrollView style={styles.areaView} showsVerticalScrollIndicator={false}>
                             <View>
                                 <Text style={styles.textHead}>{t('personal_information')}</Text>
                                 <Text style={styles.textInputHead}>{t('sex')}</Text>
                                 <View style={styles.radioFormView}>
                                     <View style={styles.radioFormIcon}>
-                                        <TouchableOpacity onPress={() => this.handleFocus("sex", "male")}>
+                                        <TouchableWithoutFeedback onPress={() => this.handleFocus("sex", "male")}>
                                             <Image
                                                 style={styles.iconRadio}
                                                 source={(sex == "ชาย") || (sex == "male") ? require('../assets/images/icon/radioActive.png') : require('../assets/images/icon/radio.png')}
                                             />
-                                        </TouchableOpacity>
+                                        </TouchableWithoutFeedback>
 
                                         <Text style={styles.radioFormText}>{t('man')}</Text>
                                     </View>
                                     <View style={styles.radioFormIcon2}>
-                                        <TouchableOpacity onPress={() => this.handleFocus("sex", "female")}>
+                                        <TouchableWithoutFeedback onPress={() => this.handleFocus("sex", "female")}>
                                             <Image
                                                 style={styles.iconRadio}
                                                 source={(sex == "หญิง") || (sex == "female") ? require('../assets/images/icon/radioActive.png') : require('../assets/images/icon/radio.png')}
                                             />
-                                        </TouchableOpacity>
+                                        </TouchableWithoutFeedback>
                                         <Text style={styles.radioFormText}>{t('female')}</Text>
                                     </View>
                                 </View>
@@ -312,31 +312,31 @@ class PersonalData extends Component {
                                 <Text style={styles.textInputHead}>{t('often_exercise')}</Text>
                                 <View style={styles.radioFormView}>
                                     <View style={styles.radioFormIcon}>
-                                        <TouchableOpacity onPress={() => this.handleFocus("exercise", "always")}>
+                                        <TouchableWithoutFeedback onPress={() => this.handleFocus("exercise", "always")}>
                                             <Image
                                                 style={styles.iconRadio}
                                                 source={exercise == "always" ? require('../assets/images/icon/radioActive.png') : require('../assets/images/icon/radio.png')}
                                             />
-                                        </TouchableOpacity>
+                                        </TouchableWithoutFeedback>
 
                                         <Text style={styles.radioFormText}>{t('regular')}</Text>
                                     </View>
                                     <View style={styles.radioFormIcon2}>
-                                        <TouchableOpacity onPress={() => this.handleFocus("exercise", "sometimes")}>
+                                        <TouchableWithoutFeedback onPress={() => this.handleFocus("exercise", "sometimes")}>
                                             <Image
                                                 style={styles.iconRadio}
                                                 source={exercise == "sometimes" ? require('../assets/images/icon/radioActive.png') : require('../assets/images/icon/radio.png')}
                                             />
-                                        </TouchableOpacity>
+                                        </TouchableWithoutFeedback>
                                         <Text style={styles.radioFormText}>{t('sometimes')}</Text>
                                     </View>
                                     <View style={styles.radioFormIcon2}>
-                                        <TouchableOpacity onPress={() => this.handleFocus("exercise", "not at all")}>
+                                        <TouchableWithoutFeedback onPress={() => this.handleFocus("exercise", "not at all")}>
                                             <Image
                                                 style={styles.iconRadio}
                                                 source={exercise == "not at all" ? require('../assets/images/icon/radioActive.png') : require('../assets/images/icon/radio.png')}
                                             />
-                                        </TouchableOpacity>
+                                        </TouchableWithoutFeedback>
                                         <Text style={styles.radioFormText}>{t('not_all')}</Text>
                                     </View>
                                 </View>
@@ -368,7 +368,7 @@ class PersonalData extends Component {
                         />
                     }
                 </View>
-            </SafeAreaView>
+            </SafeAreaView >
         )
     }
 }
@@ -446,7 +446,9 @@ const styles = StyleSheet.create({
         marginLeft: 24
     },
     iconRadio: {
-        marginRight: 8
+        marginRight: 8,
+        width: 24,
+        height: 24
     },
     radioFormText: {
         fontSize: ComponentsStyle.fontSize16,

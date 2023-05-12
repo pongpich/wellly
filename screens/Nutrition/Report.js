@@ -333,14 +333,14 @@ class Report extends Component {
                                                             (result && result[0].index === value.index) && result && result[0].select_choice == "a" ?
                                                                 <View style={[styles.quiz, ((value.question !== null) && (choice.index === i)) ? { marginLeft: 8 } : null]} >
                                                                     <Pressable>
-                                                                        <Image source={require('../../assets/images/icon/radioActive.png')} />
+                                                                        <Image style={{ width: 24, height: 24 }} source={require('../../assets/images/icon/radioActive.png')} />
                                                                     </Pressable>
                                                                     <Text style={styles.responseView}>{choice.a}</Text>
                                                                 </View>
                                                                 :
                                                                 <View style={[styles.quiz, ((value.question !== null) && (choice.index === i)) ? { marginLeft: 8 } : null]} >
                                                                     <Pressable onPress={() => this.allSelectChoice(choice.index, 'a')}>
-                                                                        <Image source={require('../../assets/images/icon/radio.png')} />
+                                                                        <Image style={{ width: 24, height: 24 }} source={require('../../assets/images/icon/radio.png')} />
                                                                     </Pressable>
                                                                     <Text style={styles.responseView}>{choice.a}</Text>
                                                                 </View>
@@ -351,14 +351,14 @@ class Report extends Component {
                                                             (result && result[0].index === value.index) && result && result[0].select_choice == "b" ?
                                                                 <View style={[styles.quiz, ((value.question !== null) && (choice.index === i)) ? { marginLeft: 8 } : null]} >
                                                                     <Pressable>
-                                                                        <Image source={require('../../assets/images/icon/radioActive.png')} />
+                                                                        <Image style={{ width: 24, height: 24 }} source={require('../../assets/images/icon/radioActive.png')} />
                                                                     </Pressable>
                                                                     <Text style={styles.responseView}>{choice.b}</Text>
                                                                 </View>
                                                                 :
                                                                 <View style={[styles.quiz, ((value.question !== null) && (choice.index === i)) ? { marginLeft: 8 } : null]} >
                                                                     <Pressable onPress={() => this.allSelectChoice(choice.index, 'b')}>
-                                                                        <Image source={require('../../assets/images/icon/radio.png')} />
+                                                                        <Image style={{ width: 24, height: 24 }} source={require('../../assets/images/icon/radio.png')} />
                                                                     </Pressable>
                                                                     <Text style={styles.responseView}>{choice.b}</Text>
                                                                 </View>
@@ -369,14 +369,14 @@ class Report extends Component {
                                                             (result && result[0].index === value.index) && result && result[0].select_choice == "c" ?
                                                                 <View style={[styles.quiz, ((value.question !== null) && (choice.index === i)) ? { marginLeft: 8 } : null]} >
                                                                     <Pressable>
-                                                                        <Image source={require('../../assets/images/icon/radioActive.png')} />
+                                                                        <Image style={{ width: 24, height: 24 }} source={require('../../assets/images/icon/radioActive.png')} />
                                                                     </Pressable>
                                                                     <Text style={styles.responseView}>{choice.c}</Text>
                                                                 </View>
                                                                 :
                                                                 <View style={[styles.quiz, ((value.question !== null) && (choice.index === i)) ? { marginLeft: 8 } : null]} >
                                                                     <Pressable onPress={() => this.allSelectChoice(choice.index, 'c')}>
-                                                                        <Image source={require('../../assets/images/icon/radio.png')} />
+                                                                        <Image style={{ width: 24, height: 24 }} source={require('../../assets/images/icon/radio.png')} />
                                                                     </Pressable>
                                                                     <Text style={styles.responseView}>{choice.c}</Text>
                                                                 </View>
@@ -387,14 +387,14 @@ class Report extends Component {
                                                             (result && result[0].index === value.index) && result && result[0].select_choice == "d" ?
                                                                 <View style={[styles.quiz, ((value.question !== null) && (choice.index === i)) ? { marginLeft: 8 } : null]} >
                                                                     <Pressable>
-                                                                        <Image source={require('../../assets/images/icon/radioActive.png')} />
+                                                                        <Image style={{ width: 24, height: 24 }} source={require('../../assets/images/icon/radioActive.png')} />
                                                                     </Pressable>
                                                                     <Text style={styles.responseView}>{choice.d}</Text>
                                                                 </View>
                                                                 :
                                                                 <View style={[styles.quiz, ((value.question !== null) && (choice.index === i)) ? { marginLeft: 8 } : null]} >
                                                                     <Pressable onPress={() => this.allSelectChoice(choice.index, 'd')}>
-                                                                        <Image source={require('../../assets/images/icon/radio.png')} />
+                                                                        <Image style={{ width: 24, height: 24 }} source={require('../../assets/images/icon/radio.png')} />
                                                                     </Pressable>
                                                                     <Text style={styles.responseView}>{choice.d}</Text>
                                                                 </View>
@@ -405,14 +405,14 @@ class Report extends Component {
                                                             (result && result[0].index === value.index) && result && result[0].select_choice == "e" ?
                                                                 <View style={[styles.quiz, ((value.question !== null) && (choice.index === i)) ? { marginLeft: 8 } : null]} >
                                                                     <Pressable>
-                                                                        <Image source={require('../../assets/images/icon/radioActive.png')} />
+                                                                        <Image style={{ width: 24, height: 24 }} source={require('../../assets/images/icon/radioActive.png')} />
                                                                     </Pressable>
                                                                     <Text style={styles.responseView}>{choice.e}</Text>
                                                                 </View>
                                                                 :
                                                                 <View style={[styles.quiz, ((value.question !== null) && (choice.index === i)) ? { marginLeft: 8 } : null]} >
                                                                     <Pressable onPress={() => this.allSelectChoice(choice.index, 'e')}>
-                                                                        <Image source={require('../../assets/images/icon/radio.png')} />
+                                                                        <Image style={{ width: 24, height: 24 }} source={require('../../assets/images/icon/radio.png')} />
                                                                     </Pressable>
                                                                     <Text style={styles.responseView}>{choice.e}</Text>
                                                                 </View>
