@@ -53,7 +53,6 @@ class Login extends Component {
 
     submitLogin() {
 
-        console.log("sadasdas");
         const { email, password } = this.state;
         let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
         if ((email === "") || (email === null)) {

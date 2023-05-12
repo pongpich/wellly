@@ -46,7 +46,9 @@ class Register extends Component {
         const { status, user, statusRegister } = this.props;
         const { isModalVisible, email, password } = this.state;
 
+
         if ((prevProps.statusRegister !== statusRegister) && (statusRegister === "success")) {
+            console.log("statusRegister", statusRegister);
             this.setState({ registerSuccess: true })
         }
 
@@ -70,6 +72,7 @@ class Register extends Component {
     }
 
     submitRegister() {
+
         const { email, password, confirm_password } = this.state;
         let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
         if ((email === "") || (email === null)) {
@@ -202,6 +205,7 @@ class Register extends Component {
         const handleFocus3 = () => this.setState({ isFocused3: true })
         const handleBlur3 = () => this.outHandleBlur3()
 
+        console.log("registerSuccess", registerSuccess);
         return (
             <LinearGradient
                 style={ComponentsStyle.container}
@@ -221,7 +225,7 @@ class Register extends Component {
                 }}>
                     <View style={{ marginLeft: 16 }}>
                         <Pressable onPress={() => this.props.navigation.goBack()}>
-                            <Image
+                            <Image style={{ width: 24, height: 24 }}
                                 source={require('../assets/images/icon/chevron.png')}
                             />
                         </Pressable>
@@ -232,7 +236,7 @@ class Register extends Component {
                     <View style={{ marginTop: -80, marginBottom: 40 }}>
                         {
                             (registerSuccess) ?
-                                <View style={ComponentsStyle.viewStyle_1}>
+                                <View style={{ flex: 1, paddingHorizontal: 16, justifyContent: "center", marginTop: "80%" }}>
                                     <Text style={{ textAlign: "center", fontSize: 24, color: "green" }}>Register Success</Text>
                                     <View style={styles.buttonTop}>
                                         <Pressable style={ComponentsStyle.button} onPress={() => this.props.navigation.navigate("Login")} >
@@ -241,6 +245,7 @@ class Register extends Component {
                                     </View>
                                 </View>
                                 :
+
                                 <View style={ComponentsStyle.viewStyle}>
                                     <View style={ComponentsStyle.viewStyle_1}>
                                         <View style={styles.viewtinyLogo}>
@@ -348,7 +353,7 @@ class Register extends Component {
                                                     style={{
                                                         width: "100%",
                                                         height: 56,
-                                                        borderWidth: stylePassword ? isFocused3 ? 2 : 1 : 2,
+                                                        borderWidth: styleConfirmPassword ? isFocused3 ? 2 : 1 : 2,
                                                         paddingLeft: 16,
                                                         paddingRight: 45,
                                                         justifyContent: "center",
@@ -358,7 +363,7 @@ class Register extends Component {
                                                         backgroundColor: colors.white,
                                                         fontFamily: "IBMPlexSansThai-Regular",
                                                         zIndex: 0,
-                                                        borderColor: stylePassword ? isFocused3 ? colors.persianBlue : colors.grey4 : colors.negative1,
+                                                        borderColor: styleConfirmPassword ? isFocused3 ? colors.persianBlue : colors.grey4 : colors.negative1,
                                                     }}
                                                     onChangeText={(text) => this.handleChange("confirm_password", text)}
                                                     placeholder={(confirm_password === null) || (confirm_password === '') ? t('atleast8char') : null}
