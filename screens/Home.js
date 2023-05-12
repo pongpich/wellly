@@ -60,6 +60,12 @@ class Home extends Component {
         });
 
 
+        this.props.insertNutritionActivity(user && user.user_id);
+        this.props.insertExerciseActivity(user && user.user_id);
+        this.props.getNutritionActivity(user && user.user_id);
+        this.props.getExerciserActivity(user && user.user_id);
+
+
 
 
         // this.props.routeName(null); // ถ้าเข้าให้ home ให้ทำคำสั่งนี้ 1 ครั้ง
