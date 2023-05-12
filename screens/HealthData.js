@@ -68,50 +68,6 @@ class HealthData extends Component {
             this.props.navigation.navigate("OnboardingResults");
         }
 
-        //เช็ค Variation
-        if (prevState.mgDL != mgDL) {
-            let va = validateMgDL(mgDL)
-            this.setState({
-                statusMdDl: va.statusMdDl,
-                statusTextmg_dL: va.statusTextmg_dL
-            })
-        }
-
-        if (prevState.mg != mg) {
-            let va = validateMg(mg)
-            this.setState({
-                statusMg: va.statusMg,
-                statusTextMg: va.statusTextMg
-            })
-        }
-
-        if (prevState.bpm != bpm) {
-            let va = validateBpm(bpm);
-            this.setState({
-                statusBpm: va.statusBpm,
-                statusTextBpm: va.statusTextBpm,
-            })
-        }
-
-        if (prevState.mmHGS != mmHGS) {
-            let va = validateMmHGS(mmHGS)
-            this.setState({
-                statusMmGH1: va.statusMmGH1,
-                statusTextMmHG1: va.statusTextMmHG1,
-            })
-        }
-
-        if (prevState.mmHGD != mmHGD) {
-            let va = validateMmHGD(mmHGD)
-            this.setState({
-                statusMmGH2: va.statusMmGH2,
-                statusTextMmHG2: va.statusTextMmHG2
-            })
-        }
-
-
-
-
 
         //  เบาหวาน fpg
         if (prevState.mgDL !== mgDL) {
@@ -213,6 +169,69 @@ class HealthData extends Component {
         }
     }
 
+    outHandleBlur() {
+        this.handleBlur("isFocusedMgDL", false)
+        const { mgDL } = this.state
+        //เช็ค Variation
+        if (mgDL != null) {
+            let va = validateMgDL(mgDL)
+            this.setState({
+                statusMdDl: va.statusMdDl,
+                statusTextmg_dL: va.statusTextmg_dL
+            })
+        }
+    }
+    outHandleBlur1() {
+        this.handleBlur("isFocusedMg", false)
+        const { mg } = this.state
+        //เช็ค Variation
+        if (mg != null) {
+            let va = validateMg(mg)
+            this.setState({
+                statusMg: va.statusMg,
+                statusTextMg: va.statusTextMg
+            })
+        }
+    }
+    outHandleBlur2() {
+        this.handleBlur("isFocusedBpm", false)
+        const { bpm } = this.state
+        //เช็ค Variation
+        if (bpm != null) {
+            let va = validateBpm(bpm);
+            this.setState({
+                statusBpm: va.statusBpm,
+                statusTextBpm: va.statusTextBpm,
+            })
+        }
+    }
+    outHandleBlur3() {
+        this.handleBlur("isFocusedMmHGS", false)
+        const { mmHGS } = this.state
+        //เช็ค Variation
+        if (mmHGS != null) {
+            let va = validateMmHGS(mmHGS)
+            this.setState({
+                statusMmGH1: va.statusMmGH1,
+                statusTextMmHG1: va.statusTextMmHG1,
+            })
+        }
+    }
+    outHandleBlur4() {
+        this.handleBlur("isFocusedMmHGD", false)
+        const { mmHGD } = this.state
+        //เช็ค Variation
+        if (mmHGD != null) {
+            let va = validateMmHGD(mmHGD)
+            this.setState({
+                statusMmGH2: va.statusMmGH2,
+                statusTextMmHG2: va.statusTextMmHG2
+            })
+        }
+
+
+    }
+
     render() {
         const { mgDL, mg, bpm, mmHGS, fpg, hba1c, sbp, dbp, exercise, mmHGD, statusMdDl, statusTextmg_dL, statusMg, statusTextMg, statusBpm,
             statusTextBpm, statusMmGH1, statusTextMmHG1, statusMmGH2, statusTextMmHG2,
@@ -233,7 +252,7 @@ class HealthData extends Component {
                                     <Text style={styles.textRightTnput}>mg/dL</Text>
                                     <TextInput
                                         onFocus={(text) => this.handleFocus("isFocusedMgDL", true)}
-                                        onBlur={(text) => this.handleBlur("isFocusedMgDL", false)}
+                                        onBlur={(text) => this.outHandleBlur()}
                                         style={statusMdDl === true ? isFocusedMgDL === true ? ComponentsStyle.inputIsFocused : ComponentsStyle.input : ComponentsStyle.inputError}
                                         onChangeText={(text) => this.handleChange("mgDL", text)}
                                         placeholder="0"
@@ -269,7 +288,7 @@ class HealthData extends Component {
                                     <Text style={styles.textRightTnput}>mg%</Text>
                                     <TextInput
                                         onFocus={(text) => this.handleFocus("isFocusedMg", true)}
-                                        onBlur={(text) => this.handleBlur("isFocusedMg", false)}
+                                        onBlur={(text) => this.outHandleBlur1()}
                                         style={statusMg === true ? isFocusedMg === true ? ComponentsStyle.inputIsFocused : ComponentsStyle.input : ComponentsStyle.inputError}
                                         onChangeText={(text) => this.handleChange("mg", text)}
                                         placeholder="0"
@@ -306,7 +325,7 @@ class HealthData extends Component {
                                     <Text style={styles.textRightTnput}>bpm</Text>
                                     <TextInput
                                         onFocus={(text) => this.handleFocus("isFocusedBpm", true)}
-                                        onBlur={(text) => this.handleBlur("isFocusedBpm", false)}
+                                        onBlur={(text) => this.outHandleBlur2()}
                                         style={statusBpm === true ? isFocusedBpm === true ? ComponentsStyle.inputIsFocused : ComponentsStyle.input : ComponentsStyle.inputError}
                                         onChangeText={(text) => this.handleChange("bpm", text)}
                                         placeholder="0"
@@ -338,12 +357,22 @@ class HealthData extends Component {
 
                                 </View>
                                 <Text style={styles.textHeadMmHG}>{t('blood_pressure')}</Text>
-                                <Text style={styles.textInputHead}>Systolic ({t('maximum_value')})</Text>
+                                <View style={{ flexDirection: "row" }}>
+                                    <Text style={styles.textInputHead}>Systolic ({t('maximum_value')})</Text>
+                                    <Pressable onPress={() => this.setState({ popupShow: true, selectedRef: 'diabetes' })}>
+                                        <Image
+                                            style={{ width: 24, height: 24, marginTop: 25, marginLeft: 10 }}
+                                            source={require('../assets/images/icon/Howto3x.png')}
+                                        />
+                                    </Pressable>
+
+                                </View>
+
                                 <View style={styles.viewRightTnput}>
                                     <Text style={styles.textRightTnput}>mmHG</Text>
                                     <TextInput
                                         onFocus={(text) => this.handleFocus("isFocusedMmHGS", true)}
-                                        onBlur={(text) => this.handleBlur("isFocusedMmHGS", false)}
+                                        onBlur={(text) => this.outHandleBlur3()}
                                         style={statusMmGH1 === true ? isFocusedMmHGS === true ? ComponentsStyle.inputIsFocused : ComponentsStyle.input : ComponentsStyle.inputError}
                                         onChangeText={(text) => this.handleChange("mmHGS", text)}
                                         placeholder="0"
@@ -375,12 +404,21 @@ class HealthData extends Component {
                                     }
 
                                 </View>
-                                <Text style={styles.textInputHead}>Diastolic ({t('lowest_value')})</Text>
+                                <View style={{ flexDirection: "row" }}>
+                                    <Text style={styles.textInputHead}>Diastolic ({t('lowest_value')})   </Text>
+                                    <Pressable onPress={() => this.setState({ popupShow: true, selectedRef: 'hypertension' })}>
+                                        <Image
+                                            style={{ width: 24, height: 24, marginTop: 25 }}
+                                            source={require('../assets/images/icon/Howto3x.png')}
+                                        />
+                                    </Pressable>
+
+                                </View>
                                 <View style={styles.viewRightTnput}>
                                     <Text style={styles.textRightTnput}>mmHG</Text>
                                     <TextInput
                                         onFocus={(text) => this.handleFocus("isFocusedMmHGD", true)}
-                                        onBlur={(text) => this.handleBlur("isFocusedMmHGD", false)}
+                                        onBlur={(text) => this.outHandleBlur4()}
                                         style={statusMmGH2 === true ? isFocusedMmHGD === true ? ComponentsStyle.inputIsFocused : ComponentsStyle.input : ComponentsStyle.inputError}
                                         onChangeText={(text) => this.handleChange("mmHGD", text)}
                                         placeholder="0"
@@ -413,7 +451,7 @@ class HealthData extends Component {
 
                                 </View>
                             </View>
-                            <View style={[styles.areaViewText, { marginTop: 30 }]}>
+                            {/* <View style={[styles.areaViewText, { marginTop: 30 }]}>
                                 <Text style={styles.text_2}>{'Ref. (อ้างอิง)'}</Text>
                                 <Pressable onPress={() => this.setState({ popupShow: true, selectedRef: 'diabetes' })}>
                                     <Text style={styles.text_3}>{'- ภาวะเบาหวาน (type 2 diabetes)'}</Text>
@@ -421,7 +459,7 @@ class HealthData extends Component {
                                 <Pressable onPress={() => this.setState({ popupShow: true, selectedRef: 'hypertension' })}>
                                     <Text style={styles.text_3}>{'- ภาวะความดันสูง (Hypertension)'}</Text>
                                 </Pressable>
-                            </View>
+                            </View> */}
                             <View style={styles.areaViewButton}>
                                 {
                                     (mgDL !== null) && (mg !== null) && (bpm !== null) && (mmHGS !== null) && (mmHGD !== null) ?
@@ -452,8 +490,8 @@ class HealthData extends Component {
                     transparent={true}
                     visible={popupShow}
                 >
-                    <View style={{ backgroundColor: "#000000aa", flex: 1 }}>
-                        <ScrollView style={{ backgroundColor: "#ffffff", margin: 30, padding: 20, borderRadius: 10, flex: 1 }}
+                    <View style={{ backgroundColor: "#000000aa", flex: 1, }}>
+                        <ScrollView style={{ backgroundColor: "#ffffff", marginTop: 44, paddingHorizontal: 16, marginHorizontal: 16, borderRadius: 10, flex: 1 }}
                             showsVerticalScrollIndicator={false}>
                             {
                                 (selectedRef === 'diabetes') &&
@@ -493,7 +531,7 @@ class HealthData extends Component {
                                 </Text>
                             }
                         </ScrollView>
-                        <View style={styles.areaViewButton}>
+                        <View style={styles.areaViewButton2}>
                             <Pressable style={ComponentsStyle.button} onPress={() => this.setState({ popupShow: false })}  >
                                 <Text style={ComponentsStyle.textButton}>{'ปิด'}</Text>
                             </Pressable>
@@ -578,6 +616,14 @@ const styles = StyleSheet.create({
         paddingHorizontal: 16,
         justifyContent: 'flex-end',
         marginTop: 49,
+        marginBottom: 40,
+        width: "100%",
+        alignItems: "center",
+    },
+    areaViewButton2: {
+        paddingHorizontal: 16,
+        justifyContent: 'flex-end',
+        marginTop: 16,
         marginBottom: 40,
         width: "100%",
         alignItems: "center",
