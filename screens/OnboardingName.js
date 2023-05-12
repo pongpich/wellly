@@ -47,7 +47,23 @@ class OnboardingName extends React.Component {
                 words: keyWord
             })
         }
-        if ((prevState.name !== name) && words) {
+    }
+
+    submit() {
+        const { name, errorInput } = this.state;
+        const { user } = this.props;
+
+        if (!errorInput && name) {
+            this.props.updateDisplayName(user.user_id, name);
+        }
+
+    }
+
+
+    outHandleBlur() {
+        this.setState({ isFocused: false })
+        const { name, words } = this.state;
+        if (name && words) {
             let result = false;
             for (let i = 0; i < words.length; i++) {
                 if (name.includes(words[i])) {
@@ -67,21 +83,10 @@ class OnboardingName extends React.Component {
             }
         }
     }
-
-    submit() {
-        const { name, errorInput } = this.state;
-        const { user } = this.props;
-
-        if (!errorInput && name) {
-            this.props.updateDisplayName(user.user_id, name);
-        }
-
-    }
-
     render() {
         const { name, switchOn, isFocused, errorInput, word } = this.state;
         const handleFocus = () => this.setState({ isFocused: true })
-        const handleBlur = () => this.setState({ isFocused: false })
+        const handleBlur = () => this.outHandleBlur()
         const { t } = this.props;
         return (
             <View style={styles.container}>
@@ -99,6 +104,7 @@ class OnboardingName extends React.Component {
                             maxLength={30}
                             placeholder={t('your_name')}
                             autoCapitalize='none'
+                            returnKeyType={'done'}
                             onChangeText={(name) => this.setState({ name })}
                         />
                     </View>
