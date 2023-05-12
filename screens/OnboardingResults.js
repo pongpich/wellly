@@ -66,7 +66,7 @@ class OnboardingResults extends Component {
             >
                 <View style={styles.areaView}>
                     <View style={styles.areaViewIcon}>
-                        <Image source={require('../assets/images/icon/generic_A.png')} />
+                        <Image style={{ width: 120, height: 120 }} source={require('../assets/images/icon/generic_A.png')} />
                         <Text style={styles.text_1}>{t('physical_health')}</Text>
                         <Pressable style={styles.buttonStatusA}>
                             <Text style={styles.textStatus}>{t('fine')}</Text>
@@ -95,7 +95,7 @@ class OnboardingResults extends Component {
             >
                 <View style={styles.areaView}>
                     <View style={styles.areaViewIcon}>
-                        <Image source={require('../assets/images/icon/generic_B.png')} />
+                        <Image style={{ width: 120, height: 120 }} source={require('../assets/images/icon/generic_B.png')} />
                         <Text style={styles.text_1}>{t('you_tend')}</Text>
                         <Pressable style={styles.buttonStatusB1}>
                             <Text style={styles.textStatus}>{t('pre_diabetes')}</Text>
@@ -131,7 +131,7 @@ class OnboardingResults extends Component {
             >
                 <View style={styles.areaView}>
                     <View style={styles.areaViewIcon}>
-                        <Image source={require('../assets/images/icon/generic_B.png')} />
+                        <Image style={{ width: 120, height: 120 }} source={require('../assets/images/icon/generic_B.png')} />
                         <Text style={styles.text_1}>{t('you_tend')}</Text>
                         <Pressable style={styles.buttonStatusB2}>
                             <Text style={styles.textStatus}>{t('pre_diabetes_high_blood_pressure')}</Text>
@@ -170,7 +170,7 @@ class OnboardingResults extends Component {
             >
                 <View style={styles.areaView}>
                     <View style={styles.areaViewIcon}>
-                        <Image source={require('../assets/images/icon/generic_C.png')} />
+                        <Image style={{ width: 120, height: 120 }} source={require('../assets/images/icon/generic_C.png')} />
                         <Text style={styles.text_1}>{t('you_tend')}</Text>
                         <Pressable style={styles.buttonStatusC1}>
                             <Text style={styles.textStatus}>{t('diabetes_mellitus')}</Text>
@@ -205,7 +205,7 @@ class OnboardingResults extends Component {
             >
                 <View style={styles.areaView}>
                     <View style={styles.areaViewIcon}>
-                        <Image source={require('../assets/images/icon/generic_C.png')} />
+                        <Image style={{ width: 120, height: 120 }} source={require('../assets/images/icon/generic_C.png')} />
                         <Text style={styles.text_1}>{t('you_tend')}</Text>
                         <Pressable style={styles.buttonStatusC2}>
                             <Text style={styles.textStatus}>{t('diabetes_high_blood_pressure')}</Text>
@@ -244,7 +244,7 @@ class OnboardingResults extends Component {
             >
                 <View style={styles.areaView}>
                     <View style={styles.areaViewIcon}>
-                        <Image source={require('../assets/images/icon/generic_B.png')} />
+                        <Image style={{ width: 120, height: 120 }} source={require('../assets/images/icon/generic_B.png')} />
                         <Text style={styles.text_1}>{t('you_tend')}</Text>
                         <Pressable style={styles.buttonStatusB1}>
                             <Text style={styles.textStatus}>{t('hypertension')}</Text>
