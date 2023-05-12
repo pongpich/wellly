@@ -42,9 +42,6 @@ class Home extends Component {
 
         this._unsubscribe = this.props.navigation.addListener('focus', () => {
             // do something
-            this.props.insertNutritionActivity(user && user.user_id);
-            this.props.getNutritionActivity(user && user.user_id);
-            this.props.getExerciserActivity(user && user.user_id);
             this.props.getActivityList(user && user.user_id);
             this.props.checkUpdateBadgeWin(user && user.user_id);
 
@@ -52,11 +49,11 @@ class Home extends Component {
                 this.props.navigation.navigate("Login");
             }
 
-
-            this.props.insertNutritionActivity(user.user_id);
-            this.props.insertExerciseActivity(user.user_id);
+            this.props.insertNutritionActivity(user && user.user_id);
+            this.props.insertExerciseActivity(user && user.user_id);
             this.props.getNutritionActivity(user && user.user_id);
             this.props.getExerciserActivity(user && user.user_id);
+
             this.animate();
             BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
 
@@ -104,7 +101,7 @@ class Home extends Component {
     };
 
     componentDidUpdate(prevProps) {
-        const { user, statusGetNutritionMission, statusGetNutritionActivity, nutrition_mission, route_name, nutrition_activity, exerciserActivity, statusExerciserActivity } = this.props;
+        const { user, statusGetNutritionMission, statusGetNutritionActivity, nutrition_mission, route_name, nutrition_activity, exerciserActivity, statusExerciserActivity, statusInsertNutritionActivity, statusInsertExerciseActivity } = this.props;
         if ((prevProps.user !== user) && (!user)) {
             this.props.navigation.navigate("Login");
         }
@@ -118,6 +115,13 @@ class Home extends Component {
         if ((prevProps.statusGetNutritionActivity !== statusGetNutritionActivity) && (statusGetNutritionActivity === "success")) {
 
             this.setState({ latest_nutrition_activity: nutrition_activity[0] })
+        }
+
+        if ((prevProps.statusInsertNutritionActivity !== statusInsertNutritionActivity) && (statusInsertNutritionActivity === "success")) {
+            this.props.getNutritionActivity(user && user.user_id);
+        }
+        if ((prevProps.statusInsertExerciseActivity !== statusInsertExerciseActivity) && (statusInsertExerciseActivity === "success")) {
+            this.props.getExerciserActivity(user && user.user_id);
         }
 
         if ((prevProps.statusExerciserActivity !== statusExerciserActivity) && (statusExerciserActivity === "success")) {
@@ -757,11 +761,12 @@ const styles = StyleSheet.create({
     }
 });
 
-const mapStateToProps = ({ authUser, getData, personalDataUser }) => {
+const mapStateToProps = ({ authUser, getData, personalDataUser, updateData }) => {
     const { user } = authUser;
     const { route_name } = personalDataUser;
-    const { nutrition_mission, nutrition_activity, statusGetNutritionMission, statusGetNutritionActivity, statusInsertNutritionActivity, statusExerciserActivity, exerciserActivity, activity_list, statusGetActivityList } = getData;
-    return { user, nutrition_mission, nutrition_activity, statusGetNutritionMission, statusGetNutritionActivity, statusInsertNutritionActivity, statusExerciserActivity, exerciserActivity, activity_list, statusGetActivityList, route_name };
+    const { statusInsertNutritionActivity, statusInsertExerciseActivity } = updateData;
+    const { nutrition_mission, nutrition_activity, statusGetNutritionMission, statusGetNutritionActivity, statusExerciserActivity, exerciserActivity, activity_list, statusGetActivityList } = getData;
+    return { user, nutrition_mission, nutrition_activity, statusGetNutritionMission, statusGetNutritionActivity, statusInsertNutritionActivity, statusInsertExerciseActivity, statusExerciserActivity, exerciserActivity, activity_list, statusGetActivityList, route_name };
 };
 
 const mapActionsToProps = { logoutUser, getNutritionMission, routeName, insertNutritionActivity, insertExerciseActivity, loginUser, getNutritionActivity, getExerciserActivity, getActivityList, setIntensityFromExArticleTemplate, checkUpdateBadgeWin };
