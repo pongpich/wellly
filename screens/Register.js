@@ -23,6 +23,7 @@ class Register extends Component {
             password: null,
             confirm_password: null,
             isModalVisible: false,
+            styleConfirmPassword: true,
             isFocused: false,
             isFocused2: false,
             isFocused3: false,
@@ -61,35 +62,9 @@ class Register extends Component {
             });
         }
 
-        if (prevState.email != email) {
 
-            let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
-            if (email && reg.test(email) === false) {
-                this.setState({
-                    styleEmil: false,
-                    textErrorEmail: 2
-                });
-            } else {
-                this.setState({
-                    styleEmil: true,
-                    textErrorEmail: null,
-                });
-            }
-        }
 
-        if (prevState.password != password) {
-            if (password && password.length < 8) {
-                this.setState({
-                    stylePassword: false,
-                    textErrorPassWord: 2
-                });
-            } else {
-                this.setState({
-                    stylePassword: true,
-                    textErrorPassWord: null
-                });
-            }
-        }
+
 
 
     }
@@ -154,15 +129,78 @@ class Register extends Component {
     };
 
 
+    outHandleBlur() {
+        this.setState({ isFocused: false })
+        const { email } = this.state
+
+        if (email !== null) {
+
+            let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+            if (email && reg.test(email) === false) {
+                this.setState({
+                    styleEmil: false,
+                    textErrorEmail: 2
+                });
+            } else {
+                this.setState({
+                    styleEmil: true,
+                    textErrorEmail: null,
+                });
+            }
+        }
+    }
+
+    outHandleBlur2() {
+        this.setState({ isFocused2: false })
+        const { password } = this.state
+
+        if (password !== null) {
+            if (password && password.length < 8) {
+                this.setState({
+                    stylePassword: false,
+                    textErrorPassWord: 2
+                });
+            } else {
+                this.setState({
+                    stylePassword: true,
+                    textErrorPassWord: null
+                });
+            }
+        }
+    }
+    outHandleBlur3() {
+        this.setState({ isFocused3: false })
+        const { confirm_password, password } = this.state
+
+        if (confirm_password !== null) {
+            if (confirm_password && confirm_password.length < 8) {
+                this.setState({
+                    styleConfirmPassword: false,
+                    textErrorPassWord: 2
+                });
+            } else if (confirm_password !== password) {
+                this.setState({
+                    styleConfirmPassword: false,
+                    textErrorPassWord: 3
+                });
+            } else {
+                this.setState({
+                    styleConfirmPassword: true,
+                    textErrorPassWord: null
+                });
+            }
+        }
+    }
+
     render() {
-        const { registerSuccess, entry, styleEmil, textErrorEmail, textErrorPassWord, stylePassword, password, email, confirm_password, isModalVisible, isFocused, isFocused2, isFocused3 } = this.state;
+        const { registerSuccess, entry, styleEmil, textErrorEmail, textErrorPassWord, stylePassword, password, email, confirm_password, isModalVisible, isFocused, isFocused2, isFocused3, styleConfirmPassword } = this.state;
         const { t, statusRegister } = this.props;
         const handleFocus = () => this.setState({ isFocused: true })
-        const handleBlur = () => this.setState({ isFocused: false })
+        const handleBlur = () => this.outHandleBlur()
         const handleFocus2 = () => this.setState({ isFocused2: true })
-        const handleBlur2 = () => this.setState({ isFocused2: false })
+        const handleBlur2 = () => this.outHandleBlur2()
         const handleFocus3 = () => this.setState({ isFocused3: true })
-        const handleBlur3 = () => this.setState({ isFocused3: false })
+        const handleBlur3 = () => this.outHandleBlur3()
 
         return (
             <LinearGradient
@@ -295,6 +333,7 @@ class Register extends Component {
                                                             <Text style={ComponentsStyle.textError}>{t('please_enter_password')}</Text>
                                                             : textErrorPassWord === 2 ?
                                                                 <Text style={ComponentsStyle.textError}>{t('atleast8char')}</Text>
+
                                                                 : null
                                                         : null
                                                 }
@@ -332,7 +371,7 @@ class Register extends Component {
                                             </View>
                                             <View style={ComponentsStyle.viewTextError}>
                                                 {
-                                                    (stylePassword === false) ?
+                                                    (styleConfirmPassword === false) ?
                                                         (!confirm_password) ?
                                                             <Text style={ComponentsStyle.textError}>{t('please_enter_password')}</Text>
                                                             : (confirm_password && confirm_password.length < 8) ?
