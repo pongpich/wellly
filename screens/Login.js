@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Pressable, SafeAreaView, Image, ScrollView, TouchableOpacity, TextInput, Text, Linking, Platform, Dimensions } from 'react-native';
+import { View, StyleSheet, Pressable, SafeAreaView, Image, ScrollView, TouchableOpacity, TextInput, Text, Linking, Platform, Dimensions, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { loginUser } from "../redux/auth";
 import colors from '../constants/colors';
@@ -156,145 +156,152 @@ class Login extends Component {
                 start={{ x: 1, y: 0 }}
                 end={{ x: 1, y: 1 }}
             >
-
-                <View style={[ComponentsStyle.viewStyle]}>
-                    <ScrollView showsVerticalScrollIndicator={false}>
-                        <View style={[ComponentsStyle.viewStyle_1, { marginTop: -10 }]}>
-                            <View style={styles.viewtinyLogo}>
-                                <View style={styles.circle_1} />
-                                <View style={styles.circle_2} />
-                                <View style={styles.circle_3} />
-                                <View style={styles.tinyLogo}>
-                                    <Image
-                                        style={styles.logoImage}
-                                        source={require('../assets/images/logo/Logo3x.png')}
-                                    />
-                                </View>
-
-                            </View>
-                            <View style={ComponentsStyle.viewInput}>
-                                <TextInput
-                                    style={
-                                        styleEmil ?
-                                            isFocused ?
-                                                ComponentsStyle.inputIsFocused
-                                                :
-                                                ComponentsStyle.input
-                                            :
-                                            ComponentsStyle.inputError
-                                    }
-                                    onChangeText={(text) => this.handleChange("email", text)}
-                                    keyboardType="email-address"
-                                    returnKeyType={"next"}
-                                    /* autoFocus={true} */
-                                    onFocus={handleFocus}
-                                    onBlur={handleBlur}
-                                    placeholder={t('email')}
-                                    value={email}
-                                    autoCapitalize='none'
-                                />
-                                <View style={ComponentsStyle.viewTextError}>
-                                    {
-                                        styleEmil === false ?
-                                            textErrorEmail === 1 ?
-                                                <Text style={ComponentsStyle.textError}>{t('please_enter_email')}</Text>
-                                                : textErrorEmail === 2 ?
-                                                    <Text style={ComponentsStyle.textError}>{t('invalid_email_format')}</Text>
-                                                    : null
-                                            : null
-                                    }
-                                </View>
-                            </View>
-
-                            <View style={styles.inputPassword}>
-                                {
-                                    entry === false ?
-
-                                        <TouchableOpacity style={styles.entry} onPress={() => this.handleChangeEntry("entry", true)}>
-                                            <Image style={styles.entryImage}
-                                                source={require('../assets/images/icon/entry_off.png')}
-                                            />
-                                        </TouchableOpacity>
-
-                                        :
-
-                                        <TouchableOpacity style={styles.entry} onPress={() => this.handleChangeEntry("entry", false)}>
+                <View style={{ height: "100%", justifyContent: "center" }}>
+                    <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' && "padding"}/* "padding" */ enabled>
+                        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+                            <View style={styles.content}>
+                                <View style={[ComponentsStyle.viewStyle_1, { marginTop: -10 }]}>
+                                    <View style={styles.viewtinyLogo}>
+                                        <View style={styles.circle_1} />
+                                        <View style={styles.circle_2} />
+                                        <View style={styles.circle_3} />
+                                        <View style={styles.tinyLogo}>
                                             <Image
-                                                style={styles.entryImage}
-                                                source={require('../assets/images/icon/entry_op.png')}
+                                                style={styles.logoImage}
+                                                source={require('../assets/images/logo/Logo3x.png')}
                                             />
-                                        </TouchableOpacity>
+                                        </View>
 
-                                }
-                                <View style={styles.inputPassword2}>
-                                    <TextInput
-                                        style={{
-                                            width: "100%",
-                                            height: 56,
-                                            borderWidth: stylePassword ? isFocused2 ? 2 : 1 : 2,
-                                            paddingLeft: 16,
-                                            paddingRight: 45,
-                                            justifyContent: "center",
-                                            marginTop: 16,
-                                            borderRadius: 8,
-                                            color: colors.grey1,
-                                            backgroundColor: colors.white,
-                                            fontFamily: "IBMPlexSansThai-Regular",
-                                            zIndex: 0,
-                                            borderColor: stylePassword ? isFocused2 ? colors.persianBlue : colors.grey4 : colors.negative1,
-                                            fontSize: (entry && password) ? 25 : 16,
-                                            //เอาออกเพราะ android Error
-                                            paddingTop: (entry && password) ? 10 : 0
-                                        }}
-                                        onChangeText={(text) => this.handleChange("password", text)}
-                                        placeholder={(password === null) || (password === '') ? t('atleast8char') : null}
-                                        autoCapitalize='none'
-                                        returnKeyType={'done'}
-                                        secureTextEntry={entry}
-                                        value={password}
-                                        onFocus={handleFocus2}
-                                        onBlur={handleBlur2}
-                                    />
-                                </View>
-                                <View style={ComponentsStyle.viewTextError}>
-                                    {
-                                        stylePassword === false ?
-                                            textErrorPassWord === 1 ?
-                                                <Text style={ComponentsStyle.textError}>{t('please_enter_password')}</Text>
-                                                : textErrorPassWord === 2 ?
-                                                    <Text style={ComponentsStyle.textError}>{t('atleast8char')}</Text>
+                                    </View>
+                                    <View style={ComponentsStyle.viewInput}>
+                                        <TextInput
+                                            style={
+                                                styleEmil ?
+                                                    isFocused ?
+                                                        ComponentsStyle.inputIsFocused
+                                                        :
+                                                        ComponentsStyle.input
+                                                    :
+                                                    ComponentsStyle.inputError
+                                            }
+                                            onChangeText={(text) => this.handleChange("email", text)}
+                                            keyboardType="email-address"
+                                            returnKeyType={"next"}
+                                            /* autoFocus={true} */
+                                            onFocus={handleFocus}
+                                            onBlur={handleBlur}
+                                            placeholder={t('email')}
+                                            value={email}
+                                            autoCapitalize='none'
+                                        />
+                                        <View style={ComponentsStyle.viewTextError}>
+                                            {
+                                                styleEmil === false ?
+                                                    textErrorEmail === 1 ?
+                                                        <Text style={ComponentsStyle.textError}>{t('please_enter_email')}</Text>
+                                                        : textErrorEmail === 2 ?
+                                                            <Text style={ComponentsStyle.textError}>{t('invalid_email_format')}</Text>
+                                                            : null
                                                     : null
-                                            : null
+                                            }
+                                        </View>
+                                    </View>
+
+                                    <View style={styles.inputPassword}>
+                                        {
+                                            entry === false ?
+
+                                                <TouchableOpacity style={styles.entry} onPress={() => this.handleChangeEntry("entry", true)}>
+                                                    <Image style={styles.entryImage}
+                                                        source={require('../assets/images/icon/entry_off.png')}
+                                                    />
+                                                </TouchableOpacity>
+
+                                                :
+
+                                                <TouchableOpacity style={styles.entry} onPress={() => this.handleChangeEntry("entry", false)}>
+                                                    <Image
+                                                        style={styles.entryImage}
+                                                        source={require('../assets/images/icon/entry_op.png')}
+                                                    />
+                                                </TouchableOpacity>
+
+                                        }
+                                        <View style={styles.inputPassword2}>
+                                            <TextInput
+                                                style={{
+                                                    width: "100%",
+                                                    height: 56,
+                                                    borderWidth: stylePassword ? isFocused2 ? 2 : 1 : 2,
+                                                    paddingLeft: 16,
+                                                    paddingRight: 45,
+                                                    justifyContent: "center",
+                                                    marginTop: 16,
+                                                    borderRadius: 8,
+                                                    color: colors.grey1,
+                                                    backgroundColor: colors.white,
+                                                    fontFamily: "IBMPlexSansThai-Regular",
+                                                    zIndex: 0,
+                                                    borderColor: stylePassword ? isFocused2 ? colors.persianBlue : colors.grey4 : colors.negative1,
+                                                    fontSize: (entry && password) ? 25 : 16,
+                                                    //เอาออกเพราะ android Error
+                                                    paddingTop: (entry && password) ? 10 : 0
+                                                }}
+                                                onChangeText={(text) => this.handleChange("password", text)}
+                                                placeholder={(password === null) || (password === '') ? t('atleast8char') : null}
+                                                autoCapitalize='none'
+                                                returnKeyType={'done'}
+                                                secureTextEntry={entry}
+                                                value={password}
+                                                onFocus={handleFocus2}
+                                                onBlur={handleBlur2}
+                                            />
+                                        </View>
+                                        <View style={ComponentsStyle.viewTextError}>
+                                            {
+                                                stylePassword === false ?
+                                                    textErrorPassWord === 1 ?
+                                                        <Text style={ComponentsStyle.textError}>{t('please_enter_password')}</Text>
+                                                        : textErrorPassWord === 2 ?
+                                                            <Text style={ComponentsStyle.textError}>{t('atleast8char')}</Text>
+                                                            : null
+                                                    : null
+                                            }
+                                        </View>
+                                    </View>
+
+                                    <View style={styles.buttonTop}>
+                                        <Pressable style={ComponentsStyle.button} onPress={() => this.submitLogin()} >
+                                            <Text style={ComponentsStyle.textButton}>{t('login')}</Text>
+                                        </Pressable>
+                                        <Pressable style={styles.buttonForgotPassword} onPress={() => this.props.navigation.navigate("ForgotPassword")} >
+                                            <Text style={styles.textForgotPassword}>{t('forgot_password')}?</Text>
+                                        </Pressable>
+                                        <Pressable style={[styles.buttonForgotPassword, { marginTop: 0 }]} onPress={() => this.props.navigation.navigate("Register")} >
+                                            <Text style={styles.textForgotPassword}>{t('register')}</Text>
+                                        </Pressable>
+                                    </View>
+                                </View>
+
+
+                                <View style={[ComponentsStyle.viewStyle_2, { flex: 1, justifyContent: "flex-end" }]}>
+                                    {
+                                        (i18next.language === 'th') ?
+                                            <Pressable style={styles.buttonThi_eng} onPress={() => i18next.changeLanguage("en")} >
+                                                <Text style={styles.textThi_eng}>English</Text>
+                                            </Pressable>
+                                            :
+                                            <Pressable style={styles.buttonThi_eng} onPress={() => i18next.changeLanguage("th")}  >
+                                                <Text style={styles.textThi_eng}>ภาษาไทย</Text>
+                                            </Pressable>
                                     }
                                 </View>
                             </View>
-
-                            <View style={styles.buttonTop}>
-                                <Pressable style={ComponentsStyle.button} onPress={() => this.submitLogin()} >
-                                    <Text style={ComponentsStyle.textButton}>{t('login')}</Text>
-                                </Pressable>
-                                <Pressable style={styles.buttonForgotPassword} onPress={() => this.props.navigation.navigate("ForgotPassword")} >
-                                    <Text style={styles.textForgotPassword}>{t('forgot_password')}?</Text>
-                                </Pressable>
-                                <Pressable style={[styles.buttonForgotPassword, { marginTop: 0 }]} onPress={() => this.props.navigation.navigate("Register")} >
-                                    <Text style={styles.textForgotPassword}>{t('register')}</Text>
-                                </Pressable>
-                            </View>
-                        </View>
-                    </ScrollView>
-                    <View style={[ComponentsStyle.viewStyle_2]}>
-                        {
-                            (i18next.language === 'th') ?
-                                <Pressable style={styles.buttonThi_eng} onPress={() => i18next.changeLanguage("en")} >
-                                    <Text style={styles.textThi_eng}>English</Text>
-                                </Pressable>
-                                :
-                                <Pressable style={styles.buttonThi_eng} onPress={() => i18next.changeLanguage("th")}  >
-                                    <Text style={styles.textThi_eng}>ภาษาไทย</Text>
-                                </Pressable>
-                        }
-                    </View>
+                        </TouchableWithoutFeedback>
+                    </KeyboardAvoidingView>
                 </View >
+
+
 
                 <View View style={styles.centeredView} >
                     <Pressable title="Show modal" onPress={() => this.toggleModal(isModalVisible)} />
@@ -328,6 +335,17 @@ class Login extends Component {
 }
 const deviceWidth = Math.round(Dimensions.get('window').width);
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+
+
+    },
+    content: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+
+    },
     viewtinyLogo: {
         alignItems: "center"
     },
@@ -418,7 +436,7 @@ const styles = StyleSheet.create({
     buttonThi_eng: {
         alignItems: 'center',
         justifyContent: "flex-end",
-        marginBottom: 36,
+        marginBottom: 40,
     },
     textThi_eng: {
         fontSize: ComponentsStyle.fontSize16,

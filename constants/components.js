@@ -24,8 +24,7 @@ export default StyleSheet.create({
     },
     container: {
         flex: 1,
-        justifyContent: "center",
-        width: "100%",
+
 
     },
     containerWhite: {
@@ -35,9 +34,12 @@ export default StyleSheet.create({
         backgroundColor: colors.white
     },
     viewStyle: {
-        width: "100%",
-        height: "100%",
-        justifyContent: "space-between"
+        /*         marginTop: 150,
+                flex: 1,
+         */
+
+
+        height: "100%"
     },
     viewStyle_1: {
         width: "100%",
@@ -46,6 +48,7 @@ export default StyleSheet.create({
     viewStyle_2: {
         width: "100%",
         paddingHorizontal: 16,
+
 
     },
     viewInput: {
