@@ -178,7 +178,7 @@ class Home extends Component {
         const { latest_nutrition_activity, latest_exercise_activity, latest_exercise_mission, statusChart, isLoading } = this.state;
         const opacity = this.animatedValue.interpolate({
             inputRange: [0, 0.5, 1],
-            outputRange: [0.5, 1, 0.5],
+            outputRange: [1, 0.5, 1],
         });
         const scale = this.animatedValue.interpolate({
             inputRange: [0, 0.5, 1],
@@ -206,6 +206,8 @@ class Home extends Component {
             const substring2 = text.substring(startIndex, endIndex);
             return substring2 + "...";
         };
+
+
 
         return (
             <View style={[ComponentsStyle.container, { backgroundColor: colors.mayaBlue60 }]}>
@@ -253,7 +255,7 @@ class Home extends Component {
                                     onPress={() => latest_nutrition_activity.short_content && this.props.navigation.navigate("ArticleTemplate", { id: latest_nutrition_activity && latest_nutrition_activity.week_in_program, mission_id: latest_nutrition_activity && latest_nutrition_activity.mission_id, heading: latest_nutrition_activity && latest_nutrition_activity.heading, statusPags: "Home" })} key={latest_nutrition_activity && latest_nutrition_activity.week_in_program + "_na"}
                                 >
                                     <View style={styles.row}>
-                                        <View style={[styles.numberView, { backgroundColor: colors.mayaBlue20, }]}>
+                                        <View style={[styles.numberView, { backgroundColor: latest_nutrition_activity && latest_nutrition_activity.heading && latest_nutrition_activity.short_content ? colors.mayaBlue20 : "#D4E0F0" }]}>
                                             <Text style={[styles.number, { color: colors.mayaBlue }]}>{latest_nutrition_activity && latest_nutrition_activity.week_in_program}</Text>
                                         </View>
                                         <View style={styles.missionData}>
@@ -261,7 +263,7 @@ class Home extends Component {
                                                 <>
                                                     <Text style={styles.missionHead}>{latest_nutrition_activity && latest_nutrition_activity.heading}</Text>
                                                     <Text style={[styles.missionContent, { marginRight: 16 }]}>
-                                                        {/* เพิ่ม substringText เพื่อย่อเนื้อหาใน card ให้เหลือ 2บรรทัด... */}
+
                                                         {substringText(latest_nutrition_activity && latest_nutrition_activity.short_content)}
                                                     </Text>
                                                 </>
@@ -302,7 +304,7 @@ class Home extends Component {
                             >
                                 <View style={styles.row}>
 
-                                    <View style={[styles.numberView, { backgroundColor: colors.persianBlue20 }]}>
+                                    <View style={[styles.numberView, { backgroundColor: latest_exercise_activity.heading && latest_exercise_activity.short_content ? colors.persianBlue20 : "#D4E0F0" }]}>
                                         <Text style={[styles.number, { color: colors.persianBlue }]}>{latest_exercise_activity.week_in_program}</Text>
                                     </View>
                                     <View style={styles.missionData}>
@@ -310,7 +312,7 @@ class Home extends Component {
                                             <>
                                                 <Text style={styles.missionHead}>{latest_exercise_activity.heading}</Text>
                                                 <Text style={[styles.missionContent, { marginRight: 16 }]}>
-                                                    {/* เพิ่ม substringText เพื่อย่อเนื้อหาใน card ให้เหลือ 2บรรทัด... */}
+
                                                     {substringText(latest_exercise_activity.short_content)}
                                                 </Text>
                                             </>
@@ -339,114 +341,127 @@ class Home extends Component {
                                     }
 
                                 </View>
-                            </Pressable>}
-
-
-
-                    </View>
-
-                    <View style={styles.boxRowView} >
-                        <View style={styles.line}>
-                            <View style={styles.line1} />
-                            <View style={styles.line2} />
-                            <View style={styles.line2} />
-                            <View style={styles.line2} />
-                            <View style={styles.line2} />
-                            <View style={styles.line2} />
-                            <View style={styles.line2} />
-                            <View style={styles.line2} />
-                            <View style={styles.line2} />
-                            <View style={styles.line2} />
-                            <View style={styles.line2} />
-                            <View style={styles.line2} />
-                            <View style={styles.line2} />
-                            <View style={styles.line2} />
-                            <View style={styles.line2} />
-                            <View style={styles.line2} />
-
-                            <View style={[styles.line1, { marginLeft: 15 }]} />
-                        </View>
-                        <Text style={styles.challenge}>ชาเลนจ์</Text>
-
-                        {
-
-                            latest_exercise_mission.map((item, i) => {
-                                var dataLength = latest_exercise_mission.length;
-                                const multiple = (100 / item.number) * item.number_completed;
-                                var maxScore = item.number * item.score;
-                                var score_completed = item.number_completed * item.score;
-
-                                return (
-
-                                    <View key={i + "rv"}>
-                                        <Pressable
-                                            onPress={() =>
-                                                ((item.id === "light_intensity") || (item.id === "moderate_intensity") || (item.id === "vigorous_intensity") || (item.id === "cardio")) && this.actionPress(item.id)
-                                            }
-                                        >
-                                            <View key={i + "h"} style={{ flexDirection: "row", marginBottom: 16 }}>
-                                                <View style={styles.numberView} key={i + "hom"}>
-                                                    <AnimatedCircularProgress
-                                                        size={64}
-                                                        width={8}
-                                                        fill={multiple}
-                                                        tintTransparency={true}
-                                                        rotation={360}
-                                                        tintColor={colors.positive1}
-                                                        backgroundColor={colors.grey6} key={i + "hom2"}>
-                                                        {
-
-                                                            (fill) => (
-                                                                <>
-                                                                    <View style={{ flexDirection: "row", marginTop: 10 }} key={i + "an"}>
-                                                                        <Text style={{ color: colors.grey1, fontSize: 16, fontFamily: "IBMPlexSansThai-Bold", marginTop: 0 }} key={i + "an2"}>{item.number_completed}</Text>
-                                                                        <Text style={{ color: colors.grey1, fontSize: 14, fontFamily: "IBMPlexSansThai-Regular", marginTop: 4 }} key={i + "an3"}> /{item.number}</Text>
-                                                                    </View>
-                                                                    <Text style={{ color: colors.grey2, fontSize: 16, fontFamily: "IBMPlexSansThai-Regular", marginTop: -10 }} key={i + "an4"}>ครั้ง</Text>
-                                                                </>
-                                                            )
-
-                                                        }
-                                                    </AnimatedCircularProgress>
-                                                </View>
-                                                <View style={styles.missionData2} key={i + "home3"}>
-                                                    <Text style={[styles.missionHead, { marginLeft: 8, marginRight: 8 }]} key={i + "home4"}>{item.name}</Text>
-                                                    <View style={{ flexDirection: "row", marginLeft: 8 }} key={i + "home5"}>
-                                                        {
-                                                            Array.from({ length: maxScore }) && Array.from({ length: maxScore }).map((item, i) => {
-                                                                return (
-                                                                    <Image style={[i > 0 ? { marginLeft: 4 } : null, { width: 16, height: 16, marginTop: 8 }]} source={
-                                                                        score_completed >= ++i ?
-                                                                            require('../assets/images/icon/Firepoint.png')
-                                                                            :
-                                                                            require('../assets/images/icon/Firepoint2.png')
-                                                                    } key={i + "img"} />
-                                                                )
-                                                            })
-                                                        }
-                                                    </View>
-                                                </View>
-                                                {
-                                                    ((item.id === "light_intensity") || (item.id === "moderate_intensity") || (item.id === "vigorous_intensity") || (item.id === "cardio")) &&
-                                                    <View style={styles.viewIconRight} key={i + "home6"}>
-                                                        <Image
-                                                            style={{ height: 24, width: 24, zIndex: 1, marginRight: 8 }}
-                                                            source={require('../assets/images/icon/right.png')}
-                                                            key={i + "home7"} />
-                                                    </View>
-                                                }
-
-
-                                            </View>
-                                        </Pressable>
-                                    </View>
-
-                                )
-                            })
-
-
+                            </Pressable>
                         }
+
+
+
                     </View>
+
+
+                    {
+                        latest_exercise_mission.length > 0 ?
+                            <>
+                                <View style={styles.boxRowView} >
+
+                                    <View style={styles.line}>
+                                        <View style={styles.line1} />
+                                        <View style={styles.line2} />
+                                        <View style={styles.line2} />
+                                        <View style={styles.line2} />
+                                        <View style={styles.line2} />
+                                        <View style={styles.line2} />
+                                        <View style={styles.line2} />
+                                        <View style={styles.line2} />
+                                        <View style={styles.line2} />
+                                        <View style={styles.line2} />
+                                        <View style={styles.line2} />
+                                        <View style={styles.line2} />
+                                        <View style={styles.line2} />
+                                        <View style={styles.line2} />
+                                        <View style={styles.line2} />
+                                        <View style={styles.line2} />
+
+                                        <View style={[styles.line1, { marginLeft: 15 }]} />
+                                    </View>
+                                    <Text style={styles.challenge}>ชาเลนจ์</Text>
+
+                                    {
+
+                                        latest_exercise_mission.map((item, i) => {
+                                            var dataLength = latest_exercise_mission.length;
+                                            const multiple = (100 / item.number) * item.number_completed;
+                                            var maxScore = item.number * item.score;
+                                            var score_completed = item.number_completed * item.score;
+
+                                            return (
+
+                                                <View key={i + "rv"}>
+                                                    <Pressable
+                                                        onPress={() =>
+                                                            ((item.id === "light_intensity") || (item.id === "moderate_intensity") || (item.id === "vigorous_intensity") || (item.id === "cardio")) && this.actionPress(item.id)
+                                                        }
+                                                    >
+                                                        <View key={i + "h"} style={{ flexDirection: "row", marginBottom: 16 }}>
+                                                            <View style={styles.numberView} key={i + "hom"}>
+                                                                <AnimatedCircularProgress
+                                                                    size={64}
+                                                                    width={8}
+                                                                    fill={multiple}
+                                                                    tintTransparency={true}
+                                                                    rotation={360}
+                                                                    tintColor={colors.positive1}
+                                                                    backgroundColor={colors.grey6} key={i + "hom2"}>
+                                                                    {
+
+                                                                        (fill) => (
+                                                                            <>
+                                                                                <View style={{ flexDirection: "row", marginTop: 10 }} key={i + "an"}>
+                                                                                    <Text style={{ color: colors.grey1, fontSize: 16, fontFamily: "IBMPlexSansThai-Bold", marginTop: 0 }} key={i + "an2"}>{item.number_completed}</Text>
+                                                                                    <Text style={{ color: colors.grey1, fontSize: 14, fontFamily: "IBMPlexSansThai-Regular", marginTop: 4 }} key={i + "an3"}> /{item.number}</Text>
+                                                                                </View>
+                                                                                <Text style={{ color: colors.grey2, fontSize: 16, fontFamily: "IBMPlexSansThai-Regular", marginTop: -10 }} key={i + "an4"}>ครั้ง</Text>
+                                                                            </>
+                                                                        )
+
+                                                                    }
+                                                                </AnimatedCircularProgress>
+                                                            </View>
+                                                            <View style={styles.missionData2} key={i + "home3"}>
+                                                                <Text style={[styles.missionHead, { marginLeft: 8, marginRight: 8 }]} key={i + "home4"}>{item.name}</Text>
+                                                                <View style={{ flexDirection: "row", marginLeft: 8 }} key={i + "home5"}>
+                                                                    {
+                                                                        Array.from({ length: maxScore }) && Array.from({ length: maxScore }).map((item, i) => {
+                                                                            return (
+                                                                                <Image style={[i > 0 ? { marginLeft: 4 } : null, { width: 16, height: 16, marginTop: 8 }]} source={
+                                                                                    score_completed >= ++i ?
+                                                                                        require('../assets/images/icon/Firepoint.png')
+                                                                                        :
+                                                                                        require('../assets/images/icon/Firepoint2.png')
+                                                                                } key={i + "img"} />
+                                                                            )
+                                                                        })
+                                                                    }
+                                                                </View>
+                                                            </View>
+                                                            {
+                                                                ((item.id === "light_intensity") || (item.id === "moderate_intensity") || (item.id === "vigorous_intensity") || (item.id === "cardio")) &&
+                                                                <View style={styles.viewIconRight} key={i + "home6"}>
+                                                                    <Image
+                                                                        style={{ height: 24, width: 24, zIndex: 1, marginRight: 8 }}
+                                                                        source={require('../assets/images/icon/right.png')}
+                                                                        key={i + "home7"} />
+                                                                </View>
+                                                            }
+
+
+                                                        </View>
+                                                    </Pressable>
+                                                </View>
+
+                                            )
+                                        })
+
+
+                                    }
+                                </View>
+
+                            </>
+                            : <View style={{ flex: 1, backgroundColor: "#F3F7FB", marginTop: 24, borderTopLeftRadius: 16, borderTopRightRadius: 16 }}>
+                                <View style={{ width: "100%", height: 674, flex: 1, justifyContent: "flex-end" }} />
+
+                            </View>
+                    }
 
 
 
@@ -697,21 +712,21 @@ const styles = StyleSheet.create({
     },
     activityindicator: {
         height: 15,
-        backgroundColor: colors.neutralGrey,
+        backgroundColor: "#D4E0F0",
         width: "100%",
         marginBottom: 8,
         borderRadius: 16,
     },
     activityindicator1: {
         height: 15,
-        backgroundColor: colors.neutralGrey,
+        backgroundColor: "#D4E0F0",
         width: "50%",
         marginBottom: 8,
         borderRadius: 16,
     },
     activityindicator2: {
         height: 10,
-        backgroundColor: colors.neutralGrey,
+        backgroundColor: "#D4E0F0",
         width: "100%",
         marginBottom: 8,
         borderRadius: 16,
