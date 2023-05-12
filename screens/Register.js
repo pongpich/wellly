@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Pressable, SafeAreaView, Image, TouchableOpacity, ScrollView, StatusBar, TextInput, Text, Linking, KeyboardAvoidingView, Platform, Dimensions } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { loginUser, register } from "../redux/auth";
+import { loginUser, register, resetStatusRegister } from "../redux/auth";
 import colors from '../constants/colors';
 import ComponentsStyle from '../constants/components';
 import { connect } from 'react-redux';
@@ -39,6 +39,7 @@ class Register extends Component {
             this.props.navigation.navigate("Walkthrough")
         }
 
+        this.props.resetStatusRegister();
     }
 
 
@@ -46,33 +47,19 @@ class Register extends Component {
         const { status, user, statusRegister } = this.props;
         const { isModalVisible, email, password, registerSuccess } = this.state;
 
-
         if ((prevProps.statusRegister !== statusRegister) && (statusRegister === "success")) {
             this.setState({ registerSuccess: true })
         }
         if ((prevProps.statusRegister !== statusRegister) && (statusRegister === "fail")) {
             this.setState({ textErrorEmail: 3 });
         }
-        if ((prevProps.status !== status) && (status === "success")) {
-            this.props.navigation.navigate("Walkthrough")
-        }
-        if ((prevProps.status !== status) && (status === "fail")) {
-            this.setState({
-                isModalVisible: !isModalVisible
-            });
-        }
-
-
-
-
-
-
     }
 
     submitRegister() {
-
+        const { statusRegister } = this.props;
         const { email, password, confirm_password } = this.state;
         let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+        console.log("submitRegister Active!!!");
         if ((email === "") || (email === null)) {
             this.setState({
                 styleEmil: false,
@@ -99,8 +86,9 @@ class Register extends Component {
                 textErrorPassWord: 3
             });
         } else {
-            this.props.register(email, password)
-
+            if (statusRegister !== "loading") {
+                this.props.register(email, password)
+            }
         }
 
 
@@ -564,7 +552,7 @@ const mapStateToProps = ({ authUser }) => {
     return { user, status, statusRegister };
 };
 
-const mapActionsToProps = { loginUser, register };
+const mapActionsToProps = { loginUser, register, resetStatusRegister };
 
 
 export default connect(

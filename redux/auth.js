@@ -17,12 +17,17 @@ export const types = {
   REGISTER: "REGISTER",
   REGISTER_SUCCESS: "REGISTER_SUCCESS",
   REGISTER_FAIL: "REGISTER_FAIL",
+  RESET_STATUS_REGISTER: "RESET_STATUS_REGISTER",
   DELETE_ACCOUNT: "DELETE_ACCOUNT",
   DELETE_ACCOUNT_SUCCESS: "DELETE_ACCOUNT_SUCCESS",
   RESET_STATUS_DELETE_ACC: "RESET_STATUS_DELETE_ACC",
   UPDATE_PASSWORD: "UPDATE_PASSWORD",
   UPDATE_PASSWORD_SUCCESS: "UPDATE_PASSWORD_SUCCESS",
 };
+
+export const resetStatusRegister = () => ({
+  type: types.RESET_STATUS_REGISTER
+})
 
 
 export const logoutUser = () => ({
@@ -300,10 +305,12 @@ function* registerSaga({ payload }) {
       yield put({
         type: types.REGISTER_SUCCESS
       })
+      console.log("register SUCCESS");
     } else {
       yield put({
         type: types.REGISTER_FAIL
       })
+      console.log("register FAIL");
     }
 
   } catch (error) {
@@ -527,6 +534,11 @@ export function reducer(state = INIT_STATE, action) {
           ...state.user,
           health_data: action.payload
         }
+      };
+    case types.RESET_STATUS_REGISTER:
+      return {
+        ...state,
+        statusRegister: "default"
       };
     case types.REGISTER:
       return {
