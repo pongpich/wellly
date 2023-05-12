@@ -433,7 +433,7 @@ class ArticleTemplate extends Component {
                 <View style={{ height: 48, zIndex: 3, width: "100%", backgroundColor: statusBarColor === "light" ? colors.persianBlue : colors.white }}>
                     <View style={{ marginLeft: 16 }}>
                         <Pressable onPress={() => this.props.navigation.goBack()}>
-                            <Image
+                            <Image style={{ width: 24, height: 24 }}
                                 source={statusBarColor === "light" ? require('../../assets/images/icon/chevron.png') : require('../../assets/images/icon/caret.png')}
                             />
                         </Pressable>

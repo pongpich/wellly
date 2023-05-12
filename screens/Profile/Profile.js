@@ -170,7 +170,7 @@ class Profile extends Component {
                     <View style={{ height: 48, zIndex: 3, width: "100%" }}>
                         <View style={{ marginLeft: 16 }}>
                             <Pressable onPress={() => this.props.navigation.goBack()}>
-                                <Image
+                                <Image style={{ width: 24, height: 24 }}
                                     source={require('../../assets/images/icon/caret.png')}
                                 />
                             </Pressable>

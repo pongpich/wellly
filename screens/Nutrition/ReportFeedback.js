@@ -98,7 +98,7 @@ class ReportFeedback extends Component {
                     <View style={{ marginLeft: 16 }}>
                         {/*           //  this.props.navigation.dispatch(StackActions.replace('Home')) */}
                         <Pressable onPress={() => routName == "ConfirmSubmit" ? this.props.navigation.dispatch(StackActions.replace('Home')) : this.props.navigation.goBack()}>
-                            <Image
+                            <Image style={{ width: 24, height: 24 }}
                                 source={statusBarColor === "light" ? require('../../assets/images/icon/chevron.png') : require('../../assets/images/icon/caret.png')}
                             />
                         </Pressable>

@@ -126,7 +126,7 @@ class ActAcivity extends Component {
                     <View style={{ marginLeft: 16 }}>
                         {/*           //  this.props.navigation.dispatch(StackActions.replace('Home')) */}
                         <Pressable onPress={() => this.props.navigation.goBack()}>
-                            <Image
+                            <Image style={{ width: 24, height: 24 }}
                                 source={require('../../assets/images/icon/caret.png')}
                             />
                         </Pressable>

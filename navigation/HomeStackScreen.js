@@ -52,7 +52,7 @@ function HomeStackScreen() {
                                 routename.route_name === "Quiz" ?
                                     <View style={{ marginLeft: 16 }}>
                                         <TouchableOpacity onPress={() => navigation.dispatch(StackActions.replace('Home'))}>
-                                            < Image
+                                            < Image style={{ width: 24, height: 24 }}
                                                 source={require('../assets/images/icon/caret.png')}
                                             />
                                         </TouchableOpacity>
@@ -60,7 +60,7 @@ function HomeStackScreen() {
                                     :
                                     <View style={{ marginLeft: 16 }}>
                                         <TouchableOpacity onPress={() => navigation.goBack()}>
-                                            <Image
+                                            <Image style={{ width: 24, height: 24 }}
                                                 source={require('../assets/images/icon/caret.png')}
                                             />
                                         </TouchableOpacity>
@@ -68,7 +68,7 @@ function HomeStackScreen() {
                                 :
                                 <View style={{ marginLeft: 16 }}>
                                     <TouchableOpacity onPress={() => navigation.goBack()}>
-                                        <Image
+                                        <Image style={{ width: 24, height: 24 }}
                                             source={require('../assets/images/icon/caret.png')}
                                         />
                                     </TouchableOpacity>
@@ -88,7 +88,7 @@ function HomeStackScreen() {
                     headerLeft: () => (
                         <View style={{ marginLeft: 16 }}>
                             <TouchableOpacity onPress={() => navigation.pop()}>
-                                <Image
+                                <Image style={{ width: 24, height: 24 }}
                                     source={require('../assets/images/icon/caret.png')}
                                 />
                             </TouchableOpacity>
@@ -109,7 +109,7 @@ function HomeStackScreen() {
                     headerLeft: () => (
                         <View style={{ marginLeft: 16 }}>
                             <TouchableOpacity onPress={() => navigation.pop()}>
-                                <Image
+                                <Image style={{ width: 24, height: 24 }}
                                     source={require('../assets/images/icon/caret.png')}
                                 />
                             </TouchableOpacity>
@@ -138,7 +138,7 @@ function HomeStackScreen() {
                     headerLeft: () => (
                         <View style={{ marginLeft: 16 }}>
                             <TouchableOpacity onPress={() => navigation.pop()}>
-                                <Image
+                                <Image style={{ width: 24, height: 24 }}
                                     source={require('../assets/images/icon/caret.png')}
                                 />
                             </TouchableOpacity>
@@ -158,7 +158,7 @@ function HomeStackScreen() {
                     headerLeft: () => (
                         <View style={{ marginLeft: 16 }}>
                             <TouchableOpacity onPress={() => navigation.pop()}>
-                                <Image
+                                <Image style={{ width: 24, height: 24 }}
                                     source={require('../assets/images/icon/caret.png')}
                                 />
                             </TouchableOpacity>
@@ -178,7 +178,7 @@ function HomeStackScreen() {
                     headerLeft: () => (
                         <View style={{ marginLeft: 16 }}>
                             <TouchableOpacity onPress={() => navigation.pop()}>
-                                <Image
+                                <Image style={{ width: 24, height: 24 }}
                                     source={require('../assets/images/icon/caret.png')}
                                 />
                             </TouchableOpacity>
@@ -198,7 +198,7 @@ function HomeStackScreen() {
                     headerLeft: () => (
                         <View style={{ marginLeft: 16 }}>
                             <TouchableOpacity onPress={() => navigation.pop()}>
-                                <Image
+                                <Image style={{ width: 24, height: 24 }}
                                     source={require('../assets/images/icon/caret.png')}
                                 />
                             </TouchableOpacity>
@@ -218,7 +218,7 @@ function HomeStackScreen() {
                     headerLeft: () => (
                         <View style={{ marginLeft: 16 }}>
                             <TouchableOpacity onPress={() => navigation.pop()}>
-                                <Image
+                                <Image style={{ width: 24, height: 24 }}
                                     source={require('../assets/images/icon/caret.png')}
                                 />
                             </TouchableOpacity>
@@ -238,7 +238,7 @@ function HomeStackScreen() {
                     headerLeft: () => (
                         <View style={{ marginLeft: 16 }}>
                             <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
-                                <Image
+                                <Image style={{ width: 24, height: 24 }}
                                     source={require('../assets/images/icon/caret.png')}
                                 />
                             </TouchableOpacity>

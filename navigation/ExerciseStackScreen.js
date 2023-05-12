@@ -33,7 +33,7 @@ function HomeStackScreen() {
                     headerLeft: () => (
                         <View style={{ marginLeft: 16 }}>
                             <TouchableOpacity onPress={() => navigation.pop()}>
-                                <Image
+                                <Image style={{ width: 24, height: 24 }}
                                     source={require('../assets/images/icon/caret.png')}
                                 />
                             </TouchableOpacity>

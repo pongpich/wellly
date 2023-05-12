@@ -44,7 +44,7 @@ function NutritionStackScreen() {
                     headerLeft: () => (
                         <View style={{ marginLeft: 16 }}>
                             <TouchableOpacity onPress={() => navigation.pop()}>
-                                <Image
+                                <Image style={{ width: 24, height: 24 }}
                                     source={require('../assets/images/icon/caret.png')}
                                 />
                             </TouchableOpacity>
@@ -91,7 +91,7 @@ function NutritionStackScreen() {
                                 routename.route_name === "Quiz" ?
                                     <View style={{ marginLeft: 16 }}>
                                         <TouchableOpacity onPress={() => navigation.dispatch(StackActions.replace('Home'))}>
-                                            < Image
+                                            < Image style={{ width: 24, height: 24 }}
                                                 source={require('../assets/images/icon/caret.png')}
                                             />
                                         </TouchableOpacity>
@@ -99,7 +99,7 @@ function NutritionStackScreen() {
                                     :
                                     <View style={{ marginLeft: 16 }}>
                                         <TouchableOpacity onPress={() => navigation.goBack()}>
-                                            <Image
+                                            <Image style={{ width: 24, height: 24 }}
                                                 source={require('../assets/images/icon/caret.png')}
                                             />
                                         </TouchableOpacity>
@@ -107,7 +107,7 @@ function NutritionStackScreen() {
                                 :
                                 <View style={{ marginLeft: 16 }}>
                                     <TouchableOpacity onPress={() => navigation.goBack()}>
-                                        <Image
+                                        <Image style={{ width: 24, height: 24 }}
                                             source={require('../assets/images/icon/caret.png')}
                                         />
                                     </TouchableOpacity>
@@ -128,7 +128,7 @@ function NutritionStackScreen() {
                     headerLeft: () => (
                         <View style={{ marginLeft: 16 }}>
                             <TouchableOpacity onPress={() => navigation.pop()}>
-                                <Image
+                                <Image style={{ width: 24, height: 24 }}
                                     source={require('../assets/images/icon/caret.png')}
                                 />
                             </TouchableOpacity>
@@ -149,7 +149,7 @@ function NutritionStackScreen() {
                     headerLeft: () => (
                         <View style={{ marginLeft: 16 }}>
                             <TouchableOpacity onPress={() => navigation.pop()}>
-                                <Image
+                                <Image style={{ width: 24, height: 24 }}
                                     source={require('../assets/images/icon/caret.png')}
                                 />
                             </TouchableOpacity>
