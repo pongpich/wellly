@@ -24,7 +24,7 @@ class ForgotPassword extends Component {
             <View style={styles.hrefViewTel}>
               <Pressable style={styles.buttonContact} onPress={() => Linking.openURL('tel:086-899-9089')}>
                 <Image
-                  style={{ marginTop: 10, marginRight: 10 }}
+                  style={{ marginTop: 10, marginRight: 10, width: 24, height: 24 }}
                   source={require('../assets/images/icon/phone.png')}
                 />
                 <View>
@@ -101,6 +101,8 @@ const styles = StyleSheet.create({
   },
   IconEmail: {
     paddingTop: 16,
+    width: 24,
+    height: 24
   },
   textViewEmail: {
     marginLeft: 16
