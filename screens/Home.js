@@ -448,7 +448,7 @@ class Home extends Component {
                                                                 ((item.id === "light_intensity") || (item.id === "moderate_intensity") || (item.id === "vigorous_intensity") || (item.id === "cardio")) &&
                                                                 <View style={styles.viewIconRight} key={i + "home6"}>
                                                                     <Image
-                                                                        style={{ height: 24, width: 24, zIndex: 1, marginRight: 8 }}
+                                                                        style={{ height: 24, width: 24, zIndex: 1, marginRight: -8 }}
                                                                         source={require('../assets/images/icon/right.png')}
                                                                         key={i + "home7"} />
                                                                 </View>
