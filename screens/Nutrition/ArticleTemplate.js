@@ -175,7 +175,7 @@ class ArticleTemplate extends Component {
     render() {
         const headerHeight = this.state.scrollY.interpolate({
             inputRange: [0, 200],
-            outputRange: [150, 16],
+            outputRange: [120, 16],
             extrapolate: 'clamp',
         });
 

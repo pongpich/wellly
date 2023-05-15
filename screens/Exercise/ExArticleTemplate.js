@@ -416,7 +416,7 @@ class ArticleTemplate extends Component {
         const { study, statusBarColor, id, heading, mission_activities } = this.state;
         const headerHeight = this.state.scrollY.interpolate({
             inputRange: [0, 200],
-            outputRange: [150, 16],
+            outputRange: [120, 16],
             extrapolate: 'clamp',
         });
 
