@@ -20,7 +20,7 @@ const HEADER_MAX_HEIGHT = 600;
 const HEADER_MIN_HEIGHT = 100;
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
-const HEADER_HEIGHT = HEADER_SCROLL_DISTANCE;
+const HEADER_HEIGHT = 384;
 
 
 const data = Array.from({ length: 30 });
@@ -88,6 +88,11 @@ const Exercise = ({ navigation }) => {
         extrapolate: 'clamp'
     });
 
+    const translateY = animatedScrollYValue.interpolate({
+        inputRange: [0, HEADER_HEIGHT],
+        outputRange: [0, -HEADER_HEIGHT],
+        extrapolate: 'clamp',
+    });
     const refresh = () => {
         navigation.navigate("ExHistory")
     }
@@ -501,17 +506,23 @@ const Exercise = ({ navigation }) => {
     return (
         <View style={{ flex: 1 }} forceInset={{ top: 'always' }}>
             <Animated.View
-                style={{
-                    position: 'absolute',
-                    /*                     top: 0,
-                                        left: 0,
-                                        right: 0, */
-                    zIndex: 10,
-                    height: headerHeight2,
-                    /*  backgroundColor: "red" */
-                }}
-            >
+                style={[
+                    {
+                        height: HEADER_HEIGHT,
 
+                        position: 'absolute',
+                        marginTop: 140,
+                        left: 0,
+                        right: 0,
+                        justifyContent: "flex-end",
+
+                        zIndex: 20,
+                    },
+                    {
+                        transform: [{ translateY }],
+                    },
+                ]}
+            >
                 <View style={styles.nutritionBox}>
                     <View style={styles.missionText}>
                         <View style={styles.missionView}>
@@ -813,7 +824,7 @@ const styles = StyleSheet.create({
         backgroundColor: colors.grey7,
     },
     fill2: {
-        marginTop: 180,
+        marginTop: 140,
         zIndex: 1,
     },
 
@@ -924,7 +935,7 @@ const styles = StyleSheet.create({
         height: (deviceHeight > 1023) ? deviceHeight : 500
     },
     scrollViewContent: {
-        marginTop: 380,
+        marginTop: 396,
         opacity: 1,
         paddingBottom: 100
 
