@@ -6,19 +6,60 @@ import colors from '../../constants/colors';
 
 class Gn1 extends Component {
 
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            loading: true,
+            error: false,
+        };
+    }
+
+    handleLoad = () => {
+        this.setState({ loading: false });
+    };
+
+    handleError = () => {
+        this.setState({ loading: false, error: true });
+    };
+
     renderImg(mission_id, img_index, size = 'md') {
         const imgUrl = `https://wellly.s3.ap-southeast-1.amazonaws.com/knowledge/knowledge/${mission_id}/${mission_id}_${img_index}.jpg`
+        const { loading, error } = this.state;
+
         return (
             <View style={{ justifyContent: "center", alignItems: "center" }}>
                 <View style={(size === 'md') ? styles.boxImage : styles.boxImage2}>
+                    {
+                        loading &&
+                        <Image
+                            style={{
+                                width: "100%",
+                                height: "100%",
+                            }}
+                            source={require('../../assets/images/icon/ImageArticle.png')}
+                            resizeMode='stretch'
+                        />}
+                    {error && <Image
+                        style={{
+                            width: "100%",
+                            height: "100%",
+                        }}
+                        source={require('../../assets/images/icon/ImageArticle.png')}
+                        resizeMode='stretch'
+                    />}
                     <Image
                         style={{
                             width: "100%",
                             height: "100%",
                         }}
+                        onLoad={this.handleLoad}
+                        onError={this.handleError}
                         source={{ uri: imgUrl }}
                         resizeMode='stretch'
                     />
+
+
                 </View>
             </View>
         )
@@ -29,6 +70,9 @@ class Gn1 extends Component {
             <View style={styles.scrollViewbox} >
                 {
                     this.renderImg('GN1', 1)
+
+
+
                 }
                 <Text style={styles.title}>
                     คาร์โบไฮเดรต
