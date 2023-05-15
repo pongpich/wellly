@@ -511,7 +511,7 @@ const Exercise = ({ navigation }) => {
                         height: HEADER_HEIGHT,
 
                         position: 'absolute',
-                        marginTop: 140,
+                        marginTop: 160,
                         left: 0,
                         right: 0,
                         justifyContent: "flex-end",
@@ -824,7 +824,7 @@ const styles = StyleSheet.create({
         backgroundColor: colors.grey7,
     },
     fill2: {
-        marginTop: 140,
+        marginTop: 160,
         zIndex: 1,
     },
 
