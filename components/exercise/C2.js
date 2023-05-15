@@ -5,17 +5,53 @@ import colors from '../../constants/colors';
 
 
 class Cd1 extends Component {
+    constructor(props) {
+        super(props);
 
+        this.state = {
+            loading: true,
+            error: false,
+        };
+    }
+
+    handleLoad = () => {
+        this.setState({ loading: false });
+    };
+
+    handleError = () => {
+        this.setState({ loading: false, error: true });
+    };
     renderImg(img_index, size = 'md') {
         const imgUrl = `https://wellly.s3.ap-southeast-1.amazonaws.com/exercise/${img_index}.png`
+        const { loading, error } = this.state;
         return (
             <View style={{ justifyContent: "center", alignItems: "center" }}>
                 <View style={(size === 'md') ? styles.boxImage : styles.boxImage2}>
+                    {
+                        loading &&
+                        <Image
+                            style={{
+                                width: "100%",
+                                height: "100%",
+                            }}
+                            source={require('../../assets/images/icon/ImageArticle.png')}
+                            resizeMode='stretch'
+                        />}
+                    {error && <Image
+                        style={{
+                            width: "100%",
+                            height: "100%",
+                        }}
+                        source={require('../../assets/images/icon/ImageArticle.png')}
+                        resizeMode='stretch'
+                    />}
                     <Image
                         style={{
                             width: "100%",
                             height: "100%",
                         }}
+                        onLoad={this.handleLoad}
+                        onError={this.handleError}
                         source={{ uri: imgUrl }}
                         resizeMode='stretch'
                     />
