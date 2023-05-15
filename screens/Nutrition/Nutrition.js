@@ -17,7 +17,7 @@ const HEADER_MIN_HEIGHT = 10;
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
 
-const HEADER_HEIGHT = 500;
+const HEADER_HEIGHT = 384;
 
 const data = Array.from({ length: 30 });
 
@@ -40,6 +40,8 @@ const Nutrition = ({ navigation }) => {
     const [assessment_kit_number, setAssessment_kit_number] = useState(null);
 
     const animatedScrollYValue = useRef(new Animated.Value(0)).current;
+    const [scrollY] = useState(new Animated.Value(0));
+
     const headerHeight = animatedScrollYValue.interpolate({
         inputRange: [0, HEADER_SCROLL_DISTANCE],
         outputRange: [1, 0.20],
@@ -58,6 +60,12 @@ const Nutrition = ({ navigation }) => {
         inputRange: [0, HEADER_SCROLL_DISTANCE],
         outputRange: [HEADER_SCROLL_DISTANCE + insets.top, insets.top + 100],
         extrapolate: 'clamp'
+    });
+
+    const translateY = animatedScrollYValue.interpolate({
+        inputRange: [0, HEADER_HEIGHT],
+        outputRange: [0, -HEADER_HEIGHT],
+        extrapolate: 'clamp',
     });
     const refresh = () => {
 
@@ -136,19 +144,25 @@ const Nutrition = ({ navigation }) => {
     return (
 
         <View style={styles.fill}>
+            <Animated.View
+                style={[
+                    {
+                        height: HEADER_HEIGHT,
 
-            <Animated.View style={{
-                /*   position: 'absolute', */
-                /*                     top: 0,
-                                    left: 0,
-                                    right: 0, */
-                zIndex: 10,
-                height: headerHeight2,
-                /*  backgroundColor: "red", */
-                justifyContent: "flex-end"
-            }}>
+                        position: 'absolute',
+                        marginTop: 140,
+                        left: 0,
+                        right: 0,
+                        justifyContent: "flex-end",
 
-                <View style={styles.missionText}>
+                        zIndex: 20,
+                    },
+                    {
+                        transform: [{ translateY }],
+                    },
+                ]}
+            >
+                <View style={[styles.missionText, { marginTop: 0 }]}>
                     <Text style={[styles.mission,]}>ภารกิจล่าสุด</Text>
                     {
                         (nutrition_activity && nutrition_activity.length > 0) ?
@@ -173,7 +187,6 @@ const Nutrition = ({ navigation }) => {
 
             <Animated.ScrollView
                 style={styles.fill2}
-                /*   contentContainerStyle={styles.scrollViewContent} */
                 scrollEventThrottle={16}
                 showsVerticalScrollIndicator={false}
                 onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: animatedScrollYValue } } }], { useNativeDriver: false })}
@@ -312,7 +325,7 @@ const styles = StyleSheet.create({
         backgroundColor: colors.grey6
     },
     fill2: {
-
+        marginTop: 140,
         flex: 1,
         zIndex: 1,
     },
@@ -346,7 +359,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 16,
         flexDirection: "row",
         marginBottom: 16,
-
     },
     mission: {
         fontFamily: "IBMPlexSansThai-Bold",
@@ -399,9 +411,10 @@ const styles = StyleSheet.create({
         height: (deviceHeight > 1023) ? deviceHeight : 500
     },
     scrollViewContent: {
-        /*    marginTop: (deviceHeight < 688) ? "33%" : (deviceHeight > 1023) ? "40%" : "51%", */
+        /*   marginTop: (deviceHeight < 688) ? "33%" : (deviceHeight > 1023) ? "40%" : "51%", */
         opacity: 1,
-        flex: 1
+        flex: 1,
+        marginTop: 380
         /*  paddingBottom: 100 */
 
     },
