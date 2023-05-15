@@ -222,9 +222,9 @@ class Home extends Component {
         return (
             <View style={[ComponentsStyle.container, { backgroundColor: colors.mayaBlue60 }]}>
                 <ScrollView showsVerticalScrollIndicator={false}>
+                    <ImageBackground source={require('../assets/images/home/Logo.png')} style={{ marginTop: 0, width: 400 }} >
 
-                    <ImageBackground source={require('../assets/images/home/Logo.png')} style={{ marginTop: 0 }}  >
-                        <View style={{ marginBottom: 80 }}>
+                        <View style={{ marginBottom: 100 }}>
 
                             <View style={{ height: 44, width: "100%" }}>
                                 <StatusBar barStyle="dark-content" />
@@ -237,25 +237,18 @@ class Home extends Component {
                                     <Text style={styles.content}>ภารกิจของคุณในสัปดาห์นี้</Text>
                                 </View>
 
-                                <View>
-                                    {/*  <Image
-                                style={{ height: 64, width: 64, zIndex: 1, marginRight: 8 }}
-                                source={require('../assets/images/home/Profile.png')}
-                            /> */}
+                                <View style={{ marginRight: 8 }}>
                                     <Pressable onPress={() => this.props.navigation.navigate("Profile")}  >
                                         <View style={styles.boxName}>
                                             <Text style={styles.nameIcon}>{user && this.checkFistChar(user.display_name)}</Text>
                                         </View>
                                     </Pressable>
-                                    {/*  <Pressable onPress={() => this.props.logoutUser()}  >
-                                        <Text style={{ marginLeft: 10, marginTop: 5, color: colors.grey2 }}>Logout</Text>
-                                    </Pressable> */}
                                 </View>
                             </View>
                         </View>
                     </ImageBackground>
 
-                    <View style={{ paddingLeft: 16, marginTop: -33 }}>
+                    <View style={{ paddingLeft: 16, marginTop: -53 }}>
 
                         {
 
@@ -473,11 +466,7 @@ class Home extends Component {
                             </View>
                     }
 
-
-
-
-
-                    {/*          <Text style={styles.reportChallenge}>รายงานการทำกิจกรรม</Text>
+                    <Text style={styles.reportChallenge}>รายงานการทำกิจกรรม</Text>
                     <View style={{ marginHorizontal: 16, backgroundColor: colors.white, borderRadius: 16, paddingTop: 18, marginBottom: 40 }}>
                         <View style={styles.missionView}>
                             <Pressable style={[{ width: "auto", paddingHorizontal: 8 }, statusChart === 1 ? styles.missionPre : styles.programPre]} onPress={() => this.setState({ statusChart: 1 })} >
@@ -546,7 +535,7 @@ class Home extends Component {
                                 <Text style={styles.textWatch}>สูง</Text>
                             </View>
                         </View>
-                    </View> */}
+                    </View>
 
                 </ScrollView >
             </View >
