@@ -17,6 +17,8 @@ const HEADER_MIN_HEIGHT = 10;
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
 
+const HEADER_HEIGHT = 500;
+
 const data = Array.from({ length: 30 });
 
 
@@ -46,12 +48,17 @@ const Nutrition = ({ navigation }) => {
 
     const insets = useSafeAreaInsets();
 
+    /*   const headerHeight2 = animatedScrollYValue.interpolate({
+          inputRange: [0, HEADER_MAX_HEIGHT],
+          outputRange: [HEADER_MAX_HEIGHT + insets.top, insets.top + 60],
+          extrapolate: 'clamp'
+      });
+   */
     const headerHeight2 = animatedScrollYValue.interpolate({
-        inputRange: [0, HEADER_MAX_HEIGHT],
-        outputRange: [HEADER_MAX_HEIGHT + insets.top, insets.top + 140],
+        inputRange: [0, HEADER_SCROLL_DISTANCE],
+        outputRange: [HEADER_SCROLL_DISTANCE + insets.top, insets.top + 100],
         extrapolate: 'clamp'
     });
-
     const refresh = () => {
 
         navigation.navigate("History")
@@ -127,36 +134,52 @@ const Nutrition = ({ navigation }) => {
     };
 
     return (
+
         <View style={styles.fill}>
+
+            <Animated.View style={{
+                /*   position: 'absolute', */
+                /*                     top: 0,
+                                    left: 0,
+                                    right: 0, */
+                zIndex: 10,
+                height: headerHeight2,
+                /*  backgroundColor: "red", */
+                justifyContent: "flex-end"
+            }}>
+
+                <View style={styles.missionText}>
+                    <Text style={[styles.mission,]}>ภารกิจล่าสุด</Text>
+                    {
+                        (nutrition_activity && nutrition_activity.length > 0) ?
+                            <Pressable onPress={() => refresh()}>
+                                <Image
+                                    style={styles.iconImageRight}
+
+                                    source={require('../../assets/images/icon/History.png')}
+                                //  this.props.navigation.navigate("Walkthrough")
+                                />
+                            </Pressable>
+                            :
+                            <Image
+                                style={styles.iconImageRight}
+                                source={require('../../assets/images/icon/History1.png')}
+                            //  this.props.navigation.navigate("Walkthrough")
+                            />
+                    }
+
+                </View>
+            </Animated.View>
+
             <Animated.ScrollView
                 style={styles.fill2}
-                contentContainerStyle={styles.scrollViewContent}
+                /*   contentContainerStyle={styles.scrollViewContent} */
                 scrollEventThrottle={16}
                 showsVerticalScrollIndicator={false}
                 onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: animatedScrollYValue } } }], { useNativeDriver: false })}
             >
                 <View style={styles.scrollViewContent}>
-                    <View style={styles.missionText}>
-                        <Text style={styles.mission}>ภารกิจล่าสุด</Text>
-                        {
-                            (nutrition_activity && nutrition_activity.length > 0) ?
-                                <Pressable onPress={() => refresh()}>
-                                    <Image
-                                        style={styles.iconImageRight}
 
-                                        source={require('../../assets/images/icon/History1.png')}
-                                    //  this.props.navigation.navigate("Walkthrough")
-                                    />
-                                </Pressable>
-                                :
-                                <Image
-                                    style={styles.iconImageRight}
-                                    source={require('../../assets/images/icon/History.png')}
-                                //  this.props.navigation.navigate("Walkthrough")
-                                />
-                        }
-
-                    </View>
 
                     {nutrition_activity ?
 
@@ -173,7 +196,7 @@ const Nutrition = ({ navigation }) => {
                                                 <View style={styles.missionData}>
                                                     <Text style={styles.missionHead}>{item.heading}</Text>
                                                     <Text style={[styles.missionContent, { marginRight: 16 }]}>
-                                                        {/* เพิ่ม substringText เพื่อย่อเนื้อหาใน card ให้เหลือ 2บรรทัด... */}
+
                                                         {substringText(item.short_content)}
                                                     </Text>
                                                     {
@@ -197,7 +220,6 @@ const Nutrition = ({ navigation }) => {
                                                         style={{ height: 24, width: 24, zIndex: 1, marginRight: 8 }}
                                                         source={require('../../assets/images/icon/right.png')}
                                                     />
-                                                    {/*   <AntDesign name="right" style={styles.iconRight} /> */}
                                                 </View>
                                             </View>
                                         </Pressable>
@@ -213,7 +235,6 @@ const Nutrition = ({ navigation }) => {
                                                 <View style={styles.missionData}>
                                                     <Text style={styles.missionHead}>{item.heading}</Text>
                                                     <Text style={[styles.missionContent, { marginRight: 16 }]}>
-                                                        {/* เพิ่ม substringText เพื่อย่อเนื้อหาใน card ให้เหลือ 2บรรทัด... */}
                                                         {substringText(item.short_content)}
                                                     </Text>
                                                     {
@@ -237,7 +258,6 @@ const Nutrition = ({ navigation }) => {
                                                         style={{ height: 24, width: 24, zIndex: 1, marginRight: 8 }}
                                                         source={require('../../assets/images/icon/right.png')}
                                                     />
-                                                    {/*   <AntDesign name="right" style={styles.iconRight} /> */}
                                                 </View>
                                             </View>
                                         </Pressable>
@@ -262,14 +282,16 @@ const Nutrition = ({ navigation }) => {
                     }
                 </View>
             </Animated.ScrollView >
-            <Text style={styles.nutritionText}>โภชนาการ</Text>
-            <Animated.View opacity={headerHeight2} >
 
-            </Animated.View>
+
+            <Text style={styles.nutritionText}>โภชนาการ</Text>
+
+
             <Animated.View opacity={headerHeight} style={[styles.header]}>
-                <View style={styles.imageView}>
+
+                <View style={[styles.imageView,]}>
                     <ImageBackground
-                        style={{ height: "100%", width: "100%", zIndex: 0 }}
+                        style={{ height: "100%", width: "100%", zIndex: 0, }}
                         source={require('../../assets/images/logo/Sample.png')}
                     />
                 </View>
@@ -290,24 +312,25 @@ const styles = StyleSheet.create({
         backgroundColor: colors.grey6
     },
     fill2: {
-        marginTop: 107,
+
         flex: 1,
         zIndex: 1,
     },
 
     nutritionText: {
-        marginHorizontal: 16,
         fontFamily: "IBMPlexSansThai-Bold",
         fontSize: ComponentsStyle.fontSize24,
         color: colors.grey1,
-        marginHorizontal: 16,
-        marginTop: 60,
+        marginTop: 50,
         opacity: 1,
         zIndex: 10,
-        position: 'absolute'
-
+        width: "100%",
+        alignItems: "stretch",
+        marginLeft: 16,
+        position: 'absolute',
     },
     row: {
+
         position: "relative",
         height: "auto",
         marginBottom: 16,
@@ -323,6 +346,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 16,
         flexDirection: "row",
         marginBottom: 16,
+
     },
     mission: {
         fontFamily: "IBMPlexSansThai-Bold",
@@ -350,6 +374,8 @@ const styles = StyleSheet.create({
         position: 'absolute',
         width: "100%",
 
+        height: "100%"
+
     },
     number: {
         fontSize: ComponentsStyle.fontSize20,
@@ -373,9 +399,10 @@ const styles = StyleSheet.create({
         height: (deviceHeight > 1023) ? deviceHeight : 500
     },
     scrollViewContent: {
-        marginTop: (deviceHeight < 688) ? "33%" : (deviceHeight > 1023) ? "40%" : "51%",
+        /*    marginTop: (deviceHeight < 688) ? "33%" : (deviceHeight > 1023) ? "40%" : "51%", */
         opacity: 1,
-        paddingBottom: 100
+        flex: 1
+        /*  paddingBottom: 100 */
 
     },
     notifiedRed: {
