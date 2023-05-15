@@ -399,7 +399,7 @@ class Home extends Component {
                                                             <View style={styles.numberView} key={i + "hom"}>
                                                                 <AnimatedCircularProgress
                                                                     size={64}
-                                                                    width={8}
+                                                                    width={6}
                                                                     fill={multiple}
                                                                     tintTransparency={true}
                                                                     rotation={360}
@@ -410,10 +410,10 @@ class Home extends Component {
                                                                         (fill) => (
                                                                             <>
                                                                                 <View style={{ flexDirection: "row", marginTop: 10 }} key={i + "an"}>
-                                                                                    <Text style={{ color: colors.grey1, fontSize: 16, fontFamily: "IBMPlexSansThai-Bold", marginTop: 0 }} key={i + "an2"}>{item.number_completed}</Text>
-                                                                                    <Text style={{ color: colors.grey1, fontSize: 14, fontFamily: "IBMPlexSansThai-Regular", marginTop: 4 }} key={i + "an3"}> /{item.number}</Text>
+                                                                                    <Text style={{ color: colors.grey1, fontSize: 16, fontFamily: item.number_completed == 0 ? "IBMPlexSansThai-Regular" : "IBMPlexSansThai-Bold", marginTop: 0 }} key={i + "an2"}>{item.number_completed}</Text>
+                                                                                    <Text style={{ color: colors.grey1, fontSize: 12, fontFamily: "IBMPlexSansThai-Regular", marginTop: 4 }} key={i + "an3"}> /{item.number}</Text>
                                                                                 </View>
-                                                                                <Text style={{ color: colors.grey2, fontSize: 16, fontFamily: "IBMPlexSansThai-Regular", marginTop: -10 }} key={i + "an4"}>ครั้ง</Text>
+                                                                                <Text style={{ color: colors.grey2, fontSize: 12, fontFamily: "IBMPlexSansThai-Regular", marginTop: -5 }} key={i + "an4"}>ครั้ง</Text>
                                                                             </>
                                                                         )
 
