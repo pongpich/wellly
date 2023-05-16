@@ -264,12 +264,12 @@ class ArticleTemplate extends Component {
                                 expanded ?
                                     <Image
                                         source={require('../../assets/images/icon/ChevronUp.png')}
-                                        style={{ width: 16, height: 16 }}
+                                        style={{ width: 16, height: 16, marginRight: -15 }}
                                     />
                                     :
                                     <Image
                                         source={require('../../assets/images/icon/ChevronDown.png')}
-                                        style={{ width: 16, height: 16 }}
+                                        style={{ width: 16, height: 16, marginRight: -15 }}
                                     />
                             )}
 
