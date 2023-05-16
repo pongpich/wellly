@@ -786,7 +786,7 @@ const styles = StyleSheet.create({
         height: "auto",
         marginBottom: 16,
         backgroundColor: colors.white,
-        borderRadius: 16,
+        borderRadius: 8,
         flexDirection: "row",
         borderColor: colors.grey4,
         borderWidth: 1
