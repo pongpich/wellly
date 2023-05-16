@@ -451,13 +451,13 @@ class Add extends Component {
                                                         />
                                                         <View style={styles.groupText2}>
                                                             <Text style={styles.headText2}>{item.activity}</Text>
-                                                            <Text
+                                                            {/*   <Text
                                                                 style={[styles.groupStatus, { color: item.intensity === 'light_intensity' ? colors.secondary_MayaBlue : item.intensity === 'moderate_intensity' ? colors.tertiaryYellow : colors.tertiaryMagenta }]}
                                                             >
                                                                 {(item.intensity === 'light_intensity') && 'เข้มข้นต่ำ'}
                                                                 {(item.intensity === 'moderate_intensity') && 'เข้มข้นปานกลาง'}
                                                                 {(item.intensity === 'vigorous_intensity') && 'เข้มข้นสูง'}
-                                                            </Text>
+                                                            </Text> */}
                                                         </View>
                                                     </View>
                                                     <View style={styles.viewIconRight2}>
@@ -658,13 +658,13 @@ class Add extends Component {
                                                                 />
                                                                 <View style={styles.groupText2}>
                                                                     <Text style={styles.headText2}>{item.activity}</Text>
-                                                                    <Text
+                                                                    {/*   <Text
                                                                         style={[styles.groupStatus, { color: item.intensity === 'light_intensity' ? colors.secondary_MayaBlue : item.intensity === 'moderate_intensity' ? colors.tertiaryYellow : colors.tertiaryMagenta }]}
                                                                     >
                                                                         {(item.intensity === 'light_intensity') && 'เข้มข้นต่ำ'}
                                                                         {(item.intensity === 'moderate_intensity') && 'เข้มข้นปานกลาง'}
                                                                         {(item.intensity === 'vigorous_intensity') && 'เข้มข้นสูง'}
-                                                                    </Text>
+                                                                    </Text> */}
                                                                 </View>
                                                             </View>
                                                             <View style={styles.viewIconRight2}>
@@ -1050,6 +1050,7 @@ const styles = StyleSheet.create({
     },
     groupText2: {
         flexDirection: "column",
+        justifyContent: "center"
 
     },
     groupStatus: {
