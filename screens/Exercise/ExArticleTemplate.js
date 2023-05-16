@@ -352,7 +352,7 @@ class ArticleTemplate extends Component {
                                         <View style={styles.numberView}>
                                             <AnimatedCircularProgress
                                                 size={64}
-                                                width={8}
+                                                width={6}
                                                 fill={multiple}
                                                 tintTransparency={true}
                                                 rotation={360}
@@ -363,10 +363,10 @@ class ArticleTemplate extends Component {
                                                     (fill) => (
                                                         <>
                                                             <View style={{ flexDirection: "row", marginTop: 10 }}>
-                                                                <Text style={{ color: colors.grey1, fontSize: 16, fontFamily: "IBMPlexSansThai-Bold", marginTop: 0 }}>{item.number_completed}</Text>
-                                                                <Text style={{ color: colors.grey1, fontSize: 14, fontFamily: "IBMPlexSansThai-Regular", marginTop: 4 }}> /{item.number}</Text>
+                                                                <Text style={{ color: colors.grey1, fontSize: 16, fontFamily: item.number_completed == 0 ? "IBMPlexSansThai-Regular" : "IBMPlexSansThai-Bold", marginTop: -10 }}>{item.number_completed}</Text>
+                                                                <Text style={{ color: colors.grey1, fontSize: 12, fontFamily: "IBMPlexSansThai-Regular", marginTop: -5 }}> /{item.number}</Text>
                                                             </View>
-                                                            <Text style={{ color: colors.grey2, fontSize: 16, fontFamily: "IBMPlexSansThai-Regular", marginTop: -10 }}>ครั้ง</Text>
+                                                            <Text style={{ color: colors.grey2, fontSize: 12, fontFamily: "IBMPlexSansThai-Regular", marginTop: -5 }}>ครั้ง</Text>
                                                         </>
                                                     )
 
