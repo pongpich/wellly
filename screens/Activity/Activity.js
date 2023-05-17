@@ -253,7 +253,7 @@ const Activity = ({ navigation }) => {
                             </View>
                             {
                                 statusChart === 2 &&
-                                <ScrollView horizontal={true}  showsVerticalScrollIndicator={false}>
+                                <ScrollView horizontal={true} showsVerticalScrollIndicator={false}>
                                     <View style={{ flexDirection: 'row', marginVertical: 8, paddingHorizontal: 16, paddingBottom: 8 }}>
                                         {[...Array(month)].map((_, index) => (
                                             month === index + 1 ?
@@ -421,11 +421,11 @@ const Activity = ({ navigation }) => {
                                     {
                                         data && data.length > 0 ?
                                             <Pressable onPress={() => navigation.navigate("ActHistoty")} style={styles.historyRight}>
-                                                <Image style={styles.iconImageRight} source={require('../../assets/images/icon/History1.png')} />
+                                                <Image style={styles.iconImageRight} source={require('../../assets/images/icon/History.png')} />
                                             </Pressable>
                                             :
                                             <Pressable style={styles.historyRight}>
-                                                <Image style={styles.iconImageRight} source={require('../../assets/images/icon/History.png')} />
+                                                <Image style={styles.iconImageRight} source={require('../../assets/images/icon/History1.png')} />
                                             </Pressable>
                                     }
                                 </>
@@ -457,6 +457,9 @@ const styles = StyleSheet.create({
     fill2: {
         marginTop: 170,
         zIndex: 1,
+    },
+    iconImageRight: {
+        width: 24, height: 24
     },
 
     nutritionText: {
