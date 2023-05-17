@@ -44,7 +44,7 @@ const Nutrition = ({ navigation }) => {
 
     const headerHeight = animatedScrollYValue.interpolate({
         inputRange: [0, HEADER_SCROLL_DISTANCE],
-        outputRange: [1, 0.20],
+        outputRange: [1, 0.2],
         extrapolate: 'clamp',
     });
 
@@ -414,7 +414,7 @@ const styles = StyleSheet.create({
         /*   marginTop: (deviceHeight < 688) ? "33%" : (deviceHeight > 1023) ? "40%" : "51%", */
         opacity: 1,
         flex: 1,
-        marginTop: 380
+        marginTop: 380,
         /*  paddingBottom: 100 */
 
     },

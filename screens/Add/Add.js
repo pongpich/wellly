@@ -355,9 +355,12 @@ class Add extends Component {
                                     this.modalConter(isModalConter);
                                 }}>
 
-                                    <View style={{ marginTop: -20, marginLeft: -20, width: 70, height: 60 }}>
+                                    <View style={{ marginTop: -20, marginLeft: -20, width: 70, height: 60 }} >
                                         <Image
-                                            style={[styles.cross, { marginLeft: 20, marginTop: 20 }]}
+                                            style={[styles.cross, {
+                                                marginLeft: 20, marginTop: 20,
+
+                                            }]}
                                             source={require('../../assets/images/activity/cross.png')}
                                         />
                                     </View>
@@ -367,7 +370,7 @@ class Add extends Component {
                                 : <View></View>
                         }
 
-                        {intensityFromExArticle === null ? <Text style={[styles.headActivity, { marginLeft: -20 }]}>กิจกรรมตามความเข้มข้น</Text>
+                        {intensityFromExArticle === null ? <Text style={[styles.headActivity, {}]}>กิจกรรมตามความเข้มข้น</Text>
                             :
                             intensityFromExArticle == "light_intensity" ? <Text style={styles.headActivity}>กิจกรรมตามความเข้มข้นต่ำ</Text>
                                 :
@@ -445,10 +448,12 @@ class Add extends Component {
                                             <TouchableWithoutFeedback key={i} onPress={() => this.nextAddActivity(item.activity, item.intensity, item.type)}>
                                                 <View style={{ marginRight: 16 }}>
                                                     <View style={styles.missionView}>
+
                                                         <Image
                                                             style={styles.activityImage}
                                                             source={item.intensity === 'light_intensity' ? require('../../assets/images/activity/Activitylow.png') : item.intensity === 'moderate_intensity' ? require('../../assets/images/activity/Activitycenter.png') : require('../../assets/images/activity/Activityhign.png')}
                                                         />
+
                                                         <View style={styles.groupText2}>
                                                             <Text style={styles.headText2}>{item.activity}</Text>
                                                             {/*   <Text
@@ -1018,9 +1023,11 @@ const styles = StyleSheet.create({
         flexDirection: "row"
     },
     activityImage: {
-        width: 32,
+        width: 32.545,
+
         height: 32,
         marginTop: 16,
+
         marginLeft: 16
     },
     headText: {
@@ -1181,9 +1188,9 @@ const styles = StyleSheet.create({
         fontFamily: "IBMPlexSansThai-Bold",
     },
     cross: {
-        width: 16,
-        height: 16,
-        marginLeft: 2
+        width: 24,
+        height: 24,
+        /*    marginLeft: 2 */
     },
     headActivity: {
         fontSize: 16,

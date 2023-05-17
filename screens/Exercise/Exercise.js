@@ -73,7 +73,7 @@ const Exercise = ({ navigation }) => {
 
     const headerHeight = animatedScrollYValue.interpolate({
         inputRange: [0, HEADER_SCROLL_DISTANCE],
-        outputRange: [1, 0.20],
+        outputRange: [1, 0.2],
         extrapolate: 'clamp',
     });
 
