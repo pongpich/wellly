@@ -466,7 +466,7 @@ class Home extends Component {
                             </View>
                     }
 
-                    <Text style={styles.reportChallenge}>รายงานการทำกิจกรรม</Text>
+                    {/*   <Text style={styles.reportChallenge}>รายงานการทำกิจกรรม</Text>
                     <View style={{ marginHorizontal: 16, backgroundColor: colors.white, borderRadius: 16, paddingTop: 18, marginBottom: 40 }}>
                         <View style={styles.missionView}>
                             <Pressable style={[{ width: "auto", paddingHorizontal: 8 }, statusChart === 1 ? styles.missionPre : styles.programPre]} onPress={() => this.setState({ statusChart: 1 })} >
@@ -536,7 +536,7 @@ class Home extends Component {
                             </View>
                         </View>
                     </View>
-
+ */}
                 </ScrollView >
             </View >
 
