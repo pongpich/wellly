@@ -340,6 +340,9 @@ const styles = StyleSheet.create({
         width: "100%",
         alignItems: "stretch",
         marginLeft: 16,
+        textAlign: "center",
+        marginLeft: "-25%",
+        left: 0,
         position: 'absolute',
     },
     row: {

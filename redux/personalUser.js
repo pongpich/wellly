@@ -9,7 +9,8 @@ export const types = {
   LENG_APP: "LENG_APP",
   LENG_APP: "LENG_APP",
   ROUTE_NAME: "ROUTE_NAME",
-  COREBALNCE_BALANCE: "COREBALNCE_BALANCE"
+  COREBALNCE_BALANCE: "COREBALNCE_BALANCE",
+  SET_SELECTED_TAB: "SET_SELECTED_TAB"
 };
 
 
@@ -52,10 +53,17 @@ export const routeName = (route_name) => ({
 });
 
 
+
 export const coreBalance = (core_balance) => ({
   type: types.COREBALNCE_BALANCE,
   payload: {
     core_balance,
+  },
+});
+export const setSelectedTab = (setTab) => ({
+  type: types.SET_SELECTED_TAB,
+  payload: {
+    setTab,
   },
 });
 
@@ -78,7 +86,8 @@ const INIT_STATE = {
   profanity: null,
   leng: "th",
   route_name: "null",
-  coreBalanceRoute: null
+  coreBalanceRoute: null,
+  set_Selected_Tab: null
 };
 
 export function reducer(state = INIT_STATE, action) {
@@ -107,6 +116,11 @@ export function reducer(state = INIT_STATE, action) {
       return {
         ...state,
         coreBalanceRoute: action.payload,
+      };
+    case types.SET_SELECTED_TAB:
+      return {
+        ...state,
+        set_Selected_Tab: action.payload,
       };
     default:
       return { ...state };

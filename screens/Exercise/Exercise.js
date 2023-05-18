@@ -6,6 +6,7 @@ import ComponentsStyle from '../../constants/components';
 import Modal from "react-native-modal";
 import { AntDesign } from '@expo/vector-icons';
 import { useSelector, useDispatch } from "react-redux";
+import { routeName, setSelectedTab } from "../../redux/personalUser";
 import { connect } from 'react-redux';
 import { getExerciserActivity, getAllTrainingSet, getTrainingSet } from "../../redux/get";
 import { List } from 'react-native-paper';
@@ -37,7 +38,7 @@ const Exercise = ({ navigation }) => {
     const { exerciserActivity, nutrition_activity, statusExerciserActivity, statusAllTrainingSet, allTrainingSet, statusTrainingSet, trainingSet } = useSelector(({ getData }) => getData ? getData : "");
     const { statusPopupSary } = useSelector(({ updateData }) => updateData ? updateData : "");
     const { coreBalanceRoute } = useSelector(({ personalDataUser }) => personalDataUser ? personalDataUser : "");
-
+    const { set_Selected_Tab } = useSelector(({ personalDataUser }) => personalDataUser && personalDataUser ? personalDataUser : null);
     const [statusNotified, setStatusNotified] = useState(null);
     const [statusMission, setStatusMission] = useState(true);
     const [status_male_female, setStatus_male_female] = useState("ชาย");
@@ -186,7 +187,7 @@ const Exercise = ({ navigation }) => {
                 allTrainingSet && allTrainingSet.map((item, i) => {
 
                     if (name === item.name) {
-                        console.log("item", item);
+
                         closeeModal(item.id, item.name)
                         navigation.navigate("Exercise")
                     }
@@ -203,6 +204,38 @@ const Exercise = ({ navigation }) => {
         return unsubscribe;
 
     }, [route.params]);
+
+
+    useEffect(() => {  // ตอนกดมาจากหน้าภารกิจ
+        const unsubscribe = navigation.addListener('focus', () => {
+            if (set_Selected_Tab !== null) {
+                if (set_Selected_Tab.setTab) {
+                    allTrainingSet && allTrainingSet.map((item, i) => {
+
+                        if (set_Selected_Tab.setTab === item.name) {
+
+                            closeeModal(item.id, item.name)
+                            dispatch(setSelectedTab("null"));
+                            navigation.navigate("Exercise")
+
+
+                        }
+
+                    })
+                }
+
+                setStatusMission(false)
+
+            } else {
+                setStatusMission(true)
+                setIsModalVisibleVedio(false)
+            }
+
+        });
+
+        return unsubscribe;
+
+    }, [set_Selected_Tab]);
 
     useEffect(() => {
         if (statusExerciserActivity === "success") {

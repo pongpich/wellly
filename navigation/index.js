@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Button, View, Image, TouchableOpacity, Dimensions, StatusBar } from 'react-native';
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import { NavigationContainer, useNavigation, useFocusEffect } from '@react-navigation/native';
 import { createStackNavigator, CardStyleInterpolators, TransitionSpecs, TransitionPresets } from '@react-navigation/stack';
 import Login from '../screens/Login';
 import Register from '../screens/Register';
@@ -24,7 +24,8 @@ import NutritionStackScreen from '../navigation/NutritionStackScreen';
 import AddStackScreen from '../navigation/AddStackScreen';
 import ExerciseStackScreen from '../navigation/ExerciseStackScreen';
 import ActivityStackScreen from '../navigation/ActivityStackScreen';
-
+import { useSelector, useDispatch } from "react-redux";
+import { routeName, setSelectedTab } from "../redux/personalUser";
 
 
 
@@ -43,12 +44,24 @@ const config = {
 };
 
 function MyHome() {
-
-
+  const { set_Selected_Tab } = useSelector(({ personalDataUser }) => personalDataUser ? personalDataUser : null);
+  /*   const dispatch = useDispatch(); */
   /* const { t } = this.props.withTranslation; */
 
+  /*   console.log("set_Selected_Tab", set_Selected_Tab); */
   const languages = i18next.languages[0];
 
+  const navigation = useNavigation();
+
+  useFocusEffect(
+    React.useCallback(() => {
+      if (set_Selected_Tab) {
+        navigation.navigate('ExerciseTab');
+
+
+      }
+    }, [set_Selected_Tab])
+  );
   const devicehHeight = Math.round(Dimensions.get('window').height);
 
 
@@ -205,7 +218,8 @@ function MyHome() {
         })}
       />
       <Tab.Screen name="ExerciseTab" component={ExerciseStackScreen}
-        options={({ route }) => ({
+
+        options={({ route, getState }) => ({
           tabBarStyle: {
             display: getBottomTabse(route),
             paddingTop: 16,
@@ -258,7 +272,6 @@ function MyHome() {
 
 function MyStack(props) {
   const navigation = useNavigation();
-
 
   return (
 

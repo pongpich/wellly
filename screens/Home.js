@@ -5,9 +5,10 @@ import { getNutritionMission, getNutritionActivity, getExerciserActivity, getAct
 import { insertNutritionActivity, insertExerciseActivity, checkUpdateBadgeWin } from "../redux/update";
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
-import { routeName } from "../redux/personalUser";
+import { routeName, setSelectedTab } from "../redux/personalUser";
 import ComponentsStyle from '../constants/components';
 import colors from '../constants/colors';
+import { calculateWeekInProgram, currentTime } from "../helpers/utils";
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import {
     LineChart,
@@ -47,6 +48,7 @@ class Home extends Component {
             monthData: [],
             yearData: [],
             year: [1],
+            week_in_program: null,
             thisYear: 2023,
             selectedYear: 2023
         };
@@ -64,9 +66,11 @@ class Home extends Component {
             var buddhistYear = year + 543; // แปลงเป็นปี พ.ศ.
             itemsYear.push({ label: buddhistYear.toString(), value: year }); // เพิ่ม object ปีเข้าไปใน array
         }
-
+        const week_in_program = calculateWeekInProgram(user.start_date);
 
         this._unsubscribe = this.props.navigation.addListener('focus', () => {
+
+
 
             this.setState({
                 weekData: [[dataItem.lightDuration, dataItem.moderateDuration, dataItem.virgorousDuration,],
@@ -89,7 +93,8 @@ class Home extends Component {
                 [dataItem.lightDuration, dataItem.moderateDuration, dataItem.virgorousDuration,],
                 [dataItem.lightDuration, dataItem.moderateDuration, dataItem.virgorousDuration,],
                 [dataItem.lightDuration, dataItem.moderateDuration, dataItem.virgorousDuration,],
-                [dataItem.lightDuration, dataItem.moderateDuration, dataItem.virgorousDuration,],]
+                [dataItem.lightDuration, dataItem.moderateDuration, dataItem.virgorousDuration,],],
+                week_in_program: week_in_program
             })
             // do something
             this.props.getActivityList(user && user.user_id);
@@ -119,6 +124,7 @@ class Home extends Component {
                 month: currMonth,
                 selectedMonth: currMonth,
                 year: itemsYear,
+                week_in_program: week_in_program
             })
 
 
@@ -314,6 +320,20 @@ class Home extends Component {
 
     }
 
+    actionPress(id, name) {
+
+        //  Core+Balance+Plyometric  Core+Balance
+        if ((name == "Core+Balance+Plyometric") || (name == "Core+Balance") || (name == "Resistance") || (name == "Flexibility")) {
+            /*  this.props.navigation.navigate("Exercise", { name: name }) */
+            this.props.setSelectedTab(name);
+        } else {
+            this.props.setIntensityFromExArticleTemplate(id)
+            this.props.navigation.navigate("Add", { activity_id: id })
+        }
+
+
+    }
+
     checkFistChar(name) {
         let firstChar;
         if (name.match(/^[\u0E00-\u0E7F\s]+$/)) {
@@ -360,7 +380,7 @@ class Home extends Component {
     render() {
         const { user, activity_list } = this.props;
         const { latest_nutrition_activity, latest_exercise_activity, latest_exercise_mission, statusChart, isLoading, labelsWeek, weekData, monthData,
-            yearData, labelsMonth, labelsYear, month, selectedMonth, year, thisYear, selectedYear } = this.state;
+            yearData, labelsMonth, labelsYear, month, selectedMonth, year, thisYear, selectedYear, week_in_program } = this.state;
         const opacity = this.animatedValue.interpolate({
             inputRange: [0, 0.5, 1],
             outputRange: [1, 0.5, 1],
@@ -562,13 +582,17 @@ class Home extends Component {
                                             var maxScore = item.number * item.score;
                                             var score_completed = item.number_completed * item.score;
 
+
+
+
                                             return (
 
                                                 <View key={i + "rv"}>
                                                     <Pressable
                                                         onPress={() =>
-                                                            ((item.id === "light_intensity") || (item.id === "moderate_intensity") || (item.id === "vigorous_intensity") || (item.id === "cardio")) && this.actionPress(item.id)
-                                                        }
+                                                            /*console.log(item.id, item.name) */
+                                                            this.actionPress(item.id, item.name)}
+                                                        key={i + "tfb"}
                                                     >
                                                         <View key={i + "h"} style={{ flexDirection: "row", marginBottom: 16 }}>
                                                             <View style={styles.numberView} key={i + "hom"}>
@@ -613,12 +637,14 @@ class Home extends Component {
                                                                 </View>
                                                             </View>
                                                             {
-                                                                ((item.id === "light_intensity") || (item.id === "moderate_intensity") || (item.id === "vigorous_intensity") || (item.id === "cardio")) &&
+
+
                                                                 <View style={styles.viewIconRight} key={i + "home6"}>
                                                                     <Image
                                                                         style={{ height: 24, width: 24, zIndex: 1, marginRight: -8 }}
                                                                         source={require('../assets/images/icon/right.png')}
                                                                         key={i + "home7"} />
+
                                                                 </View>
                                                             }
 
@@ -1041,7 +1067,7 @@ const mapStateToProps = ({ authUser, getData, personalDataUser, updateData }) =>
     };
 };
 
-const mapActionsToProps = { logoutUser, getNutritionMission, routeName, insertNutritionActivity, insertExerciseActivity, getMemberActivityLogInWeek, loginUser, getNutritionActivity, getExerciserActivity, getActivityList, setIntensityFromExArticleTemplate, checkUpdateBadgeWin, getYearActivityLogGraph, getMonthActivityLogGraph, getWeekActivityLogGraph };
+const mapActionsToProps = { logoutUser, getNutritionMission, routeName, setSelectedTab, insertNutritionActivity, insertExerciseActivity, getMemberActivityLogInWeek, loginUser, getNutritionActivity, getExerciserActivity, getActivityList, setIntensityFromExArticleTemplate, checkUpdateBadgeWin, getYearActivityLogGraph, getMonthActivityLogGraph, getWeekActivityLogGraph };
 
 export default connect(
     mapStateToProps,
