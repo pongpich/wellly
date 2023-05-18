@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Pressable, ImageBackground, Image, ScrollView, StatusBar, statusBarStyle, statusBarTransition, Animated, Easing, hidden, TouchableOpacity, TextInput, Text, Linking, KeyboardAvoidingView, Platform, Dimensions, Modal, InputAccessoryView, Keyboard } from 'react-native';
 import { logoutUser, loginUser } from "../redux/auth";
-import { getNutritionMission, getNutritionActivity, getExerciserActivity, getActivityList, setIntensityFromExArticleTemplate } from "../redux/get";
+import { getNutritionMission, getNutritionActivity, getExerciserActivity, getActivityList, getMemberActivityLogInWeek, getYearActivityLogGraph, getMonthActivityLogGraph, getWeekActivityLogGraph, setIntensityFromExArticleTemplate } from "../redux/get";
 import { insertNutritionActivity, insertExerciseActivity, checkUpdateBadgeWin } from "../redux/update";
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
@@ -32,15 +32,65 @@ class Home extends Component {
             latest_exercise_activity: {},
             latest_exercise_mission: [],
             statusChart: 1,
-            isLoading: false
+            dataItem: {
+                "lightDuration": 0,
+                "moderateDuration": 0,
+                "virgorousDuration": 0
+            },
+            month: 1,
+            selectedMonth: 1,
+            labelsWeek: ["สัปดาห์ที่แล้ว", "สัปดาห์นี้"],
+            labelsMonth: ["1", "2", "3", "4", "5"],
+            labelsYear: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
+            isLoading: false,
+            weekData: [],
+            monthData: [],
+            yearData: [],
+            year: [1],
+            thisYear: 2023,
+            selectedYear: 2023
         };
     }
 
     componentDidMount() {
-
+        const { dataItem } = this.state
         const { user } = this.props;
+        const currDate = new Date();
+        const currYear = currDate.getFullYear();
+        const currMonth = currDate.getMonth() + 1; //ต้อง +1 เพราะ index เริ่มจาก 0
+        const itemsYear = []; // สร้าง array เพื่อเก็บ object ปี
+
+        for (var year = currYear - 5; year <= currYear; year++) {
+            var buddhistYear = year + 543; // แปลงเป็นปี พ.ศ.
+            itemsYear.push({ label: buddhistYear.toString(), value: year }); // เพิ่ม object ปีเข้าไปใน array
+        }
+
 
         this._unsubscribe = this.props.navigation.addListener('focus', () => {
+
+            this.setState({
+                weekData: [[dataItem.lightDuration, dataItem.moderateDuration, dataItem.virgorousDuration,],
+                [dataItem.lightDuration, dataItem.moderateDuration, dataItem.virgorousDuration,]],
+
+                monthData: [[dataItem.lightDuration, dataItem.moderateDuration, dataItem.virgorousDuration,],
+                [dataItem.lightDuration, dataItem.moderateDuration, dataItem.virgorousDuration,],
+                [dataItem.lightDuration, dataItem.moderateDuration, dataItem.virgorousDuration,],
+                [dataItem.lightDuration, dataItem.moderateDuration, dataItem.virgorousDuration,],
+                [dataItem.lightDuration, dataItem.moderateDuration, dataItem.virgorousDuration,]],
+
+                yearData: [[dataItem.lightDuration, dataItem.moderateDuration, dataItem.virgorousDuration,],
+                [dataItem.lightDuration, dataItem.moderateDuration, dataItem.virgorousDuration,],
+                [dataItem.lightDuration, dataItem.moderateDuration, dataItem.virgorousDuration,],
+                [dataItem.lightDuration, dataItem.moderateDuration, dataItem.virgorousDuration,],
+                [dataItem.lightDuration, dataItem.moderateDuration, dataItem.virgorousDuration,],
+                [dataItem.lightDuration, dataItem.moderateDuration, dataItem.virgorousDuration,],
+                [dataItem.lightDuration, dataItem.moderateDuration, dataItem.virgorousDuration,],
+                [dataItem.lightDuration, dataItem.moderateDuration, dataItem.virgorousDuration,],
+                [dataItem.lightDuration, dataItem.moderateDuration, dataItem.virgorousDuration,],
+                [dataItem.lightDuration, dataItem.moderateDuration, dataItem.virgorousDuration,],
+                [dataItem.lightDuration, dataItem.moderateDuration, dataItem.virgorousDuration,],
+                [dataItem.lightDuration, dataItem.moderateDuration, dataItem.virgorousDuration,],]
+            })
             // do something
             this.props.getActivityList(user && user.user_id);
             this.props.checkUpdateBadgeWin(user && user.user_id);
@@ -57,6 +107,23 @@ class Home extends Component {
             this.animate();
             BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
 
+
+            this.props.getMemberActivityLogInWeek(user.user_id);
+            this.props.getYearActivityLogGraph((user && user.user_id), currYear);
+            this.props.getMonthActivityLogGraph((user && user.user_id), currMonth);
+            this.props.getWeekActivityLogGraph((user && user.user_id));
+
+
+
+            this.setState({
+                month: currMonth,
+                selectedMonth: currMonth,
+                year: itemsYear,
+            })
+
+
+
+
         });
 
 
@@ -64,7 +131,39 @@ class Home extends Component {
         this.props.insertExerciseActivity(user && user.user_id);
         this.props.getNutritionActivity(user && user.user_id);
         this.props.getExerciserActivity(user && user.user_id);
+        this.setState({
+            weekData: [[dataItem.lightDuration, dataItem.moderateDuration, dataItem.virgorousDuration,],
+            [dataItem.lightDuration, dataItem.moderateDuration, dataItem.virgorousDuration,]],
 
+            monthData: [[dataItem.lightDuration, dataItem.moderateDuration, dataItem.virgorousDuration,],
+            [dataItem.lightDuration, dataItem.moderateDuration, dataItem.virgorousDuration,],
+            [dataItem.lightDuration, dataItem.moderateDuration, dataItem.virgorousDuration,],
+            [dataItem.lightDuration, dataItem.moderateDuration, dataItem.virgorousDuration,],
+            [dataItem.lightDuration, dataItem.moderateDuration, dataItem.virgorousDuration,]],
+
+            yearData: [[dataItem.lightDuration, dataItem.moderateDuration, dataItem.virgorousDuration,],
+            [dataItem.lightDuration, dataItem.moderateDuration, dataItem.virgorousDuration,],
+            [dataItem.lightDuration, dataItem.moderateDuration, dataItem.virgorousDuration,],
+            [dataItem.lightDuration, dataItem.moderateDuration, dataItem.virgorousDuration,],
+            [dataItem.lightDuration, dataItem.moderateDuration, dataItem.virgorousDuration,],
+            [dataItem.lightDuration, dataItem.moderateDuration, dataItem.virgorousDuration,],
+            [dataItem.lightDuration, dataItem.moderateDuration, dataItem.virgorousDuration,],
+            [dataItem.lightDuration, dataItem.moderateDuration, dataItem.virgorousDuration,],
+            [dataItem.lightDuration, dataItem.moderateDuration, dataItem.virgorousDuration,],
+            [dataItem.lightDuration, dataItem.moderateDuration, dataItem.virgorousDuration,],
+            [dataItem.lightDuration, dataItem.moderateDuration, dataItem.virgorousDuration,],
+            [dataItem.lightDuration, dataItem.moderateDuration, dataItem.virgorousDuration,],]
+        })
+
+        this.props.getMemberActivityLogInWeek(user.user_id);
+        this.props.getYearActivityLogGraph((user && user.user_id), currYear);
+        this.props.getMonthActivityLogGraph((user && user.user_id), currMonth);
+        this.props.getWeekActivityLogGraph((user && user.user_id));
+        this.setState({
+            month: currMonth,
+            selectedMonth: currMonth,
+            year: itemsYear,
+        })
 
 
 
@@ -106,12 +205,55 @@ class Home extends Component {
         }
     };
 
-    componentDidUpdate(prevProps) {
-        const { user, statusGetNutritionMission, statusGetNutritionActivity, nutrition_mission, route_name, nutrition_activity, exerciserActivity, statusExerciserActivity, statusInsertNutritionActivity, statusInsertExerciseActivity } = this.props;
+    componentDidUpdate(prevProps, prevState) {
+        const { user, statusGetNutritionMission, statusGetNutritionActivity, nutrition_mission, route_name, nutrition_activity, exerciserActivity, statusExerciserActivity, statusInsertNutritionActivity, statusInsertExerciseActivity,
+            member_activity_log_in_week, statusGetYearActLogGraph, statusGetMonthActLogGraph, statusGetWeekActLogGraph, weekLog, monthLog, yearLog } = this.props;
         if ((prevProps.user !== user) && (!user)) {
             this.props.navigation.navigate("Login");
         }
 
+        const { selectedYear, selectedMonth, statusChart } = this.state;
+
+
+        if ((prevProps.statusGetWeekActLogGraph !== statusGetWeekActLogGraph) && (statusGetWeekActLogGraph === "success")) {
+            this.setState({
+                weekData: [
+                    [weekLog[0][0].lightDuration, weekLog[0][0].moderateDuration, weekLog[0][0].virgorousDuration],
+                    [weekLog[1][0].lightDuration, weekLog[1][0].moderateDuration, weekLog[1][0].virgorousDuration],
+                ]
+            })
+        }
+        if ((prevProps.statusGetMonthActLogGraph !== statusGetMonthActLogGraph) && (statusGetMonthActLogGraph === "success")) {
+            this.setState({
+                monthData: [
+                    [monthLog[0][0].lightDuration, monthLog[0][0].moderateDuration, monthLog[0][0].virgorousDuration],
+                    [monthLog[1][0].lightDuration, monthLog[1][0].moderateDuration, monthLog[1][0].virgorousDuration],
+                    [monthLog[2][0].lightDuration, monthLog[2][0].moderateDuration, monthLog[2][0].virgorousDuration],
+                    [monthLog[3][0].lightDuration, monthLog[3][0].moderateDuration, monthLog[3][0].virgorousDuration],
+                    [monthLog[4][0].lightDuration, monthLog[4][0].moderateDuration, monthLog[4][0].virgorousDuration],
+                ]
+            })
+        }
+
+        if ((prevProps.statusGetYearActLogGraph !== statusGetYearActLogGraph) && (statusGetYearActLogGraph === "success")) {
+
+            this.setState({
+                yearData: [
+                    [yearLog[0][0].lightDuration, yearLog[0][0].moderateDuration, yearLog[0][0].virgorousDuration],
+                    [yearLog[1][0].lightDuration, yearLog[1][0].moderateDuration, yearLog[1][0].virgorousDuration],
+                    [yearLog[2][0].lightDuration, yearLog[2][0].moderateDuration, yearLog[2][0].virgorousDuration],
+                    [yearLog[3][0].lightDuration, yearLog[3][0].moderateDuration, yearLog[3][0].virgorousDuration],
+                    [yearLog[4][0].lightDuration, yearLog[4][0].moderateDuration, yearLog[4][0].virgorousDuration],
+                    [yearLog[5][0].lightDuration, yearLog[5][0].moderateDuration, yearLog[5][0].virgorousDuration],
+                    [yearLog[6][0].lightDuration, yearLog[6][0].moderateDuration, yearLog[6][0].virgorousDuration],
+                    [yearLog[7][0].lightDuration, yearLog[7][0].moderateDuration, yearLog[7][0].virgorousDuration],
+                    [yearLog[8][0].lightDuration, yearLog[8][0].moderateDuration, yearLog[8][0].virgorousDuration],
+                    [yearLog[9][0].lightDuration, yearLog[9][0].moderateDuration, yearLog[9][0].virgorousDuration],
+                    [yearLog[10][0].lightDuration, yearLog[10][0].moderateDuration, yearLog[10][0].virgorousDuration],
+                    [yearLog[11][0].lightDuration, yearLog[11][0].moderateDuration, yearLog[11][0].virgorousDuration],
+                ]
+            })
+        }
 
 
         /* if ((prevProps.statusGetNutritionMission !== statusGetNutritionMission) && (statusGetNutritionMission === "success")) {
@@ -139,6 +281,20 @@ class Home extends Component {
                 })
             }
         }
+
+
+        if (prevState.selectedMonth != selectedMonth) {
+            this.props.getMonthActivityLogGraph(user && user.user_id, selectedMonth);
+        }
+        if (prevState.selectedYear != selectedYear) {
+
+            this.props.getYearActivityLogGraph(user && user.user_id, selectedYear);
+        }
+        if ((prevState.statusChart !== statusChart) && (statusChart == 1)) {
+            this.props.getWeekActivityLogGraph((user && user.user_id));
+        }
+
+
     }
 
 
@@ -183,9 +339,28 @@ class Home extends Component {
         ).start(() => this.animate());
     }
 
+    getThaiMonth = (month) => {
+        const thaiMonths = [
+            'ม.ค.',
+            'ก.พ.',
+            'มี.ค.',
+            'เม.ย.',
+            'พ.ค.',
+            'มิ.ย.',
+            'ก.ค.',
+            'ส.ค.',
+            'ก.ย.',
+            'ต.ค.',
+            'พ.ย.',
+            'ธ.ค.',
+        ];
+        return thaiMonths[month - 1];
+    };
+
     render() {
         const { user, activity_list } = this.props;
-        const { latest_nutrition_activity, latest_exercise_activity, latest_exercise_mission, statusChart, isLoading } = this.state;
+        const { latest_nutrition_activity, latest_exercise_activity, latest_exercise_mission, statusChart, isLoading, labelsWeek, weekData, monthData,
+            yearData, labelsMonth, labelsYear, month, selectedMonth, year, thisYear, selectedYear } = this.state;
         const opacity = this.animatedValue.interpolate({
             inputRange: [0, 0.5, 1],
             outputRange: [1, 0.5, 1],
@@ -466,7 +641,7 @@ class Home extends Component {
                             </View>
                     }
 
-                    {/*   <Text style={styles.reportChallenge}>รายงานการทำกิจกรรม</Text>
+                    <Text style={styles.reportChallenge}>รายงานการทำกิจกรรม</Text>
                     <View style={{ marginHorizontal: 16, backgroundColor: colors.white, borderRadius: 16, paddingTop: 18, marginBottom: 40 }}>
                         <View style={styles.missionView}>
                             <Pressable style={[{ width: "auto", paddingHorizontal: 8 }, statusChart === 1 ? styles.missionPre : styles.programPre]} onPress={() => this.setState({ statusChart: 1 })} >
@@ -479,9 +654,96 @@ class Home extends Component {
                                 <Text style={[styles.mission, statusChart === 3 ? { color: colors.white } : { color: colors.persianBlue }]}>ปี</Text>
                             </Pressable>
                         </View>
+                        {/*              <View style={styles.missionView}>
+                            <Pressable style={[{ width: "auto", paddingHorizontal: 8, marginLeft: 16 }, statusChart === 1 ? styles.missionPre : styles.programPre]} onPress={() => setStatusChart(1)} >
+                                <Text style={[styles.mission, statusChart === 1 ? { color: colors.white } : { color: colors.persianBlue }]}>สัปดาห์</Text>
+                            </Pressable>
+                            <Pressable style={[{ marginLeft: 8, width: "auto", paddingHorizontal: 8 }, statusChart === 2 ? styles.missionPre : styles.programPre]} onPress={() => setStatusChart(2)}>
+                                <Text style={[styles.mission, statusChart === 2 ? { color: colors.white } : { color: colors.persianBlue }]}>เดือน</Text>
+                            </Pressable>
+                            <Pressable style={[{ marginLeft: 8, width: "auto", paddingHorizontal: 16 }, statusChart === 3 ? styles.missionPre : styles.programPre]} onPress={() => setStatusChart(3)}>
+                                <Text style={[styles.mission, statusChart === 3 ? { color: colors.white } : { color: colors.persianBlue }]}>ปี</Text>
+                            </Pressable>
+                        </View> */}
+                        {
+                            statusChart === 2 &&
+                            <ScrollView horizontal={true} showsVerticalScrollIndicator={false}>
+                                <View style={{ flexDirection: 'row', marginVertical: 8, paddingHorizontal: 16, paddingBottom: 8 }}>
+                                    {[...Array(month)].map((_, index) => (
+                                        month === index + 1 ?
+                                            <Pressable key={index + 1} onPress={() => this.setState({
+                                                selectedMonth: index + 1
+                                            })}>
+                                                <Text style={[styles.leftMonth2, selectedMonth === index + 1 ? null : { color: colors.grey1 }]}>เดือนนี้</Text>
+                                            </Pressable> :
+                                            <Pressable key={index + 1} onPress={() => this.setState({
+                                                selectedMonth: index + 1
+                                            })}>
+                                                <Text style={[styles.leftMonth, selectedMonth === index + 1 ? { color: colors.persianBlue } : null]}>{`${this.getThaiMonth(index + 1)}`}</Text>
+                                            </Pressable>
+                                    ))}
+
+                                </View>
+                            </ScrollView>
+                        }
+                        {
+                            statusChart === 3 &&
+                            <View style={{ flexDirection: 'row', marginVertical: 8, paddingHorizontal: 16, paddingBottom: 8 }} >
+                                {year && year.map((item, i) => (
+                                    thisYear == item.value ?
+                                        <Pressable key={i + 1} onPress={() => this.setState({
+                                            selectedYear: item.value
+                                        })}>
+                                            <Text style={[styles.leftMonth2, selectedYear === item.value ? null : { color: colors.grey1 }]}>ปีนี้</Text>
+                                        </Pressable> :
+                                        <Pressable key={i + 1} onPress={() => this.setState({
+                                            selectedYear: item.value
+                                        })}>
+                                            <Text style={[styles.leftMonth, selectedYear === item.value ? { color: colors.persianBlue } : null]}>{item.value} </Text>
+                                        </Pressable>
+                                ))}
+                            </View>
+                        }
 
                         <Text style={styles.watch}>(ชม.)</Text>
                         <StackedBarChart
+                            data={{
+                                labels: (statusChart === 1) ? labelsWeek : (statusChart === 2) ? labelsMonth : labelsYear,
+                                legend: [],
+                                data: (statusChart === 1) ? weekData : (statusChart === 2) ? monthData : yearData,
+                                barColors: ["#59CBE4", "#FDAB44", "#F15E79"]
+                            }}
+                            width={Dimensions.get("window").width - 40} // from react-native
+                            height={220}
+                            yAxisLabel=""
+                            yAxisSuffix=""
+                            yAxisInterval={1} // optional, defaults to 1
+
+                            chartConfig={{
+                                backgroundColor: "#fff",
+                                backgroundGradientFrom: "#fff",
+                                backgroundGradientTo: "#fff",
+                                decimalPlaces: 0,
+                                barPercentage: statusChart == 1 ? 2 : 0.5,
+                                decimalPlaces: 2, // optional, defaults to 2dp
+                                color: (opacity = 1) => `rgba(146, 164, 187, ${opacity})`,
+                                labelColor: (opacity = 1) => `rgba(146, 164, 187, ${opacity})`,
+                                style: {
+                                    borderRadius: 16,
+                                },
+                                propsForDots: {
+                                    r: "6",
+                                    strokeWidth: "2",
+                                    stroke: "#ffa726"
+                                }
+                            }}
+                            bezier
+                            style={{
+                                marginVertical: 8,
+                                borderRadius: 16
+                            }}
+                        />
+                        {/*  <StackedBarChart
                             data={{
                                 labels: ["สัปดาห์ที่แล้ว", "สัปดาห์นี้"],
                                 legend: [],
@@ -520,7 +782,7 @@ class Home extends Component {
                                 marginVertical: 8,
                                 borderRadius: 16
                             }}
-                        />
+                        /> */}
                         <View style={{ flexDirection: "row", marginBottom: 40, justifyContent: "center" }}>
                             <View style={{ justifyContent: "center", textAlign: "center", alignItems: "center" }}>
                                 <View style={{ width: 10, height: 10, backgroundColor: "#59CBE4", borderRadius: 100, }}></View>
@@ -536,7 +798,7 @@ class Home extends Component {
                             </View>
                         </View>
                     </View>
- */}
+
                 </ScrollView >
             </View >
 
@@ -751,8 +1013,18 @@ const styles = StyleSheet.create({
         borderColor: colors.mayaBlue60,
         borderWidth: 2,
         width: 10
-
-
+    },
+    leftMonth: {
+        fontSize: ComponentsStyle.fontSize16,
+        fontFamily: "IBMPlexSansThai-Regular",
+        color: colors.grey1,
+        marginRight: 14
+    },
+    leftMonth2: {
+        fontSize: ComponentsStyle.fontSize16,
+        fontFamily: "IBMPlexSansThai-Bold",
+        color: colors.persianBlue,
+        marginRight: 14
     }
 });
 
@@ -760,11 +1032,16 @@ const mapStateToProps = ({ authUser, getData, personalDataUser, updateData }) =>
     const { user } = authUser;
     const { route_name } = personalDataUser;
     const { statusInsertNutritionActivity, statusInsertExerciseActivity } = updateData;
-    const { nutrition_mission, nutrition_activity, statusGetNutritionMission, statusGetNutritionActivity, statusExerciserActivity, exerciserActivity, activity_list, statusGetActivityList } = getData;
-    return { user, nutrition_mission, nutrition_activity, statusGetNutritionMission, statusGetNutritionActivity, statusInsertNutritionActivity, statusInsertExerciseActivity, statusExerciserActivity, exerciserActivity, activity_list, statusGetActivityList, route_name };
+    const { nutrition_mission, nutrition_activity, statusGetNutritionMission, statusGetNutritionActivity, statusExerciserActivity, exerciserActivity, activity_list, statusGetActivityList,
+        member_activity_log_in_week, statusGetYearActLogGraph, statusGetMonthActLogGraph, statusGetWeekActLogGraph, weekLog, monthLog, yearLog } = getData;
+    return {
+        user, nutrition_mission, nutrition_activity, statusGetNutritionMission, statusGetNutritionActivity, statusInsertNutritionActivity, statusInsertExerciseActivity,
+        member_activity_log_in_week, statusExerciserActivity, exerciserActivity, activity_list, statusGetActivityList, route_name, statusGetYearActLogGraph, statusGetMonthActLogGraph,
+        statusGetWeekActLogGraph, statusGetWeekActLogGraph, weekLog, monthLog, yearLog
+    };
 };
 
-const mapActionsToProps = { logoutUser, getNutritionMission, routeName, insertNutritionActivity, insertExerciseActivity, loginUser, getNutritionActivity, getExerciserActivity, getActivityList, setIntensityFromExArticleTemplate, checkUpdateBadgeWin };
+const mapActionsToProps = { logoutUser, getNutritionMission, routeName, insertNutritionActivity, insertExerciseActivity, getMemberActivityLogInWeek, loginUser, getNutritionActivity, getExerciserActivity, getActivityList, setIntensityFromExArticleTemplate, checkUpdateBadgeWin, getYearActivityLogGraph, getMonthActivityLogGraph, getWeekActivityLogGraph };
 
 export default connect(
     mapStateToProps,
