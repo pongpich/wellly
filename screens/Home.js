@@ -395,11 +395,11 @@ class Home extends Component {
 
 
         return (
-            <View style={[ComponentsStyle.container, { backgroundColor: colors.mayaBlue60 }]}>
+            <View style={[ComponentsStyle.container, { backgroundColor: colors.mayaBlue60, paddingTop: 40 }]}>
                 <ScrollView showsVerticalScrollIndicator={false}>
-                    <ImageBackground source={require('../assets/images/home/Logo.png')} style={{ marginTop: 0, width: 400 }} >
+                    <ImageBackground source={require('../assets/images/home/Logo.png')} style={{ marginTop: 0, width: "auto" }} >
 
-                        <View style={{ marginBottom: 100 }}>
+                        <View style={{ marginBottom: 100, marginTop: -40 }}>
 
                             <View style={{ height: 44, width: "100%" }}>
                                 <StatusBar barStyle="dark-content" />
