@@ -235,6 +235,7 @@ const Activity = ({ navigation }) => {
                 style={styles.fill2}
                 contentContainerStyle={styles.scrollViewContent}
                 scrollEventThrottle={16}
+                showsVerticalScrollIndicator={false}
                 onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: animatedScrollYValue } } }], { useNativeDriver: false })}
             >
                 <View style={styles.scrollViewContent}>

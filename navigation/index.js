@@ -67,6 +67,16 @@ function MyHome() {
 
   return (
     <Tab.Navigator
+      /* screenOptions={{
+        tabBarStyle: {
+          borderTopLeftRadius: 20,
+          borderTopRightRadius: 20,
+          backgroundColor: "blue",
+          position: "absolute",
+          bottom: 0,
+        },
+       
+      }} */
       screenOptions={({ route }) => ({
         headerShown: false,
         tabBarIcon: ({ focused, color, size }) => {
@@ -118,7 +128,7 @@ function MyHome() {
           return iconName;
         },
         tabBarStyle: {
-          display: "flex",
+          display: getBottomTabse(route),
           paddingTop: 16,
           shadowColor: "#000",
           shadowOffset: {
@@ -128,15 +138,15 @@ function MyHome() {
           shadowOpacity: 0.32,
           shadowRadius: 5.46,
           elevation: 9,
-          /* height: 70, */
           height: (devicehHeight < 668) ? 70 : (devicehHeight < 801) ? 70 : 100,
           borderTopLeftRadius: 16,
           borderTopRightRadius: 16,
+          position: "absolute",
+          bottom: 0,
           backgroundColor: colors.white,
         },
         tabBarLabelStyle: {
           fontSize: 12,
-          /*       marginTop: 16, */
           paddingBottom: 10,
           fontFamily: "IBMPlexSansThai-Regular",
         },
@@ -150,27 +160,28 @@ function MyHome() {
             title: languages === "th" ? "หน้าแรก" : "Home",
           }} */
         options={({ route }) => ({
-          tabBarStyle: {
-            display: getBottomTabse(route),
-            paddingTop: 16,
-            shadowColor: "#000",
-            shadowOffset: {
-              width: 0,
-              height: 4,
-            },
-            shadowOpacity: 0.32,
-            shadowRadius: 5.46,
-            elevation: 9,
-            height: (devicehHeight < 668) ? 70 : (devicehHeight < 801) ? 70 : 100,
-            borderTopLeftRadius: 16,
-            borderTopRightRadius: 16,
-            backgroundColor: colors.white,
-          },
+          /*     tabBarStyle: {
+                display: getBottomTabse(route),
+                 paddingTop: 16,
+                 shadowColor: "#000",
+                 shadowOffset: {
+                   width: 0,
+                   height: 4,
+                 },
+                 shadowOpacity: 0.32,
+                 shadowRadius: 5.46,
+                 elevation: 9,
+                   height: (devicehHeight < 668) ? 70 : (devicehHeight < 801) ? 70 : 100,
+                   borderTopLeftRadius: 16,
+                   borderTopRightRadius: 16,
+                   backgroundColor: colors.white,
+    
+              }, */
           title: languages === "th" ? "หน้าแรก" : "Home",
         })}
       />
       <Tab.Screen name="NutritionTab" component={NutritionStackScreen}
-        options={({ route }) => ({
+       /*  options={({ route }) => ({
           tabBarStyle: {
             display: getBottomTabse(route),
             paddingTop: 16,
@@ -188,7 +199,7 @@ function MyHome() {
             backgroundColor: colors.white,
           },
           title: languages === "th" ? "โภชนาการ" : "Nutrition",
-        })} />
+        })}  *//>
       <Tab.Screen name="AddHome" component={AddStackScreen}
         options={({ route }) => ({
           tabBarIcon: ({ size, color }) => (
@@ -198,29 +209,29 @@ function MyHome() {
             />
           ),
           ...TransitionPresets.ModalSlideFromBottomIOS,
-          tabBarStyle: {
-            display: getBottomTabse(route),
-            paddingTop: 16,
-            shadowColor: "#000",
-            shadowOffset: {
-              width: 0,
-              height: 4,
-            },
-            shadowOpacity: 0.32,
-            shadowRadius: 5.46,
-            elevation: 9,
-            height: (devicehHeight < 668) ? 70 : (devicehHeight < 801) ? 70 : 100,
-            borderTopLeftRadius: 16,
-            borderTopRightRadius: 16,
-            backgroundColor: colors.white,
-          },
+          /*  tabBarStyle: {
+             display: getBottomTabse(route),
+             paddingTop: 16,
+             shadowColor: "#000",
+             shadowOffset: {
+               width: 0,
+               height: 4,
+             },
+             shadowOpacity: 0.32,
+             shadowRadius: 5.46,
+             elevation: 9,
+             height: (devicehHeight < 668) ? 70 : (devicehHeight < 801) ? 70 : 100,
+             borderTopLeftRadius: 16,
+             borderTopRightRadius: 16,
+             backgroundColor: colors.white,
+           }, */
           title: '',
         })}
       />
       <Tab.Screen name="ExerciseTab" component={ExerciseStackScreen}
 
         options={({ route, getState }) => ({
-          tabBarStyle: {
+          /* tabBarStyle: {
             display: getBottomTabse(route),
             paddingTop: 16,
             shadowColor: "#000",
@@ -235,12 +246,12 @@ function MyHome() {
             borderTopLeftRadius: 16,
             borderTopRightRadius: 16,
             backgroundColor: colors.white,
-          },
+          }, */
           title: languages === "th" ? "ออกกำลังกาย" : "Exercise",
         })} />
       <Tab.Screen name="ActivityTab" component={ActivityStackScreen}
         options={({ route }) => ({
-          tabBarStyle: {
+          /* tabBarStyle: {
             display: getBottomTabse(route),
             paddingTop: 16,
             shadowColor: "#000",
@@ -255,11 +266,11 @@ function MyHome() {
             borderTopLeftRadius: 16,
             borderTopRightRadius: 16,
             backgroundColor: colors.white,
-          },
+          }, */
           title: languages === "th" ? "กิจกรรม" : "Activity",
         })}
       />
-    </Tab.Navigator >
+    </ Tab.Navigator >
   );
 }
 
@@ -353,7 +364,10 @@ function MyStack(props) {
       }} />
       <Stack.Screen name="Home" component={MyHome} options={{
         headerShown: false,
-      }} />
+        headerStyle: { backgroundColor: 'red' },
+        headerTitleStyle: { color: 'red' }
+      }}
+      />
 
 
     </Stack.Navigator>
