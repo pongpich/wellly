@@ -209,7 +209,7 @@ const Exercise = ({ navigation }) => {
     useEffect(() => {  // ตอนกดมาจากหน้าภารกิจ
         const unsubscribe = navigation.addListener('focus', () => {
             if (set_Selected_Tab !== null) {
-                if (set_Selected_Tab.setTab) {
+                if (set_Selected_Tab && set_Selected_Tab.setTab) {
                     allTrainingSet && allTrainingSet.map((item, i) => {
 
                         if (set_Selected_Tab.setTab === item.name) {
