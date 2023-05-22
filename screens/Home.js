@@ -447,7 +447,6 @@ class Home extends Component {
         const isNotchDevice = Dimensions.get('window').height >= 812;
 
         const { teachUserHome } = this.props;
-        console.log("teachUserHome", teachUserHome);
 
         return (
 
@@ -890,7 +889,7 @@ class Home extends Component {
                             shadowOpacity: 5,
                             shadowRadius: 5,
                             elevation: 24,
-                            opacity: 0.1,
+                            opacity: 1,
                             borderWidth: 0,
                             alignItems: "center",
                             justifyContent: "center",
