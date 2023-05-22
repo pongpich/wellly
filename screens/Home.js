@@ -809,15 +809,17 @@ class Home extends Component {
 
                 </ScrollView >
                 <Modal isVisible={teachUserHome} style={{ zIndex: 1 }}>
-                    <Text style={{
-                        fontSize: ComponentsStyle.fontSize16,
-                        fontFamily: "IBMPlexSansThai-Bold",
-                        color: colors.white,
-                        marginTop: Platform.OS === 'android' ? -10 : 20,
-                        textAlign: "right",
-                        marginRight: 20,
+                    <TouchableWithoutFeedback onPress={() => this.setTeachHome()}>
+                        <Text style={{
+                            fontSize: ComponentsStyle.fontSize16,
+                            fontFamily: "IBMPlexSansThai-Bold",
+                            color: colors.white,
+                            marginTop: Platform.OS === 'android' ? -10 : 20,
+                            textAlign: "right",
+                            marginRight: 20,
 
-                    }}>ข้าม</Text>
+                        }}>ข้าม</Text>
+                    </TouchableWithoutFeedback>
                     <View style={{ flex: 1, alignItems: 'center', justifyContent: "flex-end" }}>
                         <View style={{
                             width: 288,
