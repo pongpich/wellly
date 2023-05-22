@@ -15,6 +15,8 @@ import { update_popUp_stars } from "../../redux/update";
 import { checkStar, checkTrophy, calculateWeekInProgram, convertFormatDate } from "../../helpers/utils";
 import { useRoute } from '@react-navigation/native';
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
+import i18next from 'i18next';
+import '../../languages/i18n'; //ใช้สำหรับ 2ภาษา
 
 
 const HEADER_MAX_HEIGHT = 600;
@@ -536,6 +538,10 @@ const Exercise = ({ navigation }) => {
         return substring2 + "...";
     };
 
+    const isNotchDevice = Dimensions.get('window').height >= 812;
+    const languages = i18next.languages[0];
+
+
     return (
         <View style={{ flex: 1 }} forceInset={{ top: 'always' }}>
             <Animated.View
@@ -839,6 +845,8 @@ const Exercise = ({ navigation }) => {
 
                 </Modal>
             </View >
+
+
         </View >
     )
 }

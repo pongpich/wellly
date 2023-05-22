@@ -1,15 +1,23 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Pressable, ImageBackground, Image, ScrollView, StatusBar, statusBarStyle, statusBarTransition, Animated, Easing, hidden, TouchableOpacity, TextInput, Text, Linking, KeyboardAvoidingView, Platform, Dimensions, Modal, InputAccessoryView, Keyboard } from 'react-native';
+import { View, StyleSheet, Pressable, ImageBackground, Image, ScrollView, StatusBar, statusBarStyle, statusBarTransition, Animated, Easing, hidden, TouchableOpacity, TextInput, Text, Linking, KeyboardAvoidingView, Platform, Dimensions, InputAccessoryView, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { logoutUser, loginUser } from "../redux/auth";
 import { getNutritionMission, getNutritionActivity, getExerciserActivity, getActivityList, getMemberActivityLogInWeek, getYearActivityLogGraph, getMonthActivityLogGraph, getWeekActivityLogGraph, setIntensityFromExArticleTemplate } from "../redux/get";
 import { insertNutritionActivity, insertExerciseActivity, checkUpdateBadgeWin } from "../redux/update";
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
-import { routeName, setSelectedTab } from "../redux/personalUser";
+import { routeName, setSelectedTab, setTeachUserHome } from "../redux/personalUser";
 import ComponentsStyle from '../constants/components';
 import colors from '../constants/colors';
 import { calculateWeekInProgram, currentTime } from "../helpers/utils";
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
+import Modal from "react-native-modal";
+import '../languages/i18n'; //ใช้สำหรับ 2ภาษา
+import Constants from 'expo-constants';
+
+import i18next from 'i18next';
+
+
+
 import {
     LineChart,
     BarChart,
@@ -50,7 +58,9 @@ class Home extends Component {
             year: [1],
             week_in_program: null,
             thisYear: 2023,
-            selectedYear: 2023
+            selectedYear: 2023,
+            /*    teachUserHome: true, */
+            stipTeach: 1
         };
     }
 
@@ -170,7 +180,12 @@ class Home extends Component {
             selectedMonth: currMonth,
             year: itemsYear,
         })
+        const { teachUserHome } = this.props;
 
+
+        if (teachUserHome != true /* "undefined" */) {
+            this.props.setTeachUserHome(true);
+        }
 
 
         // this.props.routeName(null); // ถ้าเข้าให้ home ให้ทำคำสั่งนี้ 1 ครั้ง
@@ -213,7 +228,7 @@ class Home extends Component {
 
     componentDidUpdate(prevProps, prevState) {
         const { user, statusGetNutritionMission, statusGetNutritionActivity, nutrition_mission, route_name, nutrition_activity, exerciserActivity, statusExerciserActivity, statusInsertNutritionActivity, statusInsertExerciseActivity,
-            member_activity_log_in_week, statusGetYearActLogGraph, statusGetMonthActLogGraph, statusGetWeekActLogGraph, weekLog, monthLog, yearLog } = this.props;
+            member_activity_log_in_week, statusGetYearActLogGraph, statusGetMonthActLogGraph, statusGetWeekActLogGraph, weekLog, monthLog, yearLog, } = this.props;
         if ((prevProps.user !== user) && (!user)) {
             this.props.navigation.navigate("Login");
         }
@@ -301,6 +316,13 @@ class Home extends Component {
         }
 
 
+
+        /*  if (prevProps.teachUserHome == teachUserHome && teachUserHome == false) {
+             this.setState({
+                 teachUserHome: false
+             })
+         } */
+
     }
 
 
@@ -377,10 +399,20 @@ class Home extends Component {
         return thaiMonths[month - 1];
     };
 
+    setTeachHome = () => {
+        this.props.setTeachUserHome(false);
+        this.props.navigation.navigate('NutritionTab');
+    }
+
     render() {
         const { user, activity_list } = this.props;
         const { latest_nutrition_activity, latest_exercise_activity, latest_exercise_mission, statusChart, isLoading, labelsWeek, weekData, monthData,
-            yearData, labelsMonth, labelsYear, month, selectedMonth, year, thisYear, selectedYear, week_in_program } = this.state;
+            yearData, labelsMonth, labelsYear, month, selectedMonth, year, thisYear, selectedYear, week_in_program, stipTeach } = this.state;
+
+        const languages = i18next.languages[0];
+
+
+
         const opacity = this.animatedValue.interpolate({
             inputRange: [0, 0.5, 1],
             outputRange: [1, 0.5, 1],
@@ -412,9 +444,13 @@ class Home extends Component {
             return substring2 + "...";
         };
 
+        const isNotchDevice = Dimensions.get('window').height >= 812;
 
+        const { teachUserHome } = this.props;
+        console.log("teachUserHome", teachUserHome);
 
         return (
+
             <View style={[ComponentsStyle.container, { backgroundColor: colors.mayaBlue60, paddingTop: 40 }]}>
                 <ScrollView showsVerticalScrollIndicator={false}>
                     <ImageBackground source={require('../assets/images/home/Logo.png')} style={{ marginTop: 0, width: "auto" }} >
@@ -541,8 +577,6 @@ class Home extends Component {
                                 </View>
                             </Pressable>
                         }
-
-
 
                     </View>
 
@@ -680,17 +714,6 @@ class Home extends Component {
                                 <Text style={[styles.mission, statusChart === 3 ? { color: colors.white } : { color: colors.persianBlue }]}>ปี</Text>
                             </Pressable>
                         </View>
-                        {/*              <View style={styles.missionView}>
-                            <Pressable style={[{ width: "auto", paddingHorizontal: 8, marginLeft: 16 }, statusChart === 1 ? styles.missionPre : styles.programPre]} onPress={() => setStatusChart(1)} >
-                                <Text style={[styles.mission, statusChart === 1 ? { color: colors.white } : { color: colors.persianBlue }]}>สัปดาห์</Text>
-                            </Pressable>
-                            <Pressable style={[{ marginLeft: 8, width: "auto", paddingHorizontal: 8 }, statusChart === 2 ? styles.missionPre : styles.programPre]} onPress={() => setStatusChart(2)}>
-                                <Text style={[styles.mission, statusChart === 2 ? { color: colors.white } : { color: colors.persianBlue }]}>เดือน</Text>
-                            </Pressable>
-                            <Pressable style={[{ marginLeft: 8, width: "auto", paddingHorizontal: 16 }, statusChart === 3 ? styles.missionPre : styles.programPre]} onPress={() => setStatusChart(3)}>
-                                <Text style={[styles.mission, statusChart === 3 ? { color: colors.white } : { color: colors.persianBlue }]}>ปี</Text>
-                            </Pressable>
-                        </View> */}
                         {
                             statusChart === 2 &&
                             <ScrollView horizontal={true} showsVerticalScrollIndicator={false}>
@@ -769,46 +792,6 @@ class Home extends Component {
                                 borderRadius: 16
                             }}
                         />
-                        {/*  <StackedBarChart
-                            data={{
-                                labels: ["สัปดาห์ที่แล้ว", "สัปดาห์นี้"],
-                                legend: [],
-                                data: [
-                                    [1, 2.5, 3],
-                                    [1, 0.5, 2]
-                                ],
-                                barColors: ["#59CBE4", "#FDAB44", "#F15E79"]
-                            }}
-                            width={Dimensions.get("window").width - 40} // from react-native
-                            height={220}
-                            yAxisLabel=""
-                            yAxisSuffix=""
-                            yAxisInterval={1} // optional, defaults to 1
-
-                            chartConfig={{
-                                barPercentage: 2,
-                                backgroundColor: "#fff",
-                                backgroundGradientFrom: "#fff",
-                                backgroundGradientTo: "#fff",
-                                decimalPlaces: 0,
-                                decimalPlaces: 2, // optional, defaults to 2dp
-                                color: (opacity = 1) => `rgba(146, 164, 187, ${opacity})`,
-                                labelColor: (opacity = 1) => `rgba(146, 164, 187, ${opacity})`,
-                                style: {
-                                    borderRadius: 16,
-                                },
-                                propsForDots: {
-                                    r: "6",
-                                    strokeWidth: "2",
-                                    stroke: "#ffa726"
-                                }
-                            }}
-                            bezier
-                            style={{
-                                marginVertical: 8,
-                                borderRadius: 16
-                            }}
-                        /> */}
                         <View style={{ flexDirection: "row", marginBottom: 40, justifyContent: "center" }}>
                             <View style={{ justifyContent: "center", textAlign: "center", alignItems: "center" }}>
                                 <View style={{ width: 10, height: 10, backgroundColor: "#59CBE4", borderRadius: 100, }}></View>
@@ -826,6 +809,127 @@ class Home extends Component {
                     </View>
 
                 </ScrollView >
+                <Modal isVisible={teachUserHome} style={{ zIndex: 1 }}>
+                    <Text style={{
+                        fontSize: ComponentsStyle.fontSize16,
+                        fontFamily: "IBMPlexSansThai-Bold",
+                        color: colors.white,
+                        marginTop: Platform.OS === 'android' ? -10 : 20,
+                        textAlign: "right",
+                        marginRight: 20,
+
+                    }}>ข้าม</Text>
+                    <View style={{ flex: 1, alignItems: 'center', justifyContent: "flex-end" }}>
+                        <View style={{
+                            width: 288,
+                            height: 117,
+                            backgroundColor: "white",
+                            marginBottom: 10,
+                            borderRadius: 16,
+                            paddingTop: 16,
+                            paddingHorizontal: 16,
+
+                        }}>
+                            <Text style={{
+                                fontSize: ComponentsStyle.fontSize14,
+                                fontFamily: "IBMPlexSansThai-Regular",
+                                color: colors.grey1,
+                            }}>
+                                {
+                                    stipTeach === 1 ? "ดูภารกิจโภชนาการที่จะช่วยให้เข้าใจกลไกของร่างกายได้ดีขึ้น" : stipTeach === 2 ? "ดูภารกิจออกกำลังกาย ที่จะช่วยให้คุณมีสุขภาพแข็งแรงและท้าทาย" : "บันทึกการออกกำลังกายหรือส่งการบ้านตามภารกิจที่ได้รับ"
+                                }
+
+                            </Text>
+                            <View style={stipTeach === 1 ? { alignItems: "flex-end" } : { flexDirection: "row", justifyContent: "space-between" }}>
+                                {
+                                    stipTeach > 1 &&
+                                    <TouchableWithoutFeedback onPress={() => this.setState({ stipTeach: stipTeach === 1 ? 1 : stipTeach - 1 })}>
+                                        <View style={{
+                                            backgroundColor: colors.white, width: 52, height: 27, alignItems: "center",
+                                            borderRadius: 16, justifyContent: "center", marginTop: 16,
+                                        }}>
+                                            <Text style={{
+                                                fontSize: ComponentsStyle.fontSize16,
+                                                fontFamily: "IBMPlexSansThai-Bold",
+                                                color: colors.persianBlue,
+                                            }}>กลับ</Text>
+                                        </View>
+                                    </TouchableWithoutFeedback>
+                                }
+                                <TouchableWithoutFeedback onPress={() => this.setState({
+                                    stipTeach: stipTeach < 3 ? stipTeach + 1 :
+                                        this.setTeachHome()
+                                })}>
+
+                                    <View style={{
+                                        backgroundColor: colors.persianBlue, width: 52, height: 27, alignItems: "center",
+                                        borderRadius: 16, justifyContent: "center", marginTop: 16,
+                                    }}>
+                                        <Text style={{
+                                            fontSize: ComponentsStyle.fontSize16,
+                                            fontFamily: "IBMPlexSansThai-Bold",
+                                            color: colors.white,
+                                        }}>ถัดไป</Text>
+                                    </View>
+                                </TouchableWithoutFeedback>
+                            </View>
+                        </View>
+                        <View style={{
+                            marginBottom: Platform.OS === 'android' ? stipTeach === 3 ? -10 : -20 : isNotchDevice ? 10 : -20,
+                            marginLeft: stipTeach === 1 ? "-45%" : stipTeach === 2 ? "45%" : 0,
+                            backgroundColor: 'white',
+                            width: 75,
+                            height: 75,
+                            borderRadius: 50,
+                            padding: stipTeach === 1 ? 10 : 0,
+                            shadowColor: "#ffffff",
+                            shadowOffset: {
+                                width: 0,
+                                height: 0,
+                            },
+                            shadowOpacity: 5,
+                            shadowRadius: 5,
+                            elevation: 24,
+                            opacity: 1,
+                            borderWidth: 0,
+                            alignItems: "center",
+                            justifyContent: "center",
+
+                        }}>
+                            {
+                                stipTeach === 1 ?
+                                    <>
+                                        <Image
+                                            style={{ width: 24, height: 24, marginTop: 20 }}
+                                            source={require('../assets/images/icon/menuNutrition.png')}
+                                        />
+                                        <Text style={styles.teach_bottom}>{
+                                            languages === "th" ? "โภชนาการ" : "Nutrition"
+                                        }</Text>
+                                    </>
+                                    :
+                                    stipTeach === 2 ?
+                                        <>
+                                            <Image
+                                                style={{ width: 24, height: 24, marginTop: 20 }}
+                                                source={require('../assets/images/icon/menuExercise.png')}
+                                            />
+                                            <Text style={styles.teach_bottom}>{
+                                                languages === "th" ? "ออกกำลังกาย" : "Exercise"
+                                            }</Text>
+                                        </> :
+                                        <>
+                                            <Image
+                                                style={{ width: 80, height: 80, marginTop: 17 }}
+                                                source={require('../assets/images/icon/Add.png')}
+                                            />
+
+                                        </>
+                            }
+
+                        </View>
+                    </View>
+                </Modal >
             </View >
 
         )
@@ -1051,23 +1155,33 @@ const styles = StyleSheet.create({
         fontFamily: "IBMPlexSansThai-Bold",
         color: colors.persianBlue,
         marginRight: 14
+    },
+    teach_bottom: {
+        fontSize: 12,
+        paddingBottom: 10,
+        fontFamily: "IBMPlexSansThai-Regular",
+        color: colors.grey3
     }
+
 });
 
 const mapStateToProps = ({ authUser, getData, personalDataUser, updateData }) => {
     const { user } = authUser;
-    const { route_name } = personalDataUser;
+    const { route_name, teachUserHome } = personalDataUser;
     const { statusInsertNutritionActivity, statusInsertExerciseActivity } = updateData;
     const { nutrition_mission, nutrition_activity, statusGetNutritionMission, statusGetNutritionActivity, statusExerciserActivity, exerciserActivity, activity_list, statusGetActivityList,
         member_activity_log_in_week, statusGetYearActLogGraph, statusGetMonthActLogGraph, statusGetWeekActLogGraph, weekLog, monthLog, yearLog } = getData;
     return {
         user, nutrition_mission, nutrition_activity, statusGetNutritionMission, statusGetNutritionActivity, statusInsertNutritionActivity, statusInsertExerciseActivity,
         member_activity_log_in_week, statusExerciserActivity, exerciserActivity, activity_list, statusGetActivityList, route_name, statusGetYearActLogGraph, statusGetMonthActLogGraph,
-        statusGetWeekActLogGraph, statusGetWeekActLogGraph, weekLog, monthLog, yearLog
+        statusGetWeekActLogGraph, statusGetWeekActLogGraph, weekLog, monthLog, yearLog, teachUserHome
     };
 };
 
-const mapActionsToProps = { logoutUser, getNutritionMission, routeName, setSelectedTab, insertNutritionActivity, insertExerciseActivity, getMemberActivityLogInWeek, loginUser, getNutritionActivity, getExerciserActivity, getActivityList, setIntensityFromExArticleTemplate, checkUpdateBadgeWin, getYearActivityLogGraph, getMonthActivityLogGraph, getWeekActivityLogGraph };
+const mapActionsToProps = {
+    logoutUser, getNutritionMission, routeName, setSelectedTab, insertNutritionActivity, insertExerciseActivity, getMemberActivityLogInWeek, loginUser, getNutritionActivity,
+    getExerciserActivity, getActivityList, setIntensityFromExArticleTemplate, checkUpdateBadgeWin, getYearActivityLogGraph, getMonthActivityLogGraph, getWeekActivityLogGraph, setTeachUserHome
+};
 
 export default connect(
     mapStateToProps,

@@ -44,7 +44,7 @@ const config = {
 };
 
 function MyHome() {
-  const { set_Selected_Tab } = useSelector(({ personalDataUser }) => personalDataUser ? personalDataUser : null);
+  const { set_Selected_Tab, } = useSelector(({ personalDataUser }) => personalDataUser ? personalDataUser : null);
   /*   const dispatch = useDispatch(); */
   /* const { t } = this.props.withTranslation; */
 
@@ -62,6 +62,9 @@ function MyHome() {
       }
     }, [set_Selected_Tab])
   );
+
+
+
   const devicehHeight = Math.round(Dimensions.get('window').height);
 
 
@@ -181,25 +184,25 @@ function MyHome() {
         })}
       />
       <Tab.Screen name="NutritionTab" component={NutritionStackScreen}
-       /*  options={({ route }) => ({
-          tabBarStyle: {
-            display: getBottomTabse(route),
-            paddingTop: 16,
-            shadowColor: "#000",
-            shadowOffset: {
-              width: 0,
-              height: 4,
-            },
-            shadowOpacity: 0.32,
-            shadowRadius: 5.46,
-            elevation: 9,
-            height: (devicehHeight < 668) ? 70 : (devicehHeight < 801) ? 70 : 100,
-            borderTopLeftRadius: 16,
-            borderTopRightRadius: 16,
-            backgroundColor: colors.white,
-          },
+        options={({ route }) => ({
+          /*  tabBarStyle: {
+             display: getBottomTabse(route),
+             paddingTop: 16,
+             shadowColor: "#000",
+             shadowOffset: {
+               width: 0,
+               height: 4,
+             },
+             shadowOpacity: 0.32,
+             shadowRadius: 5.46,
+             elevation: 9,
+             height: (devicehHeight < 668) ? 70 : (devicehHeight < 801) ? 70 : 100,
+             borderTopLeftRadius: 16,
+             borderTopRightRadius: 16,
+             backgroundColor: colors.white,
+           }, */
           title: languages === "th" ? "โภชนาการ" : "Nutrition",
-        })}  *//>
+        })} />
       <Tab.Screen name="AddHome" component={AddStackScreen}
         options={({ route }) => ({
           tabBarIcon: ({ size, color }) => (

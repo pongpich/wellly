@@ -10,7 +10,8 @@ export const types = {
   LENG_APP: "LENG_APP",
   ROUTE_NAME: "ROUTE_NAME",
   COREBALNCE_BALANCE: "COREBALNCE_BALANCE",
-  SET_SELECTED_TAB: "SET_SELECTED_TAB"
+  SET_SELECTED_TAB: "SET_SELECTED_TAB",
+  TEACH_USER_HOME: "TEACH_USER_HOME",
 };
 
 
@@ -66,6 +67,10 @@ export const setSelectedTab = (setTab) => ({
     setTab,
   },
 });
+export const setTeachUserHome = (teachUserHome) => ({
+  type: types.TEACH_USER_HOME,
+  payload: { teachUserHome },
+});
 
 
 
@@ -87,7 +92,8 @@ const INIT_STATE = {
   leng: "th",
   route_name: "null",
   coreBalanceRoute: null,
-  set_Selected_Tab: null
+  set_Selected_Tab: null,
+  teachUserHome: true
 };
 
 export function reducer(state = INIT_STATE, action) {
@@ -121,6 +127,11 @@ export function reducer(state = INIT_STATE, action) {
       return {
         ...state,
         set_Selected_Tab: action.payload,
+      };
+    case types.TEACH_USER_HOME:
+      return {
+        ...state,
+        teachUserHome: action.payload.teachUserHome,
       };
     default:
       return { ...state };
