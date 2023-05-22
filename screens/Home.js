@@ -183,7 +183,7 @@ class Home extends Component {
         const { teachUserHome } = this.props;
 
 
-        if (teachUserHome/*  != true */ == "undefined") {  // สอน การใช้งาน  home ถ้า ต้องการ ให้ขึ้นเเค่ ครั่ง เเรก ให้ ใช้  == "undefined"
+        if (teachUserHome != true /* == "undefined" */) {  // สอน การใช้งาน  home ถ้า ต้องการ ให้ขึ้นเเค่ ครั่ง เเรก ให้ ใช้  == "undefined"
             this.props.setTeachUserHome(true);
         }
 
@@ -875,7 +875,7 @@ class Home extends Component {
                             </View>
                         </View>
                         <View style={{
-                            marginBottom: Platform.OS === 'android' ? stipTeach === 3 ? -10 : -20 : isNotchDevice ? 10 : -20,
+                            marginBottom: Platform.OS === 'android' ? stipTeach === 3 ? -10 : -20 : isNotchDevice ? stipTeach === 3 ? 17 : 10 : stipTeach === 3 ? -10 : -20,
                             marginLeft: stipTeach === 1 ? "-45%" : stipTeach === 2 ? "45%" : 0,
                             backgroundColor: 'white',
                             width: 75,
@@ -890,7 +890,7 @@ class Home extends Component {
                             shadowOpacity: 5,
                             shadowRadius: 5,
                             elevation: 24,
-                            opacity: 1,
+                            opacity: 0.1,
                             borderWidth: 0,
                             alignItems: "center",
                             justifyContent: "center",
