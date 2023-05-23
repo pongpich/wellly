@@ -183,7 +183,7 @@ class Home extends Component {
         const { teachUserHome } = this.props;
 
 
-        if (teachUserHome != true /* == "undefined" */) {  // สอน การใช้งาน  home ถ้า ต้องการ ให้ขึ้นเเค่ ครั่ง เเรก ให้ ใช้  == "undefined"
+        if (teachUserHome != true /* == "undefined" */) {  // สอน การใช้งาน  home ถ้า ต้องการ ให้ขึ้นเเค่ ครั่ง เเรก ให้ ใช้  == "undefined" รอลบ
             this.props.setTeachUserHome(true);
         }
 
@@ -825,7 +825,7 @@ class Home extends Component {
                             width: 288,
                             height: 117,
                             backgroundColor: "white",
-                            marginBottom: 10,
+                            marginBottom: 20,
                             borderRadius: 16,
                             paddingTop: 16,
                             paddingHorizontal: 16,
@@ -874,6 +874,13 @@ class Home extends Component {
                                     </View>
                                 </TouchableWithoutFeedback>
                             </View>
+                            {
+                                stipTeach === 3 && <Image
+                                    style={{ height: 16, width: 32, zIndex: 1, marginTop: 10, marginLeft: "45%" }}
+                                    source={require('../assets/images/icon/Rectangle10.png')}
+                                />
+                            }
+
                         </View>
                         <View style={{
                             marginBottom: Platform.OS === 'android' ? stipTeach === 3 ? -10 : -20 : isNotchDevice ? stipTeach === 3 ? 17 : 10 : stipTeach === 3 ? -10 : -20,

@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
-import { ScrollView, View, Dimensions, StyleSheet, StatusBar, TouchableOpacity, Image, Text, Pressable, Animated } from 'react-native';
+import { ScrollView, View, Dimensions, StyleSheet, StatusBar, TouchableOpacity, Image, Text, Pressable, Platform, Animated, TouchableWithoutFeedback } from 'react-native';
 import colors from '../../constants/colors';
 import { getNutritionMission, getNutritionActivityIdMission } from "../../redux/get";
 import ComponentsStyle from '../../constants/components';
 import { logoutUser } from "../../redux/auth";
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
-import { routeName } from "../../redux/personalUser";
+import { setTeachUserArticleTemplate, routeName } from "../../redux/personalUser";
 import Mission from '../Nutrition/Mission';
 import Modal from "react-native-modal";
 //บทความ
@@ -37,13 +37,14 @@ class ArticleTemplate extends Component {
             statusBarColor: "light",
             isModalVisible: false,
             week_in_program: null,
-            mission_id: "null"
+            mission_id: "null",
+            stipTeach: 1
         };
     }
 
     componentDidMount() {
         const { nutrition_mission, user, nutrition_activity_id_Mission, route } = this.props;
-
+        /*   this.props.setTeachUserArticleTemplate(true); */
         // รับ   params จาก  route
         const { id, mission_id } = this.props.route.params;
 
@@ -179,9 +180,13 @@ class ArticleTemplate extends Component {
             extrapolate: 'clamp',
         });
 
-        const { statusBarColor, numberMission, study, statusQuiz, statusMission, isModalVisible, week_in_program, mission_id, scrollY, slideAnimation } = this.state;
-        const { nutrition_activity_id_Mission } = this.props;
+        const { statusBarColor, numberMission, study, statusQuiz, statusMission, isModalVisible, week_in_program, mission_id, scrollY, slideAnimation, stipTeach } = this.state;
+        const { nutrition_activity_id_Mission, teachUserArticleTemplate } = this.props;
         const { heading } = this.props.route.params;
+        const isNotchDevice = Dimensions.get('window').height >= 812;
+
+        console.log("teachUserArticleTemplate", teachUserArticleTemplate);
+
 
         return (
             <View style={styles.container}>
@@ -365,7 +370,162 @@ class ArticleTemplate extends Component {
                         </View>
                     </Modal>
                 </View>
-            </View>
+
+                <Modal isVisible={teachUserArticleTemplate} style={{ zIndex: 1 }}>
+                    <TouchableWithoutFeedback onPress={() => {
+                        /* dispatch(setTeachUserNutrtion(false)); */
+                        this.props.setTeachUserArticleTemplate(false);
+                        this.props.navigation.navigate("ExerciseTab")
+                    }
+                    }>
+                        <Text style={{
+                            fontSize: ComponentsStyle.fontSize16,
+                            fontFamily: "IBMPlexSansThai-Bold",
+                            color: colors.white,
+                            marginTop: Platform.OS === 'android' ? -10 : 20,
+                            textAlign: "right",
+                            marginRight: 20,
+
+                        }}>ข้าม</Text>
+                    </TouchableWithoutFeedback>
+
+                    <View style={{ flex: 1, alignItems: stipTeach == 1 ? "flex-start" : "flex-end", justifyContent: "flex-start", marginTop: 118 /* marginTop: Platform.OS === 'android' ? "36%" : isNotchDevice ? "33.1%" : "35%" */ }}>
+                        <View style={{
+
+                            marginLeft: -10,
+                            backgroundColor: 'white',
+                            width: 200,
+                            /* height: "atuo", */
+                            borderRadius: 16,
+                            paddingBottom: 10,
+                            paddingTop: 10,
+                            /* padding: stipTeach === 1 ? 10 : 0, */
+                            shadowColor: "#ffffff",
+                            shadowOffset: {
+                                width: 0,
+                                height: 0,
+                            },
+                            shadowOpacity: 5,
+                            shadowRadius: 5,
+                            elevation: 24,
+                            opacity: 1,
+                            borderWidth: 0,
+                            alignItems: "center",
+                            justifyContent: "center",
+
+                        }}>
+
+                            <View style={{
+                                width: "100%",
+                                marginTop: -16,
+                                paddingTop: 16,
+                                flexDirection: "row",
+                                zIndex: 10,
+                                borderTopLeftRadius: 16,
+                                borderTopRightRadius: 16,
+                                justifyContent: "flex-end",
+                            }}>
+                                {
+                                    stipTeach === 1 ?
+                                        <View style={{ paddingLeft: 16, width: "100%" }}>
+                                            <View style={[{ marginLeft: -16 }, study === true ? styles.boxHeadingActive : styles.boxHeading]}>
+                                                <Pressable onPress={() => this.setState({
+                                                    study: true
+                                                })}>
+                                                    <Text style={study === true ? styles.sectionActive : styles.section}> ความรู้</Text>
+                                                </Pressable>
+                                            </View>
+                                        </View>
+                                        :
+                                        <View style={{ paddingRight: 16, width: "100%" }}>
+                                            <View style={study !== true ? styles.boxHeadingActive : styles.boxHeading}>
+                                                <Pressable onPress={() => this.setState({
+                                                    study: false
+                                                })}>
+                                                    <Text style={study !== true ? styles.sectionActive : styles.section}> ภารกิจ</Text>
+                                                </Pressable>
+                                            </View>
+
+                                        </View>
+                                }
+
+
+
+
+
+                            </View>
+                            {/*  */}
+
+
+                        </View>
+                        <Image
+                            style={{ height: 16, width: 32, zIndex: 1, marginTop: 13, marginLeft: stipTeach === 1 ? "10%" : 0, marginRight: stipTeach === 2 ? "10%" : 0 }}
+                            source={require('../../assets/images/icon/Rectangle11.png')}
+                        />
+                        <View style={{
+                            width: 288,
+                            height: 117,
+                            backgroundColor: "white",
+                            marginBottom: 30,
+                            borderRadius: 16,
+                            paddingTop: 16,
+                            paddingHorizontal: 16,
+
+                        }}>
+                            <Text style={{
+                                fontSize: ComponentsStyle.fontSize14,
+                                fontFamily: "IBMPlexSansThai-Regular",
+                                color: colors.grey1,
+                            }}>
+                                {
+                                    stipTeach == 1 ? "แท็บสำหรับอ่านเรียนรู้เกี่ยวกับโภชนาการเพื่อทำภารกิจสัปดาห์นั้น" : "แท็บสำหรับดูภารกิจด้านโภชนาการ ที่จะช่วยให้เข้าใจวิธีกินที่ถูกต้องเหมาะสม"
+                                }
+                            </Text>
+                            <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+
+                                <TouchableWithoutFeedback onPress={() => this.setState({ stipTeach: stipTeach === 1 ? 1 : stipTeach - 1 })}>
+                                    <View style={{
+                                        backgroundColor: colors.white, width: 52, height: 27, alignItems: "center",
+                                        borderRadius: 16, justifyContent: "center", marginTop: 16,
+                                    }}>
+                                        <Text style={{
+                                            fontSize: ComponentsStyle.fontSize16,
+                                            fontFamily: "IBMPlexSansThai-Bold",
+                                            color: colors.persianBlue,
+                                        }}>กลับ</Text>
+                                    </View>
+                                </TouchableWithoutFeedback>
+
+                                <TouchableWithoutFeedback onPress={() => {
+                                    this.setState({
+                                        stipTeach: stipTeach === 2 ? 2 : stipTeach + 1
+                                    })
+
+                                    if (stipTeach == 2) {
+                                        this.props.setTeachUserArticleTemplate(false);
+                                        this.props.navigation.navigate("ExerciseTab")
+                                    }
+
+                                }
+                                }>
+
+                                    <View style={{
+                                        backgroundColor: colors.persianBlue, width: 52, height: 27, alignItems: "center",
+                                        borderRadius: 16, justifyContent: "center", marginTop: 16,
+                                    }}>
+                                        <Text style={{
+                                            fontSize: ComponentsStyle.fontSize16,
+                                            fontFamily: "IBMPlexSansThai-Bold",
+                                            color: colors.white,
+                                        }}>ถัดไป</Text>
+                                    </View>
+                                </TouchableWithoutFeedback>
+                            </View>
+
+                        </View>
+                    </View>
+                </Modal >
+            </View >
         );
     }
 }
@@ -538,13 +698,14 @@ const styles = StyleSheet.create({
 });
 
 
-const mapStateToProps = ({ authUser, getData }) => {
+const mapStateToProps = ({ authUser, getData, personalDataUser }) => {
     const { user } = authUser;
+    const { teachUserArticleTemplate } = personalDataUser;
     const { nutrition_mission, statusGetNutritionMission, statusGetNutritionActivityIdMission, nutrition_activity_id_Mission } = getData;
-    return { nutrition_mission, statusGetNutritionMission, nutrition_activity_id_Mission, statusGetNutritionActivityIdMission, user };
+    return { nutrition_mission, statusGetNutritionMission, nutrition_activity_id_Mission, statusGetNutritionActivityIdMission, user, teachUserArticleTemplate };
 };
 
-const mapActionsToProps = { logoutUser, getNutritionMission, getNutritionActivityIdMission, routeName };
+const mapActionsToProps = { logoutUser, getNutritionMission, getNutritionActivityIdMission, routeName, setTeachUserArticleTemplate };
 
 export default connect(
     mapStateToProps,

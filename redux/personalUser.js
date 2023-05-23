@@ -12,6 +12,8 @@ export const types = {
   COREBALNCE_BALANCE: "COREBALNCE_BALANCE",
   SET_SELECTED_TAB: "SET_SELECTED_TAB",
   TEACH_USER_HOME: "TEACH_USER_HOME",
+  TEACH_USER_NUTRITION: "TEACH_USER_NUTRITION",
+  TEACH_USER_ARTICLE_TEMOLATE: "TEACH_USER_ARTICLE_TEMOLATE",
 };
 
 
@@ -71,6 +73,15 @@ export const setTeachUserHome = (teachUserHome) => ({
   type: types.TEACH_USER_HOME,
   payload: { teachUserHome },
 });
+export const setTeachUserNutrtion = (teachUserNutrtion) => ({
+  type: types.TEACH_USER_NUTRITION,
+  payload: { teachUserNutrtion },
+});
+
+export const setTeachUserArticleTemplate = (teachUserArticleTemplate) => ({
+  type: types.TEACH_USER_ARTICLE_TEMOLATE,
+  payload: { teachUserArticleTemplate },
+});
 
 
 
@@ -93,7 +104,9 @@ const INIT_STATE = {
   route_name: "null",
   coreBalanceRoute: null,
   set_Selected_Tab: null,
-  teachUserHome: true
+  teachUserHome: true,
+  teachUserNutrtion: true,
+  teachUserArticleTemplate: true
 };
 
 export function reducer(state = INIT_STATE, action) {
@@ -132,6 +145,16 @@ export function reducer(state = INIT_STATE, action) {
       return {
         ...state,
         teachUserHome: action.payload.teachUserHome,
+      };
+    case types.TEACH_USER_NUTRITION:
+      return {
+        ...state,
+        teachUserNutrtion: action.payload.teachUserNutrtion,
+      };
+    case types.TEACH_USER_ARTICLE_TEMOLATE:
+      return {
+        ...state,
+        teachUserArticleTemplate: action.payload.teachUserArticleTemplate,
       };
     default:
       return { ...state };

@@ -5,11 +5,12 @@ import colors from '../../constants/colors';
 import ComponentsStyle from '../../constants/components';
 import { AntDesign } from '@expo/vector-icons';
 import { useSelector, useDispatch } from "react-redux";
+import { setTeachUserNutrtion, setTeachUserArticleTemplate } from "../../redux/personalUser";
 import { connect } from 'react-redux';
 import { getNutritionActivity } from "../../redux/get";
 import { convertFormatDate, calculateWeekInProgram } from "../../helpers/utils";
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
-
+import Modal from "react-native-modal";
 
 
 const HEADER_MAX_HEIGHT = 500;
@@ -38,6 +39,7 @@ const Nutrition = ({ navigation }) => {
     const [quiz_activities_number, setQuiz_activities_number] = useState(null);
     const [assessment_kit_activties, setAssessment_kit_activties] = useState(null);
     const [assessment_kit_number, setAssessment_kit_number] = useState(null);
+    const teachUserNutrition = useSelector(({ personalDataUser }) => personalDataUser && personalDataUser.teachUserNutrtion);//personalDataUser
 
     const animatedScrollYValue = useRef(new Animated.Value(0)).current;
     const [scrollY] = useState(new Animated.Value(0));
@@ -77,7 +79,7 @@ const Nutrition = ({ navigation }) => {
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
-
+            dispatch(setTeachUserNutrtion(true)); // รอลบ
             dispatch(getNutritionActivity((user && user.user_id)));
 
             const week_program_user = calculateWeekInProgram(user.start_date);
@@ -141,6 +143,10 @@ const Nutrition = ({ navigation }) => {
         return substring2 + "...";
     };
 
+    const isNotchDevice = Dimensions.get('window').height >= 812;
+
+
+
     return (
 
         <View style={styles.fill}>
@@ -184,117 +190,120 @@ const Nutrition = ({ navigation }) => {
 
                 </View>
             </Animated.View>
+            {
+                teachUserNutrition === false &&
+                <Animated.ScrollView
+                    style={styles.fill2}
+                    scrollEventThrottle={16}
+                    showsVerticalScrollIndicator={false}
+                    onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: animatedScrollYValue } } }], { useNativeDriver: false })}
+                >
+                    <View style={styles.scrollViewContent}>
 
-            <Animated.ScrollView
-                style={styles.fill2}
-                scrollEventThrottle={16}
-                showsVerticalScrollIndicator={false}
-                onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: animatedScrollYValue } } }], { useNativeDriver: false })}
-            >
-                <View style={styles.scrollViewContent}>
 
+                        {nutrition_activity ?
 
-                    {nutrition_activity ?
+                            nutrition_activity.map((item, i) => {
 
-                        nutrition_activity.map((item, i) => {
+                                if (((item.quiz_activities == null) || (item.assessment_kit_number != "1")) && (item.week_in_program != "4")) {
+                                    if ((item.mission_id == "snc1") && (item.assessment_kit_number == null)) {
+                                        return (
+                                            <Pressable onPress={() => navigation.navigate("ArticleTemplate", { id: item.week_in_program, mission_id: item.mission_id, heading: item.heading })} key={i + "tfb"}>
+                                                <View key={i} style={styles.row}>
+                                                    <View style={styles.numberView}>
+                                                        <Text style={styles.number}>{item.week_in_program}</Text>
+                                                    </View>
+                                                    <View style={styles.missionData}>
+                                                        <Text style={styles.missionHead}>{item.heading}</Text>
+                                                        <Text style={[styles.missionContent, { marginRight: 16 }]}>
 
-                            if (((item.quiz_activities == null) || (item.assessment_kit_number != "1")) && (item.week_in_program != "4")) {
-                                if ((item.mission_id == "snc1") && (item.assessment_kit_number == null)) {
-                                    return (
-                                        <Pressable onPress={() => navigation.navigate("ArticleTemplate", { id: item.week_in_program, mission_id: item.mission_id, heading: item.heading })} key={i + "tfb"}>
-                                            <View key={i} style={styles.row}>
-                                                <View style={styles.numberView}>
-                                                    <Text style={styles.number}>{item.week_in_program}</Text>
-                                                </View>
-                                                <View style={styles.missionData}>
-                                                    <Text style={styles.missionHead}>{item.heading}</Text>
-                                                    <Text style={[styles.missionContent, { marginRight: 16 }]}>
+                                                            {substringText(item.short_content)}
+                                                        </Text>
+                                                        {
 
-                                                        {substringText(item.short_content)}
-                                                    </Text>
-                                                    {
-
-                                                        (days == "Sunday") && (week_program_user == item.week_in_program) ?
-                                                            <View style={styles.notifiedRed}>
-                                                                <Text style={styles.notifiedTextRed}>
-                                                                    วันสุดท้าย
-                                                                </Text>
-                                                            </View> :
-                                                            ((!quiz_activities) && (!quiz_activities_number) && (week_program_user != item.week_in_program)) || ((!assessment_kit_activties) && (!assessment_kit_number) && (week_program_user != item.week_in_program)) ?
-                                                                <View style={styles.notifiedYellow}>
-                                                                    <Text style={styles.notifiedTextYellow}>
-                                                                        ภารกิจที่ยังทำไม่เสร็จ
+                                                            (days == "Sunday") && (week_program_user == item.week_in_program) ?
+                                                                <View style={styles.notifiedRed}>
+                                                                    <Text style={styles.notifiedTextRed}>
+                                                                        วันสุดท้าย
                                                                     </Text>
-                                                                </View> : null
-                                                    }
+                                                                </View> :
+                                                                ((!quiz_activities) && (!quiz_activities_number) && (week_program_user != item.week_in_program)) || ((!assessment_kit_activties) && (!assessment_kit_number) && (week_program_user != item.week_in_program)) ?
+                                                                    <View style={styles.notifiedYellow}>
+                                                                        <Text style={styles.notifiedTextYellow}>
+                                                                            ภารกิจที่ยังทำไม่เสร็จ
+                                                                        </Text>
+                                                                    </View> : null
+                                                        }
+                                                    </View>
+                                                    <View style={styles.viewIconRight}>
+                                                        <Image
+                                                            style={{ height: 24, width: 24, zIndex: 1, marginRight: 8 }}
+                                                            source={require('../../assets/images/icon/right.png')}
+                                                        />
+                                                    </View>
                                                 </View>
-                                                <View style={styles.viewIconRight}>
-                                                    <Image
-                                                        style={{ height: 24, width: 24, zIndex: 1, marginRight: 8 }}
-                                                        source={require('../../assets/images/icon/right.png')}
-                                                    />
-                                                </View>
-                                            </View>
-                                        </Pressable>
-                                    )
-                                }
-                                if ((item.mission_id !== "snc1")) {
-                                    return (
-                                        <Pressable onPress={() => navigation.navigate("ArticleTemplate", { id: item.week_in_program, mission_id: item.mission_id, heading: item.heading })} key={i + "tfb"}>
-                                            <View key={i} style={styles.row}>
-                                                <View style={styles.numberView}>
-                                                    <Text style={styles.number}>{item.week_in_program}</Text>
-                                                </View>
-                                                <View style={styles.missionData}>
-                                                    <Text style={styles.missionHead}>{item.heading}</Text>
-                                                    <Text style={[styles.missionContent, { marginRight: 16 }]}>
-                                                        {substringText(item.short_content)}
-                                                    </Text>
-                                                    {
+                                            </Pressable>
+                                        )
+                                    }
+                                    if ((item.mission_id !== "snc1")) {
+                                        return (
+                                            <Pressable onPress={() => navigation.navigate("ArticleTemplate", { id: item.week_in_program, mission_id: item.mission_id, heading: item.heading })} key={i + "tfb"}>
+                                                <View key={i} style={styles.row}>
+                                                    <View style={styles.numberView}>
+                                                        <Text style={styles.number}>{item.week_in_program}</Text>
+                                                    </View>
+                                                    <View style={styles.missionData}>
+                                                        <Text style={styles.missionHead}>{item.heading}</Text>
+                                                        <Text style={[styles.missionContent, { marginRight: 16 }]}>
+                                                            {substringText(item.short_content)}
+                                                        </Text>
+                                                        {
 
-                                                        (days == "Sunday") && (week_program_user == item.week_in_program) ?
-                                                            <View style={styles.notifiedRed}>
-                                                                <Text style={styles.notifiedTextRed}>
-                                                                    วันสุดท้าย
-                                                                </Text>
-                                                            </View> :
-                                                            ((!quiz_activities) && (!quiz_activities_number) && (week_program_user != item.week_in_program)) || ((!assessment_kit_activties) && (!assessment_kit_number) && (week_program_user != item.week_in_program)) ?
-                                                                <View style={styles.notifiedYellow}>
-                                                                    <Text style={styles.notifiedTextYellow}>
-                                                                        ภารกิจที่ยังทำไม่เสร็จ
+                                                            (days == "Sunday") && (week_program_user == item.week_in_program) ?
+                                                                <View style={styles.notifiedRed}>
+                                                                    <Text style={styles.notifiedTextRed}>
+                                                                        วันสุดท้าย
                                                                     </Text>
-                                                                </View> : null
-                                                    }
+                                                                </View> :
+                                                                ((!quiz_activities) && (!quiz_activities_number) && (week_program_user != item.week_in_program)) || ((!assessment_kit_activties) && (!assessment_kit_number) && (week_program_user != item.week_in_program)) ?
+                                                                    <View style={styles.notifiedYellow}>
+                                                                        <Text style={styles.notifiedTextYellow}>
+                                                                            ภารกิจที่ยังทำไม่เสร็จ
+                                                                        </Text>
+                                                                    </View> : null
+                                                        }
+                                                    </View>
+                                                    <View style={styles.viewIconRight}>
+                                                        <Image
+                                                            style={{ height: 24, width: 24, zIndex: 1, marginRight: 8 }}
+                                                            source={require('../../assets/images/icon/right.png')}
+                                                        />
+                                                    </View>
                                                 </View>
-                                                <View style={styles.viewIconRight}>
-                                                    <Image
-                                                        style={{ height: 24, width: 24, zIndex: 1, marginRight: 8 }}
-                                                        source={require('../../assets/images/icon/right.png')}
-                                                    />
-                                                </View>
-                                            </View>
-                                        </Pressable>
-                                    )
+                                            </Pressable>
+                                        )
+                                    }
+
                                 }
 
-                            }
 
+                            }) :
+                            <View style={styles.imptyImage}>
+                                <Image
+                                    style={{ height: 84, width: 120, zIndex: 1 }}
+                                    source={require('../../assets/images/logo/EmptyState.png')}
+                                />
+                                <Text style={styles.imptyTextHead}>ยังไม่มีภารกิจในตอนนี้</Text>
+                                {
+                                    !startDate ? null : <Text style={styles.imptyTextStartDate}>ภารกิจใหม่จะเริ่มในวันที่ 12 สิงหาคม 2564</Text>
+                                }
 
-                        }) :
-                        <View style={styles.imptyImage}>
-                            <Image
-                                style={{ height: 84, width: 120, zIndex: 1 }}
-                                source={require('../../assets/images/logo/EmptyState.png')}
-                            />
-                            <Text style={styles.imptyTextHead}>ยังไม่มีภารกิจในตอนนี้</Text>
-                            {
-                                !startDate ? null : <Text style={styles.imptyTextStartDate}>ภารกิจใหม่จะเริ่มในวันที่ 12 สิงหาคม 2564</Text>
-                            }
+                            </View>
+                        }
+                    </View>
+                </Animated.ScrollView>
+            }
 
-                        </View>
-                    }
-                </View>
-            </Animated.ScrollView >
 
 
             <Text style={styles.nutritionText}>โภชนาการ</Text>
@@ -309,6 +318,168 @@ const Nutrition = ({ navigation }) => {
                     />
                 </View>
             </Animated.View>
+
+            <Modal isVisible={teachUserNutrition} style={{ zIndex: 1 }}>
+                <TouchableWithoutFeedback onPress={() => {
+                    dispatch(setTeachUserNutrtion(false));
+                    dispatch(setTeachUserArticleTemplate(false));
+                    navigation.navigate("ExerciseTab");
+
+                }
+                }>
+                    <Text style={{
+                        fontSize: ComponentsStyle.fontSize16,
+                        fontFamily: "IBMPlexSansThai-Bold",
+                        color: colors.white,
+                        marginTop: Platform.OS === 'android' ? -10 : 20,
+                        textAlign: "right",
+                        marginRight: 20,
+
+                    }}>ข้าม</Text>
+                </TouchableWithoutFeedback>
+
+                <View style={{ flex: 1, alignItems: 'center', justifyContent: "flex-end", marginBottom: Platform.OS === 'android' ? "20%" : isNotchDevice ? "30%" : "20%", }}>
+                    <View style={{
+                        width: 288,
+                        height: 96,
+                        backgroundColor: "white",
+                        marginBottom: 30,
+                        borderRadius: 16,
+                        paddingTop: 16,
+                        paddingHorizontal: 16,
+
+                    }}>
+                        <Text style={{
+                            fontSize: ComponentsStyle.fontSize14,
+                            fontFamily: "IBMPlexSansThai-Regular",
+                            color: colors.grey1,
+                        }}>
+                            แตะที่นี่เพื่อดูรายละเอียดภารกิจที่ได้รับ
+                        </Text>
+                        <View style={{ alignItems: "flex-end" }}>
+
+                            <TouchableWithoutFeedback onPress={() =>
+                                nutrition_activity.map((item, i) => {
+                                    if (item.week_in_program != "4") {
+                                        if (i == 0) {
+                                            navigation.navigate("ArticleTemplate", {
+                                                id: item.week_in_program,
+                                                mission_id: item.mission_id,
+                                                heading: item.heading,
+                                            });
+                                            dispatch(setTeachUserNutrtion(false));
+                                            dispatch(setTeachUserArticleTemplate(true)); // set true  ของ  ArticleTemplate  ทุกคั้งที่เปิด  รอลบ
+                                        }
+                                    } else {
+                                        if (i == 1) {
+                                            navigation.navigate("ArticleTemplate", {
+                                                id: item.week_in_program,
+                                                mission_id: item.mission_id,
+                                                heading: item.heading,
+                                            });
+                                            dispatch(setTeachUserNutrtion(false));
+                                            dispatch(setTeachUserArticleTemplate(true));  // set true  ของ  ArticleTemplate  ทุกคั้งที่เปิด  รอลบ
+                                        }
+                                    }
+
+                                })
+                            }>
+
+                                <View style={{
+                                    backgroundColor: colors.persianBlue, width: 52, height: 27, alignItems: "center",
+                                    borderRadius: 16, justifyContent: "center", marginTop: 16,
+                                }}>
+                                    <Text style={{
+                                        fontSize: ComponentsStyle.fontSize16,
+                                        fontFamily: "IBMPlexSansThai-Bold",
+                                        color: colors.white,
+                                    }}>ถัดไป</Text>
+                                </View>
+                            </TouchableWithoutFeedback>
+                        </View>
+                        <Image
+                            style={{ height: 16, width: 32, zIndex: 1, marginTop: 13, marginLeft: "40%" }}
+                            source={require('../../assets/images/icon/Rectangle10.png')}
+                        />
+                    </View>
+                    {
+                        nutrition_activity.map((item, i) => {
+
+                            if (((item.quiz_activities == null) || (item.assessment_kit_number != "1")) && (item.week_in_program != "4")) {
+                                if ((item.mission_id == "snc1") && (item.assessment_kit_number == null) && (i == 0)) {
+
+                                    return (
+                                        <View key={i} style={[styles.row, {
+                                            paddingBottom: 0, marginLeft: -16, marginRight: -16,
+                                            shadowColor: "#ffffff",
+                                            shadowOffset: {
+                                                width: 0,
+                                                height: 0,
+                                            },
+                                            shadowOpacity: 5,
+                                            shadowRadius: 5,
+                                            elevation: 24,
+                                        }]}>
+                                            <View style={styles.numberView}>
+                                                <Text style={styles.number}>{item.week_in_program}</Text>
+                                            </View>
+                                            <View style={styles.missionData}>
+                                                <Text style={styles.missionHead}>{item.heading}</Text>
+                                                <Text style={[styles.missionContent, { marginRight: 16 }]}>
+
+                                                    {substringText(item.short_content)}
+                                                </Text>
+                                            </View>
+                                            <View style={styles.viewIconRight}>
+                                                <Image
+                                                    style={{ height: 24, width: 24, zIndex: 1, marginRight: 8 }}
+                                                    source={require('../../assets/images/icon/right.png')}
+                                                />
+                                            </View>
+                                        </View>
+                                    )
+                                }
+                                if ((item.mission_id !== "snc1") && i == 0) {
+                                    return (
+                                        <View key={i} style={[styles.row, {
+                                            paddingBottom: 0, marginLeft: -16, marginRight: -16,
+                                            shadowColor: "#ffffff",
+                                            shadowOffset: {
+                                                width: 0,
+                                                height: 0,
+                                            },
+                                            shadowOpacity: 5,
+                                            shadowRadius: 5,
+                                            elevation: 24,
+                                        }]}>
+                                            <View style={styles.numberView}>
+                                                <Text style={styles.number}>{item.week_in_program}</Text>
+                                            </View>
+                                            <View style={styles.missionData}>
+                                                <Text style={styles.missionHead}>{item.heading}</Text>
+                                                <Text style={[styles.missionContent, { marginRight: 16 }]}>
+                                                    {substringText(item.short_content)}
+                                                </Text>
+                                            </View>
+                                            <View style={styles.viewIconRight}>
+                                                <Image
+                                                    style={{ height: 24, width: 24, zIndex: 1, marginRight: 32, }}
+                                                    source={require('../../assets/images/icon/right.png')}
+                                                />
+                                            </View>
+                                        </View>
+                                    )
+                                }
+
+                            }
+
+
+                        })
+                    }
+
+
+                </View>
+            </Modal >
         </View >
     );
 };
