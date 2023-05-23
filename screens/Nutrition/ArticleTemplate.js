@@ -9,6 +9,8 @@ import { withTranslation } from 'react-i18next';
 import { setTeachUserArticleTemplate, routeName } from "../../redux/personalUser";
 import Mission from '../Nutrition/Mission';
 import Modal from "react-native-modal";
+import { CommonActions } from '@react-navigation/native';
+
 //บทความ
 import Gn1 from '../../components/knowledge/Gn1';
 import Gn2 from '../../components/knowledge/Gn2';
@@ -503,7 +505,15 @@ class ArticleTemplate extends Component {
 
                                     if (stipTeach == 2) {
                                         this.props.setTeachUserArticleTemplate(false);
-                                        this.props.navigation.navigate("ExerciseTab")
+                                        /*  this.props.navigation.navigate("ExerciseTab") */
+                                        this.props.navigation.dispatch(
+                                            CommonActions.reset({
+                                                index: 0,
+                                                routes: [
+                                                    { name: 'ExerciseTab' }
+                                                ],
+                                            })
+                                        );
                                     }
 
                                 }
