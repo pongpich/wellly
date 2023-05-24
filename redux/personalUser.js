@@ -14,6 +14,7 @@ export const types = {
   TEACH_USER_HOME: "TEACH_USER_HOME",
   TEACH_USER_NUTRITION: "TEACH_USER_NUTRITION",
   TEACH_USER_ARTICLE_TEMOLATE: "TEACH_USER_ARTICLE_TEMOLATE",
+  TEACH_USER_EXERCISE: "TEACH_USER_EXERCISE"
 };
 
 
@@ -83,6 +84,11 @@ export const setTeachUserArticleTemplate = (teachUserArticleTemplate) => ({
   payload: { teachUserArticleTemplate },
 });
 
+export const setTeachUserExercise = (teachUserExercise) => ({
+  type: types.TEACH_USER_EXERCISE,
+  payload: { teachUserExercise },
+});
+
 
 
 
@@ -106,7 +112,8 @@ const INIT_STATE = {
   set_Selected_Tab: null,
   teachUserHome: true,
   teachUserNutrtion: true,
-  teachUserArticleTemplate: true
+  teachUserArticleTemplate: true,
+  teachUserExercise: true
 };
 
 export function reducer(state = INIT_STATE, action) {
@@ -155,6 +162,11 @@ export function reducer(state = INIT_STATE, action) {
       return {
         ...state,
         teachUserArticleTemplate: action.payload.teachUserArticleTemplate,
+      };
+    case types.TEACH_USER_EXERCISE:
+      return {
+        ...state,
+        teachUserExercise: action.payload.teachUserExercise,
       };
     default:
       return { ...state };

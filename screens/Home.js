@@ -183,9 +183,9 @@ class Home extends Component {
         const { teachUserHome } = this.props;
 
 
-        if (teachUserHome != true /* == "undefined" */) {  // สอน การใช้งาน  home ถ้า ต้องการ ให้ขึ้นเเค่ ครั่ง เเรก ให้ ใช้  == "undefined" รอลบ
-            this.props.setTeachUserHome(true);
-        }
+        /*  if (teachUserHome === 'undefined') {  // สอน การใช้งาน  home ถ้า ต้องการ ให้ขึ้นเเค่ ครั่ง เเรก ให้ ใช้  == "undefined" รอลบ
+             this.props.setTeachUserHome(true);
+         } */
 
 
         // this.props.routeName(null); // ถ้าเข้าให้ home ให้ทำคำสั่งนี้ 1 ครั้ง

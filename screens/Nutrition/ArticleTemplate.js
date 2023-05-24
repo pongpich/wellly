@@ -6,7 +6,7 @@ import ComponentsStyle from '../../constants/components';
 import { logoutUser } from "../../redux/auth";
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
-import { setTeachUserArticleTemplate, routeName } from "../../redux/personalUser";
+import { setTeachUserArticleTemplate, setTeachUserNutrtion, routeName } from "../../redux/personalUser";
 import Mission from '../Nutrition/Mission';
 import Modal from "react-native-modal";
 import { CommonActions } from '@react-navigation/native';
@@ -47,9 +47,9 @@ class ArticleTemplate extends Component {
     componentDidMount() {
         const { nutrition_mission, user, nutrition_activity_id_Mission, route, teachUserArticleTemplate } = this.props;
 
-        if (teachUserArticleTemplate == "undefined") {
-            this.props.setTeachUserArticleTemplate(true);
-        }
+        /*   if (teachUserArticleTemplate === 'undefined') {
+              this.props.setTeachUserArticleTemplate(true);
+          } */
         /*   this.props.setTeachUserArticleTemplate(true); */
         // รับ   params จาก  route
         const { id, mission_id } = this.props.route.params;
@@ -488,7 +488,23 @@ class ArticleTemplate extends Component {
                             </Text>
                             <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
 
-                                <TouchableWithoutFeedback onPress={() => this.setState({ stipTeach: stipTeach === 1 ? 1 : stipTeach - 1 })}>
+                                <TouchableWithoutFeedback onPress={() => {
+                                    this.setState({ stipTeach: stipTeach === 1 ? 1 : stipTeach - 1 })
+                                    if (stipTeach == 1) {
+                                        this.props.setTeachUserNutrtion(true);
+                                        this.props.setTeachUserArticleTemplate(true);
+                                        /*  this.props.navigation.navigate("ExerciseTab") */
+                                        this.props.navigation.dispatch(
+                                            CommonActions.reset({
+                                                index: 0,
+                                                routes: [
+                                                    { name: 'NutritionTab' }
+                                                ],
+                                            })
+                                        );
+                                    }
+
+                                }}>
                                     <View style={{
                                         backgroundColor: colors.white, width: 52, height: 27, alignItems: "center",
                                         borderRadius: 16, justifyContent: "center", marginTop: 16,
@@ -718,7 +734,7 @@ const mapStateToProps = ({ authUser, getData, personalDataUser }) => {
     return { nutrition_mission, statusGetNutritionMission, nutrition_activity_id_Mission, statusGetNutritionActivityIdMission, user, teachUserArticleTemplate };
 };
 
-const mapActionsToProps = { logoutUser, getNutritionMission, getNutritionActivityIdMission, routeName, setTeachUserArticleTemplate };
+const mapActionsToProps = { logoutUser, getNutritionMission, getNutritionActivityIdMission, routeName, setTeachUserArticleTemplate, setTeachUserNutrtion };
 
 export default connect(
     mapStateToProps,
@@ -726,3 +742,4 @@ export default connect(
 )(withTranslation()(ArticleTemplate));
 
 /* export default ScrollableHeader; */
+

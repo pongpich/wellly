@@ -1,12 +1,12 @@
 import React, { useRef, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, StyleSheet, Animated, Image, ImageBackground, Dimensions, Pressable, ScrollView, TouchableWithoutFeedback } from 'react-native';
+import { View, Text, StyleSheet, Animated, Image, ImageBackground, Dimensions, Pressable, ScrollView, TouchableWithoutFeedback, Platform } from 'react-native';
 import colors from '../../constants/colors';
 import ComponentsStyle from '../../constants/components';
 import Modal from "react-native-modal";
 import { AntDesign } from '@expo/vector-icons';
 import { useSelector, useDispatch } from "react-redux";
-import { routeName, setSelectedTab } from "../../redux/personalUser";
+import { routeName, setSelectedTab, setTeachUserExercise } from "../../redux/personalUser";
 import { connect } from 'react-redux';
 import { getExerciserActivity, getAllTrainingSet, getTrainingSet } from "../../redux/get";
 import { List } from 'react-native-paper';
@@ -64,6 +64,8 @@ const Exercise = ({ navigation }) => {
     const [status_resistance, setStatus_resistance] = useState("ยิม");
     const deviceHeight = Math.round(Dimensions.get('window').height);
     const animatedScrollYValue = useRef(new Animated.Value(0)).current;
+    const teachUserExercise = useSelector(({ personalDataUser }) => personalDataUser && personalDataUser.teachUserExercise);//personalDataUser
+
 
 
 
@@ -166,8 +168,8 @@ const Exercise = ({ navigation }) => {
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
 
-
             dispatch(getExerciserActivity((user && user.user_id)));
+
             const week_program_user = calculateWeekInProgram(user.start_date);
             dispatch(getAllTrainingSet((user && user.user_id), week_program_user));
 
@@ -176,6 +178,21 @@ const Exercise = ({ navigation }) => {
         return unsubscribe;
 
     }, [navigation]);
+
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
+            if (teachUserExercise != true || teachUserExercise != false) {
+                dispatch(setTeachUserExercise(true));
+            }
+
+
+        });
+
+        return unsubscribe;
+
+    }, [teachUserExercise]);
+
+
 
 
 
@@ -206,6 +223,7 @@ const Exercise = ({ navigation }) => {
         return unsubscribe;
 
     }, [route.params]);
+
 
 
     useEffect(() => {  // ตอนกดมาจากหน้าภารกิจ
@@ -541,7 +559,7 @@ const Exercise = ({ navigation }) => {
     const isNotchDevice = Dimensions.get('window').height >= 812;
     const languages = i18next.languages[0];
 
-
+    console.log("teachUserExercise", teachUserExercise);
     return (
         <View style={{ flex: 1 }} forceInset={{ top: 'always' }}>
             <Animated.View
@@ -572,6 +590,8 @@ const Exercise = ({ navigation }) => {
                                 <Text style={[styles.mission, statusMission !== true ? { color: colors.white } : { color: colors.persianBlue }]}>โปรแกรม</Text>
                             </Pressable>
                         </View>
+
+
                         {
                             statusMission == true ?
                                 <>
@@ -603,106 +623,110 @@ const Exercise = ({ navigation }) => {
                 onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: animatedScrollYValue, } } }], { useNativeDriver: false })}
 
             >
-                <View style={styles.scrollViewContent}>
-                    <View >
-                        {statusMission === true ?
-                            <>
-                                {
-                                    exerciserActivity ?
+                {
+                    teachUserExercise === false &&
+                    <View style={styles.scrollViewContent}>
+                        <View >
+                            {statusMission === true ?
+                                <>
+                                    {
+                                        exerciserActivity ?
 
-                                        exerciserActivity.map((item, i) => {
-                                            if (item.status_mission_activities !== "completed") {
-                                                return (
-                                                    <Pressable onPress={() => navigation.navigate("ExArticleTemplate", { id: item.week_in_program, mission_id: item.mission_id, heading: item.heading, mission_activities: item.mission_activities, statusPags: "Exercise" })} key={i + "tfb"}>
-                                                        <View key={i} style={styles.row}>
-                                                            <View style={styles.numberView}>
-                                                                <Text style={styles.number}>{item.week_in_program}</Text>
-                                                            </View>
-                                                            <View style={styles.missionData}>
-                                                                <Text style={styles.missionHead} >{item.heading}</Text>
-                                                                <Text style={[styles.missionContent, { marginRight: 16 }]} key="i+ v3t">
-                                                                    {/* เพิ่ม substringText เพื่อย่อเนื้อหาใน card ให้เหลือ 2บรรทัด... */}
-                                                                    {substringText(item.short_content)}
-                                                                </Text>
-                                                                {
-                                                                    (days == "Sunday") && (week_program_user == item.week_in_program) ?
-                                                                        <View style={styles.notifiedRed}>
-                                                                            <Text style={styles.notifiedTextRed}>
-                                                                                วันสุดท้าย
-                                                                            </Text>
-                                                                        </View> :
-                                                                        ((item.quiz_activities_number == null) && (week_program_user != item.week_in_program)) ?
-                                                                            <View style={styles.notifiedYellow} >
-                                                                                <Text style={styles.notifiedTextYellow}>
-                                                                                    ภารกิจที่ยังทำไม่เสร็จ
+                                            exerciserActivity.map((item, i) => {
+                                                if (item.status_mission_activities !== "completed") {
+                                                    return (
+                                                        <Pressable onPress={() => navigation.navigate("ExArticleTemplate", { id: item.week_in_program, mission_id: item.mission_id, heading: item.heading, mission_activities: item.mission_activities, statusPags: "Exercise" })} key={i + "tfb"}>
+                                                            <View key={i} style={styles.row}>
+                                                                <View style={styles.numberView}>
+                                                                    <Text style={styles.number}>{item.week_in_program}</Text>
+                                                                </View>
+                                                                <View style={styles.missionData}>
+                                                                    <Text style={styles.missionHead} >{item.heading}</Text>
+                                                                    <Text style={[styles.missionContent, { marginRight: 16 }]} key="i+ v3t">
+                                                                        {/* เพิ่ม substringText เพื่อย่อเนื้อหาใน card ให้เหลือ 2บรรทัด... */}
+                                                                        {substringText(item.short_content)}
+                                                                    </Text>
+                                                                    {
+                                                                        (days == "Sunday") && (week_program_user == item.week_in_program) ?
+                                                                            <View style={styles.notifiedRed}>
+                                                                                <Text style={styles.notifiedTextRed}>
+                                                                                    วันสุดท้าย
                                                                                 </Text>
-                                                                            </View> : null
-                                                                }
+                                                                            </View> :
+                                                                            ((item.quiz_activities_number == null) && (week_program_user != item.week_in_program)) ?
+                                                                                <View style={styles.notifiedYellow} >
+                                                                                    <Text style={styles.notifiedTextYellow}>
+                                                                                        ภารกิจที่ยังทำไม่เสร็จ
+                                                                                    </Text>
+                                                                                </View> : null
+                                                                    }
+                                                                </View>
+                                                                <View style={styles.viewIconRight}>
+                                                                    <Image
+                                                                        style={{ height: 24, width: 24, zIndex: 1, marginRight: 8 }}
+                                                                        source={require('../../assets/images/icon/right.png')}
+                                                                    />
+                                                                </View>
                                                             </View>
-                                                            <View style={styles.viewIconRight}>
+                                                        </Pressable>
+                                                    )
+                                                }
+
+
+                                            })
+                                            :
+                                            <View style={styles.imptyImage}>
+                                                <Image
+                                                    style={{ height: 84, width: 120, zIndex: 1 }}
+                                                    source={require('../../assets/images/exercise/Empty_State.png')}
+                                                />
+                                                <Text style={styles.imptyTextHead}>ยังไม่มีภารกิจในตอนนี้</Text>
+                                            </View>
+                                    }
+
+                                </>
+                                :
+                                <>
+                                    {
+                                        allTrainingSet && allTrainingSet ?
+
+                                            allTrainingSet && allTrainingSet.map((item, i) => {
+                                                return (
+                                                    <Pressable key={i + "vp"} onPress={() => closeeModal(item.id, item.name)} >
+                                                        <View key={i + "vd"} style={styles.rowProgram}>
+                                                            <View style={styles.imageProgramView} key={i + "vd2"}>
                                                                 <Image
-                                                                    style={{ height: 24, width: 24, zIndex: 1, marginRight: 8 }}
-                                                                    source={require('../../assets/images/icon/right.png')}
+                                                                    style={{ height: "100%", width: "100%", zIndex: 1 }}
+                                                                    source={
+                                                                        item.id === "core_balance" ? require('../../assets/images/cover_page/core_balance.jpg') :
+                                                                            item.id === "core_balance_plyo" ? require('../../assets/images/cover_page/core_balance_plyo.jpg') :
+                                                                                item.id === "flexibility" ? require('../../assets/images/cover_page/flexibility.jpg') :
+                                                                                    require('../../assets/images/cover_page/resistance.jpg')}
                                                                 />
+                                                            </View>
+                                                            <View style={styles.programData}>
+                                                                <Text style={styles.missionHead}>{item.name}</Text>
                                                             </View>
                                                         </View>
                                                     </Pressable>
                                                 )
-                                            }
+                                            })
+                                            :
+                                            <View style={styles.imptyImage}>
+                                                <Image
+                                                    style={{ height: 84, width: 120, zIndex: 1 }}
+                                                    source={require('../../assets/images/exercise/Empty_State.png')}
+                                                />
+                                                <Text style={styles.imptyTextHeadProgram}>โปรแกรมออกกำลังกายจะปลดล็อคตั้งแต่ภารกิจที่ 4 เป็นต้นไป</Text>
+                                            </View>
+                                    }
+                                </>
 
-
-                                        })
-                                        :
-                                        <View style={styles.imptyImage}>
-                                            <Image
-                                                style={{ height: 84, width: 120, zIndex: 1 }}
-                                                source={require('../../assets/images/exercise/Empty_State.png')}
-                                            />
-                                            <Text style={styles.imptyTextHead}>ยังไม่มีภารกิจในตอนนี้</Text>
-                                        </View>
-                                }
-
-                            </>
-                            :
-                            <>
-                                {
-                                    allTrainingSet && allTrainingSet ?
-
-                                        allTrainingSet && allTrainingSet.map((item, i) => {
-                                            return (
-                                                <Pressable key={i + "vp"} onPress={() => closeeModal(item.id, item.name)} >
-                                                    <View key={i + "vd"} style={styles.rowProgram}>
-                                                        <View style={styles.imageProgramView} key={i + "vd2"}>
-                                                            <Image
-                                                                style={{ height: "100%", width: "100%", zIndex: 1 }}
-                                                                source={
-                                                                    item.id === "core_balance" ? require('../../assets/images/cover_page/core_balance.jpg') :
-                                                                        item.id === "core_balance_plyo" ? require('../../assets/images/cover_page/core_balance_plyo.jpg') :
-                                                                            item.id === "flexibility" ? require('../../assets/images/cover_page/flexibility.jpg') :
-                                                                                require('../../assets/images/cover_page/resistance.jpg')}
-                                                            />
-                                                        </View>
-                                                        <View style={styles.programData}>
-                                                            <Text style={styles.missionHead}>{item.name}</Text>
-                                                        </View>
-                                                    </View>
-                                                </Pressable>
-                                            )
-                                        })
-                                        :
-                                        <View style={styles.imptyImage}>
-                                            <Image
-                                                style={{ height: 84, width: 120, zIndex: 1 }}
-                                                source={require('../../assets/images/exercise/Empty_State.png')}
-                                            />
-                                            <Text style={styles.imptyTextHeadProgram}>โปรแกรมออกกำลังกายจะปลดล็อคตั้งแต่ภารกิจที่ 4 เป็นต้นไป</Text>
-                                        </View>
-                                }
-                            </>
-
-                        }
+                            }
+                        </View>
                     </View>
-                </View>
+                }
+
             </ScrollView >
             <Text style={styles.nutritionText}>ออกกำลังกาย</Text>
             <Animated.View opacity={headerHeight} style={[styles.header]}>
@@ -724,7 +748,7 @@ const Exercise = ({ navigation }) => {
 
                 <Modal animationType="slide"
                     transparent={true}
-                    visible={modalVisibleEx}
+                    visible={false /* modalVisibleEx */}
                     onRequestClose={() => {
 
                         setModalVisibleEx(!modalVisibleEx);
@@ -845,6 +869,118 @@ const Exercise = ({ navigation }) => {
 
                 </Modal>
             </View >
+
+            <Modal isVisible={teachUserExercise} style={{ zIndex: 1 }}>
+                <TouchableWithoutFeedback onPress={() => {
+                    dispatch(setTeachUserExercise(false));
+                }}>
+                    <Text style={{
+                        fontSize: ComponentsStyle.fontSize16,
+                        fontFamily: "IBMPlexSansThai-Bold",
+                        color: colors.white,
+                        marginTop: Platform.OS === 'android' ? -10 : 20,
+                        textAlign: "right",
+                        marginRight: 20,
+
+                    }}>ข้าม</Text>
+                </TouchableWithoutFeedback>
+                <View style={{ flex: 1, alignItems: 'center', justifyContent: "flex-end", marginBottom: Platform.OS === 'android' ? "20%" : isNotchDevice ? "30%" : "20%", marginHorizontal: -32 }}>
+                    <View style={{
+                        width: 288,
+                        height: 96,
+                        backgroundColor: "white",
+                        marginBottom: 30,
+                        borderRadius: 16,
+                        paddingTop: 16,
+                        paddingHorizontal: 16,
+
+                    }}>
+                        <Text style={{
+                            fontSize: ComponentsStyle.fontSize14,
+                            fontFamily: "IBMPlexSansThai-Regular",
+                            color: colors.grey1,
+                        }}>
+                            แตะที่นี่เพื่อดูรายละเอียดภารกิจที่ได้รับ
+                        </Text>
+                        <View style={{ alignItems: "flex-end" }}>
+
+                            <TouchableWithoutFeedback onPress={() =>
+                                exerciserActivity && exerciserActivity.map((item, i) => {
+
+                                    if (i == 0) {
+                                        navigation.navigate("ExArticleTemplate", { id: item.week_in_program, mission_id: item.mission_id, heading: item.heading, mission_activities: item.mission_activities, statusPags: "Exercise" })
+                                        dispatch(setTeachUserExercise(false));
+
+                                    }
+
+
+                                })
+                            }>
+
+                                <View style={{
+                                    backgroundColor: colors.persianBlue, width: 52, height: 27, alignItems: "center",
+                                    borderRadius: 16, justifyContent: "center", marginTop: 16,
+                                }}>
+                                    <Text style={{
+                                        fontSize: ComponentsStyle.fontSize16,
+                                        fontFamily: "IBMPlexSansThai-Bold",
+                                        color: colors.white,
+                                    }}>ถัดไป</Text>
+                                </View>
+                            </TouchableWithoutFeedback>
+                        </View>
+                        <Image
+                            style={{ height: 16, width: 32, zIndex: 1, marginTop: 13, marginLeft: "40%" }}
+                            source={require('../../assets/images/icon/Rectangle10.png')}
+                        />
+                    </View>
+                    {
+                        exerciserActivity && exerciserActivity.map((item, i) => {
+                            if ((item.status_mission_activities !== "completed") && (i === 0)) {
+                                return (
+                                    <Pressable onPress={() => navigation.navigate("ExArticleTemplate", { id: item.week_in_program, mission_id: item.mission_id, heading: item.heading, mission_activities: item.mission_activities, statusPags: "Exercise" })} key={i + "tfb"}>
+                                        <View key={i} style={styles.row}>
+                                            <View style={styles.numberView}>
+                                                <Text style={styles.number}>{item.week_in_program}</Text>
+                                            </View>
+                                            <View style={styles.missionData}>
+                                                <Text style={styles.missionHead} >{item.heading}</Text>
+                                                <Text style={[styles.missionContent, { marginRight: 16 }]} key="i+ v3t">
+                                                    {/* เพิ่ม substringText เพื่อย่อเนื้อหาใน card ให้เหลือ 2บรรทัด... */}
+                                                    {substringText(item.short_content)}
+                                                </Text>
+                                                {
+                                                    (days == "Sunday") && (week_program_user == item.week_in_program) ?
+                                                        <View style={styles.notifiedRed}>
+                                                            <Text style={styles.notifiedTextRed}>
+                                                                วันสุดท้าย
+                                                            </Text>
+                                                        </View> :
+                                                        ((item.quiz_activities_number == null) && (week_program_user != item.week_in_program)) ?
+                                                            <View style={styles.notifiedYellow} >
+                                                                <Text style={styles.notifiedTextYellow}>
+                                                                    ภารกิจที่ยังทำไม่เสร็จ
+                                                                </Text>
+                                                            </View> : null
+                                                }
+                                            </View>
+                                            <View style={styles.viewIconRight}>
+                                                <Image
+                                                    style={{ height: 24, width: 24, zIndex: 1, marginRight: 8 }}
+                                                    source={require('../../assets/images/icon/right.png')}
+                                                />
+                                            </View>
+                                        </View>
+                                    </Pressable>
+                                )
+                            }
+
+
+                        })
+                    }
+
+                </View>
+            </Modal>
 
 
         </View >

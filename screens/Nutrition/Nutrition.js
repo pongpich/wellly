@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, StyleSheet, Animated, Image, ImageBackground, Dimensions, Pressable, TouchableWithoutFeedback } from 'react-native';
+import { View, Text, StyleSheet, Animated, Image, ImageBackground, Dimensions, Pressable, TouchableWithoutFeedback, Platform } from 'react-native';
 import colors from '../../constants/colors';
 import ComponentsStyle from '../../constants/components';
 import { AntDesign } from '@expo/vector-icons';
@@ -77,11 +77,19 @@ const Nutrition = ({ navigation }) => {
 
     }
 
+    /*     useEffect(() => {
+            const unsubscribe = navigation.addListener('focus', () => {
+                if (teachUserNutrition !== true) {
+                    dispatch(setTeachUserNutrtion(true)); // รอลบ
+                }
+            })
+            return unsubscribe;
+        }, [teachUserNutrition]); */
+
+
+
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
-            if (teachUserNutrition == "undefined") {
-                dispatch(setTeachUserNutrtion(true)); // รอลบ
-            }
 
             dispatch(getNutritionActivity((user && user.user_id)));
 
@@ -362,7 +370,7 @@ const Nutrition = ({ navigation }) => {
                         <View style={{ alignItems: "flex-end" }}>
 
                             <TouchableWithoutFeedback onPress={() =>
-                                nutrition_activity.map((item, i) => {
+                                nutrition_activity && nutrition_activity.map((item, i) => {
                                     if (item.week_in_program != "4") {
                                         if (i == 0) {
                                             navigation.navigate("ArticleTemplate", {
@@ -406,7 +414,7 @@ const Nutrition = ({ navigation }) => {
                         />
                     </View>
                     {
-                        nutrition_activity.map((item, i) => {
+                        nutrition_activity && nutrition_activity.map((item, i) => {
 
                             if (((item.quiz_activities == null) || (item.assessment_kit_number != "1")) && (item.week_in_program != "4")) {
                                 if ((item.mission_id == "snc1") && (item.assessment_kit_number == null) && (i == 0)) {
