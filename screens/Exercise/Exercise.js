@@ -541,6 +541,7 @@ const Exercise = ({ navigation }) => {
     };
 
     const isNotchDevice = Dimensions.get('window').height >= 812;
+    const isDevice = Dimensions.get('window').height;
     const languages = i18next.languages[0];
 
 
@@ -553,7 +554,7 @@ const Exercise = ({ navigation }) => {
                         height: HEADER_HEIGHT,
 
                         position: 'absolute',
-                        marginTop: isNotchDevice < 751 ? 30 : 160,
+                        marginTop: isDevice < 751 ? 30 : 160,
                         left: 0,
                         right: 0,
                         justifyContent: "flex-end",
