@@ -45,7 +45,11 @@ class ArticleTemplate extends Component {
     }
 
     componentDidMount() {
-        const { nutrition_mission, user, nutrition_activity_id_Mission, route } = this.props;
+        const { nutrition_mission, user, nutrition_activity_id_Mission, route, teachUserArticleTemplate } = this.props;
+
+        if (teachUserArticleTemplate == "undefined") {
+            this.props.setTeachUserArticleTemplate(true);
+        }
         /*   this.props.setTeachUserArticleTemplate(true); */
         // รับ   params จาก  route
         const { id, mission_id } = this.props.route.params;
@@ -187,7 +191,6 @@ class ArticleTemplate extends Component {
         const { heading } = this.props.route.params;
         const isNotchDevice = Dimensions.get('window').height >= 812;
 
-        console.log("teachUserArticleTemplate", teachUserArticleTemplate);
 
 
         return (

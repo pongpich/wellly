@@ -79,7 +79,10 @@ const Nutrition = ({ navigation }) => {
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
-            dispatch(setTeachUserNutrtion(true)); // รอลบ
+            if (teachUserNutrition == "undefined") {
+                dispatch(setTeachUserNutrtion(true)); // รอลบ
+            }
+
             dispatch(getNutritionActivity((user && user.user_id)));
 
             const week_program_user = calculateWeekInProgram(user.start_date);
