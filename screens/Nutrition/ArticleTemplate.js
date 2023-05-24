@@ -203,7 +203,7 @@ class ArticleTemplate extends Component {
                             <StatusBar barStyle="dark-content" />
                     }
                 </View>
-                <View style={{ height: 48, zIndex: 3, /* justifyContent: "center", */ width: "100%", backgroundColor: statusBarColor === "light" ? colors.persianBlue : colors.white }}>
+                <View style={{ height: 30, zIndex: 3, /* justifyContent: "center", */ width: "100%", backgroundColor: statusBarColor === "light" ? colors.persianBlue : colors.white }}>
                     <View style={{ marginLeft: 16 }}>
                         <Pressable onPress={() => this.props.navigation.goBack()}>
                             <Image style={{ width: 24, height: 24 }}
@@ -712,11 +712,12 @@ const styles = StyleSheet.create({
 
     },
     header: {
-        marginTop: -16,
+        marginTop: 0,
         backgroundColor: colors.persianBlue,
         alignItems: 'center',
         justifyContent: 'center',
-        height: 200
+        height: 200,
+        paddingBottom: 16
     },
     content: {
         backgroundColor: colors.white,
