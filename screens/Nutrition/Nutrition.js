@@ -202,7 +202,7 @@ const Nutrition = ({ navigation }) => {
                 </View>
             </Animated.View>
             {
-                teachUserNutrition === false &&
+                teachUserNutrition != true &&
                 <Animated.ScrollView
                     style={styles.fill2}
                     scrollEventThrottle={16}

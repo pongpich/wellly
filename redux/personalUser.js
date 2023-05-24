@@ -14,7 +14,9 @@ export const types = {
   TEACH_USER_HOME: "TEACH_USER_HOME",
   TEACH_USER_NUTRITION: "TEACH_USER_NUTRITION",
   TEACH_USER_ARTICLE_TEMOLATE: "TEACH_USER_ARTICLE_TEMOLATE",
-  TEACH_USER_EXERCISE: "TEACH_USER_EXERCISE"
+  TEACH_USER_EXERCISE: "TEACH_USER_EXERCISE",
+  TEACH_USER_EX_ARTICLE_TEMOLATE: "TEACH_USER_EX_ARTICLE_TEMOLATE",
+  STATUS_TEACH_USER_EXERCISE: "STATUS_TEACH_USER_EXERCISE"
 };
 
 
@@ -89,6 +91,15 @@ export const setTeachUserExercise = (teachUserExercise) => ({
   payload: { teachUserExercise },
 });
 
+export const setTeachUserExArticleTemplate = (teachUserExArticleTemplate) => ({
+  type: types.TEACH_USER_EX_ARTICLE_TEMOLATE,
+  payload: { teachUserExArticleTemplate },
+});
+
+export const setStatusTeachUserExercise = (statusTeachUserExercise) => ({
+  type: types.STATUS_TEACH_USER_EXERCISE,
+  payload: { statusTeachUserExercise },
+});
 
 
 
@@ -113,7 +124,9 @@ const INIT_STATE = {
   teachUserHome: true,
   teachUserNutrtion: true,
   teachUserArticleTemplate: true,
-  teachUserExercise: true
+  teachUserExercise: true,
+  teachUserExArticleTemplate: true,
+  statusTeachUserExercise: true
 };
 
 export function reducer(state = INIT_STATE, action) {
@@ -167,6 +180,16 @@ export function reducer(state = INIT_STATE, action) {
       return {
         ...state,
         teachUserExercise: action.payload.teachUserExercise,
+      };
+    case types.TEACH_USER_EX_ARTICLE_TEMOLATE:
+      return {
+        ...state,
+        teachUserExArticleTemplate: action.payload.teachUserExArticleTemplate,
+      };
+    case types.STATUS_TEACH_USER_EXERCISE:
+      return {
+        ...state,
+        statusTeachUserExercise: action.payload.statusTeachUserExercise,
       };
     default:
       return { ...state };

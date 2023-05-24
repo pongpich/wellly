@@ -6,7 +6,7 @@ import ComponentsStyle from '../../constants/components';
 import Modal from "react-native-modal";
 import { AntDesign } from '@expo/vector-icons';
 import { useSelector, useDispatch } from "react-redux";
-import { routeName, setSelectedTab, setTeachUserExercise } from "../../redux/personalUser";
+import { routeName, setSelectedTab, setTeachUserExercise, setTeachUserExArticleTemplate, setStatusTeachUserExercise } from "../../redux/personalUser";
 import { connect } from 'react-redux';
 import { getExerciserActivity, getAllTrainingSet, getTrainingSet } from "../../redux/get";
 import { List } from 'react-native-paper';
@@ -17,6 +17,7 @@ import { useRoute } from '@react-navigation/native';
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 import i18next from 'i18next';
 import '../../languages/i18n'; //ใช้สำหรับ 2ภาษา
+import { CommonActions } from '@react-navigation/native';
 
 
 const HEADER_MAX_HEIGHT = 600;
@@ -65,6 +66,7 @@ const Exercise = ({ navigation }) => {
     const deviceHeight = Math.round(Dimensions.get('window').height);
     const animatedScrollYValue = useRef(new Animated.Value(0)).current;
     const teachUserExercise = useSelector(({ personalDataUser }) => personalDataUser && personalDataUser.teachUserExercise);//personalDataUser
+    const statusTeachUserExercise = useSelector(({ personalDataUser }) => personalDataUser && personalDataUser.statusTeachUserExercise);//personalDataUser
 
 
 
@@ -178,24 +180,6 @@ const Exercise = ({ navigation }) => {
         return unsubscribe;
 
     }, [navigation]);
-
-    useEffect(() => {
-        const unsubscribe = navigation.addListener('focus', () => {
-            if (teachUserExercise != true || teachUserExercise != false) {
-                dispatch(setTeachUserExercise(true));
-            }
-
-
-        });
-
-        return unsubscribe;
-
-    }, [teachUserExercise]);
-
-
-
-
-
 
 
     useEffect(() => {  // ตอนกดมาจากหน้าภารกิจ
@@ -559,7 +543,8 @@ const Exercise = ({ navigation }) => {
     const isNotchDevice = Dimensions.get('window').height >= 812;
     const languages = i18next.languages[0];
 
-    console.log("teachUserExercise", teachUserExercise);
+
+
     return (
         <View style={{ flex: 1 }} forceInset={{ top: 'always' }}>
             <Animated.View
@@ -568,7 +553,7 @@ const Exercise = ({ navigation }) => {
                         height: HEADER_HEIGHT,
 
                         position: 'absolute',
-                        marginTop: 160,
+                        marginTop: isNotchDevice < 751 ? 30 : 160,
                         left: 0,
                         right: 0,
                         justifyContent: "flex-end",
@@ -624,7 +609,7 @@ const Exercise = ({ navigation }) => {
 
             >
                 {
-                    teachUserExercise === false &&
+                    ((teachUserExercise != true) || (statusTeachUserExercise != true)) &&
                     <View style={styles.scrollViewContent}>
                         <View >
                             {statusMission === true ?
@@ -872,7 +857,18 @@ const Exercise = ({ navigation }) => {
 
             <Modal isVisible={teachUserExercise} style={{ zIndex: 1 }}>
                 <TouchableWithoutFeedback onPress={() => {
+
+                    dispatch(setTeachUserExArticleTemplate(false));
+                    dispatch(setStatusTeachUserExercise(true));
                     dispatch(setTeachUserExercise(false));
+                    navigation.dispatch(
+                        CommonActions.reset({
+                            index: 0,
+                            routes: [
+                                { name: 'HomeTab' }
+                            ],
+                        })
+                    );
                 }}>
                     <Text style={{
                         fontSize: ComponentsStyle.fontSize16,
@@ -881,105 +877,215 @@ const Exercise = ({ navigation }) => {
                         marginTop: Platform.OS === 'android' ? -10 : 20,
                         textAlign: "right",
                         marginRight: 20,
-
+                        zIndex: 20
                     }}>ข้าม</Text>
                 </TouchableWithoutFeedback>
-                <View style={{ flex: 1, alignItems: 'center', justifyContent: "flex-end", marginBottom: Platform.OS === 'android' ? "20%" : isNotchDevice ? "30%" : "20%", marginHorizontal: -32 }}>
-                    <View style={{
-                        width: 288,
-                        height: 96,
-                        backgroundColor: "white",
-                        marginBottom: 30,
-                        borderRadius: 16,
-                        paddingTop: 16,
-                        paddingHorizontal: 16,
 
-                    }}>
-                        <Text style={{
-                            fontSize: ComponentsStyle.fontSize14,
-                            fontFamily: "IBMPlexSansThai-Regular",
-                            color: colors.grey1,
-                        }}>
-                            แตะที่นี่เพื่อดูรายละเอียดภารกิจที่ได้รับ
-                        </Text>
-                        <View style={{ alignItems: "flex-end" }}>
+                {
+                    statusTeachUserExercise === true ?
+                        <View style={{ flex: 1, alignItems: 'center', justifyContent: "flex-end", marginBottom: Platform.OS === 'android' ? "20%" : isNotchDevice ? "30%" : "20%", marginHorizontal: -32 }}>
+                            <View style={{
+                                width: 288,
+                                height: 96,
+                                backgroundColor: "white",
+                                marginBottom: 30,
+                                borderRadius: 16,
+                                paddingTop: 16,
+                                paddingHorizontal: 16,
 
-                            <TouchableWithoutFeedback onPress={() =>
+                            }}>
+                                <Text style={{
+                                    fontSize: ComponentsStyle.fontSize14,
+                                    fontFamily: "IBMPlexSansThai-Regular",
+                                    color: colors.grey1,
+                                }}>
+                                    แตะที่นี่เพื่อดูรายละเอียดภารกิจที่ได้รับ
+                                </Text>
+                                <View style={{ alignItems: "flex-end" }}>
+
+                                    <TouchableWithoutFeedback onPress={() =>
+                                        exerciserActivity && exerciserActivity.map((item, i) => {
+
+                                            if (i == 0) {
+                                                navigation.navigate("ExArticleTemplate", { id: item.week_in_program, mission_id: item.mission_id, heading: item.heading, mission_activities: item.mission_activities, statusPags: "Exercise" })
+                                                dispatch(setTeachUserExercise(false));
+
+                                            }
+
+
+                                        })
+                                    }>
+
+                                        <View style={{
+                                            backgroundColor: colors.persianBlue, width: 52, height: 27, alignItems: "center",
+                                            borderRadius: 16, justifyContent: "center", marginTop: 16,
+                                        }}>
+                                            <Text style={{
+                                                fontSize: ComponentsStyle.fontSize16,
+                                                fontFamily: "IBMPlexSansThai-Bold",
+                                                color: colors.white,
+                                            }}>ถัดไป</Text>
+                                        </View>
+                                    </TouchableWithoutFeedback>
+                                </View>
+                                <Image
+                                    style={{ height: 16, width: 32, zIndex: 1, marginTop: 13, marginLeft: "40%" }}
+                                    source={require('../../assets/images/icon/Rectangle10.png')}
+                                />
+                            </View>
+                            {
                                 exerciserActivity && exerciserActivity.map((item, i) => {
+                                    if ((item.status_mission_activities !== "completed") && (i === 0)) {
+                                        return (
+                                            <Pressable onPress={() => navigation.navigate("ExArticleTemplate", { id: item.week_in_program, mission_id: item.mission_id, heading: item.heading, mission_activities: item.mission_activities, statusPags: "Exercise" })} key={i + "tfb"}>
+                                                <View key={i} style={styles.row}>
+                                                    <View style={styles.numberView}>
+                                                        <Text style={styles.number}>{item.week_in_program}</Text>
+                                                    </View>
+                                                    <View style={styles.missionData}>
+                                                        <Text style={styles.missionHead} >{item.heading}</Text>
+                                                        <Text style={[styles.missionContent, { marginRight: 16 }]} key="i+ v3t">
 
-                                    if (i == 0) {
-                                        navigation.navigate("ExArticleTemplate", { id: item.week_in_program, mission_id: item.mission_id, heading: item.heading, mission_activities: item.mission_activities, statusPags: "Exercise" })
-                                        dispatch(setTeachUserExercise(false));
-
+                                                            {substringText(item.short_content)}
+                                                        </Text>
+                                                        {
+                                                            (days == "Sunday") && (week_program_user == item.week_in_program) ?
+                                                                <View style={styles.notifiedRed}>
+                                                                    <Text style={styles.notifiedTextRed}>
+                                                                        วันสุดท้าย
+                                                                    </Text>
+                                                                </View> :
+                                                                ((item.quiz_activities_number == null) && (week_program_user != item.week_in_program)) ?
+                                                                    <View style={styles.notifiedYellow} >
+                                                                        <Text style={styles.notifiedTextYellow}>
+                                                                            ภารกิจที่ยังทำไม่เสร็จ
+                                                                        </Text>
+                                                                    </View> : null
+                                                        }
+                                                    </View>
+                                                    <View style={styles.viewIconRight}>
+                                                        <Image
+                                                            style={{ height: 24, width: 24, zIndex: 1, marginRight: 8 }}
+                                                            source={require('../../assets/images/icon/right.png')}
+                                                        />
+                                                    </View>
+                                                </View>
+                                            </Pressable>
+                                        )
                                     }
 
 
                                 })
-                            }>
-
-                                <View style={{
-                                    backgroundColor: colors.persianBlue, width: 52, height: 27, alignItems: "center",
-                                    borderRadius: 16, justifyContent: "center", marginTop: 16,
-                                }}>
-                                    <Text style={{
-                                        fontSize: ComponentsStyle.fontSize16,
-                                        fontFamily: "IBMPlexSansThai-Bold",
-                                        color: colors.white,
-                                    }}>ถัดไป</Text>
-                                </View>
-                            </TouchableWithoutFeedback>
-                        </View>
-                        <Image
-                            style={{ height: 16, width: 32, zIndex: 1, marginTop: 13, marginLeft: "40%" }}
-                            source={require('../../assets/images/icon/Rectangle10.png')}
-                        />
-                    </View>
-                    {
-                        exerciserActivity && exerciserActivity.map((item, i) => {
-                            if ((item.status_mission_activities !== "completed") && (i === 0)) {
-                                return (
-                                    <Pressable onPress={() => navigation.navigate("ExArticleTemplate", { id: item.week_in_program, mission_id: item.mission_id, heading: item.heading, mission_activities: item.mission_activities, statusPags: "Exercise" })} key={i + "tfb"}>
-                                        <View key={i} style={styles.row}>
-                                            <View style={styles.numberView}>
-                                                <Text style={styles.number}>{item.week_in_program}</Text>
-                                            </View>
-                                            <View style={styles.missionData}>
-                                                <Text style={styles.missionHead} >{item.heading}</Text>
-                                                <Text style={[styles.missionContent, { marginRight: 16 }]} key="i+ v3t">
-                                                    {/* เพิ่ม substringText เพื่อย่อเนื้อหาใน card ให้เหลือ 2บรรทัด... */}
-                                                    {substringText(item.short_content)}
-                                                </Text>
-                                                {
-                                                    (days == "Sunday") && (week_program_user == item.week_in_program) ?
-                                                        <View style={styles.notifiedRed}>
-                                                            <Text style={styles.notifiedTextRed}>
-                                                                วันสุดท้าย
-                                                            </Text>
-                                                        </View> :
-                                                        ((item.quiz_activities_number == null) && (week_program_user != item.week_in_program)) ?
-                                                            <View style={styles.notifiedYellow} >
-                                                                <Text style={styles.notifiedTextYellow}>
-                                                                    ภารกิจที่ยังทำไม่เสร็จ
-                                                                </Text>
-                                                            </View> : null
-                                                }
-                                            </View>
-                                            <View style={styles.viewIconRight}>
-                                                <Image
-                                                    style={{ height: 24, width: 24, zIndex: 1, marginRight: 8 }}
-                                                    source={require('../../assets/images/icon/right.png')}
-                                                />
-                                            </View>
-                                        </View>
-                                    </Pressable>
-                                )
                             }
 
+                        </View>
 
-                        })
-                    }
+                        :
 
-                </View>
+                        <View style={{ flex: 1, marginHorizontal: -16, marginTop: -64, }}>
+                            <Animated.View
+                                style={[
+                                    {
+                                        height: HEADER_HEIGHT,
+
+                                        position: 'absolute',
+                                        marginTop: isNotchDevice < 751 ? 220 : 350,
+                                        left: 0,
+                                        right: 0,
+                                        justifyContent: "flex-end",
+
+                                        zIndex: 20,
+                                    },
+                                    {
+                                        transform: [{ translateY }],
+                                    },
+                                ]}
+                            >
+                                <View style={styles.nutritionBox}>
+                                    <View style={styles.missionText}>
+                                        <View style={styles.missionView}>
+                                            <View style={{ width: 71 }}></View>
+                                            <Pressable style={[{
+                                                marginLeft: 8, width: 89, shadowColor: "#ffffff",
+                                                shadowOffset: {
+                                                    width: 0,
+                                                    height: 0,
+                                                },
+                                                shadowOpacity: 7,
+                                                shadowRadius: 7,
+                                                elevation: 24,
+                                            }, statusMission !== true ? styles.missionPre : styles.programPre]}  >
+                                                <Text style={[styles.mission, statusMission !== true ? { color: colors.white } : { color: colors.persianBlue }]}>โปรแกรม</Text>
+                                            </Pressable>
+                                        </View>
+                                    </View>
+                                </View>
+                                <View style={{ justifyContent: "flex-end", flex: 1, alignItems: "center" }}>
+                                    <Image
+                                        style={{ height: 16, width: 32, zIndex: 1, marginTop: 13, marginLeft: "-35%" }}
+                                        source={require('../../assets/images/icon/Rectangle11.png')}
+                                    />
+                                    <View style={{
+                                        width: 288,
+                                        height: 138,
+                                        backgroundColor: "white",
+                                        marginBottom: 30,
+                                        borderRadius: 16,
+                                        paddingTop: 16,
+                                        paddingHorizontal: 16,
+
+
+                                    }}>
+                                        <Text style={{
+                                            fontSize: ComponentsStyle.fontSize14,
+                                            fontFamily: "IBMPlexSansThai-Regular",
+                                            color: colors.grey1,
+                                        }}>
+                                            ยินดีด้วย! คุณปลดล็อกโปรแกรมออกกำลังกายใหม่ได้สำเร็จ สามารถเลือกเล่นตามโปรแกรมที่ต้องการได้เลย
+                                        </Text>
+                                        <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
+
+
+
+                                            <TouchableWithoutFeedback onPress={() => {
+
+                                                dispatch(setTeachUserExArticleTemplate(false));
+                                                dispatch(setStatusTeachUserExercise(true));
+                                                dispatch(setTeachUserExercise(false));
+                                                navigation.dispatch(
+                                                    CommonActions.reset({
+                                                        index: 0,
+                                                        routes: [
+                                                            { name: 'HomeTab' }
+                                                        ],
+                                                    })
+                                                );
+                                            }
+                                            }>
+
+                                                <View style={{
+                                                    backgroundColor: colors.persianBlue, width: 52, height: 27, alignItems: "center",
+                                                    borderRadius: 16, justifyContent: "center", marginTop: 16,
+                                                }}>
+                                                    <Text style={{
+                                                        fontSize: ComponentsStyle.fontSize16,
+                                                        fontFamily: "IBMPlexSansThai-Bold",
+                                                        color: colors.white,
+                                                    }}>ตกลง</Text>
+                                                </View>
+                                            </TouchableWithoutFeedback>
+                                        </View>
+
+                                    </View>
+                                </View>
+
+
+                            </Animated.View>
+
+
+                        </View>
+                }
+
             </Modal>
 
 
@@ -1001,7 +1107,7 @@ const styles = StyleSheet.create({
         backgroundColor: colors.grey7,
     },
     fill2: {
-        marginTop: 160,
+        marginTop: deviceHeight < 751 ? 30 : 160,
         zIndex: 1,
     },
 

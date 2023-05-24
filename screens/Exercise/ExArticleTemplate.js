@@ -6,7 +6,7 @@ import ComponentsStyle from '../../constants/components';
 import { logoutUser } from "../../redux/auth";
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
-import { routeName, coreBalance } from "../../redux/personalUser";
+import { routeName, coreBalance, setTeachUserExercise, setTeachUserExArticleTemplate, setStatusTeachUserExercise } from "../../redux/personalUser";
 import Mission from '../Nutrition/Mission';
 import Modal from "react-native-modal";
 import ProgressBarAnimated from 'react-native-progress-bar-animated';
@@ -52,9 +52,15 @@ class ArticleTemplate extends Component {
     }
 
     componentDidMount() {
-        const { nutrition_mission, user, nutrition_activity_id_Mission, route, exerciserActivity, statusExerciserActivity } = this.props;
+        const { nutrition_mission, user, nutrition_activity_id_Mission, route, exerciserActivity, statusExerciserActivity, teachUserExArticleTemplate } = this.props;
 
         const { statusPags, id, heading, mission_activities } = this.props.route.params;
+
+        /*   if (teachUserExArticleTemplate !== true) {
+              this.props.setTeachUserExArticleTemplate(true)
+              console.log("555");
+          }
+   */
 
         const week_in_program = calculateWeekInProgram(user.start_date);
         this.setState({
@@ -421,6 +427,9 @@ class ArticleTemplate extends Component {
             extrapolate: 'clamp',
         });
 
+        const { teachUserExArticleTemplate } = this.props;
+
+
         return (
             <View style={styles.container}>
                 <View style={{ height: 44, zIndex: 10, width: "100%", backgroundColor: statusBarColor === "light" ? colors.persianBlue : colors.white }}>
@@ -563,11 +572,19 @@ class ArticleTemplate extends Component {
                     </Animated.View>
                 </View>
 
-                <Modal isVisible={true} style={{ zIndex: 1 }}>
+                <Modal isVisible={teachUserExArticleTemplate} style={{ zIndex: 1 }}>
                     <TouchableWithoutFeedback onPress={() => {
-                        /* dispatch(setTeachUserNutrtion(false)); */
-                        this.props.setTeachUserArticleTemplate(false);
-                        this.props.navigation.navigate("ExerciseTab")
+                        this.props.setTeachUserExArticleTemplate(false);
+                        this.props.setStatusTeachUserExercise(true);
+                        this.props.setTeachUserExercise(false);
+                        this.props.navigation.dispatch(
+                            CommonActions.reset({
+                                index: 0,
+                                routes: [
+                                    { name: 'HomeTab' }
+                                ],
+                            })
+                        );
                     }
                     }>
                         <Text style={{
@@ -670,7 +687,7 @@ class ArticleTemplate extends Component {
                                 color: colors.grey1,
                             }}>
                                 {
-                                    stipTeach == 1 ? "แท็บสำหรับอ่านเรียนรู้เกี่ยวกับโภชนาการเพื่อทำภารกิจสัปดาห์นั้น" : "แท็บสำหรับดูภารกิจด้านโภชนาการ ที่จะช่วยให้เข้าใจวิธีกินที่ถูกต้องเหมาะสม"
+                                    stipTeach == 1 ? "แท็บสำหรับอ่านเรียนรู้เกี่ยวกับการออกกำลังกายเพื่อทำภารกิจสัปดาห์นั้น" : "แท็บสำหรับดูภารกิจออกกำลังกาย ที่ช่วยผลักดันให้คุณมีสุขภาพที่แข็งแรง"
                                 }
                             </Text>
                             <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
@@ -678,14 +695,14 @@ class ArticleTemplate extends Component {
                                 <TouchableWithoutFeedback onPress={() => {
                                     this.setState({ stipTeach: stipTeach === 1 ? 1 : stipTeach - 1 })
                                     if (stipTeach == 1) {
-                                        this.props.setTeachUserNutrtion(true);
+                                        this.props.setTeachUserExercise(true);
                                         /*    this.props.setTeachUserArticleTemplate(true); */
                                         /*  this.props.navigation.navigate("ExerciseTab") */
                                         this.props.navigation.dispatch(
                                             CommonActions.reset({
                                                 index: 0,
                                                 routes: [
-                                                    { name: 'NutritionTab' }
+                                                    { name: 'ExerciseTab' }
                                                 ],
                                             })
                                         );
@@ -708,8 +725,10 @@ class ArticleTemplate extends Component {
                                         stipTeach: stipTeach === 2 ? 2 : stipTeach + 1
                                     })
 
-                                    /* if (stipTeach == 2) {
-                                        this.props.setTeachUserArticleTemplate(false);
+                                    if (stipTeach == 2) {
+                                        this.props.setTeachUserExArticleTemplate(false);
+                                        this.props.setStatusTeachUserExercise(false);
+                                        this.props.setTeachUserExercise(true);
                                         this.props.navigation.dispatch(
                                             CommonActions.reset({
                                                 index: 0,
@@ -718,7 +737,7 @@ class ArticleTemplate extends Component {
                                                 ],
                                             })
                                         );
-                                    } */
+                                    }
 
                                 }
                                 }>
@@ -1026,12 +1045,15 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = ({ authUser, getData, personalDataUser }) => {
     const { user } = authUser;
-    const { coreBalanceRoute } = personalDataUser;
+    const { coreBalanceRoute, teachUserExArticleTemplate } = personalDataUser;
     const { nutrition_mission, statusGetNutritionMission, statusGetNutritionActivityIdMission, nutrition_activity_id_Mission, exerciserActivity, statusExerciserActivity } = getData;
-    return { nutrition_mission, statusGetNutritionMission, nutrition_activity_id_Mission, statusGetNutritionActivityIdMission, user, coreBalanceRoute, exerciserActivity, statusExerciserActivity };
+    return { nutrition_mission, statusGetNutritionMission, nutrition_activity_id_Mission, statusGetNutritionActivityIdMission, user, coreBalanceRoute, exerciserActivity, statusExerciserActivity, teachUserExArticleTemplate };
 };
 
-const mapActionsToProps = { logoutUser, getNutritionMission, getNutritionActivityIdMission, coreBalance, getExerciserActivity, setIntensityFromExArticleTemplate };
+const mapActionsToProps = {
+    logoutUser, getNutritionMission, getNutritionActivityIdMission, coreBalance, getExerciserActivity, setIntensityFromExArticleTemplate, setTeachUserExercise,
+    setTeachUserExArticleTemplate, setStatusTeachUserExercise
+};
 
 export default connect(
     mapStateToProps,
