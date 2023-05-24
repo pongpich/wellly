@@ -182,7 +182,7 @@ class ArticleTemplate extends Component {
     render() {
         const headerHeight = this.state.scrollY.interpolate({
             inputRange: [0, 200],
-            outputRange: [120, 16],
+            outputRange: [140, 16],
             extrapolate: 'clamp',
         });
 
@@ -203,7 +203,7 @@ class ArticleTemplate extends Component {
                             <StatusBar barStyle="dark-content" />
                     }
                 </View>
-                <View style={{ height: 30, zIndex: 3, /* justifyContent: "center", */ width: "100%", backgroundColor: statusBarColor === "light" ? colors.persianBlue : colors.white }}>
+                <View style={{ height: 33, zIndex: 20, /* justifyContent: "center", */ width: "100%", backgroundColor: statusBarColor === "light" ? colors.persianBlue : colors.white }}>
                     <View style={{ marginLeft: 16 }}>
                         <Pressable onPress={() => this.props.navigation.goBack()}>
                             <Image style={{ width: 24, height: 24 }}
@@ -214,13 +214,13 @@ class ArticleTemplate extends Component {
                 </View>
                 <Animated.View style={[styles.header, { height: headerHeight }]}>
                     <View style={ComponentsStyle.headBox}>
-                        <View style={ComponentsStyle.areaNumber}>
+                        <View style={[ComponentsStyle.areaNumber]}>
                             <Text style={ComponentsStyle.areaNumberText}>
                                 {numberMission}
                             </Text>
                         </View>
                         <View style={ComponentsStyle.nutritionMission}>
-                            <Text style={ComponentsStyle.missionHead}>ภารกิจโภชนาการ</Text>
+                            <Text style={[ComponentsStyle.missionHead]}>ภารกิจโภชนาการ</Text>
                             <Text style={[ComponentsStyle.missionHeading, { marginRight: 32 }]}>{heading}</Text>
                         </View>
                     </View>
@@ -712,12 +712,12 @@ const styles = StyleSheet.create({
 
     },
     header: {
-        marginTop: 0,
+        marginTop: -16,
         backgroundColor: colors.persianBlue,
         alignItems: 'center',
         justifyContent: 'center',
-        height: 200,
-        paddingBottom: 16
+        /*   height: 200, */
+
     },
     content: {
         backgroundColor: colors.white,

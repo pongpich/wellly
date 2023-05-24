@@ -423,7 +423,7 @@ class ArticleTemplate extends Component {
         const { study, statusBarColor, id, heading, mission_activities, stipTeach } = this.state;
         const headerHeight = this.state.scrollY.interpolate({
             inputRange: [0, 200],
-            outputRange: [120, 16],
+            outputRange: [140, 16],
             extrapolate: 'clamp',
         });
 
@@ -440,7 +440,7 @@ class ArticleTemplate extends Component {
                             <StatusBar barStyle="dark-content" />
                     }
                 </View>
-                <View style={{ height: 30, zIndex: 3, width: "100%", backgroundColor: statusBarColor === "light" ? colors.persianBlue : colors.white }}>
+                <View style={{ height: 44, zIndex: 3, width: "100%", backgroundColor: statusBarColor === "light" ? colors.persianBlue : colors.white }}>
                     <View style={{ marginLeft: 16 }}>
                         <Pressable onPress={() => this.props.navigation.goBack()}>
                             <Image style={{ width: 24, height: 24 }}
@@ -1031,12 +1031,12 @@ const styles = StyleSheet.create({
 
     },
     header: {
-        /*         marginTop: -16, */
+        marginTop: -16,
         backgroundColor: colors.persianBlue,
         alignItems: 'center',
         justifyContent: 'center',
         height: 200,
-        paddingBottom: 16
+
     },
     content: {
         backgroundColor: colors.white,
