@@ -15,6 +15,7 @@ class ReportFeedback extends Component {
         this.slideAnim = new Animated.Value(0);
         this.state = {
             statusBarColor: "light",
+            scrollY: new Animated.Value(0),
             typeChoice: "multiple_choice",
             typeCheckList: "check_list",
             routName: null,
@@ -84,6 +85,12 @@ class ReportFeedback extends Component {
 
     render() {
         const { statusBarColor, routName, mission, assessment_kit, typeChoice, typeCheckList, week_in_program } = this.state;
+        const headerHeight = this.state.scrollY.interpolate({
+            inputRange: [0, 200],
+            outputRange: [140, 16],
+            extrapolate: 'clamp',
+        });
+
         return (
             <View style={styles.container}>
                 <View style={{ height: 44, width: "100%", backgroundColor: statusBarColor === "light" ? colors.secondary_MayaBlue : colors.white }}>
@@ -104,35 +111,31 @@ class ReportFeedback extends Component {
                         </Pressable>
                     </View>
                 </View>
-                <View style={[styles.headBox, statusBarColor === "dark" ? { backgroundColor: colors.white } : null]}>
-                    <View style={{ marginRight: -50 }}>
-                        <View style={[styles.circle1, statusBarColor === "dark" ? { borderColor: colors.white } : null]} />
+                <Animated.View style={{ height: headerHeight, }}>
+                    <View style={[styles.headBox, statusBarColor === "dark" ? { backgroundColor: colors.white } : null]}>
+                        <View style={{ marginRight: -50 }}>
+                            <View style={[styles.circle1, statusBarColor === "dark" ? { borderColor: colors.white } : null]} />
+                        </View>
+                        <View style={{ marginRight: -10, marginTop: 10, zIndex: 0 }}>
+                            <View style={styles.circle2} />
+                        </View>
+                        <View style={{ marginHorizontal: 16 }}>
+                            <Text style={styles.textHeand}>การประเมิน</Text>
+                            <Text style={styles.textWeek}>สัปดาห์ที่ {week_in_program}</Text>
+                        </View>
                     </View>
-                    <View style={{ marginRight: -10, marginTop: 20 }}>
-                        <View style={styles.circle2} />
-                    </View>
-                    <View style={{ marginHorizontal: 16, marginTop: 10 }}>
-                        <Text style={styles.textHeand}>การประเมิน</Text>
-                        <Text style={styles.textWeek}>สัปดาห์ที่ {week_in_program}</Text>
-                    </View>
-                </View>
+                </Animated.View>
 
-                <Animated.View style={{
-                    transform: [{
-                        translateY: this.slideAnim.interpolate({
-                            inputRange: [0, 1],
-                            outputRange: [0, -100]
-                        })
-                    }],
-                    flex: 1,
-                    zIndex: 1,
-                    marginBottom: -120,
-                }}>
-                    <View style={styles.conterBox}>
-                        <View style={ComponentsStyle.contentBox}>
-                            <ScrollView onScroll={(event) => {
+
+                <ScrollView style={{ marginTop: -35 }}
+
+                    onScroll={Animated.event(
+                        [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
+                        {
+                            useNativeDriver: false,
+                            listener: event => {
                                 const scrolling = event.nativeEvent.contentOffset.y;
-                                if (scrolling > 50) {
+                                if (scrolling > 200) {
                                     this.setState({
                                         statusBarColor: "dark"
                                     })
@@ -144,43 +147,65 @@ class ReportFeedback extends Component {
                                     })
                                     this.slideUp()
                                 }
-                            }}
-                                showsVerticalScrollIndicator={false}
-                            >
-                                <View style={styles.conterScrollView}>
+                            }
+                        }
+                    )}
+                    showsVerticalScrollIndicator={false}
+                >
+                    <View style={[ComponentsStyle.contentBox]}>
+                        <View style={styles.conterScrollView}>
 
-                                    {
-                                        assessment_kit && assessment_kit.map((value, i) => {
-                                            if (value.type == typeChoice) {
-                                                return mission && mission.map((member, l) => {
-                                                    if (value.index == member.index) {
-                                                        return (
-                                                            <View key={l + "da"}>
-                                                                <Text style={styles.clause}>{member.question}</Text>
-                                                                <View style={styles.clauseView}>
-                                                                    <Image style={{ width: 30, height: 30 }} source={require('../../assets/images/icon/💬.png')} />
-                                                                    <Text style={styles.clause1}>{member.choice[value.select_choice].answer}</Text>
-                                                                </View>
-                                                                <View style={styles.clauseBox}>
-                                                                    <Image style={{ width: 30, height: 30 }} source={require('../../assets/images/icon/😎.png')} />
-                                                                    <Text style={styles.clauseConter}>{member.choice[value.select_choice].assessment}</Text>
-                                                                </View>
-                                                            </View>
-                                                        )
-                                                    }
-                                                })
-                                            } else {
+                            {
+                                assessment_kit && assessment_kit.map((value, i) => {
+                                    if (value.type == typeChoice) {
+                                        return mission && mission.map((member, l) => {
+                                            if (value.index == member.index) {
+                                                return (
+                                                    <View key={l + "da"}>
+                                                        <Text style={styles.clause}>{member.question}</Text>
+                                                        <View style={styles.clauseView}>
+                                                            <Image style={{ width: 30, height: 30 }} source={require('../../assets/images/icon/💬.png')} />
+                                                            <Text style={styles.clause1}>{member.choice[value.select_choice].answer}</Text>
+                                                        </View>
+                                                        <View style={styles.clauseBox}>
+                                                            <Image style={{ width: 30, height: 30 }} source={require('../../assets/images/icon/😎.png')} />
+                                                            <Text style={styles.clauseConter}>{member.choice[value.select_choice].assessment}</Text>
+                                                        </View>
+                                                    </View>
+                                                )
+                                            }
+                                        })
+                                    } else {
 
 
 
 
 
-                                                return mission && mission.map((member, l) => {
+                                        return mission && mission.map((member, l) => {
 
-                                                    if (value.index == member.index) {
+                                            if (value.index == member.index) {
 
-                                                        if (value.type == typeCheckList) {
-                                                            let keyName = Object.keys(value);
+                                                if (value.type == typeCheckList) {
+                                                    let keyName = Object.keys(value);
+                                                    keyName && keyName.map((ke, kl) => {
+                                                        if (ke != "type") {
+                                                            if (ke != "index") {
+                                                                if (ke != "clause_question") {
+                                                                    if (value[ke] == true) {
+                                                                        let resflie = mission.find((member) => {
+                                                                            return member.index == value.index
+                                                                        })
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    })
+                                                }
+                                                let keyName = Object.keys(value);
+                                                return (
+                                                    <View key={l + "el"}>
+                                                        <Text style={styles.clause}>{member.question}</Text>
+                                                        {
                                                             keyName && keyName.map((ke, kl) => {
                                                                 if (ke != "type") {
                                                                     if (ke != "index") {
@@ -189,59 +214,34 @@ class ReportFeedback extends Component {
                                                                                 let resflie = mission.find((member) => {
                                                                                     return member.index == value.index
                                                                                 })
+                                                                                return (
+                                                                                    <>
+                                                                                        <View style={styles.clauseView}>
+                                                                                            <Image style={{ width: 30, height: 30 }} source={require('../../assets/images/icon/💬.png')} />
+                                                                                            <Text style={styles.clause1}>{resflie.choice[ke].answer}</Text>
+                                                                                        </View>
+                                                                                        <View style={styles.clauseBox}>
+                                                                                            <Image style={{ width: 30, height: 30 }} source={require('../../assets/images/icon/😎.png')} />
+                                                                                            <Text style={styles.clauseConter}>{resflie.choice[ke].assessment}</Text>
+                                                                                        </View>
+                                                                                    </>
+                                                                                )
                                                                             }
                                                                         }
                                                                     }
                                                                 }
                                                             })
                                                         }
-                                                        let keyName = Object.keys(value);
-                                                        return (
-                                                            <View key={l + "el"}>
-                                                                <Text style={styles.clause}>{member.question}</Text>
-                                                                {
-                                                                    keyName && keyName.map((ke, kl) => {
-                                                                        if (ke != "type") {
-                                                                            if (ke != "index") {
-                                                                                if (ke != "clause_question") {
-                                                                                    if (value[ke] == true) {
-                                                                                        let resflie = mission.find((member) => {
-                                                                                            return member.index == value.index
-                                                                                        })
-                                                                                        return (
-                                                                                            <>
-                                                                                                <View style={styles.clauseView}>
-                                                                                                    <Image style={{ width: 30, height: 30 }} source={require('../../assets/images/icon/💬.png')} />
-                                                                                                    <Text style={styles.clause1}>{resflie.choice[ke].answer}</Text>
-                                                                                                </View>
-                                                                                                <View style={styles.clauseBox}>
-                                                                                                    <Image style={{ width: 30, height: 30 }} source={require('../../assets/images/icon/😎.png')} />
-                                                                                                    <Text style={styles.clauseConter}>{resflie.choice[ke].assessment}</Text>
-                                                                                                </View>
-                                                                                            </>
-                                                                                        )
-                                                                                    }
-                                                                                }
-                                                                            }
-                                                                        }
-                                                                    })
-                                                                }
-                                                            </View>
-                                                        )
-                                                    }
-                                                })
+                                                    </View>
+                                                )
                                             }
                                         })
                                     }
-
-
-
-
-                                </View>
-                            </ScrollView>
+                                })
+                            }
                         </View>
-                    </View >
-                </Animated.View >
+                    </View>
+                </ScrollView >
             </View >
         )
     }
@@ -250,6 +250,7 @@ class ReportFeedback extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: colors.white
     },
     headBox: {
         backgroundColor: colors.secondary_MayaBlue,
