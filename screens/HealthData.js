@@ -245,213 +245,214 @@ class HealthData extends Component {
                     <KeyboardAwareScrollView keyboardShouldPersistTaps='always'>
                         <ScrollView keyboardShouldPersistTaps="always"
                             showsVerticalScrollIndicator={false}>
-                            <View style={styles.areaViewPag}>
-                                <Text style={styles.textHead}>{t('health_information')}</Text>
-                                <Text style={styles.textInputHead}>{t('blood_sugar')}</Text>
-                                <View style={styles.viewRightTnput}>
-                                    <Text style={styles.textRightTnput}>mg/dL</Text>
-                                    <TextInput
-                                        onFocus={(text) => this.handleFocus("isFocusedMgDL", true)}
-                                        onBlur={(text) => this.outHandleBlur()}
-                                        style={statusMdDl === true ? isFocusedMgDL === true ? ComponentsStyle.inputIsFocused : ComponentsStyle.input : ComponentsStyle.inputError}
-                                        onChangeText={(text) => this.handleChange("mgDL", text)}
-                                        placeholder="0"
-                                        keyboardType="numeric"
-                                        inputAccessoryViewID="textInput1"
-                                        ref={(input) => { this.textInput1 = input; }}
-                                    />
-                                    {
-                                        (Platform.OS === 'ios') &&
-                                        <InputAccessoryView nativeID="textInput1" >
-                                            <View style={styles.inputAccessory}>
-                                                <View style={styles.chevronIcon}>
-                                                    <Feather name="chevron-up" size={24} color={colors.grey4} style={{ marginRight: 16 }} />
-                                                    <Feather name="chevron-down" size={24} color={colors.persianBlue} onPress={() => { this.textInput2.focus(); }} />
-                                                </View>
-                                                <View>
-                                                    <Pressable onPress={Keyboard.dismiss} >
-                                                        <Text style={styles.textDoneButton}>{t('finish')}</Text>
-                                                    </Pressable>
-                                                </View>
-                                            </View>
-                                        </InputAccessoryView>
-                                    }
-                                    {
-                                        statusTextmg_dL === false ?
-                                            <Text style={ComponentsStyle.textError}>{t('please_enter_value_4_1000')}</Text>
-                                            : null
-                                    }
-
-                                </View>
-                                <Text style={styles.textInputHead}>{t('mean_cumulative_blood_sugar')} (HbA1c)</Text>
-                                <View style={styles.viewRightTnput}>
-                                    <Text style={styles.textRightTnput}>mg%</Text>
-                                    <TextInput
-                                        onFocus={(text) => this.handleFocus("isFocusedMg", true)}
-                                        onBlur={(text) => this.outHandleBlur1()}
-                                        style={statusMg === true ? isFocusedMg === true ? ComponentsStyle.inputIsFocused : ComponentsStyle.input : ComponentsStyle.inputError}
-                                        onChangeText={(text) => this.handleChange("mg", text)}
-                                        placeholder="0"
-                                        keyboardType="numeric"
-                                        inputAccessoryViewID="textInput2"
-                                        ref={(input) => { this.textInput2 = input; }}
-                                    />
-                                    {
-                                        (Platform.OS === 'ios') &&
-                                        <InputAccessoryView nativeID="textInput2" >
-                                            <View style={styles.inputAccessory}>
-                                                <View style={styles.chevronIcon}>
-                                                    <Feather name="chevron-up" size={24} color={colors.persianBlue} style={{ marginRight: 16 }} onPress={() => { this.textInput1.focus(); }} />
-                                                    <Feather name="chevron-down" size={24} color={colors.persianBlue} onPress={() => { this.textInput3.focus(); }} />
-                                                </View>
-                                                <View>
-                                                    <Pressable onPress={Keyboard.dismiss} >
-                                                        <Text style={styles.textDoneButton}>{t('finish')}</Text>
-                                                    </Pressable>
-                                                </View>
-                                            </View>
-                                        </InputAccessoryView>
-                                    }
-
-                                    {
-                                        statusTextMg === false ?
-                                            <Text style={ComponentsStyle.textError}>{t('please_enter_value_3_5_19')}</Text>
-                                            : null
-                                    }
-
-                                </View>
-                                <Text style={styles.textInputHead}>{t('heart_rate')}</Text>
-                                <View style={styles.viewRightTnput}>
-                                    <Text style={styles.textRightTnput}>bpm</Text>
-                                    <TextInput
-                                        onFocus={(text) => this.handleFocus("isFocusedBpm", true)}
-                                        onBlur={(text) => this.outHandleBlur2()}
-                                        style={statusBpm === true ? isFocusedBpm === true ? ComponentsStyle.inputIsFocused : ComponentsStyle.input : ComponentsStyle.inputError}
-                                        onChangeText={(text) => this.handleChange("bpm", text)}
-                                        placeholder="0"
-                                        keyboardType="numeric"
-                                        inputAccessoryViewID="textInput3"
-                                        ref={(input) => { this.textInput3 = input; }}
-                                    />
-                                    {
-                                        (Platform.OS === 'ios') &&
-                                        <InputAccessoryView nativeID="textInput3" >
-                                            <View style={styles.inputAccessory}>
-                                                <View style={styles.chevronIcon}>
-                                                    <Feather name="chevron-up" size={24} color={colors.persianBlue} style={{ marginRight: 16 }} onPress={() => { this.textInput2.focus(); }} />
-                                                    <Feather name="chevron-down" size={24} color={colors.persianBlue} onPress={() => { this.textInput4.focus(); }} />
-                                                </View>
-                                                <View>
-                                                    <Pressable onPress={Keyboard.dismiss} >
-                                                        <Text style={styles.textDoneButton}>{t('finish')}</Text>
-                                                    </Pressable>
-                                                </View>
-                                            </View>
-                                        </InputAccessoryView>
-                                    }
-                                    {
-                                        statusTextBpm === false ?
-                                            <Text style={ComponentsStyle.textError}>{t('please_enter_value_40_160')}</Text>
-                                            : null
-                                    }
-
-                                </View>
-                                <Text style={styles.textHeadMmHG}>{t('blood_pressure')}</Text>
-                                <View style={{ flexDirection: "row" }}>
-                                    <Text style={styles.textInputHead}>Systolic ({t('maximum_value')})</Text>
-                                    <Pressable onPress={() => this.setState({ popupShow: true, selectedRef: 'diabetes' })}>
-                                        <Image
-                                            style={{ width: 24, height: 24, marginTop: 25, marginLeft: 10 }}
-                                            source={require('../assets/images/icon/Howto3x.png')}
+                            <Pressable onPress={Keyboard.dismiss} >
+                                <View style={styles.areaViewPag}>
+                                    <Text style={styles.textHead}>{t('health_information')}</Text>
+                                    <Text style={styles.textInputHead}>{t('blood_sugar')}</Text>
+                                    <View style={styles.viewRightTnput}>
+                                        <Text style={styles.textRightTnput}>mg/dL</Text>
+                                        <TextInput
+                                            onFocus={(text) => this.handleFocus("isFocusedMgDL", true)}
+                                            onBlur={(text) => this.outHandleBlur()}
+                                            style={statusMdDl === true ? isFocusedMgDL === true ? ComponentsStyle.inputIsFocused : ComponentsStyle.input : ComponentsStyle.inputError}
+                                            onChangeText={(text) => this.handleChange("mgDL", text)}
+                                            placeholder="0"
+                                            keyboardType="numeric"
+                                            inputAccessoryViewID="textInput1"
+                                            ref={(input) => { this.textInput1 = input; }}
                                         />
-                                    </Pressable>
-
-                                </View>
-
-                                <View style={styles.viewRightTnput}>
-                                    <Text style={styles.textRightTnput}>mmHG</Text>
-                                    <TextInput
-                                        onFocus={(text) => this.handleFocus("isFocusedMmHGS", true)}
-                                        onBlur={(text) => this.outHandleBlur3()}
-                                        style={statusMmGH1 === true ? isFocusedMmHGS === true ? ComponentsStyle.inputIsFocused : ComponentsStyle.input : ComponentsStyle.inputError}
-                                        onChangeText={(text) => this.handleChange("mmHGS", text)}
-                                        placeholder="0"
-                                        keyboardType="numeric"
-                                        inputAccessoryViewID="textInput4"
-                                        ref={(input) => { this.textInput4 = input; }}
-                                    />
-
-                                    {
-                                        (Platform.OS === 'ios') &&
-                                        <InputAccessoryView nativeID="textInput4" >
-                                            <View style={styles.inputAccessory}>
-                                                <View style={styles.chevronIcon}>
-                                                    <Feather name="chevron-up" size={24} color={colors.persianBlue} style={{ marginRight: 16 }} onPress={() => { this.textInput3.focus(); }} />
-                                                    <Feather name="chevron-down" size={24} color={colors.persianBlue} onPress={() => { this.textInput5.focus(); }} />
+                                        {
+                                            (Platform.OS === 'ios') &&
+                                            <InputAccessoryView nativeID="textInput1" >
+                                                <View style={styles.inputAccessory}>
+                                                    <View style={styles.chevronIcon}>
+                                                        <Feather name="chevron-up" size={24} color={colors.grey4} style={{ marginRight: 16 }} />
+                                                        <Feather name="chevron-down" size={24} color={colors.persianBlue} onPress={() => { this.textInput2.focus(); }} />
+                                                    </View>
+                                                    <View>
+                                                        <Pressable onPress={Keyboard.dismiss} >
+                                                            <Text style={styles.textDoneButton}>{t('finish')}</Text>
+                                                        </Pressable>
+                                                    </View>
                                                 </View>
-                                                <View>
-                                                    <Pressable onPress={Keyboard.dismiss} >
-                                                        <Text style={styles.textDoneButton}>{t('finish')}</Text>
-                                                    </Pressable>
-                                                </View>
-                                            </View>
-                                        </InputAccessoryView>
-                                    }
-                                    {
-                                        statusTextMmHG1 === false ?
-                                            <Text style={ComponentsStyle.textError}>{t('please_enter_value_40_190')}</Text>
-                                            : null
-                                    }
+                                            </InputAccessoryView>
+                                        }
+                                        {
+                                            statusTextmg_dL === false ?
+                                                <Text style={ComponentsStyle.textError}>{t('please_enter_value_4_1000')}</Text>
+                                                : null
+                                        }
 
-                                </View>
-                                <View style={{ flexDirection: "row" }}>
-                                    <Text style={styles.textInputHead}>Diastolic ({t('lowest_value')})   </Text>
-                                    <Pressable onPress={() => this.setState({ popupShow: true, selectedRef: 'hypertension' })}>
-                                        <Image
-                                            style={{ width: 24, height: 24, marginTop: 25 }}
-                                            source={require('../assets/images/icon/Howto3x.png')}
+                                    </View>
+                                    <Text style={styles.textInputHead}>{t('mean_cumulative_blood_sugar')} (HbA1c)</Text>
+                                    <View style={styles.viewRightTnput}>
+                                        <Text style={styles.textRightTnput}>mg%</Text>
+                                        <TextInput
+                                            onFocus={(text) => this.handleFocus("isFocusedMg", true)}
+                                            onBlur={(text) => this.outHandleBlur1()}
+                                            style={statusMg === true ? isFocusedMg === true ? ComponentsStyle.inputIsFocused : ComponentsStyle.input : ComponentsStyle.inputError}
+                                            onChangeText={(text) => this.handleChange("mg", text)}
+                                            placeholder="0"
+                                            keyboardType="numeric"
+                                            inputAccessoryViewID="textInput2"
+                                            ref={(input) => { this.textInput2 = input; }}
                                         />
-                                    </Pressable>
-
-                                </View>
-                                <View style={styles.viewRightTnput}>
-                                    <Text style={styles.textRightTnput}>mmHG</Text>
-                                    <TextInput
-                                        onFocus={(text) => this.handleFocus("isFocusedMmHGD", true)}
-                                        onBlur={(text) => this.outHandleBlur4()}
-                                        style={statusMmGH2 === true ? isFocusedMmHGD === true ? ComponentsStyle.inputIsFocused : ComponentsStyle.input : ComponentsStyle.inputError}
-                                        onChangeText={(text) => this.handleChange("mmHGD", text)}
-                                        placeholder="0"
-                                        keyboardType="numeric"
-                                        inputAccessoryViewID="textInput5"
-                                        ref={(input) => { this.textInput5 = input; }}
-                                    />
-
-                                    {
-                                        (Platform.OS === 'ios') &&
-                                        <InputAccessoryView nativeID="textInput5" >
-                                            <View style={styles.inputAccessory}>
-                                                <View style={styles.chevronIcon}>
-                                                    <Feather name="chevron-up" size={24} color={colors.persianBlue} style={{ marginRight: 16 }} onPress={() => { this.textInput4.focus(); }} />
-                                                    <Feather name="chevron-down" size={24} color={colors.grey4} />
+                                        {
+                                            (Platform.OS === 'ios') &&
+                                            <InputAccessoryView nativeID="textInput2" >
+                                                <View style={styles.inputAccessory}>
+                                                    <View style={styles.chevronIcon}>
+                                                        <Feather name="chevron-up" size={24} color={colors.persianBlue} style={{ marginRight: 16 }} onPress={() => { this.textInput1.focus(); }} />
+                                                        <Feather name="chevron-down" size={24} color={colors.persianBlue} onPress={() => { this.textInput3.focus(); }} />
+                                                    </View>
+                                                    <View>
+                                                        <Pressable onPress={Keyboard.dismiss} >
+                                                            <Text style={styles.textDoneButton}>{t('finish')}</Text>
+                                                        </Pressable>
+                                                    </View>
                                                 </View>
-                                                <View>
-                                                    <Pressable onPress={Keyboard.dismiss} >
-                                                        <Text style={styles.textDoneButton}>{t('finish')}</Text>
-                                                    </Pressable>
-                                                </View>
-                                            </View>
-                                        </InputAccessoryView>
-                                    }
-                                    {
-                                        statusTextMmHG2 === false ?
-                                            <Text style={ComponentsStyle.textError}>{t('please_enter_value_40_170')}</Text>
-                                            : null
-                                    }
+                                            </InputAccessoryView>
+                                        }
 
+                                        {
+                                            statusTextMg === false ?
+                                                <Text style={ComponentsStyle.textError}>{t('please_enter_value_3_5_19')}</Text>
+                                                : null
+                                        }
+
+                                    </View>
+                                    <Text style={styles.textInputHead}>{t('heart_rate')}</Text>
+                                    <View style={styles.viewRightTnput}>
+                                        <Text style={styles.textRightTnput}>bpm</Text>
+                                        <TextInput
+                                            onFocus={(text) => this.handleFocus("isFocusedBpm", true)}
+                                            onBlur={(text) => this.outHandleBlur2()}
+                                            style={statusBpm === true ? isFocusedBpm === true ? ComponentsStyle.inputIsFocused : ComponentsStyle.input : ComponentsStyle.inputError}
+                                            onChangeText={(text) => this.handleChange("bpm", text)}
+                                            placeholder="0"
+                                            keyboardType="numeric"
+                                            inputAccessoryViewID="textInput3"
+                                            ref={(input) => { this.textInput3 = input; }}
+                                        />
+                                        {
+                                            (Platform.OS === 'ios') &&
+                                            <InputAccessoryView nativeID="textInput3" >
+                                                <View style={styles.inputAccessory}>
+                                                    <View style={styles.chevronIcon}>
+                                                        <Feather name="chevron-up" size={24} color={colors.persianBlue} style={{ marginRight: 16 }} onPress={() => { this.textInput2.focus(); }} />
+                                                        <Feather name="chevron-down" size={24} color={colors.persianBlue} onPress={() => { this.textInput4.focus(); }} />
+                                                    </View>
+                                                    <View>
+                                                        <Pressable onPress={Keyboard.dismiss} >
+                                                            <Text style={styles.textDoneButton}>{t('finish')}</Text>
+                                                        </Pressable>
+                                                    </View>
+                                                </View>
+                                            </InputAccessoryView>
+                                        }
+                                        {
+                                            statusTextBpm === false ?
+                                                <Text style={ComponentsStyle.textError}>{t('please_enter_value_40_160')}</Text>
+                                                : null
+                                        }
+
+                                    </View>
+                                    <Text style={styles.textHeadMmHG}>{t('blood_pressure')}</Text>
+                                    <View style={{ flexDirection: "row" }}>
+                                        <Text style={styles.textInputHead}>Systolic ({t('maximum_value')})</Text>
+                                        <Pressable onPress={() => this.setState({ popupShow: true, selectedRef: 'diabetes' })}>
+                                            <Image
+                                                style={{ width: 24, height: 24, marginTop: 25, marginLeft: 10 }}
+                                                source={require('../assets/images/icon/Howto3x.png')}
+                                            />
+                                        </Pressable>
+
+                                    </View>
+
+                                    <View style={styles.viewRightTnput}>
+                                        <Text style={styles.textRightTnput}>mmHG</Text>
+                                        <TextInput
+                                            onFocus={(text) => this.handleFocus("isFocusedMmHGS", true)}
+                                            onBlur={(text) => this.outHandleBlur3()}
+                                            style={statusMmGH1 === true ? isFocusedMmHGS === true ? ComponentsStyle.inputIsFocused : ComponentsStyle.input : ComponentsStyle.inputError}
+                                            onChangeText={(text) => this.handleChange("mmHGS", text)}
+                                            placeholder="0"
+                                            keyboardType="numeric"
+                                            inputAccessoryViewID="textInput4"
+                                            ref={(input) => { this.textInput4 = input; }}
+                                        />
+
+                                        {
+                                            (Platform.OS === 'ios') &&
+                                            <InputAccessoryView nativeID="textInput4" >
+                                                <View style={styles.inputAccessory}>
+                                                    <View style={styles.chevronIcon}>
+                                                        <Feather name="chevron-up" size={24} color={colors.persianBlue} style={{ marginRight: 16 }} onPress={() => { this.textInput3.focus(); }} />
+                                                        <Feather name="chevron-down" size={24} color={colors.persianBlue} onPress={() => { this.textInput5.focus(); }} />
+                                                    </View>
+                                                    <View>
+                                                        <Pressable onPress={Keyboard.dismiss} >
+                                                            <Text style={styles.textDoneButton}>{t('finish')}</Text>
+                                                        </Pressable>
+                                                    </View>
+                                                </View>
+                                            </InputAccessoryView>
+                                        }
+                                        {
+                                            statusTextMmHG1 === false ?
+                                                <Text style={ComponentsStyle.textError}>{t('please_enter_value_40_190')}</Text>
+                                                : null
+                                        }
+
+                                    </View>
+                                    <View style={{ flexDirection: "row" }}>
+                                        <Text style={styles.textInputHead}>Diastolic ({t('lowest_value')})   </Text>
+                                        <Pressable onPress={() => this.setState({ popupShow: true, selectedRef: 'hypertension' })}>
+                                            <Image
+                                                style={{ width: 24, height: 24, marginTop: 25 }}
+                                                source={require('../assets/images/icon/Howto3x.png')}
+                                            />
+                                        </Pressable>
+
+                                    </View>
+                                    <View style={styles.viewRightTnput}>
+                                        <Text style={styles.textRightTnput}>mmHG</Text>
+                                        <TextInput
+                                            onFocus={(text) => this.handleFocus("isFocusedMmHGD", true)}
+                                            onBlur={(text) => this.outHandleBlur4()}
+                                            style={statusMmGH2 === true ? isFocusedMmHGD === true ? ComponentsStyle.inputIsFocused : ComponentsStyle.input : ComponentsStyle.inputError}
+                                            onChangeText={(text) => this.handleChange("mmHGD", text)}
+                                            placeholder="0"
+                                            keyboardType="numeric"
+                                            inputAccessoryViewID="textInput5"
+                                            ref={(input) => { this.textInput5 = input; }}
+                                        />
+
+                                        {
+                                            (Platform.OS === 'ios') &&
+                                            <InputAccessoryView nativeID="textInput5" >
+                                                <View style={styles.inputAccessory}>
+                                                    <View style={styles.chevronIcon}>
+                                                        <Feather name="chevron-up" size={24} color={colors.persianBlue} style={{ marginRight: 16 }} onPress={() => { this.textInput4.focus(); }} />
+                                                        <Feather name="chevron-down" size={24} color={colors.grey4} />
+                                                    </View>
+                                                    <View>
+                                                        <Pressable onPress={Keyboard.dismiss} >
+                                                            <Text style={styles.textDoneButton}>{t('finish')}</Text>
+                                                        </Pressable>
+                                                    </View>
+                                                </View>
+                                            </InputAccessoryView>
+                                        }
+                                        {
+                                            statusTextMmHG2 === false ?
+                                                <Text style={ComponentsStyle.textError}>{t('please_enter_value_40_170')}</Text>
+                                                : null
+                                        }
+
+                                    </View>
                                 </View>
-                            </View>
-                            {/* <View style={[styles.areaViewText, { marginTop: 30 }]}>
+                                {/* <View style={[styles.areaViewText, { marginTop: 30 }]}>
                                 <Text style={styles.text_2}>{'Ref. (อ้างอิง)'}</Text>
                                 <Pressable onPress={() => this.setState({ popupShow: true, selectedRef: 'diabetes' })}>
                                     <Text style={styles.text_3}>{'- ภาวะเบาหวาน (type 2 diabetes)'}</Text>
@@ -460,18 +461,19 @@ class HealthData extends Component {
                                     <Text style={styles.text_3}>{'- ภาวะความดันสูง (Hypertension)'}</Text>
                                 </Pressable>
                             </View> */}
-                            <View style={styles.areaViewButton}>
-                                {
-                                    (mgDL !== null) && (mg !== null) && (bpm !== null) && (mmHGS !== null) && (mmHGD !== null) ?
-                                        <Pressable style={ComponentsStyle.button} onPress={() => this.submit()} >
-                                            <Text style={ComponentsStyle.textButton}>{t('next')}</Text>
-                                        </Pressable>
-                                        :
-                                        <Pressable s style={ComponentsStyle.buttonGrey}  >
-                                            <Text style={ComponentsStyle.textButtonGrey}>{t('next')}</Text>
-                                        </Pressable>
-                                }
-                            </View>
+                                <View style={styles.areaViewButton}>
+                                    {
+                                        (mgDL !== null) && (mg !== null) && (bpm !== null) && (mmHGS !== null) && (mmHGD !== null) ?
+                                            <Pressable style={ComponentsStyle.button} onPress={() => this.submit()} >
+                                                <Text style={ComponentsStyle.textButton}>{t('next')}</Text>
+                                            </Pressable>
+                                            :
+                                            <Pressable s style={ComponentsStyle.buttonGrey}  >
+                                                <Text style={ComponentsStyle.textButtonGrey}>{t('next')}</Text>
+                                            </Pressable>
+                                    }
+                                </View>
+                            </Pressable>
                         </ScrollView>
                     </KeyboardAwareScrollView>
                     {

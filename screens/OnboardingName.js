@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput, SafeAreaView, Pressable } from 'react-native';
+import { StyleSheet, Text, View, TextInput, SafeAreaView, ScrollView, Pressable, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import { getProfanity } from "../redux/get";
 import colors from '../constants/colors';
 import ComponentsStyle from '../constants/components';
@@ -90,40 +90,45 @@ class OnboardingName extends React.Component {
         const { t } = this.props;
         return (
             <View style={styles.container}>
-                <View style={{ justifyContent: "center", textAlign: "center", flex: 1, paddingHorizontal: 16 }}>
-                    <View>
-                        <Text style={styles.whatName}>{t('what_do_we_call_you')}</Text>
+                <Pressable onPress={Keyboard.dismiss} style={{ flex: 1 }}>
+                    <View style={{ justifyContent: "center", textAlign: "center", flex: 1, paddingHorizontal: 16 }}>
+
+
+                        <View>
+                            <Text style={styles.whatName}>{t('what_do_we_call_you')}</Text>
+                        </View>
+
+                        <View>
+                            <TextInput style={
+                                errorInput === true ? ComponentsStyle.inputError : isFocused === true ? ComponentsStyle.inputIsFocused : ComponentsStyle.input}
+                                onFocus={handleFocus}
+                                onBlur={handleBlur}
+                                numberOfLines={6}
+                                maxLength={30}
+                                placeholder={t('your_name')}
+                                autoCapitalize='none'
+                                returnKeyType={'done'}
+                                onChangeText={(name) => this.setState({ name })}
+                            />
+                        </View>
+                        <View style={styles.error}>
+
+                            {
+                                errorInput === true ?
+                                    <Text style={ComponentsStyle.textError}>{t('name_must_be_polite')}</Text>
+                                    : <Text style={ComponentsStyle.textError}></Text>
+                            }
+
+                            <Text style={{ textAlign: "right", marginTop: 6 }}>
+                                {name.length}/30
+                            </Text>
+
+                        </View>
+
+
                     </View>
 
-                    <View>
-                        <TextInput style={
-                            errorInput === true ? ComponentsStyle.inputError : isFocused === true ? ComponentsStyle.inputIsFocused : ComponentsStyle.input}
-                            onFocus={handleFocus}
-                            onBlur={handleBlur}
-                            numberOfLines={6}
-                            maxLength={30}
-                            placeholder={t('your_name')}
-                            autoCapitalize='none'
-                            returnKeyType={'done'}
-                            onChangeText={(name) => this.setState({ name })}
-                        />
-                    </View>
-                    <View style={styles.error}>
-
-                        {
-                            errorInput === true ?
-                                <Text style={ComponentsStyle.textError}>{t('name_must_be_polite')}</Text>
-                                : <Text style={ComponentsStyle.textError}></Text>
-                        }
-
-                        <Text style={{ textAlign: "right", marginTop: 6 }}>
-                            {name.length}/30
-                        </Text>
-
-                    </View>
-
-                </View>
-                {/* <View style={styles.acceptSwitch}>
+                    {/* <View style={styles.acceptSwitch}>
                     <Text style={styles.accept}>{t('i_accept')}
                         <Text style={{ color: 'blue' }}>
                             {t('terms_and_conditions')}
@@ -151,18 +156,19 @@ class OnboardingName extends React.Component {
                         />
                     </View>
                 </View> */}
-                <View style={styles.areaViewButton}>
-                    {
-                        (name.length > 0) && /* (switchOn == true) && */ (!errorInput) ?
-                            <Pressable style={ComponentsStyle.button} onPress={() => this.submit()} >
-                                <Text style={ComponentsStyle.textButton}>{t('next')}</Text>
-                            </Pressable>
-                            :
-                            <Pressable s style={ComponentsStyle.buttonGrey} >
-                                <Text style={ComponentsStyle.textButtonGrey}>{t('next')}</Text>
-                            </Pressable>
-                    }
-                </View>
+                    <View style={styles.areaViewButton}>
+                        {
+                            (name.length > 0) && /* (switchOn == true) && */ (!errorInput) ?
+                                <Pressable style={ComponentsStyle.button} onPress={() => this.submit()} >
+                                    <Text style={ComponentsStyle.textButton}>{t('next')}</Text>
+                                </Pressable>
+                                :
+                                <Pressable s style={ComponentsStyle.buttonGrey} >
+                                    <Text style={ComponentsStyle.textButtonGrey}>{t('next')}</Text>
+                                </Pressable>
+                        }
+                    </View>
+                </Pressable>
             </View>
 
         )
