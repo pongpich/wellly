@@ -175,13 +175,13 @@ class AddActivity extends Component {
                                 />
                                 {/*  <Text style={styles.textDetails}>60 นาที</Text> */}
                                 <TextInput
-                                    style={styles.textDetails}
+                                    style={[styles.textDetails, { width: "100%" }]}
                                     onChangeText={(text) => this.setState({ duration: text })}
                                     value={duration}
                                     keyboardType='numeric'
                                     placeholder="ระยะเวลาที่ใช้"
                                 />
-                                <Text style={styles.textDetails}>นาที</Text>
+                                <Text style={[styles.textDetails, { position: "absolute", marginLeft: 150 }]}>นาที</Text>
                             </View>
                             <View
                                 style={{
@@ -196,7 +196,7 @@ class AddActivity extends Component {
                                 />
                                 {/*  <Text style={styles.textDetails}>เดินกินลมม</Text> */}
                                 <TextInput
-                                    style={styles.textDetails}
+                                    style={[styles.textDetails, { width: "100%" }]}
                                     onChangeText={(text) => this.setState({ note: text })}
                                     value={note}
                                     placeholder="โน้ต"
