@@ -381,7 +381,9 @@ class Add extends Component {
                         {
                             intensityFromExArticle === null ?
                                 <TouchableWithoutFeedback onPress={() => this.setState({ statusCreate: "editView" })}>
-                                    <Text style={styles.headEdit}>เเก้ไข</Text>
+                                    <View style={{ width: 60, marginTop: -16, alignItems: "center" }}>
+                                        <Text style={[styles.headEdit, { marginTop: 16 }]}>เเก้ไข</Text>
+                                    </View>
                                 </TouchableWithoutFeedback>
                                 :
                                 <TouchableWithoutFeedback onPress={() => {
@@ -400,38 +402,45 @@ class Add extends Component {
                     {
                         intensityFromExArticle === null ?
                             <View style={[styles.missionView, { marginTop: 16, justifyContent: "space-between", marginHorizontal: 16 }]}>
-                                <View style={study == "ทั้งหมด" ? styles.boxHeadingActive : styles.boxHeading}>
-                                    <Pressable onPress={() => this.setState({
-                                        study: "ทั้งหมด",
-                                        activity_list_show: [...activity_list.light_intensity, ...activity_list.moderate_intensity, ...activity_list.vigorous_intensity]
-                                    })}>
+                                <Pressable onPress={() => this.setState({
+                                    study: "ทั้งหมด",
+                                    activity_list_show: [...activity_list.light_intensity, ...activity_list.moderate_intensity, ...activity_list.vigorous_intensity]
+                                })}>
+                                    <View style={[study == "ทั้งหมด" ? styles.boxHeadingActive : styles.boxHeading, { width: 100 }]}>
+
+
                                         <Text style={study == "ทั้งหมด" ? styles.sectionActive : styles.section}> ทั้งหมด</Text>
-                                    </Pressable>
-                                </View>
-                                <View style={study == "ต่ำ" ? styles.boxHeadingActive : styles.boxHeading}>
-                                    <Pressable onPress={() => this.setState({
-                                        study: "ต่ำ",
-                                        activity_list_show: [...activity_list.light_intensity]
-                                    })}>
+
+
+                                    </View>
+                                </Pressable>
+                                <Pressable onPress={() => this.setState({
+                                    study: "ต่ำ",
+                                    activity_list_show: [...activity_list.light_intensity]
+                                })}>
+                                    <View style={[study == "ต่ำ" ? styles.boxHeadingActive : styles.boxHeading, { width: 100 }]}>
+
                                         <Text style={study == "ต่ำ" ? styles.sectionActive : styles.section}> ต่ำ</Text>
-                                    </Pressable>
-                                </View>
-                                <View style={study == "ปานกลาง" ? styles.boxHeadingActive : styles.boxHeading}>
-                                    <Pressable onPress={() => this.setState({
-                                        study: "ปานกลาง",
-                                        activity_list_show: [...activity_list.moderate_intensity]
-                                    })}>
+
+                                    </View>
+                                </Pressable>
+                                <Pressable onPress={() => this.setState({
+                                    study: "ปานกลาง",
+                                    activity_list_show: [...activity_list.moderate_intensity]
+                                })}>
+                                    <View style={[study == "ปานกลาง" ? styles.boxHeadingActive : styles.boxHeading, { width: 100 }]}>
                                         <Text style={study == "ปานกลาง" ? styles.sectionActive : styles.section}> ปานกลาง</Text>
-                                    </Pressable>
-                                </View>
-                                <View style={study == "สูง" ? styles.boxHeadingActive : styles.boxHeading}>
-                                    <Pressable onPress={() => this.setState({
-                                        study: "สูง",
-                                        activity_list_show: [...activity_list.vigorous_intensity]
-                                    })}>
+                                    </View>
+                                </Pressable>
+                                <Pressable onPress={() => this.setState({
+                                    study: "สูง",
+                                    activity_list_show: [...activity_list.vigorous_intensity]
+                                })}>
+                                    <View style={[study == "สูง" ? styles.boxHeadingActive : styles.boxHeading, { width: 100 }]}>
+
                                         <Text style={study == "สูง" ? styles.sectionActive : styles.section}> สูง</Text>
-                                    </Pressable>
-                                </View>
+                                    </View>
+                                </Pressable>
                             </View>
                             : null
                     }
@@ -605,48 +614,52 @@ class Add extends Component {
                             <View style={[styles.modalViewConter, { paddingHorizontal: 16 }]}>
                                 <View style={[styles.missionView, { marginTop: 20, justifyContent: "space-between", alignItems: "center" }]}>
                                     <View></View>
-                                    <Text style={styles.headActivity}>แก้ไขกิจกรรมตามความเข้มข้น</Text>
+                                    <Text style={[styles.headActivity, { marginLeft: 32, marginTop: -16 }]}>แก้ไขกิจกรรมตามความเข้มข้น</Text>
                                     <TouchableWithoutFeedback onPress={() => this.setState({ statusCreate: "listDataViews" })}>
-                                        <Text style={styles.headEdit}>เสร็จ</Text>
+                                        <View style={{ width: 60, marginTop: -16, height: 60, alignItems: "center", justifyContent: "center" }}>
+                                            <Text style={styles.headEdit}>เสร็จ</Text>
+                                        </View>
                                     </TouchableWithoutFeedback>
                                 </View>
                                 <View style={[styles.missionView, { marginTop: 16, justifyContent: "space-between" }]}>
-                                    <View style={study == "ทั้งหมด" ? styles.boxHeadingActive : styles.boxHeading}>
-                                        <Pressable onPress={() => this.setState({
-                                            study: "ทั้งหมด",
-                                            activity_list_addon_show: [
-                                                ...(activity_list.light_intensity.filter(item => item.type === 'addon')),
-                                                ...(activity_list.moderate_intensity.filter(item => item.type === 'addon')),
-                                                ...(activity_list.vigorous_intensity.filter(item => item.type === 'addon')),
-                                            ]
-                                        })}>
+                                    <Pressable onPress={() => this.setState({
+                                        study: "ทั้งหมด",
+                                        activity_list_addon_show: [
+                                            ...(activity_list.light_intensity.filter(item => item.type === 'addon')),
+                                            ...(activity_list.moderate_intensity.filter(item => item.type === 'addon')),
+                                            ...(activity_list.vigorous_intensity.filter(item => item.type === 'addon')),
+                                        ]
+                                    })}>
+                                        <View style={[study == "ทั้งหมด" ? styles.boxHeadingActive : styles.boxHeading, { width: 100 }]}>
                                             <Text style={study == "ทั้งหมด" ? styles.sectionActive : styles.section}> ทั้งหมด</Text>
-                                        </Pressable>
-                                    </View>
-                                    <View style={study == "ต่ำ" ? styles.boxHeadingActive : styles.boxHeading}>
-                                        <Pressable onPress={() => this.setState({
-                                            study: "ต่ำ",
-                                            activity_list_addon_show: [...(activity_list.light_intensity.filter(item => item.type === 'addon'))]
-                                        })}>
+                                        </View>
+                                    </Pressable>
+                                    <Pressable onPress={() => this.setState({
+                                        study: "ต่ำ",
+                                        activity_list_addon_show: [...(activity_list.light_intensity.filter(item => item.type === 'addon'))]
+                                    })}>
+                                        <View style={[study == "ต่ำ" ? styles.boxHeadingActive : styles.boxHeading, { width: 100 }]}>
                                             <Text style={study == "ต่ำ" ? styles.sectionActive : styles.section}> ต่ำ</Text>
-                                        </Pressable>
-                                    </View>
-                                    <View style={study == "ปานกลาง" ? styles.boxHeadingActive : styles.boxHeading}>
-                                        <Pressable onPress={() => this.setState({
-                                            study: "ปานกลาง",
-                                            activity_list_addon_show: [...(activity_list.moderate_intensity.filter(item => item.type === 'addon'))]
-                                        })}>
+                                        </View>
+                                    </Pressable>
+                                    <Pressable onPress={() => this.setState({
+                                        study: "ปานกลาง",
+                                        activity_list_addon_show: [...(activity_list.moderate_intensity.filter(item => item.type === 'addon'))]
+                                    })}>
+                                        <View style={[study == "ปานกลาง" ? styles.boxHeadingActive : styles.boxHeading, { width: 100 }]}>
+
                                             <Text style={study == "ปานกลาง" ? styles.sectionActive : styles.section}> ปานกลาง</Text>
-                                        </Pressable>
-                                    </View>
-                                    <View style={study == "สูง" ? styles.boxHeadingActive : styles.boxHeading}>
-                                        <Pressable onPress={() => this.setState({
-                                            study: "สูง",
-                                            activity_list_addon_show: [...(activity_list.vigorous_intensity.filter(item => item.type === 'addon'))]
-                                        })}>
+
+                                        </View>
+                                    </Pressable>
+                                    <Pressable onPress={() => this.setState({
+                                        study: "สูง",
+                                        activity_list_addon_show: [...(activity_list.vigorous_intensity.filter(item => item.type === 'addon'))]
+                                    })}>
+                                        <View style={[study == "สูง" ? styles.boxHeadingActive : styles.boxHeading, { width: 100 }]}>
                                             <Text style={study == "สูง" ? styles.sectionActive : styles.section}> สูง</Text>
-                                        </Pressable>
-                                    </View>
+                                        </View>
+                                    </Pressable>
                                 </View>
                                 <View style={{ marginTop: 24 }}>
                                     <ScrollView showsVerticalScrollIndicator={false}>
@@ -1235,7 +1248,7 @@ const styles = StyleSheet.create({
         color: colors.persianBlue,
         fontSize: ComponentsStyle.fontSize16,
         fontFamily: "IBMPlexSansThai-Bold",
-        width: "25%",
+        /*         width: "25%", */
         textAlign: "center",
     },
     section: {
