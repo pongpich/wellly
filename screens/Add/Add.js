@@ -587,6 +587,18 @@ class Add extends Component {
                                     </View>
                                 </TouchableWithoutFeedback>
                             </View>
+                            <Text style={styles.textAdd}>
+                                {
+                                    statusViolence == "light_intensity" && "เป็นกิจกรรมที่ออกแรงน้อย หรือแทบไม่รู้สึกว่าออกแรงเลย สามารถทำได้ต่อเนื่องและยาวนาน สามารถพูดคุยและหายใจได้ในจังหวะปกติในขณะทำกิจกรรม"
+
+                                }
+                                {
+                                    statusViolence == "moderate_intensity" && "เป็นกิจกรรมที่ต้องออกแรงค่อนข้างหนัก แต่ยังสามารถทำได้ต่อเนื่อง ทำให้ต้องหายใจเร็วมากขึ้น แต่ไม่ถึงกับหายใจไม่ทัน ยังสามารถยังพูดคุยได้ อาจทำให้รู้สึกเหนื่อยหอบ เมื่อทำต่อเนื่องอย่างน้อย 10 นาที"
+                                }
+                                {
+                                    statusViolence == "vigorous_intensity" && "เป็นกิจกรรมที่ต้องออกแรงมาก ใช้พลังงานเยอะ ไม่สามารถทำต่อเนื่องได้นาน ทำให้รู้สึกเหนื่อยหอบเร็ว  และไม่สามารถพูดคุยหรือหายใจได้ตามปกติ ต้องมีการหยุดพักเพื่อหายใจ"
+                                }
+                            </Text>
                             <TextInput
                                 style={styles.input}
                                 onChangeText={(text) => this.setState({ missionName: text })}
@@ -805,6 +817,7 @@ class Add extends Component {
                                                 placeholder="ชื่อกิจกรรม"
                                             />
                                         </View>
+
                                         {confirmDelete === false ?
                                             <View style={{ alignItems: "center" }}>
                                                 <Pressable onPress={() => this.setState({ confirmDelete: true, })} >
@@ -1335,6 +1348,13 @@ const styles = StyleSheet.create({
     textActivityDeleted: {
         marginLeft: 8,
         marginTop: 4,
+        fontFamily: "IBMPlexSansThai-Regular",
+        fontSize: ComponentsStyle.fontSize16,
+        color: colors.grey1,
+    },
+    textAdd: {
+        marginLeft: 8,
+        marginTop: 16,
         fontFamily: "IBMPlexSansThai-Regular",
         fontSize: ComponentsStyle.fontSize16,
         color: colors.grey1,
