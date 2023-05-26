@@ -556,7 +556,7 @@ const Exercise = ({ navigation }) => {
     const isDevice = Dimensions.get('window').height;
     const languages = i18next.languages[0];
 
-    console.log("statusMission", statusMission);
+
 
     return (
         <View style={{ flex: 1 }} forceInset={{ top: 'always' }}>
