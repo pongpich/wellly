@@ -274,6 +274,7 @@ class OnboardingResults extends Component {
         return (
             <>
                 {
+
                     resultsUser && (resultsUser === "A1" || resultsUser === "A2") ?
                         this.onboarding_A1()
                         :
@@ -399,7 +400,7 @@ const styles = StyleSheet.create({
         height: 50
     },
     buttonStatusB2: {
-        width: "70%",
+        width: "60%",
         alignItems: 'center',
         justifyContent: 'center',
         paddingVertical: 8,
@@ -415,7 +416,7 @@ const styles = StyleSheet.create({
 
     },
     buttonStatusC1: {
-        width: "70%",
+        width: "auto",
         alignItems: 'center',
         justifyContent: 'center',
         paddingVertical: 8,

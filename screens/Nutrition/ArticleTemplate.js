@@ -289,7 +289,7 @@ class ArticleTemplate extends Component {
                     )}
                     scrollEventThrottle={16}
                 >
-                    <View style={{ marginHorizontal: 16, marginTop: -30, paddingBottom: 40/*  height: "100%", */ }}>
+                    <View style={{ marginHorizontal: 16, marginTop: -30, paddingBottom: 20/*  height: "100%", */ }}>
                         {
                             study ?
                                 this.renderCheckArticle()
