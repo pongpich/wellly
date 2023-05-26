@@ -182,6 +182,18 @@ const Exercise = ({ navigation }) => {
     }, [navigation]);
 
 
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
+
+            setStatusMission(true)
+
+        });
+
+        return unsubscribe;
+
+    }, []);
+
+
     useEffect(() => {  // ตอนกดมาจากหน้าภารกิจ
         const unsubscribe = navigation.addListener('focus', () => {
 
@@ -544,7 +556,7 @@ const Exercise = ({ navigation }) => {
     const isDevice = Dimensions.get('window').height;
     const languages = i18next.languages[0];
 
-
+    console.log("statusMission", statusMission);
 
     return (
         <View style={{ flex: 1 }} forceInset={{ top: 'always' }}>
@@ -572,14 +584,14 @@ const Exercise = ({ navigation }) => {
                             <Pressable style={[{ width: 71 }, statusMission === true ? styles.missionPre : styles.programPre]} onPress={() => setStatusMission(true)} >
                                 <Text style={[styles.mission, statusMission === true ? { color: colors.white } : { color: colors.persianBlue }]}>ภารกิจ</Text>
                             </Pressable>
-                            <Pressable style={[{ marginLeft: 8, width: 89 }, statusMission !== true ? styles.missionPre : styles.programPre]} onPress={() => setStatusMission(false)} >
-                                <Text style={[styles.mission, statusMission !== true ? { color: colors.white } : { color: colors.persianBlue }]}>โปรแกรม</Text>
+                            <Pressable style={[{ marginLeft: 8, width: 89 }, statusMission === false ? styles.missionPre : styles.programPre]} onPress={() => setStatusMission(false)} >
+                                <Text style={[styles.mission, statusMission == false ? { color: colors.white } : { color: colors.persianBlue }]}>โปรแกรม</Text>
                             </Pressable>
                         </View>
 
 
                         {
-                            statusMission == true ?
+                            statusMission === true ?
                                 <>
                                     {
                                         exerciserActivity && exerciserActivity.length > 0 ?

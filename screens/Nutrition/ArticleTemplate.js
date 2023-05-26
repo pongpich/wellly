@@ -180,12 +180,11 @@ class ArticleTemplate extends Component {
 
     onScrollToEnd = event => {
         const { contentOffset, layoutMeasurement, contentSize } = event.nativeEvent;
-        const paddingToBottom = 20; // ค่าพื้นที่ว่างด้านล่างสุดที่ใช้เพื่อตรวจสอบ
+        const paddingToBottom = 70; // ค่าพื้นที่ว่างด้านล่างสุดที่ใช้เพื่อตรวจสอบ
         if (
             layoutMeasurement.height + contentOffset.y >=
             contentSize.height - paddingToBottom
         ) {
-            console.log("ScrollView has reached the end!");
             this.slideUp();
         }
     };
