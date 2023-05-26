@@ -178,6 +178,18 @@ class ArticleTemplate extends Component {
         )
     }
 
+    onScrollToEnd = event => {
+        const { contentOffset, layoutMeasurement, contentSize } = event.nativeEvent;
+        const paddingToBottom = 20; // ค่าพื้นที่ว่างด้านล่างสุดที่ใช้เพื่อตรวจสอบ
+        if (
+            layoutMeasurement.height + contentOffset.y >=
+            contentSize.height - paddingToBottom
+        ) {
+            console.log("ScrollView has reached the end!");
+            this.slideUp();
+        }
+    };
+
 
     render() {
         const headerHeight = this.state.scrollY.interpolate({
@@ -190,6 +202,8 @@ class ArticleTemplate extends Component {
         const { nutrition_activity_id_Mission, teachUserArticleTemplate } = this.props;
         const { heading } = this.props.route.params;
         const isNotchDevice = Dimensions.get('window').height >= 812;
+
+        const isHeight = Dimensions.get('window').height;
 
 
 
@@ -269,12 +283,13 @@ class ArticleTemplate extends Component {
                                     });
                                     this.slideUp();
                                 }
+                                this.onScrollToEnd(event);
                             }
                         }
                     )}
                     scrollEventThrottle={16}
                 >
-                    <View style={{ marginHorizontal: 16, marginTop: -30,/*  height: "100%", */ }}>
+                    <View style={{ marginHorizontal: 16, marginTop: -30, paddingBottom: 40/*  height: "100%", */ }}>
                         {
                             study ?
                                 this.renderCheckArticle()
