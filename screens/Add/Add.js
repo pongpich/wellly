@@ -500,7 +500,7 @@ class Add extends Component {
                             <ScrollView showsVerticalScrollIndicator={false}>
 
                                 {
-                                    statusAnimated !== true &&
+                                    statusAnimated === true &&
                                     <Animated.View style={{ paddingHorizontal: 16, opacity, transform: [{ scale }] }}>
                                         <View style={styles.activityindicator}></View>
                                     </Animated.View>
