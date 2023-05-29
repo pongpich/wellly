@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { SafeAreaView, StatusBar, View, Text, StyleSheet, TextInput, Image, ImageBackground, Dimensions, Pressable, ScrollView, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { SafeAreaView, StatusBar, View, Text, StyleSheet, TextInput, Image, Animated, ImageBackground, Dimensions, Pressable, ScrollView, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import colors from '../../constants/colors';
 import ComponentsStyle from '../../constants/components';
 import Modal from "react-native-modal";
@@ -15,6 +15,7 @@ class Add extends Component {
 
     constructor(props) {
         super(props);
+        this.animatedValue = new Animated.Value(0);
         this.state = {
             stsusColor: "เข้มข้นต่ำ",
             isModalVisible: false,
@@ -31,7 +32,8 @@ class Add extends Component {
             activity_list_show: [],
             activity_list_addon_show: [],
             intensityFromExArticle: null,
-            activity_id_edit_focus: ''
+            activity_id_edit_focus: '',
+            statusAnimated: false
         };
     }
 
@@ -124,6 +126,8 @@ class Add extends Component {
 
             BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
 
+            this.animate()
+
         });
 
         // this.props.routeName(null); // ถ้าเข้าให้ home ให้ทำคำสั่งนี้ 1 ครั้ง
@@ -132,6 +136,9 @@ class Add extends Component {
 
     componentWillUnmount() {
         this._unsubscribe();
+
+
+
     }
 
 
@@ -139,7 +146,7 @@ class Add extends Component {
 
         const { navigation, route } = this.props;
 
-        console.log("55555");
+
         if (navigation.canGoBack() && route.name === "Add") {
             /*  BackHandler.exitApp(); */
             navigation.dispatch(StackActions.replace('Home'));
@@ -153,7 +160,9 @@ class Add extends Component {
     componentDidUpdate(prevProps, prevState) {
 
         const { intensityFromExArticle, study, isModalConter } = this.state;
-        const { user, activity_list, intensityFromExArticleTemplate, statusAddActListAddOn, statusDeleteActListAddOn, statusGetActivityList, statusEditActListAddOn } = this.props;
+        const { user, activity_list, intensityFromExArticleTemplate, statusAddActListAddOn, statusDeleteActListAddOn, statusGetActivityList, statusEditActListAddOn, } = this.props;
+
+
         if ((prevState.intensityFromExArticle !== intensityFromExArticle) && (intensityFromExArticle !== null)) {
 
             if (intensityFromExArticle == "light_intensity") {
@@ -171,6 +180,8 @@ class Add extends Component {
                     activity_list_show: [...activity_list.vigorous_intensity]
                 })
             }
+
+
             /* 
                         this.setState({
                             isModalConter: true,
@@ -183,11 +194,20 @@ class Add extends Component {
         }
         if ((prevProps.statusDeleteActListAddOn !== statusDeleteActListAddOn) && (statusDeleteActListAddOn === 'success')) {
             this.props.getActivityList(user && user.user_id);
+            this.setMessage("ลบกิจกรรมแล้ว")
+
         }
         if ((prevProps.statusEditActListAddOn !== statusEditActListAddOn) && (statusEditActListAddOn === 'success')) {
             this.props.getActivityList(user && user.user_id);
         }
         if ((prevProps.statusGetActivityList !== statusGetActivityList) && (statusGetActivityList === 'success')) { //ใช้เพื่อให้ตอน add, delete รายการเพิ่มหน้าแสดงผลอัพเดทเรียลไทม์
+
+
+            this.setState({
+                statusAnimated: false
+            })
+
+            this.setMessage("บันทึกกิจกรรมแล้ว")
             if (study === 'ต่ำ') { }// ปานกลาง สูง ทั้งหมด
             this.setState({
                 //activity_list_show ของหน้าปกติโชว์ทั้งหมด
@@ -262,7 +282,7 @@ class Add extends Component {
             editmission: false,
             confirmDelete: false,
         })
-        this.setMessage(mess)
+
 
         /*  this.props.navigation.popToTop() */
     }
@@ -276,9 +296,11 @@ class Add extends Component {
         const { user } = this.props;
         this.setState({
             statusCreate: e,
-            data: true
+            data: true,
+            missionName: null,
+            statusAnimated: true
         })
-        this.setMessage(mess)
+
 
         this.props.addActivityListAddOn(user.user_id, activity_name, intensity);
     }
@@ -337,10 +359,36 @@ class Add extends Component {
         }, 2000);
     }
 
+    animate = () => {
+        this.animatedValue.setValue(0);
+        Animated.timing(
+            this.animatedValue,
+            {
+                toValue: 1,
+                duration: 1000,
+                useNativeDriver: true,
+            }
+        ).start(() => this.animate());
+    }
+
+
+
 
     listDataViews() {
-        const { stsusColor, isModalVisible, isModalConter, study, data, activity_list_show, intensityFromExArticle, confirmActivityDeleted, message } = this.state;
+        const { stsusColor, isModalVisible, isModalConter, study, data, activity_list_show, intensityFromExArticle, confirmActivityDeleted, message, statusAnimated } = this.state;
         const { activity_list } = this.props;
+
+
+        const opacity = this.animatedValue.interpolate({
+            inputRange: [0, 0.5, 1],
+            outputRange: [1, 0.5, 1],
+        });
+        const scale = this.animatedValue.interpolate({
+            inputRange: [0, 0.5, 1],
+            outputRange: [1, 1, 1],
+        });
+
+
 
         return (
             <View style={{ flex: 1, justifyContent: "flex-end" }} onPress={() => this.toggleModal(isModalVisible)} >
@@ -450,6 +498,18 @@ class Add extends Component {
                         {data == true ?
 
                             <ScrollView showsVerticalScrollIndicator={false}>
+
+                                {
+                                    statusAnimated !== true &&
+                                    <Animated.View style={{ paddingHorizontal: 16, opacity, transform: [{ scale }] }}>
+                                        <View style={styles.activityindicator}></View>
+                                    </Animated.View>
+                                }
+
+
+
+
+
                                 {
                                     activity_list_show &&
                                     activity_list_show.map((item, i) => {
@@ -1087,6 +1147,7 @@ const styles = StyleSheet.create({
 
     },
     groupStatus: {
+        /*  marginTop: 32, */
         fontFamily: "IBMPlexSansThai-Regular",
         fontSize: ComponentsStyle.fontSize14,
         marginLeft: 16
@@ -1104,7 +1165,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
     },
     viewIconRight2: {
-        marginTop: -10,
+        marginTop: 8,
         position: "absolute",
         width: "100%",
         height: "100%",
@@ -1358,7 +1419,16 @@ const styles = StyleSheet.create({
         fontFamily: "IBMPlexSansThai-Regular",
         fontSize: ComponentsStyle.fontSize16,
         color: colors.grey1,
-    }
+    },
+    activityindicator: {
+
+        height: 12,
+        backgroundColor: "#D4E0F0",
+        width: "100%",
+        marginBottom: 8,
+        borderRadius: 16,
+    },
+
 
 })
 
