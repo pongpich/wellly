@@ -195,10 +195,17 @@ class Add extends Component {
         if ((prevProps.statusDeleteActListAddOn !== statusDeleteActListAddOn) && (statusDeleteActListAddOn === 'success')) {
             this.props.getActivityList(user && user.user_id);
             this.setMessage("ลบกิจกรรมแล้ว")
-
+            this.setState({
+                statusAnimated: false
+            })
         }
         if ((prevProps.statusEditActListAddOn !== statusEditActListAddOn) && (statusEditActListAddOn === 'success')) {
             this.props.getActivityList(user && user.user_id);
+            this.setMessage("บันทึกกิจกรรมแล้ว")
+            this.setState({
+                statusAnimated: false
+            })
+
         }
         if ((prevProps.statusGetActivityList !== statusGetActivityList) && (statusGetActivityList === 'success')) { //ใช้เพื่อให้ตอน add, delete รายการเพิ่มหน้าแสดงผลอัพเดทเรียลไทม์
 
@@ -281,6 +288,7 @@ class Add extends Component {
             missionName: null,
             editmission: false,
             confirmDelete: false,
+            statusAnimated: true
         })
 
 
@@ -323,10 +331,11 @@ class Add extends Component {
 
         this.props.editActivityListAddOn(user.user_id, activity_id_edit_focus, missionName, statusViolence)
         this.setState({
-            editmission: false
+            editmission: false,
+            statusAnimated: true
         })
 
-        this.setMessage(mess)
+        /* this.setMessage(mess) */
     }
 
     nextAddActivity(activity, intensity, type) {
@@ -593,10 +602,25 @@ class Add extends Component {
     }
 
     createView() {
-        const { isModalVisible, statusViolence, missionName } = this.state;
+        const { isModalVisible, statusViolence, missionName, statusAnimated } = this.state;
         const { statusAddActListAddOn } = this.props;
+        const opacity = this.animatedValue.interpolate({
+            inputRange: [0, 0.5, 1],
+            outputRange: [1, 0.5, 1],
+        });
+        const scale = this.animatedValue.interpolate({
+            inputRange: [0, 0.5, 1],
+            outputRange: [1, 1, 1],
+        });
+
         return (
             <>
+                {
+                    statusAnimated === true &&
+                    <Animated.View style={{ paddingHorizontal: 16, opacity, transform: [{ scale }] }}>
+                        <View style={styles.activityindicator}></View>
+                    </Animated.View>
+                }
                 <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
                     <View style={{ flex: 1, justifyContent: "flex-end" }} onPress={() => this.toggleModal(isModalVisible)} >
                         <View style={[styles.modalViewConter, { paddingHorizontal: 16 }]}>
@@ -674,8 +698,17 @@ class Add extends Component {
     }
 
     editView() {
-        const { stsusColor, isModalVisible, isModalConter, study, data, message, confirmActivityDeleted, confirmDelete, editmission, statusViolence, missionName, activity_list_addon_show, activity_id_edit_focus } = this.state;
+        const { stsusColor, isModalVisible, isModalConter, study, data, message, confirmActivityDeleted, confirmDelete, editmission, statusAnimated, statusViolence, missionName, activity_list_addon_show, activity_id_edit_focus } = this.state;
         const { activity_list } = this.props;
+
+        const opacity = this.animatedValue.interpolate({
+            inputRange: [0, 0.5, 1],
+            outputRange: [1, 0.5, 1],
+        });
+        const scale = this.animatedValue.interpolate({
+            inputRange: [0, 0.5, 1],
+            outputRange: [1, 1, 1],
+        });
 
         return (
             <>
@@ -735,6 +768,12 @@ class Add extends Component {
                                 </View>
                                 <View style={{ marginTop: 24 }}>
                                     <ScrollView showsVerticalScrollIndicator={false}>
+                                        {
+                                            statusAnimated === true &&
+                                            <Animated.View style={{ paddingHorizontal: 16, opacity, transform: [{ scale }] }}>
+                                                <View style={styles.activityindicator}></View>
+                                            </Animated.View>
+                                        }
                                         {
                                             activity_list_addon_show &&
                                             activity_list_addon_show.map((item, i) => {
