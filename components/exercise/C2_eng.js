@@ -4,7 +4,7 @@ import ComponentsStyle from '../../constants/components';
 import colors from '../../constants/colors';
 
 
-class C3 extends Component {
+class Cd1 extends Component {
     constructor(props) {
         super(props);
 
@@ -21,8 +21,6 @@ class C3 extends Component {
     handleError = () => {
         this.setState({ loading: false, error: true });
     };
-
-
     renderImg(img_index, size = 'md') {
         const imgUrl = `https://wellly.s3.ap-southeast-1.amazonaws.com/exercise/${img_index}.png`
         const { loading, error } = this.state;
@@ -66,64 +64,68 @@ class C3 extends Component {
         return (
             <View style={styles.scrollViewbox} >
                 {
-                    this.renderImg('Exercise_w_5', 'md')
+                    this.renderImg('Exercise_w_4', 'md')
                 }
                 <Text style={styles.title}>
-                    การฝึกแบบพลัยโอเมตริก (Plyometric)
+                    Core muscle groups
                 </Text>
                 <Text style={styles.content}>
-                    หรือการฝึกพลังระเบิดของกล้ามเนื้อ
-                    คือการฝึกด้วยแรงต้านรูปแบบหนึ่ง ที่มีลักษณะในการที่รวดเร็ว และต้องใช้แรงมาก ควบคู่กับการทรงตัว และ ยืด-หดของกล้ามเนื้อเพื่อออกแรง และรองรับแรงกระแทก
+                    are composed of a bundle of muscles surrounding the spine like a cloth to stabilize and control the movement of the spine in physical activities.
                 </Text>
-                <Text style={[styles.content, { marginTop: 24 }]}>
-                    ผู้ฝึกสามารถฝึกพลัยโอเมตริก (Plyometric) ได้ด้วยการฝึกท่าฝึกที่ออกแบบมาให้ร่างกาย ได้ออกแรงและรองรับแรงอย่างรวดเร็ว เช่น การกระโดดขึ้นและลง ระหว่างพื้นและกล่องที่ต่างระดับ เช่น ท่า  Box Jump
-                </Text>
+                <View style={styles.viewLi}>
+                    <Text style={styles.titleLi}>{"\u2B24" + " "}</Text>
+                    <Text style={[styles.title2]} >
+                        Benefits of starting core and balance training
+                    </Text>
+                </View>
+                <View style={styles.viewLi2}>
+                    <Text style={styles.li}>{"\u2B24" + " "}</Text>
+                    <Text style={styles.content2} >
+                        Achieving the safest form and best result of exercise requires good core muscles.
 
-                <Text style={[styles.title, { textAlign: "center" }]}>
-                    ภาพการฝึก Box jump
+                    </Text>
+                </View>
+                <View style={styles.viewLi2}>
+                    <Text style={styles.li}>{"\u2B24" + " "}</Text>
+                    <Text style={styles.content2} >
+                        Core muscle weakness is associated with back pain, especially in those with sedentary jobs.
+                    </Text>
+                </View>
+                <View style={styles.viewLi2}>
+                    <Text style={styles.li}>{"\u2B24" + " "}</Text>
+                    <Text style={styles.content2} >
+                        Core training is more effective in easing lower back pain than massage therapy.
+                    </Text>
+                </View>
+                <Text style={styles.title}>
+                    Test for core muscle strength
                 </Text>
-                <View style={[styles.boxImage, { backgroundColor: "#BDBDBD", width: "100%" }]}></View>
-                <Text style={[styles.title]}>
-                    ข้อดีของการฝึก  พลัยโอเมตริก (Plyometric)
+                <View style={styles.viewLi}>
+                    <Text style={styles.li}>{"\u2B24" + " "}</Text>
+                    <Text style={styles.content2} >
+                        Do you often have back pain?
+                    </Text>
+                </View>
+                <View style={styles.viewLi}>
+                    <Text style={styles.li}>{"\u2B24" + " "}</Text>
+                    <Text style={styles.content2} >
+                        Do you have to inhale and hold your breath when you bend, get up, or lift things?
+                    </Text>
+                </View>
+                <View style={styles.viewLi}>
+                    <Text style={styles.li}>{"\u2B24" + " "}</Text>
+                    <Text style={styles.content2} >
+                        Do you need your hands to help standing or getting up?
+                        You have a sign that your core muscles are weak if you answer “yes” to at least two questions.
+
+                    </Text>
+                </View>
+                <Text style={styles.title}>
+                    Core muscle strengthening
                 </Text>
-
-                <View style={styles.viewLi}>
-                    <Text style={styles.li}>{"\u2B24" + " "}</Text>
-                    <Text style={styles.content2} >
-                        เพิ่มความแข็งแรงของการหดตัวและคลายตัวของกล้ามเนื้อ
-                    </Text>
-                </View>
-                <View style={styles.viewLi}>
-                    <Text style={styles.li}>{"\u2B24" + " "}</Text>
-                    <Text style={styles.content2} >
-                        ช่วยป้องกันอาการบาดเจ็บ
-                    </Text>
-                </View>
-                <View style={styles.viewLi}>
-                    <Text style={styles.li}>{"\u2B24" + " "}</Text>
-                    <Text style={styles.content2} >
-                        เพิ่มศักยภาพของระบบประสาทสั่งการกล้ามเนื้อ
-                    </Text>
-                </View>
-                <View style={styles.viewLi}>
-                    <Text style={styles.li}>{"\u2B24" + " "}</Text>
-                    <Text style={styles.content2} >
-                        สร้างความมั่นคงให้กับร่างกาย
-                    </Text>
-                </View>
-                <View style={styles.viewLi}>
-                    <Text style={styles.li}>{"\u2B24" + " "}</Text>
-                    <Text style={styles.content2} >
-                        ช่วยกระตุ้นการสร้างคอลลาเจนบริเวณข้อต่อที่ถูกฝึกให้รับแรง
-                    </Text>
-                </View>
-                <View style={[styles.viewLi, { marginBottom: 40 }]}>
-                    <Text style={styles.li}>{"\u2B24" + " "}</Text>
-                    <Text style={styles.content2} >
-                        ลดความเสี่ยงการบาดเจ็บจากการพลัดตกหกล้ม
-                    </Text>
-                </View>
-
+                <Text style={[styles.content]} >
+                    can be done by practicing controlling core muscles and using resistance training to improve the core muscle groups through exercises such as Dead Bug, Prone Arm, and Opposite Leg Raise.
+                </Text>
 
             </View>
         )
@@ -200,4 +202,4 @@ const styles = StyleSheet.create({
 })
 
 
-export default C3;
+export default Cd1;

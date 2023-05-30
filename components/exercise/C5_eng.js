@@ -4,7 +4,7 @@ import ComponentsStyle from '../../constants/components';
 import colors from '../../constants/colors';
 
 
-class C3 extends Component {
+class C5 extends Component {
     constructor(props) {
         super(props);
 
@@ -21,7 +21,6 @@ class C3 extends Component {
     handleError = () => {
         this.setState({ loading: false, error: true });
     };
-
 
     renderImg(img_index, size = 'md') {
         const imgUrl = `https://wellly.s3.ap-southeast-1.amazonaws.com/exercise/${img_index}.png`
@@ -66,65 +65,128 @@ class C3 extends Component {
         return (
             <View style={styles.scrollViewbox} >
                 {
-                    this.renderImg('Exercise_w_5', 'md')
+                    this.renderImg('Exercise_w_7', 'md')
                 }
                 <Text style={styles.title}>
-                    การฝึกแบบพลัยโอเมตริก (Plyometric)
+                    Cardio exercise
                 </Text>
                 <Text style={styles.content}>
-                    หรือการฝึกพลังระเบิดของกล้ามเนื้อ
-                    คือการฝึกด้วยแรงต้านรูปแบบหนึ่ง ที่มีลักษณะในการที่รวดเร็ว และต้องใช้แรงมาก ควบคู่กับการทรงตัว และ ยืด-หดของกล้ามเนื้อเพื่อออกแรง และรองรับแรงกระแทก
+                    includes activities with continuous movements that raise the heart rate to boost blood flow, strengthen the heart muscle, and improve heart health.
                 </Text>
                 <Text style={[styles.content, { marginTop: 24 }]}>
-                    ผู้ฝึกสามารถฝึกพลัยโอเมตริก (Plyometric) ได้ด้วยการฝึกท่าฝึกที่ออกแบบมาให้ร่างกาย ได้ออกแรงและรองรับแรงอย่างรวดเร็ว เช่น การกระโดดขึ้นและลง ระหว่างพื้นและกล่องที่ต่างระดับ เช่น ท่า  Box Jump
+                    To be considered cardio exercise, the activities need to raise your breathing rate;
+                    <Text style={styles.title2}> you may have to breathe in within a count of 3 seconds after an exhale.</Text>
+                    It also includes the activities that trigger
+                    <Text style={styles.title2}>  an increase in breathing rate and to which you continuously do more than 15 minutes.</Text>
                 </Text>
-
-                <Text style={[styles.title, { textAlign: "center" }]}>
-                    ภาพการฝึก Box jump
+                <Text style={styles.title}>
+                    Examples of Cardio Exercises
                 </Text>
-                <View style={[styles.boxImage, { backgroundColor: "#BDBDBD", width: "100%" }]}></View>
-                <Text style={[styles.title]}>
-                    ข้อดีของการฝึก  พลัยโอเมตริก (Plyometric)
+                <View style={styles.viewLi1}>
+                    <Text style={styles.li}>{"\u2B24" + " "}</Text>
+                    <Text style={[styles.content2]} >
+                        Running
+                    </Text>
+                </View>
+                <View style={styles.viewLi1}>
+                    <Text style={styles.li}>{"\u2B24" + " "}</Text>
+                    <Text style={[styles.content2]} >
+                        Cycling / Bicycling
+                    </Text>
+                </View>
+                <View style={styles.viewLi1}>
+                    <Text style={styles.li}>{"\u2B24" + " "}</Text>
+                    <Text style={[styles.content2]} >
+                        Swimming
+                    </Text>
+                </View>
+                <View style={styles.viewLi1}>
+                    <Text style={styles.li}>{"\u2B24" + " "}</Text>
+                    <Text style={[styles.content2]} >
+                        Elliptical workout
+                    </Text>
+                </View>
+                <View style={styles.viewLi1}>
+                    <Text style={styles.li}>{"\u2B24" + " "}</Text>
+                    <Text style={[styles.content2]} >
+                        Brisk walking
+                    </Text>
+                </View>
+                <View style={styles.viewLi1}>
+                    <Text style={styles.li}>{"\u2B24" + " "}</Text>
+                    <Text style={[styles.content2]} >
+                        Incline walking
+                    </Text>
+                </View>
+                <View style={styles.viewLi1}>
+                    <Text style={styles.li}>{"\u2B24" + " "}</Text>
+                    <Text style={[styles.content2]} >
+                        Stairmaster / Stair stepper workout
+                    </Text>
+                </View>
+                <View style={styles.viewLi1}>
+                    <Text style={styles.li}>{"\u2B24" + " "}</Text>
+                    <Text style={[styles.content2]} >
+                        Stairmaster / Stair stepper workout
+                    </Text>
+                </View>
+                <View style={styles.viewLi1}>
+                    <Text style={styles.li}>{"\u2B24" + " "}</Text>
+                    <Text style={[styles.content2]} >
+                        Circuit training
+                    </Text>
+                </View>
+                <View style={styles.viewLi1}>
+                    <Text style={styles.li}>{"\u2B24" + " "}</Text>
+                    <Text style={[styles.content2]} >
+                        Aerobic / Zumba dance
+                    </Text>
+                </View>
+                <View style={styles.viewLi1}>
+                    <Text style={styles.li}>{"\u2B24" + " "}</Text>
+                    <Text style={[styles.content2]} >
+                        Fast-paced activities: Body pump/ Body Combat
+                    </Text>
+                </View>
+                <View style={styles.viewLi1}>
+                    <Text style={styles.li}>{"\u2B24" + " "}</Text>
+                    <Text style={[styles.content2]} >
+                        Other exercise clips
+                    </Text>
+                </View>
+                <Text style={styles.title}>
+                    Benefits of Cardiovascular Training
                 </Text>
-
-                <View style={styles.viewLi}>
+                <View style={styles.viewLi1}>
                     <Text style={styles.li}>{"\u2B24" + " "}</Text>
-                    <Text style={styles.content2} >
-                        เพิ่มความแข็งแรงของการหดตัวและคลายตัวของกล้ามเนื้อ
+                    <Text style={[styles.content2]} >
+                        Improve blood circulation system
                     </Text>
                 </View>
-                <View style={styles.viewLi}>
+                <View style={styles.viewLi1}>
                     <Text style={styles.li}>{"\u2B24" + " "}</Text>
-                    <Text style={styles.content2} >
-                        ช่วยป้องกันอาการบาดเจ็บ
+                    <Text style={[styles.content2]} >
+                        Keep excess pounds at bay
                     </Text>
                 </View>
-                <View style={styles.viewLi}>
+                <View style={styles.viewLi1}>
                     <Text style={styles.li}>{"\u2B24" + " "}</Text>
-                    <Text style={styles.content2} >
-                        เพิ่มศักยภาพของระบบประสาทสั่งการกล้ามเนื้อ
+                    <Text style={[styles.content2]} >
+                        Ease pain for various symptoms such as
                     </Text>
                 </View>
-                <View style={styles.viewLi}>
+                <View style={styles.viewLi2}>
                     <Text style={styles.li}>{"\u2B24" + " "}</Text>
-                    <Text style={styles.content2} >
-                        สร้างความมั่นคงให้กับร่างกาย
+                    <Text style={[styles.content2]} >
+                        Arthritis (joint pain)
                     </Text>
                 </View>
-                <View style={styles.viewLi}>
+                <View style={[styles.viewLi2, { marginBottom: 40 }]}>
                     <Text style={styles.li}>{"\u2B24" + " "}</Text>
-                    <Text style={styles.content2} >
-                        ช่วยกระตุ้นการสร้างคอลลาเจนบริเวณข้อต่อที่ถูกฝึกให้รับแรง
+                    <Text style={[styles.content2]} >
+                        Fibromyalgia (widespread pain)
                     </Text>
                 </View>
-                <View style={[styles.viewLi, { marginBottom: 40 }]}>
-                    <Text style={styles.li}>{"\u2B24" + " "}</Text>
-                    <Text style={styles.content2} >
-                        ลดความเสี่ยงการบาดเจ็บจากการพลัดตกหกล้ม
-                    </Text>
-                </View>
-
-
             </View>
         )
     }
@@ -154,6 +216,10 @@ const styles = StyleSheet.create({
         paddingLeft: 16,
         flexDirection: "row"
     },
+    viewLi1: {
+        marginLeft: 8,
+        flexDirection: "row"
+    },
     viewLi2: {
         marginLeft: 32,
         flexDirection: "row",
@@ -164,10 +230,10 @@ const styles = StyleSheet.create({
         fontSize: ComponentsStyle.fontSize16,
     },
     title2: {
-        marginLeft: 8,
         fontFamily: "IBMPlexSansThai-Bold",
         fontSize: ComponentsStyle.fontSize16,
     },
+
     tableEx: {
         marginLeft: 16,
         marginTop: 32,
@@ -178,6 +244,11 @@ const styles = StyleSheet.create({
     content: {
         fontFamily: "IBMPlexSansThai-Regular",
         fontSize: ComponentsStyle.fontSize16,
+        color: colors.grey1
+    },
+    content1: {
+        fontFamily: "IBMPlexSansThai-SemiBold",
+        fontSize: 15,
         color: colors.grey1
     },
     content2: {
@@ -200,4 +271,4 @@ const styles = StyleSheet.create({
 })
 
 
-export default C3;
+export default C5;

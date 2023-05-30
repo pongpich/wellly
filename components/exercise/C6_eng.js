@@ -4,7 +4,7 @@ import ComponentsStyle from '../../constants/components';
 import colors from '../../constants/colors';
 
 
-class C3 extends Component {
+class C4 extends Component {
     constructor(props) {
         super(props);
 
@@ -21,7 +21,6 @@ class C3 extends Component {
     handleError = () => {
         this.setState({ loading: false, error: true });
     };
-
 
     renderImg(img_index, size = 'md') {
         const imgUrl = `https://wellly.s3.ap-southeast-1.amazonaws.com/exercise/${img_index}.png`
@@ -66,64 +65,47 @@ class C3 extends Component {
         return (
             <View style={styles.scrollViewbox} >
                 {
-                    this.renderImg('Exercise_w_5', 'md')
+                    this.renderImg('Exercise_w_8', 'md')
                 }
                 <Text style={styles.title}>
-                    การฝึกแบบพลัยโอเมตริก (Plyometric)
+                    Flexibility
                 </Text>
                 <Text style={styles.content}>
-                    หรือการฝึกพลังระเบิดของกล้ามเนื้อ
-                    คือการฝึกด้วยแรงต้านรูปแบบหนึ่ง ที่มีลักษณะในการที่รวดเร็ว และต้องใช้แรงมาก ควบคู่กับการทรงตัว และ ยืด-หดของกล้ามเนื้อเพื่อออกแรง และรองรับแรงกระแทก
+                    is one of the health-related components of physical fitness, which is essential to everyone. Flexibility affects the ability to move. Thus, a lack of flexibility will likely cause improper movement and increase the risk of injuries.
                 </Text>
-                <Text style={[styles.content, { marginTop: 24 }]}>
-                    ผู้ฝึกสามารถฝึกพลัยโอเมตริก (Plyometric) ได้ด้วยการฝึกท่าฝึกที่ออกแบบมาให้ร่างกาย ได้ออกแรงและรองรับแรงอย่างรวดเร็ว เช่น การกระโดดขึ้นและลง ระหว่างพื้นและกล่องที่ต่างระดับ เช่น ท่า  Box Jump
+                <Text style={styles.title}>
+                    Flexibility training
                 </Text>
-
-                <Text style={[styles.title, { textAlign: "center" }]}>
-                    ภาพการฝึก Box jump
+                <Text style={styles.content}>
+                    helps movement efficiency, prevents injury, and improves overall fitness.
                 </Text>
-                <View style={[styles.boxImage, { backgroundColor: "#BDBDBD", width: "100%" }]}></View>
-                <Text style={[styles.title]}>
-                    ข้อดีของการฝึก  พลัยโอเมตริก (Plyometric)
+                <Text style={styles.title}>
+                    Benefits of Flexibility Training
                 </Text>
-
-                <View style={styles.viewLi}>
+                <View style={styles.viewLi1}>
                     <Text style={styles.li}>{"\u2B24" + " "}</Text>
-                    <Text style={styles.content2} >
-                        เพิ่มความแข็งแรงของการหดตัวและคลายตัวของกล้ามเนื้อ
+                    <Text style={[styles.content2]} >
+                        Improves joint motion
                     </Text>
                 </View>
-                <View style={styles.viewLi}>
+                <View style={styles.viewLi1}>
                     <Text style={styles.li}>{"\u2B24" + " "}</Text>
-                    <Text style={styles.content2} >
-                        ช่วยป้องกันอาการบาดเจ็บ
+                    <Text style={[styles.content2]} >
+                        Corrects muscle imbalances
                     </Text>
                 </View>
-                <View style={styles.viewLi}>
+                <View style={styles.viewLi1}>
                     <Text style={styles.li}>{"\u2B24" + " "}</Text>
-                    <Text style={styles.content2} >
-                        เพิ่มศักยภาพของระบบประสาทสั่งการกล้ามเนื้อ
+                    <Text style={[styles.content2]} >
+                        Reduces joint pressure
                     </Text>
                 </View>
-                <View style={styles.viewLi}>
+                <View style={[styles.viewLi1, { marginBottom: 40 }]}>
                     <Text style={styles.li}>{"\u2B24" + " "}</Text>
-                    <Text style={styles.content2} >
-                        สร้างความมั่นคงให้กับร่างกาย
+                    <Text style={[styles.content2]} >
+                        Relieves joint stiffness, especially for people with diabetes. Thus, flexible training should be prioritized for these people.
                     </Text>
                 </View>
-                <View style={styles.viewLi}>
-                    <Text style={styles.li}>{"\u2B24" + " "}</Text>
-                    <Text style={styles.content2} >
-                        ช่วยกระตุ้นการสร้างคอลลาเจนบริเวณข้อต่อที่ถูกฝึกให้รับแรง
-                    </Text>
-                </View>
-                <View style={[styles.viewLi, { marginBottom: 40 }]}>
-                    <Text style={styles.li}>{"\u2B24" + " "}</Text>
-                    <Text style={styles.content2} >
-                        ลดความเสี่ยงการบาดเจ็บจากการพลัดตกหกล้ม
-                    </Text>
-                </View>
-
 
             </View>
         )
@@ -154,6 +136,10 @@ const styles = StyleSheet.create({
         paddingLeft: 16,
         flexDirection: "row"
     },
+    viewLi1: {
+        marginLeft: 8,
+        flexDirection: "row"
+    },
     viewLi2: {
         marginLeft: 32,
         flexDirection: "row",
@@ -164,10 +150,10 @@ const styles = StyleSheet.create({
         fontSize: ComponentsStyle.fontSize16,
     },
     title2: {
-        marginLeft: 8,
         fontFamily: "IBMPlexSansThai-Bold",
         fontSize: ComponentsStyle.fontSize16,
     },
+
     tableEx: {
         marginLeft: 16,
         marginTop: 32,
@@ -178,6 +164,11 @@ const styles = StyleSheet.create({
     content: {
         fontFamily: "IBMPlexSansThai-Regular",
         fontSize: ComponentsStyle.fontSize16,
+        color: colors.grey1
+    },
+    content1: {
+        fontFamily: "IBMPlexSansThai-SemiBold",
+        fontSize: 15,
         color: colors.grey1
     },
     content2: {
@@ -200,4 +191,4 @@ const styles = StyleSheet.create({
 })
 
 
-export default C3;
+export default C4;

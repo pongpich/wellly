@@ -294,6 +294,7 @@ const Activity = ({ navigation }) => {
                                 width={Dimensions.get("window").width - 40} // from react-native
                                 height={220}
                                 yAxisLabel=""
+
                                 yAxisSuffix=""
                                 yAxisInterval={1} // optional, defaults to 1
 
@@ -303,6 +304,7 @@ const Activity = ({ navigation }) => {
                                     backgroundGradientFrom: "#fff",
                                     backgroundGradientTo: "#fff",
                                     decimalPlaces: 0,
+
                                     decimalPlaces: 2, // optional, defaults to 2dp
                                     color: (opacity = 1) => `rgba(146, 164, 187, ${opacity})`,
                                     labelColor: (opacity = 1) => `rgba(146, 164, 187, ${opacity})`,
@@ -320,6 +322,8 @@ const Activity = ({ navigation }) => {
                                     marginVertical: 8,
                                     borderRadius: 16
                                 }}
+
+
                             />
                             <View style={{ flexDirection: "row", marginBottom: 40, justifyContent: "center" }}>
                                 <View style={{ justifyContent: "center", textAlign: "center", alignItems: "center" }}>

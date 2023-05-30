@@ -16,6 +16,8 @@ import { convertFormatDate, calculateWeekInProgram } from "../../helpers/utils";
 import { StackActions } from '@react-navigation/native';
 import { CommonActions } from '@react-navigation/native';
 
+import i18next from 'i18next';
+
 
 
 //บทความ
@@ -27,6 +29,16 @@ import C3 from '../../components/exercise/C3';
 import C4 from '../../components/exercise/C4';
 import C5 from '../../components/exercise/C5';
 import C6 from '../../components/exercise/C6';
+
+//บทความ
+import Ab1_eng from '../../components/exercise/Ab1_eng';
+import Ab2_eng from '../../components/exercise/Ab2_eng';
+import Cd1_eng from '../../components/exercise/Cd1_eng';
+import C2_eng from '../../components/exercise/C2_eng';
+import C3_eng from '../../components/exercise/C3_eng';
+import C4_eng from '../../components/exercise/C4_eng';
+import C5_eng from '../../components/exercise/C5_eng';
+import C6_eng from '../../components/exercise/C6_eng';
 
 
 const data = Array.from({ length: 3 });
@@ -156,17 +168,20 @@ class ArticleTemplate extends Component {
 
     renderCheckArticle() { //เช็คว่าจะแสดงบทความไหน โดยใช้ mission_id
         const { mission_id } = this.props.route.params;
+        const languages = i18next.languages[0];
+
 
         return (
             <View style={{ flex: 1, marginHorizontal: 16, }}>
-                {(mission_id === '1ab') && <Ab1 />}
-                {(mission_id === '2ab') && <Ab2 />}
-                {(mission_id === '1cd') && <Cd1 />}
-                {((mission_id === '2c_1') || (mission_id === '2c_2')) && <C2 />}
-                {((mission_id === '3c_1') || (mission_id === '3c_2')) && <C3 />}
-                {((mission_id === '4c_1') || (mission_id === '4c_2')) && <C4 />}
-                {((mission_id === '5c_1') || (mission_id === '5c_2')) && <C5 />}
-                {((mission_id === '6c_1') || (mission_id === '6c_2')) && <C6 />}
+
+                {(mission_id === '1ab') && (languages == "th" ? <Ab1 /> : <Ab1_eng />)}
+                {(mission_id === '2ab') && (languages == "th" ? <Ab2 /> : <Ab2_eng />)}
+                {(mission_id === '1cd') && (languages == "th" ? <Cd1 /> : <Cd1_eng />)}
+                {((mission_id === '2c_1') || (mission_id === '2c_2')) && (languages == "th" ? <C2 /> : <C2_eng />)}
+                {((mission_id === '3c_1') || (mission_id === '3c_2')) && (languages == "th" ? <C3 /> : <C3_eng />)}
+                {((mission_id === '4c_1') || (mission_id === '4c_2')) && (languages == "th" ? <C4 /> : <C4_eng />)}
+                {((mission_id === '5c_1') || (mission_id === '5c_2')) && (languages == "th" ? <C5 /> : <C5_eng />)}
+                {((mission_id === '6c_1') || (mission_id === '6c_2')) && (languages == "th" ? <C6 /> : <C6_eng />)}
             </View>
         )
     }

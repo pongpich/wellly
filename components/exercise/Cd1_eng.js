@@ -2,15 +2,25 @@ import React, { Component } from 'react';
 import { View, StyleSheet, Pressable, SafeAreaView, Image, ScrollView, StatusBar, statusBarStyle, statusBarTransition, hidden, TouchableOpacity, TextInput, Text, Linking, KeyboardAvoidingView, Platform, Dimensions, Modal, InputAccessoryView, Keyboard } from 'react-native';
 import ComponentsStyle from '../../constants/components';
 import colors from '../../constants/colors';
+import { Table, Row, Rows } from 'react-native-table-component';
 
 
-class C3 extends Component {
+class Cd1 extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
             loading: true,
             error: false,
+            tableHead: ['Low Intensity (20-30 minutes)', 'Moderate Intensity (20-30 minutes)', 'High Intensity (20-30 minutes)'],
+            tableData: [
+                ['walking leisurely', 'walking briskly', 'jogging'],
+                ['playing a musical instrument', 'cleaning heavy (sweeping, mopping)', 'playing football'],
+                ['playing darts', 'washing cars', 'swimming'],
+                ['playing snooker, billiards', 'playing badminton, table tennis, and golf (recreational)', 'Playing tennis (singles)'],
+                ['cooking', 'playing basketball (shooting, dribbling)', 'Hitting the gym'],
+                ['working in a standing position', 'Cycling gently', ''],
+            ],
         };
     }
 
@@ -63,68 +73,48 @@ class C3 extends Component {
     }
 
     render() {
+        const { tableHead, tableData } = this.state;
         return (
             <View style={styles.scrollViewbox} >
                 {
-                    this.renderImg('Exercise_w_5', 'md')
+                    this.renderImg('Exercise_w_3', 'md')
                 }
-                <Text style={styles.title}>
-                    การฝึกแบบพลัยโอเมตริก (Plyometric)
+                <Text style={[styles.content, { marginTop: 32 }]}>
+                    Exercising at the right intensity, which can effectively reduce the risk of developing diseases, can help maintain a healthy life in the long run.
                 </Text>
-                <Text style={styles.content}>
-                    หรือการฝึกพลังระเบิดของกล้ามเนื้อ
-                    คือการฝึกด้วยแรงต้านรูปแบบหนึ่ง ที่มีลักษณะในการที่รวดเร็ว และต้องใช้แรงมาก ควบคู่กับการทรงตัว และ ยืด-หดของกล้ามเนื้อเพื่อออกแรง และรองรับแรงกระแทก
+                <Text style={[styles.content, { marginTop: 32 }]}>
+                    According to ACSM - AHA’s exercise recommendations, the frequency and intensity of exercise are as follows:
                 </Text>
-                <Text style={[styles.content, { marginTop: 24 }]}>
-                    ผู้ฝึกสามารถฝึกพลัยโอเมตริก (Plyometric) ได้ด้วยการฝึกท่าฝึกที่ออกแบบมาให้ร่างกาย ได้ออกแรงและรองรับแรงอย่างรวดเร็ว เช่น การกระโดดขึ้นและลง ระหว่างพื้นและกล่องที่ต่างระดับ เช่น ท่า  Box Jump
-                </Text>
-
-                <Text style={[styles.title, { textAlign: "center" }]}>
-                    ภาพการฝึก Box jump
-                </Text>
-                <View style={[styles.boxImage, { backgroundColor: "#BDBDBD", width: "100%" }]}></View>
-                <Text style={[styles.title]}>
-                    ข้อดีของการฝึก  พลัยโอเมตริก (Plyometric)
-                </Text>
-
                 <View style={styles.viewLi}>
                     <Text style={styles.li}>{"\u2B24" + " "}</Text>
                     <Text style={styles.content2} >
-                        เพิ่มความแข็งแรงของการหดตัวและคลายตัวของกล้ามเนื้อ
+                        Moderate-intensity exercise: five times a week
                     </Text>
                 </View>
                 <View style={styles.viewLi}>
                     <Text style={styles.li}>{"\u2B24" + " "}</Text>
                     <Text style={styles.content2} >
-                        ช่วยป้องกันอาการบาดเจ็บ
+                        Vigorous intensity exercise: three times a week
                     </Text>
                 </View>
                 <View style={styles.viewLi}>
                     <Text style={styles.li}>{"\u2B24" + " "}</Text>
                     <Text style={styles.content2} >
-                        เพิ่มศักยภาพของระบบประสาทสั่งการกล้ามเนื้อ
-                    </Text>
-                </View>
-                <View style={styles.viewLi}>
-                    <Text style={styles.li}>{"\u2B24" + " "}</Text>
-                    <Text style={styles.content2} >
-                        สร้างความมั่นคงให้กับร่างกาย
-                    </Text>
-                </View>
-                <View style={styles.viewLi}>
-                    <Text style={styles.li}>{"\u2B24" + " "}</Text>
-                    <Text style={styles.content2} >
-                        ช่วยกระตุ้นการสร้างคอลลาเจนบริเวณข้อต่อที่ถูกฝึกให้รับแรง
-                    </Text>
-                </View>
-                <View style={[styles.viewLi, { marginBottom: 40 }]}>
-                    <Text style={styles.li}>{"\u2B24" + " "}</Text>
-                    <Text style={styles.content2} >
-                        ลดความเสี่ยงการบาดเจ็บจากการพลัดตกหกล้ม
+                        Combined moderate-and vigorous-intensity exercise
+                        (If you want to do the combined exercise, you can resort to the table of the ratio of the moderate and vigorous intensity of physical activity below)
                     </Text>
                 </View>
 
+                <Text style={styles.tableEx}>Table:  Physical Activity, Duration, and Intensity of Activity</Text>
+                <Table borderStyle={styles.border}>
+                    <Row
 
+                        data={tableHead}
+                        style={styles.head}
+                        textStyle={styles.headText}
+                    />
+                    <Rows data={tableData} textStyle={styles.text} />
+                </Table>
             </View>
         )
     }
@@ -145,17 +135,12 @@ const styles = StyleSheet.create({
         color: colors.grey1,
         fontSize: 5
     },
-    titleLi: {
-        marginTop: 10,
-        color: colors.grey1,
-        fontSize: 6
-    },
     viewLi: {
         paddingLeft: 16,
         flexDirection: "row"
     },
     viewLi2: {
-        marginLeft: 32,
+        marginLeft: 16,
         flexDirection: "row",
     },
     title: {
@@ -163,14 +148,10 @@ const styles = StyleSheet.create({
         fontFamily: "IBMPlexSansThai-Bold",
         fontSize: ComponentsStyle.fontSize16,
     },
-    title2: {
-        marginLeft: 8,
-        fontFamily: "IBMPlexSansThai-Bold",
-        fontSize: ComponentsStyle.fontSize16,
-    },
     tableEx: {
         marginLeft: 16,
         marginTop: 32,
+        marginBottom: 32,
         textAlign: "center",
         fontFamily: "IBMPlexSansThai-Bold",
         fontSize: ComponentsStyle.fontSize16,
@@ -197,7 +178,25 @@ const styles = StyleSheet.create({
         height: (deviceHeight > 1023) ? 1100 : 276,
         marginBottom: 40
     },
+    head: {
+        height: "auto",
+        backgroundColor: colors.persianBlue,
+
+    },
+    headText: {
+        margin: 6, color: colors.white, textAlign: "center",
+        fontFamily: "IBMPlexSansThai-Regular",
+        fontSize: ComponentsStyle.fontSize16,
+    }, // เพิ่มสไตล์สีข้อความที่นี่
+
+    text: {
+        margin: 6,
+        fontFamily: "IBMPlexSansThai-Regular",
+        fontSize: ComponentsStyle.fontSize16,
+        color: colors.grey1
+    },
+    border: { borderWidth: 1, borderColor: '#c8e1ff', borderWidth: 5 },
 })
 
 
-export default C3;
+export default Cd1;

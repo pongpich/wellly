@@ -81,7 +81,7 @@ class Cd1 extends Component {
                 <View style={styles.viewLi2}>
                     <Text style={styles.li}>{"\u2B24" + " "}</Text>
                     <Text style={styles.content2} >
-                        การออกกำลังกายให้ปลอดภัยและได้ผลลัพธ์สูงสุด จำเป็นต้องมีการทำงานของ "กล้ามเนื้อแกนกลางลำตัว" ที่ด
+                        การออกกำลังกายให้ปลอดภัยและได้ผลลัพธ์สูงสุด จำเป็นต้องมีการทำงานของ "กล้ามเนื้อแกนกลางลำตัว" ที่ดี
                     </Text>
                 </View>
                 <View style={styles.viewLi2}>
