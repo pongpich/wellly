@@ -5,6 +5,7 @@ import { logoutUser } from "../../redux/auth";
 import { update_quiz_activities } from "../../redux/update";
 import { routeName } from "../../redux/personalUser";
 import { connect } from 'react-redux';
+import i18next from 'i18next';
 import { withTranslation } from 'react-i18next';
 import colors from '../../constants/colors';
 import ComponentsStyle from '../../constants/components';
@@ -39,11 +40,12 @@ class QuizAnswer extends Component {
 
     componentDidMount() {
         const { nutrition_mission, statusGetNutritionMission, nutrition_activity_id_Mission, user, route } = this.props;
-        const data = JSON.parse(nutrition_mission && nutrition_mission.quiz)
-        this.props.getNutritionActivityIdMission(user.user_id, nutrition_mission.id)
+        const data = JSON.parse(nutrition_mission && nutrition_mission.quiz);
+        const data_eng = JSON.parse(nutrition_mission && nutrition_mission.quiz_eng);
+        this.props.getNutritionActivityIdMission(user.user_id, nutrition_mission.id);
 
         this.setState({
-            data: data,
+            data: ((i18next.language === 'en') && data_eng) ? data_eng : data, //เช็คภาษาถ้าเป็น en จะแสดง quiz เป็น en
             user_id: user.user_id,
             week_in_program: nutrition_mission.week_in_program
         })
