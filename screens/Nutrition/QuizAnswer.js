@@ -5,6 +5,7 @@ import { getNutritionMission, getNutritionActivityIdMission } from "../../redux/
 import ComponentsStyle from '../../constants/components';
 import { logoutUser } from "../../redux/auth";
 import { connect } from 'react-redux';
+import i18next from 'i18next';
 import { withTranslation } from 'react-i18next';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import { List } from 'react-native-paper';
@@ -50,10 +51,11 @@ class QuizAnswer extends Component {
             })
         }
         if (nutrition_mission.quiz) {
-            const num = JSON.parse(nutrition_mission.quiz);
+            const data = JSON.parse(nutrition_mission.quiz);
+            const data_eng = JSON.parse(nutrition_mission.quiz_eng);
             this.setState({
-                maxNumberMission: num.length,
-                nutrition_mission: num,
+                maxNumberMission: data.length,
+                nutrition_mission: ((i18next.language === 'en') && data_eng) ? data_eng : data, //เช็คภาษาถ้าเป็น en จะแสดง quiz เป็น en
 
             })
         }
