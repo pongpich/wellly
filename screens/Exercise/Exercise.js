@@ -596,11 +596,11 @@ const Exercise = ({ navigation }) => {
                                     {
                                         exerciserActivity && exerciserActivity.length > 0 ?
                                             <Pressable Pressable onPress={() => refresh()} style={styles.historyRight}>
-                                                <Image style={styles.iconImageRight} source={require('../../assets/images/icon/History1.png')} />
+                                                <Image style={styles.iconImageRight} source={require('../../assets/images/icon/History.png')} />
                                             </Pressable>
                                             :
                                             <Pressable style={styles.historyRight}>
-                                                <Image style={styles.iconImageRight} source={require('../../assets/images/icon/History.png')} />
+                                                <Image style={styles.iconImageRight} source={require('../../assets/images/icon/History1.png')} />
                                             </Pressable>
                                     }
                                 </>
