@@ -180,7 +180,7 @@ const Nutrition = ({ navigation }) => {
                 ]}
             >
                 <View style={[styles.missionText, { marginTop: 0 }]}>
-                    <Text style={[styles.mission,]}>ภารกิจล่าสุด</Text>
+                    <Text style={[styles.mission]}>ภารกิจล่าสุด</Text>
                     {
                         (nutrition_activity && nutrition_activity.length > 0) ?
                             <Pressable onPress={() => refresh()}>
@@ -600,7 +600,7 @@ const styles = StyleSheet.create({
         opacity: 1,
         flex: 1,
         marginTop: 380,
-        /*  paddingBottom: 100 */
+        paddingBottom: 100
 
     },
     notifiedRed: {
