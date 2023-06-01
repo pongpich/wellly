@@ -10,6 +10,7 @@ import { setTeachUserArticleTemplate, setTeachUserNutrtion, routeName } from "..
 import Mission from '../Nutrition/Mission';
 import Modal from "react-native-modal";
 import { CommonActions } from '@react-navigation/native';
+import i18next from 'i18next';
 
 //บทความ
 import Gn1 from '../../components/knowledge/Gn1';
@@ -24,6 +25,14 @@ import Snb1 from '../../components/knowledge/Snb1';
 import Snb2 from '../../components/knowledge/Snb2';
 import Snc1 from '../../components/knowledge/Snc1';
 import Snc2 from '../../components/knowledge/Snc2';
+
+//บทความ Eng
+import Gn1_Eng from '../../components/knowledge/Gn1_Eng';
+import Gn2_Eng from '../../components/knowledge/Gn2_Eng';
+import Gn3_Eng from '../../components/knowledge/Gn3_Eng';
+import Gn4_Eng from '../../components/knowledge/Gn4_Eng';
+
+
 
 class ArticleTemplate extends Component {
     constructor(props) {
@@ -160,12 +169,13 @@ class ArticleTemplate extends Component {
 
     renderCheckArticle() { //เช็คว่าจะแสดงบทความไหน โดยใช้ mission_id
         const { mission_id } = this.props.route.params;
+        const languages = i18next.languages[0];
         return (
             <View style={{ marginTop: 24, }}>
-                {(mission_id === 'gn1') && <Gn1 />}
-                {(mission_id === 'gn2') && <Gn2 />}
-                {(mission_id === 'gn3') && <Gn3 />}
-                {(mission_id === 'gn4') && <Gn4 />}
+                {(mission_id === 'gn1') && (languages == "th" ? <Gn1 /> : <Gn1_Eng />)}
+                {(mission_id === 'gn2') && (languages == "th" ? <Gn2 /> : <Gn2_Eng />)}
+                {(mission_id === 'gn3') && (languages == "th" ? <Gn3 /> : <Gn3_Eng />)}
+                {(mission_id === 'gn4') && (languages == "th" ? <Gn4 /> : <Gn4_Eng />)}
                 {(mission_id === 'gn5') && <Gn5 />}
                 {(mission_id === 'gn6') && <Gn6 />}
                 {(mission_id === 'sna1') && <Sna1 />}

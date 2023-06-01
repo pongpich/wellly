@@ -77,7 +77,7 @@ class Gn2 extends Component {
                     this.renderImg('GN2', 2)
                 }
                 <Text style={styles.content}>
-                    <Text style={styles.title}>เลือกโปรตีนอย่างไรดี??</Text>{'\n'}
+                    <Text style={styles.title}>เลือกโปรตีนอย่างไรดี ?</Text>{'\n'}
                     {'\n'}
                     <Text style={styles.title}>โปรตีนจากพืช </Text>ถือว่าเป็นแหล่งโปรตีนที่ดี แต่มีกรดอะมิโนจำเป็นไม่ครบถ้วน แหล่งโปรตีนจากพืช เช่น ถั่วเขียว ถั่วแดง ลูกเดือย ข้าวโอ๊ต ควินัว ถั่วเหลือง และผลิตภัณฑ์ถั่วเหลือง เช่น
                     <Text style={styles.title}> เต้าหู้โปรตีนเกษตร</Text>{'\n'}

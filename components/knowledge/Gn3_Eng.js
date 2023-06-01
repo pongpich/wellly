@@ -71,29 +71,30 @@ class Gn3 extends Component {
                 }
                 <Text style={styles.content} >
                     {'\n'}
-                    <Text style={styles.title}>ผัก</Text> ควรบริโภควันละ 150 – 200 กรัม หรือคิดง่าย ๆ มื้อละ 2 – 3 ช้อนข้าว{'\n'}
+                    <Text style={styles.title}>Vegetables</Text> Eating 150 - 200 grams of vegetables or 2 -3 tbsp per meal is recommended.{'\n'}
                     {'\n'}
-                    <Text style={styles.title}>ผลไม้</Text> วันละ 2 กําปั้น และเลี่ยงการจิ้ม ไม่ว่าจะเป็นพริกเกลือ กะปิ น้ำปลาหวาน ผลไม้ 1 กําปั้นของตนเอง จะให้พลังงาน 60 กิโลแคลอรี่ คาร์โบไฮเดรต 15 กรัม
+                    <Text style={styles.title}>Fruits</Text> It is recommended that we eat 2 fist-size portions of fruits without any dipping
+                    sauce like Thai chili salt, shrimp paste, or sweet and fishy dipping.
                 </Text>
                 {
                     this.renderImg('GN3', 2)
                 }
                 <Text style={styles.content} >
                     {'\n'}
-                    <Text style={styles.title}>ผัก ผลไม้ แต่ละสีมีประโยชน์ดีต่อสุขภาพ</Text>{'\n'}
+                    <Text style={styles.title}>Benefits of Multi-Colored Fruits</Text>{'\n'}
                     {'\n'}
-                    <Text style={{ color: "#FF0000" }}>สีแดง</Text> มีสารไลโคปีน เบต้าไซซีน ต้านอนุมูลอิสระ ยับยั้งเซลล์มะเร็ง โดยเฉพาะมะเร็งต่อมลูกหมาก ลดความดันโลหิต ลดริ้วรอย กินอร่อย เช่น เชอร์รี่ สตรอว์เบอร์รี่ มะละกอ แตงโม มะเขือเทศ{'\n'}
+                    <Text style={{ color: "#FF0000" }}>Red</Text> fruits and vegetables, including cherries, strawberries, papaya, watermelon, and tomatoes, contain lycopene, betacycin, and antioxidants that help combat free radical damage, and protect against cancer, especially those that cause prostate cancer. They also help lower blood pressure, reduce wrinkles, and increase appetite.{'\n'}
                     {'\n'}
-                    <Text style={{ color: "#53C665" }}>สีเขียว</Text> มีสารคลอโรฟิลล์ ลูทีน ช่วยชะลอการเสื่อมจอประสาทตา ไฟเบอร์สูงช่วยขับถ่าย และสร้างภูมิให้ร่างกาย เช่น กะหล่ำปลีเขียว บรอคโคลี อะโวคาโด แตงกวา แอปเปิ้ลเขียว{'\n'}
+                    <Text style={{ color: "#53C665" }}>Green</Text> fruits and vegetables, like cabbage, broccoli, avocado, cucumber, and green apples, contain chlorophyll, lutein, and fiber, which help prevent macular degeneration, promote healthy bowel movements, and boost the immune system.{'\n'}
                     {'\n'}
-                    <Text style={{ color: "#FABF29" }}>สีเหลือง   สีส้ม</Text> มีสารแคโรทีนอยด์ วิตามินเอ ซี เบต้าแคโรทีน ต้านอนุมูลอิสระ ลดการอักเสบ ลดความเสี่ยงมะเร็ง ลดคอเลสเตอรอลในเลือด ลดการเสื่อมของเซลล์ร่างกาย ช่วยให้ผิวพรรณสวยงาม เช่น แครอท ฟักทอง ข้าวโพด ส้ม สับปะรด แคนตาลูป{'\n'}
+                    <Text style={{ color: "#FABF29" }}>Yellow/orange</Text> fruits and vegetables, including carrots, pumpkin, corn, oranges, pineapples, and cantaloupe, contain carotenoids, vitamins A and C, beta-carotene, and antioxidants that help combat free radical damage, reduce inflammation, protect against cancer, lower cholesterol in the blood, protect cells from damage, and promote glowing skin.{'\n'}
                     {'\n'}
-                    <Text style={{ color: "#7000FF" }}>สีม่วง  สีน้ำเงิน </Text> มีสารแอนโทไซยานิน ต้านอนุมูลอิสระสูงกว่าวิตามินซี ช่วยกระตุ้นโลหิต ไหลเวียนดี ลดความเสี่ยงโรคหัวใจ ต้านไวรัส ป้องกันมะเร็งหลายชนิด เช่น มะเร็งลําไส้ ตับ เม็ดเลือด ขาว มะเร็งระบบสืบพันธุ์ หาได้จาก เผือก บลูเบอร์รี่ แบล็กเบอร์รี่ องุ่นม่วง มะเขือม่วง กะหล่ำปลีม่วง{'\n'}
+                    <Text style={{ color: "#7000FF" }}>Purple/blue</Text>fruits and vegetables, such as taros, blueberries, blackberries, purple grapes, and purple cabbage, are high in anthocyanins and antioxidants, which can better combat free radical damage than vitamin C, This helps to improve blood flow and circulation, reduce the risk of heart diseases, fight viruses, and prevent certain cancers like colon cancer, liver cancer, leukemia, and hormone-related types of cancer.{'\n'}
                     {'\n'}
-                    <Text style={{ color: "#DEDEDE" }}>สีขาว</Text> มีสารแซนโทน ช่วยต้านการอักเสบ รักษาระดับน้ำตาล ลดไขมันในเลือด ลดความดันโลหิต โรคหลอดเลือดหัวใจ ลดอาการปวดตามข้อ หาได้จาก กล้วย น้อยหน่า ลิ้นจี่ มังคุด งาขาว ผักกาดขาว กระเทียม เห็ด{'\n'}
+                    <Text style={{ color: "#DEDEDE" }}>White</Text>fruits and vegetables like bananas, sugar apples, lychees, mangosteen, white sesame, and cabbage contain xanthones. They help reduce inflammation, regulate blood glucose levels, reduce the lipid in the blood, lowering blood pressure and the risk of heart disease, and ease joint pain.{'\n'}
                     {'\n'}
-                    <Text style={styles.title}>*** ข้อควรระวัง ***</Text>{'\n'}
-                    ทุกสีมีประโยชน์ ควรรับประทานให้ครบและหลากหลาย ไม่เลือกรับประทานเฉพาะสี
+                    <Text style={styles.title}>*** Caution ***</Text>{'\n'}
+                    Try to eat a rainbow of colorful fruits and vegetables!
                 </Text>
                 {
                     this.renderImg('GN3', 3)
