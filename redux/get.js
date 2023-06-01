@@ -637,6 +637,7 @@ function* getNutritionKnowledgeSaga({ payload }) {
     const apiResult = yield call(
       getNutritionKnowledgeSagaAsync
     )
+    console.log("apiResult in gNKLS :", apiResult.results.get_nutrition_knowledge);
     yield put({
       type: types.GET_NUTRITION_KNOWLEDGE_SUCCESS,
       payload: apiResult.results.get_nutrition_knowledge

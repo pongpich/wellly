@@ -5,6 +5,7 @@ import colors from '../../constants/colors';
 import { getNutritionKnowledge, getNutritionKnowledgeActivity, resetStatusNutrionKuoeledeActivty } from "../../redux/get";
 import { insertNutritionKnowledgeActivity } from "../../redux/update";
 import { connect } from 'react-redux';
+import i18next from 'i18next';
 
 
 
@@ -50,7 +51,7 @@ class Gn4 extends Component {
                     })
                 } else {
                     this.setState({
-                        nutrition_knowledge: nutritionKnowledge && JSON.parse(nutritionKnowledge[0].knowledge),
+                        nutrition_knowledge: nutritionKnowledge && (i18next.language === 'en') ? JSON.parse(nutritionKnowledge[0].knowledge_eng) : JSON.parse(nutritionKnowledge[0].knowledge),
                     })
                 }
 
