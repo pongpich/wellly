@@ -31,6 +31,14 @@ import Gn1_Eng from '../../components/knowledge/Gn1_Eng';
 import Gn2_Eng from '../../components/knowledge/Gn2_Eng';
 import Gn3_Eng from '../../components/knowledge/Gn3_Eng';
 import Gn4_Eng from '../../components/knowledge/Gn4_Eng';
+import Gn5_Eng from '../../components/knowledge/Gn5_Eng';
+import Gn6_Eng from '../../components/knowledge/Gn6_Eng';
+import Sna1_Eng from '../../components/knowledge/Sna1_Eng';
+import Sna2_Eng from '../../components/knowledge/Sna2_Eng';
+import Snb1_Eng from '../../components/knowledge/Snb1_Eng';
+import Snb2_Eng from '../../components/knowledge/Snb2_Eng';
+import Snc1_Eng from '../../components/knowledge/Snc1_Eng';
+import Snc2_Eng from '../../components/knowledge/Snc2_Eng';
 
 
 
@@ -176,14 +184,14 @@ class ArticleTemplate extends Component {
                 {(mission_id === 'gn2') && (languages == "th" ? <Gn2 /> : <Gn2_Eng />)}
                 {(mission_id === 'gn3') && (languages == "th" ? <Gn3 /> : <Gn3_Eng />)}
                 {(mission_id === 'gn4') && (languages == "th" ? <Gn4 /> : <Gn4_Eng />)}
-                {(mission_id === 'gn5') && <Gn5 />}
-                {(mission_id === 'gn6') && <Gn6 />}
-                {(mission_id === 'sna1') && <Sna1 />}
-                {(mission_id === 'sna2') && <Sna2 />}
-                {(mission_id === 'snb1') && <Snb1 />}
-                {(mission_id === 'snb2') && <Snb2 />}
-                {(mission_id === 'snc1') && <Snc1 />}
-                {(mission_id === 'snc2') && <Snc2 />}
+                {(mission_id === 'gn5') && (languages == "th" ? <Gn5 /> : <Gn5_Eng />)}
+                {(mission_id === 'gn6') && (languages == "th" ? <Gn6 /> : <Gn6_Eng />)}
+                {(mission_id === 'sna1') && (languages == "th" ? <Sna1 /> : <Sna1_Eng />)}
+                {(mission_id === 'sna2') && (languages == "th" ? <Sna2 /> : <Sna2_Eng />)}
+                {(mission_id === 'snb1') && (languages == "th" ? <Snb1 /> : <Snb1_Eng />)}
+                {(mission_id === 'snb2') && (languages == "th" ? <Snb2 /> : <Snb2_Eng />)}
+                {(mission_id === 'snc1') && (languages == "th" ? <Snc1 /> : <Snc1_Eng />)}
+                {(mission_id === 'snc2') && (languages == "th" ? <Snc2 /> : <Snc2_Eng />)}
             </View>
         )
     }
