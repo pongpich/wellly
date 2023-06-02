@@ -5,7 +5,7 @@ import colors from '../../constants/colors';
 import { getNutritionKnowledge, getNutritionKnowledgeActivity, resetStatusNutrionKuoeledeActivty } from "../../redux/get";
 import { insertNutritionKnowledgeActivity } from "../../redux/update";
 import { connect } from 'react-redux';
-
+import i18next from 'i18next';
 
 
 
@@ -17,6 +17,7 @@ class Gn4 extends Component {
         this.state = {
             nutrition_knowledge: null,
             dataMassage: null,
+            nutrition_knowledge_Act: null,
             loading: true,
             error: false,
         };
@@ -43,16 +44,11 @@ class Gn4 extends Component {
         const { nutrition_knowledge, dataMassage, sums } = this.state;
         if (prevProps.statusNutritionKnowledge !== statusNutritionKnowledge && statusNutritionKnowledge === "success") {
             if (statusNutritionKnowledgeActivity === "success") {
-                if (nutritionKnowledgeActivity.length > 0) {
-                    this.setState({
-                        nutrition_knowledge: nutritionKnowledgeActivity && JSON.parse(nutritionKnowledgeActivity[0].knowledge),
-                        dataMassage: nutritionKnowledgeActivity && JSON.parse(nutritionKnowledgeActivity[0].assess_knowledge),
-                    })
-                } else {
-                    this.setState({
-                        nutrition_knowledge: nutritionKnowledge && JSON.parse(nutritionKnowledge[0].knowledge),
-                    })
-                }
+
+                this.setState({
+                    nutrition_knowledge: nutritionKnowledge && (i18next.language === 'en') ? JSON.parse(nutritionKnowledge[0].knowledge_eng) : JSON.parse(nutritionKnowledge[0].knowledge),
+                })
+
 
                 this.props.resetStatusNutrionKuoeledeActivty()
             }
@@ -67,12 +63,13 @@ class Gn4 extends Component {
 
 
         if ((prevProps.statusNutritionKnowledgeActivity !== statusNutritionKnowledgeActivity) && (statusNutritionKnowledgeActivity === "success")) {
-            if (nutritionKnowledgeActivity.length > 0) {
-                this.setState({
-                    nutrition_knowledge: nutritionKnowledgeActivity && JSON.parse(nutritionKnowledgeActivity[0].knowledge),
-                    dataMassage: nutritionKnowledgeActivity && JSON.parse(nutritionKnowledgeActivity[0].assess_knowledge),
-                })
-            }
+
+            this.setState({
+
+                nutrition_knowledge_Act: nutritionKnowledgeActivity && JSON.parse(nutritionKnowledgeActivity[0].knowledge),
+                dataMassage: nutritionKnowledgeActivity && JSON.parse(nutritionKnowledgeActivity[0].assess_knowledge),
+            })
+
         }
 
     }
@@ -205,7 +202,7 @@ class Gn4 extends Component {
 
     render() {
 
-        const { nutrition_knowledge, dataMassage } = this.state;
+        const { nutrition_knowledge, dataMassage, nutrition_knowledge_Act } = this.state;
 
 
         return (
@@ -230,6 +227,22 @@ class Gn4 extends Component {
                                 {
                                     item && item.data.map((value, j) => {
                                         var choice = [value.choice]
+
+                                        const desiredIndexType = item.indexType;
+                                        const desiredIndex = value.index;
+
+
+
+                                        const filteredData = nutrition_knowledge_Act && nutrition_knowledge_Act.filter(items => items.indexType === desiredIndexType && items.data.some(d => {
+                                            if (d.index === desiredIndex) {
+                                                return d.selected;
+                                            }
+                                        }));
+                                        /*        console.log("filteredData", filteredData); */
+
+                                        const selectedValues = filteredData && filteredData.map(item => item.data.find(d => d.index === desiredIndex).selected);
+                                        const selectedValue = selectedValues && selectedValues[0];
+                                        /*   console.log("filteredData", selectedValue); */
                                         return (
                                             <>
                                                 <Text style={styles.content} key={"ch" + j}>{value.question}</Text>
@@ -239,21 +252,21 @@ class Gn4 extends Component {
                                                             <View key={"k" + k}>
                                                                 <View style={{ flexDirection: "row", paddingRight: 16, paddingLeft: 24, marginTop: 16 }} key={"k1" + k}>
                                                                     <Pressable onPress={() => dataMassage === null && this.onSelected(item.indexType, value.index, "a", chonices.a.score)} >
-                                                                        <Image style={{ width: 24, height: 24 }} source={value.selected === "a" ? require('../../assets/images/icon/radioButtonActive.png') : require('../../assets/images/icon/radioButtonSelection.png')} />
+                                                                        <Image style={{ width: 24, height: 24 }} source={selectedValue === "a" ? require('../../assets/images/icon/radioButtonActive.png') : require('../../assets/images/icon/radioButtonSelection.png')} />
                                                                     </Pressable>
                                                                     <Text style={[styles.textChoice, value.selected === "a" && { color: colors.positive1 }]}>{chonices.a.answer}</Text>
                                                                 </View>
                                                                 <View style={{ flexDirection: "row", paddingRight: 16, paddingLeft: 24, marginTop: 16 }} key={"k2" + k}>
                                                                     <Pressable onPress={() => dataMassage === null && this.onSelected(item.indexType, value.index, "b", chonices.b.score)} >
-                                                                        <Image style={{ width: 24, height: 24 }} source={value.selected === "b" ? require('../../assets/images/icon/radioButtonActive.png') : require('../../assets/images/icon/radioButtonSelection.png')} />
+                                                                        <Image style={{ width: 24, height: 24 }} source={selectedValue === "b" ? require('../../assets/images/icon/radioButtonActive.png') : require('../../assets/images/icon/radioButtonSelection.png')} />
                                                                     </Pressable>
                                                                     <Text style={[styles.textChoice, value.selected === "b" && { color: colors.positive1 }]}>{chonices.b.answer}</Text>
                                                                 </View>
                                                                 <View style={{ flexDirection: "row", paddingRight: 16, paddingLeft: 24, marginTop: 16 }} key={"k3" + k}>
                                                                     <Pressable onPress={() => dataMassage === null && this.onSelected(item.indexType, value.index, "c", chonices.c.score)} >
-                                                                        <Image style={{ width: 24, height: 24 }} source={value.selected === "c" ? require('../../assets/images/icon/radioButtonActive.png') : require('../../assets/images/icon/radioButtonSelection.png')} />
+                                                                        <Image style={{ width: 24, height: 24 }} source={selectedValue === "c" ? require('../../assets/images/icon/radioButtonActive.png') : require('../../assets/images/icon/radioButtonSelection.png')} />
                                                                     </Pressable>
-                                                                    <Text style={[styles.textChoice, value.selected === "c" && { color: colors.positive1 }]}>{chonices.c.answer}</Text>
+                                                                    <Text style={[styles.textChoice, selectedValue === "c" && { color: colors.positive1 }]}>{chonices.c.answer}</Text>
                                                                 </View>
 
                                                             </View>

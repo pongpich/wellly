@@ -20,6 +20,10 @@ class Gn4 extends Component {
             dataMassage: null,
             loading: true,
             error: false,
+            nutrition_knowledge_Act: null,
+            statusMess: false,
+            assess_behavior: null,
+            score: null
         };
     }
 
@@ -35,6 +39,7 @@ class Gn4 extends Component {
     componentDidMount() {
         const { user } = this.props;
 
+        this.setState({ dataMassage: null })
         this.props.getNutritionKnowledge()
         this.props.getNutritionKnowledgeActivity(user && user.user_id)
     }
@@ -44,21 +49,18 @@ class Gn4 extends Component {
         const { nutrition_knowledge, dataMassage, sums } = this.state;
         if (prevProps.statusNutritionKnowledge !== statusNutritionKnowledge && statusNutritionKnowledge === "success") {
             if (statusNutritionKnowledgeActivity === "success") {
-                if (nutritionKnowledgeActivity.length > 0) {
-                    this.setState({
-                        nutrition_knowledge: nutritionKnowledgeActivity && JSON.parse(nutritionKnowledgeActivity[0].knowledge),
-                        dataMassage: nutritionKnowledgeActivity && JSON.parse(nutritionKnowledgeActivity[0].assess_knowledge),
-                    })
-                } else {
-                    this.setState({
-                        nutrition_knowledge: nutritionKnowledge && (i18next.language === 'en') ? JSON.parse(nutritionKnowledge[0].knowledge_eng) : JSON.parse(nutritionKnowledge[0].knowledge),
-                    })
-                }
+
+                this.setState({
+                    nutrition_knowledge: nutritionKnowledge && JSON.parse(nutritionKnowledge[0].knowledge_eng),
+                    assess_behavior: nutritionKnowledge && JSON.parse(nutritionKnowledge[0].assess_behavior_eng),
+                    statusMess: false
+                })
+
 
                 this.props.resetStatusNutrionKuoeledeActivty()
             }
             this.setState({
-                assess_behavior: nutritionKnowledge && JSON.parse(nutritionKnowledge[0].assess_behavior)
+                assess_behavior: nutritionKnowledge && JSON.parse(nutritionKnowledge[0].assess_behavior_eng)
             })
         }
 
@@ -68,12 +70,14 @@ class Gn4 extends Component {
 
 
         if ((prevProps.statusNutritionKnowledgeActivity !== statusNutritionKnowledgeActivity) && (statusNutritionKnowledgeActivity === "success")) {
-            if (nutritionKnowledgeActivity.length > 0) {
-                this.setState({
-                    nutrition_knowledge: nutritionKnowledgeActivity && JSON.parse(nutritionKnowledgeActivity[0].knowledge),
-                    dataMassage: nutritionKnowledgeActivity && JSON.parse(nutritionKnowledgeActivity[0].assess_knowledge),
-                })
-            }
+
+            this.setState({
+
+                nutrition_knowledge_Act: nutritionKnowledgeActivity && JSON.parse(nutritionKnowledgeActivity[0].knowledge),
+                score: nutritionKnowledgeActivity && JSON.parse(nutritionKnowledgeActivity[0].score),
+                dataMassage: nutritionKnowledgeActivity && JSON.parse(nutritionKnowledgeActivity[0].assess_knowledge),
+            })
+
         }
 
     }
@@ -203,11 +207,41 @@ class Gn4 extends Component {
     }
 
 
+    filterItem(indexType, index) {
+
+        const { nutrition_knowledge_Act } = this.state;
+        const desiredIndexType = indexType;
+        const desiredIndex = index;
+
+        const filteredData = nutrition_knowledge_Act && nutrition_knowledge_Act.filter(items => items.indexType === desiredIndexType && items.data.some(d => {
+            if (d.index === desiredIndex) {
+                return d.selected;
+            }
+        }));
+
+        const selectedValues = filteredData && filteredData.map(item => item.data.find(d => d.index === desiredIndex).selected);
+        const selectedValue = selectedValues && selectedValues[0];
+
+        return selectedValue
+    }
+
+
+    filterItemAssess_behavior(score, desiredIndexType) {
+        const { assess_behavior } = this.state;
+        const filteredData = assess_behavior && assess_behavior.reduce((result, items) => {
+            if (items.indexType === desiredIndexType && items.data.some(d => score >= d.minScore && score <= d.maxScore)) {
+                result.push([items.type, items.data.filter(d => score >= d.minScore && score <= d.maxScore).map(d => d.message)]);
+            }
+            return result;
+        }, []);
+        return filteredData
+    }
+
+
 
     render() {
 
-        const { nutrition_knowledge, dataMassage } = this.state;
-
+        const { nutrition_knowledge, dataMassage, nutrition_knowledge_Act, statusMess, assess_behavior, score } = this.state;
 
         return (
             <View style={styles.scrollViewbox} >
@@ -230,6 +264,12 @@ class Gn4 extends Component {
                                 {
                                     item && item.data.map((value, j) => {
                                         var choice = [value.choice]
+
+                                        /*  console.log("value", value.index); */
+
+                                        const selectedValue = this.filterItem(item.indexType, value.index);
+
+
                                         return (
                                             <>
                                                 <Text style={styles.content} key={"ch" + j}>{value.question}</Text>
@@ -239,21 +279,21 @@ class Gn4 extends Component {
                                                             <View key={"k" + k}>
                                                                 <View style={{ flexDirection: "row", paddingRight: 16, paddingLeft: 24, marginTop: 16 }} key={"k1" + k}>
                                                                     <Pressable onPress={() => dataMassage === null && this.onSelected(item.indexType, value.index, "a", chonices.a.score)} >
-                                                                        <Image style={{ width: 24, height: 24 }} source={value.selected === "a" ? require('../../assets/images/icon/radioButtonActive.png') : require('../../assets/images/icon/radioButtonSelection.png')} />
+                                                                        <Image style={{ width: 24, height: 24 }} source={selectedValue === "a" ? require('../../assets/images/icon/radioButtonActive.png') : require('../../assets/images/icon/radioButtonSelection.png')} />
                                                                     </Pressable>
                                                                     <Text style={[styles.textChoice, value.selected === "a" && { color: colors.positive1 }]}>{chonices.a.answer}</Text>
                                                                 </View>
                                                                 <View style={{ flexDirection: "row", paddingRight: 16, paddingLeft: 24, marginTop: 16 }} key={"k2" + k}>
                                                                     <Pressable onPress={() => dataMassage === null && this.onSelected(item.indexType, value.index, "b", chonices.b.score)} >
-                                                                        <Image style={{ width: 24, height: 24 }} source={value.selected === "b" ? require('../../assets/images/icon/radioButtonActive.png') : require('../../assets/images/icon/radioButtonSelection.png')} />
+                                                                        <Image style={{ width: 24, height: 24 }} source={selectedValue === "b" ? require('../../assets/images/icon/radioButtonActive.png') : require('../../assets/images/icon/radioButtonSelection.png')} />
                                                                     </Pressable>
                                                                     <Text style={[styles.textChoice, value.selected === "b" && { color: colors.positive1 }]}>{chonices.b.answer}</Text>
                                                                 </View>
                                                                 <View style={{ flexDirection: "row", paddingRight: 16, paddingLeft: 24, marginTop: 16 }} key={"k3" + k}>
                                                                     <Pressable onPress={() => dataMassage === null && this.onSelected(item.indexType, value.index, "c", chonices.c.score)} >
-                                                                        <Image style={{ width: 24, height: 24 }} source={value.selected === "c" ? require('../../assets/images/icon/radioButtonActive.png') : require('../../assets/images/icon/radioButtonSelection.png')} />
+                                                                        <Image style={{ width: 24, height: 24 }} source={selectedValue === "c" ? require('../../assets/images/icon/radioButtonActive.png') : require('../../assets/images/icon/radioButtonSelection.png')} />
                                                                     </Pressable>
-                                                                    <Text style={[styles.textChoice, value.selected === "c" && { color: colors.positive1 }]}>{chonices.c.answer}</Text>
+                                                                    <Text style={[styles.textChoice, selectedValue === "c" && { color: colors.positive1 }]}>{chonices.c.answer}</Text>
                                                                 </View>
 
                                                             </View>
@@ -280,8 +320,8 @@ class Gn4 extends Component {
                           })
                       }) */
 
-                    dataMassage ?
-                        <Pressable Pressable >
+                    statusMess === false ?
+                        <Pressable  >
                             <View style={[ComponentsStyle.buttonGrey, { marginTop: 32 }]} >
                                 <Text style={ComponentsStyle.textButtonGrey}>
                                     ประเมินพฤติกรรม
@@ -298,17 +338,28 @@ class Gn4 extends Component {
                 }
 
                 {
-                    dataMassage && <Text style={styles.messageHead}>ผลการประเมิน</Text>
+                    assess_behavior && <Text style={styles.messageHead}>ผลการประเมิน</Text>
                 }
 
                 {
-                    dataMassage && dataMassage.map((item, i) => (
-                        <View key={"l" + i}>
+                    score && score.score.map((item, i) => {
 
-                            <Text style={styles.textHead}>{item.type}</Text>
-                            <Text style={styles.textMessage}>{item.message}</Text>
-                        </View>
-                    ))
+                        /*  console.log("item", item); */
+
+                        const AssessMassage = this.filterItemAssess_behavior(item, i + 1);
+                        console.log("AssessMassage", AssessMassage);
+
+                        return (
+                            <View key={"l" + i}>
+
+                                <Text style={styles.textHead}>{AssessMassage[0][0]}</Text>
+                                <Text style={styles.textMessage}>{AssessMassage[0]}</Text>
+                            </View>
+                        )
+
+                    })
+
+
 
                 }
                 {/*   <Text style={styles.textHead}>เป็นคน...หวานแค่ไหน ? ?</Text>
