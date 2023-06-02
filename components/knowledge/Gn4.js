@@ -34,7 +34,8 @@ class Gn4 extends Component {
 
     componentDidMount() {
         const { user } = this.props;
-
+        //this.setState({ dataMassage: null })
+        this.props.resetStatusNutrionKuoeledeActivty();
         this.props.getNutritionKnowledge()
         this.props.getNutritionKnowledgeActivity(user && user.user_id)
     }
@@ -42,18 +43,13 @@ class Gn4 extends Component {
     componentDidUpdate(prevProps, prevState) {
         const { statusNutritionKnowledge, nutritionKnowledge, statusNutritionKnowledgeActivity, nutritionKnowledgeActivity, statusInsertNutritionKnowledgeActivity, user } = this.props;
         const { nutrition_knowledge, dataMassage, sums } = this.state;
+        
         if (prevProps.statusNutritionKnowledge !== statusNutritionKnowledge && statusNutritionKnowledge === "success") {
-            if (statusNutritionKnowledgeActivity === "success") {
-
-                this.setState({
-                    nutrition_knowledge: nutritionKnowledge && (i18next.language === 'en') ? JSON.parse(nutritionKnowledge[0].knowledge_eng) : JSON.parse(nutritionKnowledge[0].knowledge),
-                })
-
-
-                this.props.resetStatusNutrionKuoeledeActivty()
-            }
             this.setState({
-                assess_behavior: nutritionKnowledge && JSON.parse(nutritionKnowledge[0].assess_behavior)
+                nutrition_knowledge: nutritionKnowledge && JSON.parse(nutritionKnowledge[0].knowledge_eng),
+                assess_behavior: nutritionKnowledge && JSON.parse(nutritionKnowledge[0].assess_behavior_eng),
+                statusMess: false,
+                
             })
         }
 

@@ -40,27 +40,21 @@ class Gn4 extends Component {
         const { user } = this.props;
 
         this.setState({ dataMassage: null })
-        this.props.getNutritionKnowledge()
-        this.props.getNutritionKnowledgeActivity(user && user.user_id)
+        this.props.resetStatusNutrionKuoeledeActivty();
+        this.props.getNutritionKnowledge();
+        this.props.getNutritionKnowledgeActivity(user && user.user_id);
     }
 
     componentDidUpdate(prevProps, prevState) {
         const { statusNutritionKnowledge, nutritionKnowledge, statusNutritionKnowledgeActivity, nutritionKnowledgeActivity, statusInsertNutritionKnowledgeActivity, user } = this.props;
         const { nutrition_knowledge, dataMassage, sums } = this.state;
+
         if (prevProps.statusNutritionKnowledge !== statusNutritionKnowledge && statusNutritionKnowledge === "success") {
-            if (statusNutritionKnowledgeActivity === "success") {
-
-                this.setState({
-                    nutrition_knowledge: nutritionKnowledge && JSON.parse(nutritionKnowledge[0].knowledge_eng),
-                    assess_behavior: nutritionKnowledge && JSON.parse(nutritionKnowledge[0].assess_behavior_eng),
-                    statusMess: false
-                })
-
-
-                this.props.resetStatusNutrionKuoeledeActivty()
-            }
             this.setState({
-                assess_behavior: nutritionKnowledge && JSON.parse(nutritionKnowledge[0].assess_behavior_eng)
+                nutrition_knowledge: nutritionKnowledge && JSON.parse(nutritionKnowledge[0].knowledge_eng),
+                assess_behavior: nutritionKnowledge && JSON.parse(nutritionKnowledge[0].assess_behavior_eng),
+                statusMess: false,
+                
             })
         }
 
@@ -70,7 +64,6 @@ class Gn4 extends Component {
 
 
         if ((prevProps.statusNutritionKnowledgeActivity !== statusNutritionKnowledgeActivity) && (statusNutritionKnowledgeActivity === "success")) {
-
             this.setState({
 
                 nutrition_knowledge_Act: nutritionKnowledgeActivity && JSON.parse(nutritionKnowledgeActivity[0].knowledge),
@@ -207,18 +200,20 @@ class Gn4 extends Component {
     }
 
 
-    filterItem(indexType, index) {
+    filterItem(indexType, index) { //เช็คว่าอันไหนมีติ๊กถูกเพื่อแสดงผล
 
         const { nutrition_knowledge_Act } = this.state;
         const desiredIndexType = indexType;
         const desiredIndex = index;
 
+        // filter หาค่าของแต่ละ Type แต่ละ Index
         const filteredData = nutrition_knowledge_Act && nutrition_knowledge_Act.filter(items => items.indexType === desiredIndexType && items.data.some(d => {
             if (d.index === desiredIndex) {
                 return d.selected;
             }
         }));
 
+        // map เข้าไปเพื่อดึงค่าเฉพาะตัวที่มีเช็คถูก
         const selectedValues = filteredData && filteredData.map(item => item.data.find(d => d.index === desiredIndex).selected);
         const selectedValue = selectedValues && selectedValues[0];
 
@@ -347,13 +342,13 @@ class Gn4 extends Component {
                         /*  console.log("item", item); */
 
                         const AssessMassage = this.filterItemAssess_behavior(item, i + 1);
-                        console.log("AssessMassage", AssessMassage);
+                        //console.log("AssessMassage", AssessMassage);
 
                         return (
                             <View key={"l" + i}>
 
-                                <Text style={styles.textHead}>{AssessMassage[0][0]}</Text>
-                                <Text style={styles.textMessage}>{AssessMassage[0]}</Text>
+                                <Text style={styles.textHead}>{AssessMassage && AssessMassage[0][0]}</Text>
+                                <Text style={styles.textMessage}>{AssessMassage && AssessMassage[0]}</Text>
                             </View>
                         )
 

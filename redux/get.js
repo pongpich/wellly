@@ -637,7 +637,7 @@ function* getNutritionKnowledgeSaga({ payload }) {
     const apiResult = yield call(
       getNutritionKnowledgeSagaAsync
     )
-    console.log("apiResult in gNKLS :", apiResult.results.get_nutrition_knowledge);
+  
     yield put({
       type: types.GET_NUTRITION_KNOWLEDGE_SUCCESS,
       payload: apiResult.results.get_nutrition_knowledge
@@ -970,7 +970,7 @@ export function reducer(state = INIT_STATE, action) {
     case types.GET_NUTRITION_KNOWLEDGE_ACTIVITY:
       return {
         ...state,
-        statusNutritionKnowledge: "loading",
+        statusNutritionKnowledgeActivity: "loading",
       }
     case types.GET_NUTRITION_KNOWLEDGE_ACTIVITY_SUCCESS:
       return {
