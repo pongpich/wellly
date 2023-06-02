@@ -54,7 +54,7 @@ class Gn4 extends Component {
                 nutrition_knowledge: nutritionKnowledge && JSON.parse(nutritionKnowledge[0].knowledge_eng),
                 assess_behavior: nutritionKnowledge && JSON.parse(nutritionKnowledge[0].assess_behavior_eng),
                 statusMess: false,
-                
+
             })
         }
 
@@ -64,13 +64,14 @@ class Gn4 extends Component {
 
 
         if ((prevProps.statusNutritionKnowledgeActivity !== statusNutritionKnowledgeActivity) && (statusNutritionKnowledgeActivity === "success")) {
-            this.setState({
+            if (nutritionKnowledgeActivity.length > 0) {
+                this.setState({
 
-                nutrition_knowledge_Act: nutritionKnowledgeActivity && JSON.parse(nutritionKnowledgeActivity[0].knowledge),
-                score: nutritionKnowledgeActivity && JSON.parse(nutritionKnowledgeActivity[0].score),
-                dataMassage: nutritionKnowledgeActivity && JSON.parse(nutritionKnowledgeActivity[0].assess_knowledge),
-            })
-
+                    nutrition_knowledge_Act: nutritionKnowledgeActivity && JSON.parse(nutritionKnowledgeActivity[0].knowledge),
+                    score: nutritionKnowledgeActivity && JSON.parse(nutritionKnowledgeActivity[0].score),
+                    dataMassage: nutritionKnowledgeActivity && JSON.parse(nutritionKnowledgeActivity[0].assess_knowledge),
+                })
+            }
         }
 
     }
@@ -305,27 +306,19 @@ class Gn4 extends Component {
                 }
 
                 {
-                    /*   dataMassage ? */
-                    /*   nutrition_knowledge && nutrition_knowledge.map((item, i) => {
-                          return item && item.data.map((value, j) => {
-                              var choice = [value.choice]
-                              return choice && choice.filter((chonices, k) => {
-                                  return value.selected !== null
-                              })
-                          })
-                      }) */
 
-                    statusMess === false ?
-                        <Pressable  >
-                            <View style={[ComponentsStyle.buttonGrey, { marginTop: 32 }]} >
-                                <Text style={ComponentsStyle.textButtonGrey}>
+                    nutrition_knowledge &&
+                        nutrition_knowledge_Act === null ?
+                        <Pressable onPress={() => this.onAssessBehavior()} >
+                            <View style={[ComponentsStyle.button, { marginTop: 32 }]} >
+                                <Text style={ComponentsStyle.textButton}>
                                     ประเมินพฤติกรรม
                                 </Text>
                             </View>
                         </Pressable> :
-                        <Pressable onPress={() => this.onAssessBehavior()}>
-                            <View style={[ComponentsStyle.button, { marginTop: 32 }]} >
-                                <Text style={ComponentsStyle.textButton}>
+                        <Pressable >
+                            <View style={[ComponentsStyle.buttonGrey, { marginTop: 32 }]} >
+                                <Text style={ComponentsStyle.textButtonGrey}>
                                     ประเมินพฤติกรรม
                                 </Text>
                             </View>
@@ -339,11 +332,7 @@ class Gn4 extends Component {
                 {
                     score && score.score.map((item, i) => {
 
-                        /*  console.log("item", item); */
-
                         const AssessMassage = this.filterItemAssess_behavior(item, i + 1);
-                        //console.log("AssessMassage", AssessMassage);
-
                         return (
                             <View key={"l" + i}>
 
