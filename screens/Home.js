@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Pressable, ImageBackground, Image, ScrollView, StatusBar, statusBarStyle, statusBarTransition, Animated, Easing, hidden, TouchableOpacity, TextInput, Text, Linking, KeyboardAvoidingView, Platform, Dimensions, InputAccessoryView, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { logoutUser, loginUser } from "../redux/auth";
-import { getNutritionMission, getNutritionActivity, getExerciserActivity, getActivityList, getMemberActivityLogInWeek, getYearActivityLogGraph, getMonthActivityLogGraph, getWeekActivityLogGraph, setIntensityFromExArticleTemplate } from "../redux/get";
+import { getNutritionMission, getNutritionActivity, getExerciserActivity, getActivityList, getMemberActivityLogInWeek, getYearActivityLogGraph, getMonthActivityLogGraph, getWeekActivityLogGraph, setIntensityFromExArticleTemplate, getNutritionKnowledgeActivity } from "../redux/get";
 import { insertNutritionActivity, insertExerciseActivity, checkUpdateBadgeWin } from "../redux/update";
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
@@ -60,7 +60,8 @@ class Home extends Component {
             thisYear: 2023,
             selectedYear: 2023,
             /*    teachUserHome: true, */
-            stipTeach: 1
+            stipTeach: 1,
+            nutrition_knowledge_Act: 0
         };
     }
 
@@ -118,6 +119,7 @@ class Home extends Component {
             this.props.insertExerciseActivity(user && user.user_id);
             this.props.getNutritionActivity(user && user.user_id);
             this.props.getExerciserActivity(user && user.user_id);
+            this.props.getNutritionKnowledgeActivity(user && user.user_id);
 
             this.animate();
             BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
@@ -228,7 +230,7 @@ class Home extends Component {
 
     componentDidUpdate(prevProps, prevState) {
         const { user, statusGetNutritionMission, statusGetNutritionActivity, nutrition_mission, route_name, nutrition_activity, exerciserActivity, statusExerciserActivity, statusInsertNutritionActivity, statusInsertExerciseActivity,
-            member_activity_log_in_week, statusGetYearActLogGraph, statusGetMonthActLogGraph, statusGetWeekActLogGraph, weekLog, monthLog, yearLog, } = this.props;
+            member_activity_log_in_week, statusGetYearActLogGraph, statusGetMonthActLogGraph, statusGetWeekActLogGraph, weekLog, monthLog, yearLog, statusNutritionKnowledgeActivity, nutritionKnowledgeActivity } = this.props;
         if ((prevProps.user !== user) && (!user)) {
             this.props.navigation.navigate("Login");
         }
@@ -274,6 +276,16 @@ class Home extends Component {
                     [yearLog[11][0].lightDuration, yearLog[11][0].moderateDuration, yearLog[11][0].virgorousDuration],
                 ]
             })
+        }
+
+        if ((prevProps.statusNutritionKnowledgeActivity !== statusNutritionKnowledgeActivity) && (statusNutritionKnowledgeActivity === "success")) {
+
+            this.setState({
+
+                nutrition_knowledge_Act: nutritionKnowledgeActivity.length,
+
+            })
+
         }
 
 
@@ -405,9 +417,9 @@ class Home extends Component {
     }
 
     render() {
-        const { user, activity_list } = this.props;
+        const { user, activity_list, teachUserHome } = this.props;
         const { latest_nutrition_activity, latest_exercise_activity, latest_exercise_mission, statusChart, isLoading, labelsWeek, weekData, monthData,
-            yearData, labelsMonth, labelsYear, month, selectedMonth, year, thisYear, selectedYear, week_in_program, stipTeach } = this.state;
+            yearData, labelsMonth, labelsYear, month, selectedMonth, year, thisYear, selectedYear, week_in_program, stipTeach, nutrition_knowledge_Act } = this.state;
 
         const languages = i18next.languages[0];
 
@@ -446,7 +458,6 @@ class Home extends Component {
 
         const isNotchDevice = Dimensions.get('window').height >= 812;
 
-        const { teachUserHome } = this.props;
 
         return (
 
@@ -481,56 +492,116 @@ class Home extends Component {
                     <View style={{ paddingLeft: 16, marginTop: -53 }}>
 
                         {
+                            /* nutrition_activity */
 
                             (latest_nutrition_activity && latest_nutrition_activity.quiz_activities_number == null) || (latest_nutrition_activity && latest_nutrition_activity.assessment_kit_number == null) ?
 
-                                <Pressable
-                                    onPress={() => latest_nutrition_activity.short_content && this.props.navigation.navigate("ArticleTemplate", { id: latest_nutrition_activity && latest_nutrition_activity.week_in_program, mission_id: latest_nutrition_activity && latest_nutrition_activity.mission_id, heading: latest_nutrition_activity && latest_nutrition_activity.heading, statusPags: "Home" })} key={latest_nutrition_activity && latest_nutrition_activity.week_in_program + "_na"}
-                                >
-                                    <View style={styles.row}>
-                                        <View style={[styles.numberView, { backgroundColor: latest_nutrition_activity && latest_nutrition_activity.heading && latest_nutrition_activity.short_content ? colors.mayaBlue20 : "#D4E0F0" }]}>
-                                            <Text style={[styles.number, { color: colors.mayaBlue }]}>{latest_nutrition_activity && latest_nutrition_activity.week_in_program}</Text>
-                                        </View>
-                                        <View style={styles.missionData}>
-                                            {latest_nutrition_activity && latest_nutrition_activity.heading && latest_nutrition_activity.short_content ?
-                                                <>
-                                                    <Text style={styles.missionHead}>{latest_nutrition_activity && latest_nutrition_activity.heading}</Text>
-                                                    <Text style={[styles.missionContent, { marginRight: 16 }]}>
 
-                                                        {substringText(latest_nutrition_activity && latest_nutrition_activity.short_content)}
-                                                    </Text>
-                                                </>
-                                                :
-                                                <>
-                                                    <Animated.View style={{ opacity, transform: [{ scale }] }}>
-                                                        <View style={styles.activityindicator}></View>
-                                                        <View style={styles.activityindicator1}></View>
-                                                        <View style={styles.activityindicator2}></View>
-                                                        <View style={styles.activityindicator2}></View>
-                                                    </Animated.View>
+                                <>
+                                    {
+                                        latest_nutrition_activity.week_in_program == "4" && nutrition_knowledge_Act == 0
+                                        && <Pressable Pressable
+                                            onPress={() => latest_nutrition_activity.short_content && this.props.navigation.navigate("ArticleTemplate", { id: latest_nutrition_activity && latest_nutrition_activity.week_in_program, mission_id: latest_nutrition_activity && latest_nutrition_activity.mission_id, heading: latest_nutrition_activity && latest_nutrition_activity.heading, statusPags: "Home" })} key={latest_nutrition_activity && latest_nutrition_activity.week_in_program + "_na"}
+                                        >
+                                            <View style={styles.row}>
+                                                <View style={[styles.numberView, { backgroundColor: latest_nutrition_activity && latest_nutrition_activity.heading && latest_nutrition_activity.short_content ? colors.mayaBlue20 : "#D4E0F0" }]}>
+                                                    <Text style={[styles.number, { color: colors.mayaBlue }]}>{latest_nutrition_activity && latest_nutrition_activity.week_in_program}</Text>
+                                                </View>
+                                                <View style={styles.missionData}>
+                                                    {latest_nutrition_activity && latest_nutrition_activity.heading && latest_nutrition_activity.short_content ?
+                                                        <>
+                                                            <Text style={styles.missionHead}>{latest_nutrition_activity && latest_nutrition_activity.heading}</Text>
+                                                            <Text style={[styles.missionContent, { marginRight: 16 }]}>
 
-                                                </>
-                                            }
+                                                                {substringText(latest_nutrition_activity && latest_nutrition_activity.short_content)}
+                                                            </Text>
+                                                        </>
+                                                        :
+                                                        <>
+                                                            <Animated.View style={{ opacity, transform: [{ scale }] }}>
+                                                                <View style={styles.activityindicator}></View>
+                                                                <View style={styles.activityindicator1}></View>
+                                                                <View style={styles.activityindicator2}></View>
+                                                                <View style={styles.activityindicator2}></View>
+                                                            </Animated.View>
 
-                                        </View>
-                                        {
-                                            latest_nutrition_activity && latest_nutrition_activity.heading && latest_nutrition_activity.short_content &&
-                                            <View style={styles.viewIconRight}>
-                                                <Image
-                                                    style={{ height: 24, width: 24, zIndex: 1, marginRight: 8 }}
-                                                    source={require('../assets/images/icon/right.png')}
-                                                />
+                                                        </>
+                                                    }
+
+                                                </View>
+                                                {
+                                                    latest_nutrition_activity && latest_nutrition_activity.heading && latest_nutrition_activity.short_content &&
+                                                    <View style={styles.viewIconRight}>
+                                                        <Image
+                                                            style={{ height: 24, width: 24, zIndex: 1, marginRight: 8 }}
+                                                            source={require('../assets/images/icon/right.png')}
+                                                        />
+                                                    </View>
+                                                }
+
                                             </View>
-                                        }
+                                        </Pressable>
 
-                                    </View>
-                                </Pressable>
+
+
+                                    }
+
+                                    {
+                                        latest_nutrition_activity.week_in_program != "4"
+                                        && <Pressable Pressable
+                                            onPress={() => latest_nutrition_activity.short_content && this.props.navigation.navigate("ArticleTemplate", { id: latest_nutrition_activity && latest_nutrition_activity.week_in_program, mission_id: latest_nutrition_activity && latest_nutrition_activity.mission_id, heading: latest_nutrition_activity && latest_nutrition_activity.heading, statusPags: "Home" })} key={latest_nutrition_activity && latest_nutrition_activity.week_in_program + "_na"}
+                                        >
+                                            <View style={styles.row}>
+                                                <View style={[styles.numberView, { backgroundColor: latest_nutrition_activity && latest_nutrition_activity.heading && latest_nutrition_activity.short_content ? colors.mayaBlue20 : "#D4E0F0" }]}>
+                                                    <Text style={[styles.number, { color: colors.mayaBlue }]}>{latest_nutrition_activity && latest_nutrition_activity.week_in_program}</Text>
+                                                </View>
+                                                <View style={styles.missionData}>
+                                                    {latest_nutrition_activity && latest_nutrition_activity.heading && latest_nutrition_activity.short_content ?
+                                                        <>
+                                                            <Text style={styles.missionHead}>{latest_nutrition_activity && latest_nutrition_activity.heading}</Text>
+                                                            <Text style={[styles.missionContent, { marginRight: 16 }]}>
+
+                                                                {substringText(latest_nutrition_activity && latest_nutrition_activity.short_content)}
+                                                            </Text>
+                                                        </>
+                                                        :
+                                                        <>
+                                                            <Animated.View style={{ opacity, transform: [{ scale }] }}>
+                                                                <View style={styles.activityindicator}></View>
+                                                                <View style={styles.activityindicator1}></View>
+                                                                <View style={styles.activityindicator2}></View>
+                                                                <View style={styles.activityindicator2}></View>
+                                                            </Animated.View>
+
+                                                        </>
+                                                    }
+
+                                                </View>
+                                                {
+                                                    latest_nutrition_activity && latest_nutrition_activity.heading && latest_nutrition_activity.short_content &&
+                                                    <View style={styles.viewIconRight}>
+                                                        <Image
+                                                            style={{ height: 24, width: 24, zIndex: 1, marginRight: 8 }}
+                                                            source={require('../assets/images/icon/right.png')}
+                                                        />
+                                                    </View>
+                                                }
+
+                                            </View>
+                                        </Pressable>
+                                    }
+                                </>
+
+
+
                                 : null
                         }
 
 
 
                         {
+                            /* exercise_activity */
+
                             latest_exercise_activity && latest_exercise_activity.status_mission_activities !== "completed" &&
                             <Pressable
                                 onPress={() => latest_exercise_activity.short_content && this.props.navigation.navigate("ExArticleTemplate", { id: latest_exercise_activity.week_in_program, mission_id: latest_exercise_activity.mission_id, heading: latest_exercise_activity.heading, mission_activities: latest_exercise_activity.mission_activities, statusPags: "Home" })} key={latest_exercise_activity.week_in_program + "_ea"}
@@ -1178,17 +1249,18 @@ const mapStateToProps = ({ authUser, getData, personalDataUser, updateData }) =>
     const { route_name, teachUserHome } = personalDataUser;
     const { statusInsertNutritionActivity, statusInsertExerciseActivity } = updateData;
     const { nutrition_mission, nutrition_activity, statusGetNutritionMission, statusGetNutritionActivity, statusExerciserActivity, exerciserActivity, activity_list, statusGetActivityList,
-        member_activity_log_in_week, statusGetYearActLogGraph, statusGetMonthActLogGraph, statusGetWeekActLogGraph, weekLog, monthLog, yearLog } = getData;
+        member_activity_log_in_week, statusGetYearActLogGraph, statusGetMonthActLogGraph, statusGetWeekActLogGraph, weekLog, monthLog, yearLog, statusNutritionKnowledgeActivity, nutritionKnowledgeActivity } = getData;
     return {
         user, nutrition_mission, nutrition_activity, statusGetNutritionMission, statusGetNutritionActivity, statusInsertNutritionActivity, statusInsertExerciseActivity,
         member_activity_log_in_week, statusExerciserActivity, exerciserActivity, activity_list, statusGetActivityList, route_name, statusGetYearActLogGraph, statusGetMonthActLogGraph,
-        statusGetWeekActLogGraph, statusGetWeekActLogGraph, weekLog, monthLog, yearLog, teachUserHome
+        statusGetWeekActLogGraph, statusGetWeekActLogGraph, weekLog, monthLog, yearLog, teachUserHome, statusNutritionKnowledgeActivity, nutritionKnowledgeActivity
     };
 };
 
 const mapActionsToProps = {
     logoutUser, getNutritionMission, routeName, setSelectedTab, insertNutritionActivity, insertExerciseActivity, getMemberActivityLogInWeek, loginUser, getNutritionActivity,
-    getExerciserActivity, getActivityList, setIntensityFromExArticleTemplate, checkUpdateBadgeWin, getYearActivityLogGraph, getMonthActivityLogGraph, getWeekActivityLogGraph, setTeachUserHome
+    getExerciserActivity, getActivityList, setIntensityFromExArticleTemplate, checkUpdateBadgeWin, getYearActivityLogGraph, getMonthActivityLogGraph, getWeekActivityLogGraph, setTeachUserHome,
+    getNutritionKnowledgeActivity
 };
 
 export default connect(

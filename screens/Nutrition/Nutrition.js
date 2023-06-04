@@ -7,7 +7,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { useSelector, useDispatch } from "react-redux";
 import { setTeachUserNutrtion, setTeachUserArticleTemplate } from "../../redux/personalUser";
 import { connect } from 'react-redux';
-import { getNutritionActivity } from "../../redux/get";
+import { getNutritionActivity, getNutritionKnowledgeActivity, getNutritionKnowledge } from "../../redux/get";
 import { convertFormatDate, calculateWeekInProgram } from "../../helpers/utils";
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 import Modal from "react-native-modal";
@@ -30,6 +30,8 @@ const Nutrition = ({ navigation }) => {
     const user = useSelector(({ authUser }) => authUser ? authUser.user : "");
     const nutrition_activity = useSelector(({ getData }) => getData ? getData.nutrition_activity : "");
     const statusGetNutritionActivity = useSelector(({ getData }) => getData ? getData.statusGetNutritionActivity : "");
+    const statusNutritionKnowledgeActivity = useSelector(({ getData }) => getData ? getData.statusNutritionKnowledgeActivity : "");
+    const nutritionKnowledgeActivity = useSelector(({ getData }) => getData ? getData.nutritionKnowledgeActivity : "");
 
     const [statusNotified, setStatusNotified] = useState(null);
     const [startDate, setStartDate] = useState(1);
@@ -72,9 +74,6 @@ const Nutrition = ({ navigation }) => {
     const refresh = () => {
 
         navigation.navigate("History")
-
-
-
     }
 
     /*     useEffect(() => {
@@ -132,6 +131,17 @@ const Nutrition = ({ navigation }) => {
     }, [navigation]);
 
 
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
+            dispatch(getNutritionKnowledgeActivity((user && user.user_id)));
+
+        });
+
+        return unsubscribe;
+
+    }, []);
+
+
     function substringText(text) {
         const startIndex = 0;
         let endIndex = 0;
@@ -155,6 +165,7 @@ const Nutrition = ({ navigation }) => {
     };
 
     const isNotchDevice = Dimensions.get('window').height >= 812;
+
 
 
 
@@ -215,9 +226,9 @@ const Nutrition = ({ navigation }) => {
                         {nutrition_activity ?
 
                             nutrition_activity.map((item, i) => {
-
-                                if (((item.quiz_activities == null) || (item.assessment_kit_number != "1")) && (item.week_in_program != "4")) {
+                                if ((item.quiz_activities == null) || (item.assessment_kit_number != "1")) {
                                     if ((item.mission_id == "snc1") && (item.assessment_kit_number == null)) {
+
                                         return (
                                             <Pressable onPress={() => navigation.navigate("ArticleTemplate", { id: item.week_in_program, mission_id: item.mission_id, heading: item.heading })} key={i + "tfb"}>
                                                 <View key={i} style={styles.row}>
@@ -256,7 +267,9 @@ const Nutrition = ({ navigation }) => {
                                             </Pressable>
                                         )
                                     }
-                                    if ((item.mission_id !== "snc1")) {
+
+
+                                    if (item.mission_id !== "snc1" && (item.week_in_program != "4")) {
                                         return (
                                             <Pressable onPress={() => navigation.navigate("ArticleTemplate", { id: item.week_in_program, mission_id: item.mission_id, heading: item.heading })} key={i + "tfb"}>
                                                 <View key={i} style={styles.row}>
@@ -295,6 +308,44 @@ const Nutrition = ({ navigation }) => {
                                         )
                                     }
 
+                                    if (item.week_in_program == "4" && nutritionKnowledgeActivity.length == 0) {
+                                        return (
+                                            <Pressable onPress={() => navigation.navigate("ArticleTemplate", { id: item.week_in_program, mission_id: item.mission_id, heading: item.heading })} key={i + "tfb"}>
+                                                <View key={i} style={styles.row}>
+                                                    <View style={styles.numberView}>
+                                                        <Text style={styles.number}>{item.week_in_program}</Text>
+                                                    </View>
+                                                    <View style={styles.missionData}>
+                                                        <Text style={styles.missionHead}>{item.heading}</Text>
+                                                        <Text style={[styles.missionContent, { marginRight: 16 }]}>
+                                                            {substringText(item.short_content)}
+                                                        </Text>
+                                                        {
+
+                                                            (days == "Sunday") && (week_program_user == item.week_in_program) ?
+                                                                <View style={styles.notifiedRed}>
+                                                                    <Text style={styles.notifiedTextRed}>
+                                                                        วันสุดท้าย
+                                                                    </Text>
+                                                                </View> :
+                                                                ((!quiz_activities) && (!quiz_activities_number) && (week_program_user != item.week_in_program)) || ((!assessment_kit_activties) && (!assessment_kit_number) && (week_program_user != item.week_in_program)) ?
+                                                                    <View style={styles.notifiedYellow}>
+                                                                        <Text style={styles.notifiedTextYellow}>
+                                                                            ภารกิจที่ยังทำไม่เสร็จ
+                                                                        </Text>
+                                                                    </View> : null
+                                                        }
+                                                    </View>
+                                                    <View style={styles.viewIconRight}>
+                                                        <Image
+                                                            style={{ height: 24, width: 24, zIndex: 1, marginRight: 8 }}
+                                                            source={require('../../assets/images/icon/right.png')}
+                                                        />
+                                                    </View>
+                                                </View>
+                                            </Pressable>
+                                        )
+                                    }
                                 }
 
 
