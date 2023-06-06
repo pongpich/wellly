@@ -155,6 +155,9 @@
     "add_new_event": "Add a new activity",
     "no_activity": "No activities",
     "this_month": "This month",
+    "this_year": "This year",
+    "this_week": "This week",
+    "last_week": "Last week",
     "jan": "Jan.",
     "feb": "Feb.",
     "mar": "Mar.",
@@ -211,6 +214,7 @@
     "confirm_password": "Confirm your password",
     "passwords_match": "Please make sure your password match",
     "re_enter": "Reenter password",
-    "hour": "ชม."
+    "hour": "hour",
+    "activity_report": "Activity report"
   }
 }

@@ -49,6 +49,7 @@ class Home extends Component {
             month: 1,
             selectedMonth: 1,
             labelsWeek: ["สัปดาห์ที่แล้ว", "สัปดาห์นี้"],
+            labelsWeekEng: ["last week", "This week"],
             labelsMonth: ["1", "2", "3", "4", "5"],
             labelsYear: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
             isLoading: false,
@@ -183,6 +184,9 @@ class Home extends Component {
             year: itemsYear,
         })
         const { teachUserHome } = this.props;
+
+
+
 
 
         /*  if (teachUserHome === 'undefined') {  // สอน การใช้งาน  home ถ้า ต้องการ ให้ขึ้นเเค่ ครั่ง เเรก ให้ ใช้  == "undefined" รอลบ
@@ -326,8 +330,21 @@ class Home extends Component {
         if ((prevState.statusChart !== statusChart) && (statusChart == 1)) {
             this.props.getWeekActivityLogGraph((user && user.user_id));
         }
+        const languages = i18next.languages[0].languages === "th";
+        console.log("languages", languages);
+        const { t } = this.props;
+        /* if ((prevProps.languages !== languages) && (languages === "th") && (prevProps.labelsWeek !== labelsWeek)) {
+            this.setState({
+                labelsWeek: [`${t('this_week')}`, `${t('last_week')}`],
+            })
 
+        }
+        if ((prevProps.languages !== languages) && (languages === "en") && (prevProps.labelsWeek !== labelsWeek)) {
+            this.setState({
+                labelsWeek: [`${t('this_week')}`, `${t('last_week')}`],
+            })
 
+        } */
 
         /*  if (prevProps.teachUserHome == teachUserHome && teachUserHome == false) {
              this.setState({
@@ -394,21 +411,28 @@ class Home extends Component {
     }
 
     getThaiMonth = (month) => {
+        const { t } = this.props;
+
         const thaiMonths = [
-            'ม.ค.',
-            'ก.พ.',
-            'มี.ค.',
-            'เม.ย.',
-            'พ.ค.',
-            'มิ.ย.',
-            'ก.ค.',
-            'ส.ค.',
-            'ก.ย.',
-            'ต.ค.',
-            'พ.ย.',
-            'ธ.ค.',
+            `${t('jan')}`,
+            `${t('feb')}`,
+            `${t('mar')}`,
+            `${t('apr')}`,
+            `${t('may')}`,
+            `${t('jun')}`,
+            `${t('jul')}`,
+            `${t('aug')}`,
+            `${t('sep')}`,
+            `${t('oct')}`,
+            `${t('nov')}`,
+            `${t('dec')}`,
+
         ];
         return thaiMonths[month - 1];
+
+
+
+
     };
 
     setTeachHome = () => {
@@ -418,7 +442,7 @@ class Home extends Component {
 
     render() {
         const { user, activity_list, teachUserHome } = this.props;
-        const { latest_nutrition_activity, latest_exercise_activity, latest_exercise_mission, statusChart, isLoading, labelsWeek, weekData, monthData,
+        const { latest_nutrition_activity, latest_exercise_activity, latest_exercise_mission, statusChart, isLoading, labelsWeek, labelsWeekEng, weekData, monthData,
             yearData, labelsMonth, labelsYear, month, selectedMonth, year, thisYear, selectedYear, week_in_program, stipTeach, nutrition_knowledge_Act } = this.state;
 
         const languages = i18next.languages[0];
@@ -458,6 +482,8 @@ class Home extends Component {
 
         const isNotchDevice = Dimensions.get('window').height >= 812;
 
+        const { t } = this.props;
+
 
         return (
 
@@ -473,9 +499,9 @@ class Home extends Component {
                             <View style={{ height: 48, flexDirection: "row", justifyContent: "space-between", marginTop: 24, paddingHorizontal: 16 }}>
                                 <View>
 
-                                    <Text style={styles.contentHead}>สวัสดี {user && user.display_name}</Text>
+                                    <Text style={styles.contentHead}>{t('hello')} {user && user.display_name}</Text>
 
-                                    <Text style={styles.content}>ภารกิจของคุณในสัปดาห์นี้</Text>
+                                    <Text style={styles.content}>{t('mission_this_week')}</Text>
                                 </View>
 
                                 <View style={{ marginRight: 8 }}>
@@ -676,7 +702,7 @@ class Home extends Component {
 
                                         <View style={[styles.line1, { marginLeft: 15 }]} />
                                     </View>
-                                    <Text style={styles.challenge}>ชาเลนจ์</Text>
+                                    <Text style={styles.challenge}>{t('challenge')}</Text>
 
                                     {
 
@@ -771,17 +797,17 @@ class Home extends Component {
                             </View>
                     }
 
-                    <Text style={styles.reportChallenge}>รายงานการทำกิจกรรม</Text>
-                    <View style={{ marginHorizontal: 16, backgroundColor: colors.white, borderRadius: 16, paddingTop: 18, marginBottom: 40 }}>
+                    <Text style={styles.reportChallenge}>{t('activity_report')}</Text>
+                    <View style={{ marginHorizontal: 16, backgroundColor: colors.white, borderRadius: 16, paddingTop: 18, marginBottom: 180, }}>
                         <View style={styles.missionView}>
                             <Pressable style={[{ width: "auto", paddingHorizontal: 8 }, statusChart === 1 ? styles.missionPre : styles.programPre]} onPress={() => this.setState({ statusChart: 1 })} >
-                                <Text style={[styles.mission, statusChart === 1 ? { color: colors.white } : { color: colors.persianBlue }]}>สัปดาห์</Text>
+                                <Text style={[styles.mission, statusChart === 1 ? { color: colors.white } : { color: colors.persianBlue }]}>{t('week')}</Text>
                             </Pressable>
                             <Pressable style={[{ marginLeft: 8, width: "auto", paddingHorizontal: 8 }, statusChart === 2 ? styles.missionPre : styles.programPre]} onPress={() => this.setState({ statusChart: 2 })}>
-                                <Text style={[styles.mission, statusChart === 2 ? { color: colors.white } : { color: colors.persianBlue }]}>เดือน</Text>
+                                <Text style={[styles.mission, statusChart === 2 ? { color: colors.white } : { color: colors.persianBlue }]}>{t('month')}</Text>
                             </Pressable>
                             <Pressable style={[{ marginLeft: 8, width: "auto", paddingHorizontal: 16 }, statusChart === 3 ? styles.missionPre : styles.programPre]} onPress={() => this.setState({ statusChart: 3 })}>
-                                <Text style={[styles.mission, statusChart === 3 ? { color: colors.white } : { color: colors.persianBlue }]}>ปี</Text>
+                                <Text style={[styles.mission, statusChart === 3 ? { color: colors.white } : { color: colors.persianBlue }]}>{t('year')}</Text>
                             </Pressable>
                         </View>
                         {
@@ -793,7 +819,7 @@ class Home extends Component {
                                             <Pressable key={index + 1} onPress={() => this.setState({
                                                 selectedMonth: index + 1
                                             })}>
-                                                <Text style={[styles.leftMonth2, selectedMonth === index + 1 ? null : { color: colors.grey1 }]}>เดือนนี้</Text>
+                                                <Text style={[styles.leftMonth2, selectedMonth === index + 1 ? null : { color: colors.grey1 }]}>{t('this_month')}</Text>
                                             </Pressable> :
                                             <Pressable key={index + 1} onPress={() => this.setState({
                                                 selectedMonth: index + 1
@@ -813,7 +839,7 @@ class Home extends Component {
                                         <Pressable key={i + 1} onPress={() => this.setState({
                                             selectedYear: item.value
                                         })}>
-                                            <Text style={[styles.leftMonth2, selectedYear === item.value ? null : { color: colors.grey1 }]}>ปีนี้</Text>
+                                            <Text style={[styles.leftMonth2, selectedYear === item.value ? null : { color: colors.grey1 }]}>{t('this_year')}</Text>
                                         </Pressable> :
                                         <Pressable key={i + 1} onPress={() => this.setState({
                                             selectedYear: item.value
@@ -824,10 +850,10 @@ class Home extends Component {
                             </View>
                         }
 
-                        <Text style={styles.watch}>(ชม.)</Text>
+                        <Text style={styles.watch}>({t('hour')})</Text>
                         <StackedBarChart
                             data={{
-                                labels: (statusChart === 1) ? labelsWeek : (statusChart === 2) ? labelsMonth : labelsYear,
+                                labels: (statusChart === 1) ? languages == "th" ? labelsWeek : labelsWeekEng : (statusChart === 2) ? labelsMonth : labelsYear,
                                 legend: [],
                                 data: (statusChart === 1) ? weekData : (statusChart === 2) ? monthData : yearData,
                                 barColors: ["#59CBE4", "#FDAB44", "#F15E79"]
@@ -849,6 +875,7 @@ class Home extends Component {
                                 labelColor: (opacity = 1) => `rgba(146, 164, 187, ${opacity})`,
                                 style: {
                                     borderRadius: 16,
+
                                 },
                                 propsForDots: {
                                     r: "6",
@@ -865,15 +892,15 @@ class Home extends Component {
                         <View style={{ flexDirection: "row", marginBottom: 40, justifyContent: "center" }}>
                             <View style={{ justifyContent: "center", textAlign: "center", alignItems: "center" }}>
                                 <View style={{ width: 10, height: 10, backgroundColor: "#59CBE4", borderRadius: 100, }}></View>
-                                <Text style={styles.textWatch}>ต่ำ</Text>
+                                <Text style={styles.textWatch}>{t('low')}</Text>
                             </View>
                             <View style={{ justifyContent: "center", marginLeft: 10, textAlign: "center", alignItems: "center" }}>
                                 <View style={{ width: 10, height: 10, backgroundColor: "#FDAB44", borderRadius: 100, }}></View>
-                                <Text style={styles.textWatch}>กลาง</Text>
+                                <Text style={styles.textWatch}>{t('moderate')}</Text>
                             </View>
                             <View style={{ justifyContent: "center", marginLeft: 10, textAlign: "center", alignItems: "center" }}>
                                 <View style={{ width: 10, height: 10, backgroundColor: "#F15E79", borderRadius: 100, }}></View>
-                                <Text style={styles.textWatch}>สูง</Text>
+                                <Text style={styles.textWatch}>{t('high')}</Text>
                             </View>
                         </View>
                     </View>
