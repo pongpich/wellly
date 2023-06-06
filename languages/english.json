@@ -5,7 +5,7 @@
     "login": "Login",
     "register": "Register",
     "forgot_password": "Forgot password",
-    "contact_hr": "ติดต่อฝ่ายบุคคลบริษัทของคุณเพื่อทำการตั้งค่ารหัสผ่านใหม่",
+    "contact_hr": "Contact your HR department to reset the new password",
     "tel": "Tel",
     "go_back": "go back",
     "please_enter_email": "Please enter your email",
@@ -210,6 +210,7 @@
     "numbers_least": "and 1 number",
     "confirm_password": "Confirm your password",
     "passwords_match": "Please make sure your password match",
-    "re_enter": "Reenter password"
+    "re_enter": "Reenter password",
+    "hour": "ชม."
   }
 }
