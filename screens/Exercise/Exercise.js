@@ -398,7 +398,7 @@ const Exercise = ({ navigation }) => {
                                             />
                                             <Text style={styles.textMinute}>45 นาที</Text>
                                         </View> */}
-                                        <View style={{ flexDirection: "row",/*  marginLeft: 37 */ }}>
+                                        {groupName != "Resistance" && <View style={{ flexDirection: "row",/*  marginLeft: 37 */ }}>
                                             <Image
                                                 style={{
                                                     height: 16, width: 16,
@@ -406,7 +406,9 @@ const Exercise = ({ navigation }) => {
                                                 source={require('../../assets/images/icon/Equipment3x.png')}
                                             />
                                             <Text style={styles.textMinute}>ไม่ใช้</Text>
-                                        </View>
+                                        </View>}
+
+
                                     </View>
                                     <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: 22 }}>
                                         <Text style={styles.missionHead}>ผู้ฝึกสอน</Text>
