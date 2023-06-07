@@ -558,7 +558,7 @@ class Add extends Component {
                                                         <Text style={[styles.groupStatus, { color: item.intensity === 'light_intensity' ? colors.secondary_MayaBlue : item.intensity === 'moderate_intensity' ? colors.tertiaryYellow : colors.tertiaryMagenta }]}>
                                                             {(item.intensity === 'light_intensity') && `${t('low_concentration')}`}
                                                             {(item.intensity === 'moderate_intensity') && `${t('moderate_concentration')}`}
-                                                            {(item.intensity === 'vigorous_intensity') && `${t('hight_concentration')}`}
+                                                            {(item.intensity === 'vigorous_intensity') && `${t('height_concentration')}`}
                                                         </Text>
                                                     </View>
                                                 </View>
@@ -810,8 +810,8 @@ class Add extends Component {
                                                             <View style={styles.viewIconRight2}>
                                                                 <Text style={[styles.groupStatus, { color: item.intensity === 'light_intensity' ? colors.secondary_MayaBlue : item.intensity === 'moderate_intensity' ? colors.tertiaryYellow : colors.tertiaryMagenta }]}>
                                                                     {(item.intensity === 'light_intensity') && `${t('low_concentration')}`}
-                                                                    {(item.intensity === 'moderate_intensity') && 'เข้มข้นปานกลาง'}
-                                                                    {(item.intensity === 'vigorous_intensity') && 'เข้มข้นสูง'}
+                                                                    {(item.intensity === 'moderate_intensity') && `${t('moderate_concentration')}`}
+                                                                    {(item.intensity === 'vigorous_intensity') && `${t('height_concentration')}`}
                                                                 </Text>
                                                             </View>
                                                         </View>
