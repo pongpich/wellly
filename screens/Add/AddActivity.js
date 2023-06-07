@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { SafeAreaView, StatusBar, View, Text, StyleSheet, Animated, Image, ImageBackground, Dimensions, Pressable, ScrollView, TouchableWithoutFeedback, TextInput, Keyboard } from 'react-native';
+import { SafeAreaView, ActivityIndicator, StatusBar, View, Text, StyleSheet, Animated, Image, ImageBackground, Dimensions, Pressable, ScrollView, TouchableWithoutFeedback, TextInput, Keyboard } from 'react-native';
 import colors from '../../constants/colors';
 import ComponentsStyle from '../../constants/components';
 import Modal from "react-native-modal";
@@ -23,7 +23,8 @@ class AddActivity extends Component {
             intensity: '',
             type: 'default',
             duration: '',
-            note: ''
+            note: '',
+            statusLoading: false
         };
     }
 
@@ -50,6 +51,7 @@ class AddActivity extends Component {
         const { isModalConter2 } = this.state;
 
         if ((prevProps.statusUpdateNumbComp !== statusUpdateNumbComp) && (statusUpdateNumbComp === "success")) {
+            this.setState({ statusLoading: false })
             this.props.getExerciserActivity(user && user.user_id);
             this.props.navigation.navigate("Add", { message: "บันทึกกิจกรรมแล้ว" });
         }
@@ -84,6 +86,9 @@ class AddActivity extends Component {
     saveMission() {
         const { duration, note } = this.state;
         const { user, statusUpdateNumbComp } = this.props;
+        this.setState({
+            statusLoading: true
+        })
 
         // ใช้ params จาก  route ในหน้า Add.js
         const { activity, intensity, type, activity_id } = this.props.route.params;
@@ -95,7 +100,7 @@ class AddActivity extends Component {
     }
 
     render() {
-        const { stsusColor, isModalVisible2, isModalConter2, study, activity, intensity, type, duration, note } = this.state;
+        const { stsusColor, isModalVisible2, isModalConter2, study, activity, intensity, type, duration, note, statusLoading } = this.state;
         const { statusUpdateNumbComp } = this.props;
         /*     const date = new Date();
     
@@ -269,7 +274,21 @@ class AddActivity extends Component {
                             : null
                     }
 
+
+
+
+
+                    {
+                        statusLoading === true && <View style={{ alignItems: 'center', justifyContent: "center", height: "100%", width: "100%", position: "absolute", zIndex: 50, backgroundColor: colors.grey1, opacity: 0.8 }}>
+                            <ActivityIndicator size="large" color="#59CBE4" style={{ transform: [{ scaleX: 2 }, { scaleY: 2 }] }} />
+                        </View>
+                    }
+
+
+
                 </View >
+
+
             </TouchableWithoutFeedback>
 
         )
