@@ -53,7 +53,18 @@ class AddActivity extends Component {
         if ((prevProps.statusUpdateNumbComp !== statusUpdateNumbComp) && (statusUpdateNumbComp === "success")) {
             this.setState({ statusLoading: false })
             this.props.getExerciserActivity(user && user.user_id);
-            this.props.navigation.navigate("Add", { message: "บันทึกกิจกรรมแล้ว" });
+            /*   this.props.navigation.navigate("Add", { message: "บันทึกกิจกรรมแล้ว" }); */
+
+            const resetAction = CommonActions.reset({
+                index: 0, // ตำแหน่งของหน้าที่จะใช้เป็นหน้าแรก
+                routes: [{
+                    name: 'Add',
+                    params: { message: 'บันทึกกิจกรรมแล้ว' },
+                }], // เส้นทางที่ต้องการเปลี่ยน
+            });
+            // set ความเข้มไปใน redux
+            this.props.navigation.dispatch(resetAction);
+
         }
         if ((prevState.isModalConter2 !== isModalConter2) && (isModalConter2 == true)) {
             this.props.navigation.goBack();

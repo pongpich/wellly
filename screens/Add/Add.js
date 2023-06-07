@@ -10,7 +10,6 @@ import { getActivityList, setIntensityFromExArticleTemplate } from "../../redux/
 import { addActivityListAddOn, deleteActivityListAddOn, editActivityListAddOn } from "../../redux/update";
 import { CommonActions } from '@react-navigation/native';
 import { BackHandler } from 'react-native';
-
 class Add extends Component {
 
     constructor(props) {
@@ -48,30 +47,32 @@ class Add extends Component {
             var activityId2 = null;
 
             if (this.props.route.params == null || this.props.route.params == "undefined") {
+                /*   console.log("0000"); */
                 activityId2 = "null";
             } else {
                 activityId2 = this.props.route.params.activity_id;
             }
 
-
             if (this.props.route.params) {
                 const { message } = this.props.route.params
-                console.log("message", message);
-                this.setState({
-                    message: message,
-                    confirmActivityDeleted: true
-                })
-
-
-                setTimeout(() => {
+                if (message !== "null") {
                     this.setState({
-                        message: null,
-                        confirmActivityDeleted: false
+                        message: message,
+                        confirmActivityDeleted: true
                     })
+                    setTimeout(() => {
+                        this.setState({
+                            message: null,
+                            confirmActivityDeleted: false
+                        })
+                    }, 2000);
+                    // ลบ params ทิ้ง
+                    this.props.navigation.setParams({ message: "null" });
+                }
 
-                }, 2000);
 
             }
+
 
             if (activityId2 == "light_intensity") {
                 this.setState({
@@ -159,7 +160,7 @@ class Add extends Component {
 
     componentDidUpdate(prevProps, prevState) {
 
-        const { intensityFromExArticle, study, isModalConter } = this.state;
+        const { intensityFromExArticle, study, isModalConter, missionName } = this.state;
         const { user, activity_list, intensityFromExArticleTemplate, statusAddActListAddOn, statusDeleteActListAddOn, statusGetActivityList, statusEditActListAddOn, } = this.props;
 
 
@@ -190,6 +191,7 @@ class Add extends Component {
         }
 
         if ((prevProps.statusAddActListAddOn !== statusAddActListAddOn) && (statusAddActListAddOn === 'success')) {
+
             this.props.getActivityList(user && user.user_id);
         }
         if ((prevProps.statusDeleteActListAddOn !== statusDeleteActListAddOn) && (statusDeleteActListAddOn === 'success')) {
@@ -200,7 +202,9 @@ class Add extends Component {
             })
         }
         if ((prevProps.statusEditActListAddOn !== statusEditActListAddOn) && (statusEditActListAddOn === 'success')) {
+
             this.props.getActivityList(user && user.user_id);
+
             this.setMessage("บันทึกกิจกรรมแล้ว")
             this.setState({
                 statusAnimated: false
@@ -209,12 +213,18 @@ class Add extends Component {
         }
         if ((prevProps.statusGetActivityList !== statusGetActivityList) && (statusGetActivityList === 'success')) { //ใช้เพื่อให้ตอน add, delete รายการเพิ่มหน้าแสดงผลอัพเดทเรียลไทม์
 
-
             this.setState({
                 statusAnimated: false
             })
 
-            this.setMessage("บันทึกกิจกรรมแล้ว")
+            if (missionName != null) {
+                this.setMessage("บันทึกกิจกรรมแล้ว")
+                this.setState({
+                    missionName: null,
+                })
+            }
+
+
             if (study === 'ต่ำ') { }// ปานกลาง สูง ทั้งหมด
             this.setState({
                 //activity_list_show ของหน้าปกติโชว์ทั้งหมด
@@ -305,7 +315,7 @@ class Add extends Component {
         this.setState({
             statusCreate: e,
             data: true,
-            missionName: null,
+
             statusAnimated: true
         })
 
@@ -398,6 +408,7 @@ class Add extends Component {
         });
 
 
+        console.log("message001", message);
 
         return (
             <View style={{ flex: 1, justifyContent: "flex-end" }} onPress={() => this.toggleModal(isModalVisible)} >
@@ -584,17 +595,17 @@ class Add extends Component {
                     </View>
                 </View>
                 {
-                    confirmActivityDeleted === true ?
-                        <View style={styles.activityDeleted}>
-                            <View style={styles.boxActivityDeleted}>
-                                <Image
-                                    style={{ height: 32, width: 32, zIndex: 1 }}
-                                    source={require('../../assets/images/activity/Checked.png')}
-                                />
-                                <Text style={styles.textActivityDeleted}>{message}</Text>
-                            </View>
+                    confirmActivityDeleted === true &&
+                    <View style={styles.activityDeleted}>
+                        <View style={styles.boxActivityDeleted}>
+                            <Image
+                                style={{ height: 32, width: 32, zIndex: 1 }}
+                                source={require('../../assets/images/activity/Checked.png')}
+                            />
+                            <Text style={styles.textActivityDeleted}>{message}</Text>
                         </View>
-                        : null
+                    </View>
+
 
                 }
             </View >
