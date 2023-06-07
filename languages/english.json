@@ -145,7 +145,6 @@
     "backward": "Back",
     "delete_activity": "Delete this activity",
     "minute": "Minute",
-    "activities_intensity": "Activities level",
     "edit": "Edit",
     "all": "All",
     "low": "Low",
@@ -226,6 +225,7 @@
     "lower_value": "ค่าตัวล่าง",
     "exercise_mission": "ภารกิจออกกำลังกาย",
     "about_exercises": "แท็บสำหรับอ่านเรียนรู้เกี่ยวกับการออกกำลังกายเพื่อทำภารกิจสัปดาห์นั้น",
-    "about_view_exercise": "แท็บสำหรับดูภารกิจออกกำลังกาย ที่ช่วยผลักดันให้คุณมีสุขภาพที่แข็งแรง"
+    "about_view_exercise": "แท็บสำหรับดูภารกิจออกกำลังกาย ที่ช่วยผลักดันให้คุณมีสุขภาพที่แข็งแรง",
+    "hing_concentration": "เข้มข้นสูง"
   }
 }

@@ -10,6 +10,8 @@ import { getActivityList, setIntensityFromExArticleTemplate } from "../../redux/
 import { addActivityListAddOn, deleteActivityListAddOn, editActivityListAddOn } from "../../redux/update";
 import { CommonActions } from '@react-navigation/native';
 import { BackHandler } from 'react-native';
+import { t } from 'i18next';
+
 class Add extends Component {
 
     constructor(props) {
@@ -436,19 +438,19 @@ class Add extends Component {
                                 : <View></View>
                         }
 
-                        {intensityFromExArticle === null ? <Text style={[styles.headActivity, {}]}>กิจกรรมตามความเข้มข้น</Text>
+                        {intensityFromExArticle === null ? <Text style={[styles.headActivity, {}]}>{t('activities_by_intensity')}</Text>
                             :
-                            intensityFromExArticle == "light_intensity" ? <Text style={styles.headActivity}>กิจกรรมตามความเข้มข้นต่ำ</Text>
+                            intensityFromExArticle == "light_intensity" ? <Text style={styles.headActivity}>{t('activity_based_on_low')}</Text>
                                 :
-                                intensityFromExArticle == "moderate_intensity" ? <Text style={styles.headActivity}>กิจกรรมตามความเข้มข้นปานกลาง</Text>
-                                    : <Text style={styles.headActivity}>กิจกรรมตามความเข้มข้นสูง</Text>
+                                intensityFromExArticle == "moderate_intensity" ? <Text style={styles.headActivity}>{t('activity_based_on_moderate')}</Text>
+                                    : <Text style={styles.headActivity}>{t('activity_based_on_high')}</Text>
                         }
 
                         {
                             intensityFromExArticle === null ?
                                 <TouchableWithoutFeedback onPress={() => this.setState({ statusCreate: "editView" })}>
                                     <View style={{ width: 60, marginTop: -16, alignItems: "center" }}>
-                                        <Text style={[styles.headEdit, { marginTop: 16 }]}>เเก้ไข</Text>
+                                        <Text style={[styles.headEdit, { marginTop: 16 }]}>{t('edit')}</Text>
                                     </View>
                                 </TouchableWithoutFeedback>
                                 :
@@ -475,7 +477,7 @@ class Add extends Component {
                                     <View style={[study == "ทั้งหมด" ? styles.boxHeadingActive : styles.boxHeading, { width: 100 }]}>
 
 
-                                        <Text style={study == "ทั้งหมด" ? styles.sectionActive : styles.section}> ทั้งหมด</Text>
+                                        <Text style={study == "ทั้งหมด" ? styles.sectionActive : styles.section}> {t('all')}</Text>
 
 
                                     </View>
@@ -486,7 +488,7 @@ class Add extends Component {
                                 })}>
                                     <View style={[study == "ต่ำ" ? styles.boxHeadingActive : styles.boxHeading, { width: 100 }]}>
 
-                                        <Text style={study == "ต่ำ" ? styles.sectionActive : styles.section}> ต่ำ</Text>
+                                        <Text style={study == "ต่ำ" ? styles.sectionActive : styles.section}> {t('low')}</Text>
 
                                     </View>
                                 </Pressable>
@@ -495,7 +497,7 @@ class Add extends Component {
                                     activity_list_show: [...activity_list.moderate_intensity]
                                 })}>
                                     <View style={[study == "ปานกลาง" ? styles.boxHeadingActive : styles.boxHeading, { width: 100 }]}>
-                                        <Text style={study == "ปานกลาง" ? styles.sectionActive : styles.section}> ปานกลาง</Text>
+                                        <Text style={study == "ปานกลาง" ? styles.sectionActive : styles.section}> {t('moderate')}</Text>
                                     </View>
                                 </Pressable>
                                 <Pressable onPress={() => this.setState({
@@ -504,7 +506,7 @@ class Add extends Component {
                                 })}>
                                     <View style={[study == "สูง" ? styles.boxHeadingActive : styles.boxHeading, { width: 100 }]}>
 
-                                        <Text style={study == "สูง" ? styles.sectionActive : styles.section}> สูง</Text>
+                                        <Text style={study == "สูง" ? styles.sectionActive : styles.section}> {t('high')}</Text>
                                     </View>
                                 </Pressable>
                             </View>
@@ -554,9 +556,9 @@ class Add extends Component {
                                                     </View>
                                                     <View style={styles.viewIconRight2}>
                                                         <Text style={[styles.groupStatus, { color: item.intensity === 'light_intensity' ? colors.secondary_MayaBlue : item.intensity === 'moderate_intensity' ? colors.tertiaryYellow : colors.tertiaryMagenta }]}>
-                                                            {(item.intensity === 'light_intensity') && 'เข้มข้นต่ำ'}
-                                                            {(item.intensity === 'moderate_intensity') && 'เข้มข้นปานกลาง'}
-                                                            {(item.intensity === 'vigorous_intensity') && 'เข้มข้นสูง'}
+                                                            {(item.intensity === 'light_intensity') && `${t('low_concentration')}`}
+                                                            {(item.intensity === 'moderate_intensity') && `${t('moderate_concentration')}`}
+                                                            {(item.intensity === 'vigorous_intensity') && `${t('hing_concentration')}`}
                                                         </Text>
                                                     </View>
                                                 </View>
@@ -569,7 +571,7 @@ class Add extends Component {
                                         <View style={styles.missionView}>
                                             <Image style={styles.activityImage} source={require('../../assets/images/activity/frame13811.png')} />
                                             <View style={styles.groupText2}>
-                                                <Text style={styles.headText3}>เพิ่มกิจกรรมใหม่</Text>
+                                                <Text style={styles.headText3}>{t('add_new_event')}</Text>
                                             </View>
                                         </View>
                                     </View>
@@ -581,10 +583,10 @@ class Add extends Component {
                                     style={{ height: 84, width: 120, zIndex: 1 }}
                                     source={require('../../assets/images/exercise/Empty_State.png')}
                                 />
-                                <Text style={styles.imptyTextHead}>ยังไม่มีกิจกรรม</Text>
+                                <Text style={styles.imptyTextHead}>{t('no_activity')}</Text>
                                 <TouchableWithoutFeedback onPress={() => this.setState({ statusCreate: "createView" })}>
                                     <View style={[styles.buttonWhite, { marginTop: 16 }]}>
-                                        <Text style={styles.textButtonWhite}>เพิ่มกิจกรรมใหม่</Text>
+                                        <Text style={styles.textButtonWhite}>{t('add_new_event')}</Text>
                                     </View>
                                 </TouchableWithoutFeedback>
                             </View>
