@@ -152,6 +152,8 @@
     "moderate": "Moderate",
     "high": "High",
     "low_concentration": "Low intensity",
+    "moderate_concentration": "Moderate intensity",
+    "hight_concentration": "Hight intensity",
     "brisk_walk": "Brisk walk",
     "add_new_event": "Add a new activity",
     "no_activity": "No activities",

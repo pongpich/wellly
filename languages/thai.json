@@ -152,6 +152,8 @@
     "moderate": "ปานกลาง",
     "high": "สูง",
     "low_concentration": "เข้มข้นต่ำ",
+    "moderate_concentration": "เข้มข้นปานกลาง",
+    "hight_concentration": "เข้มข้นสูง",
     "brisk_walk": "เดินเร็ว",
     "add_new_event": "เพิ่มกิจกรรมใหม่",
     "no_activity": "ยังไม่มีกิจกรรม",
