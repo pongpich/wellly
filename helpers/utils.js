@@ -1,4 +1,5 @@
 import moment from 'moment';
+import i18next from 'i18next';
 
 export const calculateWeekInProgram = (startDate, endDate) => {
   let startDateMoment = moment(startDate).startOf('isoWeek');
@@ -92,14 +93,14 @@ export function checkTrophy(mission_activities, activities_level) {
 export function currentTime() {
   const date = new Date();
   const options = { day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: 'numeric' };
-  const currentDate = date.toLocaleDateString('th-TH', options);
+  const currentDate = (i18next.language === 'th') ? date.toLocaleDateString('th-TH', options) : date.toLocaleDateString('en-US', options);
 
   return currentDate;
 }
 export function currentTimeActivity(e) {
   const date = new Date(e);
   const options = { day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: 'numeric' };
-  const currentDate = date.toLocaleDateString('th-TH', options);
+  const currentDate = (i18next.language === 'th') ? date.toLocaleDateString('th-TH', options) : date.toLocaleDateString('en-US', options);
 
   return currentDate;
 }
@@ -113,7 +114,7 @@ export function currentDate() {
 export function currentDateActivity(e) {
   const date = new Date(e);
   const options = { day: 'numeric', month: 'short', year: 'numeric' };
-  const currentDate = date.toLocaleDateString('th-TH', options);
+  const currentDate = (i18next.language === 'th') ? date.toLocaleDateString('th-TH', options) : date.toLocaleDateString('en-US', options);
 
   return currentDate;
 }

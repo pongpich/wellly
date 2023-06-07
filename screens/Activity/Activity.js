@@ -12,7 +12,8 @@ import { List } from 'react-native-paper';
 import { Video, AVPlaybackStatus } from 'expo-av';
 import { update_popUp_stars } from "../../redux/update";
 import { checkStar, checkTrophy, calculateWeekInProgram, convertFormatDate, currentDate, currentDateActivity } from "../../helpers/utils";
-import { withTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next';
+import i18next from 'i18next';
 
 import {
     LineChart,
@@ -22,6 +23,7 @@ import {
     ContributionGraph,
     StackedBarChart
 } from "react-native-chart-kit";
+import { t } from 'i18next';
 
 
 
@@ -72,6 +74,7 @@ const Activity = ({ navigation }) => {
     const [selectedMonth, setSelectedMonth] = useState(1);
     const [month, setMonth] = useState(1);
     const [labelsWeek, setLabelsWeek] = useState(["สัปดาห์ที่แล้ว", "สัปดาห์นี้"]);
+    const [labelsWeekEng, setLabelsWeekEng] = useState(["Last week", "This week"]);
     const [labelsMonth, setLabelsMonth] = useState(["1", "2", "3", "4", "5"]);
     const [labelsYear, setLabelsYear] = useState(["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]);
     const [dataItem, setDataItem] = useState({
@@ -213,18 +216,18 @@ const Activity = ({ navigation }) => {
       const yLabelIterator = yLabel(); */
     const getThaiMonth = (month) => {
         const thaiMonths = [
-            'ม.ค.',
-            'ก.พ.',
-            'มี.ค.',
-            'เม.ย.',
-            'พ.ค.',
-            'มิ.ย.',
-            'ก.ค.',
-            'ส.ค.',
-            'ก.ย.',
-            'ต.ค.',
-            'พ.ย.',
-            'ธ.ค.',
+            `${t('jan')}`,
+            `${t('feb')}`,
+            `${t('mar')}`,
+            `${t('apr')}`,
+            `${t('may')}`,
+            `${t('jun')}`,
+            `${t('jul')}`,
+            `${t('aug')}`,
+            `${t('sep')}`,
+            `${t('oct')}`,
+            `${t('nov')}`,
+            `${t('dec')}`,
         ];
         return thaiMonths[month - 1];
     };
@@ -243,13 +246,13 @@ const Activity = ({ navigation }) => {
                         <View style={{ marginHorizontal: 16, backgroundColor: colors.white, borderRadius: 16, paddingTop: 18 }}>
                             <View style={styles.missionView}>
                                 <Pressable style={[{ width: "auto", paddingHorizontal: 8, marginLeft: 16 }, statusChart === 1 ? styles.missionPre : styles.programPre]} onPress={() => setStatusChart(1)} >
-                                    <Text style={[styles.mission, statusChart === 1 ? { color: colors.white } : { color: colors.persianBlue }]}>สัปดาห์</Text>
+                                    <Text style={[styles.mission, statusChart === 1 ? { color: colors.white } : { color: colors.persianBlue }]}>{t('week')}</Text>
                                 </Pressable>
                                 <Pressable style={[{ marginLeft: 8, width: "auto", paddingHorizontal: 8 }, statusChart === 2 ? styles.missionPre : styles.programPre]} onPress={() => setStatusChart(2)}>
-                                    <Text style={[styles.mission, statusChart === 2 ? { color: colors.white } : { color: colors.persianBlue }]}>เดือน</Text>
+                                    <Text style={[styles.mission, statusChart === 2 ? { color: colors.white } : { color: colors.persianBlue }]}>{t('month')}</Text>
                                 </Pressable>
                                 <Pressable style={[{ marginLeft: 8, width: "auto", paddingHorizontal: 16 }, statusChart === 3 ? styles.missionPre : styles.programPre]} onPress={() => setStatusChart(3)}>
-                                    <Text style={[styles.mission, statusChart === 3 ? { color: colors.white } : { color: colors.persianBlue }]}>ปี</Text>
+                                    <Text style={[styles.mission, statusChart === 3 ? { color: colors.white } : { color: colors.persianBlue }]}>{t('year')}</Text>
                                 </Pressable>
                             </View>
                             {
@@ -259,7 +262,7 @@ const Activity = ({ navigation }) => {
                                         {[...Array(month)].map((_, index) => (
                                             month === index + 1 ?
                                                 <Pressable key={index + 1} onPress={() => setSelectedMonth(index + 1)}>
-                                                    <Text style={[styles.leftMonth2, selectedMonth === index + 1 ? null : { color: colors.grey1 }]}>เดือนนี้</Text>
+                                                    <Text style={[styles.leftMonth2, selectedMonth === index + 1 ? null : { color: colors.grey1 }]}>{t('this_month')}</Text>
                                                 </Pressable> :
                                                 <Pressable key={index + 1} onPress={() => setSelectedMonth(index + 1)}>
                                                     <Text style={[styles.leftMonth, selectedMonth === index + 1 ? { color: colors.persianBlue } : null]}>{`${getThaiMonth(index + 1)}`}</Text>
@@ -275,7 +278,7 @@ const Activity = ({ navigation }) => {
                                     {year && year.map((item, i) => (
                                         thisYear == item.value ?
                                             <Pressable key={i + 1} onPress={() => setSelectedYear(item.value)}>
-                                                <Text style={[styles.leftMonth2, selectedYear === item.value ? null : { color: colors.grey1 }]}>ปีนี้</Text>
+                                                <Text style={[styles.leftMonth2, selectedYear === item.value ? null : { color: colors.grey1 }]}>{t('this_year')}</Text>
                                             </Pressable> :
                                             <Pressable key={i + 1} onPress={() => setSelectedYear(item.value)}>
                                                 <Text style={[styles.leftMonth, selectedYear === item.value ? { color: colors.persianBlue } : null]}>{item.value} </Text>
@@ -283,10 +286,10 @@ const Activity = ({ navigation }) => {
                                     ))}
                                 </View>
                             }
-                            <Text style={styles.watch}>(ชม.)</Text>
+                            <Text style={styles.watch}>({t('hour')})</Text>
                             <StackedBarChart
                                 data={{
-                                    labels: (statusChart === 1) ? labelsWeek : (statusChart === 2) ? labelsMonth : labelsYear,
+                                    labels: (statusChart === 1) ? ((i18next.language === 'th') ? labelsWeek : labelsWeekEng) : (statusChart === 2) ? labelsMonth : labelsYear,
                                     legend: [],
                                     data: (statusChart === 1) ? weekData : (statusChart === 2) ? monthData : yearData,
                                     barColors: ["#59CBE4", "#FDAB44", "#F15E79"]
@@ -328,19 +331,19 @@ const Activity = ({ navigation }) => {
                             <View style={{ flexDirection: "row", marginBottom: 40, justifyContent: "center" }}>
                                 <View style={{ justifyContent: "center", textAlign: "center", alignItems: "center" }}>
                                     <View style={{ width: 10, height: 10, backgroundColor: "#59CBE4", borderRadius: 100, }}></View>
-                                    <Text style={styles.textWatch}>ต่ำ</Text>
+                                    <Text style={styles.textWatch}>{t('low')}</Text>
                                 </View>
                                 <View style={{ justifyContent: "center", marginLeft: 10, textAlign: "center", alignItems: "center" }}>
                                     <View style={{ width: 10, height: 10, backgroundColor: "#FDAB44", borderRadius: 100, }}></View>
-                                    <Text style={styles.textWatch}>กลาง</Text>
+                                    <Text style={styles.textWatch}>{t('moderate')}</Text>
                                 </View>
                                 <View style={{ justifyContent: "center", marginLeft: 10, textAlign: "center", alignItems: "center" }}>
                                     <View style={{ width: 10, height: 10, backgroundColor: "#F15E79", borderRadius: 100, }}></View>
-                                    <Text style={styles.textWatch}>สูง</Text>
+                                    <Text style={styles.textWatch}>{t('high')}</Text>
                                 </View>
                             </View>
                         </View>
-                        <Text style={styles.nutritionWeek}>กิจกรรมสัปดาห์นี้</Text>
+                        <Text style={styles.nutritionWeek}>{t('activities_week')}</Text>
                         {
                             member_activity_log_in_week ?
                                 member_activity_log_in_week.map((item, i) => {
@@ -360,12 +363,12 @@ const Activity = ({ navigation }) => {
                                                         </Text>
                                                         <Text style={styles.li}>{"\u2B24" + " "}</Text>
                                                         <Text style={styles.dateData}>
-                                                            {item.intensity === 'light_intensity' && 'เข้มข้นต่ำ'}
-                                                            {item.intensity === 'moderate_intensity' && 'เข้มข้นปานกลาง'}
-                                                            {item.intensity === 'vigorous_intensity' && 'เข้มข้นสูง'}
+                                                            {item.intensity === 'light_intensity' && `${t('low_concentration')}`}
+                                                            {item.intensity === 'moderate_intensity' && `${t('moderate_concentration')}`}
+                                                            {item.intensity === 'vigorous_intensity' && `${t('hight_concentration')}`}
                                                         </Text>
                                                     </View>
-                                                    <Text style={styles.timeData}>{item.duration} {item.id} นาที</Text>
+                                                    <Text style={styles.timeData}>{item.duration} {item.id} {t('minute')}</Text>
                                                     <View style={styles.missionView}>
                                                         <Image
                                                             style={{ height: 12, width: 12, marginTop: 5, marginRight: 4 }}
@@ -399,7 +402,7 @@ const Activity = ({ navigation }) => {
                     </>
                 </View>
             </Animated.ScrollView >
-            <Text style={styles.nutritionText}>กิจกรรม</Text>
+            <Text style={styles.nutritionText}>{t('activity')}</Text>
             <View style={styles.nutritionBox}>
                 <Animated.View
                     style={[
@@ -414,7 +417,7 @@ const Activity = ({ navigation }) => {
                         <View style={styles.missionText}>
                             <View style={styles.missionView}>
                                 <Pressable style={[{ width: "auto", paddingHorizontal: 8 }, statusMission === true ? styles.missionPre : styles.programPre]} onPress={() => setStatusMission(true)} >
-                                    <Text style={[styles.mission, statusMission === true ? { color: colors.white } : { color: colors.persianBlue }]}>ออกกำลังกาย</Text>
+                                    <Text style={[styles.mission, statusMission === true ? { color: colors.white } : { color: colors.persianBlue }]}>{t('exercise_pro')}</Text>
                                 </Pressable>
                                 {/*  <Pressable style={[{ marginLeft: 8, width: 89 }, statusMission !== true ? styles.missionPre : styles.programPre]} onPress={() => setStatusMission(false)} >
                                     <Text style={[styles.mission, statusMission !== true ? { color: colors.white } : { color: colors.persianBlue }]}>สุขภาพ</Text>
