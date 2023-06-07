@@ -244,7 +244,7 @@ const Nutrition = ({ navigation }) => {
                                                             (days == "Sunday") && (week_program_user == item.week_in_program) ?
                                                                 <View style={styles.notifiedRed}>
                                                                     <Text style={styles.notifiedTextRed}>
-                                                                        วันสุดท้าย
+                                                                        {t('last_day')}
                                                                     </Text>
                                                                 </View> :
                                                                 ((!quiz_activities) && (!quiz_activities_number) && (week_program_user != item.week_in_program)) || ((!assessment_kit_activties) && (!assessment_kit_number) && (week_program_user != item.week_in_program)) ?
@@ -290,7 +290,7 @@ const Nutrition = ({ navigation }) => {
                                                                 ((!quiz_activities) && (!quiz_activities_number) && (week_program_user != item.week_in_program)) || ((!assessment_kit_activties) && (!assessment_kit_number) && (week_program_user != item.week_in_program)) ?
                                                                     <View style={styles.notifiedYellow}>
                                                                         <Text style={styles.notifiedTextYellow}>
-                                                                        {t('unfinished_mission')}
+                                                                            {t('unfinished_mission')}
                                                                         </Text>
                                                                     </View> : null
                                                         }

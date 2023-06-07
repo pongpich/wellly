@@ -18,6 +18,7 @@ import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-cont
 import i18next from 'i18next';
 import '../../languages/i18n'; //ใช้สำหรับ 2ภาษา
 import { CommonActions } from '@react-navigation/native';
+import { useTranslation } from "react-i18next";
 
 
 const HEADER_MAX_HEIGHT = 600;
@@ -345,7 +346,7 @@ const Exercise = ({ navigation }) => {
     const program = () => {
         const dataTrainingSet = trainingSet && Object.entries(trainingSet);
 
-
+        const { t } = useTranslation();
         return (
             <>
                 <View style={[styles.centeredVedio, { marginTop: play == true ? 0 : 150 }]}>
@@ -387,7 +388,7 @@ const Exercise = ({ navigation }) => {
                             >
                                 <View style={{ marginTop: 16, marginHorizontal: 16, height: "auto" }}>
                                     <Text style={styles.textModeHead}>{groupName}</Text>
-                                    <Text style={styles.textModeConter}>เสริมสร้างความแข็งแรงของกล้ามท้อง และ ลำตัว ป้องกันการบาดเจ็บกระดูกสันหลัง เคลื่อนไหวได้ปลอดภัย ลดอาการปวดหลัง</Text>
+                                    <Text style={styles.textModeConter}>{t('strengthen')}</Text>
                                     <View style={{ flexDirection: "row", marginTop: 16 }}>
                                         {/*      <View style={{ flexDirection: "row" }}>
                                             <Image
@@ -405,22 +406,22 @@ const Exercise = ({ navigation }) => {
                                                 }}
                                                 source={require('../../assets/images/icon/Equipment3x.png')}
                                             />
-                                            <Text style={styles.textMinute}>ไม่ใช้</Text>
+                                            <Text style={styles.textMinute}>{t('not_used')}</Text>
                                         </View>}
 
 
                                     </View>
                                     <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: 22 }}>
-                                        <Text style={styles.missionHead}>ผู้ฝึกสอน</Text>
+                                        <Text style={styles.missionHead}>{t('trainer')}</Text>
                                         <View>
                                             <View style={styles.missionView}>
                                                 <Pressable style={[{ width: 63 }, status_male_female === "ชาย" ? styles.missionPre : styles.programPre]} onPress={() => setStatus_male_female("ชาย")} >
-                                                    <Text style={[styles.mission, status_male_female === "ชาย" ? { color: colors.white } : { color: colors.persianBlue }]}>ชาย</Text>
+                                                    <Text style={[styles.mission, status_male_female === "ชาย" ? { color: colors.white } : { color: colors.persianBlue }]}>{t('man')}</Text>
                                                 </Pressable>
                                                 {
                                                     group === "resistance" &&
                                                     <Pressable Pressable style={[{ marginLeft: 8, width: 71 }, status_male_female === "หญิง" ? styles.missionPre : styles.programPre]} onPress={() => setStatus_male_female("หญิง")} >
-                                                        <Text style={[styles.mission, status_male_female === "หญิง" ? { color: colors.white } : { color: colors.persianBlue }]}>หญิง</Text>
+                                                        <Text style={[styles.mission, status_male_female === "หญิง" ? { color: colors.white } : { color: colors.persianBlue }]}>{t('female')}</Text>
                                                     </Pressable>
 
                                                 }
@@ -431,18 +432,18 @@ const Exercise = ({ navigation }) => {
                                     {
                                         group === "resistance" &&
                                         <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: 22 }}>
-                                            <Text style={styles.missionHead}>อุปกรณ์</Text>
+                                            <Text style={styles.missionHead}>{t('equipment')}</Text>
                                             <View>
                                                 <View style={styles.missionView}>
                                                     <Pressable style={[{ width: 63 }, status_resistance === "ยิม" ? styles.missionPre : styles.programPre]} onPress={() => statusResistance("ยิม")} >
-                                                        <Text style={[styles.mission, status_resistance === "ยิม" ? { color: colors.white } : { color: colors.persianBlue }]}>ยิม</Text>
+                                                        <Text style={[styles.mission, status_resistance === "ยิม" ? { color: colors.white } : { color: colors.persianBlue }]}>{t('gym')}</Text>
                                                     </Pressable>
 
                                                     <Pressable Pressable style={[{ marginLeft: 8, width: 71 }, status_resistance === "ดัมเบล" ? styles.missionPre : styles.programPre]} onPress={() => statusResistance("ดัมเบล")} >
-                                                        <Text style={[styles.mission, status_resistance === "ดัมเบล" ? { color: colors.white } : { color: colors.persianBlue }]}>ดัมเบล</Text>
+                                                        <Text style={[styles.mission, status_resistance === "ดัมเบล" ? { color: colors.white } : { color: colors.persianBlue }]}>{t('dumbbell')}</Text>
                                                     </Pressable>
                                                     <Pressable Pressable style={[{ marginLeft: 8, width: 71 }, status_resistance === "ตัวเปล่า" ? styles.missionPre : styles.programPre]} onPress={() => statusResistance("ตัวเปล่า")} >
-                                                        <Text style={[styles.mission, status_resistance === "ตัวเปล่า" ? { color: colors.white } : { color: colors.persianBlue }]}>ตัวเปล่า</Text>
+                                                        <Text style={[styles.mission, status_resistance === "ตัวเปล่า" ? { color: colors.white } : { color: colors.persianBlue }]}>{t('naked')}</Text>
                                                     </Pressable>
 
 
@@ -453,7 +454,7 @@ const Exercise = ({ navigation }) => {
 
                                     <List.Section style={{ marginLeft: -16, marginTop: 16, zIndex: 0, marginBottom: 60 }}>
                                         <List.Accordion style={{ backgroundColor: colors.white }}
-                                            title={<Text style={styles.missionHead}>ท่าฝึก</Text>}
+                                            title={<Text style={styles.missionHead}>{t('sxercise_pose')}</Text>}
                                             right={props =>
                                                 <List.Icon {...props} icon={({ size, color, direction }) => (
                                                     expanded ?
@@ -494,15 +495,15 @@ const Exercise = ({ navigation }) => {
                                                             </View>
                                                             <View style={{ flexDirection: "row" }}>
                                                                 <View>
-                                                                    <Text style={styles.setText}>เซต</Text>
+                                                                    <Text style={styles.setText}>{t('set')}</Text>
                                                                     <Text style={styles.setText2}>{item[1][0].set}</Text>
                                                                 </View>
                                                                 <View style={{ marginLeft: 16 }}>
-                                                                    <Text style={styles.setText}>ครั้ง</Text>
+                                                                    <Text style={styles.setText}>{t('episode')}</Text>
                                                                     <Text style={styles.setText2}>{item[1][0].rep}</Text>
                                                                 </View>
                                                                 <View style={{ marginLeft: 16 }}>
-                                                                    <Text style={styles.setText}>จังหวะ</Text>
+                                                                    <Text style={styles.setText}>{t('rhythm')}</Text>
                                                                     <Text style={styles.setText2}>{item[1][0].tempo}</Text>
                                                                 </View>
                                                             </View>
@@ -522,7 +523,7 @@ const Exercise = ({ navigation }) => {
                     <Pressable onPress={() => clickProgram()}>
                         <View style={ComponentsStyle.button} >
                             <Text style={ComponentsStyle.textButton}>
-                                เริ่มออกกำลังกาย
+                                {t('start_exe')}
                             </Text>
                         </View>
                     </Pressable>
@@ -558,7 +559,7 @@ const Exercise = ({ navigation }) => {
     const isDevice = Dimensions.get('window').height;
     const languages = i18next.languages[0];
 
-
+    const { t } = useTranslation();
 
     return (
         <View style={{ flex: 1 }} forceInset={{ top: 'always' }}>
@@ -584,10 +585,10 @@ const Exercise = ({ navigation }) => {
                     <View style={styles.missionText}>
                         <View style={styles.missionView}>
                             <Pressable style={[{ width: 71 }, statusMission === true ? styles.missionPre : styles.programPre]} onPress={() => setStatusMission(true)} >
-                                <Text style={[styles.mission, statusMission === true ? { color: colors.white } : { color: colors.persianBlue }]}>ภารกิจ</Text>
+                                <Text style={[styles.mission, statusMission === true ? { color: colors.white } : { color: colors.persianBlue }]}>{t('mission')}</Text>
                             </Pressable>
                             <Pressable style={[{ marginLeft: 8, width: 89 }, statusMission === false ? styles.missionPre : styles.programPre]} onPress={() => setStatusMission(false)} >
-                                <Text style={[styles.mission, statusMission == false ? { color: colors.white } : { color: colors.persianBlue }]}>โปรแกรม</Text>
+                                <Text style={[styles.mission, statusMission == false ? { color: colors.white } : { color: colors.persianBlue }]}>{t('program')}</Text>
                             </Pressable>
                         </View>
 
@@ -650,13 +651,13 @@ const Exercise = ({ navigation }) => {
                                                                         (days == "Sunday") && (week_program_user == item.week_in_program) ?
                                                                             <View style={styles.notifiedRed}>
                                                                                 <Text style={styles.notifiedTextRed}>
-                                                                                    วันสุดท้าย
+                                                                                    {t('last_day')}
                                                                                 </Text>
                                                                             </View> :
                                                                             ((item.quiz_activities_number == null) && (week_program_user != item.week_in_program)) ?
                                                                                 <View style={styles.notifiedYellow} >
                                                                                     <Text style={styles.notifiedTextYellow}>
-                                                                                        ภารกิจที่ยังทำไม่เสร็จ
+                                                                                        {t('unfinished_mission')}
                                                                                     </Text>
                                                                                 </View> : null
                                                                     }
@@ -680,7 +681,7 @@ const Exercise = ({ navigation }) => {
                                                     style={{ height: 84, width: 120, zIndex: 1 }}
                                                     source={require('../../assets/images/exercise/Empty_State.png')}
                                                 />
-                                                <Text style={styles.imptyTextHead}>ยังไม่มีภารกิจในตอนนี้</Text>
+                                                <Text style={styles.imptyTextHead}>{t('no_missions_time')}</Text>
                                             </View>
                                     }
 
@@ -717,7 +718,7 @@ const Exercise = ({ navigation }) => {
                                                     style={{ height: 84, width: 120, zIndex: 1 }}
                                                     source={require('../../assets/images/exercise/Empty_State.png')}
                                                 />
-                                                <Text style={styles.imptyTextHeadProgram}>โปรแกรมออกกำลังกายจะปลดล็อคตั้งแต่ภารกิจที่ 4 เป็นต้นไป</Text>
+                                                <Text style={styles.imptyTextHeadProgram}>{t('workout_programs')}</Text>
                                             </View>
                                     }
                                 </>
@@ -728,7 +729,7 @@ const Exercise = ({ navigation }) => {
                 }
 
             </ScrollView >
-            <Text style={styles.nutritionText}>ออกกำลังกาย</Text>
+            <Text style={styles.nutritionText}>{t('exercise_pro')}</Text>
             <Animated.View opacity={headerHeight} style={[styles.header]}>
                 <View style={styles.imageView}>
                     <ImageBackground
@@ -759,7 +760,7 @@ const Exercise = ({ navigation }) => {
                     <TouchableWithoutFeedback onPress={() => setModalVisibleEx(false)}>
                         <View style={styles.centeredView}>
                             <View style={styles.centeredView2}>
-                                <Text style={styles.textHeadWeek}>ผลลัพธ์ภารกิจสัปดาห์ที่ {week_program_user - 1} </Text>
+                                <Text style={styles.textHeadWeek}>{t('last_weeks')} {week_program_user - 1} </Text>
                                 <Image
                                     style={{ width: 160, height: 160, }}
                                     source={
@@ -794,37 +795,37 @@ const Exercise = ({ navigation }) => {
                                 {
                                     checkStar(weekStaryMission, weekStaryLevel) == 0 ?
                                         <>
-                                            <Text style={styles.textStar}>ไม่เป็นไร!</Text>
-                                            <Text style={styles.textStar2}>ลองพยายามอีกครั้งในสัปดาห์นี้</Text>
+                                            <Text style={styles.textStar}>{t('nevermind')}</Text>
+                                            <Text style={styles.textStar2}>{t('Lets_try_again')}</Text>
                                         </>
                                         :
                                         checkStar(weekStaryMission, weekStaryLevel) == 1 ?
                                             <>
-                                                <Text style={styles.textStar}>ค่อนข้างดีแล้ว!</Text>
-                                                <Text style={styles.textStar2}>สัปดาห์นี้พยายามขึ้นอีกนิด เพื่อรับดาวเพิ่มเติม</Text>
+                                                <Text style={styles.textStar}>{t('pretty_good')}</Text>
+                                                <Text style={styles.textStar2}>{t('little_harder')}</Text>
                                             </>
                                             :
                                             checkStar(weekStaryMission, weekStaryLevel) == 2 ?
                                                 <>
-                                                    <Text style={styles.textStar}>ทำได้ดีแล้ว!</Text>
-                                                    <Text style={styles.textStar2}>สัปดาห์นี้พยายามขึ้นอีกนิด เพื่อรับดาวเพิ่มเติม</Text>
+                                                    <Text style={styles.textStar}>{t('well_done')}</Text>
+                                                    <Text style={styles.textStar2}>{t('little_harder')}</Text>
                                                 </>
                                                 :
                                                 checkStar(weekStaryMission, weekStaryLevel) == 3 ?
                                                     <>
-                                                        <Text style={styles.textStar}>ดีมาก!</Text>
-                                                        <Text style={styles.textStar2}>ลองพิชิตภารกิจให้สำเร็จในสัปดาห์นี้ เพื่อรับถ้วยรางวัลเพิ่มเติม</Text>
+                                                        <Text style={styles.textStar}>{t('very_good')}</Text>
+                                                        <Text style={styles.textStar2}>{t('complete_the_mission')}</Text>
                                                     </>
                                                     :
                                                     checkStar(weekStaryMission, weekStaryLevel) == 3 ?
                                                         <>
-                                                            <Text style={styles.textStar}>ดีมาก!</Text>
-                                                            <Text style={styles.textStar2}>คุณพิชิตภารกิจสำเร็จ พยายามรักษาวินัยเอาไว้ในสัปดาห์นี้</Text>
+                                                            <Text style={styles.textStar}>{t('very_good')}</Text>
+                                                            <Text style={styles.textStar2}>{t('conquered_the_mission')}</Text>
                                                         </>
                                                         :
                                                         <>
-                                                            <Text style={styles.textStar}>ไม่เป็นไร!</Text>
-                                                            <Text style={styles.textStar2}>ลองพยายามอีกครั้งในสัปดาห์นี้</Text>
+                                                            <Text style={styles.textStar}>{t('nevermind')}</Text>
+                                                            <Text style={styles.textStar2}>{t('Lets_try_again')}</Text>
                                                         </>
                                 }
                             </View>

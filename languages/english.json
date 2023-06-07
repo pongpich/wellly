@@ -133,7 +133,7 @@
     "little_harder": "Try harder to get more stars!",
     "well_done": "Good job!",
     "very_good": "Well done!",
-    "complete_the_mission ": "Unlock this week's mission to get more trophies.",
+    "complete_the_mission": "Unlock this week's mission to get more trophies.",
     "conquered_the_mission": "You have unlocked the mission. Keep up the good work!",
     "goals_this_week": "This week' goals",
     "scoring_criteria": "Score criteria",
@@ -221,6 +221,9 @@
     "see_exercise_mission": "ดูภารกิจออกกำลังกาย ที่จะช่วยให้คุณมีสุขภาพแข็งแรงและท้าทาย",
     "log_exercises_submit": "บันทึกการออกกำลังกายหรือส่งการบ้านตามภารกิจที่ได้รับ",
     "upper_value": "ค่าตัวบน",
-    "lower_value": "ค่าตัวล่าง"
+    "lower_value": "ค่าตัวล่าง",
+    "exercise_mission": "ภารกิจออกกำลังกาย",
+    "about_exercises": "แท็บสำหรับอ่านเรียนรู้เกี่ยวกับการออกกำลังกายเพื่อทำภารกิจสัปดาห์นั้น",
+    "about_view_exercise": "แท็บสำหรับดูภารกิจออกกำลังกาย ที่ช่วยผลักดันให้คุณมีสุขภาพที่แข็งแรง"
   }
 }

@@ -16,7 +16,7 @@ import { convertFormatDate, calculateWeekInProgram } from "../../helpers/utils";
 import { StackActions } from '@react-navigation/native';
 import { CommonActions } from '@react-navigation/native';
 
-import i18next from 'i18next';
+import i18next, { t } from 'i18next';
 
 
 
@@ -251,12 +251,12 @@ class ArticleTemplate extends Component {
         const sumMaxNumber = this.calMaxScore(data);
         const summaxScoreCompleted = this.calScoreSum(data);
 
-
+        const { t } = this.props;
 
         return (
             <View style={{ flex: 1, marginTop: 24, marginHorizontal: 16, height: deviceHeight, marginBottom: 80 }} key={"vre"}>
                 <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-                    <Text style={styles.target}>เป้าหมายสัปดาห์นี้</Text>
+                    <Text style={styles.target}>{t('goals_this_week')}</Text>
                     <View style={{ flexDirection: "row" }}>
                         <Text style={styles.score}>{(summaxScoreCompleted)}</Text>
                         <View style={{ flexDirection: "row" }}>
@@ -280,7 +280,7 @@ class ArticleTemplate extends Component {
                 </View>
                 <List.Section style={{ marginLeft: -16, marginTop: -8, zIndex: 0 }}>
                     <List.Accordion style={{ backgroundColor: colors.white }}
-                        title={<Text style={styles.titleAccordion}>เกณฑ์การให้คะแนน</Text>}
+                        title={<Text style={styles.titleAccordion}>{t('scoring_criteria')}</Text>}
                         right={props =>
                             <List.Icon {...props} icon={({ size, color, direction }) => (
                                 expanded ?
@@ -312,7 +312,7 @@ class ArticleTemplate extends Component {
                                         flexDirection: "row", justifyContent: "space-between"
                                     }} key={i + "vi"}>
                                         <Text style={styles.expand_answerText}>
-                                            {item.name}  {item.number} ครั้ง
+                                            {item.name}  {item.number} {t('episode')}
                                         </Text>
                                         <View style={{ flexDirection: "row" }}>
                                             {
@@ -352,7 +352,7 @@ class ArticleTemplate extends Component {
                         }
                     </List.Accordion>
                 </List.Section >
-                <Text style={styles.challenge}>ชาเลนจ์</Text>
+                <Text style={styles.challenge}>{t('challenge')}</Text>
                 {
                     data && data.map((item, i) => {
                         var dataLength = data.length;
@@ -388,7 +388,7 @@ class ArticleTemplate extends Component {
                                                                 <Text style={{ color: colors.grey1, fontSize: 16, fontFamily: item.number_completed == 0 ? "IBMPlexSansThai-Regular" : "IBMPlexSansThai-Bold", marginTop: -10 }}>{item.number_completed}</Text>
                                                                 <Text style={{ color: colors.grey1, fontSize: 12, fontFamily: "IBMPlexSansThai-Regular", marginTop: -5 }}> /{item.number}</Text>
                                                             </View>
-                                                            <Text style={{ color: colors.grey2, fontSize: 12, fontFamily: "IBMPlexSansThai-Regular", marginTop: -5 }}>ครั้ง</Text>
+                                                            <Text style={{ color: colors.grey2, fontSize: 12, fontFamily: "IBMPlexSansThai-Regular", marginTop: -5 }}>{t('episode')}</Text>
                                                         </>
                                                     )
 
@@ -472,7 +472,7 @@ class ArticleTemplate extends Component {
                             </Text>
                         </View>
                         <View style={[ComponentsStyle.nutritionMission, { paddingRight: 32 }]}>
-                            <Text style={ComponentsStyle.missionHead}>ภารกิจออกกำลังกาย</Text>
+                            <Text style={ComponentsStyle.missionHead}>{t('exercise_mission')}</Text>
                             <Text style={[ComponentsStyle.missionHeading, { marginRight: 32 }]}>{heading}</Text>
                         </View>
                     </View>
@@ -484,7 +484,7 @@ class ArticleTemplate extends Component {
                             <Pressable onPress={() => this.setState({
                                 study: true
                             })}>
-                                <Text style={study === true ? styles.sectionActive : styles.section}> ความรู้</Text>
+                                <Text style={study === true ? styles.sectionActive : styles.section}> {t('knowledge')}</Text>
                             </Pressable>
                         </View>
                     </View>
@@ -495,7 +495,7 @@ class ArticleTemplate extends Component {
                             <Pressable onPress={() => this.setState({
                                 study: false
                             })}>
-                                <Text style={study !== true ? styles.sectionActive : styles.section}> ภารกิจ</Text>
+                                <Text style={study !== true ? styles.sectionActive : styles.section}> {t('mission')}</Text>
                             </Pressable>
                         </View>
 
@@ -656,7 +656,7 @@ class ArticleTemplate extends Component {
                                                 <Pressable onPress={() => this.setState({
                                                     study: true
                                                 })}>
-                                                    <Text style={study === true ? styles.sectionActive : styles.section}> ความรู้</Text>
+                                                    <Text style={study === true ? styles.sectionActive : styles.section}> {t('knowledge')}</Text>
                                                 </Pressable>
                                             </View>
                                         </View>
@@ -666,7 +666,7 @@ class ArticleTemplate extends Component {
                                                 <Pressable onPress={() => this.setState({
                                                     study: false
                                                 })}>
-                                                    <Text style={study !== true ? styles.sectionActive : styles.section}> ภารกิจ</Text>
+                                                    <Text style={study !== true ? styles.sectionActive : styles.section}> {t('mission')}</Text>
                                                 </Pressable>
                                             </View>
 
@@ -702,7 +702,7 @@ class ArticleTemplate extends Component {
                                 color: colors.grey1,
                             }}>
                                 {
-                                    stipTeach == 1 ? "แท็บสำหรับอ่านเรียนรู้เกี่ยวกับการออกกำลังกายเพื่อทำภารกิจสัปดาห์นั้น" : "แท็บสำหรับดูภารกิจออกกำลังกาย ที่ช่วยผลักดันให้คุณมีสุขภาพที่แข็งแรง"
+                                    stipTeach == 1 ? `${t('about_exercises')}` : `${t('about_view_exercise+')}`
                                 }
                             </Text>
                             <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
@@ -731,7 +731,7 @@ class ArticleTemplate extends Component {
                                             fontSize: ComponentsStyle.fontSize16,
                                             fontFamily: "IBMPlexSansThai-Bold",
                                             color: colors.persianBlue,
-                                        }}>กลับ</Text>
+                                        }}>{t('go_back')}</Text>
                                     </View>
                                 </TouchableWithoutFeedback>
 
@@ -765,7 +765,7 @@ class ArticleTemplate extends Component {
                                             fontSize: ComponentsStyle.fontSize16,
                                             fontFamily: "IBMPlexSansThai-Bold",
                                             color: colors.white,
-                                        }}>ถัดไป</Text>
+                                        }}>{t('next')}</Text>
                                     </View>
                                 </TouchableWithoutFeedback>
                             </View>

@@ -7,6 +7,7 @@ import { missionNumber } from "../../redux/personalUser";
 import { connect } from 'react-redux';
 import { getNutritionActivity } from "../../redux/get";
 import { checkStar, checkTrophy } from "../../helpers/utils";
+import { t } from 'i18next';
 
 
 const data = Array.from({ length: 3 });
@@ -43,7 +44,7 @@ class History extends Component {
         return (
             <SafeAreaView style={styles.container}>
                 <View style={styles.marginBox}>
-                    <Text style={styles.missionHistory}>ประวัติภารกิจ</Text>
+                    <Text style={styles.missionHistory}>{t('mission_history')}</Text>
                     <ScrollView showsVerticalScrollIndicator={false} >
                         <View style={{ marginBottom: 60 }}>
 

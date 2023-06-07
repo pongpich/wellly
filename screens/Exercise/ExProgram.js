@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useRoute } from '@react-navigation/native';
 import { updateNumberCompleted } from "../../redux/update";
 import { calculateWeekInProgram } from "../../helpers/utils";
+import { t } from 'i18next';
 
 
 
@@ -163,16 +164,16 @@ const ExProgram = ({ navigation }) => {
                 </View>
                 <View style={styles.setConter}>
                     <View>
-                        <Text style={styles.setText}>เซต</Text>
+                        <Text style={styles.setText}>{t('set')}</Text>
                         <Text style={styles.setTextBold}>{playSet}</Text>
                     </View>
                     <View style={styles.viewSet}>
-                        <Text style={styles.setText}>ครั้ง</Text>
+                        <Text style={styles.setText}>{t('episode')}</Text>
                         <Text style={styles.setTextBold}>{playRep}</Text>
                     </View>
                     <View style={styles.viewSet}>
-                        <Text style={styles.setText}>จังหวะ</Text>
-                        <Text style={styles.setTextBold}>ช้า (4-6 วินาที/ครั้ง)</Text>
+                        <Text style={styles.setText}>{t('rhythm')}</Text>
+                        <Text style={styles.setTextBold}>{t('slow')}</Text>
                     </View>
                 </View>
                 <View style={styles.conterVideo}>
@@ -222,7 +223,7 @@ const ExProgram = ({ navigation }) => {
                             <Pressable onPress={() => finishedPlaying()}>
                                 <View style={ComponentsStyle.button} >
                                     <Text style={ComponentsStyle.textButton}>
-                                        เล่นท่านี้เสร็จแล้ว
+                                        {t('finished_playing')}
                                     </Text>
                                 </View>
                             </Pressable>
