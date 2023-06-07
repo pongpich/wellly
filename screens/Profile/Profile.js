@@ -205,7 +205,7 @@ class Profile extends Component {
                                         style={{ width: 24, height: 24, marginLeft: 16 }}
                                         source={require('../../assets/images/icon/Badge_3x.png')}
                                     />
-                                    <Text style={styles.manuName}>ตราของฉัน</Text>
+                                    <Text style={styles.manuName}>{t('my_badge')}</Text>
                                 </View>
                                 <Image
                                     style={{ width: 24, height: 24, marginRight: 16 }}
@@ -223,7 +223,7 @@ class Profile extends Component {
                                         style={{ width: 24, height: 24, marginLeft: 16 }}
                                         source={require('../../assets/images/icon/My_health_3x.png')}
                                     />
-                                    <Text style={styles.manuName}>ข้อมูลสุขภาพ</Text>
+                                    <Text style={styles.manuName}>{t('health_information')}</Text>
                                 </View>
                                 <Image
                                     style={{ width: 24, height: 24, marginRight: 16 }}
@@ -239,7 +239,7 @@ class Profile extends Component {
                                         style={{ width: 24, height: 24, marginLeft: 16 }}
                                         source={require('../../assets/images/icon/Password_3x.png')}
                                     />
-                                    <Text style={styles.manuName}>เปลี่ยนรหัสผ่าน</Text>
+                                    <Text style={styles.manuName}>{t('change')}</Text>
                                 </View>
                                 <Image
                                     style={{ width: 24, height: 24, marginRight: 16 }}
@@ -261,8 +261,8 @@ class Profile extends Component {
                                                 source={require('../../assets/images/icon/Language_3x.png')}
                                             />
                                             <View style={{ flexDirection: "row" }}>
-                                                <Text style={styles.manuName}>ภาษา</Text>
-                                                <Text style={{ marginLeft: 10, marginTop: 5, color: colors.grey4 }}>Thai</Text>
+                                                <Text style={styles.manuName}>{t('language')}</Text>
+                                                {/*  <Text style={{ marginLeft: 10, marginTop: 5, color: colors.grey4 }}>Thai</Text> */}
                                             </View>
                                         </View>
                                         <Image
@@ -280,8 +280,8 @@ class Profile extends Component {
                                                 source={require('../../assets/images/icon/Language_3x.png')}
                                             />
                                             <View style={{ flexDirection: "row" }}>
-                                                <Text style={styles.manuName}>ภาษา</Text>
-                                                <Text style={{ marginLeft: 10, marginTop: 5, color: colors.grey4 }}>English</Text>
+                                                <Text style={styles.manuName}>{t('language')}</Text>
+                                                {/* <Text style={{ marginLeft: 10, marginTop: 5, color: colors.grey4 }}>English</Text> */}
                                             </View>
                                         </View>
                                         <Image
@@ -300,7 +300,7 @@ class Profile extends Component {
                                         style={{ width: 24, height: 24, marginLeft: 16 }}
                                         source={require('../../assets/images/icon/PDPA_3x.png')}
                                     />
-                                    <Text style={styles.manuName}>การยินยอมและเงื่อนไข</Text>
+                                    <Text style={styles.manuName}>{t('consent')}</Text>
                                 </View>
                                 <Image
                                     style={{ width: 24, height: 24, marginRight: 16 }}
@@ -318,7 +318,7 @@ class Profile extends Component {
                                         style={{ width: 24, height: 24, marginLeft: 16 }}
                                         source={require('../../assets/images/icon/About_3x.png')}
                                     />
-                                    <Text style={styles.manuName}>เกี่ยวกับ Wellly</Text>
+                                    <Text style={styles.manuName}>{t('about_wellly')}</Text>
                                 </View>
                                 <Image
                                     style={{ width: 24, height: 24, marginRight: 16 }}
@@ -334,7 +334,7 @@ class Profile extends Component {
                                     <Image
                                         style={{ width: 24, height: 24, marginLeft: 16 }}
                                     />
-                                    <Text style={styles.manuName}>ลบบัญชี</Text>
+                                    <Text style={styles.manuName}>{t('delete_account')}</Text>
                                 </View>
                                 <Image
                                     style={{ width: 24, height: 24, marginRight: 16 }}
@@ -350,7 +350,7 @@ class Profile extends Component {
                                     <Image
                                         style={{ width: 24, height: 24, marginLeft: 16 }}
                                     />
-                                    <Text style={styles.manuName}>ออกจากระบบ</Text>
+                                    <Text style={styles.manuName}>{t('logout')}</Text>
                                 </View>
                                 <Image
                                     style={{ width: 24, height: 24, marginRight: 16 }}
@@ -368,22 +368,22 @@ class Profile extends Component {
                             {
                                 statusDeleteAcc === "success" ?
                                     <View style={styles.modalView}>
-                                        <Text style={styles.missionHead}>ระบบทำการลบบัญชีของคุณแล้ว</Text>
+                                        <Text style={styles.missionHead}>{t('account_has')}</Text>
                                     </View>
                                     :
                                     <View style={styles.modalView}>
-                                        <Text style={styles.missionHead}>การลบบัญชีไม่สามารถย้อนกลับได้</Text>
-                                        <Text style={styles.missionHead}>ข้อมูลบัญชีจะไม่สามารถกู้คืนได้</Text>
-                                        <Text style={styles.missionHead}>คุณแน่ใจหรือไม่ ?</Text>
+                                        <Text style={styles.missionHead}>{t('deletion_irreversible')}</Text>
+                                        <Text style={styles.missionHead}>{t('recovered')}</Text>
+                                        <Text style={styles.missionHead}>{t('are_you_sure')}</Text>
                                         <View style={{ flexDirection: 'row', marginTop: 20, justifyContent: "space-between", width: "100%" }}>
                                             <TouchableWithoutFeedback onPress={() => this.setState({ popupDeleteAccShow: !popupDeleteAccShow })}>
                                                 <View style={styles.button}>
-                                                    <Text style={ComponentsStyle.textButton} >ยกเลิก</Text>
+                                                    <Text style={ComponentsStyle.textButton} >{t('cancel')}</Text>
                                                 </View>
                                             </TouchableWithoutFeedback>
                                             <TouchableWithoutFeedback onPress={() => this.props.deleteAccount(user && user.user_id)}>
                                                 <View style={styles.buttonGrey}>
-                                                    <Text style={ComponentsStyle.textButtonGrey} >ยืนยัน</Text>
+                                                    <Text style={ComponentsStyle.textButtonGrey} >{t('confirm')}</Text>
                                                 </View>
                                             </TouchableWithoutFeedback>
                                         </View>

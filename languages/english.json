@@ -202,7 +202,7 @@
     "logout": "Logout",
     "version": "Version",
     "account_has": "Your account has been deleted.",
-    "deletion_irreversible.": "Your account will be permanently deleted.",
+    "deletion_irreversible": "Your account will be permanently deleted.",
     "recovered": "Your account data cannot be recovered.",
     "are_you_sure": "Are you sure?",
     "confirm": "Confirm.",
