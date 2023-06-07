@@ -5,6 +5,7 @@ import colors from '../../constants/colors';
 import { connect } from 'react-redux';
 import { getBadge } from "../../redux/get";
 import { withTranslation } from 'react-i18next';
+import { t } from 'i18next';
 
 class Badge extends Component {
     constructor(props) {
@@ -75,7 +76,7 @@ class Badge extends Component {
         return (
             <View style={styles.container}>
                 <View style={{ paddingHorizontal: 16 }}>
-                    <Text style={styles.headText}>ตราของฉัน</Text>
+                    <Text style={styles.headText}>{t('my_badge')}</Text>
                     <View style={{ alignItems: "center" }}>
                         <View style={{ flexDirection: "row" }}>
                             <Image

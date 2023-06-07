@@ -100,7 +100,7 @@ class ChangePassword extends Component {
                     <Image style={{ width: 120, height: 120 }}
                         source={require('../../assets/images/icon/ChangePassword.png')}
                     />
-                    <Text style={styles.headText}>กรอกรหัสผ่านเดิม</Text>
+                    <Text style={styles.headText}>{t('old_password')}</Text>
 
                 </View>
                 <View style={{ paddingHorizontal: 16 }}>
@@ -140,13 +140,13 @@ class ChangePassword extends Component {
                                 textErrorPassWord === 1 ?
                                     <Text style={ComponentsStyle.textError}>{t('please_enter_password')}</Text>
                                     : textErrorPassWord === 2 ?
-                                        <Text style={ComponentsStyle.textError}>รหัสผ่านไม่ถูกต้อง</Text>
+                                        <Text style={ComponentsStyle.textError}>{t('password_incorrect')}</Text>
                                         : null
                                 : null
                         }
                     </View>
                 </View>
-                <Text style={[styles.forgot, { marginBottom: 70 }]}>ลืมรหัสผ่าน?</Text>
+                <Text style={[styles.forgot, { marginBottom: 70 }]}>{t('forgot_password')}</Text>
                 <View style={styles.submit}>
                     <Pressable style={ComponentsStyle.button} onPress={() => this.submitChange()} >
                         <Text style={ComponentsStyle.textButton}>{t('next')}</Text>

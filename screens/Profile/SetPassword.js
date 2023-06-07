@@ -189,11 +189,11 @@ class SetPassword extends Component {
                             <Image style={{ width: 120, height: 120 }}
                                 source={require('../../assets/images/icon/ChangePassword.png')}
                             />
-                            <Text style={styles.headText}>ตั้งรหัสผ่านใหม่</Text>
+                            <Text style={styles.headText}>{t('set_new_password')}</Text>
 
                         </View>
                         <View style={{ paddingHorizontal: 16 }}>
-                            <Text style={[styles.headTextInput, { marginTop: 19 }]}>รหัสผ่านใหม่</Text>
+                            <Text style={[styles.headTextInput, { marginTop: 19 }]}>{t('new_password')}</Text>
                             <View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', marginTop: 8 }}>
                                 <TextInput
                                     style={{
@@ -226,18 +226,18 @@ class SetPassword extends Component {
                         </View>
                         <View style={[styles.viewTextForgot, { marginTop: 8 }]}>
                             <Image style={{ width: 16, height: 16, marginTop: 4 }} source={textforgot1 == 1 ? require('../../assets/images/icon/radioButtonActive.png') : textforgot1 == 2 ? require('../../assets/images/icon/warningCircleSolid.png') : require('../../assets/images/icon/radioButtonChecked.png')} />
-                            <Text style={[styles.textforgot,]}>8-30 ตัวอักษร?</Text>
+                            <Text style={[styles.textforgot,]}>{t('characters')}</Text>
                         </View>
                         <View style={styles.viewTextForgot}>
                             <Image style={{ width: 16, height: 16, marginTop: 4 }} source={textforgot2 == 1 ? require('../../assets/images/icon/radioButtonActive.png') : textforgot2 == 2 ? require('../../assets/images/icon/warningCircleSolid.png') : require('../../assets/images/icon/radioButtonChecked.png')} />
-                            <Text style={styles.textforgot}>ตัวพิมพ์ใหญ่อย่างน้อย 1 ตัว</Text>
+                            <Text style={styles.textforgot}>{t('uppercase')}</Text>
                         </View>
                         <View style={styles.viewTextForgot}>
                             <Image style={{ width: 16, height: 16, marginTop: 4 }} source={textforgot3 == 1 ? require('../../assets/images/icon/radioButtonActive.png') : textforgot3 == 2 ? require('../../assets/images/icon/warningCircleSolid.png') : require('../../assets/images/icon/radioButtonChecked.png')} />
-                            <Text style={styles.textforgot}>ตัวเลขอย่างน้อย 1 ตัว</Text>
+                            <Text style={styles.textforgot}>{t('numbers_least')}</Text>
                         </View>
                         <View style={{ paddingHorizontal: 16, marginTop: 20, marginBottom: 40 }}>
-                            <Text style={[styles.headTextInput, { marginTop: 19 }]}>ยืนยันรหัสผ่าน</Text>
+                            <Text style={[styles.headTextInput, { marginTop: 19 }]}>{t('confirm_password')}</Text>
                             <View style={{ flexDirection: 'row', alignItems: 'center', width: '100%', marginTop: 8 }}>
                                 <TextInput
                                     style={{

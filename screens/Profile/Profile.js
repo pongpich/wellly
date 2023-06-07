@@ -405,7 +405,7 @@ class Profile extends Component {
                         <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
                             <View style={styles.centeredViewName}>
                                 <View style={styles.modalViewName}>
-                                    <Text style={styles.whatName}>อยากให้เราเรียกคุณว่าอะไร?</Text>
+                                    <Text style={styles.whatName}>{t('what_do_we_call_you')}</Text>
                                     <View>
                                         <TextInput style={
                                             ComponentsStyle.inputIsFocused}
@@ -433,12 +433,12 @@ class Profile extends Component {
                                     <View style={{ flexDirection: 'row', marginTop: 20, justifyContent: "space-between", width: "100%" }}>
                                         <TouchableWithoutFeedback onPress={() => this.onEditName(false)}>
                                             <View style={styles.buttonWhite}>
-                                                <Text style={ComponentsStyle.textButtonWhite} >ยกเลิก</Text>
+                                                <Text style={ComponentsStyle.textButtonWhite} >{t('cancel')}</Text>
                                             </View>
                                         </TouchableWithoutFeedback>
                                         <TouchableWithoutFeedback onPress={() => this.updateUserName()}>
                                             <View style={styles.button}>
-                                                <Text style={ComponentsStyle.textButton} >บันทึก</Text>
+                                                <Text style={ComponentsStyle.textButton} >{t('record')}</Text>
                                             </View>
                                         </TouchableWithoutFeedback>
                                     </View>
