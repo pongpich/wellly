@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import { getActivityList, getExerciserActivity } from "../../redux/get";
 import { updateNumberCompleted, resetStatusUpdateNumbComp } from "../../redux/update";
 import { CommonActions } from '@react-navigation/native';
-
+import { t } from 'i18next';
 class AddActivity extends Component {
 
     constructor(props) {
@@ -151,9 +151,9 @@ class AddActivity extends Component {
                                     { color: (intensity === 'light_intensity') ? colors.secondary_MayaBlue : (intensity === 'moderate_intensity') ? colors.tertiaryYellow : colors.tertiaryMagenta }]
                                     }
                                 >
-                                    {(intensity === 'light_intensity') && 'เข้มข้นต่ำ'}
-                                    {(intensity === 'moderate_intensity') && 'เข้มข้นปานกลาง'}
-                                    {(intensity === 'vigorous_intensity') && 'เข้มข้นสูง'}
+                                    {(intensity === 'light_intensity') && `${t('low_concentration')}`}
+                                    {(intensity === 'moderate_intensity') && `${t('moderate_concentration')}`}
+                                    {(intensity === 'vigorous_intensity') && `${'hight_concentration'}`}
                                 </Text>
                             </View>
                         </View>
@@ -195,9 +195,9 @@ class AddActivity extends Component {
                                     onChangeText={(text) => this.setState({ duration: text })}
                                     value={duration}
                                     keyboardType='numeric'
-                                    placeholder="ระยะเวลาที่ใช้"
+                                    placeholder={t('time_spent')}
                                 />
-                                <Text style={[styles.textDetails, { position: "absolute", marginLeft: 150 }]}>นาที</Text>
+                                <Text style={[styles.textDetails, { position: "absolute", marginLeft: 150 }]}>{t('minute')}</Text>
                             </View>
                             <View
                                 style={{
@@ -215,7 +215,7 @@ class AddActivity extends Component {
                                     style={[styles.textDetails, { width: "100%" }]}
                                     onChangeText={(text) => this.setState({ note: text })}
                                     value={note}
-                                    placeholder="โน้ต"
+                                    placeholder={t('note')}
                                 />
                             </View>
                             <View

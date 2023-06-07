@@ -558,7 +558,7 @@ class Add extends Component {
                                                         <Text style={[styles.groupStatus, { color: item.intensity === 'light_intensity' ? colors.secondary_MayaBlue : item.intensity === 'moderate_intensity' ? colors.tertiaryYellow : colors.tertiaryMagenta }]}>
                                                             {(item.intensity === 'light_intensity') && `${t('low_concentration')}`}
                                                             {(item.intensity === 'moderate_intensity') && `${t('moderate_concentration')}`}
-                                                            {(item.intensity === 'vigorous_intensity') && `${t('height_concentration')}`}
+                                                            {(item.intensity === 'vigorous_intensity') && `${t('hight_concentration')}`}
                                                         </Text>
                                                     </View>
                                                 </View>
@@ -811,7 +811,7 @@ class Add extends Component {
                                                                 <Text style={[styles.groupStatus, { color: item.intensity === 'light_intensity' ? colors.secondary_MayaBlue : item.intensity === 'moderate_intensity' ? colors.tertiaryYellow : colors.tertiaryMagenta }]}>
                                                                     {(item.intensity === 'light_intensity') && `${t('low_concentration')}`}
                                                                     {(item.intensity === 'moderate_intensity') && `${t('moderate_concentration')}`}
-                                                                    {(item.intensity === 'vigorous_intensity') && `${t('height_concentration')}`}
+                                                                    {(item.intensity === 'vigorous_intensity') && `${t('hight_concentration')}`}
                                                                 </Text>
                                                             </View>
                                                         </View>
@@ -834,11 +834,11 @@ class Add extends Component {
                                         </View>
                                     </TouchableWithoutFeedback> */}
                                         <TouchableWithoutFeedback onPress={() => this.setState({ statusCreate: "createView" })}>
-                                            <View>
+                                            <View style={{ marginBottom: 100, paddingBottom: 100 }}>
                                                 <View style={styles.missionView}>
                                                     <Image style={styles.activityImage} source={require('../../assets/images/activity/frame13811.png')} />
                                                     <View style={styles.groupText2}>
-                                                        <Text style={styles.headText3}>เพิ่มกิจกรรมใหม่</Text>
+                                                        <Text style={styles.headText3}>{t('add_new_event')}</Text>
                                                     </View>
                                                 </View>
                                             </View>
@@ -875,19 +875,19 @@ class Add extends Component {
                                                 source={require('../../assets/images/activity/chenronLe.png')}
                                             />
                                         </TouchableWithoutFeedback>
-                                        <Text style={styles.headActivity}>แก้ไขกิจกรรม</Text>
+                                        <Text style={styles.headActivity}>{t('edit_activity')}</Text>
                                         {
                                             statusViolence && missionName ?
                                                 <TouchableWithoutFeedback onPress={() => this.seveEitMissionName("บันทึกกิจกรรมแล้ว")}>
-                                                    <Text style={styles.headEdit}>บันทึก</Text>
+                                                    <Text style={styles.headEdit}>{t('record')}</Text>
                                                 </TouchableWithoutFeedback>
                                                 :
-                                                <Text style={styles.headEditgrey}>บันทึก</Text>
+                                                <Text style={styles.headEditgrey}>{t('record')}</Text>
                                         }
 
 
                                     </View>
-                                    <Text style={[styles.headActivity, { marginTop: 19 }]}>ความเข้มข้น</Text>
+                                    <Text style={[styles.headActivity, { marginTop: 19 }]}>{t('concentration')}</Text>
                                     {/*   <TouchableWithoutFeedback></TouchableWithoutFeedback> */}
                                     <View style={{ justifyContent: "space-between", flex: 1 }}>
                                         <View>
@@ -898,7 +898,7 @@ class Add extends Component {
                                                             style={{ height: 32, width: 32, zIndex: 1 }}
                                                             source={require('../../assets/images/activity/Activitylow.png')}
                                                         />
-                                                        <Text style={styles.textImageBoxCreate}>ต่ำ</Text>
+                                                        <Text style={styles.textImageBoxCreate}>{t('low')}</Text>
                                                     </View>
                                                 </TouchableWithoutFeedback>
                                                 <TouchableWithoutFeedback onPress={() => this.violence("moderate_intensity")}>
@@ -907,7 +907,7 @@ class Add extends Component {
                                                             style={{ height: 32, width: 32, zIndex: 1 }}
                                                             source={require('../../assets/images/activity/Activitycenter.png')}
                                                         />
-                                                        <Text style={styles.textImageBoxCreate}>ปานกลาง</Text>
+                                                        <Text style={styles.textImageBoxCreate}>{t('moderate')}</Text>
                                                     </View>
                                                 </TouchableWithoutFeedback>
                                                 <TouchableWithoutFeedback onPress={() => this.violence("vigorous_intensity")}>
@@ -916,7 +916,7 @@ class Add extends Component {
                                                             style={{ height: 32, width: 32, zIndex: 1 }}
                                                             source={require('../../assets/images/activity/Activityhign.png')}
                                                         />
-                                                        <Text style={styles.textImageBoxCreate}>สูง</Text>
+                                                        <Text style={styles.textImageBoxCreate}>{t('high')}</Text>
                                                     </View>
                                                 </TouchableWithoutFeedback>
                                             </View>
@@ -931,7 +931,7 @@ class Add extends Component {
                                         {confirmDelete === false ?
                                             <View style={{ alignItems: "center" }}>
                                                 <Pressable onPress={() => this.setState({ confirmDelete: true, })} >
-                                                    <Text style={styles.deleteActivity}>ลบกิจกรรมนี้</Text>
+                                                    <Text style={styles.deleteActivity}>{t('delete_this_event')}</Text>
                                                 </Pressable>
                                             </View>
                                             : null}
@@ -948,16 +948,16 @@ class Add extends Component {
                             <View style={styles.confirm}>
                                 <View style={{ flex: 1, justifyContent: "flex-end" }} onPress={() => this.toggleModal(isModalVisible)} >
                                     <View style={styles.modalView}>
-                                        <Text style={styles.headModal}>แน่ใจที่ลบกิจกรรมนี้หรือไม่</Text>
+                                        <Text style={styles.headModal}>{t('want_delete')}</Text>
                                         <View style={[styles.missionView, { marginTop: 32, marginBottom: 40, }]}>
                                             <TouchableWithoutFeedback onPress={() => this.setState({ confirmDelete: false })}>
                                                 <View style={styles.buttonWhite}>
-                                                    <Text style={styles.textButtonWhite}>ย้อนกลับ</Text>
+                                                    <Text style={styles.textButtonWhite}>{t('backward')}</Text>
                                                 </View>
                                             </TouchableWithoutFeedback>
                                             <TouchableWithoutFeedback onPress={() => this.deleteActivity("ลบกิจกรรมแล้ว")}>
                                                 <View style={styles.buttonRed}>
-                                                    <Text style={styles.textButtonRed}>ลบกิจกรรม</Text>
+                                                    <Text style={styles.textButtonRed}>{t('delete_activity')}</Text>
                                                 </View>
                                             </TouchableWithoutFeedback>
                                         </View>
