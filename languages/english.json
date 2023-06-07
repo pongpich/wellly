@@ -81,7 +81,7 @@
 
     "hello": "Hello!",
     "mission_this_week": "This is your weekly mission.",
-    "Nutrition": "Nutrition",
+    "nutrition": "Nutrition",
     "latest_mission": "Your latest mission",
     "last_day": "Last day",
     "unfinished_mission": "Unfinished missions",
@@ -104,6 +104,7 @@
     "correct_answer": "1 correct answer",
     "send_reply": "Submit the answers",
     "score": "Scores",
+    "reason": "Reason",
     "assessment": "Evaluation",
     "great": "Great job!",
     "evaluation_results": "See the results and advice on the button below.",
