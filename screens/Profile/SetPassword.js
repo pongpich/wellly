@@ -256,7 +256,7 @@ class SetPassword extends Component {
                                     }}
                                     maxLength={30}
                                     onChangeText={(text) => this.handleChange('confirmPassword', text)}
-                                    placeholder={confirmPassword === null || confirmPassword === '' ? 'กรอกรหัสด้านบนอีกครั้ง' : null}
+                                    placeholder={confirmPassword === null || confirmPassword === '' ? `${t('re_enter')}` : null}
                                     autoCapitalize='none'
                                     secureTextEntry={entry2}
                                     value={confirmPassword}
@@ -274,7 +274,7 @@ class SetPassword extends Component {
                                         confirmTextErrorPassWord === 1 ?
                                             <Text style={ComponentsStyle.textError}>{t('please_enter_password')}</Text>
                                             : confirmTextErrorPassWord === 2 ?
-                                                <Text style={ComponentsStyle.textError}>รหัสผ่านไม่ตรงกัน</Text>
+                                                <Text style={ComponentsStyle.textError}>{t('passwords_match')}</Text>
                                                 : null
                                         : null
                                 }
@@ -285,11 +285,11 @@ class SetPassword extends Component {
                         {
                             (confirmStatusPassword === true) && (textforgot1 == 1) && (textforgot2 == 1) && (textforgot3 == 1) ?
                                 <Pressable style={ComponentsStyle.button} onPress={() => this.submitNewPassWord()} >
-                                    <Text style={ComponentsStyle.textButton}>ยืนยัน</Text>
+                                    <Text style={ComponentsStyle.textButton}>{t('confirm')}</Text>
                                 </Pressable>
                                 :
                                 <Pressable style={ComponentsStyle.buttonGrey}  >
-                                    <Text style={ComponentsStyle.textButtonGrey}>ยืนยัน</Text>
+                                    <Text style={ComponentsStyle.textButtonGrey}>{t('confirm')}</Text>
                                 </Pressable>
                         }
                     </View>
