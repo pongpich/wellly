@@ -330,27 +330,8 @@ class Home extends Component {
         if ((prevState.statusChart !== statusChart) && (statusChart == 1)) {
             this.props.getWeekActivityLogGraph((user && user.user_id));
         }
-        const languages = i18next.languages[0].languages === "th";
-        console.log("languages", languages);
-        const { t } = this.props;
-        /* if ((prevProps.languages !== languages) && (languages === "th") && (prevProps.labelsWeek !== labelsWeek)) {
-            this.setState({
-                labelsWeek: [`${t('this_week')}`, `${t('last_week')}`],
-            })
 
-        }
-        if ((prevProps.languages !== languages) && (languages === "en") && (prevProps.labelsWeek !== labelsWeek)) {
-            this.setState({
-                labelsWeek: [`${t('this_week')}`, `${t('last_week')}`],
-            })
 
-        } */
-
-        /*  if (prevProps.teachUserHome == teachUserHome && teachUserHome == false) {
-             this.setState({
-                 teachUserHome: false
-             })
-         } */
 
     }
 
@@ -916,7 +897,7 @@ class Home extends Component {
                             textAlign: "right",
                             marginRight: 20,
 
-                        }}>ข้าม</Text>
+                        }}>{t('cross')}</Text>
                     </TouchableWithoutFeedback>
                     <View style={{ flex: 1, alignItems: 'center', justifyContent: "flex-end" }}>
                         <View style={{
@@ -935,7 +916,7 @@ class Home extends Component {
                                 color: colors.grey1,
                             }}>
                                 {
-                                    stipTeach === 1 ? "ดูภารกิจโภชนาการที่จะช่วยให้เข้าใจกลไกของร่างกายได้ดีขึ้น" : stipTeach === 2 ? "ดูภารกิจออกกำลังกาย ที่จะช่วยให้คุณมีสุขภาพแข็งแรงและท้าทาย" : "บันทึกการออกกำลังกายหรือส่งการบ้านตามภารกิจที่ได้รับ"
+                                    stipTeach === 1 ? `${t('see_nutrition_missions')}` : stipTeach === 2 ? `${t('see_exercise_mission')}` : `${t('log_exercises_submit')}`
                                 }
 
                             </Text>
@@ -968,7 +949,7 @@ class Home extends Component {
                                             fontSize: ComponentsStyle.fontSize16,
                                             fontFamily: "IBMPlexSansThai-Bold",
                                             color: colors.white,
-                                        }}>ถัดไป</Text>
+                                        }}>{t('next')}</Text>
                                     </View>
                                 </TouchableWithoutFeedback>
                             </View>
