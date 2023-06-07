@@ -238,19 +238,19 @@ class AddActivity extends Component {
 
                             }}>
                                 <View style={styles.buttonWhite}>
-                                    <Text style={styles.textButtonWhite}>ละทิ้ง</Text>
+                                    <Text style={styles.textButtonWhite}>{t('abandon')}</Text>
                                 </View>
                             </TouchableWithoutFeedback>
                             {
                                 (statusUpdateNumbComp !== "loading") ?
                                     <TouchableWithoutFeedback onPress={() => this.saveMission()}>
                                         <View style={styles.buttonBlue}>
-                                            <Text style={styles.textButtonRed}>บันทึก</Text>
+                                            <Text style={styles.textButtonRed}>{t('record')}</Text>
                                         </View>
                                     </TouchableWithoutFeedback>
                                     :
                                     <View style={styles.buttonBlue}>
-                                        <Text style={styles.textButtonRed}>บันทึก</Text>
+                                        <Text style={styles.textButtonRed}>{t('record')}</Text>
                                     </View>
                             }
                         </View>
@@ -265,16 +265,16 @@ class AddActivity extends Component {
                                 >
                                     <View View style={{ flex: 1, justifyContent: "flex-end" }} onPress={() => this.toggleModal(isModalVisible2)} >
                                         <View style={styles.modalView}>
-                                            <Text style={styles.headModal}>หากละทิ้งตอนนี้ ข้อมูลจะไม่ถูกบันทึก</Text>
+                                            <Text style={styles.headModal}>{t('leave_now')}</Text>
                                             <View style={[styles.missionView, { marginTop: 32, marginBottom: 40, }]}>
                                                 <TouchableWithoutFeedback onPress={() => this.toggleModal(isModalVisible2)}>
                                                     <View style={styles.buttonWhite}>
-                                                        <Text style={styles.textButtonWhite}>ย้อนกลับ</Text>
+                                                        <Text style={styles.textButtonWhite}>{t('backward')}</Text>
                                                     </View>
                                                 </TouchableWithoutFeedback>
                                                 <TouchableWithoutFeedback onPress={() => this.deleteActivity2(isModalConter2)}>
                                                     <View style={styles.buttonRed}>
-                                                        <Text style={styles.textButtonRed}>ละทิ้ง</Text>
+                                                        <Text style={styles.textButtonRed}>{t('abandon')}</Text>
                                                     </View>
                                                 </TouchableWithoutFeedback>
                                             </View>
