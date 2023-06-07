@@ -558,7 +558,7 @@ class Add extends Component {
                                                         <Text style={[styles.groupStatus, { color: item.intensity === 'light_intensity' ? colors.secondary_MayaBlue : item.intensity === 'moderate_intensity' ? colors.tertiaryYellow : colors.tertiaryMagenta }]}>
                                                             {(item.intensity === 'light_intensity') && `${t('low_concentration')}`}
                                                             {(item.intensity === 'moderate_intensity') && `${t('moderate_concentration')}`}
-                                                            {(item.intensity === 'vigorous_intensity') && `${t('hing_concentration')}`}
+                                                            {(item.intensity === 'vigorous_intensity') && `${t('hight_concentration')}`}
                                                         </Text>
                                                     </View>
                                                 </View>
@@ -637,21 +637,21 @@ class Add extends Component {
                         <View style={[styles.modalViewConter, { paddingHorizontal: 16 }]}>
                             <View style={[styles.missionView, { marginTop: 20, justifyContent: "space-between" }]}>
                                 <TouchableWithoutFeedback onPress={() => this.setState({ statusCreate: "listDataViews" })}>
-                                    <Text style={styles.headEdit}>ยกเลิก</Text>
+                                    <Text style={styles.headEdit}>{t('cancel')}</Text>
                                 </TouchableWithoutFeedback>
-                                <Text style={styles.headActivity}>เพิ่มกิจกรรม</Text>
+                                <Text style={styles.headActivity}>{t('add_activity')}</Text>
                                 {
                                     statusViolence && missionName && (statusAddActListAddOn !== "loading") ?
                                         <TouchableWithoutFeedback onPress={() => this.addMissionName("listDataViews", missionName, statusViolence, "เพิ่มกิจกรรมแล้ว")}>
-                                            <Text style={styles.headEdit}>เพิ่ม</Text>
+                                            <Text style={styles.headEdit}>{t('add')}</Text>
                                         </TouchableWithoutFeedback>
                                         :
-                                        <Text style={styles.headEditgrey}>เพิ่ม</Text>
+                                        <Text style={styles.headEditgrey}>{t('add')}</Text>
                                 }
 
 
                             </View>
-                            <Text style={[styles.headActivity, { marginTop: 19 }]}>ความเข้มข้น</Text>
+                            <Text style={[styles.headActivity, { marginTop: 19 }]}>{t('concentration')}</Text>
                             {/*   <TouchableWithoutFeedback></TouchableWithoutFeedback> */}
                             <View style={[styles.missionView, { marginTop: 8 }]}>
                                 <TouchableWithoutFeedback onPress={() => this.violence("light_intensity")}>
@@ -660,7 +660,7 @@ class Add extends Component {
                                             style={{ height: 32, width: 32, zIndex: 1 }}
                                             source={require('../../assets/images/activity/Activitylow.png')}
                                         />
-                                        <Text style={styles.textImageBoxCreate}>ต่ำ</Text>
+                                        <Text style={styles.textImageBoxCreate}>{t('low')}</Text>
                                     </View>
                                 </TouchableWithoutFeedback>
                                 <TouchableWithoutFeedback onPress={() => this.violence("moderate_intensity")}>
@@ -669,7 +669,7 @@ class Add extends Component {
                                             style={{ height: 32, width: 32, zIndex: 1 }}
                                             source={require('../../assets/images/activity/Activitycenter.png')}
                                         />
-                                        <Text style={styles.textImageBoxCreate}>ปานกลาง</Text>
+                                        <Text style={styles.textImageBoxCreate}>{t('moderate')}</Text>
                                     </View>
                                 </TouchableWithoutFeedback>
                                 <TouchableWithoutFeedback onPress={() => this.violence("vigorous_intensity")}>
@@ -678,27 +678,27 @@ class Add extends Component {
                                             style={{ height: 32, width: 32, zIndex: 1 }}
                                             source={require('../../assets/images/activity/Activityhign.png')}
                                         />
-                                        <Text style={styles.textImageBoxCreate}>สูง</Text>
+                                        <Text style={styles.textImageBoxCreate}>{t('high')}</Text>
                                     </View>
                                 </TouchableWithoutFeedback>
                             </View>
                             <Text style={styles.textAdd}>
                                 {
-                                    statusViolence == "light_intensity" && "เป็นกิจกรรมที่ออกแรงน้อย หรือแทบไม่รู้สึกว่าออกแรงเลย สามารถทำได้ต่อเนื่องและยาวนาน สามารถพูดคุยและหายใจได้ในจังหวะปกติในขณะทำกิจกรรม"
+                                    statusViolence == "light_intensity" && `${t('less_strenuous_activity')}`
 
                                 }
                                 {
-                                    statusViolence == "moderate_intensity" && "เป็นกิจกรรมที่ต้องออกแรงค่อนข้างหนัก แต่ยังสามารถทำได้ต่อเนื่อง ทำให้ต้องหายใจเร็วมากขึ้น แต่ไม่ถึงกับหายใจไม่ทัน ยังสามารถยังพูดคุยได้ อาจทำให้รู้สึกเหนื่อยหอบ เมื่อทำต่อเนื่องอย่างน้อย 10 นาที"
+                                    statusViolence == "moderate_intensity" && `${t('quite_heavy_physical_exertion')}`
                                 }
                                 {
-                                    statusViolence == "vigorous_intensity" && "เป็นกิจกรรมที่ต้องออกแรงมาก ใช้พลังงานเยอะ ไม่สามารถทำต่อเนื่องได้นาน ทำให้รู้สึกเหนื่อยหอบเร็ว  และไม่สามารถพูดคุยหรือหายใจได้ตามปกติ ต้องมีการหยุดพักเพื่อหายใจ"
+                                    statusViolence == "vigorous_intensity" && `${t('very_strenuous_activity')}`
                                 }
                             </Text>
                             <TextInput
                                 style={styles.input}
                                 onChangeText={(text) => this.setState({ missionName: text })}
                                 value={missionName}
-                                placeholder="ชื่อกิจกรรม"
+                                placeholder={t('event_name')}
                             />
                         </View>
                     </View>
@@ -730,10 +730,10 @@ class Add extends Component {
                             <View style={[styles.modalViewConter, { paddingHorizontal: 16 }]}>
                                 <View style={[styles.missionView, { marginTop: 20, justifyContent: "space-between", alignItems: "center" }]}>
                                     <View></View>
-                                    <Text style={[styles.headActivity, { marginLeft: 32, marginTop: -16 }]}>แก้ไขกิจกรรมตามความเข้มข้น</Text>
+                                    <Text style={[styles.headActivity, { marginLeft: 32, marginTop: -16 }]}>{t('modify_activities')}</Text>
                                     <TouchableWithoutFeedback onPress={() => this.setState({ statusCreate: "listDataViews" })}>
                                         <View style={{ width: 60, marginTop: -16, height: 60, alignItems: "center", justifyContent: "center" }}>
-                                            <Text style={styles.headEdit}>เสร็จ</Text>
+                                            <Text style={styles.headEdit}>{t('finish')}</Text>
                                         </View>
                                     </TouchableWithoutFeedback>
                                 </View>
@@ -747,7 +747,7 @@ class Add extends Component {
                                         ]
                                     })}>
                                         <View style={[study == "ทั้งหมด" ? styles.boxHeadingActive : styles.boxHeading, { width: 100 }]}>
-                                            <Text style={study == "ทั้งหมด" ? styles.sectionActive : styles.section}> ทั้งหมด</Text>
+                                            <Text style={study == "ทั้งหมด" ? styles.sectionActive : styles.section}> {t('all')}</Text>
                                         </View>
                                     </Pressable>
                                     <Pressable onPress={() => this.setState({
@@ -755,7 +755,7 @@ class Add extends Component {
                                         activity_list_addon_show: [...(activity_list.light_intensity.filter(item => item.type === 'addon'))]
                                     })}>
                                         <View style={[study == "ต่ำ" ? styles.boxHeadingActive : styles.boxHeading, { width: 100 }]}>
-                                            <Text style={study == "ต่ำ" ? styles.sectionActive : styles.section}> ต่ำ</Text>
+                                            <Text style={study == "ต่ำ" ? styles.sectionActive : styles.section}> {t('low')}</Text>
                                         </View>
                                     </Pressable>
                                     <Pressable onPress={() => this.setState({
@@ -764,7 +764,7 @@ class Add extends Component {
                                     })}>
                                         <View style={[study == "ปานกลาง" ? styles.boxHeadingActive : styles.boxHeading, { width: 100 }]}>
 
-                                            <Text style={study == "ปานกลาง" ? styles.sectionActive : styles.section}> ปานกลาง</Text>
+                                            <Text style={study == "ปานกลาง" ? styles.sectionActive : styles.section}> {t('moderate')}</Text>
 
                                         </View>
                                     </Pressable>
@@ -773,7 +773,7 @@ class Add extends Component {
                                         activity_list_addon_show: [...(activity_list.vigorous_intensity.filter(item => item.type === 'addon'))]
                                     })}>
                                         <View style={[study == "สูง" ? styles.boxHeadingActive : styles.boxHeading, { width: 100 }]}>
-                                            <Text style={study == "สูง" ? styles.sectionActive : styles.section}> สูง</Text>
+                                            <Text style={study == "สูง" ? styles.sectionActive : styles.section}> {t('high')}</Text>
                                         </View>
                                     </Pressable>
                                 </View>
