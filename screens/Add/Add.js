@@ -408,8 +408,6 @@ class Add extends Component {
         });
 
 
-        console.log("message001", message);
-
         return (
             <View style={{ flex: 1, justifyContent: "flex-end" }} onPress={() => this.toggleModal(isModalVisible)} >
                 <View style={styles.modalViewConter}>
