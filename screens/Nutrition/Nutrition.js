@@ -12,6 +12,7 @@ import { convertFormatDate, calculateWeekInProgram } from "../../helpers/utils";
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 import Modal from "react-native-modal";
 import { useTranslation } from "react-i18next";
+import i18next from 'i18next';
 
 
 const HEADER_MAX_HEIGHT = 500;
@@ -234,7 +235,7 @@ const Nutrition = ({ navigation }) => {
                                                         <Text style={styles.number}>{item.week_in_program}</Text>
                                                     </View>
                                                     <View style={styles.missionData}>
-                                                        <Text style={styles.missionHead}>{item.heading}</Text>
+                                                        <Text style={styles.missionHead}>{(i18next.language === 'th') ? item.heading : item.heading_eng}</Text>
                                                         <Text style={[styles.missionContent, { marginRight: 16 }]}>
 
                                                             {substringText(item.short_content)}
@@ -275,7 +276,7 @@ const Nutrition = ({ navigation }) => {
                                                         <Text style={styles.number}>{item.week_in_program}</Text>
                                                     </View>
                                                     <View style={styles.missionData}>
-                                                        <Text style={styles.missionHead}>{item.heading}</Text>
+                                                        <Text style={styles.missionHead}>{(i18next.language === 'th') ? item.heading : item.heading_eng}</Text>
                                                         <Text style={[styles.missionContent, { marginRight: 16 }]}>
                                                             {substringText(item.short_content)}
                                                         </Text>
@@ -314,7 +315,7 @@ const Nutrition = ({ navigation }) => {
                                                         <Text style={styles.number}>{item.week_in_program}</Text>
                                                     </View>
                                                     <View style={styles.missionData}>
-                                                        <Text style={styles.missionHead}>{item.heading}</Text>
+                                                        <Text style={styles.missionHead}>{(i18next.language === 'th') ? item.heading : item.heading_eng}</Text>
                                                         <Text style={[styles.missionContent, { marginRight: 16 }]}>
                                                             {substringText(item.short_content)}
                                                         </Text>
@@ -482,7 +483,7 @@ const Nutrition = ({ navigation }) => {
                                                 <Text style={styles.number}>{item.week_in_program}</Text>
                                             </View>
                                             <View style={styles.missionData}>
-                                                <Text style={styles.missionHead}>{item.heading}</Text>
+                                                <Text style={styles.missionHead}>{(i18next.language === 'th') ? item.heading : item.heading_eng}</Text>
                                                 <Text style={[styles.missionContent, { marginRight: 16 }]}>
 
                                                     {substringText(item.short_content)}
@@ -514,7 +515,7 @@ const Nutrition = ({ navigation }) => {
                                                 <Text style={styles.number}>{item.week_in_program}</Text>
                                             </View>
                                             <View style={styles.missionData}>
-                                                <Text style={styles.missionHead}>{item.heading}</Text>
+                                                <Text style={styles.missionHead}>{(i18next.language === 'th') ? item.heading : item.heading_eng}</Text>
                                                 <Text style={[styles.missionContent, { marginRight: 16 }]}>
                                                     {substringText(item.short_content)}
                                                 </Text>

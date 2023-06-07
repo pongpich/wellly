@@ -7,6 +7,7 @@ import { missionNumber } from "../../redux/personalUser";
 import { connect } from 'react-redux';
 import { getNutritionActivity } from "../../redux/get";
 import { withTranslation } from 'react-i18next';
+import i18next from 'i18next';
 
 
 
@@ -35,7 +36,7 @@ class History extends Component {
                                             <Text style={styles.number}>{item.week_in_program}</Text>
                                         </View>
                                         <View style={styles.missionData}>
-                                            <Text style={styles.missionHead}>{item.heading}</Text>
+                                            <Text style={styles.missionHead}>{(i18next.language === 'th') ? item.heading : item.heading_eng}</Text>
                                             <Text style={styles.missionContent}>
                                                 {item.short_content}
                                             </Text>
