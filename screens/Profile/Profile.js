@@ -262,7 +262,7 @@ class Profile extends Component {
                                             />
                                             <View style={{ flexDirection: "row" }}>
                                                 <Text style={styles.manuName}>{t('language')}</Text>
-                                                {/*  <Text style={{ marginLeft: 10, marginTop: 5, color: colors.grey4 }}>Thai</Text> */}
+                                                <Text style={{ marginLeft: 10, marginTop: 2, color: colors.grey4, fontFamily: "IBMPlexSansThai-Regular", }}>ไทย</Text>
                                             </View>
                                         </View>
                                         <Image
@@ -281,7 +281,7 @@ class Profile extends Component {
                                             />
                                             <View style={{ flexDirection: "row" }}>
                                                 <Text style={styles.manuName}>{t('language')}</Text>
-                                                {/* <Text style={{ marginLeft: 10, marginTop: 5, color: colors.grey4 }}>English</Text> */}
+                                                <Text style={{ marginLeft: 10, marginTop: 3, color: colors.grey4, fontFamily: "IBMPlexSansThai-Regular", }}>English</Text>
                                             </View>
                                         </View>
                                         <Image
