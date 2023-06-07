@@ -1,3 +1,4 @@
+import { t } from 'i18next';
 import React, { Component } from 'react'
 import { SafeAreaView, StatusBar, View, Text, StyleSheet, Animated, Image, ImageBackground, Dimensions, Pressable, ScrollView, TouchableWithoutFeedback, TextInput, OpenURLButton, Linking } from 'react-native';
 import colors from '../../constants/colors';
@@ -8,7 +9,7 @@ class Pdpa extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text style={styles.headText}>การยินยอมและเงื่อนไข</Text>
+                <Text style={styles.headText}>{t('consent')}</Text>
                 <View style={{ paddingHorizontal: 16, marginTop: 24 }}>
                     <ScrollView showsVerticalScrollIndicator={false}>
                         <Text style={styles.text}>
