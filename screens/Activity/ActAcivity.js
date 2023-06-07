@@ -115,7 +115,7 @@ class ActAcivity extends Component {
             const year = date.getFullYear();
             const currentDate = `${day}-${month}-${year}`; */
         const currentDate = currentTime();
-
+        const { t } = this.props;
 
         return (
             <View style={styles.fill}>
@@ -145,9 +145,9 @@ class ActAcivity extends Component {
                                 { color: (intensity === 'light_intensity') ? colors.secondary_MayaBlue : (intensity === 'moderate_intensity') ? colors.tertiaryYellow : colors.tertiaryMagenta }]
                                 }
                             >
-                                {(intensity === 'light_intensity') && 'เข้มข้นต่ำ'}
-                                {(intensity === 'moderate_intensity') && 'เข้มข้นปานกลาง'}
-                                {(intensity === 'vigorous_intensity') && 'เข้มข้นสูง'}
+                                {(intensity === 'light_intensity') && `${t('low_concentration')}`}
+                                {(intensity === 'moderate_intensity') && `${t('moderate_concentration')}`}
+                                {(intensity === 'vigorous_intensity') && `${t('hight_concentration')}`}
                             </Text>
                         </View>
                     </View>
@@ -188,7 +188,7 @@ class ActAcivity extends Component {
                                 keyboardType='numeric'
                                 placeholder="ระยะเวลาที่ใช้"
                             />
-                            <Text style={styles.textDetails}>นาที</Text>
+                            <Text style={styles.textDetails}>{t('minute')}</Text>
                         </View>
                         <View
                             style={{
@@ -591,4 +591,4 @@ const mapActionsToProps = { getActivityList, updateNumberCompleted, getExerciser
 
 
 
-export default connect(mapStateToProps, mapActionsToProps)(ActAcivity);
+export default connect(mapStateToProps, mapActionsToProps)(withTranslation()(ActAcivity));
