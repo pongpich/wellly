@@ -17,6 +17,7 @@ class ConfirmSubmit extends Component {
     }
 
     render() {
+        const { t } = this.props;
         return (
             <LinearGradient
                 style={ComponentsStyle.container}
@@ -27,8 +28,8 @@ class ConfirmSubmit extends Component {
                 <View style={styles.container}>
                     <View style={styles.viewImage}>
                         <Image style={{ width: 144, height: 144 }} source={require('../../assets/images/icon/Generic_d.png')} />
-                        <Text style={styles.textHead}>เยี่ยมมาก!</Text>
-                        <Text style={styles.textConter}>ดูผลประเมินพร้อมคำแนะนำได้ที่ปุ่มด้านล่าง</Text>
+                        <Text style={styles.textHead}>{t('great')}</Text>
+                        <Text style={styles.textConter}>{t('evaluation_results')}</Text>
                     </View>
                     <View>
                         <View style={styles.buttonView}>
@@ -36,7 +37,7 @@ class ConfirmSubmit extends Component {
                                 <Pressable onPress={() => this.props.navigation.dispatch(StackActions.replace('Home'))}  >
                                     <View style={ComponentsStyle.buttonWhite} >
                                         <Text style={ComponentsStyle.textButtonWhite}>
-                                            กลับหน้าแรก
+                                            {t('back_home')}
                                         </Text>
                                     </View>
                                 </Pressable>
@@ -45,7 +46,7 @@ class ConfirmSubmit extends Component {
                                 <Pressable onPress={() => this.props.navigation.navigate("ReportFeedback")}  >
                                     <View style={ComponentsStyle.button} >
                                         <Text style={ComponentsStyle.textButton}>
-                                            ดูผลประเมิน
+                                            {t('view_assessment_results')}
                                         </Text>
                                     </View>
                                 </Pressable>

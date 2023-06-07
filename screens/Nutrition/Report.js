@@ -12,6 +12,7 @@ import { Checkbox } from 'react-native-paper';
 import { Switch } from 'react-native-switch';
 import { update_assessment_kit_activties } from "../../redux/update";
 import ImageZoom from 'react-native-image-pan-zoom';
+import { t } from 'i18next';
 
 
 //update_assessment_kit_activties
@@ -265,8 +266,8 @@ class Report extends Component {
             <View style={styles.container}>
                 <StatusBar barStyle="dark-content" />
                 <View>
-                    <Text style={styles.exercise}>การประเมิน</Text>
-                    <Text style={styles.week}>สัปดาห์ที่ {week_in_program}</Text>
+                    <Text style={styles.exercise}>{t('assessment')}</Text>
+                    <Text style={styles.week}>{t('week_')} {week_in_program}</Text>
                     <ScrollView showsVerticalScrollIndicator={false}>
                         <View style={styles.areaView}>
                             {
@@ -502,7 +503,7 @@ class Report extends Component {
                                                 <View style={styles.pressableView}>
                                                     <View style={ComponentsStyle.button}>
                                                         <Text style={ComponentsStyle.textButton}>
-                                                            ส่งคำตอบ
+                                                            {t('send_reply')}
                                                         </Text>
                                                     </View>
                                                 </View>
@@ -512,7 +513,7 @@ class Report extends Component {
                                                 <View style={styles.pressableView}>
                                                     <View style={ComponentsStyle.buttonGrey}>
                                                         <Text style={ComponentsStyle.textButtonGrey}>
-                                                            ส่งคำตอบ
+                                                            {t('send_reply')}
                                                         </Text>
                                                     </View>
                                                 </View>

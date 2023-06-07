@@ -10,7 +10,7 @@ import { setTeachUserArticleTemplate, setTeachUserNutrtion, routeName } from "..
 import Mission from '../Nutrition/Mission';
 import Modal from "react-native-modal";
 import { CommonActions } from '@react-navigation/native';
-import i18next from 'i18next';
+import i18next, { t } from 'i18next';
 
 //บทความ
 import Gn1 from '../../components/knowledge/Gn1';
@@ -221,7 +221,7 @@ class ArticleTemplate extends Component {
         const isNotchDevice = Dimensions.get('window').height >= 812;
 
         const isHeight = Dimensions.get('window').height;
-
+        const { t } = this.props;
 
 
         return (
@@ -251,7 +251,7 @@ class ArticleTemplate extends Component {
                             </Text>
                         </View>
                         <View style={ComponentsStyle.nutritionMission}>
-                            <Text style={[ComponentsStyle.missionHead]}>ภารกิจโภชนาการ</Text>
+                            <Text style={[ComponentsStyle.missionHead]}>{t('nutrition_mission')}</Text>
                             <Text style={[ComponentsStyle.missionHeading, { marginRight: 32 }]}>{heading}</Text>
                         </View>
                     </View>
@@ -263,7 +263,7 @@ class ArticleTemplate extends Component {
                             <Pressable onPress={() => this.setState({
                                 study: true
                             })}>
-                                <Text style={study === true ? styles.sectionActive : styles.section}> ความรู้</Text>
+                                <Text style={study === true ? styles.sectionActive : styles.section}> {t('knowledge')}</Text>
                             </Pressable>
                         </View>
                     </View>
@@ -274,7 +274,7 @@ class ArticleTemplate extends Component {
                             <Pressable onPress={() => this.setState({
                                 study: false
                             })}>
-                                <Text style={study !== true ? styles.sectionActive : styles.section}> ภารกิจ</Text>
+                                <Text style={study !== true ? styles.sectionActive : styles.section}> {t('mission')}</Text>
                             </Pressable>
                         </View>
 
@@ -346,7 +346,7 @@ class ArticleTemplate extends Component {
                                         <Pressable onPress={() => this.props.navigation.navigate("Quiz")} >
                                             <View style={ComponentsStyle.button} >
                                                 <Text style={ComponentsStyle.textButton}>
-                                                    ทำแบบฝึกหัด
+                                                    {t('do_exercises')}
                                                 </Text>
                                             </View>
                                         </Pressable>
@@ -354,7 +354,7 @@ class ArticleTemplate extends Component {
                                         <Pressable onPress={() => this.props.navigation.navigate("QuizAnswer")} >
                                             <View style={ComponentsStyle.buttonWhite} >
                                                 <Text style={ComponentsStyle.textButtonWhite}>
-                                                    ดูผลตรวจแบบฝึกหัด
+                                                    {t('view_exercise')}
                                                 </Text>
                                             </View>
                                         </Pressable>
@@ -367,7 +367,7 @@ class ArticleTemplate extends Component {
                                         <Pressable onPress={() => this.props.navigation.navigate("ReportFeedback")} >
                                             <View style={ComponentsStyle.buttonWhite} >
                                                 <Text style={ComponentsStyle.textButtonWhite}>
-                                                    ดูผลการประเมิน
+                                                    {t('view_assessment')}
                                                 </Text>
                                             </View>
                                         </Pressable>
@@ -375,7 +375,7 @@ class ArticleTemplate extends Component {
                                         <Pressable onPress={() => this.evaluatePress()} >
                                             <View style={ComponentsStyle.button} >
                                                 <Text style={ComponentsStyle.textButton}>
-                                                    ประเมินผล
+                                                    {t('evaluate')}
                                                 </Text>
                                             </View>
                                         </Pressable>
@@ -394,15 +394,15 @@ class ArticleTemplate extends Component {
                                 style={styles.imageGeneric}
                                 source={require('../../assets/images/icon/Contextual1.png')}
                             />
-                            <Text style={styles.modalText}>เอ๊ะ! คุณยังทำแบบฝึกหัดไม่เสร็จ</Text>
-                            <Text style={styles.modalText2}>คุณอาจดูแลสุขภาพตัวเองได้ดียิ่งขึ้น จากการทดสอบผ่านแบบฝึกหัด</Text>
+                            <Text style={styles.modalText}>{t('finished_the_exercise')}</Text>
+                            <Text style={styles.modalText2}>{t('You_may_take_better_care')}</Text>
                             <View style={styles.buttonView}>
                                 <Pressable style={ComponentsStyle.button} onPress={() => this.toggleModal('Quiz')} >
-                                    <Text style={ComponentsStyle.textButton}>ทำแบบฝึกหัด</Text>
+                                    <Text style={ComponentsStyle.textButton}>{t('do_exercises')}</Text>
                                 </Pressable>
                             </View>
                             <Pressable style={styles.buttonCross} onPress={() => this.toggleModal('Report')} >
-                                <Text style={styles.textCross}>ภายหลัง</Text>
+                                <Text style={styles.textCross}>{t('after')}</Text>
                             </Pressable>
                         </View>
                     </Modal>
@@ -469,7 +469,7 @@ class ArticleTemplate extends Component {
                                                 <Pressable onPress={() => this.setState({
                                                     study: true
                                                 })}>
-                                                    <Text style={study === true ? styles.sectionActive : styles.section}> ความรู้</Text>
+                                                    <Text style={study === true ? styles.sectionActive : styles.section}> {t('knowledge')}</Text>
                                                 </Pressable>
                                             </View>
                                         </View>
@@ -479,7 +479,7 @@ class ArticleTemplate extends Component {
                                                 <Pressable onPress={() => this.setState({
                                                     study: false
                                                 })}>
-                                                    <Text style={study !== true ? styles.sectionActive : styles.section}> ภารกิจ</Text>
+                                                    <Text style={study !== true ? styles.sectionActive : styles.section}> {t('mission')}</Text>
                                                 </Pressable>
                                             </View>
 

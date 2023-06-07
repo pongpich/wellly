@@ -5,7 +5,7 @@ import { logoutUser } from "../../redux/auth";
 import { update_quiz_activities } from "../../redux/update";
 import { routeName } from "../../redux/personalUser";
 import { connect } from 'react-redux';
-import i18next from 'i18next';
+import i18next, { t } from 'i18next';
 import { withTranslation } from 'react-i18next';
 import colors from '../../constants/colors';
 import ComponentsStyle from '../../constants/components';
@@ -197,8 +197,8 @@ class QuizAnswer extends Component {
             <SafeAreaView style={styles.container}>
                 <StatusBar barStyle="dark-content" />
                 <View>
-                    <Text style={styles.exercise}>แบบฝึกหัด</Text>
-                    <Text style={styles.week}>สัปดาห์ที่ {week_in_program}</Text>
+                    <Text style={styles.exercise}>{t('practice')}</Text>
+                    <Text style={styles.week}>{t('week_')} {week_in_program}</Text>
                     <ScrollView showsVerticalScrollIndicator={false}>
                         <View style={styles.areaView}>
                             {
@@ -304,7 +304,7 @@ class QuizAnswer extends Component {
                                     <View style={styles.pressableView}>
                                         <View style={ComponentsStyle.button}>
                                             <Text style={ComponentsStyle.textButton}>
-                                                ส่งคำตอบ
+                                                {t('send_reply')}
                                             </Text>
                                         </View>
                                     </View>
@@ -314,7 +314,7 @@ class QuizAnswer extends Component {
                                     <View style={styles.pressableView}>
                                         <View style={ComponentsStyle.buttonGrey}>
                                             <Text style={ComponentsStyle.textButtonGrey}>
-                                                ส่งคำตอบ
+                                                {t('send_reply')}
                                             </Text>
                                         </View>
                                     </View>
@@ -347,9 +347,9 @@ class QuizAnswer extends Component {
                                 />
                                 {
                                     quiz && quiz == "ถูกทุกข้อ" ?
-                                        <Text style={styles.quizText}>เยี่ยมมาก! ถูกทุกข้อ</Text>
+                                        <Text style={styles.quizText}>{t('great_right')}</Text>
                                         :
-                                        <Text style={styles.quizText}>ตอบถูก {numbeQuzi} ข้อ</Text>
+                                        <Text style={styles.quizText}>{(i18next.language === 'th') ? `ตอบถูก ${numbeQuzi} ข้อ` : `${numbeQuzi} correct answer`}</Text>
                                 }
                             </View>
                             <View style={styles.centeredView1}>

@@ -6,6 +6,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { missionNumber } from "../../redux/personalUser";
 import { connect } from 'react-redux';
 import { getNutritionActivity } from "../../redux/get";
+import { withTranslation } from 'react-i18next';
 
 
 
@@ -19,11 +20,11 @@ class History extends Component {
 
     render() {
         const { nutrition_activity } = this.props;
-
+        const { t } = this.props;
         return (
             <SafeAreaView style={styles.container}>
                 <View style={styles.marginBox}>
-                    <Text style={styles.missionHistory}>ประวัติภารกิจ</Text>
+                    <Text style={styles.missionHistory}>{t('mission_history')}</Text>
                     <ScrollView  showsVerticalScrollIndicator={false}>
                         {
                             nutrition_activity && nutrition_activity.map((item, i) => (
@@ -140,4 +141,4 @@ const mapActionsToProps = { getNutritionActivity };
 export default connect(
     mapStateToProps,
     mapActionsToProps
-)(History);
+)(withTranslation()(History));

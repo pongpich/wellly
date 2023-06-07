@@ -5,7 +5,7 @@ import { getNutritionMission, getNutritionActivityIdMission } from "../../redux/
 import ComponentsStyle from '../../constants/components';
 import { logoutUser } from "../../redux/auth";
 import { connect } from 'react-redux';
-import i18next from 'i18next';
+import i18next, { t } from 'i18next';
 import { withTranslation } from 'react-i18next';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import { List } from 'react-native-paper';
@@ -151,7 +151,7 @@ class QuizAnswer extends Component {
                                             <Text style={{ color: colors.grey1, fontSize: 32, fontFamily: "IBMPlexSansThai-Bold", marginTop: -17 }}>{Math.ceil(numberQ)}</Text>
                                             <Text style={{ color: colors.grey1, fontSize: 16, fontFamily: "IBMPlexSansThai-Bold", marginTop: 0 }}> /{Math.ceil(maxNumberMission)}</Text>
                                         </View>
-                                        <Text style={{ color: colors.grey2, fontSize: 16, fontFamily: "IBMPlexSansThai-Regular", marginTop: -10 }}>คะแนน</Text>
+                                        <Text style={{ color: colors.grey2, fontSize: 16, fontFamily: "IBMPlexSansThai-Regular", marginTop: -10 }}>{t('score')}</Text>
                                     </>
                                 )
 
@@ -310,7 +310,7 @@ class QuizAnswer extends Component {
                                     </View>
                                     <List.Section style={{ backgroundColor: colors.grey7, borderRadius: 8, }}>
                                         <List.Accordion style={{ backgroundColor: colors.grey7, borderRadius: 8, marginTop: 16 }}
-                                            title={<Text style={styles.titleAccordion}>เหตุผล</Text>}
+                                            title={<Text style={styles.titleAccordion}>{t('Reason')}</Text>}
                                             right={props =>
                                                 <List.Icon {...props} icon={({ size, color, direction }) => (
                                                     expanded ?

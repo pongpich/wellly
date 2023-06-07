@@ -11,6 +11,7 @@ import { getNutritionActivity, getNutritionKnowledgeActivity, getNutritionKnowle
 import { convertFormatDate, calculateWeekInProgram } from "../../helpers/utils";
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 import Modal from "react-native-modal";
+import { useTranslation } from "react-i18next";
 
 
 const HEADER_MAX_HEIGHT = 500;
@@ -165,10 +166,7 @@ const Nutrition = ({ navigation }) => {
     };
 
     const isNotchDevice = Dimensions.get('window').height >= 812;
-
-
-
-
+    const { t } = useTranslation();
     return (
 
         <View style={styles.fill}>
@@ -191,7 +189,7 @@ const Nutrition = ({ navigation }) => {
                 ]}
             >
                 <View style={[styles.missionText, { marginTop: 0 }]}>
-                    <Text style={[styles.mission]}>ภารกิจล่าสุด</Text>
+                    <Text style={[styles.mission]}>{t('latest_mission')}</Text>
                     {
                         (nutrition_activity && nutrition_activity.length > 0) ?
                             <Pressable onPress={() => refresh()}>
@@ -252,7 +250,7 @@ const Nutrition = ({ navigation }) => {
                                                                 ((!quiz_activities) && (!quiz_activities_number) && (week_program_user != item.week_in_program)) || ((!assessment_kit_activties) && (!assessment_kit_number) && (week_program_user != item.week_in_program)) ?
                                                                     <View style={styles.notifiedYellow}>
                                                                         <Text style={styles.notifiedTextYellow}>
-                                                                            ภารกิจที่ยังทำไม่เสร็จ
+                                                                            {t('unfinished_mission')}
                                                                         </Text>
                                                                     </View> : null
                                                         }
@@ -292,7 +290,7 @@ const Nutrition = ({ navigation }) => {
                                                                 ((!quiz_activities) && (!quiz_activities_number) && (week_program_user != item.week_in_program)) || ((!assessment_kit_activties) && (!assessment_kit_number) && (week_program_user != item.week_in_program)) ?
                                                                     <View style={styles.notifiedYellow}>
                                                                         <Text style={styles.notifiedTextYellow}>
-                                                                            ภารกิจที่ยังทำไม่เสร็จ
+                                                                        {t('unfinished_mission')}
                                                                         </Text>
                                                                     </View> : null
                                                         }
@@ -331,7 +329,7 @@ const Nutrition = ({ navigation }) => {
                                                                 ((!quiz_activities) && (!quiz_activities_number) && (week_program_user != item.week_in_program)) || ((!assessment_kit_activties) && (!assessment_kit_number) && (week_program_user != item.week_in_program)) ?
                                                                     <View style={styles.notifiedYellow}>
                                                                         <Text style={styles.notifiedTextYellow}>
-                                                                            ภารกิจที่ยังทำไม่เสร็จ
+                                                                            {t('unfinished_mission')}
                                                                         </Text>
                                                                     </View> : null
                                                         }
@@ -366,9 +364,7 @@ const Nutrition = ({ navigation }) => {
                 </Animated.ScrollView>
             }
 
-
-
-            <Text style={styles.nutritionText}>โภชนาการ</Text>
+            <Text style={styles.nutritionText}>{t('nutrition')}</Text>
 
 
             <Animated.View opacity={headerHeight} style={[styles.header]}>

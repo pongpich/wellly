@@ -90,6 +90,7 @@ class ReportFeedback extends Component {
             outputRange: [140, 16],
             extrapolate: 'clamp',
         });
+        const { t } = this.props;
 
         return (
             <View style={styles.container}>
@@ -120,8 +121,8 @@ class ReportFeedback extends Component {
                             <View style={styles.circle2} />
                         </View>
                         <View style={{ marginHorizontal: 16 }}>
-                            <Text style={styles.textHeand}>การประเมิน</Text>
-                            <Text style={styles.textWeek}>สัปดาห์ที่ {week_in_program}</Text>
+                            <Text style={styles.textHeand}>{t('assessment')}</Text>
+                            <Text style={styles.textWeek}>{t('week_')} {week_in_program}</Text>
                         </View>
                     </View>
                 </Animated.View>
