@@ -399,13 +399,13 @@ class ArticleTemplate extends Component {
                                             <Text style={styles.missionHead}>
                                                 {
                                                     (item.id === 'low_intensity') ?
-                                                        (i18next.language === 'th') ? 'ทำกิจกรรมระดับความเข้มข้นต่ำ' : 'Low intensity activity'
+                                                        t('do_low_intensity')
                                                         :
                                                         (item.id === 'moderate_intensity') ?
-                                                            (i18next.language === 'th') ? 'ทำกิจกรรมระดับความเข้มข้นปานกลาง' : 'Moderate intensity activity'
+                                                            t('do_moderate_intensity')
                                                             :
                                                             (item.id === 'high_intensity') ?
-                                                                (i18next.language === 'th') ? 'ทำกิจกรรมระดับความเข้มข้นสูง' : 'High intensity activity'
+                                                                t('do_hight_intensity')
                                                                 :
                                                                 item.name
                                                 }
