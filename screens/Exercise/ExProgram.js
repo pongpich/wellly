@@ -182,7 +182,7 @@ const ExProgram = ({ navigation }) => {
                         <View style={{ marginBottom: 400, }}>
                             {
                                 dataTrainingSet && dataTrainingSet.map((item, i) => {
-                                    console.log("item", item);
+
                                     return (
                                         <Pressable key={i + "vp"} onPress={() => clickPlayVide(item[1][0], i + 1)}>
                                             <View style={playVideo == i + 1 ? styles.rowProgramPlay : styles.rowProgram}>

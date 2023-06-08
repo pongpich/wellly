@@ -585,10 +585,10 @@ const Exercise = ({ navigation }) => {
                 <View style={styles.nutritionBox}>
                     <View style={styles.missionText}>
                         <View style={styles.missionView}>
-                            <Pressable style={[{ width: 71 }, statusMission === true ? styles.missionPre : styles.programPre]} onPress={() => setStatusMission(true)} >
+                            <Pressable style={[{ width: "auto", paddingHorizontal: 16 }, statusMission === true ? styles.missionPre : styles.programPre]} onPress={() => setStatusMission(true)} >
                                 <Text style={[styles.mission, statusMission === true ? { color: colors.white } : { color: colors.persianBlue }]}>{t('mission')}</Text>
                             </Pressable>
-                            <Pressable style={[{ marginLeft: 8, width: 89 }, statusMission === false ? styles.missionPre : styles.programPre]} onPress={() => setStatusMission(false)} >
+                            <Pressable style={[{ marginLeft: 8, width: "auto", paddingHorizontal: 16 }, statusMission === false ? styles.missionPre : styles.programPre]} onPress={() => setStatusMission(false)} >
                                 <Text style={[styles.mission, statusMission == false ? { color: colors.white } : { color: colors.persianBlue }]}>{t('program')}</Text>
                             </Pressable>
                         </View>
