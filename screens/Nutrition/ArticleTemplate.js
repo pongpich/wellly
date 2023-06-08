@@ -209,16 +209,22 @@ class ArticleTemplate extends Component {
 
 
     render() {
-        const headerHeight = this.state.scrollY.interpolate({
-            inputRange: [0, 200],
-            outputRange: [140, 16],
-            extrapolate: 'clamp',
-        });
+
 
         const { statusBarColor, numberMission, study, statusQuiz, statusMission, isModalVisible, week_in_program, mission_id, scrollY, slideAnimation, stipTeach } = this.state;
         const { nutrition_activity_id_Mission, teachUserArticleTemplate } = this.props;
         const { heading } = this.props.route.params;
+        const mm = "Cut down on the sweet, salty, and fatty foods with 6-6-1 rule."
+        console.log("heading", heading);
+        console.log("heading", mm.length);
         const isNotchDevice = Dimensions.get('window').height >= 812;
+
+        const headerHeight = this.state.scrollY.interpolate({
+            inputRange: [0, 200],
+            outputRange: [heading.length < 32 ? 120 : (heading.length > 31) && (heading.length < 63) ? 160 : 180, 16],
+            extrapolate: 'clamp',
+        });
+        // 180 : 160
 
         const isHeight = Dimensions.get('window').height;
         const { t } = this.props;
@@ -745,6 +751,7 @@ const styles = StyleSheet.create({
     },
     header: {
         marginTop: -16,
+
         backgroundColor: colors.persianBlue,
         alignItems: 'center',
         justifyContent: 'center',
