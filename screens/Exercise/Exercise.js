@@ -68,7 +68,7 @@ const Exercise = ({ navigation }) => {
     const animatedScrollYValue = useRef(new Animated.Value(0)).current;
     const teachUserExercise = useSelector(({ personalDataUser }) => personalDataUser && personalDataUser.teachUserExercise);//personalDataUser
     const statusTeachUserExercise = useSelector(({ personalDataUser }) => personalDataUser && personalDataUser.statusTeachUserExercise);//personalDataUser
-
+    const languages = i18next.languages[0];
 
 
 
@@ -439,10 +439,10 @@ const Exercise = ({ navigation }) => {
                                                         <Text style={[styles.mission, status_resistance === "ยิม" ? { color: colors.white } : { color: colors.persianBlue }]}>{t('gym')}</Text>
                                                     </Pressable>
 
-                                                    <Pressable Pressable style={[{ marginLeft: 8, width: 71 }, status_resistance === "ดัมเบล" ? styles.missionPre : styles.programPre]} onPress={() => statusResistance("ดัมเบล")} >
+                                                    <Pressable Pressable style={[{ marginLeft: 8, width: "auto", paddingHorizontal: 8 }, status_resistance === "ดัมเบล" ? styles.missionPre : styles.programPre]} onPress={() => statusResistance("ดัมเบล")} >
                                                         <Text style={[styles.mission, status_resistance === "ดัมเบล" ? { color: colors.white } : { color: colors.persianBlue }]}>{t('dumbbell')}</Text>
                                                     </Pressable>
-                                                    <Pressable Pressable style={[{ marginLeft: 8, width: 71 }, status_resistance === "ตัวเปล่า" ? styles.missionPre : styles.programPre]} onPress={() => statusResistance("ตัวเปล่า")} >
+                                                    <Pressable Pressable style={[{ marginLeft: 8, width: "auto", paddingHorizontal: 8 }, status_resistance === "ตัวเปล่า" ? styles.missionPre : styles.programPre]} onPress={() => statusResistance("ตัวเปล่า")} >
                                                         <Text style={[styles.mission, status_resistance === "ตัวเปล่า" ? { color: colors.white } : { color: colors.persianBlue }]}>{t('naked')}</Text>
                                                     </Pressable>
 
@@ -474,6 +474,7 @@ const Exercise = ({ navigation }) => {
                                             onPress={() => setExpanded(!expanded)}>
                                             {
                                                 dataTrainingSet && dataTrainingSet.map((item, i) => {
+
                                                     return (
                                                         <View style={styles.exerciseBox} key={i + "box"}>
                                                             <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
@@ -500,11 +501,11 @@ const Exercise = ({ navigation }) => {
                                                                 </View>
                                                                 <View style={{ marginLeft: 16 }}>
                                                                     <Text style={styles.setText}>{t('episode')}</Text>
-                                                                    <Text style={styles.setText2}>{item[1][0].rep}</Text>
+                                                                    <Text style={styles.setText2}>{languages == "th" ? item[1][0].rep : item[1][0].rep_eng}</Text>
                                                                 </View>
                                                                 <View style={{ marginLeft: 16 }}>
                                                                     <Text style={styles.setText}>{t('rhythm')}</Text>
-                                                                    <Text style={styles.setText2}>{item[1][0].tempo}</Text>
+                                                                    <Text style={styles.setText2}>{languages == "th" ? item[1][0].tempo : item[1][0].tempo_eng}</Text>
                                                                 </View>
                                                             </View>
                                                         </View>
@@ -557,7 +558,7 @@ const Exercise = ({ navigation }) => {
 
     const isNotchDevice = Dimensions.get('window').height >= 812;
     const isDevice = Dimensions.get('window').height;
-    const languages = i18next.languages[0];
+
 
     const { t } = useTranslation();
 
@@ -894,7 +895,7 @@ const Exercise = ({ navigation }) => {
                         textAlign: "right",
                         marginRight: 20,
                         zIndex: 20
-                    }}>ข้าม</Text>
+                    }}>{t('cross')}</Text>
                 </TouchableWithoutFeedback>
 
                 {
@@ -915,7 +916,7 @@ const Exercise = ({ navigation }) => {
                                     fontFamily: "IBMPlexSansThai-Regular",
                                     color: colors.grey1,
                                 }}>
-                                    แตะที่นี่เพื่อดูรายละเอียดภารกิจที่ได้รับ
+                                    {t('tap_here_view')}
                                 </Text>
                                 <View style={{ alignItems: "flex-end" }}>
 
@@ -940,7 +941,7 @@ const Exercise = ({ navigation }) => {
                                                 fontSize: ComponentsStyle.fontSize16,
                                                 fontFamily: "IBMPlexSansThai-Bold",
                                                 color: colors.white,
-                                            }}>ถัดไป</Text>
+                                            }}>{t('next')}</Text>
                                         </View>
                                     </TouchableWithoutFeedback>
                                 </View>
@@ -968,13 +969,13 @@ const Exercise = ({ navigation }) => {
                                                             (days == "Sunday") && (week_program_user == item.week_in_program) ?
                                                                 <View style={styles.notifiedRed}>
                                                                     <Text style={styles.notifiedTextRed}>
-                                                                        วันสุดท้าย
+                                                                        {t('last_day')}
                                                                     </Text>
                                                                 </View> :
                                                                 ((item.quiz_activities_number == null) && (week_program_user != item.week_in_program)) ?
                                                                     <View style={styles.notifiedYellow} >
                                                                         <Text style={styles.notifiedTextYellow}>
-                                                                            ภารกิจที่ยังทำไม่เสร็จ
+                                                                            {t('unfinished_mission')}
                                                                         </Text>
                                                                     </View> : null
                                                         }
@@ -1057,7 +1058,7 @@ const Exercise = ({ navigation }) => {
                                             fontFamily: "IBMPlexSansThai-Regular",
                                             color: colors.grey1,
                                         }}>
-                                            ยินดีด้วย! คุณปลดล็อกโปรแกรมออกกำลังกายใหม่ได้สำเร็จ สามารถเลือกเล่นตามโปรแกรมที่ต้องการได้เลย
+                                            {t('congratulations')}
                                         </Text>
                                         <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
 
@@ -1087,7 +1088,7 @@ const Exercise = ({ navigation }) => {
                                                         fontSize: ComponentsStyle.fontSize16,
                                                         fontFamily: "IBMPlexSansThai-Bold",
                                                         color: colors.white,
-                                                    }}>ตกลง</Text>
+                                                    }}>{t('agree')}</Text>
                                                 </View>
                                             </TouchableWithoutFeedback>
                                         </View>
