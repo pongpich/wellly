@@ -738,7 +738,7 @@ class Home extends Component {
                                                                                     <Text style={{ color: colors.grey1, fontSize: 16, fontFamily: item.number_completed == 0 ? "IBMPlexSansThai-Regular" : "IBMPlexSansThai-Bold", marginTop: 0 }} key={i + "an2"}>{item.number_completed}</Text>
                                                                                     <Text style={{ color: colors.grey1, fontSize: 12, fontFamily: "IBMPlexSansThai-Regular", marginTop: 4 }} key={i + "an3"}> /{item.number}</Text>
                                                                                 </View>
-                                                                                <Text style={{ color: colors.grey2, fontSize: 12, fontFamily: "IBMPlexSansThai-Regular", marginTop: -5 }} key={i + "an4"}>ครั้ง</Text>
+                                                                                <Text style={{ color: colors.grey2, fontSize: 12, fontFamily: "IBMPlexSansThai-Regular", marginTop: -5 }} key={i + "an4"}>{t('episode')}</Text>
                                                                             </>
                                                                         )
 
@@ -746,7 +746,20 @@ class Home extends Component {
                                                                 </AnimatedCircularProgress>
                                                             </View>
                                                             <View style={styles.missionData2} key={i + "home3"}>
-                                                                <Text style={[styles.missionHead, { marginLeft: 8, marginRight: 8 }]} key={i + "home4"}>{item.name}</Text>
+                                                                <Text style={[styles.missionHead, { marginLeft: 8, marginRight: 8 }]} key={i + "home4"}>
+                                                                    {
+                                                                        (item.id === 'low_intensity') ?
+                                                                            (i18next.language === 'th') ? 'ทำกิจกรรมระดับความเข้มข้นต่ำ' : 'Low intensity activity'
+                                                                            :
+                                                                            (item.id === 'moderate_intensity') ?
+                                                                                (i18next.language === 'th') ? 'ทำกิจกรรมระดับความเข้มข้นปานกลาง' : 'Moderate intensity activity'
+                                                                                :
+                                                                                (item.id === 'high_intensity') ?
+                                                                                    (i18next.language === 'th') ? 'ทำกิจกรรมระดับความเข้มข้นสูง' : 'High intensity activity'
+                                                                                    :
+                                                                                    item.name
+                                                                    }
+                                                                </Text>
                                                                 <View style={{ flexDirection: "row", marginLeft: 8 }} key={i + "home5"}>
                                                                     {
                                                                         Array.from({ length: maxScore }) && Array.from({ length: maxScore }).map((item, i) => {
