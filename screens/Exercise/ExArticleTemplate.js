@@ -396,7 +396,20 @@ class ArticleTemplate extends Component {
                                             </AnimatedCircularProgress>
                                         </View>
                                         <View style={styles.missionData}>
-                                            <Text style={styles.missionHead}>{item.name}</Text>
+                                            <Text style={styles.missionHead}>
+                                                {
+                                                    (item.id === 'low_intensity') ?
+                                                        (i18next.language === 'th') ? 'ทำกิจกรรมระดับความเข้มข้นต่ำ' : 'Low intensity activity'
+                                                        :
+                                                        (item.id === 'moderate_intensity') ?
+                                                            (i18next.language === 'th') ? 'ทำกิจกรรมระดับความเข้มข้นปานกลาง' : 'Moderate intensity activity'
+                                                            :
+                                                            (item.id === 'high_intensity') ?
+                                                                (i18next.language === 'th') ? 'ทำกิจกรรมระดับความเข้มข้นสูง' : 'High intensity activity'
+                                                                :
+                                                                item.name
+                                                }
+                                            </Text>
                                             <View style={{ flexDirection: "row" }}>
                                                 {
                                                     Array.from({ length: maxScore }) && Array.from({ length: maxScore }).map((item, i) => {
