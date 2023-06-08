@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import { getNutritionActivity } from "../../redux/get";
 import { checkStar, checkTrophy } from "../../helpers/utils";
 import { t } from 'i18next';
+import i18next from 'i18next';
 
 
 const data = Array.from({ length: 3 });
@@ -68,7 +69,7 @@ class History extends Component {
                                                     <Text style={styles.number}>{item.week_in_program}</Text>
                                                 </View>
                                                 <View style={styles.missionData}>
-                                                    <Text style={styles.missionHead}>{item.heading}</Text>
+                                                    <Text style={styles.missionHead}>{(i18next.language === 'th') ? item.heading : item.heading_eng}</Text>
                                                     {/*  <Text style={styles.missionContent}>
                                             โปรแกรมออกกำลังกายลดความเสี่ยงโรคเบาหวาน
                                         </Text> */}

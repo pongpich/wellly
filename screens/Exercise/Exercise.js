@@ -643,7 +643,7 @@ const Exercise = ({ navigation }) => {
                                                                     <Text style={styles.number}>{item.week_in_program}</Text>
                                                                 </View>
                                                                 <View style={styles.missionData}>
-                                                                    <Text style={styles.missionHead} >{item.heading}</Text>
+                                                                    <Text style={styles.missionHead} >{(i18next.language === 'th') ? item.heading : item.heading_eng}</Text>
                                                                     <Text style={[styles.missionContent, { marginRight: 16 }]} key="i+ v3t">
                                                                         {/* เพิ่ม substringText เพื่อย่อเนื้อหาใน card ให้เหลือ 2บรรทัด... */}
                                                                         {substringText(item.short_content)}
@@ -960,7 +960,7 @@ const Exercise = ({ navigation }) => {
                                                         <Text style={styles.number}>{item.week_in_program}</Text>
                                                     </View>
                                                     <View style={styles.missionData}>
-                                                        <Text style={styles.missionHead} >{item.heading}</Text>
+                                                        <Text style={styles.missionHead} >{(i18next.language === 'th') ? item.heading : item.heading_eng}</Text>
                                                         <Text style={[styles.missionContent, { marginRight: 16 }]} key="i+ v3t">
 
                                                             {substringText(item.short_content)}
