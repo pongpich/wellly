@@ -238,7 +238,7 @@ const Nutrition = ({ navigation }) => {
                                                         <Text style={styles.missionHead}>{(i18next.language === 'th') ? item.heading : item.heading_eng}</Text>
                                                         <Text style={[styles.missionContent, { marginRight: 16 }]}>
 
-                                                            {substringText(item.short_content)}
+                                                            {substringText((i18next.language === 'th') ? item.short_content : item.short_content_eng)}
                                                         </Text>
                                                         {
 
@@ -278,7 +278,7 @@ const Nutrition = ({ navigation }) => {
                                                     <View style={styles.missionData}>
                                                         <Text style={styles.missionHead}>{(i18next.language === 'th') ? item.heading : item.heading_eng}</Text>
                                                         <Text style={[styles.missionContent, { marginRight: 16 }]}>
-                                                            {substringText(item.short_content)}
+                                                            {substringText((i18next.language === 'th') ? item.short_content : item.short_content_eng)}
                                                         </Text>
                                                         {
 
@@ -317,7 +317,7 @@ const Nutrition = ({ navigation }) => {
                                                     <View style={styles.missionData}>
                                                         <Text style={styles.missionHead}>{(i18next.language === 'th') ? item.heading : item.heading_eng}</Text>
                                                         <Text style={[styles.missionContent, { marginRight: 16 }]}>
-                                                            {substringText(item.short_content)}
+                                                            {substringText((i18next.language === 'th') ? item.short_content : item.short_content_eng)}
                                                         </Text>
                                                         {
 
@@ -486,7 +486,7 @@ const Nutrition = ({ navigation }) => {
                                                 <Text style={styles.missionHead}>{(i18next.language === 'th') ? item.heading : item.heading_eng}</Text>
                                                 <Text style={[styles.missionContent, { marginRight: 16 }]}>
 
-                                                    {substringText(item.short_content)}
+                                                    {substringText((i18next.language === 'th') ? item.short_content : item.short_content_eng)}
                                                 </Text>
                                             </View>
                                             <View style={styles.viewIconRight}>
@@ -517,7 +517,7 @@ const Nutrition = ({ navigation }) => {
                                             <View style={styles.missionData}>
                                                 <Text style={styles.missionHead}>{(i18next.language === 'th') ? item.heading : item.heading_eng}</Text>
                                                 <Text style={[styles.missionContent, { marginRight: 16 }]}>
-                                                    {substringText(item.short_content)}
+                                                    {substringText((i18next.language === 'th') ? item.short_content : item.short_content_eng)}
                                                 </Text>
                                             </View>
                                             <View style={styles.viewIconRight}>

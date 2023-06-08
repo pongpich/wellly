@@ -26,7 +26,7 @@ class History extends Component {
             <SafeAreaView style={styles.container}>
                 <View style={styles.marginBox}>
                     <Text style={styles.missionHistory}>{t('mission_history')}</Text>
-                    <ScrollView  showsVerticalScrollIndicator={false}>
+                    <ScrollView showsVerticalScrollIndicator={false}>
                         {
                             nutrition_activity && nutrition_activity.map((item, i) => (
                                 //ส่ง params ผ่าน route
@@ -38,7 +38,7 @@ class History extends Component {
                                         <View style={styles.missionData}>
                                             <Text style={styles.missionHead}>{(i18next.language === 'th') ? item.heading : item.heading_eng}</Text>
                                             <Text style={styles.missionContent}>
-                                                {item.short_content}
+                                                {(i18next.language === 'th') ? item.short_content : item.short_content_eng}
                                             </Text>
                                         </View>
                                         <View style={styles.viewIconRight}>

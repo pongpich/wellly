@@ -646,7 +646,7 @@ const Exercise = ({ navigation }) => {
                                                                     <Text style={styles.missionHead} >{(i18next.language === 'th') ? item.heading : item.heading_eng}</Text>
                                                                     <Text style={[styles.missionContent, { marginRight: 16 }]} key="i+ v3t">
                                                                         {/* เพิ่ม substringText เพื่อย่อเนื้อหาใน card ให้เหลือ 2บรรทัด... */}
-                                                                        {substringText(item.short_content)}
+                                                                        {substringText((i18next.language === 'th') ? item.short_content : item.short_content_eng)}
                                                                     </Text>
                                                                     {
                                                                         (days == "Sunday") && (week_program_user == item.week_in_program) ?
@@ -963,7 +963,7 @@ const Exercise = ({ navigation }) => {
                                                         <Text style={styles.missionHead} >{(i18next.language === 'th') ? item.heading : item.heading_eng}</Text>
                                                         <Text style={[styles.missionContent, { marginRight: 16 }]} key="i+ v3t">
 
-                                                            {substringText(item.short_content)}
+                                                            {substringText((i18next.language === 'th') ? item.short_content : item.short_content_eng)}
                                                         </Text>
                                                         {
                                                             (days == "Sunday") && (week_program_user == item.week_in_program) ?

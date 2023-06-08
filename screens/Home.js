@@ -525,7 +525,7 @@ class Home extends Component {
                                                             <Text style={styles.missionHead}>{(i18next.language === 'th') ? latest_nutrition_activity.heading : latest_nutrition_activity.heading_eng}</Text>
                                                             <Text style={[styles.missionContent, { marginRight: 16 }]}>
 
-                                                                {substringText(latest_nutrition_activity && latest_nutrition_activity.short_content)}
+                                                                {substringText((i18next.language === 'th') ? latest_nutrition_activity.short_content : latest_nutrition_activity.short_content_eng)}
                                                             </Text>
                                                         </>
                                                         :
@@ -578,7 +578,7 @@ class Home extends Component {
                                                             <Text style={styles.missionHead}>{(i18next.language === 'th') ? latest_nutrition_activity.heading : latest_nutrition_activity.heading_eng}</Text>
                                                             <Text style={[styles.missionContent, { marginRight: 16 }]}>
 
-                                                                {substringText(latest_nutrition_activity && latest_nutrition_activity.short_content)}
+                                                                {substringText((i18next.language === 'th') ? latest_nutrition_activity.short_content : latest_nutrition_activity.short_content_eng)}
                                                             </Text>
                                                         </>
                                                         :
@@ -639,7 +639,7 @@ class Home extends Component {
                                                 <Text style={styles.missionHead}>{(i18next.language === 'th') ? latest_exercise_activity.heading : latest_exercise_activity.heading_eng}</Text>
                                                 <Text style={[styles.missionContent, { marginRight: 16 }]}>
 
-                                                    {substringText(latest_exercise_activity.short_content)}
+                                                    {substringText((i18next.language === 'th') ? latest_exercise_activity.short_content : latest_exercise_activity.short_content_eng)}
                                                 </Text>
                                             </>
                                             :
