@@ -49,7 +49,7 @@ class Home extends Component {
             month: 1,
             selectedMonth: 1,
             labelsWeek: ["สัปดาห์ที่แล้ว", "สัปดาห์นี้"],
-            labelsWeekEng: ["last week", "This week"],
+            labelsWeekEng: ["Last week", "This week"],
             labelsMonth: ["1", "2", "3", "4", "5"],
             labelsYear: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
             isLoading: false,
