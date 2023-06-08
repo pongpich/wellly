@@ -63,7 +63,7 @@ class History extends Component {
 
                                     return (
                                         //ส่ง params ผ่าน route
-                                        <Pressable onPress={() => this.props.navigation.navigate("ExArticleTemplate", { id: item.week_in_program, mission_id: item.mission_id, heading: item.heading, mission_activities: item.mission_activities, statusPags: "ExHistory" })} key={i + "fee"}>
+                                        <Pressable onPress={() => this.props.navigation.navigate("ExArticleTemplate", { id: item.week_in_program, mission_id: item.mission_id, heading: (i18next.language === 'th') ? item.heading : item.heading_eng, mission_activities: item.mission_activities, statusPags: "ExHistory" })} key={i + "fee"}>
                                             <View key={i} style={styles.row}>
                                                 <View style={styles.numberView}>
                                                     <Text style={styles.number}>{item.week_in_program}</Text>
