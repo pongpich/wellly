@@ -508,7 +508,12 @@ class Home extends Component {
                                     {
                                         latest_nutrition_activity.week_in_program == "4" && nutrition_knowledge_Act == 0
                                         && <Pressable Pressable
-                                            onPress={() => latest_nutrition_activity.short_content && this.props.navigation.navigate("ArticleTemplate", { id: latest_nutrition_activity && latest_nutrition_activity.week_in_program, mission_id: latest_nutrition_activity && latest_nutrition_activity.mission_id, heading: latest_nutrition_activity && latest_nutrition_activity.heading, statusPags: "Home" })} key={latest_nutrition_activity && latest_nutrition_activity.week_in_program + "_na"}
+                                            onPress={() => latest_nutrition_activity.short_content && this.props.navigation.navigate("ArticleTemplate", {
+                                                id: latest_nutrition_activity && latest_nutrition_activity.week_in_program,
+                                                mission_id: latest_nutrition_activity && latest_nutrition_activity.mission_id,
+                                                heading: latest_nutrition_activity && ((i18next.language === 'th') ? latest_nutrition_activity.heading : latest_nutrition_activity.heading_eng),
+                                                statusPags: "Home"
+                                            })} key={latest_nutrition_activity && latest_nutrition_activity.week_in_program + "_na"}
                                         >
                                             <View style={styles.row}>
                                                 <View style={[styles.numberView, { backgroundColor: latest_nutrition_activity && latest_nutrition_activity.heading && latest_nutrition_activity.short_content ? colors.mayaBlue20 : "#D4E0F0" }]}>
@@ -517,7 +522,7 @@ class Home extends Component {
                                                 <View style={styles.missionData}>
                                                     {latest_nutrition_activity && latest_nutrition_activity.heading && latest_nutrition_activity.short_content ?
                                                         <>
-                                                            <Text style={styles.missionHead}>{latest_nutrition_activity && latest_nutrition_activity.heading}</Text>
+                                                            <Text style={styles.missionHead}>{(i18next.language === 'th') ? latest_nutrition_activity.heading : latest_nutrition_activity.heading_eng}</Text>
                                                             <Text style={[styles.missionContent, { marginRight: 16 }]}>
 
                                                                 {substringText(latest_nutrition_activity && latest_nutrition_activity.short_content)}
@@ -556,7 +561,12 @@ class Home extends Component {
                                     {
                                         latest_nutrition_activity.week_in_program != "4"
                                         && <Pressable Pressable
-                                            onPress={() => latest_nutrition_activity.short_content && this.props.navigation.navigate("ArticleTemplate", { id: latest_nutrition_activity && latest_nutrition_activity.week_in_program, mission_id: latest_nutrition_activity && latest_nutrition_activity.mission_id, heading: latest_nutrition_activity && latest_nutrition_activity.heading, statusPags: "Home" })} key={latest_nutrition_activity && latest_nutrition_activity.week_in_program + "_na"}
+                                            onPress={() => latest_nutrition_activity.short_content && this.props.navigation.navigate("ArticleTemplate", {
+                                                id: latest_nutrition_activity && latest_nutrition_activity.week_in_program,
+                                                mission_id: latest_nutrition_activity && latest_nutrition_activity.mission_id,
+                                                heading: latest_nutrition_activity && ((i18next.language === 'th') ? latest_nutrition_activity.heading : latest_nutrition_activity.heading_eng),
+                                                statusPags: "Home"
+                                            })} key={latest_nutrition_activity && latest_nutrition_activity.week_in_program + "_na"}
                                         >
                                             <View style={styles.row}>
                                                 <View style={[styles.numberView, { backgroundColor: latest_nutrition_activity && latest_nutrition_activity.heading && latest_nutrition_activity.short_content ? colors.mayaBlue20 : "#D4E0F0" }]}>
@@ -565,7 +575,7 @@ class Home extends Component {
                                                 <View style={styles.missionData}>
                                                     {latest_nutrition_activity && latest_nutrition_activity.heading && latest_nutrition_activity.short_content ?
                                                         <>
-                                                            <Text style={styles.missionHead}>{latest_nutrition_activity && latest_nutrition_activity.heading}</Text>
+                                                            <Text style={styles.missionHead}>{(i18next.language === 'th') ? latest_nutrition_activity.heading : latest_nutrition_activity.heading_eng}</Text>
                                                             <Text style={[styles.missionContent, { marginRight: 16 }]}>
 
                                                                 {substringText(latest_nutrition_activity && latest_nutrition_activity.short_content)}
@@ -611,7 +621,12 @@ class Home extends Component {
 
                             latest_exercise_activity && latest_exercise_activity.status_mission_activities !== "completed" &&
                             <Pressable
-                                onPress={() => latest_exercise_activity.short_content && this.props.navigation.navigate("ExArticleTemplate", { id: latest_exercise_activity.week_in_program, mission_id: latest_exercise_activity.mission_id, heading: latest_exercise_activity.heading, mission_activities: latest_exercise_activity.mission_activities, statusPags: "Home" })} key={latest_exercise_activity.week_in_program + "_ea"}
+                                onPress={() => latest_exercise_activity.short_content && this.props.navigation.navigate("ExArticleTemplate", {
+                                    id: latest_exercise_activity.week_in_program,
+                                    mission_id: latest_exercise_activity.mission_id,
+                                    heading: (i18next.language === 'th') ? latest_exercise_activity.heading : latest_exercise_activity.heading_eng,
+                                    mission_activities: latest_exercise_activity.mission_activities, statusPags: "Home"
+                                })} key={latest_exercise_activity.week_in_program + "_ea"}
                             >
                                 <View style={styles.row}>
 
@@ -621,7 +636,7 @@ class Home extends Component {
                                     <View style={styles.missionData}>
                                         {latest_exercise_activity.heading && latest_exercise_activity.short_content ?
                                             <>
-                                                <Text style={styles.missionHead}>{latest_exercise_activity.heading}</Text>
+                                                <Text style={styles.missionHead}>{(i18next.language === 'th') ? latest_exercise_activity.heading : latest_exercise_activity.heading_eng}</Text>
                                                 <Text style={[styles.missionContent, { marginRight: 16 }]}>
 
                                                     {substringText(latest_exercise_activity.short_content)}
