@@ -285,7 +285,7 @@ const Nutrition = ({ navigation }) => {
                                                             (days == "Sunday") && (week_program_user == item.week_in_program) ?
                                                                 <View style={styles.notifiedRed}>
                                                                     <Text style={styles.notifiedTextRed}>
-                                                                        วันสุดท้าย
+                                                                        {t('last_day')}
                                                                     </Text>
                                                                 </View> :
                                                                 ((!quiz_activities) && (!quiz_activities_number) && (week_program_user != item.week_in_program)) || ((!assessment_kit_activties) && (!assessment_kit_number) && (week_program_user != item.week_in_program)) ?
@@ -324,7 +324,7 @@ const Nutrition = ({ navigation }) => {
                                                             (days == "Sunday") && (week_program_user == item.week_in_program) ?
                                                                 <View style={styles.notifiedRed}>
                                                                     <Text style={styles.notifiedTextRed}>
-                                                                        วันสุดท้าย
+                                                                        {t('last_day')}
                                                                     </Text>
                                                                 </View> :
                                                                 ((!quiz_activities) && (!quiz_activities_number) && (week_program_user != item.week_in_program)) || ((!assessment_kit_activties) && (!assessment_kit_number) && (week_program_user != item.week_in_program)) ?
@@ -354,9 +354,9 @@ const Nutrition = ({ navigation }) => {
                                     style={{ height: 84, width: 120, zIndex: 1 }}
                                     source={require('../../assets/images/logo/EmptyState.png')}
                                 />
-                                <Text style={styles.imptyTextHead}>ยังไม่มีภารกิจในตอนนี้</Text>
+                                <Text style={styles.imptyTextHead}>{t('no_missions_time')}</Text>
                                 {
-                                    !startDate ? null : <Text style={styles.imptyTextStartDate}>ภารกิจใหม่จะเริ่มในวันที่ 12 สิงหาคม 2564</Text>
+                                    !startDate ? null : <Text style={styles.imptyTextStartDate}>{t('mission_will_start')}</Text>
                                 }
 
                             </View>
@@ -394,7 +394,7 @@ const Nutrition = ({ navigation }) => {
                         textAlign: "right",
                         marginRight: 20,
 
-                    }}>ข้าม</Text>
+                    }}>{t('cross')}</Text>
                 </TouchableWithoutFeedback>
 
                 <View style={{ flex: 1, alignItems: 'center', justifyContent: "flex-end", marginBottom: Platform.OS === 'android' ? "20%" : isNotchDevice ? "30%" : "20%", }}>
@@ -413,7 +413,7 @@ const Nutrition = ({ navigation }) => {
                             fontFamily: "IBMPlexSansThai-Regular",
                             color: colors.grey1,
                         }}>
-                            แตะที่นี่เพื่อดูรายละเอียดภารกิจที่ได้รับ
+                            {t('tap_here_view')}
                         </Text>
                         <View style={{ alignItems: "flex-end" }}>
 
@@ -452,7 +452,7 @@ const Nutrition = ({ navigation }) => {
                                         fontSize: ComponentsStyle.fontSize16,
                                         fontFamily: "IBMPlexSansThai-Bold",
                                         color: colors.white,
-                                    }}>ถัดไป</Text>
+                                    }}>{t('next')}</Text>
                                 </View>
                             </TouchableWithoutFeedback>
                         </View>
