@@ -235,6 +235,9 @@
     "time_spent": "Duration",
     "freezes_growth": "หยุดค้างในแต่ละครั้ง (3-5 วินาที)",
     "congratulations": "ยินดีด้วย! คุณปลดล็อกโปรแกรมออกกำลังกายใหม่ได้สำเร็จ สามารถเลือกเล่นตามโปรแกรมที่ต้องการได้เลย",
-    "tap_here_view": "แตะที่นี่เพื่อดูรายละเอียดภารกิจที่ได้รับ"
+    "tap_here_view": "แตะที่นี่เพื่อดูรายละเอียดภารกิจที่ได้รับ",
+    "do_low_intensity": "Low intensity activity",
+    "do_moderate_intensity": "Moderate intensity activity",
+    "do_hight_intensity": "High intensity activity"
   }
 }
