@@ -9,7 +9,8 @@ import { useRoute } from '@react-navigation/native';
 import { updateNumberCompleted } from "../../redux/update";
 import { calculateWeekInProgram } from "../../helpers/utils";
 import { t } from 'i18next';
-
+import i18next from 'i18next';
+import '../../languages/i18n'; //ใช้สำหรับ 2ภาษา
 
 
 const data = Array.from({ length: 30 });
@@ -38,14 +39,14 @@ const ExProgram = ({ navigation }) => {
 
     const route = useRoute();
 
-
+    const languages = i18next.languages[0];
     useEffect(() => {
         const { status_male_female } = route.params;
         setStstus_m_f(status_male_female)
         const dataTrainingSet = trainingSet && Object.entries(trainingSet);
         const data = dataTrainingSet[0][1][0];
-        setPlayTempo(data.tempo)
-        setPlayRep(data.rep)
+        setPlayTempo(languages == "th" ? data.tempo : data.tempo_eng)
+        setPlayRep(languages == "th" ? data.rep : data.rep_eng)
         setPlaySet(data.set)
         setPlayName(data.name)
         setPlayVideo(1)
@@ -173,7 +174,7 @@ const ExProgram = ({ navigation }) => {
                     </View>
                     <View style={styles.viewSet}>
                         <Text style={styles.setText}>{t('rhythm')}</Text>
-                        <Text style={styles.setTextBold}>{t('slow')}</Text>
+                        <Text style={styles.setTextBold}>{playTempo}</Text>
                     </View>
                 </View>
                 <View style={styles.conterVideo}>
@@ -181,6 +182,7 @@ const ExProgram = ({ navigation }) => {
                         <View style={{ marginBottom: 400, }}>
                             {
                                 dataTrainingSet && dataTrainingSet.map((item, i) => {
+                                    console.log("item", item);
                                     return (
                                         <Pressable key={i + "vp"} onPress={() => clickPlayVide(item[1][0], i + 1)}>
                                             <View style={playVideo == i + 1 ? styles.rowProgramPlay : styles.rowProgram}>
@@ -202,7 +204,7 @@ const ExProgram = ({ navigation }) => {
                                                 <View style={styles.programData} key={i + 'vd2'}>
                                                     <Text style={[styles.missionHead, finishedPlayingSet.includes(i + 1) ? { color: colors.positive1 } : { color: null }]}>{item[1][0].name}</Text>
                                                     <Text style={styles.missionContent}>
-                                                        {item[1][0].rest}
+                                                        {languages == "th" ? item[1][0].rest : item[1][0].rest_eng}
                                                     </Text>
                                                 </View>
                                             </View>
