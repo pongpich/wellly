@@ -4,6 +4,7 @@ import colors from '../../constants/colors';
 import { getNutritionMission } from "../../redux/get";
 import ComponentsStyle from '../../constants/components';
 import { connect } from 'react-redux';
+import i18next from 'i18next';
 
 
 class Mission extends Component {
@@ -16,7 +17,7 @@ class Mission extends Component {
     }
     componentDidMount() {
         const { nutrition_mission } = this.props;
-        let missionData = JSON.parse(nutrition_mission.mission)
+        let missionData = (i18next.language === "th") ? JSON.parse(nutrition_mission.mission) : JSON.parse(nutrition_mission.mission_eng);
         this.setState({
             mission: missionData
         })
