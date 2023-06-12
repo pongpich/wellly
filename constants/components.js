@@ -97,6 +97,19 @@ export default StyleSheet.create({
         fontSize: fontSize16,
         fontFamily: "IBMPlexSansThai-Regular",
     },
+    inputDisabled: {
+        width: "100%",
+        height: 56,
+        borderWidth: 1,
+        /*   padding: 16, */
+        paddingHorizontal: 16,
+        borderRadius: 8,
+        borderColor: colors.grey6,
+        color: colors.grey1,
+        backgroundColor: colors.grey6,
+        fontSize: fontSize16,
+        fontFamily: "IBMPlexSansThai-Regular",
+    },
     viewTextError: {
         width: "100%",
         marginTop: 8,

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { KeyboardAccessoryNavigation } from 'react-native-keyboard-accessory';
-import { View, StyleSheet, Pressable, SafeAreaView, Image, ScrollView, TouchableOpacity, TextInput, Text, Linking, KeyboardAvoidingView, Platform, Dimensions, Modal, InputAccessoryView, Keyboard } from 'react-native';
+import { View, StyleSheet, Pressable, SafeAreaView, Image, ScrollView, TouchableOpacity, TextInput, Text, Linking, KeyboardAvoidingView, Platform, Dimensions, Modal, InputAccessoryView, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { healt } from "../redux/personalUser";
 import { connect } from 'react-redux';
@@ -42,7 +42,9 @@ class HealthData extends Component {
             isFocusedMmHGD: false,
             exercise: null, //ออกกำลังกาย
             popupShow: false,
-            selectedRef: ''
+            selectedRef: '',
+            isDisabled: true,
+            healthCheck: true
         };
     }
     componentDidMount() {
@@ -104,9 +106,12 @@ class HealthData extends Component {
     }
 
     handleChange(fieldName, text) {
+        const { isDisabled } = this.state
         this.setState({
-            [fieldName]: text
+            [fieldName]: text,
+
         })
+
     }
 
     handleFocus = (fieldName, text) => {
@@ -141,12 +146,16 @@ class HealthData extends Component {
     }
 
     submit() {
-        const { user } = this.props;
-        const { mgDL, mg, bpm, mmHGS, mmHGD, fpg, hba1c, sbp, dbp, exercise, statusMdDl, statusMg, statusBpm, statusMmGH1, statusMmGH2 } = this.state;
 
+
+        const { user } = this.props;
+        const { mgDL, mg, bpm, mmHGS, mmHGD, fpg, hba1c, sbp, dbp, exercise, statusMdDl, statusMg, statusBpm, statusMmGH1, statusMmGH2, isDisabled } = this.state;
+        console.log("exercise", exercise);
         if ((mgDL !== null) && (mgDL !== "") && (mg !== null) && (mg !== "") && (bpm !== null) && (bpm !== "") && (mmHGS !== null) && (mmHGS !== "") && (mmHGD !== null) && (mmHGD !== "") &&
             (statusMdDl === true) && (statusMg === true) && (statusBpm === true) && (statusMmGH1 === true) && (statusMmGH2)) {
             this.props.healt(fpg, hba1c, sbp, dbp, exercise);
+
+
 
             const health_data = {
                 blood_glucose: `${mgDL} mg/dL`, //น้ำตาลในเลือด
@@ -165,8 +174,11 @@ class HealthData extends Component {
             //check health_type
             let stRe = statusResultsUser(diabetes, hypertension, exercise)
             const health_type = stRe && stRe.resultsUser;
+
             this.props.updateHealthData((user && user.user_id), health_data, health_type)
         }
+
+
     }
 
     outHandleBlur() {
@@ -232,12 +244,39 @@ class HealthData extends Component {
 
     }
 
+    checkHealth(ev) {
+
+        if (ev == true) {
+            this.setState({
+                isDisabled: true,
+                healthCheck: true,
+                mgDL: null,
+                mg: null,
+                bpm: null,
+                mmHGS: null,
+                mmHGD: null,
+            })
+        } else {
+
+            this.setState({
+                isDisabled: false,
+                healthCheck: false,
+                mgDL: 0,
+                mg: 0,
+                bpm: 0,
+                mmHGS: 0,
+                mmHGD: 0,
+            })
+
+        }
+
+    }
+
     render() {
         const { mgDL, mg, bpm, mmHGS, fpg, hba1c, sbp, dbp, exercise, mmHGD, statusMdDl, statusTextmg_dL, statusMg, statusTextMg, statusBpm,
             statusTextBpm, statusMmGH1, statusTextMmHG1, statusMmGH2, statusTextMmHG2,
-            isFocusedMgDL, isFocusedMg, isFocusedBpm, isFocusedMmHGS, isFocusedMmHGD, popupShow, selectedRef } = this.state;
+            isFocusedMgDL, isFocusedMg, isFocusedBpm, isFocusedMmHGS, isFocusedMmHGD, popupShow, selectedRef, isDisabled, healthCheck } = this.state;
         const { t } = this.props;
-
 
         return (
             <SafeAreaView style={styles.container}>
@@ -248,18 +287,44 @@ class HealthData extends Component {
                             <Pressable onPress={Keyboard.dismiss} >
                                 <View style={styles.areaViewPag}>
                                     <Text style={styles.textHead}>{t('health_information')}</Text>
+                                    <Text style={styles.textInputHead}>มีผลตรวจสุขภาพ</Text>
+                                    <Text style={{ color: "#22B967", marginTop: 8, marginBottom: 16, fontSize: 14, fontFamily: "IBMPlexSansThai-Regular", }}>หากมีข้อมูลสุขภาพ จะได้รับคำแนะนำที่แม่นยำ และเหมาะสมกับสุขภาพของคุณมากที่สุด</Text>
+
+                                    <View style={styles.radioFormView}>
+                                        <View style={styles.radioFormIcon}>
+                                            <TouchableWithoutFeedback onPress={() => this.checkHealth(true)}>
+                                                <Image
+                                                    style={styles.iconRadio}
+                                                    source={healthCheck === true ? require('../assets/images/icon/radioActive.png') : require('../assets/images/icon/radio.png')}
+                                                />
+                                            </TouchableWithoutFeedback>
+
+                                            <Text style={styles.radioFormText}>มี</Text>
+                                        </View>
+                                        <View style={styles.radioFormIcon2}>
+                                            <TouchableWithoutFeedback onPress={() => this.checkHealth(false)}>
+                                                <Image
+                                                    style={styles.iconRadio}
+                                                    source={healthCheck === false ? require('../assets/images/icon/radioActive.png') : require('../assets/images/icon/radio.png')}
+                                                />
+                                            </TouchableWithoutFeedback>
+                                            <Text style={styles.radioFormText}>ไม่มี</Text>
+                                        </View>
+                                    </View>
                                     <Text style={styles.textInputHead}>{t('blood_sugar')}</Text>
                                     <View style={styles.viewRightTnput}>
-                                        <Text style={styles.textRightTnput}>mg/dL</Text>
+                                        <Text style={isDisabled === true ? styles.textRightTnput : styles.textRightTnputDisabled}>mg/dL</Text>
                                         <TextInput
                                             onFocus={(text) => this.handleFocus("isFocusedMgDL", true)}
                                             onBlur={(text) => this.outHandleBlur()}
-                                            style={statusMdDl === true ? isFocusedMgDL === true ? ComponentsStyle.inputIsFocused : ComponentsStyle.input : ComponentsStyle.inputError}
+                                            style={isDisabled === true ? statusMdDl === true ? isFocusedMgDL === true ? ComponentsStyle.inputIsFocused : ComponentsStyle.input : ComponentsStyle.inputError : ComponentsStyle.inputDisabled}
                                             onChangeText={(text) => this.handleChange("mgDL", text)}
-                                            placeholder="0"
+                                            placeholder={isDisabled === true ? "0" : ""}
                                             keyboardType="numeric"
+                                            value={mgDL}
                                             inputAccessoryViewID="textInput1"
                                             ref={(input) => { this.textInput1 = input; }}
+                                            editable={isDisabled}
                                         />
                                         {
                                             (Platform.OS === 'ios') &&
@@ -286,16 +351,18 @@ class HealthData extends Component {
                                     </View>
                                     <Text style={styles.textInputHead}>{t('mean_cumulative_blood_sugar')} (HbA1c)</Text>
                                     <View style={styles.viewRightTnput}>
-                                        <Text style={styles.textRightTnput}>mg%</Text>
+                                        <Text style={isDisabled === true ? styles.textRightTnput : styles.textRightTnputDisabled}>mg%</Text>
                                         <TextInput
                                             onFocus={(text) => this.handleFocus("isFocusedMg", true)}
                                             onBlur={(text) => this.outHandleBlur1()}
-                                            style={statusMg === true ? isFocusedMg === true ? ComponentsStyle.inputIsFocused : ComponentsStyle.input : ComponentsStyle.inputError}
+                                            style={isDisabled === true ? statusMg === true ? isFocusedMg === true ? ComponentsStyle.inputIsFocused : ComponentsStyle.input : ComponentsStyle.inputError : ComponentsStyle.inputDisabled}
                                             onChangeText={(text) => this.handleChange("mg", text)}
-                                            placeholder="0"
+                                            placeholder={isDisabled === true ? "0" : ""}
                                             keyboardType="numeric"
+                                            value={mg}
                                             inputAccessoryViewID="textInput2"
                                             ref={(input) => { this.textInput2 = input; }}
+                                            editable={isDisabled}
                                         />
                                         {
                                             (Platform.OS === 'ios') &&
@@ -323,16 +390,18 @@ class HealthData extends Component {
                                     </View>
                                     <Text style={styles.textInputHead}>{t('heart_rate')}</Text>
                                     <View style={styles.viewRightTnput}>
-                                        <Text style={styles.textRightTnput}>bpm</Text>
+                                        <Text style={isDisabled === true ? styles.textRightTnput : styles.textRightTnputDisabled}>bpm</Text>
                                         <TextInput
                                             onFocus={(text) => this.handleFocus("isFocusedBpm", true)}
                                             onBlur={(text) => this.outHandleBlur2()}
-                                            style={statusBpm === true ? isFocusedBpm === true ? ComponentsStyle.inputIsFocused : ComponentsStyle.input : ComponentsStyle.inputError}
+                                            style={isDisabled === true ? statusBpm === true ? isFocusedBpm === true ? ComponentsStyle.inputIsFocused : ComponentsStyle.input : ComponentsStyle.inputError : ComponentsStyle.inputDisabled}
                                             onChangeText={(text) => this.handleChange("bpm", text)}
-                                            placeholder="0"
+                                            placeholder={isDisabled === true ? "0" : ""}
                                             keyboardType="numeric"
+                                            value={bpm}
                                             inputAccessoryViewID="textInput3"
                                             ref={(input) => { this.textInput3 = input; }}
+                                            editable={isDisabled}
                                         />
                                         {
                                             (Platform.OS === 'ios') &&
@@ -370,16 +439,18 @@ class HealthData extends Component {
                                     </View>
 
                                     <View style={styles.viewRightTnput}>
-                                        <Text style={styles.textRightTnput}>mmHG</Text>
+                                        <Text style={isDisabled === true ? styles.textRightTnput : styles.textRightTnputDisabled}>mmHG</Text>
                                         <TextInput
                                             onFocus={(text) => this.handleFocus("isFocusedMmHGS", true)}
                                             onBlur={(text) => this.outHandleBlur3()}
-                                            style={statusMmGH1 === true ? isFocusedMmHGS === true ? ComponentsStyle.inputIsFocused : ComponentsStyle.input : ComponentsStyle.inputError}
+                                            style={isDisabled === true ? statusMmGH1 === true ? isFocusedMmHGS === true ? ComponentsStyle.inputIsFocused : ComponentsStyle.input : ComponentsStyle.inputError : ComponentsStyle.inputDisabled}
                                             onChangeText={(text) => this.handleChange("mmHGS", text)}
-                                            placeholder="0"
+                                            placeholder={isDisabled === true ? "0" : ""}
                                             keyboardType="numeric"
+                                            value={mmHGS}
                                             inputAccessoryViewID="textInput4"
                                             ref={(input) => { this.textInput4 = input; }}
+                                            editable={isDisabled}
                                         />
 
                                         {
@@ -416,16 +487,18 @@ class HealthData extends Component {
 
                                     </View>
                                     <View style={styles.viewRightTnput}>
-                                        <Text style={styles.textRightTnput}>mmHG</Text>
+                                        <Text style={isDisabled === true ? styles.textRightTnput : styles.textRightTnputDisabled}>mmHG</Text>
                                         <TextInput
                                             onFocus={(text) => this.handleFocus("isFocusedMmHGD", true)}
                                             onBlur={(text) => this.outHandleBlur4()}
-                                            style={statusMmGH2 === true ? isFocusedMmHGD === true ? ComponentsStyle.inputIsFocused : ComponentsStyle.input : ComponentsStyle.inputError}
+                                            style={isDisabled === true ? statusMmGH2 === true ? isFocusedMmHGD === true ? ComponentsStyle.inputIsFocused : ComponentsStyle.input : ComponentsStyle.inputError : ComponentsStyle.inputDisabled}
                                             onChangeText={(text) => this.handleChange("mmHGD", text)}
-                                            placeholder="0"
+                                            placeholder={isDisabled === true ? "0" : ""}
                                             keyboardType="numeric"
+                                            value={mmHGD}
                                             inputAccessoryViewID="textInput5"
                                             ref={(input) => { this.textInput5 = input; }}
+                                            editable={isDisabled}
                                         />
 
                                         {
@@ -463,7 +536,7 @@ class HealthData extends Component {
                             </View> */}
                                 <View style={styles.areaViewButton}>
                                     {
-                                        (mgDL !== null) && (mg !== null) && (bpm !== null) && (mmHGS !== null) && (mmHGD !== null) ?
+                                        (((mgDL !== null) && (mg !== null) && (bpm !== null) && (mmHGS !== null) && (mmHGD !== null)) || (isDisabled === false)) ?
                                             <Pressable style={ComponentsStyle.button} onPress={() => this.submit()} >
                                                 <Text style={ComponentsStyle.textButton}>{t('next')}</Text>
                                             </Pressable>
@@ -573,6 +646,7 @@ const styles = StyleSheet.create({
         color: colors.persianBlue,
         fontSize: ComponentsStyle.fontSize16
     },
+
     areaView: {
         flex: 1,
         width: "100%",
@@ -614,6 +688,16 @@ const styles = StyleSheet.create({
         zIndex: 1,
         right: 0
     },
+    textRightTnputDisabled: {
+        position: "absolute",
+        fontSize: ComponentsStyle.fontSize16,
+        textAlign: "right",
+        paddingRight: 20,
+        color: colors.grey3,
+        marginTop: 16,
+        zIndex: 1,
+        right: 0
+    },
     areaViewButton: {
         paddingHorizontal: 16,
         justifyContent: 'flex-end',
@@ -643,6 +727,26 @@ const styles = StyleSheet.create({
         fontFamily: "IBMPlexSansThai-Regular",
         textAlign: "center",
         textDecorationLine: 'underline'
+    },
+    iconRadio: {
+        marginRight: 8,
+        width: 24,
+        height: 24
+    },
+    radioFormView: {
+        flexDirection: 'row',
+    },
+    radioFormIcon: {
+        flexDirection: 'row',
+    },
+    radioFormIcon2: {
+        flexDirection: 'row',
+        marginLeft: 24
+    },
+    radioFormText: {
+        fontSize: ComponentsStyle.fontSize16,
+        color: colors.grey1,
+        fontFamily: "IBMPlexSansThai-Regular",
     },
 });
 

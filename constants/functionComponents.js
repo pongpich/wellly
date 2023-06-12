@@ -118,7 +118,8 @@ export function statusDbp(mmHGD) {
     }
 }
 export function statusExercise(exer) {
-    if (exer === "ประจำ") {
+
+    if ((exer == "ประจำ") || (exer == "always")) {
         return { exercise: "Y" }
     } else {
         return { exercise: "N" }

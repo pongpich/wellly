@@ -12,8 +12,10 @@ class MyHealth extends Component {
     render() {
 
         const { user } = this.props;
-        const healthData = user && JSON.parse(user.health_data)
-        const personal_data = user && JSON.parse(user.personal_data)
+        console.log("user", user);
+
+        const healthData = user && (typeof user.health_data === 'string' ? JSON.parse(user.health_data) : user.health_data)
+        const personal_data = user && (typeof user.personal_data === 'string' ? JSON.parse(user.personal_data) : user.personal_data)
         return (
             <View style={styles.container}>
                 <ScrollView showsVerticalScrollIndicator={false}>
