@@ -2,7 +2,7 @@
   "expo": {
     "name": "Wellly",
     "slug": "wellly",
-    "version": "1.7",
+    "version": "1.8",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -20,14 +20,14 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.planforfit.wellly",
-      "buildNumber": "1.7"
+      "buildNumber": "1.8"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "versionCode": 12,
+      "versionCode": 13,
       "package": "com.planforfit.wellly",
       "permissions": [
         "android.permission.RECORD_AUDIO"
