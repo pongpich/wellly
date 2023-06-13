@@ -153,7 +153,7 @@ class AddActivity extends Component {
                                 >
                                     {(intensity === 'light_intensity') && `${t('low_concentration')}`}
                                     {(intensity === 'moderate_intensity') && `${t('moderate_concentration')}`}
-                                    {(intensity === 'vigorous_intensity') && `${'hight_concentration'}`}
+                                    {(intensity === 'vigorous_intensity') && `${t('hight_concentration')}`}
                                 </Text>
                             </View>
                         </View>
