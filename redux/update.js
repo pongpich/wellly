@@ -427,7 +427,7 @@ function* insertExerciseActivitySaga({ payload }) {
             user_id
         );
         yield put({
-            type: types.INSERT_NUTRITION_ACTIVITY_SUCCESS
+            type: types.INSERT_EXERCISE_ACTIVITY_SUCCESS
         })
     } catch (error) {
         console.log("error form insertExerciseActivitySaga", error);
