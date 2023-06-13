@@ -34,7 +34,8 @@ class Add extends Component {
             activity_list_addon_show: [],
             intensityFromExArticle: null,
             activity_id_edit_focus: '',
-            statusAnimated: false
+            statusAnimated: false,
+
         };
     }
 
@@ -288,7 +289,9 @@ class Add extends Component {
         });
         // set ความเข้มไปใน redux
         /*   this.props.navigation.dispatch(resetAction); */
+
         this.props.navigation.goBack();
+
     };
     deleteActivity(mess) {
         const { user } = this.props;
@@ -455,7 +458,7 @@ class Add extends Component {
                                 </TouchableWithoutFeedback>
                                 :
                                 <TouchableWithoutFeedback onPress={() => {
-
+                                    /*   this.props.navigation.goBack(); */
                                     this.modalConter(isModalConter);
 
                                 }}>
@@ -595,7 +598,7 @@ class Add extends Component {
                     </View>
                 </View>
                 {
-                    confirmActivityDeleted === true &&
+                    (confirmActivityDeleted === true && message) &&
                     <View style={styles.activityDeleted}>
                         <View style={styles.boxActivityDeleted}>
                             <Image

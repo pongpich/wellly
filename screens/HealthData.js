@@ -150,7 +150,7 @@ class HealthData extends Component {
 
         const { user } = this.props;
         const { mgDL, mg, bpm, mmHGS, mmHGD, fpg, hba1c, sbp, dbp, exercise, statusMdDl, statusMg, statusBpm, statusMmGH1, statusMmGH2, isDisabled } = this.state;
-        console.log("exercise", exercise);
+
         if ((mgDL !== null) && (mgDL !== "") && (mg !== null) && (mg !== "") && (bpm !== null) && (bpm !== "") && (mmHGS !== null) && (mmHGS !== "") && (mmHGD !== null) && (mmHGD !== "") &&
             (statusMdDl === true) && (statusMg === true) && (statusBpm === true) && (statusMmGH1 === true) && (statusMmGH2)) {
             this.props.healt(fpg, hba1c, sbp, dbp, exercise);
