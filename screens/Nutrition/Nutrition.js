@@ -644,10 +644,10 @@ const styles = StyleSheet.create({
         height: (deviceHeight > 1023) ? deviceHeight : 500
     },
     scrollViewContent: {
-        /*   marginTop: (deviceHeight < 688) ? "33%" : (deviceHeight > 1023) ? "40%" : "51%", */
+        marginTop: (deviceHeight < 569) ? "40%" : (deviceHeight > 568 && deviceHeight < 667) ? "40%" : "80%",
         opacity: 1,
         flex: 1,
-        marginTop: 380,
+        /*  marginTop: 380, */
         paddingBottom: 100
 
     },

@@ -4,13 +4,14 @@ import colors from '../constants/colors';
 import ComponentsStyle from '../constants/components';
 import i18next from 'i18next';
 import { withTranslation } from 'react-i18next';
-
 class ForgotPassword extends Component {
 
   render() {
     const { t } = this.props;
+    const devicehHeight = Math.round(Dimensions.get('window').height);
+
     return (
-      <View style={ComponentsStyle.containerWhite}>
+      <View style={[ComponentsStyle.containerWhite, { marginTop: devicehHeight < 569 && -10 }]}>
         <View style={ComponentsStyle.viewStyle}>
           <View style={ComponentsStyle.viewStyle_1}>
             <View style={styles.imageContextual}>
@@ -59,6 +60,7 @@ class ForgotPassword extends Component {
   }
 }
 const devicehHeight = Math.round(Dimensions.get('window').height);
+
 //        marginTop: (devicehHeight > 668) ? "20%" : "10%",
 const styles = StyleSheet.create({
   imageContextual: {
@@ -82,7 +84,7 @@ const styles = StyleSheet.create({
   },
   hrefViewTel: {
     width: "100%",
-    marginTop: (devicehHeight > 668) ? 40 : 30,
+    marginTop: (devicehHeight > 568) ? 40 : 10,
     /*  marginTop: 40, */
     backgroundColor: colors.grey6,
     borderRadius: 8,
@@ -117,7 +119,7 @@ const styles = StyleSheet.create({
   },
   viewButton: {
     width: "100%",
-    marginBottom: 40,
+    marginBottom: devicehHeight < 569 ? 10 : 40,
   }
 });
 

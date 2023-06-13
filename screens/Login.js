@@ -148,6 +148,8 @@ class Login extends Component {
         const handleBlur = () => this.outHandleBlur();
         const handleFocus2 = () => this.setState({ isFocused2: true })
         const handleBlur2 = () => this.outHandleBlur2();
+
+
         return (
             <LinearGradient
                 style={ComponentsStyle.container}
@@ -332,7 +334,9 @@ class Login extends Component {
         )
     }
 }
+
 const deviceWidth = Math.round(Dimensions.get('window').width);
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -350,8 +354,8 @@ const styles = StyleSheet.create({
     },
     tinyLogo: {
         opacity: 1,
-        marginTop: "40%",
-        marginBottom: "5%"
+        marginTop: deviceHeight < 569 ? "20%" : "40%",
+        marginBottom: deviceHeight < 569 ? "1%" : "5%"
     },
     logoImage: {
         width: 200,

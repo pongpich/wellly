@@ -271,15 +271,17 @@ const Exercise = ({ navigation }) => {
 
             if (week_program_user != 1) {
                 exerciserActivity && exerciserActivity.map((item, i) => {
-                    let weekStary = week_program_user - 1;
 
+
+                    let weekStary = week_program_user - 1;
+                    /*   console.log("weekStary", item); */
                     if ((weekStary == item.week_in_program && (item.popup_stary == null))) {
 
                         setWeekStaryLevel(JSON.parse(item.activities_level))
                         setWeekStaryMission(JSON.parse(item.mission_activities))
-                        if (exerciserActivity) {
-                            setModalVisibleEx(true)
-                        }
+
+                        setModalVisibleEx(true)
+
 
                         dispatch(update_popUp_stars(user.user_id, weekStary, "1"));
 
@@ -750,7 +752,7 @@ const Exercise = ({ navigation }) => {
 
                 <Modal animationType="slide"
                     transparent={true}
-                    visible={false /* modalVisibleEx */}
+                    visible={modalVisibleEx}
                     onRequestClose={() => {
 
                         setModalVisibleEx(!modalVisibleEx);

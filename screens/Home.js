@@ -463,6 +463,7 @@ class Home extends Component {
 
         const isNotchDevice = Dimensions.get('window').height >= 812;
 
+
         const { t } = this.props;
 
 

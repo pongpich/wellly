@@ -172,7 +172,8 @@ const update_assessment_kit_activtiesSagaAsync = async (
 
 const update_popUp_starsSagaAsync = async (
     user_id,
-    password,
+    week_in_program,
+    popup_stary
 ) => {
 
     try {
@@ -180,10 +181,12 @@ const update_popUp_starsSagaAsync = async (
         const apiResult = await API.post("planforfit", "/updatPopupSatry", {
             body: {
                 user_id,
-                password
+                week_in_program,
+                popup_stary
             }
         });
 
+        console.log("apiResult", apiResult);
         return apiResult
     } catch (error) {
 
@@ -529,9 +532,9 @@ function* checkUpdateBadgeWinSaga({ payload }) {
             checkUpdateBadgeWinSagaAsync,
             user_id
         );
-/*         yield put({
-            type: types.CHECK_UPDATE_BADGE_WIN_SUCCESS
-        }) */
+        /*         yield put({
+                    type: types.CHECK_UPDATE_BADGE_WIN_SUCCESS
+                }) */
     } catch (error) {
         console.log("error form checkUpdateBadgeWinSaga", error);
     }
