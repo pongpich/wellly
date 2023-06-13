@@ -398,13 +398,13 @@ class ArticleTemplate extends Component {
                                         <View style={styles.missionData}>
                                             <Text style={styles.missionHead}>
                                                 {
-                                                    (item.id === 'low_intensity') ?
+                                                    (item.id === 'light_intensity') ?
                                                         t('do_low_intensity')
                                                         :
                                                         (item.id === 'moderate_intensity') ?
                                                             t('do_moderate_intensity')
                                                             :
-                                                            (item.id === 'high_intensity') ?
+                                                            (item.id === 'vigorous_intensity') ?
                                                                 t('do_hight_intensity')
                                                                 :
                                                                 item.name

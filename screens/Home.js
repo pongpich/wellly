@@ -748,13 +748,13 @@ class Home extends Component {
                                                             <View style={styles.missionData2} key={i + "home3"}>
                                                                 <Text style={[styles.missionHead, { marginLeft: 8, marginRight: 8 }]} key={i + "home4"}>
                                                                     {
-                                                                        (item.id === 'low_intensity') ?
+                                                                        (item.id === 'light_intensity') ?
                                                                             t('do_low_intensity')
                                                                             :
                                                                             (item.id === 'moderate_intensity') ?
                                                                                 t('do_moderate_intensity')
                                                                                 :
-                                                                                (item.id === 'high_intensity') ?
+                                                                                (item.id === 'vigorous_intensity') ?
                                                                                     t('do_hight_intensity')
                                                                                     :
                                                                                     item.name
