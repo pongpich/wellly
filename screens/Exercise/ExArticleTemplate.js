@@ -458,7 +458,7 @@ class ArticleTemplate extends Component {
 
         const { teachUserExArticleTemplate } = this.props;
 
-
+        const isHeight = Dimensions.get('window').height;
         return (
             <View style={styles.container}>
                 <View style={{ height: 44, zIndex: 10, width: "100%", backgroundColor: statusBarColor === "light" ? colors.persianBlue : colors.white }}>
@@ -469,7 +469,7 @@ class ArticleTemplate extends Component {
                             <StatusBar barStyle="dark-content" />
                     }
                 </View>
-                <View style={{ height: 44, zIndex: 3, width: "100%", backgroundColor: statusBarColor === "light" ? colors.persianBlue : colors.white }}>
+                <View style={{ marginBottom: isHeight < 569 && 7, height: 44, zIndex: 3, width: "100%", backgroundColor: statusBarColor === "light" ? colors.persianBlue : colors.white }}>
                     <View style={{ marginLeft: 16 }}>
                         <Pressable onPress={() => this.props.navigation.goBack()}>
                             <Image style={{ width: 24, height: 24 }}

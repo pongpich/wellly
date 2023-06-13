@@ -20,12 +20,13 @@ import '../../languages/i18n'; //ใช้สำหรับ 2ภาษา
 import { CommonActions } from '@react-navigation/native';
 import { useTranslation } from "react-i18next";
 
-
+const isDevice = Dimensions.get('window').height;
 const HEADER_MAX_HEIGHT = 600;
 const HEADER_MIN_HEIGHT = 100;
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
-const HEADER_HEIGHT = 384;
+const HEADER_HEIGHT = isDevice < 569 ? 130 : isDevice > 568 && isDevice < 668 ? 290 : isDevice > 668 && isDevice < 737 ? 320 : isDevice > 736 && isDevice < 813 ? 300 :
+    isDevice > 736 && isDevice < 897 ? 320 : 600;
 
 
 const data = Array.from({ length: 30 });
@@ -565,14 +566,14 @@ const Exercise = ({ navigation }) => {
     const { t } = useTranslation();
 
     return (
-        <View style={{ flex: 1 }} forceInset={{ top: 'always' }}>
+        <View style={styles.fill}>
             <Animated.View
                 style={[
                     {
                         height: HEADER_HEIGHT,
 
                         position: 'absolute',
-                        marginTop: isDevice < 751 ? 30 : 160,
+                        marginTop: 140,
                         left: 0,
                         right: 0,
                         justifyContent: "flex-end",
@@ -1126,8 +1127,10 @@ const styles = StyleSheet.create({
         backgroundColor: colors.grey7,
     },
     fill2: {
-        marginTop: deviceHeight < 751 ? 30 : 160,
+        marginTop: 140,
         zIndex: 1,
+
+
     },
 
     nutritionText: {
@@ -1136,10 +1139,11 @@ const styles = StyleSheet.create({
         fontSize: ComponentsStyle.fontSize24,
         color: colors.grey1,
         marginHorizontal: 16,
-        marginTop: 60,
+        marginTop: 50,
         opacity: 1,
-        zIndex: 10,
-        position: 'absolute'
+        zIndex: 20,
+        position: 'absolute',
+
     },
 
     nutritionBox: {
@@ -1237,7 +1241,7 @@ const styles = StyleSheet.create({
         height: (deviceHeight > 1023) ? deviceHeight : 500
     },
     scrollViewContent: {
-        marginTop: 396,
+        marginTop: (deviceHeight < 569) ? "40%" : (deviceHeight > 568 && deviceHeight < 667) ? "40%" : "80%",
         opacity: 1,
         paddingBottom: 100
 
