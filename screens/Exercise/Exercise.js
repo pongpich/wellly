@@ -26,7 +26,7 @@ const HEADER_MIN_HEIGHT = 100;
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
 const HEADER_HEIGHT = isDevice < 569 ? 130 : isDevice > 568 && isDevice < 668 ? 290 : isDevice > 668 && isDevice < 737 ? 320 : isDevice > 736 && isDevice < 813 ? 300 :
-    isDevice > 736 && isDevice < 897 ? 320 : 600;
+    isDevice > 736 && isDevice < 897 ? 310 : isDevice > 897 && isDevice < 927 ? 290 : 600;
 
 
 const data = Array.from({ length: 30 });
@@ -573,7 +573,7 @@ const Exercise = ({ navigation }) => {
                         height: HEADER_HEIGHT,
 
                         position: 'absolute',
-                        marginTop: 140,
+                        marginTop: 150,
                         left: 0,
                         right: 0,
                         justifyContent: "flex-end",
@@ -1241,7 +1241,7 @@ const styles = StyleSheet.create({
         height: (deviceHeight > 1023) ? deviceHeight : 500
     },
     scrollViewContent: {
-        marginTop: (deviceHeight < 569) ? "40%" : (deviceHeight > 568 && deviceHeight < 667) ? "40%" : "80%",
+        marginTop: deviceHeight < 667 ? "45%" : "82%",
         opacity: 1,
         paddingBottom: 100
 
