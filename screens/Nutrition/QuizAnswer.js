@@ -310,7 +310,7 @@ class QuizAnswer extends Component {
                                     </View>
                                     <List.Section style={{ backgroundColor: colors.grey7, borderRadius: 8, }}>
                                         <List.Accordion style={{ backgroundColor: colors.grey7, borderRadius: 8, marginTop: 16 }}
-                                            title={<Text style={styles.titleAccordion}>{t('Reason')}</Text>}
+                                            title={<Text style={styles.titleAccordion}>{t('reason')}</Text>}
                                             right={props =>
                                                 <List.Icon {...props} icon={({ size, color, direction }) => (
                                                     expanded ?
