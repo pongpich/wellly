@@ -13,14 +13,15 @@ import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-cont
 import Modal from "react-native-modal";
 import { useTranslation } from "react-i18next";
 import i18next from 'i18next';
-
+const isDevice = Dimensions.get('window').height;
 
 const HEADER_MAX_HEIGHT = 500;
 const HEADER_MIN_HEIGHT = 10;
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
 
-const HEADER_HEIGHT = 384;
+const HEADER_HEIGHT = isDevice < 569 ? 130 : isDevice > 568 && isDevice < 668 ? 290 : isDevice > 668 && isDevice < 737 ? 320 : isDevice > 736 && isDevice < 813 ? 300 :
+    isDevice > 736 && isDevice < 897 ? 320 : 600;
 
 const data = Array.from({ length: 30 });
 
@@ -167,6 +168,7 @@ const Nutrition = ({ navigation }) => {
     };
 
     const isNotchDevice = Dimensions.get('window').height >= 812;
+
     const { t } = useTranslation();
     return (
 
@@ -177,11 +179,14 @@ const Nutrition = ({ navigation }) => {
                         height: HEADER_HEIGHT,
 
                         position: 'absolute',
+                        /*  top: 140, */
                         marginTop: 140,
                         left: 0,
                         right: 0,
                         justifyContent: "flex-end",
 
+
+                        /*  backgroundColor: "red", */
                         zIndex: 20,
                     },
                     {
@@ -189,7 +194,7 @@ const Nutrition = ({ navigation }) => {
                     },
                 ]}
             >
-                <View style={[styles.missionText, { marginTop: 0 }]}>
+                <View style={[styles.missionText]}>
                     <Text style={[styles.mission]}>{t('latest_mission')}</Text>
                     {
                         (nutrition_activity && nutrition_activity.length > 0) ?

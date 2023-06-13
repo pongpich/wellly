@@ -78,7 +78,7 @@ class Home extends Component {
             var buddhistYear = year + 543; // แปลงเป็นปี พ.ศ.
             itemsYear.push({ label: buddhistYear.toString(), value: year }); // เพิ่ม object ปีเข้าไปใน array
         }
-        const week_in_program = calculateWeekInProgram(user.start_date);
+        const week_in_program = calculateWeekInProgram(user && user.start_date);
 
         this._unsubscribe = this.props.navigation.addListener('focus', () => {
 

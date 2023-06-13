@@ -118,7 +118,7 @@ const ExProgram = ({ navigation }) => {
         const { category } = route.params;
         const numbCompleted = finishedPlayingSet.length;
         const dataLength = dataTrainingSet.length;
-        const week_program_user = calculateWeekInProgram(user.start_date);
+        const week_program_user = calculateWeekInProgram(user && user.start_date);
 
         //ถ้าออกกำลังกายครบทุกท่า สั่งให้้อัพเดทคะแนน
         if (numbCompleted >= dataLength) {

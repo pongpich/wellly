@@ -74,7 +74,7 @@ class ArticleTemplate extends Component {
           }
    */
 
-        const week_in_program = calculateWeekInProgram(user.start_date);
+        const week_in_program = calculateWeekInProgram(user && user.start_date);
         this.setState({
             week_in_program: week_in_program
         })

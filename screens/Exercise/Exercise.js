@@ -173,7 +173,7 @@ const Exercise = ({ navigation }) => {
 
             dispatch(getExerciserActivity((user && user.user_id)));
 
-            const week_program_user = calculateWeekInProgram(user.start_date);
+            const week_program_user = calculateWeekInProgram(user && user.start_date);
             dispatch(getAllTrainingSet((user && user.user_id), week_program_user));
 
         });
