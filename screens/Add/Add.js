@@ -455,7 +455,7 @@ class Add extends Component {
                                 </TouchableWithoutFeedback>
                                 :
                                 <TouchableWithoutFeedback onPress={() => {
-                                    this.props.navigation.goBack()
+
                                     this.modalConter(isModalConter);
 
                                 }}>

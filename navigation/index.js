@@ -313,12 +313,15 @@ function MyStack(props) {
 
       <Stack.Screen name="Walkthrough" component={Walkthrough} options={{
         headerShown: false,
+        gestureEnabled: false,
+        cardOverlayEnabled: false,
       }} />
 
       <Stack.Screen name="OnboardingName" component={OnboardingName} options={{
         title: "",
         //headerBackTitle: true, //ซ่อนข้อความในของ ios
         headerShadowVisible: false, // applied here
+        gestureEnabled: false,
         headerLeft: () => (
           <View style={{ paddingLeft: 16 }}>
             <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -333,6 +336,8 @@ function MyStack(props) {
       <Stack.Screen name="PersonalData" component={PersonalData} options={{
         headerShadowVisible: false,
         title: "",
+        gestureEnabled: false,
+        cardOverlayEnabled: false,
         headerLeft: () => (
           <View style={{ paddingLeft: 16 }}>
             <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -347,6 +352,8 @@ function MyStack(props) {
       <Stack.Screen name="HealthData" component={HealthData} options={{
         headerShadowVisible: false,
         title: "",
+        gestureEnabled: false,
+        cardOverlayEnabled: false,
         headerLeft: () => (
           <View style={{ paddingLeft: 16 }}>
             <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -368,7 +375,8 @@ function MyStack(props) {
       <Stack.Screen name="Home" component={MyHome} options={{
         headerShown: false,
         headerStyle: { backgroundColor: 'red' },
-        headerTitleStyle: { color: 'red' }
+        headerTitleStyle: { color: 'red' },
+
       }}
       />
 
