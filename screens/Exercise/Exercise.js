@@ -295,13 +295,13 @@ const Exercise = ({ navigation }) => {
     const statusResistance = (e) => {
         setStatus_resistance(e)
 
-        if (e === "ยิม") {
+        if (e === "ยิม" || e === "Gym") {
             dispatch(getTrainingSet("resistance_fullbody_gym"));
         }
-        if (e === "ดัมเบล") {
+        if (e === "ดัมเบล" || e === "Dumbbell") {
             dispatch(getTrainingSet("resistance_home_gym"));
         }
-        if (e === "ตัวเปล่า") {
+        if (e === "ตัวเปล่า" || e === "Bodyweight") {
             dispatch(getTrainingSet("resistance_body_weight"));
         }
     }
