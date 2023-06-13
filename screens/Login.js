@@ -275,12 +275,16 @@ class Login extends Component {
                                         <Pressable style={ComponentsStyle.button} onPress={() => this.submitLogin()} >
                                             <Text style={ComponentsStyle.textButton}>{t('login')}</Text>
                                         </Pressable>
-                                        <Pressable style={styles.buttonForgotPassword} onPress={() => this.props.navigation.navigate("ForgotPassword")} >
-                                            <Text style={styles.textForgotPassword}>{t('forgot_password')}?</Text>
-                                        </Pressable>
-                                        <Pressable style={[styles.buttonForgotPassword, { marginTop: 0 }]} onPress={() => this.props.navigation.navigate("Register")} >
-                                            <Text style={styles.textForgotPassword}>{t('register')}</Text>
-                                        </Pressable>
+                                        <View style={styles.buttonForgotPassword}>
+                                            <Pressable onPress={() => this.props.navigation.navigate("ForgotPassword")} >
+                                                <Text style={styles.textForgotPassword}>{t('forgot_password')}?</Text>
+                                            </Pressable>
+                                        </View>
+                                        <View style={[styles.buttonForgotPassword, { marginTop: 0 }]}>
+                                            <Pressable onPress={() => this.props.navigation.navigate("Register")} >
+                                                <Text style={styles.textForgotPassword}>{t('register')}</Text>
+                                            </Pressable>
+                                        </View>
                                     </View>
                                 </View>
 
