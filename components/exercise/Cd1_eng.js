@@ -106,7 +106,10 @@ class Cd1 extends Component {
                 </View>
 
                 <Text style={styles.tableEx}>Table:  Physical Activity, Duration, and Intensity of Activity</Text>
-                <Table borderStyle={styles.border}>
+                {
+                    this.renderImg('Exercise_Mission_w_3_eng', "lg")
+                }
+                {/* <Table borderStyle={styles.border}>
                     <Row
 
                         data={tableHead}
@@ -114,7 +117,7 @@ class Cd1 extends Component {
                         textStyle={styles.headText}
                     />
                     <Rows data={tableData} textStyle={styles.text} />
-                </Table>
+                </Table> */}
             </View>
         )
     }
@@ -151,7 +154,7 @@ const styles = StyleSheet.create({
     tableEx: {
         marginLeft: 16,
         marginTop: 32,
-        marginBottom: 32,
+        /* marginBottom: 32, */
         textAlign: "center",
         fontFamily: "IBMPlexSansThai-Bold",
         fontSize: ComponentsStyle.fontSize16,
