@@ -201,6 +201,8 @@ class ArticleTemplate extends Component {
         } else {
             this.props.setIntensityFromExArticleTemplate(id)
             this.props.navigation.navigate("Add", { activity_id: id })
+
+
         }
 
 

@@ -203,7 +203,7 @@ function MyHome() {
            }, */
           title: languages === "th" ? "โภชนาการ" : "Nutrition",
         })} />
-      <Tab.Screen name="AddHome" component={AddStackScreen}
+      <Tab.Screen name="AddTab" component={AddStackScreen}
         options={({ route }) => ({
           tabBarIcon: ({ size, color }) => (
             <Image

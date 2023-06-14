@@ -4,13 +4,15 @@ import colors from '../../constants/colors';
 import ComponentsStyle from '../../constants/components';
 import Modal from "react-native-modal";
 import { withTranslation } from 'react-i18next';
-import { StackActions } from '@react-navigation/native';
+
 import { connect } from 'react-redux';
 import { getActivityList, setIntensityFromExArticleTemplate } from "../../redux/get";
 import { addActivityListAddOn, deleteActivityListAddOn, editActivityListAddOn } from "../../redux/update";
-import { CommonActions } from '@react-navigation/native';
 import { BackHandler } from 'react-native';
 import { t } from 'i18next';
+import { CommonActions, StackActions, useNavigationState, useNavigation, NavigationContainerRef } from '@react-navigation/native';
+
+
 
 class Add extends Component {
 
@@ -44,13 +46,17 @@ class Add extends Component {
         const { user, activity_list, intensityFromExArticleTemplate, } = this.props;
         const { isModalConter } = this.state;
 
+
+
         this._unsubscribe = this.props.navigation.addListener('focus', () => {
             const { intensityFromExArticleTemplate } = this.props;
 
             var activityId2 = null;
 
+
+
             if (this.props.route.params == null || this.props.route.params == "undefined") {
-                /*   console.log("0000"); */
+
                 activityId2 = "null";
             } else {
                 activityId2 = this.props.route.params.activity_id;
@@ -70,6 +76,7 @@ class Add extends Component {
                         })
                     }, 2000);
                     // ลบ params ทิ้ง
+
                     this.props.navigation.setParams({ message: "null" });
                 }
 
@@ -113,7 +120,6 @@ class Add extends Component {
 
             this.setState({
                 isModalConter: !isModalConter,
-                /*  study: activity_id, */
             })
             this.setState({
                 intensityFromExArticle: null
@@ -132,9 +138,13 @@ class Add extends Component {
 
             this.animate()
 
+
+
         });
 
-        // this.props.routeName(null); // ถ้าเข้าให้ home ให้ทำคำสั่งนี้ 1 ครั้ง
+
+
+
 
     }
 
@@ -142,8 +152,23 @@ class Add extends Component {
         this._unsubscribe();
 
 
-
     }
+
+
+    /** 
+     * !   get Routename ห่อนหน้า
+      */
+
+    getPreviousRoute = () => {
+        const navigation = this.props.navigation;
+        const previousRoute = navigation?.getState()?.routes?.[navigation?.getState()?.routes?.length - 2];
+
+        if (previousRoute) {
+            return previousRoute.name;
+        }
+
+        return null;
+    };
 
 
     handleBackPress = () => {
@@ -186,10 +211,6 @@ class Add extends Component {
             }
 
 
-            /* 
-                        this.setState({
-                            isModalConter: true,
-                        }) */
             this.props.setIntensityFromExArticleTemplate(null)
         }
 
@@ -284,13 +305,29 @@ class Add extends Component {
         const resetAction = CommonActions.reset({
             index: 0, // ตำแหน่งของหน้าที่จะใช้เป็นหน้าแรก
             routes: [{
-                name: 'Home',
+                name: 'HomeTab',
+                /** 
+                * ! ตรงนี้ให้ใช้  HomeTab  ห้ามใช้ Home ปัญหา กดหน้า   Exercise เเล้ว มันขึ้นหน้า Add
+                * */
             }], // เส้นทางที่ต้องการเปลี่ยน
         });
-        // set ความเข้มไปใน redux
-        /*   this.props.navigation.dispatch(resetAction); */
 
-        this.props.navigation.goBack();
+        const previousRouteName = this.getPreviousRoute();
+
+        if (previousRouteName) {
+
+            // กรณีที่ มีเส้นทางก่อนหน้า ให้กลับไปหน้า  หน้าก่อนหน้า 
+            this.props.navigation.goBack();
+
+            /* console.log('ชื่อเส้นทางก่อนหน้า:', previousRouteName); */
+        } else {
+
+            //  กรณีที่ ไม่มีเส้นทางก่อนหน้า ให้กลับไปหน้า  home 
+
+            this.props.navigation.dispatch(resetAction)
+
+        }
+
 
     };
     deleteActivity(mess) {
@@ -307,7 +344,6 @@ class Add extends Component {
         })
 
 
-        /*  this.props.navigation.popToTop() */
     }
     violence(e) {
         this.setState({
