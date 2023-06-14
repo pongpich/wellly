@@ -4,14 +4,21 @@ import { SafeAreaView, StatusBar, View, Text, StyleSheet, Animated, Image, Image
 import colors from '../../constants/colors';
 import ComponentsStyle from '../../constants/components';
 import Pdpa_th from './Pdpa_th';
-/* import Pdpa_eng from './Pdpa_eng'; */
+import i18next from 'i18next';
+import Pdpa_eng from './Pdpa_eng';
 
 
 class Pdpa extends Component {
     render() {
+
+        const languages = i18next.languages[0];
+
         return (
             <>
-                <Pdpa_th />
+                {languages == "th" ?
+                    <Pdpa_th /> :
+                    <Pdpa_eng />}
+
             </>
         )
     }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput, SafeAreaView, ScrollView, Pressable, Keyboard, TouchableWithoutFeedback } from 'react-native';
+import { StyleSheet, Text, View, TextInput, SafeAreaView, ScrollView, Pressable, Keyboard, TouchableWithoutFeedback, Image } from 'react-native';
 import { getProfanity } from "../redux/get";
 import colors from '../constants/colors';
 import ComponentsStyle from '../constants/components';
@@ -8,6 +8,9 @@ import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 import { Switch } from 'react-native-switch';
 import { t } from 'i18next';
+import Pdpa_th from '../screens/Profile/Pdpa_th';
+import i18next from 'i18next';
+import Pdpa_eng from '../screens/Profile/Pdpa_eng';
 import Modal from "react-native-modal";
 
 class OnboardingName extends React.Component {
@@ -18,7 +21,9 @@ class OnboardingName extends React.Component {
             switchOn: false,
             isFocused: false,
             errorInput: false,
-            words: null
+            words: null,
+            isModalConter: false
+
         };
     }
 
@@ -85,10 +90,13 @@ class OnboardingName extends React.Component {
         }
     }
     render() {
-        const { name, switchOn, isFocused, errorInput, word } = this.state;
+        const { name, switchOn, isFocused, errorInput, word, isModalConter } = this.state;
         const handleFocus = () => this.setState({ isFocused: true })
         const handleBlur = () => this.outHandleBlur()
         const { t } = this.props;
+
+        const languages = i18next.languages[0];
+
         return (
             <View style={styles.container}>
                 <Pressable onPress={Keyboard.dismiss} style={{ flex: 1 }}>
@@ -131,9 +139,14 @@ class OnboardingName extends React.Component {
 
                     <View style={styles.acceptSwitch}>
                         <Text style={styles.accept}>{t('i_accept')}
-                            <Text style={{ color: 'blue' }}>
-                                {t('terms_and_conditions')}
-                            </Text>
+                            <TouchableWithoutFeedback onPress={() => {
+                                this.setState({ isModalConter: true })
+                            }}>
+                                <Text style={{ color: 'blue' }}>
+                                    {t('terms_and_conditions')}
+                                </Text>
+                            </TouchableWithoutFeedback>
+
                             {t('use_of_wellly')}
                         </Text>
                         <View style={styles.viewsWitch}>
@@ -171,9 +184,25 @@ class OnboardingName extends React.Component {
                     </View>
                 </Pressable>
 
-                <Modal isVisible={false} style={{ zIndex: 1 }}>
+                <Modal isVisible={isModalConter} style={{ zIndex: 1, marginTop: 50, backgroundColor: colors.white, marginHorizontal: 0, marginBottom: 0, borderTopLeftRadius: 16, borderTopRightRadius: 16 }}>
+                    <View style={{ alignItems: "flex-end" }}>
+                        <TouchableWithoutFeedback onPress={() => {
+
+                            this.setState({ isModalConter: false })
+                        }}>
+                            <View style={{ width: 70, height: 60, justifyContent: "center", alignItems: "center" }}>
+                                <Image
+                                    style={styles.cross}
+                                    source={require('../assets/images/activity/cross.png')}
+                                />
+                            </View>
+                        </TouchableWithoutFeedback>
+                    </View>
+                    <View style={{ flex: 1, marginTop: -20 }}>
+                        {languages == "th" ? <Pdpa_th /> : <Pdpa_eng />}
 
 
+                    </View>
                 </Modal >
             </View>
 
@@ -222,6 +251,11 @@ const styles = StyleSheet.create({
         fontSize: 24,
         justifyContent: "center",
         marginBottom: 24
+    },
+    cross: {
+        width: 24,
+        height: 24,
+
     }
 
 

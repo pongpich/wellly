@@ -7,74 +7,166 @@ import ComponentsStyle from '../../constants/components';
 
 
 const Pdpa_eng = () => {
-    // Component implementation
     return (
         <>
             <View style={styles.container}>
                 <Text style={styles.headText}>{t('consent')}</Text>
                 <View style={{ paddingHorizontal: 16, marginTop: 24 }}>
                     <ScrollView showsVerticalScrollIndicator={false}>
-                        <Text style={styles.text}>
-                            Please read the following terms and conditions carefully before you use services from BBPF Co., Ltd. Your use of the products by BBPF Co., Ltd. will be subject to these terms and by using the products of BBPF Co., Ltd, you agree to be bound by them.
+                        <Text style={styles.head}>
+                            Privacy Policy
                         </Text>
-                        <Text style={[styles.text, { marginTop: 24 }]}>
-                            1. Introduction
-                            BBPF Co., Ltd ("BBPF ", "We", "Us," "Our") develops mobile health application named Wellly ("Our Products", "Wellly","This App"). Our application may be downloaded from the App Store, which is operated and owned by Apple Inc. and other companies within its group ("Apple"). Our Android Applications may be downloaded from Google Play, which is owned and operated by Google Inc. and other companies within its group ("Google"). Our Products offer fitness-related content, features, functionality, and other information and services including, without limitation, viral, embeddable or application/device-based features and related technology, also when accessed via the Internet, mobile or other devices (collectively, "Our Services"). We develop Our Products for informational purposes only. You must ALWAYS consult your physician or doctor before starting any fitness and/or nutrition program. By agreeing to these Terms and Conditions, you confirm that you are solely responsible for your state of health.
+                        <Text style={[styles.head, { marginTop: 16 }]}>
+                            This Privacy Policy is made by BBPF Co.,Ltd and affiliated companies  (the “Company”)
                         </Text>
-                        <Text style={[styles.text, { marginTop: 24 }]}>
-                            2. Acceptance of Terms and Conditions
-                            By using Our Products and Services you accept these Terms and Conditions. If you do not accept these Terms and Conditions, you may not use Our Products and Services. BBPF reserves the right to amend these Terms and Conditions at any time without prior notice. The up-to-date version of these Terms and Conditions will be available on the official website of Wellly. (https://wellly.co/) And any changes will come into effect immediately upon posting. By continuing to use our products you agree to amended terms and conditions.
+                        <Text style={[styles.text, { marginTop: 16 }]}>
+                            {"  "}The Company would like to inform you who contacts the Company via websites, applications, social medias, or other channels that it is necessary to collect, compile and use your personal data for the Company’s service in accordance with this Privacy Policy. By contacting and disclosing your personal data to the Company for the purposes of communication, coordination, and/or provision of the Company's services to you, it deems that you agree and accept to be bound by and comply with this Privacy Policy.
                         </Text>
-                        <Text style={[styles.text, { marginTop: 24 }]}>
-                            3. Intellectual Property
-                            The texts, graphics, designs, logos, button icons, images, data compilations and information ("Content") contained in Our Products and Services are Intellectual Property of BBPF (or belongs to it) and are protected by copyright laws. No trademarks may be used without prior written consent of BBPF. Except to identify the products or services associated therewith. Our Products and all related software, and all patent rights (including patent applications and disclosures), copyrights, trade secrets, know-how, and any other intellectual property rights therein or relating thereto (including derivative works), are and shall remain the exclusive property of BBPF or its licensors.
+                        <Text style={[styles.text, { marginTop: 16 }]}>
+                            {"  "} Personal data being processed, the Company may obtain your personal data from various channels as follows:
                         </Text>
-                        <Text style={[styles.text, { marginTop: 24 }]}>
-                            4. Legality of Use
-                            By using Our Products, you hereby warrant that:
-                            · All information contained in any submission by you is either owned by you or rights have been granted to you permitting you to disseminate the information as set forth in these Terms and Conditions; and
-                            · The information contained in any submissions by you does not infringe on the intellectual property rights of others, including but not limited to, copyright, trademark, patent, or trade secret rights. You accept full responsibility, assume all risk, and waive and/or release Us from any direct or indirect loss, injury, claim or damage arising from your use of Our Products, whether or not such use was appropriately supervised and regardless of whether you were negligent in such use. By using Our Products, you attest and verify that you are physically and mentally able to use Our Products, and knowingly accept and are fully aware of all risks associated with their use.
+                        <Text style={[styles.text, { marginTop: 16 }]}>
+                            {"  "}1. Directly from you through the Company's communications with you;
                         </Text>
-                        <Text style={[styles.text, { marginTop: 24 }]}>
-                            5. Representations and Warranties, Limitation of Liability
-                            BBPF makes no representations regarding: (a) the credentials of anyone using our Services and/or Products as part of any health care or medical plan of care or plan of treatment ("POC"); (b) the suitability of the exercises included in any such POC; (c) the viability, medical soundness or efficacy of any such POC; or (d) the overall health or medical benefits you might derive from using our services and products or POC which incorporates our services and products. The use of any software or hardware offered by BBPF is no substitute for the consultation by the user of a specialized doctor. Our Services and Products are provided "as is" without any warranties, expressed or implied, including but not limited to the implied warranties of merchantability, used for a particular purpose, or non-infringement. BBPF makes no representation or warranty that the information contained in our Services and/or Products will be current, timely, complete, accurate or error-free. To the extent that the law does not permit the disclaimer of warranties, all content accessible in our services and products, or any other web site to which our services and products link, is warranted only to the minimum amount legally required. In no event shall BBPF be liable to any party for any direct, indirect, special or other consequential damages for any use of this in our services and products, or on any linked web site, including, without limitation, any lost profits, business interruption or otherwise. BBPF shall be liable as currently provided by law, regardless of the statutory basis of such liability (pre-contractual, contractual, tort) only if BBPF has caused certain damage will fully or with gross negligence. In the event of slight negligence, BBPF shall not be liable to other businesses and shall be accountable to consumers only for personal damages. BBPF shall not be responsible to businesses for damages, financial losses, lost profits or damages resulting from claims of third parties.
+                        <Text style={[styles.text]}>
+                            {"  "}2.Indirectly, via a referral from a third party to whom you may grant consent to disclose your personal data to the Company; or
                         </Text>
-                        <Text style={[styles.text, { marginTop: 24 }]}>
-                            6. Privacy Policy
-                            Please read the privacy policy available at <Text style={{ color: 'blue' }} onPress={() => Linking.openURL('https://wellly.co/')}>https://wellly.co/</Text>
-                        </Text>
-                        <Text style={[styles.text, { marginTop: 24 }]}>
-                            7. Maintenance
-                            BBPF is not responsible for any outages or service interruptions that occur from time-to-time when using Our Products, including those due to software, hardware or power failures, or issues at the wireless carrier level. In addition, BBPF is not responsible for the products and services provided by others, including any User's mobile handsets or wireless data networks. BBPF, in its sole discretion, reserves the right to add or remove operating systems based on commercial factors it deems relevant such as use, adoption, and appeal of the operating system.
-                        </Text>
-                        <Text style={[styles.text, { marginTop: 24 }]}>
-                            8. Content Created by Users and Rights to such Content
-                            The user consents that as a result of the automatic evaluation of the way the user uses Our Products, he/she may be exposed to certain offers and/or marketing messages tailored to such user. The user consents that marketing measures may also be taken in relation to created content, which is marketed by BBPF. The user grants BBPF the irrevocable, free, non-exclusive and unlimited right to use all content generated, transmitted, saved and published by such user. Accordingly, BBPF shall have the right to use all content, irrespective of the type of usage. This shall include the right to change and edit such content unless such changes or edits impair material interests of the user. In this connection, the user waives, to the extent legally permissible, all intellectual property rights. BBPF does not claim ownership of any content created by users and will not supervise such content.  You further hereby license to Us the right to make all content uploaded by you also available to other users, provided that this is done within the scope of the contractual purpose (for example, by reporting your copyright protected messages to other users.
-                        </Text>
-                        <Text style={[styles.text, { marginTop: 24 }]}>
-                            9. Termination for good cause
-                            Irrespective of the foregoing provisions, either party has the right to terminate contracts for a good reason. In particular, we have the right to terminate the user agreement or your subscription with immediate effect and to cancel your user account if you have seriously or repeatedly breached provisions of the user agreement and/or these General Terms and Conditions or if you are behind with payment despite demand
-                        </Text>
-                        <Text style={[styles.text, { marginTop: 24 }]}>
-                            10.   User agreement
-                            · You may cancel your user account at any time for any or no reason and thereby also terminate your user agreement in its entirety.
-                            · To do so, you must send an e-mail to your corporate. Then your company shall send US an email to xxxxxxxxxx so that We can erase your user data. Please note that after your user account has been canceled all content and workout performance data will or may be deleted by Us, and you will no longer have access to content you have already purchased.
-                            · If at the time you cancel your account you still have a valid subscription, any amount your corporate may already have paid for the subscription will not be refunded – either in whole or in part.
-                            · We have the right to terminate the user agreement for any or no reason in text form with two weeks’ prior notice, however not before the end of the minimum contract term or the end of the applicable renewal term of your subscription.
-                        </Text>
-                        <Text style={[styles.text, { marginTop: 24 }]}>
-                            11. Governing Law
-                            These Terms of Use are governed by and construed under Thai laws, without giving effect to any principles of conflicts of law. For any action at law or in equity relating to the arbitration provision of these Terms of Use, the Excluded Disputes or if you opt out of the agreement to arbitrate, you agree to resolve any dispute you have with BBPF exclusively in a Supreme court located in Thailand, and to submit to the personal jurisdiction of the courts located in Thailand for litigating all such disputes. If any provision of these Terms of Use is held to be unlawful, void, or for any reason unenforceable during arbitration or by a court of competent jurisdiction, then that provision will be deemed severable from these Terms of Use and will not affect the validity and enforceability of any remaining provisions. BBPF's failure to insist upon or enforce strict performance of any provision of these Terms will not be construed as a waiver of any provision or right. No waiver of any of these Terms will be deemed a further or continuing waiver of such term or condition or any other term or condition. BBPF reserves the right to change this dispute resolution provision, but any such changes will not apply to disputes arising before the effective date of the amendment. This dispute resolution provision will survive the termination of any or all of your transactions with BBPF.
-                        </Text>
-                        <Text style={[styles.text, { marginTop: 24 }]}>
-                            12. GENERAL DISCLAIMER
-                            Please review the following User Agreement carefully before using Wellly. You should also read our Privacy Policy.
-                        </Text>
-                        <Text style={[styles.text, { marginTop: 24 }]}>
-                            13. MEDICAL DISCLAIMER
-                            This App provides only information, is not medical or treatment advice and may not be treated as such by the user. As such, Wellly may not be relied upon for the purposes of medical diagnosis or as a recommendation for medical care or treatment. The information on This App is not a substitute for professional medical advice, diagnosis or treatment. All information, including but not limited to, text, graphics, images, videos, and other material, contained on or available through This App is for general information purposes only.
+                        <Text style={[styles.text]}>
+                            {"  "}3.Automatically collected through means named “Cookie” or other similar means when you access the Company's website and/or use the services by electronic devices such as mobile phones, computers, laptop, and etc.
                         </Text>
 
+                        <Text style={[styles.head, { marginTop: 16 }]}>
+                            The personal data that the Company is necessary to collect, compile, use and process under this Privacy Policy are as follows:
+                        </Text>
+                        <Text style={[styles.text, { marginTop: 16 }]}>
+                            {"  "}1.Your full name, including your related information or your representative information (in the case that you are contacting us in the name of a juristic person) which may include your identity information document.
+                        </Text>
+                        <Text style={[styles.text]}>
+                            {"  "}2.Contact information such as telephone number, email or social media account information.
+                        </Text>
+                        <Text style={[styles.text]}>
+                            {"  "}3. Other personal data that you may provide to the Company during the communications such as information on matters of inquiry, interest information or any other personally identifiable information you provide to the Company directly through various communication channels.
+                        </Text>
+                        <Text style={[styles.text]}>
+                            {"  "}4.In case of communication via the website, may include your technical information such as IP Address, Cookies, including information about your browsing behavior.
+                        </Text>
+                        <Text style={[styles.text]}>
+                            {"  "}5.Sensitive personal information includes racial or ethnic origin, political opinions, religious or philosophical beliefs, a person’s sex life or sexual orientation, criminal record, medical and health-related data, data that reveals trade-union membership, genetic and biometric data used to identify an individual or others which can adversely affect the privacy or welfare as imposed by the personal data protection committee.
+
+                        </Text>
+                        <Text style={[styles.head, { marginTop: 16 }]}>
+                            Purpose of the Personal Data Processing and Using, the Company is necessary to collect, compile and use the Job Applicant’s personal data for the following purposes:
+                        </Text>
+                        <Text style={[styles.text, { marginTop: 16 }]}>
+                            {"  "}1.For the purpose of providing services, this may include registering and maintaining an online or offline account, designing you personalized program based on data that you fill in, and tracking your fitness activity. The Company is necessary to collect and store your information so that you can review it on the Platform and track your progress.
+                        </Text>
+                        <Text style={[styles.text]}>
+                            {"  "}2.For the management of communications with which you have communicated with the Company, such as answering questions, providing relevant information as requested and required, managing complaints, or responding to comments you make directly to the Company via various communication channels, including continuous coordination, service agreement execution, and/or performance of rights and obligations that the Company and you may agree on;
+
+                        </Text>
+                        <Text style={[styles.text]}>
+                            {"  "}3.For the performance of legal obligations to which the Company may be subject to certain conditions. This may include, but is not limited to, performing duties associated with the preparation of accounting documents and taxes in connection with any services provided by the Company to you;
+                        </Text>
+                        <Text style={[styles.text]}>
+                            {"  "}4.For the purpose of building and improving business relationships, including enhancing the service that the Company provides for your benefit, which the Company may collect and/or use your personal data for the purpose of control, assurance of service, management analysis and resolution of business-related issues, including, but not limited to, employee training and future service improvement planning;
+                        </Text>
+                        <Text style={[styles.text]}>
+                            {"  "}5.For the purpose of protecting and defending the Company's legal rights in the event that you and the Company have a dispute; and
+                        </Text>
+                        <Text style={[styles.text]}>
+                            {"  "}6.Subject to an explicit consent granted to the Company such as marketing and newsletter communications, the Company may process the Personal Data for the purposes as defined in the consent.
+                        </Text>
+                        <Text style={[styles.head, { marginTop: 16 }]}>
+                            Retention Period of Personal Data, in order to perform in accordance with the purposes described above, the Company is necessary to collect, compile and process your personal data according to the following period:
+                        </Text>
+                        <Text style={[styles.text, { marginTop: 16 }]}>
+                            {"  "}1.For personal data processing for the purpose of providing services, an agreement execution and/or the performance of rights and duties under the agreement, the Company is necessary to process your personal data as long as the company has a duty to provide services to you;
+                        </Text>
+                        <Text style={[styles.text]}>
+                            {"  "}2.For personal data processing for the purpose of performing the duties according to applicable laws, the Company is necessary to process your personal data for a period of time specified by applicable laws;
+                        </Text>
+                        <Text style={[styles.text]}>
+                            {"  "}3.For personal data processing for the purpose of building and improving business relationships and/or improving the service, the Company reserves the right to retain that personal data to the extent that the Company may have business necessity. The Company warrants that the retention of the personal data will not unreasonably affect the rights of the data subject;
+                        </Text>
+                        <Text style={[styles.text]}>
+                            {"  "}4.For personal data processing for the sake of protection and fighting for legitimate rights of the Company, the Company has a necessity to keep such personal data according to the prescription defined by applicable laws; and
+                        </Text>
+                        <Text style={[styles.text]}>
+                            {"  "}5. In case you give consent to the Company to process your personal data for specific purposes, the Company will process your personal data until you withdraw such consent.
+                        </Text>
+                        <Text style={[styles.head, { marginTop: 16 }]}>
+                            Disclosure of the personal data, generally, your personal data will not be disclosed, except for the circumstance that the Company would need to disclose to the following person:
+                        </Text>
+                        <Text style={[styles.text, { marginTop: 16 }]}>
+                            {"  "} 1.Your information shall be disclosure or revealed to only relevant staffs or teams which are required for the purpose of providing services. Those staffs or teams will only be provided with access to your information as is reasonably necessary.
+                        </Text>
+                        <Text style={[styles.text]}>
+                            {"  "} 2.External service providers of the Company engaged for providing supporting services to the Company in providing services to you, including consultants of the Company. Such disclosure of the personal data to these third parties shall be done in accordance with the purposes and only on a need-to-know basis; or
+
+                        </Text>
+                        <Text style={[styles.text]}>
+                            {"  "} 3.Government, regulatory authorities or courts that the Company may be subject to an order, law or judgment to disclose the personal data.
+                        </Text>
+                        <Text style={[styles.head, { marginTop: 16 }]}>
+                            The Company undertakes to implement appropriate personal data security measures to prevent any unauthorized and unlawful access, modification, amendment, or disclosure. The Company commits to reviewing these measures on a regular basis to ensure its compatibility to the standards and to applicable laws.
+                        </Text>
+                        <Text style={[styles.text, { marginTop: 16 }]}>
+                            {"  "}Data subject rights, the Company respects your rights as the data subject under applicable laws. You can contact to the Company to exercise the rights which are
+                        </Text>
+
+                        <Text style={[styles.text, { marginTop: 16 }]}>
+                            {"  "}1. The rights to withdraw consent
+                        </Text>
+                        <Text style={[styles.text]}>
+                            {"  "}2.The right to access
+                        </Text>
+                        <Text style={[styles.text]}>
+                            {"  "}3.The right request a copy of the personal data
+                        </Text>
+                        <Text style={[styles.text]}>
+                            {"  "}4.The right to correct the personal data
+                        </Text>
+                        <Text style={[styles.text]}>
+                            {"  "} 5.The right to object to any processing of the personal data
+                        </Text>
+                        <Text style={[styles.text]}>
+                            {"  "} 6.The right to request for data portability in the event that the Company stores the personal data in the format which is readable or commonly used by automated tools or equipment including the right to transfer such personal data to other data controllers
+                        </Text>
+                        <Text style={[styles.text]}>
+                            {"  "}7.The right to request for the deletion or de-identification of the personal data upon there is no necessity to process
+                        </Text>
+                        <Text style={[styles.text]}>
+                            {"  "}8.The right to request for suspension of the use of the personal data
+                        </Text>
+                        <Text style={[styles.text]}>
+                            {"  "}9.The right to file a complaint.
+                        </Text>
+                        <Text style={[styles.head, { marginTop: 16 }]}>
+                            Law enforcement
+                        </Text>
+                        <Text style={[styles.text, { marginTop: 16 }]}>
+                            {"  "} You have agreed and acknowledged that this private policy is legally enforceable under the Thai Laws. Thai courts have jurisdiction to adjudicate any disputes. {"\n"}
+                            Announced on xxxxxx
+
+                        </Text>
+                        <Text style={[styles.head, { marginTop: 16 }]}>
+                            Contact information
+                        </Text>
+                        <Text style={[styles.text, { marginTop: 16 }]}>
+                            Data Protection Officer
+                        </Text>
+                        <Text style={[styles.text, { marginTop: 16 }]}>
+                            Khun Tanakorn Numrubporn
+                        </Text>
+                        <Text style={[styles.text, { marginTop: 16 }]}>
+                            Address: 429/129 Songpraha Road, Donmuang Sub-district, Donmuang District, Bangkok 10210
+                        </Text>
+                        <Text style={[styles.text, { marginTop: 16 }]}>
+                            Email: 	tanakorn@planforfit.com
+                        </Text>
+                        <Text style={[styles.text, { marginTop: 16, marginBottom: 100 }]}>
+                            Phone Number: 083-066-4647, 093-883-2339
+                        </Text>
                     </ScrollView>
                 </View>
             </View>
@@ -95,6 +187,12 @@ const styles = StyleSheet.create({
         color: colors.grey1,
         fontFamily: "IBMPlexSansThai-Bold",
         fontSize: 24,
+    },
+    head: {
+
+        color: colors.grey1,
+        fontFamily: "IBMPlexSansThai-Bold",
+        fontSize: 16,
     },
     text: {
         color: colors.grey1,
