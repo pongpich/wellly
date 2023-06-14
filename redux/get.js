@@ -38,7 +38,16 @@ export const types = {
   GET_BADGE: "GET_BADGE",
   GET_BADGE_SUCCESS: "GET_BADGE_SUCCESS",
   RESET_STATUS_NUTRITION_KNOWLEDGE_ACTIVITY: "RESET_STATUS_NUTRITION_KNOWLEDGE_ACTIVITY",
+  GET_TEACH_USER_HOME: "GET_TEACH_USER_HOME",
+  GET_TEACH_USER_HOME_SUCCESS: "GET_TEACH_USER_HOME_SUCCESS",
 };
+
+export const getTeachUserHome = (user_id) => ({
+  type: types.GET_TEACH_USER_HOME,
+  payload: {
+    user_id
+  }
+});
 
 export const getWeekActivityLogGraph = (user_id) => ({
   type: types.GET_WEEK_ACT_LOG_GRAPH,
@@ -379,6 +388,19 @@ const getBadgeSagaAsync = async (user_id) => {
     return { error, messsage: error.message };
   }
 }
+const getTeachUserHomeSagaAsync = async (user_id) => {
+  try {
+    const apiResult = await API.get("planforfit", "/get_teach_user_home", {
+      queryStringParameters: {
+        user_id
+      }
+    });
+    /*  console.log("apiResult", apiResult); */
+    return apiResult
+  } catch (error) {
+    return { error, messsage: error.message };
+  }
+}
 
 
 function* getProfanitySaga({ }) {
@@ -637,7 +659,7 @@ function* getNutritionKnowledgeSaga({ payload }) {
     const apiResult = yield call(
       getNutritionKnowledgeSagaAsync
     )
-  
+
     yield put({
       type: types.GET_NUTRITION_KNOWLEDGE_SUCCESS,
       payload: apiResult.results.get_nutrition_knowledge
@@ -680,6 +702,24 @@ function* getBadgeSaga({ payload }) {
 
   } catch (error) {
     console.log("error form getBadgeSaga", error);
+  }
+}
+
+function* getTeachUserHomeSaga({ payload }) {
+  const { user_id } = payload;
+
+  try {
+    const apiResult = yield call(
+      getTeachUserHomeSagaAsync,
+      user_id
+    )
+    yield put({
+      type: types.GET_TEACH_USER_HOME_SUCCESS,
+      payload: apiResult.results.teach_user_home
+    })
+
+  } catch (error) {
+    console.log("error form getTeachUserHomeSaga", error);
   }
 }
 
@@ -737,6 +777,9 @@ export function* watchetNutritionKnowledgeActivity() {
 export function* watchetGetBadge() {
   yield takeEvery(types.GET_BADGE, getBadgeSaga)
 }
+export function* watchGetTeachUserHome() {
+  yield takeEvery(types.GET_TEACH_USER_HOME, getTeachUserHomeSaga)
+}
 
 export function* saga() {
   yield all([
@@ -756,6 +799,7 @@ export function* saga() {
     fork(watchGetNutritionKnowledge),
     fork(watchetNutritionKnowledgeActivity),
     fork(watchetGetBadge),
+    fork(watchGetTeachUserHome),
   ]);
 }
 
@@ -797,12 +841,24 @@ const INIT_STATE = {
   statusNutritionKnowledgeActivity: "default",
   nutritionKnowledgeActivity: null,
   statusGetBadge: "default",
-  getBadgeYou: null
-
+  getBadgeYou: null,
+  statusGetTeachUserHome: "default",
+  teach_user_home: false
 };
 
 export function reducer(state = INIT_STATE, action) {
   switch (action.type) {
+    case types.GET_TEACH_USER_HOME:
+      return {
+        ...state,
+        statusGetTeachUserHome: "loading",
+      }
+    case types.GET_TEACH_USER_HOME_SUCCESS:
+      return {
+        ...state,
+        statusGetTeachUserHome: "success",
+        teach_user_home: action.payload
+      }
     case types.GET_WEEK_ACT_LOG_GRAPH:
       return {
         ...state,
