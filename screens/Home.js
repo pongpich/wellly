@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Pressable, ImageBackground, Image, ScrollView, StatusBar, statusBarStyle, statusBarTransition, Animated, Easing, hidden, TouchableOpacity, TextInput, Text, Linking, KeyboardAvoidingView, Platform, Dimensions, InputAccessoryView, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { View, StyleSheet, Pressable, ImageBackground, Image, ScrollView, StatusBar, statusBarStyle, statusBarTransition, Animated, Easing, hidden, TouchableOpacity, TextInput, Text, Linking, KeyboardAvoidingView, Platform, Dimensions, InputAccessoryView, TouchableWithoutFeedback, Keyboard, Button } from 'react-native';
 import { logoutUser, loginUser } from "../redux/auth";
 import { getNutritionMission, getNutritionActivity, getExerciserActivity, getActivityList, getMemberActivityLogInWeek, getYearActivityLogGraph, getMonthActivityLogGraph, getWeekActivityLogGraph, setIntensityFromExArticleTemplate, getNutritionKnowledgeActivity } from "../redux/get";
 import { insertNutritionActivity, insertExerciseActivity, checkUpdateBadgeWin } from "../redux/update";
@@ -65,7 +65,8 @@ class Home extends Component {
             selectedYear: 2023,
             /*    teachUserHome: true, */
             stipTeach: 1,
-            nutrition_knowledge_Act: 0
+            nutrition_knowledge_Act: 0,
+            modalVisible: false
         };
     }
 
@@ -441,7 +442,7 @@ class Home extends Component {
     render() {
         const { user, activity_list, teachUserHome } = this.props;
         const { latest_nutrition_activity, latest_exercise_activity, latest_exercise_mission, statusChart, isLoading, labelsWeek, labelsWeekEng, weekData, monthData,
-            yearData, labelsMonth, labelsYear, month, selectedMonth, year, thisYear, selectedYear, week_in_program, stipTeach, nutrition_knowledge_Act } = this.state;
+            yearData, labelsMonth, labelsYear, month, selectedMonth, year, thisYear, selectedYear, week_in_program, stipTeach, nutrition_knowledge_Act, modalVisible } = this.state;
 
         const languages = i18next.languages[0];
 
@@ -497,7 +498,7 @@ class Home extends Component {
                             {/* สร้าง Modal กลาง */}
                             <ModalActivity visible={modalVisible} onClose={() => this.closeModal()} />
                         </View>
-                        
+
                         <View style={{ marginBottom: 100, marginTop: -40 }}>
 
                             <View style={{ height: 44, width: "100%" }}>
