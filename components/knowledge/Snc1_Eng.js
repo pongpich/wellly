@@ -23,7 +23,7 @@ class Snc1 extends Component {
     };
 
     renderImg(mission_id, img_index, size = 'md') {
-        const imgUrl = `https://wellly.s3.ap-southeast-1.amazonaws.com/knowledge/knowledge/${mission_id}/${mission_id}_${img_index}.jpg`
+        const imgUrl = `https://wellly.s3.ap-southeast-1.amazonaws.com/knowledge/knowledge/${mission_id}/eng/${mission_id}_${img_index}.png`
         const { loading, error } = this.state;
         return (
             <View style={{ justifyContent: "center", alignItems: "center" }}>

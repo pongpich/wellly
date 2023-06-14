@@ -180,6 +180,7 @@ class ArticleTemplate extends Component {
         const languages = i18next.languages[0];
         return (
             <View style={{ marginTop: 24, }}>
+
                 {(mission_id === 'gn1') && (languages == "th" ? <Gn1 /> : <Gn1_Eng />)}
                 {(mission_id === 'gn2') && (languages == "th" ? <Gn2 /> : <Gn2_Eng />)}
                 {(mission_id === 'gn3') && (languages == "th" ? <Gn3 /> : <Gn3_Eng />)}
@@ -192,6 +193,8 @@ class ArticleTemplate extends Component {
                 {(mission_id === 'snb2') && (languages == "th" ? <Snb2 /> : <Snb2_Eng />)}
                 {(mission_id === 'snc1') && (languages == "th" ? <Snc1 /> : <Snc1_Eng />)}
                 {(mission_id === 'snc2') && (languages == "th" ? <Snc2 /> : <Snc2_Eng />)}
+
+
             </View>
         )
     }
@@ -215,8 +218,8 @@ class ArticleTemplate extends Component {
         const { nutrition_activity_id_Mission, teachUserArticleTemplate } = this.props;
         const { heading } = this.props.route.params;
         const mm = "Cut down on the sweet, salty, and fatty foods with 6-6-1 rule."
-        console.log("heading", heading);
-        console.log("heading", mm.length);
+        /*       console.log("heading", heading);
+              console.log("heading", mm.length); */
         const isNotchDevice = Dimensions.get('window').height >= 812;
 
         const headerHeight = this.state.scrollY.interpolate({
