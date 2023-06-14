@@ -449,16 +449,16 @@ class ArticleTemplate extends Component {
 
     render() {
         const { study, statusBarColor, id, heading, mission_activities, stipTeach } = this.state;
-
+        const isHeight = Dimensions.get('window').height;
+        const height568 = isHeight < 569 ? 20 : 0;
         const headerHeight = this.state.scrollY.interpolate({
             inputRange: [0, 200],
-            outputRange: [heading && heading.length < 32 ? 120 : (heading && heading.length > 31) && (heading && heading.length < 63) ? 160 : 180, 16],
+            outputRange: [heading && heading.length < 32 ? 120 : (heading && heading.length > 31) && (heading && heading.length < 63) ? 160 + height568 : 200 + height568, 16],
             extrapolate: 'clamp',
         });
 
         const { teachUserExArticleTemplate } = this.props;
 
-        const isHeight = Dimensions.get('window').height;
         return (
             <View style={styles.container}>
                 <View style={{ height: 44, zIndex: 10, width: "100%", backgroundColor: statusBarColor === "light" ? colors.persianBlue : colors.white }}>
@@ -469,7 +469,7 @@ class ArticleTemplate extends Component {
                             <StatusBar barStyle="dark-content" />
                     }
                 </View>
-                <View style={{ marginBottom: isHeight < 569 && 7, height: 44, zIndex: 3, width: "100%", backgroundColor: statusBarColor === "light" ? colors.persianBlue : colors.white }}>
+                <View style={{ height: 44, zIndex: 3, width: "100%", backgroundColor: statusBarColor === "light" ? colors.persianBlue : colors.white }}>
                     <View style={{ marginLeft: 16 }}>
                         <Pressable onPress={() => this.props.navigation.goBack()}>
                             <Image style={{ width: 24, height: 24 }}

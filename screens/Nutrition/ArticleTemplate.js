@@ -222,14 +222,17 @@ class ArticleTemplate extends Component {
               console.log("heading", mm.length); */
         const isNotchDevice = Dimensions.get('window').height >= 812;
 
+        const isHeight = Dimensions.get('window').height;
+        const height568 = isHeight < 569 ? 20 : 0;
+
         const headerHeight = this.state.scrollY.interpolate({
             inputRange: [0, 200],
-            outputRange: [heading.length < 32 ? 120 : (heading.length > 31) && (heading.length < 63) ? 160 : 180, 16],
+            outputRange: [heading.length < 32 ? 120 : (heading.length > 31) && (heading.length < 62) ? 160 + height568 : 200 + height568, 16],
             extrapolate: 'clamp',
         });
         // 180 : 160
 
-        const isHeight = Dimensions.get('window').height;
+
         const { t } = this.props;
 
 
@@ -243,7 +246,7 @@ class ArticleTemplate extends Component {
                             <StatusBar barStyle="dark-content" />
                     }
                 </View>
-                <View style={{ marginBottom: isHeight < 569 && 7, height: 33, zIndex: 20, /* justifyContent: "center", */ width: "100%", backgroundColor: statusBarColor === "light" ? colors.persianBlue : colors.white }}>
+                <View style={{ height: 33, zIndex: 20, /* justifyContent: "center", */ width: "100%", backgroundColor: statusBarColor === "light" ? colors.persianBlue : colors.white }}>
                     <View style={{ marginLeft: 16 }}>
                         <Pressable onPress={() => this.props.navigation.goBack()}>
                             <Image style={{ width: 24, height: 24 }}
