@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Pressable, ImageBackground, Image, ScrollView, StatusBar, statusBarStyle, statusBarTransition, Animated, Easing, hidden, TouchableOpacity, TextInput, Text, Linking, KeyboardAvoidingView, Platform, Dimensions, InputAccessoryView, TouchableWithoutFeedback, Keyboard, Button } from 'react-native';
 import { logoutUser, loginUser } from "../redux/auth";
-import { getNutritionMission, getNutritionActivity, getExerciserActivity, getActivityList, getMemberActivityLogInWeek, getYearActivityLogGraph, getMonthActivityLogGraph, getWeekActivityLogGraph, setIntensityFromExArticleTemplate, getNutritionKnowledgeActivity } from "../redux/get";
+import { getNutritionMission, getNutritionActivity, getExerciserActivity, getActivityList, getMemberActivityLogInWeek, getYearActivityLogGraph, getMonthActivityLogGraph, getWeekActivityLogGraph, setIntensityFromExArticleTemplate, getNutritionKnowledgeActivity, getTeachUserHome, setTeachUserHome } from "../redux/get";
 import { insertNutritionActivity, insertExerciseActivity, checkUpdateBadgeWin } from "../redux/update";
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
-import { routeName, setSelectedTab, setTeachUserHome } from "../redux/personalUser";
+import { routeName, setSelectedTab } from "../redux/personalUser";
 import ComponentsStyle from '../constants/components';
 import colors from '../constants/colors';
 import { calculateWeekInProgram, currentTime } from "../helpers/utils";
@@ -120,6 +120,7 @@ class Home extends Component {
                 this.props.navigation.navigate("Login");
             }
 
+            this.props.getTeachUserHome(user && user.user_id);
             this.props.insertNutritionActivity(user && user.user_id);
             this.props.insertExerciseActivity(user && user.user_id);
             this.props.getNutritionActivity(user && user.user_id);
@@ -149,7 +150,7 @@ class Home extends Component {
 
         });
 
-
+        this.props.getTeachUserHome(user && user.user_id);
         this.props.insertNutritionActivity(user && user.user_id);
         this.props.insertExerciseActivity(user && user.user_id);
         this.props.getNutritionActivity(user && user.user_id);
@@ -424,7 +425,8 @@ class Home extends Component {
     };
 
     setTeachHome = () => {
-        this.props.setTeachUserHome(false);
+        const { user} = this.props;
+        this.props.setTeachUserHome(user && user.user_id , "false");
         this.props.navigation.navigate('NutritionTab');
     }
 
@@ -490,15 +492,6 @@ class Home extends Component {
             <View style={[ComponentsStyle.container, { backgroundColor: colors.mayaBlue60, paddingTop: 40 }]}>
                 <ScrollView showsVerticalScrollIndicator={false}>
                     <ImageBackground source={require('../assets/images/home/Logo.png')} style={{ marginTop: 0, width: "auto" }} >
-
-                        <View>
-                            {/* ปุ่มเพื่อเปิด Modal */}
-                            <Button title="Open Modal" onPress={() => this.openModal()} />
-
-                            {/* สร้าง Modal กลาง */}
-                            <ModalActivity visible={modalVisible} onClose={() => this.closeModal()} />
-                        </View>
-
                         <View style={{ marginBottom: 100, marginTop: -40 }}>
 
                             <View style={{ height: 44, width: "100%" }}>
@@ -1309,21 +1302,21 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = ({ authUser, getData, personalDataUser, updateData }) => {
     const { user } = authUser;
-    const { route_name, teachUserHome } = personalDataUser;
+    const { route_name } = personalDataUser;
     const { statusInsertNutritionActivity, statusInsertExerciseActivity } = updateData;
     const { nutrition_mission, nutrition_activity, statusGetNutritionMission, statusGetNutritionActivity, statusExerciserActivity, exerciserActivity, activity_list, statusGetActivityList,
-        member_activity_log_in_week, statusGetYearActLogGraph, statusGetMonthActLogGraph, statusGetWeekActLogGraph, weekLog, monthLog, yearLog, statusNutritionKnowledgeActivity, nutritionKnowledgeActivity } = getData;
+        member_activity_log_in_week, statusGetYearActLogGraph, statusGetMonthActLogGraph, statusGetWeekActLogGraph, weekLog, monthLog, yearLog, statusNutritionKnowledgeActivity, nutritionKnowledgeActivity, statusGetTeachUserHome, teachUserHome } = getData;
     return {
         user, nutrition_mission, nutrition_activity, statusGetNutritionMission, statusGetNutritionActivity, statusInsertNutritionActivity, statusInsertExerciseActivity,
         member_activity_log_in_week, statusExerciserActivity, exerciserActivity, activity_list, statusGetActivityList, route_name, statusGetYearActLogGraph, statusGetMonthActLogGraph,
-        statusGetWeekActLogGraph, statusGetWeekActLogGraph, weekLog, monthLog, yearLog, teachUserHome, statusNutritionKnowledgeActivity, nutritionKnowledgeActivity
+        statusGetWeekActLogGraph, statusGetWeekActLogGraph, weekLog, monthLog, yearLog, teachUserHome, statusNutritionKnowledgeActivity, nutritionKnowledgeActivity, statusGetTeachUserHome
     };
 };
 
 const mapActionsToProps = {
     logoutUser, getNutritionMission, routeName, setSelectedTab, insertNutritionActivity, insertExerciseActivity, getMemberActivityLogInWeek, loginUser, getNutritionActivity,
     getExerciserActivity, getActivityList, setIntensityFromExArticleTemplate, checkUpdateBadgeWin, getYearActivityLogGraph, getMonthActivityLogGraph, getWeekActivityLogGraph, setTeachUserHome,
-    getNutritionKnowledgeActivity
+    getNutritionKnowledgeActivity, getTeachUserHome
 };
 
 export default connect(

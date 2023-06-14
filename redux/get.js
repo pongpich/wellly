@@ -40,6 +40,8 @@ export const types = {
   RESET_STATUS_NUTRITION_KNOWLEDGE_ACTIVITY: "RESET_STATUS_NUTRITION_KNOWLEDGE_ACTIVITY",
   GET_TEACH_USER_HOME: "GET_TEACH_USER_HOME",
   GET_TEACH_USER_HOME_SUCCESS: "GET_TEACH_USER_HOME_SUCCESS",
+  SET_TEACH_USER_HOME: "SET_TEACH_USER_HOME",
+  SET_TEACH_USER_HOME_SUCCESS: "SET_TEACH_USER_HOME_SUCCESS",
 };
 
 export const getTeachUserHome = (user_id) => ({
@@ -47,6 +49,11 @@ export const getTeachUserHome = (user_id) => ({
   payload: {
     user_id
   }
+});
+
+export const setTeachUserHome = (user_id, status) => ({
+  type: types.SET_TEACH_USER_HOME,
+  payload: { user_id, status },
 });
 
 export const getWeekActivityLogGraph = (user_id) => ({
@@ -401,6 +408,19 @@ const getTeachUserHomeSagaAsync = async (user_id) => {
     return { error, messsage: error.message };
   }
 }
+const setTeachUserHomeSagaAsync = async (user_id, status) => {
+  try {
+    const apiResult = await API.post("planforfit", "/update_teach_user_home", {
+      body: {
+        user_id, status
+      }
+    });
+    /*  console.log("apiResult", apiResult); */
+    return apiResult
+  } catch (error) {
+    return { error, messsage: error.message };
+  }
+}
 
 
 function* getProfanitySaga({ }) {
@@ -713,13 +733,31 @@ function* getTeachUserHomeSaga({ payload }) {
       getTeachUserHomeSagaAsync,
       user_id
     )
+
     yield put({
       type: types.GET_TEACH_USER_HOME_SUCCESS,
-      payload: apiResult.results.teach_user_home
+      payload: (apiResult.results.teach_user_home === "true") ? true : false
     })
 
   } catch (error) {
     console.log("error form getTeachUserHomeSaga", error);
+  }
+}
+function* setTeachUserHomeSaga({ payload }) {
+  const { user_id, status } = payload;
+
+  try {
+    const apiResult = yield call(
+      setTeachUserHomeSagaAsync,
+      user_id, status
+    )
+    console.log("STUH :", apiResult);
+    yield put({
+      type: types.SET_TEACH_USER_HOME_SUCCESS,
+    })
+
+  } catch (error) {
+    console.log("error form setTeachUserHomeSaga", error);
   }
 }
 
@@ -780,6 +818,9 @@ export function* watchetGetBadge() {
 export function* watchGetTeachUserHome() {
   yield takeEvery(types.GET_TEACH_USER_HOME, getTeachUserHomeSaga)
 }
+export function* watchSetTeachUserHome() {
+  yield takeEvery(types.SET_TEACH_USER_HOME, setTeachUserHomeSaga)
+}
 
 export function* saga() {
   yield all([
@@ -800,6 +841,7 @@ export function* saga() {
     fork(watchetNutritionKnowledgeActivity),
     fork(watchetGetBadge),
     fork(watchGetTeachUserHome),
+    fork(watchSetTeachUserHome),
   ]);
 }
 
@@ -843,7 +885,9 @@ const INIT_STATE = {
   statusGetBadge: "default",
   getBadgeYou: null,
   statusGetTeachUserHome: "default",
-  teach_user_home: false
+  teachUserHome: false,
+  statusSetTeachUserHome: "default",
+
 };
 
 export function reducer(state = INIT_STATE, action) {
@@ -857,7 +901,18 @@ export function reducer(state = INIT_STATE, action) {
       return {
         ...state,
         statusGetTeachUserHome: "success",
-        teach_user_home: action.payload
+        teachUserHome: action.payload
+      }
+    case types.SET_TEACH_USER_HOME:
+      return {
+        ...state,
+        statusSetTeachUserHome: "loading",
+      }
+    case types.SET_TEACH_USER_HOME_SUCCESS:
+      return {
+        ...state,
+        statusSetTeachUserHome: "success",
+        teachUserHome: false
       }
     case types.GET_WEEK_ACT_LOG_GRAPH:
       return {
