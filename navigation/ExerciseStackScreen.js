@@ -48,7 +48,7 @@ function HomeStackScreen() {
             <HomeStack.Screen name="ExProgram" component={ExProgram}
                 options={{ cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS, headerShown: false }}
             />
-            <HomeStack.Screen name="Add" component={Add} options={{ cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS, headerShown: false }} />
+           {/*  <HomeStack.Screen name="Add" component={Add} options={{ cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS, headerShown: false }} /> */}
             <HomeStack.Screen name="AddActivity" component={AddActivity} options={{ cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS, headerShown: false }} />
         </HomeStack.Navigator>
     );
