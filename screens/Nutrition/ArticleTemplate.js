@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import { ScrollView, View, Dimensions, StyleSheet, StatusBar, TouchableOpacity, Image, Text, Pressable, Platform, Animated, TouchableWithoutFeedback } from 'react-native';
 import colors from '../../constants/colors';
-import { getNutritionMission, getNutritionActivityIdMission } from "../../redux/get";
+import { getNutritionMission, getNutritionActivityIdMission, setTeachUserArticleTemplate, getTeachUserArticleTemp, setTeachUserNutrition } from "../../redux/get";
 import ComponentsStyle from '../../constants/components';
 import { logoutUser } from "../../redux/auth";
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
-import { setTeachUserArticleTemplate, setTeachUserNutrtion, routeName } from "../../redux/personalUser";
+import { routeName } from "../../redux/personalUser";
 import Mission from '../Nutrition/Mission';
 import Modal from "react-native-modal";
 import { CommonActions } from '@react-navigation/native';
@@ -71,7 +71,8 @@ class ArticleTemplate extends Component {
         // รับ   params จาก  route
         const { id, mission_id } = this.props.route.params;
 
-        this.props.getNutritionActivityIdMission(user.user_id, mission_id);
+        this.props.getTeachUserArticleTemp(user && user.user_id)
+        this.props.getNutritionActivityIdMission(user && user.user_id, mission_id);
         this.props.getNutritionMission(mission_id);
 
         this.setState({
@@ -215,7 +216,7 @@ class ArticleTemplate extends Component {
 
 
         const { statusBarColor, numberMission, study, statusQuiz, statusMission, isModalVisible, week_in_program, mission_id, scrollY, slideAnimation, stipTeach } = this.state;
-        const { nutrition_activity_id_Mission, teachUserArticleTemplate } = this.props;
+        const { nutrition_activity_id_Mission, teachUserArticleTemplate, user } = this.props;
         const { heading } = this.props.route.params;
         const mm = "Cut down on the sweet, salty, and fatty foods with 6-6-1 rule."
         /*       console.log("heading", heading);
@@ -379,7 +380,7 @@ class ArticleTemplate extends Component {
                                         <Pressable onPress={() => this.props.navigation.navigate("ReportFeedback")} >
                                             <View style={ComponentsStyle.buttonWhite} >
                                                 <Text style={ComponentsStyle.textButtonWhite}>
-                                                    {t('view_assessment')}
+                                                    {t('view_assessment')} 
                                                 </Text>
                                             </View>
                                         </Pressable>
@@ -422,8 +423,8 @@ class ArticleTemplate extends Component {
 
                 <Modal isVisible={teachUserArticleTemplate} style={{ zIndex: 1 }}>
                     <TouchableWithoutFeedback onPress={() => {
-                        /* dispatch(setTeachUserNutrtion(false)); */
-                        this.props.setTeachUserArticleTemplate(false);
+                        /* dispatch(setTeachUserNutrition(user && user.user_id, "false")); */
+                        this.props.setTeachUserArticleTemplate(user && user.user_id, "false");
                         this.props.navigation.navigate("ExerciseTab")
                     }
                     }>
@@ -535,8 +536,8 @@ class ArticleTemplate extends Component {
                                 <TouchableWithoutFeedback onPress={() => {
                                     this.setState({ stipTeach: stipTeach === 1 ? 1 : stipTeach - 1 })
                                     if (stipTeach == 1) {
-                                        this.props.setTeachUserNutrtion(true);
-                                        this.props.setTeachUserArticleTemplate(true);
+                                        this.props.setTeachUserNutrition(user && user.user_id, "true");
+                                        this.props.setTeachUserArticleTemplate(user && user.user_id, "true");
                                         /*  this.props.navigation.navigate("ExerciseTab") */
                                         this.props.navigation.dispatch(
                                             CommonActions.reset({
@@ -567,7 +568,7 @@ class ArticleTemplate extends Component {
                                     })
 
                                     if (stipTeach == 2) {
-                                        this.props.setTeachUserArticleTemplate(false);
+                                        this.props.setTeachUserArticleTemplate(user && user.user_id, "false");
                                         /*  this.props.navigation.navigate("ExerciseTab") */
                                         this.props.navigation.dispatch(
                                             CommonActions.reset({
@@ -775,12 +776,12 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = ({ authUser, getData, personalDataUser }) => {
     const { user } = authUser;
-    const { teachUserArticleTemplate } = personalDataUser;
-    const { nutrition_mission, statusGetNutritionMission, statusGetNutritionActivityIdMission, nutrition_activity_id_Mission } = getData;
+    const {  } = personalDataUser;
+    const { nutrition_mission, statusGetNutritionMission, statusGetNutritionActivityIdMission, nutrition_activity_id_Mission, teachUserArticleTemplate } = getData;
     return { nutrition_mission, statusGetNutritionMission, nutrition_activity_id_Mission, statusGetNutritionActivityIdMission, user, teachUserArticleTemplate };
 };
 
-const mapActionsToProps = { logoutUser, getNutritionMission, getNutritionActivityIdMission, routeName, setTeachUserArticleTemplate, setTeachUserNutrtion };
+const mapActionsToProps = { logoutUser, getNutritionMission, getNutritionActivityIdMission, routeName, setTeachUserArticleTemplate, setTeachUserNutrition, getTeachUserArticleTemp };
 
 export default connect(
     mapStateToProps,

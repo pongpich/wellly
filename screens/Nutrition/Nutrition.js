@@ -5,9 +5,9 @@ import colors from '../../constants/colors';
 import ComponentsStyle from '../../constants/components';
 import { AntDesign } from '@expo/vector-icons';
 import { useSelector, useDispatch } from "react-redux";
-import { setTeachUserNutrtion, setTeachUserArticleTemplate } from "../../redux/personalUser";
+import { setTeachUserNutrtion } from "../../redux/personalUser";
 import { connect } from 'react-redux';
-import { getNutritionActivity, getNutritionKnowledgeActivity, getNutritionKnowledge } from "../../redux/get";
+import { getNutritionActivity, getNutritionKnowledgeActivity, getNutritionKnowledge, getTeachUserNutrition, setTeachUserNutrition, setTeachUserArticleTemplate } from "../../redux/get";
 import { convertFormatDate, calculateWeekInProgram } from "../../helpers/utils";
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 import Modal from "react-native-modal";
@@ -44,7 +44,7 @@ const Nutrition = ({ navigation }) => {
     const [quiz_activities_number, setQuiz_activities_number] = useState(null);
     const [assessment_kit_activties, setAssessment_kit_activties] = useState(null);
     const [assessment_kit_number, setAssessment_kit_number] = useState(null);
-    const teachUserNutrition = useSelector(({ personalDataUser }) => personalDataUser && personalDataUser.teachUserNutrtion);//personalDataUser
+    const teachUserNutrition = useSelector(({ getData }) => getData ? getData.teachUserNutrtion : false);
 
     const animatedScrollYValue = useRef(new Animated.Value(0)).current;
     const [scrollY] = useState(new Animated.Value(0));
@@ -82,7 +82,7 @@ const Nutrition = ({ navigation }) => {
     /*     useEffect(() => {
             const unsubscribe = navigation.addListener('focus', () => {
                 if (teachUserNutrition !== true) {
-                    dispatch(setTeachUserNutrtion(true)); // รอลบ
+                    dispatch(setTeachUserNutrition(true)); // รอลบ
                 }
             })
             return unsubscribe;
@@ -93,6 +93,7 @@ const Nutrition = ({ navigation }) => {
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
 
+            dispatch(getTeachUserNutrition((user && user.user_id)));
             dispatch(getNutritionActivity((user && user.user_id)));
 
             const week_program_user = calculateWeekInProgram(user.start_date);
@@ -385,8 +386,8 @@ const Nutrition = ({ navigation }) => {
 
             <Modal isVisible={teachUserNutrition} style={{ zIndex: 1 }}>
                 <TouchableWithoutFeedback onPress={() => {
-                    dispatch(setTeachUserNutrtion(false));
-                    dispatch(setTeachUserArticleTemplate(false));
+                    dispatch(setTeachUserNutrition(user && user.user_id, "false"));
+                    dispatch(setTeachUserArticleTemplate(user && user.user_id, "false"));
                     navigation.navigate("ExerciseTab");
 
                 }
@@ -431,8 +432,8 @@ const Nutrition = ({ navigation }) => {
                                                 mission_id: item.mission_id,
                                                 heading: (i18next.language === 'th') ? item.heading : item.heading_eng,
                                             });
-                                            dispatch(setTeachUserNutrtion(false));
-                                            dispatch(setTeachUserArticleTemplate(true)); // set true  ของ  ArticleTemplate  ทุกคั้งที่เปิด  รอลบ
+                                            dispatch(setTeachUserNutrition(user && user.user_id, "false"));
+                                            dispatch(setTeachUserArticleTemplate(user && user.user_id, "true")); // set true  ของ  ArticleTemplate  ทุกคั้งที่เปิด  รอลบ
                                         }
                                     } else {
                                         if (i == 1) {
@@ -441,8 +442,8 @@ const Nutrition = ({ navigation }) => {
                                                 mission_id: item.mission_id,
                                                 heading: (i18next.language === 'th') ? item.heading : item.heading_eng,
                                             });
-                                            dispatch(setTeachUserNutrtion(false));
-                                            dispatch(setTeachUserArticleTemplate(true));  // set true  ของ  ArticleTemplate  ทุกคั้งที่เปิด  รอลบ
+                                            dispatch(setTeachUserNutrition(user && user.user_id, "false"));
+                                            dispatch(setTeachUserArticleTemplate(user && user.user_id, "true"));  // set true  ของ  ArticleTemplate  ทุกคั้งที่เปิด  รอลบ
                                         }
                                     }
 

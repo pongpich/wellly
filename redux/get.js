@@ -38,10 +38,36 @@ export const types = {
   GET_BADGE: "GET_BADGE",
   GET_BADGE_SUCCESS: "GET_BADGE_SUCCESS",
   RESET_STATUS_NUTRITION_KNOWLEDGE_ACTIVITY: "RESET_STATUS_NUTRITION_KNOWLEDGE_ACTIVITY",
+  //teach_user_home
   GET_TEACH_USER_HOME: "GET_TEACH_USER_HOME",
   GET_TEACH_USER_HOME_SUCCESS: "GET_TEACH_USER_HOME_SUCCESS",
   SET_TEACH_USER_HOME: "SET_TEACH_USER_HOME",
   SET_TEACH_USER_HOME_SUCCESS: "SET_TEACH_USER_HOME_SUCCESS",
+  //teach_user_nutrition
+  GET_TEACH_USER_NUTRITION: "GET_TEACH_USER_NUTRITION",
+  GET_TEACH_USER_NUTRITION_SUCCESS: "GET_TEACH_USER_NUTRITION_SUCCESS",
+  SET_TEACH_USER_NUTRITION: "SET_TEACH_USER_NUTRITION",
+  SET_TEACH_USER_NUTRITION_SUCCESS: "SET_TEACH_USER_NUTRITION_SUCCESS",
+  //teach_user_article_template
+  GET_TEACH_USER_ARTICLE_TEMP: "GET_TEACH_USER_ARTICLE_TEMP",
+  GET_TEACH_USER_ARTICLE_TEMP_SUCCESS: "GET_TEACH_USER_ARTICLE_TEMP_SUCCESS",
+  SET_TEACH_USER_ARTICLE_TEMP: "SET_TEACH_USER_ARTICLE_TEMP",
+  SET_TEACH_USER_ARTICLE_TEMP_SUCCESS: "SET_TEACH_USER_ARTICLE_TEMP_SUCCESS",
+  //teach_user_exercise
+  GET_TEACH_USER_EXERCISE: "GET_TEACH_USER_EXERCISE",
+  GET_TEACH_USER_EXERCISE_SUCCESS: "GET_TEACH_USER_EXERCISE_SUCCESS",
+  SET_TEACH_USER_EXERCISE: "SET_TEACH_USER_EXERCISE",
+  SET_TEACH_USER_EXERCISE_SUCCESS: "SET_TEACH_USER_EXERCISE_SUCCESS",
+  //teach_user_ex_article_template
+  GET_TEACH_USER_EX_ART_TEMP: "GET_TEACH_USER_EX_ART_TEMP",
+  GET_TEACH_USER_EX_ART_TEMP_SUCCESS: "GET_TEACH_USER_EX_ART_TEMP_SUCCESS",
+  SET_TEACH_USER_EX_ART_TEMP: "SET_TEACH_USER_EX_ART_TEMP",
+  SET_TEACH_USER_EX_ART_TEMP_SUCCESS: "SET_TEACH_USER_EX_ART_TEMP_SUCCESS",
+  //teach_user_exercise_program
+  GET_TEACH_USER_EXERCISE_PROGRAM: "GET_TEACH_USER_EXERCISE_PROGRAM",
+  GET_TEACH_USER_EXERCISE_PROGRAM_SUCCESS: "GET_TEACH_USER_EXERCISE_PROGRAM_SUCCESS",
+  SET_TEACH_USER_EXERCISE_PROGRAM: "SET_TEACH_USER_EXERCISE_PROGRAM",
+  SET_TEACH_USER_EXERCISE_PROGRAM_SUCCESS: "SET_TEACH_USER_EXERCISE_PROGRAM_SUCCESS",
 };
 
 export const getTeachUserHome = (user_id) => ({
@@ -50,9 +76,30 @@ export const getTeachUserHome = (user_id) => ({
     user_id
   }
 });
-
 export const setTeachUserHome = (user_id, status) => ({
   type: types.SET_TEACH_USER_HOME,
+  payload: { user_id, status },
+});
+
+export const getTeachUserNutrition = (user_id) => ({
+  type: types.GET_TEACH_USER_NUTRITION,
+  payload: {
+    user_id
+  }
+});
+export const setTeachUserNutrition = (user_id, status) => ({
+  type: types.SET_TEACH_USER_NUTRITION,
+  payload: { user_id, status },
+});
+
+export const getTeachUserArticleTemp = (user_id) => ({
+  type: types.GET_TEACH_USER_ARTICLE_TEMP,
+  payload: {
+    user_id
+  }
+});
+export const setTeachUserArticleTemplate = (user_id, status) => ({
+  type: types.SET_TEACH_USER_ARTICLE_TEMP,
   payload: { user_id, status },
 });
 
@@ -408,9 +455,61 @@ const getTeachUserHomeSagaAsync = async (user_id) => {
     return { error, messsage: error.message };
   }
 }
+const getTeachUserNutritionSagaAsync = async (user_id) => {
+  try {
+    const apiResult = await API.get("planforfit", "/get_teach_user_nutrition", {
+      queryStringParameters: {
+        user_id
+      }
+    });
+    /*  console.log("apiResult", apiResult); */
+    return apiResult
+  } catch (error) {
+    return { error, messsage: error.message };
+  }
+}
+const getTeachUserArticleTempSagaAsync = async (user_id) => {
+  try {
+    const apiResult = await API.get("planforfit", "/get_teach_user_article_template", {
+      queryStringParameters: {
+        user_id
+      }
+    });
+    /*  console.log("apiResult", apiResult); */
+    return apiResult
+  } catch (error) {
+    return { error, messsage: error.message };
+  }
+}
 const setTeachUserHomeSagaAsync = async (user_id, status) => {
   try {
     const apiResult = await API.post("planforfit", "/update_teach_user_home", {
+      body: {
+        user_id, status
+      }
+    });
+    /*  console.log("apiResult", apiResult); */
+    return apiResult
+  } catch (error) {
+    return { error, messsage: error.message };
+  }
+}
+const setTeachUserNutritionSagaAsync = async (user_id, status) => {
+  try {
+    const apiResult = await API.post("planforfit", "/update_teach_user_nutrition", {
+      body: {
+        user_id, status
+      }
+    });
+    /*  console.log("apiResult", apiResult); */
+    return apiResult
+  } catch (error) {
+    return { error, messsage: error.message };
+  }
+}
+const setTeachUserArticleTempSagaAsync = async (user_id, status) => {
+  try {
+    const apiResult = await API.post("planforfit", "/update_teach_user_article_template", {
       body: {
         user_id, status
       }
@@ -743,6 +842,40 @@ function* getTeachUserHomeSaga({ payload }) {
     console.log("error form getTeachUserHomeSaga", error);
   }
 }
+function* getTeachUserNutritionSaga({ payload }) {
+  const { user_id } = payload;
+
+  try {
+    const apiResult = yield call(
+      getTeachUserNutritionSagaAsync,
+      user_id
+    )
+    yield put({
+      type: types.GET_TEACH_USER_NUTRITION_SUCCESS,
+      payload: (apiResult.results.teach_user_nutrition === "true") ? true : false
+    })
+
+  } catch (error) {
+    console.log("error form getTeachUserNutritionSaga", error);
+  }
+}
+function* getTeachUserArticleTempSaga({ payload }) {
+  const { user_id } = payload;
+
+  try {
+    const apiResult = yield call(
+      getTeachUserArticleTempSagaAsync,
+      user_id
+    )
+    yield put({
+      type: types.GET_TEACH_USER_ARTICLE_TEMP_SUCCESS,
+      payload: (apiResult.results.teach_user_article_template === "true") ? true : false
+    })
+
+  } catch (error) {
+    console.log("error form getTeachUserArticleTempSaga", error);
+  }
+}
 function* setTeachUserHomeSaga({ payload }) {
   const { user_id, status } = payload;
 
@@ -751,13 +884,49 @@ function* setTeachUserHomeSaga({ payload }) {
       setTeachUserHomeSagaAsync,
       user_id, status
     )
-    console.log("STUH :", apiResult);
+
     yield put({
       type: types.SET_TEACH_USER_HOME_SUCCESS,
     })
 
   } catch (error) {
     console.log("error form setTeachUserHomeSaga", error);
+  }
+}
+function* setTeachUserNutritionSaga({ payload }) {
+  const { user_id, status } = payload;
+
+  try {
+    const apiResult = yield call(
+      setTeachUserNutritionSagaAsync,
+      user_id, status
+    )
+
+    yield put({
+      type: types.SET_TEACH_USER_NUTRITION_SUCCESS,
+      payload: (status === "true") ? true : false
+    })
+
+  } catch (error) {
+    console.log("error form setTeachUserNutritionSaga", error);
+  }
+}
+function* setTeachUserArticleTempSaga({ payload }) {
+  const { user_id, status } = payload;
+
+  try {
+    const apiResult = yield call(
+      setTeachUserArticleTempSagaAsync,
+      user_id, status
+    )
+
+    yield put({
+      type: types.SET_TEACH_USER_ARTICLE_TEMP_SUCCESS,
+      payload: (status === "true") ? true : false
+    })
+
+  } catch (error) {
+    console.log("error form setTeachUserArticleTempSaga", error);
   }
 }
 
@@ -821,6 +990,18 @@ export function* watchGetTeachUserHome() {
 export function* watchSetTeachUserHome() {
   yield takeEvery(types.SET_TEACH_USER_HOME, setTeachUserHomeSaga)
 }
+export function* watchGetTeachUserNutrition() {
+  yield takeEvery(types.GET_TEACH_USER_NUTRITION, getTeachUserNutritionSaga)
+}
+export function* watchSetTeachUserNutrition() {
+  yield takeEvery(types.SET_TEACH_USER_NUTRITION, setTeachUserNutritionSaga)
+}
+export function* watchGetTeachUserArticleTemp() {
+  yield takeEvery(types.GET_TEACH_USER_ARTICLE_TEMP, getTeachUserArticleTempSaga)
+}
+export function* watchSetTeachUserArticleTemp() {
+  yield takeEvery(types.SET_TEACH_USER_ARTICLE_TEMP, setTeachUserArticleTempSaga)
+}
 
 export function* saga() {
   yield all([
@@ -842,6 +1023,10 @@ export function* saga() {
     fork(watchetGetBadge),
     fork(watchGetTeachUserHome),
     fork(watchSetTeachUserHome),
+    fork(watchGetTeachUserNutrition),
+    fork(watchSetTeachUserNutrition),
+    fork(watchGetTeachUserArticleTemp),
+    fork(watchSetTeachUserArticleTemp),
   ]);
 }
 
@@ -884,14 +1069,44 @@ const INIT_STATE = {
   nutritionKnowledgeActivity: null,
   statusGetBadge: "default",
   getBadgeYou: null,
+  //Home
   statusGetTeachUserHome: "default",
   teachUserHome: false,
   statusSetTeachUserHome: "default",
-
+  //Nutrition
+  statusGetTeachUserNutrition: "default",
+  teachUserNutrtion: false,
+  statusSetTeachUserNutrition: "default",
+  //ARTICLE_TEMP
+  statusGetTeachUserArtTemp: "default",
+  teachUserArticleTemplate: false,
+  statusSetTeachUserArtTemp: "default",
 };
 
 export function reducer(state = INIT_STATE, action) {
   switch (action.type) {
+    case types.GET_TEACH_USER_ARTICLE_TEMP:
+      return {
+        ...state,
+        statusGetTeachUserArtTemp: "loading",
+      }
+    case types.GET_TEACH_USER_ARTICLE_TEMP_SUCCESS:
+      return {
+        ...state,
+        statusGetTeachUserArtTemp: "success",
+        teachUserArticleTemplate: action.payload
+      }
+    case types.GET_TEACH_USER_NUTRITION:
+      return {
+        ...state,
+        statusGetTeachUserNutrition: "loading",
+      }
+    case types.GET_TEACH_USER_NUTRITION_SUCCESS:
+      return {
+        ...state,
+        statusGetTeachUserNutrition: "success",
+        teachUserNutrtion: action.payload
+      }
     case types.GET_TEACH_USER_HOME:
       return {
         ...state,
@@ -913,6 +1128,28 @@ export function reducer(state = INIT_STATE, action) {
         ...state,
         statusSetTeachUserHome: "success",
         teachUserHome: false
+      }
+    case types.SET_TEACH_USER_NUTRITION:
+      return {
+        ...state,
+        statusSetTeachUserNutrition: "loading",
+      }
+    case types.SET_TEACH_USER_NUTRITION_SUCCESS:
+      return {
+        ...state,
+        statusSetTeachUserNutrition: "success",
+        teachUserNutrtion: action.payload
+      }
+    case types.SET_TEACH_USER_ARTICLE_TEMP:
+      return {
+        ...state,
+        statusSetTeachUserArtTemp: "loading",
+      }
+    case types.SET_TEACH_USER_ARTICLE_TEMP_SUCCESS:
+      return {
+        ...state,
+        statusSetTeachUserArtTemp: "success",
+        teachUserArticleTemplate: action.payload
       }
     case types.GET_WEEK_ACT_LOG_GRAPH:
       return {
