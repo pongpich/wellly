@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 import { Switch } from 'react-native-switch';
 import { t } from 'i18next';
+import Modal from "react-native-modal";
 
 class OnboardingName extends React.Component {
     constructor(props) {
@@ -128,37 +129,37 @@ class OnboardingName extends React.Component {
 
                     </View>
 
-                    {/* <View style={styles.acceptSwitch}>
-                    <Text style={styles.accept}>{t('i_accept')}
-                        <Text style={{ color: 'blue' }}>
-                            {t('terms_and_conditions')}
+                    <View style={styles.acceptSwitch}>
+                        <Text style={styles.accept}>{t('i_accept')}
+                            <Text style={{ color: 'blue' }}>
+                                {t('terms_and_conditions')}
+                            </Text>
+                            {t('use_of_wellly')}
                         </Text>
-                        {t('use_of_wellly')}
-                    </Text>
-                    <View style={styles.viewsWitch}>
-                        <Switch
-                            value={switchOn}
-                            onValueChange={(value) => this.setState({ switchOn: value })}
-                            backgroundActive={colors.persianBlue}
-                            backgroundInactive={colors.grey4}
-                            style={styles.switch}
-                            renderActiveText={false}
-                            renderInActiveText={false}
-                            innerCircleStyle={{ alignItems: "center", justifyContent: "center" }}
-                            circleSize={30}
-                            barHeight={35}
-                            switchLeftPx={2.5}
-                            switchRightPx={2.5}
-                            switchWidthMultiplier={2}
-                            switchBorderRadius={30}
-                            circleBorderWidth={0}
+                        <View style={styles.viewsWitch}>
+                            <Switch
+                                value={switchOn}
+                                onValueChange={(value) => this.setState({ switchOn: value })}
+                                backgroundActive={colors.persianBlue}
+                                backgroundInactive={colors.grey4}
+                                style={styles.switch}
+                                renderActiveText={false}
+                                renderInActiveText={false}
+                                innerCircleStyle={{ alignItems: "center", justifyContent: "center" }}
+                                circleSize={30}
+                                barHeight={35}
+                                switchLeftPx={2.5}
+                                switchRightPx={2.5}
+                                switchWidthMultiplier={2}
+                                switchBorderRadius={30}
+                                circleBorderWidth={0}
 
-                        />
+                            />
+                        </View>
                     </View>
-                </View> */}
                     <View style={styles.areaViewButton}>
                         {
-                            (name.length > 0) && /* (switchOn == true) && */ (!errorInput) ?
+                            (name.length > 0) && (switchOn == true) && (!errorInput) ?
                                 <Pressable style={ComponentsStyle.button} onPress={() => this.submit()} >
                                     <Text style={ComponentsStyle.textButton}>{t('next')}</Text>
                                 </Pressable>
@@ -169,6 +170,11 @@ class OnboardingName extends React.Component {
                         }
                     </View>
                 </Pressable>
+
+                <Modal isVisible={false} style={{ zIndex: 1 }}>
+
+
+                </Modal >
             </View>
 
         )

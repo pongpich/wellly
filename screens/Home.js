@@ -13,6 +13,8 @@ import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import Modal from "react-native-modal";
 import '../languages/i18n'; //ใช้สำหรับ 2ภาษา
 import Constants from 'expo-constants';
+import { StackActions } from '@react-navigation/native';
+
 
 import i18next from 'i18next';
 
@@ -338,16 +340,19 @@ class Home extends Component {
 
     actionPress(id) {
 
-        const resetAction = CommonActions.reset({
-            index: 0, // ตำแหน่งของหน้าที่จะใช้เป็นหน้าแรก
-            routes: [{
-                name: 'Add2'
-            }], // เส้นทางที่ต้องการเปลี่ยน
-        });
+        /*  const resetAction = CommonActions.reset({
+             index: 0, // ตำแหน่งของหน้าที่จะใช้เป็นหน้าแรก
+             routes: [{
+                 name: 'Add2'
+             }], // เส้นทางที่ต้องการเปลี่ยน
+         }); */
         // set ความเข้มไปใน redux
         this.props.setIntensityFromExArticleTemplate(id)
         /*  this.props.navigation.dispatch(resetAction); */
-        this.props.navigation.navigate("Add", { activity_id: id });
+        const resetAction = StackActions.replace("Add", { activity_id: id }); // Replace 'Home' with the screen you want to navigate to
+
+        navigation.dispatch(resetAction);
+        /*         this.props.navigation.navigate("Add", { activity_id: id }); */
 
 
     }
