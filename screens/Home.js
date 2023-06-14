@@ -30,6 +30,7 @@ import {
 } from "react-native-chart-kit";
 import { CommonActions } from '@react-navigation/native';
 import { BackHandler } from 'react-native';
+import ModalActivity from '../components/ModalActivity';
 
 
 
@@ -426,6 +427,17 @@ class Home extends Component {
         this.props.navigation.navigate('NutritionTab');
     }
 
+    openModal = () => {
+        this.setState({
+            modalVisible: true
+        })
+    };
+    closeModal = () => {
+        this.setState({
+            modalVisible: false
+        })
+    };
+
     render() {
         const { user, activity_list, teachUserHome } = this.props;
         const { latest_nutrition_activity, latest_exercise_activity, latest_exercise_mission, statusChart, isLoading, labelsWeek, labelsWeekEng, weekData, monthData,
@@ -478,6 +490,14 @@ class Home extends Component {
                 <ScrollView showsVerticalScrollIndicator={false}>
                     <ImageBackground source={require('../assets/images/home/Logo.png')} style={{ marginTop: 0, width: "auto" }} >
 
+                        <View>
+                            {/* ปุ่มเพื่อเปิด Modal */}
+                            <Button title="Open Modal" onPress={() => this.openModal()} />
+
+                            {/* สร้าง Modal กลาง */}
+                            <ModalActivity visible={modalVisible} onClose={() => this.closeModal()} />
+                        </View>
+                        
                         <View style={{ marginBottom: 100, marginTop: -40 }}>
 
                             <View style={{ height: 44, width: "100%" }}>
