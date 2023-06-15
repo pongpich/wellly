@@ -6,9 +6,9 @@ import ComponentsStyle from '../../constants/components';
 import Modal from "react-native-modal";
 import { AntDesign } from '@expo/vector-icons';
 import { useSelector, useDispatch } from "react-redux";
-import { routeName, setSelectedTab, setTeachUserExercise, setTeachUserExArticleTemplate, setStatusTeachUserExercise } from "../../redux/personalUser";
+import { routeName, setSelectedTab } from "../../redux/personalUser";
 import { connect } from 'react-redux';
-import { getExerciserActivity, getAllTrainingSet, getTrainingSet } from "../../redux/get";
+import { getExerciserActivity, getAllTrainingSet, getTrainingSet, getTeachUserExercise, setTeachUserExercise, getTeachUserExArtTemp, setTeachUserExArticleTemplate, getTeachUserExerciseProgram, setTeachUserExerciseProgram } from "../../redux/get";
 import { List } from 'react-native-paper';
 import { Video, AVPlaybackStatus } from 'expo-av';
 import { update_popUp_stars } from "../../redux/update";
@@ -67,8 +67,8 @@ const Exercise = ({ navigation }) => {
     const [status_resistance, setStatus_resistance] = useState("ยิม");
     const deviceHeight = Math.round(Dimensions.get('window').height);
     const animatedScrollYValue = useRef(new Animated.Value(0)).current;
-    const teachUserExercise = useSelector(({ personalDataUser }) => personalDataUser && personalDataUser.teachUserExercise);//personalDataUser
-    const statusTeachUserExercise = useSelector(({ personalDataUser }) => personalDataUser && personalDataUser.statusTeachUserExercise);//personalDataUser
+    const teachUserExercise = useSelector(({ getData }) => getData ? getData.teachUserExercise : false);
+    const statusTeachUserExercise = useSelector(({ getData }) => getData ? getData.statusTeachUserExercise : false);
     const languages = i18next.languages[0];
 
 
@@ -173,6 +173,9 @@ const Exercise = ({ navigation }) => {
         const unsubscribe = navigation.addListener('focus', () => {
 
             dispatch(getExerciserActivity((user && user.user_id)));
+            dispatch(getTeachUserExercise((user && user.user_id)));
+            dispatch(getTeachUserExArtTemp((user && user.user_id)));
+            dispatch(getTeachUserExerciseProgram((user && user.user_id)));
 
             const week_program_user = calculateWeekInProgram(user && user.start_date);
             dispatch(getAllTrainingSet((user && user.user_id), week_program_user));
@@ -878,9 +881,9 @@ const Exercise = ({ navigation }) => {
             <Modal isVisible={teachUserExercise} style={{ zIndex: 1 }}>
                 <TouchableWithoutFeedback onPress={() => {
 
-                    dispatch(setTeachUserExArticleTemplate(false));
-                    dispatch(setStatusTeachUserExercise(true));
-                    dispatch(setTeachUserExercise(false));
+                    dispatch(setTeachUserExArticleTemplate(user && user.user_id, "false"));
+                    dispatch(setTeachUserExerciseProgram(user && user.user_id, "true"));
+                    dispatch(setTeachUserExercise(user && user.user_id, "false"));
                     navigation.dispatch(
                         CommonActions.reset({
                             index: 0,
@@ -928,7 +931,7 @@ const Exercise = ({ navigation }) => {
 
                                             if (i == 0) {
                                                 navigation.navigate("ExArticleTemplate", { id: item.week_in_program, mission_id: item.mission_id, heading: item.heading, mission_activities: item.mission_activities, statusPags: "Exercise" })
-                                                dispatch(setTeachUserExercise(false));
+                                                dispatch(setTeachUserExercise(user && user.user_id, "false"));
 
                                             }
 
@@ -1069,9 +1072,9 @@ const Exercise = ({ navigation }) => {
 
                                             <TouchableWithoutFeedback onPress={() => {
 
-                                                dispatch(setTeachUserExArticleTemplate(false));
-                                                dispatch(setStatusTeachUserExercise(true));
-                                                dispatch(setTeachUserExercise(false));
+                                                dispatch(setTeachUserExArticleTemplate(user && user.user_id, "false"));
+                                                dispatch(setTeachUserExerciseProgram(user && user.user_id, "true"));
+                                                dispatch(setTeachUserExercise(user && user.user_id, "false"));
                                                 navigation.dispatch(
                                                     CommonActions.reset({
                                                         index: 0,
