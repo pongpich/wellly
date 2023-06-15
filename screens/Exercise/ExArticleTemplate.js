@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import { ScrollView, View, Dimensions, StyleSheet, StatusBar, AntDesign, Image, Text, Pressable, Animated, TouchableWithoutFeedback } from 'react-native';
 import colors from '../../constants/colors';
-import { getNutritionMission, getNutritionActivityIdMission, getExerciserActivity, setIntensityFromExArticleTemplate } from "../../redux/get";
+import { getNutritionMission, getNutritionActivityIdMission, getExerciserActivity, setIntensityFromExArticleTemplate, getTeachUserExercise, setTeachUserExercise, getTeachUserExArtTemp, setTeachUserExArticleTemplate, getTeachUserExerciseProgram, setTeachUserExerciseProgram } from "../../redux/get";
 import ComponentsStyle from '../../constants/components';
 import { logoutUser } from "../../redux/auth";
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
-import { routeName, coreBalance, setTeachUserExercise, setTeachUserExArticleTemplate, setStatusTeachUserExercise } from "../../redux/personalUser";
+import { routeName, coreBalance } from "../../redux/personalUser";
 import Mission from '../Nutrition/Mission';
 import Modal from "react-native-modal";
 import ProgressBarAnimated from 'react-native-progress-bar-animated';
@@ -68,12 +68,6 @@ class ArticleTemplate extends Component {
 
         const { statusPags, id, heading, mission_activities } = this.props.route.params;
 
-        /*   if (teachUserExArticleTemplate !== true) {
-              this.props.setTeachUserExArticleTemplate(true)
-              console.log("555");
-          }
-   */
-
         const week_in_program = calculateWeekInProgram(user && user.start_date);
         this.setState({
             week_in_program: week_in_program
@@ -97,12 +91,13 @@ class ArticleTemplate extends Component {
         })
 
 
-
+        this.props.getTeachUserExercise(user && user.user_id);
+        this.props.getTeachUserExArtTemp(user && user.user_id);
+        this.props.getTeachUserExerciseProgram(user && user.user_id);
 
 
         this._unsubscribe = this.props.navigation.addListener('focus', () => {
-            this.props.getExerciserActivity(user && user.user_id)
-
+            this.props.getExerciserActivity(user && user.user_id);
         });
 
 
@@ -459,7 +454,7 @@ class ArticleTemplate extends Component {
             extrapolate: 'clamp',
         });
 
-        const { teachUserExArticleTemplate } = this.props;
+        const { teachUserExArticleTemplate, user } = this.props;
 
         return (
             <View style={styles.container}>
@@ -605,9 +600,9 @@ class ArticleTemplate extends Component {
 
                 <Modal isVisible={teachUserExArticleTemplate} style={{ zIndex: 1 }}>
                     <TouchableWithoutFeedback onPress={() => {
-                        this.props.setTeachUserExArticleTemplate(false);
-                        this.props.setStatusTeachUserExercise(true);
-                        this.props.setTeachUserExercise(false);
+                        this.props.setTeachUserExArticleTemplate(user && user.user_id, "false");
+                        this.props.setTeachUserExerciseProgram(user && user.user_id, "true");
+                        this.props.setTeachUserExercise(user && user.user_id, "false");
                         this.props.navigation.dispatch(
                             CommonActions.reset({
                                 index: 0,
@@ -726,7 +721,7 @@ class ArticleTemplate extends Component {
                                 <TouchableWithoutFeedback onPress={() => {
                                     this.setState({ stipTeach: stipTeach === 1 ? 1 : stipTeach - 1 })
                                     if (stipTeach == 1) {
-                                        this.props.setTeachUserExercise(true);
+                                        this.props.setTeachUserExercise(user && user.user_id, "true");
                                         /*    this.props.setTeachUserArticleTemplate(true); */
                                         /*  this.props.navigation.navigate("ExerciseTab") */
                                         this.props.navigation.dispatch(
@@ -757,9 +752,9 @@ class ArticleTemplate extends Component {
                                     })
 
                                     if (stipTeach == 2) {
-                                        this.props.setTeachUserExArticleTemplate(false);
-                                        this.props.setStatusTeachUserExercise(false);
-                                        this.props.setTeachUserExercise(true);
+                                        this.props.setTeachUserExArticleTemplate(user && user.user_id, "false");
+                                        this.props.setTeachUserExerciseProgram(user && user.user_id, "false");
+                                        this.props.setTeachUserExercise(user && user.user_id, "true");
                                         this.props.navigation.dispatch(
                                             CommonActions.reset({
                                                 index: 0,
@@ -1077,14 +1072,14 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = ({ authUser, getData, personalDataUser }) => {
     const { user } = authUser;
-    const { coreBalanceRoute, teachUserExArticleTemplate } = personalDataUser;
-    const { nutrition_mission, statusGetNutritionMission, statusGetNutritionActivityIdMission, nutrition_activity_id_Mission, exerciserActivity, statusExerciserActivity } = getData;
+    const { coreBalanceRoute } = personalDataUser;
+    const { nutrition_mission, statusGetNutritionMission, statusGetNutritionActivityIdMission, nutrition_activity_id_Mission, exerciserActivity, statusExerciserActivity, teachUserExArticleTemplate } = getData;
     return { nutrition_mission, statusGetNutritionMission, nutrition_activity_id_Mission, statusGetNutritionActivityIdMission, user, coreBalanceRoute, exerciserActivity, statusExerciserActivity, teachUserExArticleTemplate };
 };
 
 const mapActionsToProps = {
     logoutUser, getNutritionMission, getNutritionActivityIdMission, coreBalance, getExerciserActivity, setIntensityFromExArticleTemplate, setTeachUserExercise,
-    setTeachUserExArticleTemplate, setStatusTeachUserExercise
+    setTeachUserExArticleTemplate, setTeachUserExerciseProgram, getTeachUserExercise, getTeachUserExArtTemp, getTeachUserExerciseProgram
 };
 
 export default connect(
