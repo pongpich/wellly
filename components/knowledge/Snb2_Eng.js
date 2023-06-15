@@ -87,7 +87,7 @@ class Snb2 extends Component {
                     <Text style={styles.title}>Consuming too many sugar substitutes is harmful to your health.</Text> Excessive consumption of sugar alcohols, including sorbitol, xylitol, and erythritol, can cause unpleasant symptoms, such as diarrhea, gas, and bloating.
                 </Text>
                 {
-                    this.renderImg('SNB2', 4)
+                    this.renderImg('SNB2', 41)
                 }
                 <Text style={styles.content}>
                     {'\n'}
