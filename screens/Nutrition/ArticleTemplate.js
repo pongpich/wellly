@@ -71,7 +71,7 @@ class ArticleTemplate extends Component {
         // รับ   params จาก  route
         const { id, mission_id } = this.props.route.params;
 
-        this.props.getTeachUserArticleTemp(user && user.user_id)
+       // this.props.getTeachUserArticleTemp(user && user.user_id)
         this.props.getNutritionActivityIdMission(user && user.user_id, mission_id);
         this.props.getNutritionMission(mission_id);
 

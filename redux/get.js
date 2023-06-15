@@ -979,6 +979,7 @@ function* getTeachUserArticleTempSaga({ payload }) {
       getTeachUserArticleTempSagaAsync,
       user_id
     )
+    console.log("GTUAT :", apiResult);
     yield put({
       type: types.GET_TEACH_USER_ARTICLE_TEMP_SUCCESS,
       payload: (apiResult.results.teach_user_article_template === "true") ? true : false

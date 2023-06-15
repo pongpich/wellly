@@ -173,9 +173,6 @@ const Exercise = ({ navigation }) => {
         const unsubscribe = navigation.addListener('focus', () => {
 
             dispatch(getExerciserActivity((user && user.user_id)));
-            dispatch(getTeachUserExercise((user && user.user_id)));
-            dispatch(getTeachUserExArtTemp((user && user.user_id)));
-            dispatch(getTeachUserExerciseProgram((user && user.user_id)));
 
             const week_program_user = calculateWeekInProgram(user && user.start_date);
             dispatch(getAllTrainingSet((user && user.user_id), week_program_user));

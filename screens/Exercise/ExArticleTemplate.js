@@ -91,11 +91,6 @@ class ArticleTemplate extends Component {
         })
 
 
-        this.props.getTeachUserExercise(user && user.user_id);
-        this.props.getTeachUserExArtTemp(user && user.user_id);
-        this.props.getTeachUserExerciseProgram(user && user.user_id);
-
-
         this._unsubscribe = this.props.navigation.addListener('focus', () => {
             this.props.getExerciserActivity(user && user.user_id);
         });

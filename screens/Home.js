@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Pressable, ImageBackground, Image, ScrollView, StatusBar, statusBarStyle, statusBarTransition, Animated, Easing, hidden, TouchableOpacity, TextInput, Text, Linking, KeyboardAvoidingView, Platform, Dimensions, InputAccessoryView, TouchableWithoutFeedback, Keyboard, Button } from 'react-native';
 import { logoutUser, loginUser } from "../redux/auth";
-import { getNutritionMission, getNutritionActivity, getExerciserActivity, getActivityList, getMemberActivityLogInWeek, getYearActivityLogGraph, getMonthActivityLogGraph, getWeekActivityLogGraph, setIntensityFromExArticleTemplate, getNutritionKnowledgeActivity, getTeachUserHome, setTeachUserHome } from "../redux/get";
+import { getNutritionMission, getNutritionActivity, getExerciserActivity, getActivityList, getMemberActivityLogInWeek, getYearActivityLogGraph, getMonthActivityLogGraph, getWeekActivityLogGraph, setIntensityFromExArticleTemplate, getNutritionKnowledgeActivity, getTeachUserHome, setTeachUserHome, getTeachUserNutrition, getTeachUserArticleTemp, getTeachUserExercise, getTeachUserExArtTemp, getTeachUserExerciseProgram } from "../redux/get";
 import { insertNutritionActivity, insertExerciseActivity, checkUpdateBadgeWin } from "../redux/update";
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
@@ -121,6 +121,12 @@ class Home extends Component {
             }
 
             this.props.getTeachUserHome(user && user.user_id);
+            this.props.getTeachUserNutrition(user && user.user_id);
+            this.props.getTeachUserArticleTemp(user && user.user_id);
+            this.props.getTeachUserExercise(user && user.user_id);
+            this.props.getTeachUserExArtTemp(user && user.user_id);
+            this.props.getTeachUserExerciseProgram(user && user.user_id);
+
             this.props.insertNutritionActivity(user && user.user_id);
             this.props.insertExerciseActivity(user && user.user_id);
             this.props.getNutritionActivity(user && user.user_id);
@@ -151,6 +157,12 @@ class Home extends Component {
         });
 
         this.props.getTeachUserHome(user && user.user_id);
+        this.props.getTeachUserNutrition(user && user.user_id);
+        this.props.getTeachUserArticleTemp(user && user.user_id);
+        this.props.getTeachUserExercise(user && user.user_id);
+        this.props.getTeachUserExArtTemp(user && user.user_id);
+        this.props.getTeachUserExerciseProgram(user && user.user_id);
+
         this.props.insertNutritionActivity(user && user.user_id);
         this.props.insertExerciseActivity(user && user.user_id);
         this.props.getNutritionActivity(user && user.user_id);
@@ -425,8 +437,8 @@ class Home extends Component {
     };
 
     setTeachHome = () => {
-        const { user} = this.props;
-        this.props.setTeachUserHome(user && user.user_id , "false");
+        const { user } = this.props;
+        this.props.setTeachUserHome(user && user.user_id, "false");
         this.props.navigation.navigate('NutritionTab');
     }
 
@@ -1316,7 +1328,7 @@ const mapStateToProps = ({ authUser, getData, personalDataUser, updateData }) =>
 const mapActionsToProps = {
     logoutUser, getNutritionMission, routeName, setSelectedTab, insertNutritionActivity, insertExerciseActivity, getMemberActivityLogInWeek, loginUser, getNutritionActivity,
     getExerciserActivity, getActivityList, setIntensityFromExArticleTemplate, checkUpdateBadgeWin, getYearActivityLogGraph, getMonthActivityLogGraph, getWeekActivityLogGraph, setTeachUserHome,
-    getNutritionKnowledgeActivity, getTeachUserHome
+    getNutritionKnowledgeActivity, getTeachUserHome, getTeachUserNutrition, getTeachUserArticleTemp, getTeachUserExercise, getTeachUserExArtTemp, getTeachUserExerciseProgram
 };
 
 export default connect(
