@@ -37,7 +37,7 @@ class Add extends Component {
             intensityFromExArticle: null,
             activity_id_edit_focus: '',
             statusAnimated: false,
-
+            activityId3: null
         };
     }
 
@@ -60,6 +60,7 @@ class Add extends Component {
                 activityId2 = "null";
             } else {
                 activityId2 = this.props.route.params.activity_id;
+                this.setState({ activityId3: activityId2 })
             }
 
             if (this.props.route.params) {
@@ -417,6 +418,30 @@ class Add extends Component {
         ).start(() => this.animate());
     }
 
+    checkEditView() {
+        const { activityId3 } = this.state;
+        const { activity_list } = this.props;
+
+
+        if (activityId3 == "light_intensity") {
+            this.setState({
+                activity_list_addon_show: [...activity_list.light_intensity]
+            })
+        }
+        if (activityId3 == "moderate_intensity") {
+            this.setState({
+                activity_list_addon_show: [...activity_list.moderate_intensity]
+            })
+        }
+        if (activityId3 == "vigorous_intensity") {
+            this.setState({
+                activity_list_addon_show: [...activity_list.vigorous_intensity]
+            })
+        }
+
+        this.setState({ statusCreate: "editView" })
+    }
+
 
 
 
@@ -473,7 +498,7 @@ class Add extends Component {
 
                         {
                             intensityFromExArticle === null ?
-                                <TouchableWithoutFeedback onPress={() => this.setState({ statusCreate: "editView" })}>
+                                <TouchableWithoutFeedback onPress={() => this.checkEditView()}>
                                     <View style={{ width: 60, marginTop: -16, alignItems: "center" }}>
                                         <Text style={[styles.headEdit, { marginTop: 16 }]}>{t('edit')}</Text>
                                     </View>
