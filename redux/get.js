@@ -1313,27 +1313,27 @@ const INIT_STATE = {
   getBadgeYou: null,
   //Home
   statusGetTeachUserHome: "default",
-  teachUserHome: false,
+  teachUserHome: true,
   statusSetTeachUserHome: "default",
   //Nutrition
   statusGetTeachUserNutrition: "default",
-  teachUserNutrtion: false,
+  teachUserNutrtion: true,
   statusSetTeachUserNutrition: "default",
   //ARTICLE_TEMP
   statusGetTeachUserArtTemp: "default",
-  teachUserArticleTemplate: false,
+  teachUserArticleTemplate: true,
   statusSetTeachUserArtTemp: "default",
   //exercise
   statusGetTeachUserExercise: "default",
-  teachUserExercise: false,
+  teachUserExercise: true,
   statusSetTeachUserExercise: "default",
   //ex_article_template
   statusGetTeachUserExArticleTemplate: "default",
-  teachUserExArticleTemplate: false,
+  teachUserExArticleTemplate: true,
   statusSetTeachUserExArticleTemplate: "default",
   //exercise_program
   statusGetTeachUserExerciseProgram: "default",
-  statusTeachUserExercise: false,
+  statusTeachUserExercise: true,
   statusSetTeachUserExerciseProgram: "default",
 };
 
