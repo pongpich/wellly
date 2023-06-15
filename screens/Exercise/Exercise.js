@@ -186,7 +186,7 @@ const Exercise = ({ navigation }) => {
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
-            console.log("ads");
+
             setStatusMission(true)
 
         });
