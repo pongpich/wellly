@@ -363,7 +363,7 @@ class Home extends Component {
             this.props.setSelectedTab(name);
         } else {
             this.props.setIntensityFromExArticleTemplate(id)
-            this.props.navigation.navigate("AddTab", { activity_id: id })
+            this.props.navigation.navigate("Add", { activity_id: id })
         }
 
 
