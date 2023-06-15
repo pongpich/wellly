@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, StyleSheet, Pressable, SafeAreaView, Image, TouchableOpacity, ScrollView, StatusBar, TextInput, Text, Linking, KeyboardAvoidingView, Platform, Dimensions } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { loginUser, register, resetStatusRegister } from "../redux/auth";
+import { checkEmailExisted } from "../redux/get";
 import colors from '../constants/colors';
 import ComponentsStyle from '../constants/components';
 import { connect } from 'react-redux';
@@ -44,8 +45,15 @@ class Register extends Component {
 
 
     componentDidUpdate(prevProps, prevState) {
-        const { status, user, statusRegister } = this.props;
+        const { status, user, statusRegister, statusCheckEmailExist } = this.props;
         const { isModalVisible, email, password, registerSuccess } = this.state;
+
+        if ((prevProps.statusCheckEmailExist !== statusCheckEmailExist) && (statusCheckEmailExist === "success")) {
+            this.props.register(email, password)
+        }
+        if ((prevProps.statusCheckEmailExist !== statusCheckEmailExist) && (statusCheckEmailExist === "fail")) {
+            this.setState({ textErrorEmail: 3 });
+        }
 
         if ((prevProps.statusRegister !== statusRegister) && (statusRegister === "success")) {
             this.setState({ registerSuccess: true })
@@ -86,13 +94,11 @@ class Register extends Component {
                 textErrorPassWord: 3
             });
         } else {
-            if (statusRegister !== "loading") {
-                this.props.register(email, password)
-            }
+            /*  if (statusRegister !== "loading") {
+                 this.props.register(email, password)
+             } */
+            this.props.checkEmailExisted(email);
         }
-
-
-
     }
 
     handleChange(fieldName, text) {
@@ -547,12 +553,13 @@ const styles = StyleSheet.create({
 
 
 
-const mapStateToProps = ({ authUser }) => {
+const mapStateToProps = ({ authUser, getData }) => {
     const { user, status, statusRegister } = authUser;
-    return { user, status, statusRegister };
+    const { statusCheckEmailExist } = getData;
+    return { user, status, statusRegister, statusCheckEmailExist };
 };
 
-const mapActionsToProps = { loginUser, register, resetStatusRegister };
+const mapActionsToProps = { loginUser, register, resetStatusRegister, checkEmailExisted };
 
 
 export default connect(

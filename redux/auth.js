@@ -301,17 +301,12 @@ function* registerSaga({ payload }) {
       password
     );
 
-    if (apiResult && apiResult.results && apiResult.results.message === "success") {
-      yield put({
-        type: types.REGISTER_SUCCESS
-      })
-      console.log("register SUCCESS");
-    } else {
-      yield put({
-        type: types.REGISTER_FAIL
-      })
-      console.log("register FAIL");
-    }
+
+    yield put({
+      type: types.REGISTER_SUCCESS
+    })
+    console.log("register SUCCESS");
+
 
   } catch (error) {
     console.log("error form registerSaga", error);

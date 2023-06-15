@@ -68,8 +68,18 @@ export const types = {
   GET_TEACH_USER_EXERCISE_PROGRAM_SUCCESS: "GET_TEACH_USER_EXERCISE_PROGRAM_SUCCESS",
   SET_TEACH_USER_EXERCISE_PROGRAM: "SET_TEACH_USER_EXERCISE_PROGRAM",
   SET_TEACH_USER_EXERCISE_PROGRAM_SUCCESS: "SET_TEACH_USER_EXERCISE_PROGRAM_SUCCESS",
+
+  CHECK_EMAIL_EXISTED: "CHECK_EMAIL_EXISTED",//checkEmailExisted
+  CHECK_EMAIL_EXISTED_SUCCESS: "CHECK_EMAIL_EXISTED_SUCCESS",
+  CHECK_EMAIL_EXISTED_FAIL: "CHECK_EMAIL_EXISTED_FAIL",
 };
 
+export const checkEmailExisted = (email) => ({
+  type: types.CHECK_EMAIL_EXISTED,
+  payload: {
+    email
+  }
+});
 
 export const getTeachUserExArtTemp = (user_id) => ({
   type: types.GET_TEACH_USER_EX_ART_TEMP,
@@ -259,6 +269,20 @@ export const getBadge = (user_id) => ({
 /* END OF ACTION Section */
 
 /* SAGA Section */
+
+const checkEmailExistedSagaAsync = async (email) => {
+  try {
+    const apiResult = await API.get("planforfit", "/checkEmailExisted", {
+      queryStringParameters: {
+        email
+      }
+    });
+    /*  console.log("apiResult", apiResult); */
+    return apiResult
+  } catch (error) {
+    return { error, messsage: error.message };
+  }
+}
 
 const getProfanitySagaAsync = async () => {
   try {
@@ -704,6 +728,30 @@ function* getMonthActivityLogGraphSaga({ payload }) {
     console.log("error form getMonthActivityLogGraphSaga", error);
   }
 }
+function* checkEmailExistedSaga({ payload }) {
+  const { email } = payload;
+
+  try {
+    const apiResult = yield call(
+      checkEmailExistedSagaAsync,
+      email
+    )
+    console.log("apiResult CEMS :", apiResult.results.message);
+    if (apiResult.results.message === "email_existed") {
+      yield put({
+        type: types.CHECK_EMAIL_EXISTED_FAIL,
+      })
+    } else {
+      yield put({
+        type: types.CHECK_EMAIL_EXISTED_SUCCESS,
+      })
+    }
+
+  } catch (error) {
+    console.log("error form checkEmailExistedSaga", error);
+  }
+}
+
 function* getWeekActivityLogGraphSaga({ payload }) {
   const { user_id } = payload;
   try {
@@ -1239,6 +1287,9 @@ export function* watchGetTeachUserExerciseProgram() {
 export function* watchSetTeachUserExerciseProgram() {
   yield takeEvery(types.SET_TEACH_USER_EXERCISE_PROGRAM, setTeachUserExerciseProgramSaga)
 }
+export function* watchCheckEmailExisted() {
+  yield takeEvery(types.CHECK_EMAIL_EXISTED, checkEmailExistedSaga)
+}
 
 export function* saga() {
   yield all([
@@ -1270,6 +1321,7 @@ export function* saga() {
     fork(watchSetTeachUserExArtTemp),
     fork(watchGetTeachUserExerciseProgram),
     fork(watchSetTeachUserExerciseProgram),
+    fork(watchCheckEmailExisted),
   ]);
 }
 
@@ -1336,10 +1388,28 @@ const INIT_STATE = {
   statusGetTeachUserExerciseProgram: "default",
   statusTeachUserExercise: true,
   statusSetTeachUserExerciseProgram: "default",
+
+  statusCheckEmailExist: "default",
 };
 
 export function reducer(state = INIT_STATE, action) {
   switch (action.type) {
+    case types.CHECK_EMAIL_EXISTED:
+      return {
+        ...state,
+        statusCheckEmailExist: "loading"
+      }
+    case types.CHECK_EMAIL_EXISTED_SUCCESS:
+      return {
+        ...state,
+        statusCheckEmailExist: "success"
+      }
+    case types.CHECK_EMAIL_EXISTED_FAIL:
+      return {
+        ...state,
+        statusCheckEmailExist: "fail"
+      }
+
     case types.GET_TEACH_USER_EXERCISE_PROGRAM:
       return {
         ...state,
