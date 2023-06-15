@@ -29,6 +29,7 @@ import C3 from '../../components/exercise/C3';
 import C4 from '../../components/exercise/C4';
 import C5 from '../../components/exercise/C5';
 import C6 from '../../components/exercise/C6';
+import Continuous from '../../components/exercise/Continuous';
 
 //บทความ
 import Ab1_eng from '../../components/exercise/Ab1_eng';
@@ -172,6 +173,7 @@ class ArticleTemplate extends Component {
                 {((mission_id === '4c_1') || (mission_id === '4c_2')) && (languages == "th" ? <C4 /> : <C4_eng />)}
                 {((mission_id === '5c_1') || (mission_id === '5c_2')) && (languages == "th" ? <C5 /> : <C5_eng />)}
                 {((mission_id === '6c_1') || (mission_id === '6c_2')) && (languages == "th" ? <C6 /> : <C6_eng />)}
+                {((mission_id === 'continuous')) && (languages == "th" ? <Continuous /> : <Continuous />)}
             </View>
         )
     }
