@@ -1409,67 +1409,73 @@ export function reducer(state = INIT_STATE, action) {
       return {
         ...state,
         statusSetTeachUserExercise: "loading",
+        teachUserExercise: (action.payload.status === "true") ? true : false
       }
     case types.SET_TEACH_USER_EXERCISE_SUCCESS:
       return {
         ...state,
         statusSetTeachUserExercise: "success",
-        teachUserExercise: action.payload
+        //teachUserExercise: action.payload
       }
     case types.SET_TEACH_USER_EXERCISE_PROGRAM:
       return {
         ...state,
         statusSetTeachUserExerciseProgram: "loading",
+        statusTeachUserExercise: (action.payload.status === "true") ? true : false
       }
     case types.SET_TEACH_USER_EXERCISE_PROGRAM_SUCCESS:
       return {
         ...state,
         statusSetTeachUserExerciseProgram: "success",
-        statusTeachUserExercise: action.payload
+        // statusTeachUserExercise: action.payload
       }
     case types.SET_TEACH_USER_EX_ART_TEMP:
       return {
         ...state,
         statusSetTeachUserExArticleTemplate: "loading",
+        teachUserExArticleTemplate: (action.payload.status === "true") ? true : false
       }
     case types.SET_TEACH_USER_EX_ART_TEMP_SUCCESS:
       return {
         ...state,
         statusSetTeachUserExArticleTemplate: "success",
-        teachUserExArticleTemplate: action.payload
+        //teachUserExArticleTemplate: action.payload
       }
     case types.SET_TEACH_USER_HOME:
       return {
         ...state,
         statusSetTeachUserHome: "loading",
+        teachUserHome: (action.payload.status === "true") ? true : false
       }
     case types.SET_TEACH_USER_HOME_SUCCESS:
       return {
         ...state,
         statusSetTeachUserHome: "success",
-        teachUserHome: action.payload
+        //teachUserHome: action.payload
       }
     case types.SET_TEACH_USER_NUTRITION:
       return {
         ...state,
         statusSetTeachUserNutrition: "loading",
+        teachUserNutrtion: (action.payload.status === "true") ? true : false
       }
     case types.SET_TEACH_USER_NUTRITION_SUCCESS:
       return {
         ...state,
         statusSetTeachUserNutrition: "success",
-        teachUserNutrtion: action.payload
+        //teachUserNutrtion: action.payload
       }
     case types.SET_TEACH_USER_ARTICLE_TEMP:
       return {
         ...state,
         statusSetTeachUserArtTemp: "loading",
+        teachUserArticleTemplate: (action.payload.status === "true") ? true : false
       }
     case types.SET_TEACH_USER_ARTICLE_TEMP_SUCCESS:
       return {
         ...state,
         statusSetTeachUserArtTemp: "success",
-        teachUserArticleTemplate: action.payload
+        // teachUserArticleTemplate: action.payload
       }
     case types.GET_WEEK_ACT_LOG_GRAPH:
       return {
