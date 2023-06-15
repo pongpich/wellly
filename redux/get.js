@@ -82,6 +82,17 @@ export const setTeachUserExArticleTemplate = (user_id, status) => ({
   payload: { user_id, status },
 });
 
+export const getTeachUserExerciseProgram = (user_id) => ({
+  type: types.GET_TEACH_USER_EXERCISE_PROGRAM,
+  payload: {
+    user_id
+  }
+});
+export const setTeachUserExerciseProgram = (user_id, status) => ({
+  type: types.SET_TEACH_USER_EXERCISE_PROGRAM,
+  payload: { user_id, status },
+});
+
 export const getTeachUserExercise = (user_id) => ({
   type: types.GET_TEACH_USER_EXERCISE,
   payload: {
@@ -530,6 +541,19 @@ const getTeachUserExArtTempSagaAsync = async (user_id) => {
     return { error, messsage: error.message };
   }
 }
+const getTeachUserExerciseProgramSagaAsync = async (user_id) => {
+  try {
+    const apiResult = await API.get("planforfit", "/get_teach_user_exercise_program", {
+      queryStringParameters: {
+        user_id
+      }
+    });
+    /*  console.log("apiResult", apiResult); */
+    return apiResult
+  } catch (error) {
+    return { error, messsage: error.message };
+  }
+}
 const setTeachUserHomeSagaAsync = async (user_id, status) => {
   try {
     const apiResult = await API.post("planforfit", "/update_teach_user_home", {
@@ -585,6 +609,19 @@ const setTeachUserExerciseSagaAsync = async (user_id, status) => {
 const setTeachUserExArtTempSagaAsync = async (user_id, status) => {
   try {
     const apiResult = await API.post("planforfit", "/update_teach_user_ex_article_template", {
+      body: {
+        user_id, status
+      }
+    });
+    /*  console.log("apiResult", apiResult); */
+    return apiResult
+  } catch (error) {
+    return { error, messsage: error.message };
+  }
+}
+const setTeachUserExerciseProgramSagaAsync = async (user_id, status) => {
+  try {
+    const apiResult = await API.post("planforfit", "/update_teach_user_exercise_program", {
       body: {
         user_id, status
       }
@@ -985,6 +1022,23 @@ function* getTeachUserExArtTempSaga({ payload }) {
     console.log("error form getTeachUserExArtTempSaga", error);
   }
 }
+function* getTeachUserExerciseProgramSaga({ payload }) {
+  const { user_id } = payload;
+
+  try {
+    const apiResult = yield call(
+      getTeachUserExerciseProgramSagaAsync,
+      user_id
+    )
+    yield put({
+      type: types.GET_TEACH_USER_EXERCISE_PROGRAM_SUCCESS,
+      payload: (apiResult.results.teach_user_exercise_program === "true") ? true : false
+    })
+
+  } catch (error) {
+    console.log("error form getTeachUserExerciseProgramSaga", error);
+  }
+}
 function* setTeachUserHomeSaga({ payload }) {
   const { user_id, status } = payload;
 
@@ -1075,6 +1129,24 @@ function* setTeachUserExArtTempSaga({ payload }) {
     console.log("error form setTeachUserExArtTempSaga", error);
   }
 }
+function* setTeachUserExerciseProgramSaga({ payload }) {
+  const { user_id, status } = payload;
+
+  try {
+    const apiResult = yield call(
+      setTeachUserExerciseProgramSagaAsync,
+      user_id, status
+    )
+
+    yield put({
+      type: types.SET_TEACH_USER_EXERCISE_PROGRAM_SUCCESS,
+      payload: (status === "true") ? true : false
+    })
+
+  } catch (error) {
+    console.log("error form setTeachUserExerciseProgramSaga", error);
+  }
+}
 
 
 
@@ -1160,6 +1232,12 @@ export function* watchGetTeachUserExArtTemp() {
 export function* watchSetTeachUserExArtTemp() {
   yield takeEvery(types.SET_TEACH_USER_EX_ART_TEMP, setTeachUserExArtTempSaga)
 }
+export function* watchGetTeachUserExerciseProgram() {
+  yield takeEvery(types.GET_TEACH_USER_EXERCISE_PROGRAM, getTeachUserExerciseProgramSaga)
+}
+export function* watchSetTeachUserExerciseProgram() {
+  yield takeEvery(types.SET_TEACH_USER_EXERCISE_PROGRAM, setTeachUserExerciseProgramSaga)
+}
 
 export function* saga() {
   yield all([
@@ -1189,6 +1267,8 @@ export function* saga() {
     fork(watchSetTeachUserExercise),
     fork(watchGetTeachUserExArtTemp),
     fork(watchSetTeachUserExArtTemp),
+    fork(watchGetTeachUserExerciseProgram),
+    fork(watchSetTeachUserExerciseProgram),
   ]);
 }
 
@@ -1259,6 +1339,17 @@ const INIT_STATE = {
 
 export function reducer(state = INIT_STATE, action) {
   switch (action.type) {
+    case types.GET_TEACH_USER_EXERCISE_PROGRAM:
+      return {
+        ...state,
+        statusGetTeachUserExerciseProgram: "loading",
+      }
+    case types.GET_TEACH_USER_EXERCISE_PROGRAM_SUCCESS:
+      return {
+        ...state,
+        statusGetTeachUserExerciseProgram: "success",
+        statusTeachUserExercise: action.payload
+      }
     case types.GET_TEACH_USER_EX_ART_TEMP:
       return {
         ...state,
@@ -1324,6 +1415,17 @@ export function reducer(state = INIT_STATE, action) {
         ...state,
         statusSetTeachUserExercise: "success",
         teachUserExercise: action.payload
+      }
+    case types.SET_TEACH_USER_EXERCISE_PROGRAM:
+      return {
+        ...state,
+        statusSetTeachUserExerciseProgram: "loading",
+      }
+    case types.SET_TEACH_USER_EXERCISE_PROGRAM_SUCCESS:
+      return {
+        ...state,
+        statusSetTeachUserExerciseProgram: "success",
+        statusTeachUserExercise: action.payload
       }
     case types.SET_TEACH_USER_EX_ART_TEMP:
       return {
