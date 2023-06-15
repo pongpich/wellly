@@ -14,7 +14,7 @@ import { CommonActions, StackActions, useNavigationState, useNavigation, Navigat
 
 
 
-class Add extends Component {
+class ExAdd extends Component {
 
     constructor(props) {
         super(props);
@@ -171,19 +171,7 @@ class Add extends Component {
     };
 
 
-    handleBackPress = () => {
 
-        const { navigation, route } = this.props;
-
-
-        if (navigation.canGoBack() && route.name === "Add") {
-            /*  BackHandler.exitApp(); */
-            navigation.dispatch(StackActions.replace('Home'));
-            return true;
-        } else {
-            return false;
-        }
-    };
 
 
     componentDidUpdate(prevProps, prevState) {
@@ -302,18 +290,7 @@ class Add extends Component {
         this.setState({
             isModalConter: !isModalConter
         })
-        const resetAction = CommonActions.reset({
-            index: 0, // ตำแหน่งของหน้าที่จะใช้เป็นหน้าแรก
-            routes: [{
-                name: 'HomeTab',
-                /** 
-                * ! ตรงนี้ให้ใช้  HomeTab  ห้ามใช้ Home ปัญหา กดหน้า   Exercise เเล้ว มันขึ้นหน้า Add
-                * */
-            }], // เส้นทางที่ต้องการเปลี่ยน
-        });
-        this.props.navigation.dispatch(resetAction)
-
-
+        this.props.navigation.goBack();
 
     };
     deleteActivity(mess) {
@@ -382,9 +359,9 @@ class Add extends Component {
         })
         if (this.props.route.params) {
             const { activity_id } = this.props.route.params;
-            this.props.navigation.navigate("AddActivity", { activity: activity, intensity: intensity, type: type, activity_id: activity_id ? activity_id : intensity })
+            this.props.navigation.navigate("ExAddActivity", { activity: activity, intensity: intensity, type: type, activity_id: activity_id ? activity_id : intensity })
         } else {
-            this.props.navigation.navigate("AddActivity", { activity: activity, intensity: intensity, type: type, activity_id: intensity })
+            this.props.navigation.navigate("ExAddActivity", { activity: activity, intensity: intensity, type: type, activity_id: intensity })
         }
 
 
@@ -1519,4 +1496,4 @@ const mapActionsToProps = { getActivityList, setIntensityFromExArticleTemplate, 
 export default connect(
     mapStateToProps,
     mapActionsToProps
-)(withTranslation()(Add));
+)(withTranslation()(ExAdd));

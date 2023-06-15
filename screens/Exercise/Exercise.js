@@ -186,7 +186,7 @@ const Exercise = ({ navigation }) => {
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
-
+            console.log("ads");
             setStatusMission(true)
 
         });
@@ -209,6 +209,7 @@ const Exercise = ({ navigation }) => {
                         navigation.navigate("Exercise")
                     }
                 })
+                console.log("444");
                 setStatusMission(false)
 
             } else {
@@ -242,7 +243,6 @@ const Exercise = ({ navigation }) => {
                     })
                 }
 
-                setStatusMission(false)
 
             } else {
                 setStatusMission(true)
@@ -564,6 +564,7 @@ const Exercise = ({ navigation }) => {
 
 
     const { t } = useTranslation();
+
 
     return (
         <View style={styles.fill}>

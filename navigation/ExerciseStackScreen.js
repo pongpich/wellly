@@ -9,20 +9,20 @@ import Exercise from '../screens/Exercise/Exercise';
 import ExHistory from '../screens/Exercise/ExHistory';
 import ExArticleTemplate from '../screens/Exercise/ExArticleTemplate';
 import ExProgram from '../screens/Exercise/ExProgram';
-import Add from '../screens/Add/Add';
-import AddActivity from '../screens/Add/AddActivity';
+import ExAdd from '../screens/Exercise/ExAdd';
+import ExAddActivity from '../screens/Exercise/ExAddActivity';
 
 
-const HomeStack = createStackNavigator();
+const ExeStack = createStackNavigator();
 
 function HomeStackScreen() {
     const navigation = useNavigation();
     return (
-        <HomeStack.Navigator>
-            <HomeStack.Screen name="Exercise" component={Exercise} options={{
+        <ExeStack.Navigator>
+            <ExeStack.Screen name="Exercise" component={Exercise} options={{
                 headerShown: false
             }} />
-            <HomeStack.Screen name="ExHistory" component={ExHistory}
+            <ExeStack.Screen name="ExHistory" component={ExHistory}
                 options={({ route, navigation }) => ({
                     title: "",
                     headerShadowVisible: false,
@@ -41,16 +41,16 @@ function HomeStackScreen() {
                     ),
                 })}
             />
-            <HomeStack.Screen name="ExArticleTemplate" component={ExArticleTemplate}
+            <ExeStack.Screen name="ExArticleTemplate" component={ExArticleTemplate}
                 options={{ headerShown: false }}
             />
 
-            <HomeStack.Screen name="ExProgram" component={ExProgram}
+            <ExeStack.Screen name="ExProgram" component={ExProgram}
                 options={{ cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS, headerShown: false }}
             />
-            <HomeStack.Screen name="Add" component={Add} options={{ cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS, headerShown: false }} />
-
-        </HomeStack.Navigator>
+            <ExeStack.Screen name="ExAdd" component={ExAdd} options={{ cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS, headerShown: false }} />
+            <ExeStack.Screen name="ExAddActivity" component={ExAddActivity} options={{ cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS, headerShown: false }} />
+        </ExeStack.Navigator>
     );
 }
 

@@ -190,7 +190,7 @@ class ArticleTemplate extends Component {
             this.props.navigation.navigate("Exercise", { name: name })
         } else {
             this.props.setIntensityFromExArticleTemplate(id)
-            this.props.navigation.navigate("Add", { activity_id: id })
+            this.props.navigation.navigate("ExAdd", { activity_id: id })
 
 
         }

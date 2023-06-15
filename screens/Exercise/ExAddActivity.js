@@ -10,7 +10,7 @@ import { getActivityList, getExerciserActivity } from "../../redux/get";
 import { updateNumberCompleted, resetStatusUpdateNumbComp } from "../../redux/update";
 import { CommonActions } from '@react-navigation/native';
 import { t } from 'i18next';
-class AddActivity extends Component {
+class ExAddActivity extends Component {
 
     constructor(props) {
         super(props);
@@ -53,8 +53,8 @@ class AddActivity extends Component {
         if ((prevProps.statusUpdateNumbComp !== statusUpdateNumbComp) && (statusUpdateNumbComp === "success")) {
             this.setState({ statusLoading: false })
             this.props.getExerciserActivity(user && user.user_id);
-            this.props.navigation.navigate("Add", { message: "บันทึกกิจกรรมแล้ว" });
 
+            this.props.navigation.navigate("ExAdd", { message: 'บันทึกกิจกรรมแล้ว' })
 
         }
         if ((prevState.isModalConter2 !== isModalConter2) && (isModalConter2 == true)) {
@@ -553,4 +553,4 @@ const mapActionsToProps = { getActivityList, updateNumberCompleted, getExerciser
 export default connect(
     mapStateToProps,
     mapActionsToProps
-)(withTranslation()(AddActivity));
+)(withTranslation()(ExAddActivity));

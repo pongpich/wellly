@@ -353,24 +353,7 @@ class Home extends Component {
     }
 
 
-    actionPress(id) {
 
-        /*  const resetAction = CommonActions.reset({
-             index: 0, // ตำแหน่งของหน้าที่จะใช้เป็นหน้าแรก
-             routes: [{
-                 name: 'Add2'
-             }], // เส้นทางที่ต้องการเปลี่ยน
-         }); */
-        // set ความเข้มไปใน redux
-        this.props.setIntensityFromExArticleTemplate(id)
-        /*  this.props.navigation.dispatch(resetAction); */
-        const resetAction = StackActions.replace("Add", { activity_id: id }); // Replace 'Home' with the screen you want to navigate to
-
-        navigation.dispatch(resetAction);
-        /*         this.props.navigation.navigate("Add", { activity_id: id }); */
-
-
-    }
 
     actionPress(id, name) {
 
@@ -380,7 +363,7 @@ class Home extends Component {
             this.props.setSelectedTab(name);
         } else {
             this.props.setIntensityFromExArticleTemplate(id)
-            this.props.navigation.navigate("Add", { activity_id: id })
+            this.props.navigation.navigate("AddTab", { activity_id: id })
         }
 
 

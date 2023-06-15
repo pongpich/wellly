@@ -462,6 +462,9 @@ function getBottomTabse(route) {
   if (routeName == "Pdpa") {
     return 'none';
   }
+  if (routeName == "ExAddActivity") {
+    return 'none';
+  }
 
 
   return 'flex';

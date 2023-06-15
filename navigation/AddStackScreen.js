@@ -10,20 +10,20 @@ import AddActivity from '../screens/Add/AddActivity';
 import Text from '../screens/Add/Text';
 
 
-const Stack = createStackNavigator();
 
+const AddAcStack = createStackNavigator();
 function AddStackScreen() {
     const navigation = useNavigation();
     return (
-        <Stack.Navigator screenOptions={{
+        <AddAcStack.Navigator screenOptions={{
             cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
         }}>
 
             {/*  <Stack.Screen name="Text" component={Text} options={{ cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS, headerShown: false }} /> */}
-            <Stack.Screen name="Add" component={Add} options={{ cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS, headerShown: false }} />
-            <Stack.Screen name="AddActivity" component={AddActivity} options={{ cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS, headerShown: false }} />
+            <AddAcStack.Screen name="Add" component={Add} options={{ cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS, headerShown: false }} />
+            <AddAcStack.Screen name="AddActivity" component={AddActivity} options={{ cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS, headerShown: false }} />
 
-        </Stack.Navigator>
+        </AddAcStack.Navigator>
     );
 }
 
