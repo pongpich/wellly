@@ -287,8 +287,8 @@ class HealthData extends Component {
                             <Pressable onPress={Keyboard.dismiss} >
                                 <View style={styles.areaViewPag}>
                                     <Text style={styles.textHead}>{t('health_information')}</Text>
-                                    <Text style={styles.textInputHead}>มีผลตรวจสุขภาพ</Text>
-                                    <Text style={{ color: "#22B967", marginTop: 8, marginBottom: 16, fontSize: 14, fontFamily: "IBMPlexSansThai-Regular", }}>หากมีข้อมูลสุขภาพ จะได้รับคำแนะนำที่แม่นยำ และเหมาะสมกับสุขภาพของคุณมากที่สุด</Text>
+                                    <Text style={styles.textInputHead}>{t('have_a_health_check')}</Text>
+                                    <Text style={{ color: "#22B967", marginTop: 8, marginBottom: 16, fontSize: 14, fontFamily: "IBMPlexSansThai-Regular", }}>{t('have_a_health_check_detail')}</Text>
 
                                     <View style={styles.radioFormView}>
                                         <View style={styles.radioFormIcon}>
@@ -299,7 +299,7 @@ class HealthData extends Component {
                                                 />
                                             </TouchableWithoutFeedback>
 
-                                            <Text style={styles.radioFormText}>มี</Text>
+                                            <Text style={styles.radioFormText}>{t('have')}</Text>
                                         </View>
                                         <View style={styles.radioFormIcon2}>
                                             <TouchableWithoutFeedback onPress={() => this.checkHealth(false)}>
@@ -308,7 +308,7 @@ class HealthData extends Component {
                                                     source={healthCheck === false ? require('../assets/images/icon/radioActive.png') : require('../assets/images/icon/radio.png')}
                                                 />
                                             </TouchableWithoutFeedback>
-                                            <Text style={styles.radioFormText}>ไม่มี</Text>
+                                            <Text style={styles.radioFormText}>{t('do_not_have')}</Text>
                                         </View>
                                     </View>
                                     <Text style={styles.textInputHead}>{t('blood_sugar')}</Text>

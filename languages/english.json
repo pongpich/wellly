@@ -238,6 +238,10 @@
     "tap_here_view": "Tap here for Mission detail.",
     "do_low_intensity": "To do Low intensity activity",
     "do_moderate_intensity": "To do Moderate intensity activity",
-    "do_hight_intensity": "To do High intensity activity"
+    "do_hight_intensity": "To do High intensity activity",
+    "have_a_health_check": "มีผลตรวจสุขภาพ",
+    "have_a_health_check_detail": "หากมีข้อมูลสุขภาพ จะได้รับคำแนะนำที่แม่นยำ และเหมาะสมกับสุขภาพของคุณมากที่สุด",
+    "have": "มี",
+    "do_not_have": "ไม่มี"
   }
 }
