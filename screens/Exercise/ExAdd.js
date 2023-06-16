@@ -4,7 +4,7 @@ import colors from '../../constants/colors';
 import ComponentsStyle from '../../constants/components';
 import Modal from "react-native-modal";
 import { withTranslation } from 'react-i18next';
-
+import i18next from 'i18next';
 import { connect } from 'react-redux';
 import { getActivityList, setIntensityFromExArticleTemplate } from "../../redux/get";
 import { addActivityListAddOn, deleteActivityListAddOn, editActivityListAddOn } from "../../redux/update";
@@ -428,7 +428,7 @@ class ExAdd extends Component {
         const { stsusColor, isModalVisible, isModalConter, study, data, activity_list_show, intensityFromExArticle, confirmActivityDeleted, message, statusAnimated } = this.state;
         const { activity_list } = this.props;
 
-
+        const languages = i18next.languages[0];
         const opacity = this.animatedValue.interpolate({
             inputRange: [0, 0.5, 1],
             outputRange: [1, 0.5, 1],
@@ -563,7 +563,7 @@ class ExAdd extends Component {
                                     activity_list_show &&
                                     activity_list_show.map((item, i) => {
                                         return (
-                                            <TouchableWithoutFeedback key={i} onPress={() => this.nextAddActivity(item.activity, item.intensity, item.type)}>
+                                            <TouchableWithoutFeedback key={i} onPress={() => this.nextAddActivity(languages == "th" ? languages == "th" ? item.activity : item.hasOwnProperty("activity_eng") ? item.activity_eng : item.activity : item.hasOwnProperty("activity_eng") ? item.activity_eng : item.activity, item.intensity, item.type)}>
                                                 <View style={{ marginRight: 16 }}>
                                                     <View style={styles.missionView}>
 
@@ -572,8 +572,8 @@ class ExAdd extends Component {
                                                             source={item.intensity === 'light_intensity' ? require('../../assets/images/activity/Activitylow.png') : item.intensity === 'moderate_intensity' ? require('../../assets/images/activity/Activitycenter.png') : require('../../assets/images/activity/Activityhign.png')}
                                                         />
 
-                                                        <View style={styles.groupText2}>
-                                                            <Text style={styles.headText2}>{item.activity}</Text>
+                                                        <View style={[styles.groupText2, { width: "69%" }]}>
+                                                            <Text style={styles.headText2}>{languages == "th" ? languages == "th" ? item.activity : item.hasOwnProperty("activity_eng") ? item.activity_eng : item.activity : item.hasOwnProperty("activity_eng") ? item.activity_eng : item.activity}</Text>
                                                             {/*   <Text
                                                                 style={[styles.groupStatus, { color: item.intensity === 'light_intensity' ? colors.secondary_MayaBlue : item.intensity === 'moderate_intensity' ? colors.tertiaryYellow : colors.tertiaryMagenta }]}
                                                             >
@@ -740,7 +740,7 @@ class ExAdd extends Component {
     editView() {
         const { stsusColor, isModalVisible, isModalConter, study, data, message, confirmActivityDeleted, confirmDelete, editmission, statusAnimated, statusViolence, missionName, activity_list_addon_show, activity_id_edit_focus } = this.state;
         const { activity_list } = this.props;
-
+        const languages = i18next.languages[0];
         const opacity = this.animatedValue.interpolate({
             inputRange: [0, 0.5, 1],
             outputRange: [1, 0.5, 1],
@@ -818,15 +818,15 @@ class ExAdd extends Component {
                                             activity_list_addon_show &&
                                             activity_list_addon_show.map((item, i) => {
                                                 return (
-                                                    <TouchableWithoutFeedback key={i} onPress={() => this.editMissionName(item.intensity, item.activity, item.id)}>
+                                                    <TouchableWithoutFeedback key={i} onPress={() => this.editMissionName(item.intensity, languages == "th" ? languages == "th" ? item.activity : item.hasOwnProperty("activity_eng") ? item.activity_eng : item.activity : item.hasOwnProperty("activity_eng") ? item.activity_eng : item.activity, item.id)}>
                                                         <View style={{ marginRight: 16 }}>
                                                             <View style={styles.missionView}>
                                                                 <Image
                                                                     style={styles.activityImage}
                                                                     source={item.intensity === 'light_intensity' ? require('../../assets/images/activity/Activitylow.png') : item.intensity === 'moderate_intensity' ? require('../../assets/images/activity/Activitycenter.png') : require('../../assets/images/activity/Activityhign.png')}
                                                                 />
-                                                                <View style={styles.groupText2}>
-                                                                    <Text style={styles.headText2}>{item.activity}</Text>
+                                                                <View style={[styles.groupText2, { width: "69%" }]}>
+                                                                    <Text style={styles.headText2}>{languages == "th" ? languages == "th" ? item.activity : item.hasOwnProperty("activity_eng") ? item.activity_eng : item.activity : item.hasOwnProperty("activity_eng") ? item.activity_eng : item.activity}</Text>
                                                                     {/*   <Text
                                                                         style={[styles.groupStatus, { color: item.intensity === 'light_intensity' ? colors.secondary_MayaBlue : item.intensity === 'moderate_intensity' ? colors.tertiaryYellow : colors.tertiaryMagenta }]}
                                                                     >
