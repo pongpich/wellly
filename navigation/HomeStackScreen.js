@@ -23,6 +23,7 @@ import About from '../screens/Profile/About';
 import ChangePassword from '../screens/Profile/ChangePassword';
 import SetPassword from '../screens/Profile/SetPassword';
 import { useSelector, useDispatch } from "react-redux";
+import { StackActions } from '@react-navigation/native';
 
 
 const HomeStack = createStackNavigator();
