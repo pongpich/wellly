@@ -218,7 +218,7 @@ const Nutrition = ({ navigation }) => {
                 </View>
             </Animated.View>
             {
-                teachUserNutrition != true &&
+                teachUserNutrition !== true &&
                 <Animated.ScrollView
                     style={styles.fill2}
                     scrollEventThrottle={16}
@@ -470,77 +470,48 @@ const Nutrition = ({ navigation }) => {
                     {
                         nutrition_activity && nutrition_activity.map((item, i) => {
 
-                            if (((item.quiz_activities == null) || (item.assessment_kit_number != "1")) && (item.week_in_program != "4")) {
-                                if ((item.mission_id == "snc1") && (item.assessment_kit_number == null) && (i == 0)) {
 
-                                    return (
-                                        <View key={i} style={[styles.row, {
-                                            paddingBottom: 0, marginLeft: -16, marginRight: -16,
-                                            shadowColor: "#ffffff",
-                                            shadowOffset: {
-                                                width: 0,
-                                                height: 0,
-                                            },
-                                            shadowOpacity: 5,
-                                            shadowRadius: 5,
-                                            elevation: 24,
-                                        }]}>
-                                            <View style={styles.numberView}>
-                                                <Text style={styles.number}>{item.week_in_program}</Text>
-                                            </View>
-                                            <View style={styles.missionData}>
-                                                <Text style={styles.missionHead}>{(i18next.language === 'th') ? item.heading : item.heading_eng}</Text>
-                                                <Text style={[styles.missionContent, { marginRight: 16 }]}>
-
-                                                    {substringText((i18next.language === 'th') ? item.short_content : item.short_content_eng)}
-                                                </Text>
-                                            </View>
-                                            <View style={styles.viewIconRight}>
-                                                <Image
-                                                    style={{ height: 24, width: 24, zIndex: 1, marginRight: 8 }}
-                                                    source={require('../../assets/images/icon/right.png')}
-                                                />
-                                            </View>
+                            if (i == 1) {
+                                return (
+                                    <View key={i} style={[styles.row, {
+                                        paddingBottom: 0, marginLeft: -16, marginRight: -16,
+                                        shadowColor: "#ffffff",
+                                        shadowOffset: {
+                                            width: 0,
+                                            height: 0,
+                                        },
+                                        shadowOpacity: 5,
+                                        shadowRadius: 5,
+                                        elevation: 24,
+                                    }]}>
+                                        <View style={styles.numberView}>
+                                            <Text style={styles.number}>{item.week_in_program}</Text>
                                         </View>
-                                    )
-                                }
-                                if ((item.mission_id !== "snc1") && i == 0) {
-                                    return (
-                                        <View key={i} style={[styles.row, {
-                                            paddingBottom: 0, marginLeft: -16, marginRight: -16,
-                                            shadowColor: "#ffffff",
-                                            shadowOffset: {
-                                                width: 0,
-                                                height: 0,
-                                            },
-                                            shadowOpacity: 5,
-                                            shadowRadius: 5,
-                                            elevation: 24,
-                                        }]}>
-                                            <View style={styles.numberView}>
-                                                <Text style={styles.number}>{item.week_in_program}</Text>
-                                            </View>
-                                            <View style={styles.missionData}>
-                                                <Text style={styles.missionHead}>{(i18next.language === 'th') ? item.heading : item.heading_eng}</Text>
-                                                <Text style={[styles.missionContent, { marginRight: 16 }]}>
-                                                    {substringText((i18next.language === 'th') ? item.short_content : item.short_content_eng)}
-                                                </Text>
-                                            </View>
-                                            <View style={styles.viewIconRight}>
-                                                <Image
-                                                    style={{ height: 24, width: 24, zIndex: 1, marginRight: 32, }}
-                                                    source={require('../../assets/images/icon/right.png')}
-                                                />
-                                            </View>
-                                        </View>
-                                    )
-                                }
+                                        <View style={styles.missionData}>
+                                            <Text style={styles.missionHead}>{(i18next.language === 'th') ? item.heading : item.heading_eng}</Text>
+                                            <Text style={[styles.missionContent, { marginRight: 16 }]}>
 
+                                                {substringText((i18next.language === 'th') ? item.short_content : item.short_content_eng)}
+                                            </Text>
+                                        </View>
+                                        <View style={styles.viewIconRight}>
+                                            <Image
+                                                style={{ height: 24, width: 24, zIndex: 1, marginRight: isDevice < 569 ? 8 : isDevice > 568 && isDevice < 927 ? 30 : "16%" }}
+                                                source={require('../../assets/images/icon/right.png')}
+                                            />
+                                        </View>
+                                    </View>
+                                )
                             }
-
 
                         })
                     }
+
+
+
+
+
+
 
 
                 </View>

@@ -720,7 +720,7 @@ class ArticleTemplate extends Component {
                                 color: colors.grey1,
                             }}>
                                 {
-                                    stipTeach == 1 ? `${t('about_exercises')}` : `${t('about_view_exercise+')}`
+                                    stipTeach == 1 ? `${t('about_exercises')}` : `${t('about_view_exercise')}`
                                 }
                             </Text>
                             <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
