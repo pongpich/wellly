@@ -89,6 +89,21 @@ class OnboardingName extends React.Component {
             }
         }
     }
+
+
+    switchChage(value) {
+
+        const { isModalConter } = this.state
+        this.setState({
+            switchOn: value,
+        })
+
+        if (value) {
+            this.setState({
+                isModalConter: true,
+            })
+        }
+    }
     render() {
         const { name, switchOn, isFocused, errorInput, word, isModalConter } = this.state;
         const handleFocus = () => this.setState({ isFocused: true })
@@ -152,7 +167,7 @@ class OnboardingName extends React.Component {
                         <View style={styles.viewsWitch}>
                             <Switch
                                 value={switchOn}
-                                onValueChange={(value) => this.setState({ switchOn: value })}
+                                onValueChange={(value) => this.switchChage(value)}
                                 backgroundActive={colors.persianBlue}
                                 backgroundInactive={colors.grey4}
                                 style={styles.switch}
