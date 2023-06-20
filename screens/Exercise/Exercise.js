@@ -350,6 +350,7 @@ const Exercise = ({ navigation }) => {
         const dataTrainingSet = trainingSet && Object.entries(trainingSet);
 
         const { t } = useTranslation();
+        console.log("status_male_female", status_male_female, group);
         return (
             <>
                 <View style={[styles.centeredVedio, { marginTop: play == true ? 0 : 150 }]}>
@@ -367,9 +368,17 @@ const Exercise = ({ navigation }) => {
                                     }}
                                     source={
                                         group === "core_balance" ? require('../../assets/images/cover_page/core_balance.jpg') :
-                                            group === "core_balance_plyo" ? require('../../assets/images/cover_page/core_balance_plyo.jpg') :
+                                            group === "core_balance_plyo" ? require('../../assets/images/cover_page/core_balance.jpg') :
                                                 group === "flexibility" ? require('../../assets/images/cover_page/flexibility.jpg') :
-                                                    require('../../assets/images/cover_page/resistance.jpg')}
+                                                    status_resistance === "ยิม" && status_male_female === "ชาย" ? require('../../assets/images/cover_page/resistance.jpg') :
+                                                        status_resistance === "ยิม" && status_male_female === "หญิง" ? require('../../assets/images/cover_page/resistance_Female.jpg') :
+                                                            status_resistance === "ดัมเบล" && status_male_female === "ชาย" ? require('../../assets/images/cover_page/goblet_Squat.jpg') :
+                                                                status_resistance === "ดัมเบล" && status_male_female === "หญิง" ? require('../../assets/images/cover_page/goblet_Squat_Female.jpg') :
+                                                                    status_resistance === "ตัวเปล่า" && status_male_female === "ชาย" ? require('../../assets/images/cover_page/core_balance_plyo.jpg') :
+                                                                        status_resistance === "ตัวเปล่า" && status_male_female === "หญิง" && require('../../assets/images/cover_page/core_balance_plyo_Female.jpg')
+                                    }
+
+
                                 />
                                 <View style={{ position: "absolute", width: "100%", alignItems: "flex-end" }}>
                                     <Pressable onPress={() => closeeModal()}>
@@ -381,7 +390,7 @@ const Exercise = ({ navigation }) => {
                                                 marginRight: 16,
 
                                             }}
-                                            source={require('../../assets/images/exercise/Close.png')}
+                                            source={status_resistance !== "ตัวเปล่า" ? require('../../assets/images/icon/close_white.png') : require('../../assets/images/exercise/Close.png')}
                                         />
                                     </Pressable>
                                 </View>
@@ -704,7 +713,7 @@ const Exercise = ({ navigation }) => {
                                                                     style={{ height: "100%", width: "100%", zIndex: 1 }}
                                                                     source={
                                                                         item.id === "core_balance" ? require('../../assets/images/cover_page/core_balance.jpg') :
-                                                                            item.id === "core_balance_plyo" ? require('../../assets/images/cover_page/core_balance_plyo.jpg') :
+                                                                            item.id === "core_balance_plyo" ? require('../../assets/images/cover_page/core_balance.jpg') :
                                                                                 item.id === "flexibility" ? require('../../assets/images/cover_page/flexibility.jpg') :
                                                                                     require('../../assets/images/cover_page/resistance.jpg')}
                                                                 />
