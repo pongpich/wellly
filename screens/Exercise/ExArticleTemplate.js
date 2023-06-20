@@ -43,7 +43,7 @@ import C6_eng from '../../components/exercise/C6_eng';
 
 
 const data = Array.from({ length: 3 });
-
+var lines1 = 1;
 
 class ArticleTemplate extends Component {
     constructor(props) {
@@ -60,7 +60,8 @@ class ArticleTemplate extends Component {
             heading: null,
             mission_activities: null,
             week_in_program: null,
-            stipTeach: 1
+            stipTeach: 1,
+
         };
     }
 
@@ -71,7 +72,8 @@ class ArticleTemplate extends Component {
 
         const week_in_program = calculateWeekInProgram(user && user.start_date);
         this.setState({
-            week_in_program: week_in_program
+            week_in_program: week_in_program,
+            heading: heading,
         })
 
         if (statusPags == "ExHistory") {
@@ -84,7 +86,6 @@ class ArticleTemplate extends Component {
             if (item.week_in_program === id) {
                 this.setState({
                     id: id,
-                    heading: heading,
                     mission_activities: JSON.parse(item.mission_activities)
                 })
             }
@@ -439,20 +440,26 @@ class ArticleTemplate extends Component {
             </View >
         )
     }
+    handleTextLayout = (event) => {
+        const { lines } = event.nativeEvent;
 
+        lines1 = lines.length
+    };
 
     render() {
         const { study, statusBarColor, id, heading, mission_activities, stipTeach } = this.state;
         const isHeight = Dimensions.get('window').height;
         const height568 = isHeight < 569 ? 20 : 0;
+
+
+        const headingMarginTop = lines1 && lines1 == 1 ? 120 - height568 : lines1 && lines1 == 2 ? 160 - height568 : lines1 && lines1 == 3 ? 190 - height568 : 220 - 20;
         const headerHeight = this.state.scrollY.interpolate({
             inputRange: [0, 200],
-            outputRange: [heading && heading.length < 32 ? 120 : (heading && heading.length > 31) && (heading && heading.length < 63) ? 160 + height568 : 200 + height568, 16],
+            outputRange: [lines1 && lines1 == 1 ? 120 : lines1 && lines1 == 2 ? 160 : lines1 && lines1 == 3 ? 190 : 220, 16],
             extrapolate: 'clamp',
         });
 
         const { teachUserExArticleTemplate, user } = this.props;
-
         return (
             <View style={styles.container}>
                 <View style={{ height: 44, zIndex: 10, width: "100%", backgroundColor: statusBarColor === "light" ? colors.persianBlue : colors.white }}>
@@ -479,9 +486,9 @@ class ArticleTemplate extends Component {
                                 {id}
                             </Text>
                         </View>
-                        <View style={[ComponentsStyle.nutritionMission, { paddingRight: 32 }]}>
+                        <View style={[ComponentsStyle.nutritionMission, { paddingRight: 16 }]}>
                             <Text style={ComponentsStyle.missionHead}>{t('exercise_mission')}</Text>
-                            <Text style={[ComponentsStyle.missionHeading, { marginRight: 32 }]}>{heading}</Text>
+                            <Text style={[ComponentsStyle.missionHeading, { marginRight: 16 }]} onTextLayout={this.handleTextLayout} /* numberOfLines={2} */>{heading}</Text>
                         </View>
                     </View>
 
@@ -595,7 +602,7 @@ class ArticleTemplate extends Component {
                     </Animated.View>
                 </View>
 
-                <Modal isVisible={teachUserExArticleTemplate} style={{ zIndex: 1 }}>
+                <Modal isVisible={true/* teachUserExArticleTemplate */} style={{ zIndex: 1 }}>
                     <TouchableWithoutFeedback onPress={() => {
                         this.props.setTeachUserExArticleTemplate(user && user.user_id, "false");
                         this.props.setTeachUserExerciseProgram(user && user.user_id, "true");
@@ -618,10 +625,10 @@ class ArticleTemplate extends Component {
                             textAlign: "right",
                             marginRight: 20,
 
-                        }}>ข้าม</Text>
+                        }}>{t('cross')}</Text>
                     </TouchableWithoutFeedback>
 
-                    <View style={{ flex: 1, alignItems: stipTeach == 1 ? "flex-start" : "flex-end", justifyContent: "flex-start", marginTop: 118 /* marginTop: Platform.OS === 'android' ? "36%" : isNotchDevice ? "33.1%" : "35%" */ }}>
+                    <View style={{ flex: 1, alignItems: stipTeach == 1 ? "flex-start" : "flex-end", justifyContent: "flex-start", marginTop: isHeight < 569 ? headingMarginTop + 19 : headingMarginTop - 6 /* marginTop: Platform.OS === 'android' ? "36%" : isNotchDevice ? "33.1%" : "35%" */ }}>
                         <View style={{
 
                             marginLeft: -10,

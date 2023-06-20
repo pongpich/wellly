@@ -477,6 +477,7 @@ class Home extends Component {
         };
 
         const isNotchDevice = Dimensions.get('window').height >= 812;
+        const heightDevice = Dimensions.get('window').height;
 
 
         const { t } = this.props;
@@ -1005,8 +1006,8 @@ class Home extends Component {
 
                         </View>
                         <View style={{
-                            marginBottom: Platform.OS === 'android' ? stipTeach === 3 ? -10 : -20 : isNotchDevice ? stipTeach === 3 ? 17 : 10 : stipTeach === 3 ? -10 : -20,
-                            marginLeft: stipTeach === 1 ? "-45%" : stipTeach === 2 ? "45%" : 0,
+                            marginBottom: Platform.OS === 'android' ? stipTeach === 3 ? -10 : -20 : isNotchDevice ? heightDevice > 1079 ? -30 : stipTeach === 3 ? 17 : 10 : stipTeach === 3 ? -10 : -20,
+                            marginLeft: stipTeach === 1 ? "-45%" : stipTeach === 2 ? heightDevice > 1079 ? "43%" : "45%" : 0,
                             backgroundColor: 'white',
                             width: 75,
                             height: 75,
@@ -1024,6 +1025,7 @@ class Home extends Component {
                             borderWidth: 0,
                             alignItems: "center",
                             justifyContent: "center",
+
 
                         }}>
                             {

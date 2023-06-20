@@ -562,7 +562,6 @@ const Exercise = ({ navigation }) => {
     const isNotchDevice = Dimensions.get('window').height >= 812;
     const isDevice = Dimensions.get('window').height;
 
-
     const { t } = useTranslation();
 
 
@@ -926,9 +925,9 @@ const Exercise = ({ navigation }) => {
 
                                     <TouchableWithoutFeedback onPress={() =>
                                         exerciserActivity && exerciserActivity.map((item, i) => {
-
+                                            console.log("item", item);
                                             if (i == 0) {
-                                                navigation.navigate("ExArticleTemplate", { id: item.week_in_program, mission_id: item.mission_id, heading: item.heading, mission_activities: item.mission_activities, statusPags: "Exercise" })
+                                                navigation.navigate("ExArticleTemplate", { id: item.week_in_program, mission_id: item.mission_id, heading: (i18next.language === 'th') ? item.heading : item.heading_eng, mission_activities: item.mission_activities, statusPags: "Exercise" })
                                                 dispatch(setTeachUserExercise(user && user.user_id, "false"));
 
                                             }
@@ -956,9 +955,10 @@ const Exercise = ({ navigation }) => {
                             </View>
                             {
                                 exerciserActivity && exerciserActivity.map((item, i) => {
+
                                     if ((item.status_mission_activities !== "completed") && (i === 0)) {
                                         return (
-                                            <Pressable onPress={() => navigation.navigate("ExArticleTemplate", { id: item.week_in_program, mission_id: item.mission_id, heading: item.heading, mission_activities: item.mission_activities, statusPags: "Exercise" })} key={i + "tfb"}>
+                                            <Pressable onPress={() => navigation.navigate("ExArticleTemplate", { id: item.week_in_program, mission_id: item.mission_id, heading: (i18next.language === 'th') ? item.heading : item.heading_eng, mission_activities: item.mission_activities, statusPags: "Exercise" })} key={i + "tfb"}>
                                                 <View key={i} style={styles.row}>
                                                     <View style={styles.numberView}>
                                                         <Text style={styles.number}>{item.week_in_program}</Text>
@@ -1010,7 +1010,7 @@ const Exercise = ({ navigation }) => {
                                         height: HEADER_HEIGHT,
 
                                         position: 'absolute',
-                                        marginTop: isNotchDevice < 751 ? 220 : 350,
+                                        marginTop: isDevice < 569 ? 250 : isDevice > 568 && isDevice < 897 ? 300 : isDevice > 896 && isDevice < 927 ? 290 : 550,
                                         left: 0,
                                         right: 0,
                                         justifyContent: "flex-end",
@@ -1036,7 +1036,7 @@ const Exercise = ({ navigation }) => {
                                                 shadowRadius: 7,
                                                 elevation: 24,
                                             }, statusMission !== true ? styles.missionPre : styles.programPre]}  >
-                                                <Text style={[styles.mission, statusMission !== true ? { color: colors.white } : { color: colors.persianBlue }]}>โปรแกรม</Text>
+                                                <Text style={[styles.mission, statusMission !== true ? { color: colors.white } : { color: colors.persianBlue }]}>{t('program')}</Text>
                                             </Pressable>
                                         </View>
                                     </View>
@@ -1107,7 +1107,7 @@ const Exercise = ({ navigation }) => {
                         </View>
                 }
 
-            </Modal>
+            </Modal >
 
 
         </View >

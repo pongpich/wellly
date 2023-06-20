@@ -71,7 +71,7 @@ class ArticleTemplate extends Component {
         // รับ   params จาก  route
         const { id, mission_id } = this.props.route.params;
 
-       // this.props.getTeachUserArticleTemp(user && user.user_id)
+        // this.props.getTeachUserArticleTemp(user && user.user_id)
         this.props.getNutritionActivityIdMission(user && user.user_id, mission_id);
         this.props.getNutritionMission(mission_id);
 
@@ -225,7 +225,7 @@ class ArticleTemplate extends Component {
 
         const isHeight = Dimensions.get('window').height;
         const height568 = isHeight < 569 ? 20 : 0;
-
+        const headingMarginTop = heading.length < 32 ? 120 : (heading.length > 31) && (heading.length < 62) ? 160 + height568 : 200 + height568
         const headerHeight = this.state.scrollY.interpolate({
             inputRange: [0, 200],
             outputRange: [heading.length < 32 ? 120 : (heading.length > 31) && (heading.length < 62) ? 160 + height568 : 200 + height568, 16],
@@ -380,7 +380,7 @@ class ArticleTemplate extends Component {
                                         <Pressable onPress={() => this.props.navigation.navigate("ReportFeedback")} >
                                             <View style={ComponentsStyle.buttonWhite} >
                                                 <Text style={ComponentsStyle.textButtonWhite}>
-                                                    {t('view_assessment')} 
+                                                    {t('view_assessment')}
                                                 </Text>
                                             </View>
                                         </Pressable>
@@ -439,12 +439,12 @@ class ArticleTemplate extends Component {
                         }}>ข้าม</Text>
                     </TouchableWithoutFeedback>
 
-                    <View style={{ flex: 1, alignItems: stipTeach == 1 ? "flex-start" : "flex-end", justifyContent: "flex-start", marginTop: 118 /* marginTop: Platform.OS === 'android' ? "36%" : isNotchDevice ? "33.1%" : "35%" */ }}>
+                    <View style={{ flex: 1, alignItems: stipTeach == 1 ? "flex-start" : "flex-end", justifyContent: "flex-start", marginTop: isHeight < 569 ? headingMarginTop - 12 : headingMarginTop - 17/* marginTop: Platform.OS === 'android' ? "36%" : isNotchDevice ? "33.1%" : "35%" */ }}>
                         <View style={{
 
                             marginLeft: -10,
                             backgroundColor: 'white',
-                            width: 200,
+                            width: isHeight < 569 ? 160 : 200,
                             /* height: "atuo", */
                             borderRadius: 16,
                             paddingBottom: 10,
@@ -476,6 +476,11 @@ class ArticleTemplate extends Component {
                                 justifyContent: "flex-end",
                             }}>
                                 {
+                                    console.log("stipTeach", stipTeach)
+                                }
+                                {
+
+
                                     stipTeach === 1 ?
                                         <View style={{ paddingLeft: 16, width: "100%" }}>
                                             <View style={[{ marginLeft: -16 }, study === true ? styles.boxHeadingActive : styles.boxHeading]}>
@@ -492,7 +497,7 @@ class ArticleTemplate extends Component {
                                                 <Pressable onPress={() => this.setState({
                                                     study: false
                                                 })}>
-                                                    <Text style={study !== true ? styles.sectionActive : styles.section}> {t('mission')}</Text>
+                                                    <Text style={study === true ? styles.sectionActive : styles.section}> {t('mission')}</Text>
                                                 </Pressable>
                                             </View>
 
@@ -604,6 +609,7 @@ class ArticleTemplate extends Component {
     }
 }
 const deviceHeight = Math.round(Dimensions.get('window').height);
+console.log('deviceHeight', deviceHeight);
 
 const styles = StyleSheet.create({
     container: {
@@ -776,7 +782,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = ({ authUser, getData, personalDataUser }) => {
     const { user } = authUser;
-    const {  } = personalDataUser;
+    const { } = personalDataUser;
     const { nutrition_mission, statusGetNutritionMission, statusGetNutritionActivityIdMission, nutrition_activity_id_Mission, teachUserArticleTemplate } = getData;
     return { nutrition_mission, statusGetNutritionMission, nutrition_activity_id_Mission, statusGetNutritionActivityIdMission, user, teachUserArticleTemplate };
 };
