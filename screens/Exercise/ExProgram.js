@@ -147,7 +147,7 @@ const ExProgram = ({ navigation }) => {
                         <Image
                             source={require('../../assets/images/icon/close_white.png')}
                             style={{
-                                width: 24, height: 24, marginTop: 16, marginRight: 16
+                                width: 24, height: 24, marginTop: 16, marginRight: "8%"
 
                             }}
                         />
