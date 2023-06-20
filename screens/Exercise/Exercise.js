@@ -925,7 +925,6 @@ const Exercise = ({ navigation }) => {
 
                                     <TouchableWithoutFeedback onPress={() =>
                                         exerciserActivity && exerciserActivity.map((item, i) => {
-                                            console.log("item", item);
                                             if (i == 0) {
                                                 navigation.navigate("ExArticleTemplate", { id: item.week_in_program, mission_id: item.mission_id, heading: (i18next.language === 'th') ? item.heading : item.heading_eng, mission_activities: item.mission_activities, statusPags: "Exercise" })
                                                 dispatch(setTeachUserExercise(user && user.user_id, "false"));
@@ -1010,8 +1009,8 @@ const Exercise = ({ navigation }) => {
                                         height: HEADER_HEIGHT,
 
                                         position: 'absolute',
-                                        marginTop: isDevice < 569 ? 250 : isDevice > 568 && isDevice < 897 ? 300 : isDevice > 896 && isDevice < 927 ? 290 : 550,
-                                        left: 0,
+                                        marginTop: isDevice < 569 ? 350 : isDevice > 568 && isDevice < 897 ? 330 : isDevice > 896 && isDevice < 927 ? 320 : 550,
+                                        left: 10,
                                         right: 0,
                                         justifyContent: "flex-end",
 
@@ -1022,7 +1021,7 @@ const Exercise = ({ navigation }) => {
                                     },
                                 ]}
                             >
-                                <View style={styles.nutritionBox}>
+                                <View style={[styles.nutritionBox, { marginTop: isDevice < 569 && -200 }]}>
                                     <View style={styles.missionText}>
                                         <View style={styles.missionView}>
                                             <View style={{ width: 71 }}></View>
@@ -1035,21 +1034,22 @@ const Exercise = ({ navigation }) => {
                                                 shadowOpacity: 7,
                                                 shadowRadius: 7,
                                                 elevation: 24,
+
                                             }, statusMission !== true ? styles.missionPre : styles.programPre]}  >
                                                 <Text style={[styles.mission, statusMission !== true ? { color: colors.white } : { color: colors.persianBlue }]}>{t('program')}</Text>
                                             </Pressable>
                                         </View>
                                     </View>
                                 </View>
-                                <View style={{ justifyContent: "flex-end", flex: 1, alignItems: "center" }}>
+                                <View style={{ justifyContent: "flex-end", flex: 1, alignItems: "center", marginTop: 60 }}>
                                     <Image
-                                        style={{ height: 16, width: 32, zIndex: 1, marginTop: 13, marginLeft: "-35%" }}
+                                        style={{ height: 16, width: 32, zIndex: 1, marginTop: 13, marginLeft: "-20%" }}
                                         source={require('../../assets/images/icon/Rectangle11.png')}
                                     />
                                     <View style={{
                                         width: 288,
                                         height: 138,
-                                        backgroundColor: "white",
+                                        backgroundColor: "#ffffff",
                                         marginBottom: 30,
                                         borderRadius: 16,
                                         paddingTop: 16,

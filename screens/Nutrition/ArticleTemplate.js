@@ -436,7 +436,7 @@ class ArticleTemplate extends Component {
                             textAlign: "right",
                             marginRight: 20,
 
-                        }}>ข้าม</Text>
+                        }}>{t('cross')}</Text>
                     </TouchableWithoutFeedback>
 
                     <View style={{ flex: 1, alignItems: stipTeach == 1 ? "flex-start" : "flex-end", justifyContent: "flex-start", marginTop: isHeight < 569 ? headingMarginTop - 12 : headingMarginTop - 17/* marginTop: Platform.OS === 'android' ? "36%" : isNotchDevice ? "33.1%" : "35%" */ }}>
@@ -475,9 +475,7 @@ class ArticleTemplate extends Component {
                                 borderTopRightRadius: 16,
                                 justifyContent: "flex-end",
                             }}>
-                                {
-                                    console.log("stipTeach", stipTeach)
-                                }
+
                                 {
 
 
@@ -563,7 +561,7 @@ class ArticleTemplate extends Component {
                                             fontSize: ComponentsStyle.fontSize16,
                                             fontFamily: "IBMPlexSansThai-Bold",
                                             color: colors.persianBlue,
-                                        }}>กลับ</Text>
+                                        }}>{t('go_back')}</Text>
                                     </View>
                                 </TouchableWithoutFeedback>
 
@@ -596,7 +594,7 @@ class ArticleTemplate extends Component {
                                             fontSize: ComponentsStyle.fontSize16,
                                             fontFamily: "IBMPlexSansThai-Bold",
                                             color: colors.white,
-                                        }}>ถัดไป</Text>
+                                        }}>{t('next')}</Text>
                                     </View>
                                 </TouchableWithoutFeedback>
                             </View>
