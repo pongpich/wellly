@@ -602,7 +602,7 @@ class ArticleTemplate extends Component {
                     </Animated.View>
                 </View>
 
-                <Modal isVisible={true/* teachUserExArticleTemplate */} style={{ zIndex: 1 }}>
+                <Modal isVisible={teachUserExArticleTemplate} style={{ zIndex: 1 }}>
                     <TouchableWithoutFeedback onPress={() => {
                         this.props.setTeachUserExArticleTemplate(user && user.user_id, "false");
                         this.props.setTeachUserExerciseProgram(user && user.user_id, "true");
