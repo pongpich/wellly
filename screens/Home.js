@@ -976,7 +976,7 @@ class Home extends Component {
                                                 fontSize: ComponentsStyle.fontSize16,
                                                 fontFamily: "IBMPlexSansThai-Bold",
                                                 color: colors.persianBlue,
-                                            }}>กลับ</Text>
+                                            }}>{t('go_back')}</Text>
                                         </View>
                                     </TouchableWithoutFeedback>
                                 }

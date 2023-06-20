@@ -534,7 +534,7 @@ class ArticleTemplate extends Component {
                                 color: colors.grey1,
                             }}>
                                 {
-                                    stipTeach == 1 ? "แท็บสำหรับอ่านเรียนรู้เกี่ยวกับโภชนาการเพื่อทำภารกิจสัปดาห์นั้น" : "แท็บสำหรับดูภารกิจด้านโภชนาการ ที่จะช่วยให้เข้าใจวิธีกินที่ถูกต้องเหมาะสม"
+                                    stipTeach == 1 ? `${t('about_nutrition')}}` : `${t('about_nutrition_correct_way')}`
                                 }
                             </Text>
                             <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
@@ -610,7 +610,7 @@ class ArticleTemplate extends Component {
     }
 }
 const deviceHeight = Math.round(Dimensions.get('window').height);
-console.log('deviceHeight', deviceHeight);
+
 
 const styles = StyleSheet.create({
     container: {
