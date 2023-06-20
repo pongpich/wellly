@@ -439,12 +439,15 @@ class ArticleTemplate extends Component {
                         }}>{t('cross')}</Text>
                     </TouchableWithoutFeedback>
 
-                    <View style={{ flex: 1, alignItems: stipTeach == 1 ? "flex-start" : "flex-end", justifyContent: "flex-start", marginTop: isHeight < 569 ? headingMarginTop - 12 : headingMarginTop - 17/* marginTop: Platform.OS === 'android' ? "36%" : isNotchDevice ? "33.1%" : "35%" */ }}>
+                    <View style={{
+                        flex: 1, alignItems: stipTeach == 1 ? "flex-start" : "flex-end", justifyContent: "flex-start", marginTop: isHeight < 569 ? headingMarginTop - 12 : isHeight > 568 &&
+                            isHeight < 927 ? headingMarginTop - 17 : headingMarginTop - 35/* marginTop: Platform.OS === 'android' ? "36%" : isNotchDevice ? "33.1%" : "35%" */
+                    }}>
                         <View style={{
 
                             marginLeft: -10,
                             backgroundColor: 'white',
-                            width: isHeight < 569 ? 160 : 200,
+                            width: isHeight < 927 ? "60%" : "50%",
                             /* height: "atuo", */
                             borderRadius: 16,
                             paddingBottom: 10,

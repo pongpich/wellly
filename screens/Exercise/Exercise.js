@@ -1009,8 +1009,8 @@ const Exercise = ({ navigation }) => {
                                         height: HEADER_HEIGHT,
 
                                         position: 'absolute',
-                                        marginTop: isDevice < 569 ? 350 : isDevice > 568 && isDevice < 897 ? 330 : isDevice > 896 && isDevice < 927 ? 320 : 550,
-                                        left: 10,
+                                        marginTop: isDevice < 569 ? 350 : isDevice > 568 && isDevice < 897 ? 330 : isDevice > 896 && isDevice < 927 ? 320 : 460,
+                                        left: isDevice > 927 ? -10 : 10,
                                         right: 0,
                                         justifyContent: "flex-end",
 
@@ -1041,16 +1041,16 @@ const Exercise = ({ navigation }) => {
                                         </View>
                                     </View>
                                 </View>
-                                <View style={{ justifyContent: "flex-end", flex: 1, alignItems: "center", marginTop: 60 }}>
+                                <View style={{ justifyContent: "flex-end", flex: 1, alignItems: isDevice > 926 ? "flex-start" : "center", marginLeft: isDevice > 926 && 80, marginTop: 60 }}>
                                     <Image
-                                        style={{ height: 16, width: 32, zIndex: 1, marginTop: 13, marginLeft: "-20%" }}
+                                        style={{ height: 16, width: 32, zIndex: 1, marginTop: 13, marginLeft: isDevice < 569 ? "-20%" : isDevice > 568 && isDevice < 927 ? "-35%" : "5%" }}
                                         source={require('../../assets/images/icon/Rectangle11.png')}
                                     />
                                     <View style={{
                                         width: 288,
                                         height: 138,
                                         backgroundColor: "#ffffff",
-                                        marginBottom: 30,
+                                        marginBottom: isDevice < 569 ? 30 : isDevice > 926 ? 140 : 10,
                                         borderRadius: 16,
                                         paddingTop: 16,
                                         paddingHorizontal: 16,
