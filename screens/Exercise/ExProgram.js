@@ -146,9 +146,9 @@ const ExProgram = ({ navigation }) => {
                     <StatusBar barStyle="dark-content" />
                 </View>
                 <View style={{ position: "relative", height: 212, width: deviceWidth, alignItems: "flex-end" }}>
-                    <Pressable onPress={() => navigation.popToTop()} style={{ zIndex: 3, position: "absolute" }}>
+                    <Pressable onPress={() => navigation.navigate("Exercise", { screen: "ExProgram" })} style={{ zIndex: 3, position: "absolute" }}>
                         <Image
-                            source={statusResistance == "ตัวเปล่า" ? require('../../assets/images/exercise/close_button.png') : require('../../assets/images/icon/close_white.png')}
+                            source={statusResistance == "ตัวเปล่า" || statusResistance !== "resistance" ? require('../../assets/images/exercise/close_button.png') : require('../../assets/images/icon/close_white.png')}
                             style={{
                                 width: 24, height: 24, marginTop: 16, marginRight: "8%"
 

@@ -204,16 +204,14 @@ const Exercise = ({ navigation }) => {
                 allTrainingSet && allTrainingSet.map((item, i) => {
 
                     if (name === item.name) {
-
                         closeeModal(item.id, item.name)
-                        navigation.navigate("Exercise")
                     }
                 })
-                console.log("444");
-                setStatusMission(false)
+                navigation.navigate("Exercise")
+                setStatusMission(false) //ถ้า  params มาจากหน้า  ExArticleTemplate เเละ ExProgram
 
             } else {
-                setStatusMission(true)
+                setStatusMission(true) // ถ้า ไม่มี  params
                 setIsModalVisibleVedio(false)
             }
 
@@ -245,7 +243,7 @@ const Exercise = ({ navigation }) => {
 
 
             } else {
-                setStatusMission(true)
+
                 setIsModalVisibleVedio(false)
             }
 
@@ -351,7 +349,6 @@ const Exercise = ({ navigation }) => {
 
         const { t } = useTranslation();
 
-        console.log("group", group);
         return (
             <>
                 <View style={[styles.centeredVedio, { marginTop: play == true ? 0 : 150 }]}>
@@ -648,7 +645,7 @@ const Exercise = ({ navigation }) => {
                                         exerciserActivity ?
 
                                             exerciserActivity.map((item, i) => {
-                                                if (item.status_mission_activities !== "completed") {
+                                                if (item.status_mission_activities !== "completed" && item.week_in_program == week_program_user) {
                                                     return (
                                                         <Pressable onPress={() => navigation.navigate("ExArticleTemplate", { id: item.week_in_program, mission_id: item.mission_id, heading: (i18next.language === 'th') ? item.heading : item.heading_eng, mission_activities: item.mission_activities, statusPags: "Exercise" })} key={i + "tfb"}>
                                                             <View key={i} style={styles.row}>
