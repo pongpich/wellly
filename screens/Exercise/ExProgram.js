@@ -41,6 +41,7 @@ const ExProgram = ({ navigation }) => {
 
     const languages = i18next.languages[0];
     useEffect(() => {
+
         const { status_male_female } = route.params;
         setStstus_m_f(status_male_female)
         const dataTrainingSet = trainingSet && Object.entries(trainingSet);
@@ -50,6 +51,8 @@ const ExProgram = ({ navigation }) => {
         setPlaySet(data.set)
         setPlayName(data.name)
         setPlayVideo(1)
+
+
 
         if (status_male_female === "ชาย") {
             setUrlPlay(data.img_url_m)
@@ -134,7 +137,7 @@ const ExProgram = ({ navigation }) => {
             ));
         }
     }, [finishedPlayingSet]);
-
+    const { statusResistance } = route.params;
 
     return (
         <View style={styles.centered}>
@@ -145,7 +148,7 @@ const ExProgram = ({ navigation }) => {
                 <View style={{ position: "relative", height: 212, width: deviceWidth, alignItems: "flex-end" }}>
                     <Pressable onPress={() => navigation.popToTop()} style={{ zIndex: 3, position: "absolute" }}>
                         <Image
-                            source={require('../../assets/images/icon/close_white.png')}
+                            source={statusResistance == "ตัวเปล่า" ? require('../../assets/images/exercise/close_button.png') : require('../../assets/images/icon/close_white.png')}
                             style={{
                                 width: 24, height: 24, marginTop: 16, marginRight: "8%"
 

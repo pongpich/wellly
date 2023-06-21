@@ -108,7 +108,7 @@ const Exercise = ({ navigation }) => {
     const clickProgram = () => {
         setIsModalVisibleVedio(!isModalVisibleVedio);
         setTimeout(() => {
-            navigation.navigate("ExProgram", { status_male_female: status_male_female, category: group })
+            navigation.navigate("ExProgram", { status_male_female: status_male_female, category: group, statusResistance: status_resistance })
         }, 200);
 
 
@@ -350,7 +350,8 @@ const Exercise = ({ navigation }) => {
         const dataTrainingSet = trainingSet && Object.entries(trainingSet);
 
         const { t } = useTranslation();
-        console.log("status_male_female", status_male_female, group);
+
+        console.log("group", group);
         return (
             <>
                 <View style={[styles.centeredVedio, { marginTop: play == true ? 0 : 150 }]}>
@@ -367,15 +368,15 @@ const Exercise = ({ navigation }) => {
                                         borderTopRightRadius: 16,
                                     }}
                                     source={
-                                        group === "core_balance" ? require('../../assets/images/cover_page/core_balance.jpg') :
-                                            group === "core_balance_plyo" ? require('../../assets/images/cover_page/core_balance.jpg') :
-                                                group === "flexibility" ? require('../../assets/images/cover_page/flexibility.jpg') :
-                                                    status_resistance === "ยิม" && status_male_female === "ชาย" ? require('../../assets/images/cover_page/resistance.jpg') :
-                                                        status_resistance === "ยิม" && status_male_female === "หญิง" ? require('../../assets/images/cover_page/resistance_Female.jpg') :
-                                                            status_resistance === "ดัมเบล" && status_male_female === "ชาย" ? require('../../assets/images/cover_page/goblet_Squat.jpg') :
-                                                                status_resistance === "ดัมเบล" && status_male_female === "หญิง" ? require('../../assets/images/cover_page/goblet_Squat_Female.jpg') :
-                                                                    status_resistance === "ตัวเปล่า" && status_male_female === "ชาย" ? require('../../assets/images/cover_page/core_balance_plyo.jpg') :
-                                                                        status_resistance === "ตัวเปล่า" && status_male_female === "หญิง" && require('../../assets/images/cover_page/core_balance_plyo_Female.jpg')
+
+                                        group === "core_balance_plyo" || group === "core_balance" ? require('../../assets/images/cover_page/core_balance.jpg') :
+                                            group === "flexibility" ? require('../../assets/images/cover_page/flexibility.jpg') :
+                                                status_resistance === "ยิม" && status_male_female === "ชาย" ? require('../../assets/images/cover_page/resistance.jpg') :
+                                                    status_resistance === "ยิม" && status_male_female === "หญิง" ? require('../../assets/images/cover_page/resistance_Female.jpg') :
+                                                        status_resistance === "ดัมเบล" && status_male_female === "ชาย" ? require('../../assets/images/cover_page/goblet_Squat.jpg') :
+                                                            status_resistance === "ดัมเบล" && status_male_female === "หญิง" ? require('../../assets/images/cover_page/goblet_Squat_Female.jpg') :
+                                                                status_resistance === "ตัวเปล่า" && status_male_female === "ชาย" ? require('../../assets/images/cover_page/core_balance_plyo.jpg') :
+                                                                    status_resistance === "ตัวเปล่า" && status_male_female === "หญิง" && require('../../assets/images/cover_page/core_balance_plyo_Female.jpg')
                                     }
 
 
@@ -390,7 +391,7 @@ const Exercise = ({ navigation }) => {
                                                 marginRight: 16,
 
                                             }}
-                                            source={status_resistance !== "ตัวเปล่า" ? require('../../assets/images/icon/close_white.png') : require('../../assets/images/exercise/Close.png')}
+                                            source={status_resistance !== "ตัวเปล่า" && group === "resistance" ? require('../../assets/images/icon/close_white.png') : require('../../assets/images/exercise/close_button.png')}
                                         />
                                     </Pressable>
                                 </View>
