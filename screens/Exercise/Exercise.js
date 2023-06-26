@@ -570,6 +570,7 @@ const Exercise = ({ navigation }) => {
     const isDevice = Dimensions.get('window').height;
 
     const { t } = useTranslation();
+    const result = exerciserActivity && exerciserActivity.some(item => item.read === null);
 
 
     return (
@@ -606,11 +607,12 @@ const Exercise = ({ navigation }) => {
 
                         {
                             statusMission === true ?
+
                                 <>
                                     {
                                         exerciserActivity && exerciserActivity.length > 0 ?
                                             <Pressable Pressable onPress={() => refresh()} style={styles.historyRight}>
-                                                <Image style={styles.iconImageRight} source={require('../../assets/images/icon/History.png')} />
+                                                <Image style={styles.iconImageRight} source={result && result == true ? require('../../assets/images/icon/History_unread.png') : require('../../assets/images/icon/History.png')} />
                                             </Pressable>
                                             :
                                             <Pressable style={styles.historyRight}>
@@ -621,6 +623,7 @@ const Exercise = ({ navigation }) => {
                                 :
                                 null
                         }
+
 
                     </View>
                 </View>
@@ -643,7 +646,6 @@ const Exercise = ({ navigation }) => {
                                 <>
                                     {
                                         exerciserActivity ?
-
                                             exerciserActivity.map((item, i) => {
                                                 if (item.status_mission_activities !== "completed" && item.week_in_program == week_program_user) {
                                                     return (

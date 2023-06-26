@@ -37,11 +37,34 @@ class History extends Component {
 
     }
 
+    substringText(text) {
+        const startIndex = 0;
+        let endIndex = 0;
+        //วนลูปเพื่อทดลอง Text ว่าแต่ละอันควรกำหนด endIndex เป็นเท่าไหร่ เพื่อให้ได้ความกว้าง 59 ตัวอักษรแบบไม่นับสระที่อยู่ด้านบน กับ ด้านล่าง
+        for (let i = 0; i < text.length; i++) {
+            const substring1 = text.substring(startIndex, i);
+            let consonants = substring1.match(/[ก-ฮ ะาเแโใไำ]/g);
+            if (consonants) {
+                //ความกว้างที่เหมาะสมคือ 59 โดยไม่นับพวกสระที่อยู่ด้านบน,ล่างของพยัญชนะ เพราะไม่เพิ่มความกว้างข้อความ
+                if (consonants.length === 59) {
+                    endIndex = i;
+                }
+                //ถ้าวนลูปรอบสุดท้ายแล้วยังไม่ได้ 59 ก็ให้กำหนดความยาว i เลย
+                if ((i >= (text.length - 1)) && (consonants.length < 59)) {
+                    endIndex = i;
+                }
+            }
+        }
+        const substring2 = text.substring(startIndex, endIndex);
+        return substring2 + "...";
+    };
+
 
 
 
     render() {
         const { start, trophy, exerciserActivity } = this.state;
+        /* console.log("exerciserActivity", exerciserActivity); */
         return (
             <SafeAreaView style={styles.container}>
                 <View style={styles.marginBox}>
@@ -51,6 +74,7 @@ class History extends Component {
 
                             {
                                 exerciserActivity && exerciserActivity.map((item, i) => {
+
                                     const activities_level = JSON.parse(item.activities_level)
                                     const mission_activities = JSON.parse(item.mission_activities)
                                     const week_in_program = item.week_in_program;
@@ -64,35 +88,47 @@ class History extends Component {
                                     return (
                                         //ส่ง params ผ่าน route
                                         <Pressable onPress={() => this.props.navigation.navigate("ExArticleTemplate", { id: item.week_in_program, mission_id: item.mission_id, heading: (i18next.language === 'th') ? item.heading : item.heading_eng, mission_activities: item.mission_activities, statusPags: "ExHistory" })} key={i + "fee"}>
-                                            <View key={i} style={styles.row}>
+                                            <View key={i} style={[styles.row, item.read == null && { backgroundColor: colors.white }]}>
                                                 <View style={styles.numberView}>
                                                     <Text style={styles.number}>{item.week_in_program}</Text>
                                                 </View>
                                                 <View style={styles.missionData}>
                                                     <Text style={styles.missionHead}>{(i18next.language === 'th') ? item.heading : item.heading_eng}</Text>
-                                                    {/*  <Text style={styles.missionContent}>
-                                            โปรแกรมออกกำลังกายลดความเสี่ยงโรคเบาหวาน
-                                        </Text> */}
+                                                    <Text style={styles.missionContent}>
+                                                        {this.substringText((i18next.language === 'th') ? item.short_content : item.short_content_eng)}
+                                                    </Text>
                                                     <View style={{ flexDirection: "row" }}>
                                                         {
-                                                            checkTrophy(mission_activities, activities_level) == 1 ?
-                                                                <Image style={{ width: 24, height: 24, marginTop: 8 }} source={require('../../assets/images/icon/Trophy.png')} />
+
+                                                            item.read == null ?
+                                                                <View style={styles.notifiedRed}>
+                                                                    <Text style={styles.notifiedTextRed}>
+                                                                        {t('no_read')}
+                                                                    </Text>
+                                                                </View>
                                                                 :
-                                                                startData && startData.map((item, i) => {
-                                                                    return (
-                                                                        <Image style={[i > 0 ? { marginLeft: 4 } : null, { width: 16, height: 16, marginTop: 8 }]} source={
-                                                                            checkStar(mission_activities, activities_level) >= ++i ?
-                                                                                require('../../assets/images/icon/Star_3.png')
-                                                                                :
-                                                                                require('../../assets/images/icon/Star.png')
-                                                                        } />
-                                                                    )
-                                                                })
+                                                                checkTrophy(mission_activities, activities_level) == 1 ?
+                                                                    <Image style={{ width: 24, height: 24, marginTop: 8 }} source={require('../../assets/images/icon/Trophy.png')} />
+                                                                    :
+                                                                    startData && startData.map((item, i) => {
+                                                                        return (
+                                                                            <Image style={[i > 0 ? { marginLeft: 4 } : null, { width: 16, height: 16, marginTop: 8 }]} source={
+                                                                                checkStar(mission_activities, activities_level) >= ++i ?
+                                                                                    require('../../assets/images/icon/Star_3.png')
+                                                                                    :
+                                                                                    require('../../assets/images/icon/Star.png')
+                                                                            } />
+                                                                        )
+                                                                    })
                                                         }
                                                     </View>
                                                 </View>
                                                 <View style={styles.viewIconRight}>
-                                                    <AntDesign name="check" style={styles.iconRight} />
+                                                    {item.read == null ? <Image
+                                                        style={{ height: 24, width: 24, zIndex: 1, marginRight: 8 }}
+                                                        source={require('../../assets/images/icon/right.png')}
+                                                    /> : <AntDesign name="check" style={styles.iconRight} />}
+
                                                 </View>
                                             </View>
                                         </Pressable>
@@ -179,6 +215,23 @@ const styles = StyleSheet.create({
         height: "100%",
         alignItems: "flex-end",
         justifyContent: "center",
+    },
+    notifiedRed: {
+        marginTop: 8,
+        justifyContent: "center",
+        alignItems: "center",
+        width: "auto",
+        height: 25,
+        borderRadius: 16,
+        backgroundColor: colors.negative2,
+        paddingHorizontal: 8,
+        paddingVertical: 3,
+
+    },
+    notifiedTextRed: {
+        fontSize: ComponentsStyle.fontSize14,
+        fontFamily: "IBMPlexSansThai-Regular",
+        color: colors.negative1,
     },
 
 })
