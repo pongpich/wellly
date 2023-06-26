@@ -570,7 +570,7 @@ const Exercise = ({ navigation }) => {
     const isDevice = Dimensions.get('window').height;
 
     const { t } = useTranslation();
-    const result = exerciserActivity && exerciserActivity.some(item => item.read === null);
+    const result = exerciserActivity && exerciserActivity.some(item => item.read_article === null);
 
 
     return (

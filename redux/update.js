@@ -26,7 +26,9 @@ export const types = {
     EDIT_ACT_LIST_ADD_ON: "EDIT_ACT_LIST_ADD_ON",
     EDIT_ACT_LIST_ADD_ON_SUCCESS: "EDIT_ACT_LIST_ADD_ON_SUCCESS",
     CHECK_UPDATE_BADGE_WIN: "CHECK_UPDATE_BADGE_WIN",
-    CHECK_UPDATE_BADGE_WIN_SUCCESS: "CHECK_UPDATE_BADGE_WIN_SUCCESS"
+    CHECK_UPDATE_BADGE_WIN_SUCCESS: "CHECK_UPDATE_BADGE_WIN_SUCCESS",
+    UPDATE_READ_EXERCISE_ACTIVITY: "UPDATE_READ_EXERCISE_ACTIVITY",
+    UPDATE_READ_EXERCISE_ACTIVITY_SUCCESS: "UPDATE_READ_EXERCISE_ACTIVITY_SUCCESS"
 };
 
 export const checkUpdateBadgeWin = (user_id) => ({
@@ -95,6 +97,14 @@ export const update_popUp_stars = (user_id, week_in_program, popup_stary) => ({
         user_id,
         week_in_program,
         popup_stary
+    },
+});
+export const updateReadExerciserActivity = (user_id, week_in_program, read_article) => ({
+    type: types.UPDATE_READ_EXERCISE_ACTIVITY,
+    payload: {
+        user_id,
+        week_in_program,
+        read_article
     },
 });
 
@@ -186,7 +196,31 @@ const update_popUp_starsSagaAsync = async (
             }
         });
 
-        console.log("apiResult", apiResult);
+        /*  console.log("apiResult", apiResult); */
+        return apiResult
+    } catch (error) {
+
+        return { error, messsage: error.message };
+    }
+};
+
+const updateReadExerciserActivitySagaAsync = async (
+    user_id,
+    week_in_program,
+    read_article
+) => {
+
+    try {
+
+        const apiResult = await API.post("planforfit", "/updateReadExerciserActivity", {
+            body: {
+                user_id,
+                week_in_program,
+                read_article
+            }
+        });
+
+        /* console.log("apiResult", apiResult); */
         return apiResult
     } catch (error) {
 
@@ -210,6 +244,8 @@ const insertNutritionActivitySagaAsync = async (
         return { error, messsage: error.message };
     }
 };
+
+
 const insertExerciseActivitySagaAsync = async (
     user_id
 ) => {
@@ -397,6 +433,28 @@ function* update_popUp_starsSaga({ payload }) {
         console.log("error form update_popUp_starsSaga", error);
     }
 }
+function* updateReadExerciserActivitySaga({ payload }) {
+    const {
+        user_id,
+        week_in_program,
+        read_article
+    } = payload
+
+    try {
+        const apiResult = yield call(
+            updateReadExerciserActivitySagaAsync,
+            user_id,
+            week_in_program,
+            read_article
+        );
+        yield put({
+            type: types.UPDATE_READ_EXERCISE_ACTIVITY_SUCCESS,
+            payload: read_article
+        })
+    } catch (error) {
+        console.log("error form updateReadExerciserActivitySaga", error);
+    }
+}
 
 
 function* insertNutritionActivitySaga({ payload }) {
@@ -577,6 +635,9 @@ export function* watchEditActivityListAddOn() {
 export function* watchCheckUpdateBadgeWin() {
     yield takeEvery(types.CHECK_UPDATE_BADGE_WIN, checkUpdateBadgeWinSaga)
 }
+export function* watchUpdateReadExerciserActivity() {
+    yield takeEvery(types.UPDATE_READ_EXERCISE_ACTIVITY, updateReadExerciserActivitySaga)
+}
 
 
 export function* saga() {
@@ -592,6 +653,7 @@ export function* saga() {
         fork(watchEditActivityListAddOn),
         fork(watchInsertNutritionKnowledgeActivity),
         fork(watchCheckUpdateBadgeWin),
+        fork(watchUpdateReadExerciserActivity),
 
     ]);
 }
@@ -611,6 +673,7 @@ const INIT_STATE = {
     statusDeleteActListAddOn: "default",
     statusEditActListAddOn: "default",
     statusInsertNutritionKnowledgeActivity: "default",
+    statusReadExerciseActivty: "default",
 };
 
 export function reducer(state = INIT_STATE, action) {
@@ -723,6 +786,16 @@ export function reducer(state = INIT_STATE, action) {
             return {
                 ...state,
                 statusPopupSary: "success"
+            };
+        case types.UPDATE_READ_EXERCISE_ACTIVITY:
+            return {
+                ...state,
+                statusReadExerciseActivty: "loading"
+            };
+        case types.UPDATE_READ_EXERCISE_ACTIVITY_SUCCESS:
+            return {
+                ...state,
+                statusReadExerciseActivty: "success"
             };
         default:
             return { ...state };

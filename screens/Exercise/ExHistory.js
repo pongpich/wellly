@@ -31,10 +31,14 @@ class History extends Component {
         this.setState({
             exerciserActivity: exerciserActivity,
         })
-
-
-
-
+    }
+    componentDidUpdate(prevProps, prevState) {
+        const { statusExerciserActivity, exerciserActivity } = this.props;
+        if ((prevProps.exerciserActivity !== exerciserActivity) && (exerciserActivity)) {
+            this.setState({
+                exerciserActivity: exerciserActivity,
+            })
+        }
     }
 
     substringText(text) {
@@ -88,7 +92,7 @@ class History extends Component {
                                     return (
                                         //ส่ง params ผ่าน route
                                         <Pressable onPress={() => this.props.navigation.navigate("ExArticleTemplate", { id: item.week_in_program, mission_id: item.mission_id, heading: (i18next.language === 'th') ? item.heading : item.heading_eng, mission_activities: item.mission_activities, statusPags: "ExHistory" })} key={i + "fee"}>
-                                            <View key={i} style={[styles.row, item.read == null && { backgroundColor: colors.white }]}>
+                                            <View key={i} style={[styles.row, item.read_article == null && { backgroundColor: colors.white }]}>
                                                 <View style={styles.numberView}>
                                                     <Text style={styles.number}>{item.week_in_program}</Text>
                                                 </View>
@@ -100,7 +104,7 @@ class History extends Component {
                                                     <View style={{ flexDirection: "row" }}>
                                                         {
 
-                                                            item.read == null ?
+                                                            item.read_article == null ?
                                                                 <View style={styles.notifiedRed}>
                                                                     <Text style={styles.notifiedTextRed}>
                                                                         {t('no_read')}
@@ -124,7 +128,7 @@ class History extends Component {
                                                     </View>
                                                 </View>
                                                 <View style={styles.viewIconRight}>
-                                                    {item.read == null ? <Image
+                                                    {item.read_article == null ? <Image
                                                         style={{ height: 24, width: 24, zIndex: 1, marginRight: 8 }}
                                                         source={require('../../assets/images/icon/right.png')}
                                                     /> : <AntDesign name="check" style={styles.iconRight} />}
@@ -238,8 +242,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = ({ personalDataUser, authUser, getData }) => {
     const { number } = personalDataUser;
     const { user } = authUser;
-    const { statusGetNutritionActivity, nutrition_activity, exerciserActivity } = getData;
-    return { number, statusGetNutritionActivity, nutrition_activity, exerciserActivity, user };
+    const { statusGetNutritionActivity, nutrition_activity, exerciserActivity, statusExerciserActivity } = getData;
+    return { number, statusGetNutritionActivity, nutrition_activity, exerciserActivity, user, statusExerciserActivity };
 };
 
 const mapActionsToProps = { getNutritionActivity };

@@ -4,6 +4,7 @@ import colors from '../../constants/colors';
 import { getNutritionMission, getNutritionActivityIdMission, getExerciserActivity, setIntensityFromExArticleTemplate, getTeachUserExercise, setTeachUserExercise, getTeachUserExArtTemp, setTeachUserExArticleTemplate, getTeachUserExerciseProgram, setTeachUserExerciseProgram } from "../../redux/get";
 import ComponentsStyle from '../../constants/components';
 import { logoutUser } from "../../redux/auth";
+import { updateReadExerciserActivity } from "../../redux/update";
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 import { routeName, coreBalance } from "../../redux/personalUser";
@@ -99,6 +100,9 @@ class ArticleTemplate extends Component {
 
 
 
+
+
+
     }
 
 
@@ -108,8 +112,8 @@ class ArticleTemplate extends Component {
 
 
     componentDidUpdate(prevProps, prevState) {
-        const { nutrition_mission, user, nutrition_activity_id_Mission, statusGetNutritionActivityIdMission, exerciserActivity, statusExerciserActivity } = this.props;
-        const { id } = this.state;
+        const { nutrition_mission, user, nutrition_activity_id_Mission, statusGetNutritionActivityIdMission, exerciserActivity, statusExerciserActivity, statusReadExerciseActivty } = this.props;
+        const { id, study } = this.state;
 
         if ((prevProps.statusExerciserActivity !== statusExerciserActivity) && (statusExerciserActivity === "success")) {
 
@@ -122,9 +126,36 @@ class ArticleTemplate extends Component {
                 }
 
             })
+
+            if (study) {
+                this.updateClickReadExerciserActivity(exerciserActivity)
+            }
+        }
+
+        if (prevState.study !== study && study === true) {
+            this.updateClickReadExerciserActivity(exerciserActivity)
+        }
+
+        if (prevProps.statusReadExerciseActivty !== statusReadExerciseActivty && statusReadExerciseActivty === "success") {
+            this.props.getExerciserActivity(user && user.user_id)
         }
     }
 
+
+    updateClickReadExerciserActivity(exerciserActivity) {
+        const { id, study } = this.state;
+        const { user } = this.props;
+
+        exerciserActivity && exerciserActivity.map((item, i) => {
+            if (item.week_in_program === id) {
+                if (item.read_article == null) {
+                    this.props.updateReadExerciserActivity(user && user.user_id, id, 1)
+                }
+            }
+
+        })
+
+    }
     slideDown = () => {
         Animated.timing(this.slideAnim, {
             toValue: 1,
@@ -232,6 +263,8 @@ class ArticleTemplate extends Component {
             }
             //sumScore += item.number_completed * item.score;
         })
+
+
 
         return sumScore;
     }
@@ -460,6 +493,7 @@ class ArticleTemplate extends Component {
         });
 
         const { teachUserExArticleTemplate, user } = this.props;
+
         return (
             <View style={styles.container}>
                 <View style={{ height: 44, zIndex: 10, width: "100%", backgroundColor: statusBarColor === "light" ? colors.persianBlue : colors.white }}>
@@ -1077,16 +1111,20 @@ const styles = StyleSheet.create({
     },
 });
 
-const mapStateToProps = ({ authUser, getData, personalDataUser }) => {
+const mapStateToProps = ({ authUser, getData, personalDataUser, updateData }) => {
     const { user } = authUser;
+    const { statusReadExerciseActivty } = updateData;
     const { coreBalanceRoute } = personalDataUser;
     const { nutrition_mission, statusGetNutritionMission, statusGetNutritionActivityIdMission, nutrition_activity_id_Mission, exerciserActivity, statusExerciserActivity, teachUserExArticleTemplate } = getData;
-    return { nutrition_mission, statusGetNutritionMission, nutrition_activity_id_Mission, statusGetNutritionActivityIdMission, user, coreBalanceRoute, exerciserActivity, statusExerciserActivity, teachUserExArticleTemplate };
+    return {
+        nutrition_mission, statusGetNutritionMission, nutrition_activity_id_Mission, statusGetNutritionActivityIdMission, user, coreBalanceRoute, exerciserActivity, statusExerciserActivity,
+        teachUserExArticleTemplate, statusReadExerciseActivty
+    };
 };
 
 const mapActionsToProps = {
     logoutUser, getNutritionMission, getNutritionActivityIdMission, coreBalance, getExerciserActivity, setIntensityFromExArticleTemplate, setTeachUserExercise,
-    setTeachUserExArticleTemplate, setTeachUserExerciseProgram, getTeachUserExercise, getTeachUserExArtTemp, getTeachUserExerciseProgram
+    setTeachUserExArticleTemplate, setTeachUserExerciseProgram, getTeachUserExercise, getTeachUserExArtTemp, getTeachUserExerciseProgram, updateReadExerciserActivity
 };
 
 export default connect(
