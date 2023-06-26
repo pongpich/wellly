@@ -65,7 +65,7 @@ class Continuous extends Component {
         return (
             <View style={styles.scrollViewbox} >
                 {
-                    this.renderImg('Exercise_w_8', 'md')
+                    this.renderImg('Exercise_w_9', 'md')
                 }
                 <Text style={styles.title}>
                     Stay active, Stay healthy
