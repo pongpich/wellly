@@ -1431,6 +1431,7 @@ class Home extends Component {
               <ScrollView
                 horizontal={true}
                 showsVerticalScrollIndicator={false}
+                showsHorizontalScrollIndicator={false}
               >
                 <View
                   style={{
