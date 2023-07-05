@@ -1,17 +1,25 @@
 //ชุด A
-const primaryPersianBlue = "#3762FC";
-const primarySecondaryBlue = "#D7E0FE";
-const secondarySecondary_MayaBlue = "#59CBE4";
+const primaryPersianBlue = "#3762FC"; //primary
+const primaryBlueSecondary = "#D7E0FE"; //primarySecondary
+const secondarySecondary_MayaBlue = "#59CBE4"; //secondary
+const secondarySecondary_MayaBlueSecondary = "#DEF5FA"; //secondaryOfSecondary
 
 //ชุด A
-const primaryRed = "#D31E47";
-const primarySecondaryRed = "#FCD1DA";
-const secondaryYellow = "#DFA269";
+const primaryRed = "#D31E47"; //primary
+const primaryRedSecondary = "#FCD1DA"; //primarySecondary
+const secondaryYellow = "#DFA269"; //secondary
+const secondaryYellowSecondary = "#FBE6D4"; //secondaryOfSecondary
 
 export default {
-  primary: primaryRed, //สีหลัก
-  primarySecondary: primarySecondaryRed,
+  /*   primary: primaryRed, //สีหลัก
+  primarySecondary: primaryRedSecondary,
   secondary: secondaryYellow,
+  secondaryOfSecondary: secondaryYellowSecondary, */
+  primary: primaryPersianBlue, //สีหลัก
+  primaryBackgroundLogin: secondarySecondary_MayaBlue, //BackgroundLogin
+  primarySecondary: primaryBlueSecondary,
+  secondary: secondarySecondary_MayaBlue,
+  secondaryOfSecondary: secondarySecondary_MayaBlueSecondary,
 
   persianBlue: "#3762FC",
   persianBlue60: "#87A1FD",

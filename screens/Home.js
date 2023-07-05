@@ -888,7 +888,7 @@ class Home extends Component {
                                   latest_nutrition_activity &&
                                   latest_nutrition_activity.heading &&
                                   latest_nutrition_activity.short_content
-                                    ? colors.mayaBlue20
+                                    ? colors.secondaryOfSecondary
                                     : "#D4E0F0",
                               },
                             ]}
@@ -896,7 +896,7 @@ class Home extends Component {
                             <Text
                               style={[
                                 styles.number,
-                                { color: colors.mayaBlue },
+                                { color: colors.secondary },
                               ]}
                             >
                               {latest_nutrition_activity &&
@@ -998,13 +998,13 @@ class Home extends Component {
                                 latest_nutrition_activity &&
                                 latest_nutrition_activity.heading &&
                                 latest_nutrition_activity.short_content
-                                  ? colors.mayaBlue20
+                                  ? colors.secondaryOfSecondary
                                   : "#D4E0F0",
                             },
                           ]}
                         >
                           <Text
-                            style={[styles.number, { color: colors.mayaBlue }]}
+                            style={[styles.number, { color: colors.secondary }]}
                           >
                             {latest_nutrition_activity &&
                               latest_nutrition_activity.week_in_program}
@@ -1099,13 +1099,13 @@ class Home extends Component {
                             backgroundColor:
                               latest_exercise_activity.heading &&
                               latest_exercise_activity.short_content
-                                ? colors.persianBlue20
+                                ? colors.primarySecondary
                                 : "#D4E0F0",
                           },
                         ]}
                       >
                         <Text
-                          style={[styles.number, { color: colors.persianBlue }]}
+                          style={[styles.number, { color: colors.primary }]}
                         >
                           {latest_exercise_activity.week_in_program}
                         </Text>
@@ -1384,7 +1384,7 @@ class Home extends Component {
                     styles.mission,
                     statusChart === 1
                       ? { color: colors.white }
-                      : { color: colors.persianBlue },
+                      : { color: colors.primary },
                   ]}
                 >
                   {t("week")}
@@ -1402,7 +1402,7 @@ class Home extends Component {
                     styles.mission,
                     statusChart === 2
                       ? { color: colors.white }
-                      : { color: colors.persianBlue },
+                      : { color: colors.primary },
                   ]}
                 >
                   {t("month")}
@@ -1420,7 +1420,7 @@ class Home extends Component {
                     styles.mission,
                     statusChart === 3
                       ? { color: colors.white }
-                      : { color: colors.persianBlue },
+                      : { color: colors.primary },
                   ]}
                 >
                   {t("year")}
@@ -1475,7 +1475,7 @@ class Home extends Component {
                           style={[
                             styles.leftMonth,
                             selectedMonth === index + 1
-                              ? { color: colors.persianBlue }
+                              ? { color: colors.primary }
                               : null,
                           ]}
                         >{`${this.getThaiMonth(index + 1)}`}</Text>
@@ -1529,7 +1529,7 @@ class Home extends Component {
                           style={[
                             styles.leftMonth,
                             selectedYear === item.value
-                              ? { color: colors.persianBlue }
+                              ? { color: colors.primary }
                               : null,
                           ]}
                         >
@@ -1987,14 +1987,14 @@ const styles = StyleSheet.create({
     height: 37,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: colors.persianBlue,
+    backgroundColor: colors.primary,
     borderRadius: 100,
   },
   programPre: {
     height: 37,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: colors.persianBlue20,
+    backgroundColor: colors.primarySecondary,
     borderRadius: 100,
   },
   missionView: {
@@ -2070,7 +2070,7 @@ const styles = StyleSheet.create({
   leftMonth2: {
     fontSize: ComponentsStyle.fontSize16,
     fontFamily: "IBMPlexSansThai-Bold",
-    color: colors.persianBlue,
+    color: colors.primary,
     marginRight: 14,
   },
   teach_bottom: {

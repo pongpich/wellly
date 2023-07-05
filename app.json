@@ -10,7 +10,7 @@
     "splash": {
       "image": "./assets/splash_wellly3.png",
       "resizeMode": "contain",
-      "backgroundColor": "#D31E47"
+      "backgroundColor": "#59CBE4"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
