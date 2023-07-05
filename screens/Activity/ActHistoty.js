@@ -262,7 +262,7 @@ class ActHistoty extends Component {
                       styles.mission,
                       selected_month === 1
                         ? { color: colors.white }
-                        : { color: colors.persianBlue },
+                        : { color: colors.primary },
                     ]}
                   >
                     {t("jan")}
@@ -285,7 +285,7 @@ class ActHistoty extends Component {
                       styles.mission,
                       selected_month === 2
                         ? { color: colors.white }
-                        : { color: colors.persianBlue },
+                        : { color: colors.primary },
                     ]}
                   >
                     {t("feb")}
@@ -308,7 +308,7 @@ class ActHistoty extends Component {
                       styles.mission,
                       selected_month === 3
                         ? { color: colors.white }
-                        : { color: colors.persianBlue },
+                        : { color: colors.primary },
                     ]}
                   >
                     {t("mar")}
@@ -331,7 +331,7 @@ class ActHistoty extends Component {
                       styles.mission,
                       selected_month === 4
                         ? { color: colors.white }
-                        : { color: colors.persianBlue },
+                        : { color: colors.primary },
                     ]}
                   >
                     {t("apr")}
@@ -354,7 +354,7 @@ class ActHistoty extends Component {
                       styles.mission,
                       selected_month === 5
                         ? { color: colors.white }
-                        : { color: colors.persianBlue },
+                        : { color: colors.primary },
                     ]}
                   >
                     {t("may")}
@@ -377,7 +377,7 @@ class ActHistoty extends Component {
                       styles.mission,
                       selected_month === 6
                         ? { color: colors.white }
-                        : { color: colors.persianBlue },
+                        : { color: colors.primary },
                     ]}
                   >
                     {t("jun")}
@@ -400,7 +400,7 @@ class ActHistoty extends Component {
                       styles.mission,
                       selected_month === 7
                         ? { color: colors.white }
-                        : { color: colors.persianBlue },
+                        : { color: colors.primary },
                     ]}
                   >
                     {t("jul")}
@@ -423,7 +423,7 @@ class ActHistoty extends Component {
                       styles.mission,
                       selected_month === 8
                         ? { color: colors.white }
-                        : { color: colors.persianBlue },
+                        : { color: colors.primary },
                     ]}
                   >
                     {t("aug")}
@@ -446,7 +446,7 @@ class ActHistoty extends Component {
                       styles.mission,
                       selected_month === 9
                         ? { color: colors.white }
-                        : { color: colors.persianBlue },
+                        : { color: colors.primary },
                     ]}
                   >
                     {t("sep")}
@@ -469,7 +469,7 @@ class ActHistoty extends Component {
                       styles.mission,
                       selected_month === 10
                         ? { color: colors.white }
-                        : { color: colors.persianBlue },
+                        : { color: colors.primary },
                     ]}
                   >
                     {t("oct")}
@@ -492,7 +492,7 @@ class ActHistoty extends Component {
                       styles.mission,
                       selected_month === 11
                         ? { color: colors.white }
-                        : { color: colors.persianBlue },
+                        : { color: colors.primary },
                     ]}
                   >
                     {t("nov")}
@@ -515,7 +515,7 @@ class ActHistoty extends Component {
                       styles.mission,
                       selected_month === 12
                         ? { color: colors.white }
-                        : { color: colors.persianBlue },
+                        : { color: colors.primary },
                     ]}
                   >
                     {t("dec")}
@@ -626,7 +626,7 @@ const styles = StyleSheet.create({
   month: {
     fontFamily: "IBMPlexSansThai-Bold",
     fontSize: 16,
-    color: colors.persianBlue,
+    color: colors.primary,
   },
   textyy: {
     fontFamily: "IBMPlexSansThai-Regular",
@@ -640,14 +640,14 @@ const styles = StyleSheet.create({
     height: 37,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: colors.persianBlue,
+    backgroundColor: colors.primary,
     borderRadius: 100,
   },
   programPre: {
     height: 37,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: colors.persianBlue20,
+    backgroundColor: colors.primarySecondary,
     borderRadius: 100,
   },
   mission: {

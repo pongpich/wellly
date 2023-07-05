@@ -1,3 +1,4 @@
+
 {
   "expo": {
     "name": "Wellly",
@@ -9,7 +10,7 @@
     "splash": {
       "image": "./assets/splash_wellly3.png",
       "resizeMode": "contain",
-      "backgroundColor": "#9BE0EF"
+      "backgroundColor": "#D31E47"
     },
     "updates": {
       "fallbackToCacheTimeout": 0

@@ -784,7 +784,6 @@ class Add extends Component {
                                   : require("../../assets/images/activity/Activityhign.png")
                               }
                             />
-
                             <View style={[styles.groupText2, { width: "69%" }]}>
                               <Text style={styles.headText2}>
                                 {languages == "th"

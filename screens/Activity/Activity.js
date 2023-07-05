@@ -453,7 +453,7 @@ const Activity = ({ navigation }) => {
                       styles.mission,
                       statusChart === 1
                         ? { color: colors.white }
-                        : { color: colors.persianBlue },
+                        : { color: colors.primary },
                     ]}
                   >
                     {t("week")}
@@ -471,7 +471,7 @@ const Activity = ({ navigation }) => {
                       styles.mission,
                       statusChart === 2
                         ? { color: colors.white }
-                        : { color: colors.persianBlue },
+                        : { color: colors.primary },
                     ]}
                   >
                     {t("month")}
@@ -489,7 +489,7 @@ const Activity = ({ navigation }) => {
                       styles.mission,
                       statusChart === 3
                         ? { color: colors.white }
-                        : { color: colors.persianBlue },
+                        : { color: colors.primary },
                     ]}
                   >
                     {t("year")}
@@ -536,7 +536,7 @@ const Activity = ({ navigation }) => {
                             style={[
                               styles.leftMonth,
                               selectedMonth === index + 1
-                                ? { color: colors.persianBlue }
+                                ? { color: colors.primary }
                                 : null,
                             ]}
                           >{`${getThaiMonth(index + 1)}`}</Text>
@@ -582,7 +582,7 @@ const Activity = ({ navigation }) => {
                             style={[
                               styles.leftMonth,
                               selectedYear === item.value
-                                ? { color: colors.persianBlue }
+                                ? { color: colors.primary }
                                 : null,
                             ]}
                           >
@@ -823,7 +823,7 @@ const Activity = ({ navigation }) => {
                       styles.mission,
                       statusMission === true
                         ? { color: colors.white }
-                        : { color: colors.persianBlue },
+                        : { color: colors.primary },
                     ]}
                   >
                     {t("exercise_pro")}
@@ -953,7 +953,7 @@ const styles = StyleSheet.create({
   number: {
     fontSize: ComponentsStyle.fontSize20,
     fontFamily: "IBMPlexSansThai-Bold",
-    color: colors.persianBlue,
+    color: colors.primary,
   },
   numberView: {
     justifyContent: "center",
@@ -999,14 +999,14 @@ const styles = StyleSheet.create({
     height: 37,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: colors.persianBlue,
+    backgroundColor: colors.primary,
     borderRadius: 100,
   },
   programPre: {
     height: 37,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: colors.persianBlue20,
+    backgroundColor: colors.primarySecondary,
     borderRadius: 100,
   },
   boxChart: {
@@ -1078,7 +1078,7 @@ const styles = StyleSheet.create({
   leftMonth2: {
     fontSize: ComponentsStyle.fontSize16,
     fontFamily: "IBMPlexSansThai-Bold",
-    color: colors.persianBlue,
+    color: colors.primary,
     marginRight: 14,
   },
 });
