@@ -22,6 +22,9 @@ const TestGPS = () => {
             <Pressable onPress={() => navigation.navigate('Home')}>
                 <Text style={styles.reportChallenge}>{`Home`}</Text>
             </Pressable>
+            <Pressable onPress={() => navigation.navigate('Home')}>
+                <Text style={styles.reportChallenge}>{`WELLLY APP (WEB VIEW PAGE)`}</Text>
+            </Pressable>
             <WebView source={{ uri: 'https://platform.bebefitroutine.com/#/test_gps' }} />
         </View>
     );
