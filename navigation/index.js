@@ -4,6 +4,7 @@ import { NavigationContainer, useNavigation, useFocusEffect } from '@react-navig
 import { createStackNavigator, CardStyleInterpolators, TransitionSpecs, TransitionPresets } from '@react-navigation/stack';
 import Login from '../screens/Login';
 import TestGPS from '../screens/TestGPS';
+import TestGPS2 from '../screens/TestGPS2';
 import Register from '../screens/Register';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import ForgotPassword from '../screens/ForgotPassword';
@@ -297,6 +298,7 @@ function MyStack(props) {
 
       <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} initialRouteName="Login" />
       <Stack.Screen name="TestGPS" component={TestGPS} options={{ headerShown: false }} initialRouteName="TestGPS" />
+      <Stack.Screen name="TestGPS2" component={TestGPS2} options={{ headerShown: false }} initialRouteName="TestGPS2" />
       <Stack.Screen name="Register" component={Register} initialRouteName="Register" options={{ headerShown: false }}
       />
       <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{
