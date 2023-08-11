@@ -3,10 +3,13 @@ import { View, StyleSheet, Pressable, Text, Button } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { useNavigation } from '@react-navigation/native';
 import * as Permissions from 'expo-permissions';
+import * as Location from 'expo-location';
 
 const TestGPS = () => {
     const navigation = useNavigation();
     const [locationPermission, setLocationPermission] = useState(null);
+    const [Lat, setLat] = useState("");
+    const [Long, setLong] = useState("");
 
     useEffect(() => {
         getLocationPermission();
@@ -17,7 +20,24 @@ const TestGPS = () => {
         setLocationPermission(status);
     };
 
-    
+    const getLocation = async () => {
+        if (locationPermission === 'granted') {
+            try {
+                const { coords } = await Location.getCurrentPositionAsync({});
+                const { latitude, longitude } = coords;
+                console.log('Latitude:', latitude);
+                setLat(latitude);
+                console.log('Longitude:', longitude);
+                setLong(longitude);
+            } catch (error) {
+                console.error('Error getting location:', error);
+            }
+        } else {
+            console.log('Location permission denied.');
+        }
+    };
+
+
 
     return (
         <View style={styles.container}>
@@ -43,7 +63,9 @@ const TestGPS = () => {
 
             <View>
                 <Text>Location Permission: {locationPermission}</Text>
-                <Button title="Get Location" onPress={getLocationPermission} />
+                <Button title="Get Location" onPress={getLocation} />
+                <Text>Lat from App: {Lat}</Text>
+                <Text>Long from  App: {Long}</Text>
             </View>
 
             <WebView
