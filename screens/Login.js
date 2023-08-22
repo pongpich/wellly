@@ -15,6 +15,7 @@ import {
   Keyboard,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
+  ActivityIndicator
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { loginUser } from "../redux/auth";
@@ -156,7 +157,7 @@ class Login extends Component {
       isFocused,
       isFocused2,
     } = this.state;
-    const { t } = this.props;
+    const { t, status } = this.props;
     const handleFocus = () => this.setState({ isFocused: true });
     const handleBlur = () => this.outHandleBlur();
     const handleFocus2 = () => this.setState({ isFocused2: true });
@@ -169,6 +170,13 @@ class Login extends Component {
         start={{ x: 1, y: 0 }}
         end={{ x: 1, y: 1 }}
       >
+        {
+          (status === "loading") &&
+          <View style={{ alignItems: 'center', justifyContent: "center", height: "100%", width: "100%", position: "absolute", zIndex: 50, backgroundColor: colors.grey1, opacity: 0.8 }}>
+            <ActivityIndicator size="large" color="#59CBE4" style={{ transform: [{ scaleX: 2 }, { scaleY: 2 }] }} />
+          </View>
+        }
+
         <View style={{ height: "100%", justifyContent: "center" }}>
           <KeyboardAvoidingView
             style={styles.container}
@@ -301,6 +309,7 @@ class Login extends Component {
                   </View>
 
                   <View style={styles.buttonTop}>
+
                     <Pressable
                       style={ComponentsStyle.button}
                       onPress={() => this.submitLogin()}
@@ -309,6 +318,7 @@ class Login extends Component {
                         {t("login")}
                       </Text>
                     </Pressable>
+
                     <View style={styles.buttonForgotPassword}>
                       <Pressable
                         onPress={() =>
