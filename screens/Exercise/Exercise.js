@@ -986,7 +986,7 @@ const Exercise = ({ navigation }) => {
                 </>
               ) : (
                 <>
-                  {allTrainingSet == false ? (
+                  {allTrainingSet ? (
                     allTrainingSet &&
                     allTrainingSet.map((item, i) => {
                       return (
