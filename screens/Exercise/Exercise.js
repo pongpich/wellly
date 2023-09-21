@@ -872,7 +872,17 @@ const Exercise = ({ navigation }) => {
                   </Pressable>
                 )}
               </>
-            ) : null}
+            ) : (
+              <View style={styles.imptyImage2}>
+                <Image
+                  style={{ height: 84, width: 120, zIndex: 1 }}
+                  source={require("../../assets/images/exercise/Empty_State.png")}
+                />
+                <Text style={styles.imptyTextHead}>
+                  {t("no_missions_time")}
+                </Text>
+              </View>
+            )}
           </View>
         </View>
       </Animated.View>
@@ -1713,6 +1723,12 @@ const styles = StyleSheet.create({
   imptyImage: {
     justifyContent: "center",
     alignItems: "center",
+  },
+  imptyImage2: {
+    marginTop: "50%",
+    marginLeft: "50%",
+    position: "absolute",
+    transform: [{ translateX: -50 }, { translateY: -50 }],
   },
   imptyTextHead: {
     marginTop: 8,
