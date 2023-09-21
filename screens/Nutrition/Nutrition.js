@@ -132,7 +132,7 @@ const Nutrition = ({ navigation }) => {
       //dispatch(getTeachUserNutrition((user && user.user_id)));
       dispatch(getNutritionActivity(user && user.user_id));
 
-      const week_program_user = calculateWeekInProgram(user.start_date);
+      const week_program_user = calculateWeekInProgram(user && user.start_date);
       if (week_program_user) {
         setWeek_program_user(week_program_user);
       }

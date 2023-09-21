@@ -280,7 +280,7 @@ const Exercise = ({ navigation }) => {
   useEffect(() => {
     if (statusExerciserActivity === "success") {
       //setExerciser_activity(exerciserActivity);
-      const week_program_user = calculateWeekInProgram(user.start_date);
+      const week_program_user = calculateWeekInProgram(user && user.start_date);
       if (week_program_user) {
         setWeek_program_user(week_program_user);
       }
@@ -846,7 +846,7 @@ const Exercise = ({ navigation }) => {
               </Pressable>
             </View>
 
-            {statusMission === true ? (
+            {statusMission === true && (
               <>
                 {exerciserActivity && exerciserActivity.length > 0 ? (
                   <Pressable
@@ -872,16 +872,6 @@ const Exercise = ({ navigation }) => {
                   </Pressable>
                 )}
               </>
-            ) : (
-              <View style={styles.imptyImage2}>
-                <Image
-                  style={{ height: 84, width: 120, zIndex: 1 }}
-                  source={require("../../assets/images/exercise/Empty_State.png")}
-                />
-                <Text style={styles.imptyTextHead}>
-                  {t("no_missions_time")}
-                </Text>
-              </View>
             )}
           </View>
         </View>
@@ -996,7 +986,7 @@ const Exercise = ({ navigation }) => {
                 </>
               ) : (
                 <>
-                  {allTrainingSet && allTrainingSet ? (
+                  {allTrainingSet ? (
                     allTrainingSet &&
                     allTrainingSet.map((item, i) => {
                       return (
@@ -1036,14 +1026,16 @@ const Exercise = ({ navigation }) => {
                       );
                     })
                   ) : (
-                    <View style={styles.imptyImage}>
-                      <Image
-                        style={{ height: 84, width: 120, zIndex: 1 }}
-                        source={require("../../assets/images/exercise/Empty_State.png")}
-                      />
-                      <Text style={styles.imptyTextHeadProgram}>
-                        {t("workout_programs")}
-                      </Text>
+                    <View style={styles.rowProgram}>
+                      <View style={styles.imptyImage2}>
+                        <Image
+                          style={{ height: 84, width: 120, zIndex: 1 }}
+                          source={require("../../assets/images/exercise/Empty_State.png")}
+                        />
+                        <Text style={styles.imptyTextHeadProgram2}>
+                          {t("no_missions_time")}
+                        </Text>
+                      </View>
                     </View>
                   )}
                 </>
@@ -1725,9 +1717,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   imptyImage2: {
-    marginTop: "50%",
+    width: "100%",
+    marginTop: "40%",
     marginLeft: "50%",
-    position: "absolute",
     transform: [{ translateX: -50 }, { translateY: -50 }],
   },
   imptyTextHead: {
@@ -1778,6 +1770,15 @@ const styles = StyleSheet.create({
     fontFamily: "IBMPlexSansThai-Bold",
     width: "80%",
     textAlign: "center",
+  },
+  imptyTextHeadProgram2: {
+    marginTop: 8,
+    color: colors.grey2,
+    fontSize: ComponentsStyle.fontSize16,
+    fontFamily: "IBMPlexSansThai-Bold",
+    width: "100%",
+    marginLeft: -16,
+    /*  textAlign: "center", */
   },
   centeredView: {
     flex: 1,
