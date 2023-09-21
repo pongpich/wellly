@@ -986,7 +986,7 @@ const Exercise = ({ navigation }) => {
                 </>
               ) : (
                 <>
-                  {allTrainingSet ? (
+                  {allTrainingSet == false ? (
                     allTrainingSet &&
                     allTrainingSet.map((item, i) => {
                       return (
@@ -1778,7 +1778,6 @@ const styles = StyleSheet.create({
     fontFamily: "IBMPlexSansThai-Bold",
     width: "100%",
     marginLeft: -16,
-    /*  textAlign: "center", */
   },
   centeredView: {
     flex: 1,
