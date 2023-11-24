@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import Chevron from "../../assets/images/home/Chevron.png";
 
@@ -16,21 +16,30 @@ const MyWebView = () => {
   const [forceRender, setForceRender] = useState(false);
   const webViewRef = useRef(null);
   const navigation = useNavigation();
+  const [currentUrl, setCurrentUrl] = useState("");
+  const randomKey = Math.random().toString(36).substring(7);
+  const uriWithRandomKey = `https://wellly.planforfit.com/`;
+
+  // ...
 
   const goBack = () => {
     navigation.goBack();
   };
 
-  const [currentUrl, setCurrentUrl] = useState("");
+  const reloadWebView = () => {
+    if (webViewRef.current) {
+      webViewRef.current.reload();
+    }
+  };
 
   const handleNavigationStateChange = (navState) => {
     setCurrentUrl(navState.url);
   };
 
-  console.log("currentUrl", currentUrl);
+  console.log("currentUrl", uriWithRandomKey);
   return (
     <View style={styles.container}>
-      {currentUrl == "https://wellly.planforfit.com/" && (
+      {currentUrl == uriWithRandomKey && (
         <TouchableOpacity onPress={goBack} style={styles.goBack}>
           <Image
             style={{
@@ -45,9 +54,9 @@ const MyWebView = () => {
       <WebView
         key={forceRender}
         ref={webViewRef}
-        source={{ uri: "https://wellly.planforfit.com", cacheMode: "no-cache" }}
+        source={{ uri: uriWithRandomKey }}
         onNavigationStateChange={handleNavigationStateChange}
-        style={styles.webview}
+        style={currentUrl == uriWithRandomKey && styles.webview}
       />
     </View>
   );

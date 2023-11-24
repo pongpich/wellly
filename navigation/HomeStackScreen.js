@@ -190,28 +190,7 @@ function HomeStackScreen() {
         component={WebView}
         options={{ headerShown: false }}
       />
-      <HomeStack.Screen
-        name="MyHealth"
-        component={MyHealth}
-        options={({ route, navigation }) => ({
-          title: "",
-          headerStyle: {
-            backgroundColor: colors.white,
-          },
-          showLabel: false,
-          headerShadowVisible: false,
-          headerLeft: () => (
-            <View style={{ marginLeft: 16 }}>
-              <TouchableOpacity onPress={() => navigation.pop()}>
-                <Image
-                  style={{ width: 24, height: 24 }}
-                  source={require("../assets/images/icon/caret.png")}
-                />
-              </TouchableOpacity>
-            </View>
-          ),
-        })}
-      />
+
       <HomeStack.Screen
         name="Badge"
         component={Badge}

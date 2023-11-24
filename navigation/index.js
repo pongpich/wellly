@@ -534,7 +534,7 @@ function getBottomTabse(route) {
   if (routeName == "ExAddActivity") {
     return "none";
   }
-  if (routeName == "MyHealth") {
+  if (routeName == "WebView") {
     return "none";
   }
 

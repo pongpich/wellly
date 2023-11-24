@@ -23,7 +23,6 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Button,
-
 } from "react-native";
 import { logoutUser, loginUser } from "../redux/auth";
 import {
