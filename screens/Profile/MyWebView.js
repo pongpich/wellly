@@ -41,6 +41,7 @@ const MyWebView = () => {
         <TouchableOpacity onPress={goBack} style={styles.goBack}>
           <Image
             style={{
+              marginTop: -8,
               width: 24,
               height: 24,
             }}
@@ -72,7 +73,7 @@ const styles = StyleSheet.create({
     paddingTop: 16,
   },
   webview: {
-    marginTop: -40,
+    marginTop: -48,
   },
 });
 
