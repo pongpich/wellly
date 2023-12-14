@@ -37,7 +37,7 @@ const MyWebView = () => {
 
   return (
     <View style={styles.container}>
-      {backApp == "/" && (
+      {(backApp === "/" || backApp === "") && (
         <TouchableOpacity onPress={goBack} style={styles.goBack}>
           <Image
             style={{
@@ -51,8 +51,8 @@ const MyWebView = () => {
       <WebView
         key={forceRender}
         ref={webViewRef}
-        source={{ uri: `${uriWithRandomKey1}?params=${params}` }}
-        style={backApp == "/" && styles.webview}
+        source={{ uri: `${uriWithRandomKey}?params=${params}` }}
+        style={backApp === "/" || backApp === "" ? styles.webview : {}}
         onMessage={handleMessage}
       />
     </View>
