@@ -71,9 +71,7 @@ const TestGPS = () => {
       </View>
 
       {shouldLoadWebView && (
-        <WebView
-          source={{ uri: "https://platform.bebefitroutine.com/#/test_gps" }}
-        />
+        <WebView source={{ uri: "https://wellly.planforfit.com" }} />
       )}
     </View>
   );

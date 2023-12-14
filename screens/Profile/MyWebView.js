@@ -16,30 +16,28 @@ const MyWebView = () => {
   const [forceRender, setForceRender] = useState(false);
   const webViewRef = useRef(null);
   const navigation = useNavigation();
-  const [currentUrl, setCurrentUrl] = useState("");
-  const randomKey = Math.random().toString(36).substring(7);
-  const uriWithRandomKey = `https://wellly.planforfit.com/`;
 
+  const [backApp, setBackApp] = useState(null);
+  const randomKey = Math.random().toString(36).substring(7);
+  const uriWithRandomKey = `https://wellly.planforfit.com`;
+  const uriWithRandomKey1 = `http://localhost:3000/#/`;
+  const params = "tha-0012";
   // ...
 
   const goBack = () => {
     navigation.goBack();
   };
 
-  const reloadWebView = () => {
-    if (webViewRef.current) {
-      webViewRef.current.reload();
-    }
+  const handleMessage = (event) => {
+    console.log("event", event);
+    const data = event.nativeEvent.data; /* .nativeEvent.data */
+    setBackApp(data);
+    // ทำตามต้องการกับข้อมูลที่ได้รับจาก WebView
   };
 
-  const handleNavigationStateChange = (navState) => {
-    setCurrentUrl(navState.url);
-  };
-
-  console.log("currentUrl", uriWithRandomKey);
   return (
     <View style={styles.container}>
-      {currentUrl == uriWithRandomKey && (
+      {backApp == "/" && (
         <TouchableOpacity onPress={goBack} style={styles.goBack}>
           <Image
             style={{
@@ -50,13 +48,12 @@ const MyWebView = () => {
           />
         </TouchableOpacity>
       )}
-
       <WebView
         key={forceRender}
         ref={webViewRef}
-        source={{ uri: uriWithRandomKey }}
-        onNavigationStateChange={handleNavigationStateChange}
-        style={currentUrl == uriWithRandomKey && styles.webview}
+        source={{ uri: `${uriWithRandomKey1}?params=${params}` }}
+        style={backApp == "/" && styles.webview}
+        onMessage={handleMessage}
       />
     </View>
   );
@@ -75,7 +72,7 @@ const styles = StyleSheet.create({
     paddingTop: 16,
   },
   webview: {
-    marginTop: -48,
+    marginTop: -40,
   },
 });
 

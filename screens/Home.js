@@ -1366,14 +1366,12 @@ class Home extends Component {
             </View>
           )}
 
-          {user && user.email === "akkewach@planforfit.com" && (
-            <Pressable
-              onPress={() => this.props.navigation.navigate("TestGPS")}
-            >
-              <Text style={styles.reportChallenge}>{`TestGPS`}</Text>
-            </Pressable>
-          )}
-
+          {/*   {user && user.email === "akkewach@planforfit.com" && ( */}
+          <Pressable onPress={() => this.props.navigation.navigate("TestGPS")}>
+            <Text style={styles.reportChallenge}>{`TestGPS`}</Text>
+          </Pressable>
+          {/*   )}
+           */}
           <Text style={styles.reportChallenge}>{t("activity_report")}</Text>
           <View
             style={{
