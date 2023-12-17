@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import Chevron from "../../assets/images/home/Chevron.png";
-
+import { useSelector, useDispatch } from "react-redux";
 import { WebView } from "react-native-webview";
 import {
   SafeAreaView,
@@ -16,6 +16,7 @@ const MyWebView = () => {
   const [forceRender, setForceRender] = useState(false);
   const webViewRef = useRef(null);
   const navigation = useNavigation();
+  const user = useSelector(({ authUser }) => (authUser ? authUser.user : ""));
 
   const [backApp, setBackApp] = useState(null);
   const randomKey = Math.random().toString(36).substring(7);
@@ -35,6 +36,8 @@ const MyWebView = () => {
     // ทำตามต้องการกับข้อมูลที่ได้รับจาก WebView
   };
 
+  console.log("user", user.user_id);
+
   return (
     <View style={styles.container}>
       {(backApp === "/" || backApp === "") && (
@@ -52,7 +55,7 @@ const MyWebView = () => {
       <WebView
         key={forceRender}
         ref={webViewRef}
-        source={{ uri: `${uriWithRandomKey}?params=${params}` }}
+        source={{ uri: `${uriWithRandomKey1}?params=${user.user_id}` }}
         style={backApp === "/" || backApp === "" ? styles.webview : {}}
         onMessage={handleMessage}
       />
