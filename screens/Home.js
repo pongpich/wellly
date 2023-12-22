@@ -61,6 +61,11 @@ import "../languages/i18n"; //ใช้สำหรับ 2ภาษา
 import Constants from "expo-constants";
 import { StackActions } from "@react-navigation/native";
 
+import garmin_run from "../assets/images/icon/garmin_run.png";
+import dateIcon from "../assets/images/icon/🗓️.png";
+import Distance from "../assets/images/icon/Distance.png";
+import Foot_step from "../assets/images/icon/Foot_step.png";
+
 import i18next from "i18next";
 
 import {
@@ -79,6 +84,7 @@ class Home extends Component {
   constructor(props) {
     super(props);
     this.animatedValue = new Animated.Value(0);
+    this.scrollViewRef = React.createRef();
     this.state = {
       latest_nutrition_activity: {},
       latest_exercise_activity: {},
@@ -89,6 +95,7 @@ class Home extends Component {
         moderateDuration: 0,
         virgorousDuration: 0,
       },
+      currentIndex: 0,
       month: 1,
       selectedMonth: 1,
       labelsWeek: ["สัปดาห์ที่แล้ว", "สัปดาห์นี้"],
@@ -416,11 +423,26 @@ class Home extends Component {
          } */
 
     // this.props.routeName(null); // ถ้าเข้าให้ home ให้ทำคำสั่งนี้ 1 ครั้ง
+    if (this.scrollViewRef.current) {
+      this.interval = setInterval(() => {
+        const { currentIndex } = this.state;
+        this.scrollViewRef.current.scrollTo({
+          x: (currentIndex + 1) * 256,
+          animated: true,
+        });
+        if (currentIndex > 4) {
+          this.setState({ currentIndex: 0 - 1 });
+        } else {
+          this.setState({ currentIndex: currentIndex + 1 });
+        }
+      }, 6000);
+    }
   }
 
   componentWillUnmount() {
     this._unsubscribe();
     BackHandler.removeEventListener("hardwareBackPress", this.handleBackPress);
+    clearInterval(this.interval);
   }
 
   /* 
@@ -795,6 +817,11 @@ class Home extends Component {
     const heightDevice = Dimensions.get("window").height;
 
     const { t } = this.props;
+    const data = ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5"];
+    /*   const handlePageChange = (newIndex) => {
+      scrollViewRef.current.scrollTo({ x: newIndex * 256, animated: true });
+      setCurrentIndex(newIndex);
+    }; */
 
     return (
       <View
@@ -826,14 +853,13 @@ class Home extends Component {
                     {t("hello")} {user && user.display_name}
                   </Text>
 
-                  <Text style={styles.content}>{t("mission_this_week")}</Text>
+                  {/*  <Text style={styles.content}>{t("mission_this_week")}</Text>
                   <Pressable
                     onPress={() => this.props.navigation.navigate("WebView")}
                   >
                     <Text>get WebView</Text>
-                  </Pressable>
+                  </Pressable> */}
                 </View>
-
                 <View style={{ marginRight: 8 }}>
                   <Pressable
                     onPress={() => this.props.navigation.navigate("Profile")}
@@ -846,6 +872,121 @@ class Home extends Component {
                   </Pressable>
                 </View>
               </View>
+              <View style={styles.elevationBetween}>
+                <Text style={styles.elevationText}>กิจกรรม</Text>
+                <Pressable
+                  onPress={() => this.props.navigation.navigate("WebView")}
+                >
+                  <Text style={styles.viewAll}>ดูทั้งหมด</Text>
+                </Pressable>
+              </View>
+              <ScrollView
+                /*  ref={this.scrollViewRef} */
+                horizontal
+                pagingEnabled
+                showsHorizontalScrollIndicator={false}
+                /*     onScroll={(event) => {
+                  const offsetX = event.nativeEvent.contentOffset.x;
+                  const index = Math.round(offsetX / 256);
+                  this.setState({ currentIndex: index });
+                }} */
+              >
+                {data &&
+                  data.map((item, index) => (
+                    <View
+                      key={index}
+                      style={[
+                        styles.itemContainer,
+                        index === data.length - 1 && { marginRight: 16 },
+                        index === 0 && { marginLeft: 16 },
+                      ]}
+                    >
+                      <Image
+                        style={{
+                          height: 144,
+                          width: "100%",
+                          zIndex: 1,
+                          marginRight: 8,
+                          borderTopLeftRadius: 16,
+                          borderTopRightRadius: 16,
+                        }}
+                        source={garmin_run}
+                      />
+                      <Text
+                        numberOfLines={2}
+                        ellipsizeMode="tail"
+                        style={styles.itemText}
+                      >
+                        วิ่งเก็บระยะทางมาราธอน 10 ชั่วโมง ประจำปี 2566 ของ ABCD
+                        วิ่งเก็บระยะทางมาราธอน 10 ชั่วโมง ประจำปี 2566 ของ ABCD
+                      </Text>
+                      <View style={styles.boxEv}>
+                        <View style={styles.boxRow}>
+                          <Image
+                            style={{
+                              height: 16,
+                              width: 16,
+                              zIndex: 1,
+                              marginRight: 8,
+                            }}
+                            source={dateIcon}
+                          />
+                          <Text>1 ม.ค. - 30 ม.ค. 2566</Text>
+                        </View>
+                        <View style={styles.boxRow2}>
+                          <View style={styles.boxRow}>
+                            <Image
+                              style={{
+                                height: 16,
+                                width: 16,
+                                zIndex: 1,
+                                marginRight: 8,
+                              }}
+                              source={Foot_step}
+                            />
+                            <Text style={styles.stepNumber}>1500</Text>
+                          </View>
+                          <Text style={styles.stepMax}>400,000 ก้าว</Text>
+                        </View>
+                        <View style={styles.progressBar}>
+                          <View
+                            style={{
+                              width: "50%",
+                              height: 8,
+                              borderRadius: 16,
+                              backgroundColor: colors.persianBlue, // สีของ ProgressBar
+                            }}
+                          />
+                        </View>
+                        <View style={styles.boxRow2}>
+                          <View style={styles.boxRow}>
+                            <Image
+                              style={{
+                                height: 16,
+                                width: 16,
+                                zIndex: 1,
+                                marginRight: 8,
+                              }}
+                              source={Foot_step}
+                            />
+                            <Text style={styles.stepNumber}>400</Text>
+                          </View>
+                          <Text style={styles.stepMax}>1,000 กิโลเมตร</Text>
+                        </View>
+                        <View style={styles.progressBar}>
+                          <View
+                            style={{
+                              width: "50%",
+                              height: 8,
+                              borderRadius: 16,
+                              backgroundColor: colors.persianBlue, // สีของ ProgressBar
+                            }}
+                          />
+                        </View>
+                      </View>
+                    </View>
+                  ))}
+              </ScrollView>
             </View>
           </ImageBackground>
 
@@ -2089,6 +2230,76 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     fontFamily: "IBMPlexSansThai-Regular",
     color: colors.grey3,
+  },
+  elevationBetween: {
+    marginTop: 38,
+    paddingLeft: 16,
+    paddingRight: 16,
+    width: "100%",
+    flexDirection: "row",
+    position: "relative",
+    display: "flex",
+    justifyContent: "space-between",
+  },
+  elevationText: {
+    color: colors.grey1,
+    fontFamily: "IBMPlexSansThai-Bold",
+    fontSize: 24,
+  },
+  viewAll: {
+    fontFamily: "IBMPlexSansThai-Regular",
+    color: colors.persianBlue,
+    fontSize: 16,
+  },
+  itemContainer: {
+    width: 256, // Adjust the width as needed
+    height: 344, // Adjust the height as needed
+    backgroundColor: colors.white,
+    marginTop: 16,
+    marginHorizontal: 8,
+    borderRadius: 16,
+  },
+  itemText: {
+    fontSize: 16,
+    fontFamily: "IBMPlexSansThai-Bold",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    /*    margin: 16, */
+    marginHorizontal: 16,
+    marginTop: 16,
+  },
+  boxEv: {
+    marginTop: 12,
+    paddingHorizontal: 16,
+  },
+  boxRow: {
+    flexDirection: "row",
+    position: "relative",
+    display: "flex",
+  },
+  boxRow2: {
+    marginTop: 12,
+    flexDirection: "row",
+    position: "relative",
+    display: "flex",
+    justifyContent: "space-between",
+  },
+  stepNumber: {
+    fontSize: 12,
+    fontFamily: "IBMPlexSansThai-Bold",
+    color: colors.persianBlue,
+  },
+  stepMax: {
+    fontSize: 14,
+    fontFamily: "IBMPlexSansThai-Regular",
+    color: colors.grey2,
+  },
+  progressBar: {
+    width: "100%",
+    height: 8,
+    backgroundColor: colors.grey6,
+    borderRadius: 16,
+    zIndex: 0,
   },
 });
 
