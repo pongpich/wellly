@@ -446,7 +446,10 @@ class Home extends Component {
           x: (currentIndex + 1) * 256,
           animated: true,
         });
-        if (currentIndex > this.state.eventUser.length - 1) {
+        if (
+          currentIndex > this.state.eventUser &&
+          this.state.eventUser.length - 1
+        ) {
           this.setState({ currentIndex: 0 - 1 });
         } else {
           this.setState({ currentIndex: currentIndex + 1 });
