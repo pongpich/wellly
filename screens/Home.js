@@ -805,76 +805,67 @@ class Home extends Component {
   };
 
   renderActivityDetails = (item, tickData, foundItemUser, index) => {
+    const { eventUser } = this.state;
+    let tickId =
+      eventUser && eventUser.some((user) => user.event_id == item.id);
     return (
-      <View
-        key={index}
-        style={[
-          styles.itemContainer,
-          index === foundItemUser.length - 1 && { marginRight: 16 },
-          index === 0 && { marginLeft: 16 },
-        ]}
-      >
+      <Pressable onPress={() => this.props.navigation.navigate("WebView")}>
         <View
-          style={{
-            backgroundColor: colors.positive1,
-            height: 144,
-            width: "100%",
-            marginRight: 8,
-            borderTopLeftRadius: 16,
-            borderTopRightRadius: 16,
-            position: "relative",
-          }}
+          key={index}
+          style={[
+            styles.itemContainer,
+            index === foundItemUser &&
+              foundItemUser.length - 1 && { marginRight: 16 },
+            index === 0 && { marginLeft: 16 },
+          ]}
         >
-          {tickData && (
-            <Image
-              style={{
-                height: 21,
-                width: 30,
-                zIndex: 100,
-                marginRight: 8,
-                position: "absolute",
-                top: "50%", // ให้ตำแหน่งของ top อยู่ที่ 50% ของพื้นที่ที่ถูกตั้ง
-                left: "50%", // ให้ตำแหน่งของ left อยู่ที่ 50% ของพื้นที่ที่ถูกตั้ง
-                transform: [{ translateX: -15 }, { translateY: -10 }], // ปรับตำแหน่งให้อยู่กลาง
-              }}
-              source={tick3x}
-            />
-          )}
-
-          <Image
+          <View
             style={{
+              backgroundColor: colors.positive1,
               height: 144,
               width: "100%",
-              zIndex: 1,
               marginRight: 8,
               borderTopLeftRadius: 16,
               borderTopRightRadius: 16,
-              opacity: tickData ? 0.5 : 1,
+              position: "relative",
             }}
-            source={{
-              uri: item && item.cover_Image.replace("http://", "https://"),
-            }}
-          />
-        </View>
+          >
+            {tickData && (
+              <Image
+                style={{
+                  height: 21,
+                  width: 30,
+                  zIndex: 100,
+                  marginRight: 8,
+                  position: "absolute",
+                  top: "50%", // ให้ตำแหน่งของ top อยู่ที่ 50% ของพื้นที่ที่ถูกตั้ง
+                  left: "50%", // ให้ตำแหน่งของ left อยู่ที่ 50% ของพื้นที่ที่ถูกตั้ง
+                  transform: [{ translateX: -15 }, { translateY: -10 }], // ปรับตำแหน่งให้อยู่กลาง
+                }}
+                source={tick3x}
+              />
+            )}
 
-        <Text numberOfLines={2} ellipsizeMode="tail" style={styles.itemText}>
-          {item.event_name}
-        </Text>
-        <View style={styles.boxEv}>
-          <View style={styles.boxRow}>
             <Image
               style={{
-                height: 16,
-                width: 16,
+                height: 144,
+                width: "100%",
                 zIndex: 1,
                 marginRight: 8,
+                borderTopLeftRadius: 16,
+                borderTopRightRadius: 16,
+                opacity: tickData ? 0.5 : 1,
               }}
-              source={dateIcon}
+              source={{
+                uri: item && item.cover_Image.replace("http://", "https://"),
+              }}
             />
+          </View>
 
-            <Text>{this.formattedDate(item.start_date, item.end_date)}</Text>
-          </View>
-          <View style={styles.boxRow2}>
+          <Text numberOfLines={2} ellipsizeMode="tail" style={styles.itemText}>
+            {item.event_name}
+          </Text>
+          <View style={styles.boxEv}>
             <View style={styles.boxRow}>
               <Image
                 style={{
@@ -883,73 +874,119 @@ class Home extends Component {
                   zIndex: 1,
                   marginRight: 8,
                 }}
-                source={Foot_step}
+                source={dateIcon}
               />
-              <Text style={tickData ? styles.stepNumber2 : styles.stepNumber}>
-                {foundItemUser &&
-                  new Intl.NumberFormat("en-US").format(
-                    foundItemUser.walk_step
-                  )}
-              </Text>
+
+              <Text>{this.formattedDate(item.start_date, item.end_date)}</Text>
             </View>
-            <Text style={styles.stepMax}>
-              {new Intl.NumberFormat("en-US").format(item.walk_step)} ก้าว
-            </Text>
-          </View>
-          <View style={styles.progressBar}>
-            <View
-              style={{
-                width: `${
-                  (foundItemUser &&
-                    foundItemUser &&
-                    foundItemUser.walk_step / item.walk_step) * 100
-                }%`,
-                maxWidth: "100%",
-                height: 8,
-                borderRadius: 16,
-                backgroundColor: tickData ? colors.grey3 : colors.persianBlue, // สีของ ProgressBar
-              }}
-            />
-          </View>
-          <View style={styles.boxRow2}>
-            <View style={styles.boxRow}>
-              <Image
-                style={{
-                  height: 16,
-                  width: 16,
-                  zIndex: 1,
-                  marginRight: 8,
-                }}
-                source={Distance}
-              />
-              <Text style={tickData ? styles.stepNumber2 : styles.stepNumber}>
-                {" "}
-                {foundItemUser &&
-                  new Intl.NumberFormat("en-US").format(foundItemUser.distance)}
-              </Text>
-            </View>
-            <Text style={styles.stepMax}>
-              {" "}
-              {new Intl.NumberFormat("en-US").format(item.distance)} กิโลเมตร
-            </Text>
-          </View>
-          <View style={styles.progressBar}>
-            <View
-              style={{
-                width: `${
-                  (foundItemUser &&
-                    foundItemUser &&
-                    foundItemUser.distance / item.distance) * 100
-                }%`,
-                maxWidth: "100%",
-                height: 8,
-                borderRadius: 16,
-                backgroundColor: tickData ? colors.grey3 : colors.persianBlue, // สีของ ProgressBar
-              }}
-            />
+
+            {tickId && (
+              <>
+                {item.criteria_walk_step == "true" && (
+                  <>
+                    <View style={styles.boxRow2}>
+                      <View style={styles.boxRow}>
+                        <Image
+                          style={{
+                            height: 16,
+                            width: 16,
+                            zIndex: 1,
+                            marginRight: 8,
+                          }}
+                          source={Foot_step}
+                        />
+                        <Text
+                          style={
+                            tickData ? styles.stepNumber2 : styles.stepNumber
+                          }
+                        >
+                          {foundItemUser &&
+                            new Intl.NumberFormat("en-US").format(
+                              foundItemUser.walk_step
+                            )}
+                        </Text>
+                      </View>
+                      <Text style={styles.stepMax}>
+                        {new Intl.NumberFormat("en-US").format(item.walk_step)}{" "}
+                        ก้าว
+                      </Text>
+                    </View>
+                    <View style={styles.progressBar}>
+                      <View
+                        style={{
+                          width: `${
+                            (foundItemUser &&
+                              foundItemUser &&
+                              foundItemUser.walk_step / item.walk_step) * 100
+                          }%`,
+                          maxWidth: "100%",
+                          height: 8,
+                          borderRadius: 16,
+                          backgroundColor: tickData
+                            ? colors.grey3
+                            : colors.persianBlue, // สีของ ProgressBar
+                        }}
+                      />
+                    </View>
+                  </>
+                )}
+                {item.criteria_distance == "true" && (
+                  <>
+                    <View style={styles.boxRow2}>
+                      <View style={styles.boxRow}>
+                        <Image
+                          style={{
+                            height: 16,
+                            width: 16,
+                            zIndex: 1,
+                            marginRight: 8,
+                          }}
+                          source={Distance}
+                        />
+                        <Text
+                          style={
+                            tickData ? styles.stepNumber2 : styles.stepNumber
+                          }
+                        >
+                          {" "}
+                          {foundItemUser &&
+                            new Intl.NumberFormat("en-US").format(
+                              foundItemUser.distance
+                            )}
+                        </Text>
+                      </View>
+                      <Text style={styles.stepMax}>
+                        {" "}
+                        {new Intl.NumberFormat("en-US").format(
+                          item.distance
+                        )}{" "}
+                        กิโลเมตร
+                      </Text>
+                    </View>
+                    <View style={styles.progressBar}>
+                      <View
+                        style={{
+                          width: `${
+                            (foundItemUser &&
+                              foundItemUser &&
+                              foundItemUser.distance / item.distance) * 100
+                          }%`,
+                          maxWidth: "100%",
+                          height: 8,
+                          borderRadius: 16,
+                          backgroundColor: tickData
+                            ? colors.grey3
+                            : colors.persianBlue, // สีของ ProgressBar
+                        }}
+                      />
+                    </View>
+                  </>
+                )}
+              </>
+            )}
           </View>
         </View>
-      </View>
+      </Pressable>
     );
   };
 
@@ -1085,17 +1122,17 @@ class Home extends Component {
                 {eventAll &&
                   eventAll.map((item, index) => {
                     const formattedEndDate = parse(
-                      item.end_date,
+                      item.end_date ? item.end_date : new Date(),
                       "dd-MM-yyyy",
                       new Date()
                     );
                     const formattedStartDateShow = parse(
-                      item.start_date_show,
+                      item.start_date_show ? item.start_date_show : new Date(),
                       "dd-MM-yyyy",
                       new Date()
                     );
                     const formattedEndDateShow = parse(
-                      item.end_date_show,
+                      item.end_date_show ? item.end_date_show : new Date(),
                       "dd-MM-yyyy",
                       new Date()
                     );
@@ -1122,10 +1159,46 @@ class Home extends Component {
                       )
                     );
                   })}
-                {/*  {data &&
-                  data.map((item, index) => (
-                   
-                  ))} */}
+
+                {eventAll &&
+                  eventAll.map((item, index) => {
+                    const formattedEndDate = parse(
+                      item.end_date,
+                      "dd-MM-yyyy",
+                      new Date()
+                    );
+                    const formattedStartDateShow = parse(
+                      item.start_date_show,
+                      "dd-MM-yyyy",
+                      new Date()
+                    );
+                    const formattedEndDateShow = parse(
+                      item.end_date_show,
+                      "dd-MM-yyyy",
+                      new Date()
+                    );
+                    const foundItemUser =
+                      eventUser &&
+                      eventUser.find(
+                        (itemUser) => item.id == itemUser.event_id
+                      );
+
+                    let dateNow = new Date();
+                    const tickData = dateNow > new Date(formattedEndDate);
+                    const isDateInRange =
+                      dateNow >= formattedStartDateShow &&
+                      dateNow <= formattedEndDateShow;
+
+                    return (
+                      isDateInRange &&
+                      this.renderActivityDetails(
+                        item,
+                        tickData,
+                        foundItemUser,
+                        index
+                      )
+                    );
+                  })}
               </ScrollView>
             </View>
           </ImageBackground>
@@ -2393,11 +2466,13 @@ const styles = StyleSheet.create({
   },
   itemContainer: {
     width: 256, // Adjust the width as needed
-    height: 344, // Adjust the height as needed
+    height: "auto", // Adjust the height as needed
+    maxHeight: 344,
     backgroundColor: colors.white,
     marginTop: 16,
     marginHorizontal: 8,
     borderRadius: 16,
+    paddingBottom: 16,
   },
   itemText: {
     fontSize: 16,
