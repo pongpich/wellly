@@ -21,7 +21,7 @@ const MyWebView = () => {
   const [backApp, setBackApp] = useState(null);
   const randomKey = Math.random().toString(36).substring(7);
   const uriWithRandomKey = `https://wellly.planforfit.com`;
-  const uriWithRandomKey1 = `http://localhost:3000/#/`;
+  const uriWithRandomKey1 = `http://localhost:3001/#/`;
   const params = "tha-0012";
   // ...
 
@@ -55,7 +55,7 @@ const MyWebView = () => {
       <WebView
         key={forceRender}
         ref={webViewRef}
-        source={{ uri: `${uriWithRandomKey}?params=${user && user.user_id}` }}
+        source={{ uri: `${uriWithRandomKey1}?params=${user && user.user_id}` }}
         style={backApp === "/" || backApp === "" ? styles.webview : {}}
         onMessage={handleMessage}
       />

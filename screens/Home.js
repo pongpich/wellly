@@ -24,6 +24,9 @@ import {
   Keyboard,
   Button,
 } from "react-native";
+import { parse, format } from "date-fns";
+import { th, enUS } from "date-fns/locale"; // Import the Thai locale
+
 import { logoutUser, loginUser } from "../redux/auth";
 import {
   getNutritionMission,
@@ -43,6 +46,8 @@ import {
   getTeachUserExercise,
   getTeachUserExArtTemp,
   getTeachUserExerciseProgram,
+  getEventActivity,
+  getEventUser,
 } from "../redux/get";
 import {
   insertNutritionActivity,
@@ -64,6 +69,7 @@ import { StackActions } from "@react-navigation/native";
 import garmin_run from "../assets/images/icon/garmin_run.png";
 import dateIcon from "../assets/images/icon/🗓️.png";
 import Distance from "../assets/images/icon/Distance.png";
+import tick3x from "../assets/images/icon/tick3x.png";
 import Foot_step from "../assets/images/icon/Foot_step.png";
 
 import i18next from "i18next";
@@ -127,16 +133,24 @@ class Home extends Component {
       stipTeach: 1,
       nutrition_knowledge_Act: 0,
       modalVisible: false,
+      modalVisible: false,
+      eventAll: null,
+      eventUser: null,
     };
   }
 
   componentDidMount() {
     const { dataItem } = this.state;
-    const { user } = this.props;
+    const { user, event, event_user } = this.props;
     const currDate = new Date();
     const currYear = currDate.getFullYear();
     const currMonth = currDate.getMonth() + 1; //ต้อง +1 เพราะ index เริ่มจาก 0
     const itemsYear = []; // สร้าง array เพื่อเก็บ object ปี
+
+    this.setState({
+      eventAll: event,
+      eventUser: event_user,
+    });
 
     for (var year = currYear - 5; year <= currYear; year++) {
       var buddhistYear = year + 543; // แปลงเป็นปี พ.ศ.
@@ -272,11 +286,13 @@ class Home extends Component {
       this.props.getNutritionActivity(user && user.user_id);
       this.props.getExerciserActivity(user && user.user_id);
       this.props.getNutritionKnowledgeActivity(user && user.user_id);
+      this.props.getEventActivity();
+      this.props.getEventUser(user && user.user_id);
 
       this.animate();
       BackHandler.addEventListener("hardwareBackPress", this.handleBackPress);
 
-      this.props.getMemberActivityLogInWeek(user.user_id);
+      this.props.getMemberActivityLogInWeek(user && user.user_id);
       this.props.getYearActivityLogGraph(user && user.user_id, currYear);
       this.props.getMonthActivityLogGraph(user && user.user_id, currMonth);
       this.props.getWeekActivityLogGraph(user && user.user_id);
@@ -430,7 +446,7 @@ class Home extends Component {
           x: (currentIndex + 1) * 256,
           animated: true,
         });
-        if (currentIndex > 4) {
+        if (currentIndex > this.state.eventUser.length - 1) {
           this.setState({ currentIndex: 0 - 1 });
         } else {
           this.setState({ currentIndex: currentIndex + 1 });
@@ -489,7 +505,21 @@ class Home extends Component {
       yearLog,
       statusNutritionKnowledgeActivity,
       nutritionKnowledgeActivity,
+      event,
+      event_user,
     } = this.props;
+
+    if (prevProps.event != this.state.eventAll) {
+      this.setState({
+        eventAll: event,
+      });
+    }
+    if (prevProps.event_user != this.state.eventUser) {
+      this.setState({
+        eventUser: event_user,
+      });
+    }
+
     if (prevProps.user !== user && !user) {
       this.props.navigation.navigate("Login");
     }
@@ -754,6 +784,175 @@ class Home extends Component {
     });
   };
 
+  formattedDate = (start_date, end_date) => {
+    try {
+      // Assuming the date strings are in the format "YYYY-MM-DD"
+      const startDate = parse(start_date, "dd-MM-yyyy", new Date());
+      const endDate = parse(end_date, "dd-MM-yyyy", new Date());
+
+      const formattedStartDate = format(startDate, "d MMM", {
+        locale: th,
+      });
+      const formattedEndDate = format(endDate, "d MMM yyyy", {
+        locale: th,
+      });
+
+      let date = formattedStartDate + " - " + formattedEndDate;
+      return date;
+    } catch (error) {
+      return "Invalid Date Range";
+    }
+  };
+
+  renderActivityDetails = (item, tickData, foundItemUser, index) => {
+    return (
+      <View
+        key={index}
+        style={[
+          styles.itemContainer,
+          index === foundItemUser.length - 1 && { marginRight: 16 },
+          index === 0 && { marginLeft: 16 },
+        ]}
+      >
+        <View
+          style={{
+            backgroundColor: colors.positive1,
+            height: 144,
+            width: "100%",
+            marginRight: 8,
+            borderTopLeftRadius: 16,
+            borderTopRightRadius: 16,
+            position: "relative",
+          }}
+        >
+          {tickData && (
+            <Image
+              style={{
+                height: 21,
+                width: 30,
+                zIndex: 100,
+                marginRight: 8,
+                position: "absolute",
+                top: "50%", // ให้ตำแหน่งของ top อยู่ที่ 50% ของพื้นที่ที่ถูกตั้ง
+                left: "50%", // ให้ตำแหน่งของ left อยู่ที่ 50% ของพื้นที่ที่ถูกตั้ง
+                transform: [{ translateX: -15 }, { translateY: -10 }], // ปรับตำแหน่งให้อยู่กลาง
+              }}
+              source={tick3x}
+            />
+          )}
+
+          <Image
+            style={{
+              height: 144,
+              width: "100%",
+              zIndex: 1,
+              marginRight: 8,
+              borderTopLeftRadius: 16,
+              borderTopRightRadius: 16,
+              opacity: tickData ? 0.5 : 1,
+            }}
+            source={{
+              uri: item && item.cover_Image.replace("http://", "https://"),
+            }}
+          />
+        </View>
+
+        <Text numberOfLines={2} ellipsizeMode="tail" style={styles.itemText}>
+          {item.event_name}
+        </Text>
+        <View style={styles.boxEv}>
+          <View style={styles.boxRow}>
+            <Image
+              style={{
+                height: 16,
+                width: 16,
+                zIndex: 1,
+                marginRight: 8,
+              }}
+              source={dateIcon}
+            />
+
+            <Text>{this.formattedDate(item.start_date, item.end_date)}</Text>
+          </View>
+          <View style={styles.boxRow2}>
+            <View style={styles.boxRow}>
+              <Image
+                style={{
+                  height: 16,
+                  width: 16,
+                  zIndex: 1,
+                  marginRight: 8,
+                }}
+                source={Foot_step}
+              />
+              <Text style={tickData ? styles.stepNumber2 : styles.stepNumber}>
+                {foundItemUser &&
+                  new Intl.NumberFormat("en-US").format(
+                    foundItemUser.walk_step
+                  )}
+              </Text>
+            </View>
+            <Text style={styles.stepMax}>
+              {new Intl.NumberFormat("en-US").format(item.walk_step)} ก้าว
+            </Text>
+          </View>
+          <View style={styles.progressBar}>
+            <View
+              style={{
+                width: `${
+                  (foundItemUser &&
+                    foundItemUser &&
+                    foundItemUser.walk_step / item.walk_step) * 100
+                }%`,
+                maxWidth: "100%",
+                height: 8,
+                borderRadius: 16,
+                backgroundColor: tickData ? colors.grey3 : colors.persianBlue, // สีของ ProgressBar
+              }}
+            />
+          </View>
+          <View style={styles.boxRow2}>
+            <View style={styles.boxRow}>
+              <Image
+                style={{
+                  height: 16,
+                  width: 16,
+                  zIndex: 1,
+                  marginRight: 8,
+                }}
+                source={Distance}
+              />
+              <Text style={tickData ? styles.stepNumber2 : styles.stepNumber}>
+                {" "}
+                {foundItemUser &&
+                  new Intl.NumberFormat("en-US").format(foundItemUser.distance)}
+              </Text>
+            </View>
+            <Text style={styles.stepMax}>
+              {" "}
+              {new Intl.NumberFormat("en-US").format(item.distance)} กิโลเมตร
+            </Text>
+          </View>
+          <View style={styles.progressBar}>
+            <View
+              style={{
+                width: `${
+                  (foundItemUser &&
+                    foundItemUser &&
+                    foundItemUser.distance / item.distance) * 100
+                }%`,
+                maxWidth: "100%",
+                height: 8,
+                borderRadius: 16,
+                backgroundColor: tickData ? colors.grey3 : colors.persianBlue, // สีของ ProgressBar
+              }}
+            />
+          </View>
+        </View>
+      </View>
+    );
+  };
+
   render() {
     const { user, activity_list, teachUserHome } = this.props;
     const {
@@ -778,6 +977,8 @@ class Home extends Component {
       stipTeach,
       nutrition_knowledge_Act,
       modalVisible,
+      eventAll,
+      eventUser,
     } = this.state;
 
     const languages = i18next.languages[0];
@@ -818,10 +1019,6 @@ class Home extends Component {
 
     const { t } = this.props;
     const data = ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5"];
-    /*   const handlePageChange = (newIndex) => {
-      scrollViewRef.current.scrollTo({ x: newIndex * 256, animated: true });
-      setCurrentIndex(newIndex);
-    }; */
 
     return (
       <View
@@ -881,111 +1078,54 @@ class Home extends Component {
                 </Pressable>
               </View>
               <ScrollView
-                /*  ref={this.scrollViewRef} */
+                /*   ref={this.scrollViewRef} */
                 horizontal
-                pagingEnabled
                 showsHorizontalScrollIndicator={false}
-                /*     onScroll={(event) => {
-                  const offsetX = event.nativeEvent.contentOffset.x;
-                  const index = Math.round(offsetX / 256);
-                  this.setState({ currentIndex: index });
-                }} */
               >
-                {data &&
+                {eventAll &&
+                  eventAll.map((item, index) => {
+                    const formattedEndDate = parse(
+                      item.end_date,
+                      "dd-MM-yyyy",
+                      new Date()
+                    );
+                    const formattedStartDateShow = parse(
+                      item.start_date_show,
+                      "dd-MM-yyyy",
+                      new Date()
+                    );
+                    const formattedEndDateShow = parse(
+                      item.end_date_show,
+                      "dd-MM-yyyy",
+                      new Date()
+                    );
+
+                    let dateNow = new Date();
+                    const tickData = dateNow > new Date(formattedEndDate);
+
+                    const foundItemUser =
+                      eventUser &&
+                      eventUser.find(
+                        (itemUser) =>
+                          dateNow >= formattedStartDateShow &&
+                          dateNow <= formattedEndDateShow &&
+                          item.id == itemUser.event_id
+                      );
+
+                    return (
+                      foundItemUser &&
+                      this.renderActivityDetails(
+                        item,
+                        tickData,
+                        foundItemUser,
+                        index
+                      )
+                    );
+                  })}
+                {/*  {data &&
                   data.map((item, index) => (
-                    <View
-                      key={index}
-                      style={[
-                        styles.itemContainer,
-                        index === data.length - 1 && { marginRight: 16 },
-                        index === 0 && { marginLeft: 16 },
-                      ]}
-                    >
-                      <Image
-                        style={{
-                          height: 144,
-                          width: "100%",
-                          zIndex: 1,
-                          marginRight: 8,
-                          borderTopLeftRadius: 16,
-                          borderTopRightRadius: 16,
-                        }}
-                        source={garmin_run}
-                      />
-                      <Text
-                        numberOfLines={2}
-                        ellipsizeMode="tail"
-                        style={styles.itemText}
-                      >
-                        วิ่งเก็บระยะทางมาราธอน 10 ชั่วโมง ประจำปี 2566 ของ ABCD
-                        วิ่งเก็บระยะทางมาราธอน 10 ชั่วโมง ประจำปี 2566 ของ ABCD
-                      </Text>
-                      <View style={styles.boxEv}>
-                        <View style={styles.boxRow}>
-                          <Image
-                            style={{
-                              height: 16,
-                              width: 16,
-                              zIndex: 1,
-                              marginRight: 8,
-                            }}
-                            source={dateIcon}
-                          />
-                          <Text>1 ม.ค. - 30 ม.ค. 2566</Text>
-                        </View>
-                        <View style={styles.boxRow2}>
-                          <View style={styles.boxRow}>
-                            <Image
-                              style={{
-                                height: 16,
-                                width: 16,
-                                zIndex: 1,
-                                marginRight: 8,
-                              }}
-                              source={Foot_step}
-                            />
-                            <Text style={styles.stepNumber}>1500</Text>
-                          </View>
-                          <Text style={styles.stepMax}>400,000 ก้าว</Text>
-                        </View>
-                        <View style={styles.progressBar}>
-                          <View
-                            style={{
-                              width: "50%",
-                              height: 8,
-                              borderRadius: 16,
-                              backgroundColor: colors.persianBlue, // สีของ ProgressBar
-                            }}
-                          />
-                        </View>
-                        <View style={styles.boxRow2}>
-                          <View style={styles.boxRow}>
-                            <Image
-                              style={{
-                                height: 16,
-                                width: 16,
-                                zIndex: 1,
-                                marginRight: 8,
-                              }}
-                              source={Foot_step}
-                            />
-                            <Text style={styles.stepNumber}>400</Text>
-                          </View>
-                          <Text style={styles.stepMax}>1,000 กิโลเมตร</Text>
-                        </View>
-                        <View style={styles.progressBar}>
-                          <View
-                            style={{
-                              width: "50%",
-                              height: 8,
-                              borderRadius: 16,
-                              backgroundColor: colors.persianBlue, // สีของ ProgressBar
-                            }}
-                          />
-                        </View>
-                      </View>
-                    </View>
-                  ))}
+                   
+                  ))} */}
               </ScrollView>
             </View>
           </ImageBackground>
@@ -2289,6 +2429,11 @@ const styles = StyleSheet.create({
     fontFamily: "IBMPlexSansThai-Bold",
     color: colors.persianBlue,
   },
+  stepNumber2: {
+    fontSize: 12,
+    fontFamily: "IBMPlexSansThai-Bold",
+    color: colors.grey3,
+  },
   stepMax: {
     fontSize: 14,
     fontFamily: "IBMPlexSansThai-Regular",
@@ -2333,6 +2478,8 @@ const mapStateToProps = ({
     nutritionKnowledgeActivity,
     statusGetTeachUserHome,
     teachUserHome,
+    event,
+    event_user,
   } = getData;
   return {
     user,
@@ -2359,6 +2506,8 @@ const mapStateToProps = ({
     statusNutritionKnowledgeActivity,
     nutritionKnowledgeActivity,
     statusGetTeachUserHome,
+    event,
+    event_user,
   };
 };
 
@@ -2387,6 +2536,8 @@ const mapActionsToProps = {
   getTeachUserExercise,
   getTeachUserExArtTemp,
   getTeachUserExerciseProgram,
+  getEventActivity,
+  getEventUser,
 };
 
 export default connect(
