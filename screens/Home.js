@@ -1115,7 +1115,7 @@ class Home extends Component {
                 </Pressable>
               </View>
               <ScrollView
-                /*   ref={this.scrollViewRef} */
+                ref={this.scrollViewRef}
                 horizontal
                 showsHorizontalScrollIndicator={false}
               >
