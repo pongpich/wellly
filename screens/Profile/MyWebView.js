@@ -55,7 +55,7 @@ const MyWebView = () => {
       <WebView
         key={forceRender}
         ref={webViewRef}
-        source={{ uri: `${uriWithRandomKey1}?params=${user && user.user_id}` }}
+        source={{ uri: `${uriWithRandomKey}?params=${user && user.user_id}` }}
         style={backApp === "/" || backApp === "" ? styles.webview : {}}
         onMessage={handleMessage}
       />

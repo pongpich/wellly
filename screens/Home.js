@@ -901,14 +901,14 @@ class Home extends Component {
                           }
                         >
                           {foundItemUser &&
-                            new Intl.NumberFormat("en-US").format(
-                              foundItemUser.walk_step
-                            )}
+                            parseInt(
+                              foundItemUser.walk_step,
+                              10
+                            ).toLocaleString()}
                         </Text>
                       </View>
                       <Text style={styles.stepMax}>
-                        {new Intl.NumberFormat("en-US").format(item.walk_step)}{" "}
-                        ก้าว
+                        {parseInt(item.walk_step, 10).toLocaleString()} ก้าว
                       </Text>
                     </View>
                     <View style={styles.progressBar}>
@@ -950,17 +950,15 @@ class Home extends Component {
                         >
                           {" "}
                           {foundItemUser &&
-                            new Intl.NumberFormat("en-US").format(
-                              foundItemUser.distance
-                            )}
+                            parseInt(
+                              foundItemUser.distance,
+                              10
+                            ).toLocaleString()}
                         </Text>
                       </View>
                       <Text style={styles.stepMax}>
                         {" "}
-                        {new Intl.NumberFormat("en-US").format(
-                          item.distance
-                        )}{" "}
-                        กิโลเมตร
+                        {parseInt(item.distance, 10).toLocaleString()} กิโลเมตร
                       </Text>
                     </View>
                     <View style={styles.progressBar}>
