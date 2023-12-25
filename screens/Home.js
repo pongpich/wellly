@@ -1122,47 +1122,6 @@ class Home extends Component {
                 {eventAll &&
                   eventAll.map((item, index) => {
                     const formattedEndDate = parse(
-                      item.end_date ? item.end_date : new Date(),
-                      "dd-MM-yyyy",
-                      new Date()
-                    );
-                    const formattedStartDateShow = parse(
-                      item.start_date_show ? item.start_date_show : new Date(),
-                      "dd-MM-yyyy",
-                      new Date()
-                    );
-                    const formattedEndDateShow = parse(
-                      item.end_date_show ? item.end_date_show : new Date(),
-                      "dd-MM-yyyy",
-                      new Date()
-                    );
-
-                    let dateNow = new Date();
-                    const tickData = dateNow > new Date(formattedEndDate);
-
-                    const foundItemUser =
-                      eventUser &&
-                      eventUser.find(
-                        (itemUser) =>
-                          dateNow >= formattedStartDateShow &&
-                          dateNow <= formattedEndDateShow &&
-                          item.id == itemUser.event_id
-                      );
-
-                    return (
-                      foundItemUser &&
-                      this.renderActivityDetails(
-                        item,
-                        tickData,
-                        foundItemUser,
-                        index
-                      )
-                    );
-                  })}
-
-                {eventAll &&
-                  eventAll.map((item, index) => {
-                    const formattedEndDate = parse(
                       item.end_date,
                       "dd-MM-yyyy",
                       new Date()
