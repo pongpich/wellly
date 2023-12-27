@@ -787,10 +787,47 @@ class Home extends Component {
     });
   };
 
+  //เช็คว่ามี GG Chorme ไหม
+  /* const checkChromeAvailability = async () => {
+    const apps = await Linking.getAvailableApps();
+  
+    const chromeApp = apps.find(app => app && app.appName === 'Chrome');
+    if (chromeApp) {
+      // Google Chrome มีอยู่ในอุปกรณ์
+      return true;
+    } else {
+      // Google Chrome ไม่มีอยู่ในอุปกรณ์
+      return false;
+    }
+  };
+  
+  // เรียกใช้ฟังก์ชันเพื่อตรวจสอบ Google Chrome ในอุปกรณ์
+  const isChromeAvailable = await checkChromeAvailability();
+  if (isChromeAvailable) {
+    // ถ้า Google Chrome มีอยู่ในอุปกรณ์ ให้เปิด URL ใน Chrome
+    await Linking.openURL(`googlechrome://navigate?url=${url}`);
+  } else {
+    console.error('Google Chrome is not available on this device');
+    // ทำอะไรต่อหลังจากที่ไม่พบ Google Chrome ในอุปกรณ์
+  } */
+
   openInExternalBrowser = () => {
     const { user } = this.props;
     const url = `https://wellly.planforfit.com/#/events?params=${user && user.user_id}`;
+
     Linking.openURL(url).catch((err) => console.error('An error occurred', err));
+  };
+
+  openInChrome = async () => {
+    const { user } = this.props;
+    const url = `https://wellly.planforfit.com/#/events?params=${user && user.user_id}`;
+    const supported = await Linking.canOpenURL(url);
+
+    if (supported) {
+      await Linking.openURL(`googlechrome://navigate?url=${url}`);
+    } else {
+      console.error("Can't open URL");
+    }
   };
 
 
@@ -821,7 +858,8 @@ class Home extends Component {
     return (
       <Pressable
         //onPress={() => this.props.navigation.navigate("WebView")}
-        onPress={() => this.openInExternalBrowser()}
+        //onPress={() => this.openInExternalBrowser()}
+        onPress={() => this.openInChrome()}
       >
         <View
           key={index}
@@ -1119,7 +1157,8 @@ class Home extends Component {
                 <Text style={styles.elevationText}>กิจกรรม</Text>
                 <Pressable
                   // onPress={() => this.props.navigation.navigate("WebView")}
-                  onPress={() => this.openInExternalBrowser()}
+                  //onPress={() => this.openInExternalBrowser()}
+                  onPress={() => this.openInChrome()}
                 >
                   <Text style={styles.viewAll}>ดูทั้งหมด</Text>
                 </Pressable>
