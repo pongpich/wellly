@@ -27,7 +27,7 @@
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "versionCode": 19,
+      "versionCode": 20,
       "package": "com.planforfit.wellly",
       "permissions": [
         "android.permission.RECORD_AUDIO"
@@ -46,7 +46,8 @@
         "expo-build-properties",
         {
           "android": {
-            "minSdkVersion": 33
+            "minSdkVersion": 33,
+            "targetSdkVersion": 33
           }
         }
       ]
