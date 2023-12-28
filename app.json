@@ -1,4 +1,3 @@
-
 {
   "expo": {
     "name": "Wellly",
@@ -28,7 +27,7 @@
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "versionCode": 18,
+      "versionCode": 19,
       "package": "com.planforfit.wellly",
       "permissions": [
         "android.permission.RECORD_AUDIO"
@@ -41,6 +40,16 @@
       "eas": {
         "projectId": "875c6376-7206-4273-b3d5-a994ed7205b6"
       }
-    }
+    },
+    "plugins": [
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "minSdkVersion": 33
+          }
+        }
+      ]
+    ]
   }
 }
