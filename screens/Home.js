@@ -655,7 +655,7 @@ class Home extends Component {
 
     if (
       prevProps.statusNutritionKnowledgeActivity !==
-        statusNutritionKnowledgeActivity &&
+      statusNutritionKnowledgeActivity &&
       statusNutritionKnowledgeActivity === "success"
     ) {
       this.setState({
@@ -676,7 +676,7 @@ class Home extends Component {
 
     if (
       prevProps.statusInsertNutritionActivity !==
-        statusInsertNutritionActivity &&
+      statusInsertNutritionActivity &&
       statusInsertNutritionActivity === "success"
     ) {
       this.props.getNutritionActivity(user && user.user_id);
@@ -787,35 +787,9 @@ class Home extends Component {
     });
   };
 
-  //เช็คว่ามี GG Chorme ไหม
-  /* const checkChromeAvailability = async () => {
-    const apps = await Linking.getAvailableApps();
-  
-    const chromeApp = apps.find(app => app && app.appName === 'Chrome');
-    if (chromeApp) {
-      // Google Chrome มีอยู่ในอุปกรณ์
-      return true;
-    } else {
-      // Google Chrome ไม่มีอยู่ในอุปกรณ์
-      return false;
-    }
-  };
-  
-  // เรียกใช้ฟังก์ชันเพื่อตรวจสอบ Google Chrome ในอุปกรณ์
-  const isChromeAvailable = await checkChromeAvailability();
-  if (isChromeAvailable) {
-    // ถ้า Google Chrome มีอยู่ในอุปกรณ์ ให้เปิด URL ใน Chrome
-    await Linking.openURL(`googlechrome://navigate?url=${url}`);
-  } else {
-    console.error('Google Chrome is not available on this device');
-    // ทำอะไรต่อหลังจากที่ไม่พบ Google Chrome ในอุปกรณ์
-  } */
-
   openInExternalBrowser = () => {
     const { user } = this.props;
-    const url = `https://wellly.planforfit.com/#/events?params=${
-      user && user.user_id
-    }`;
+    const url = `https://wellly.planforfit.com/#/events?params=${user && user.user_id}`;
 
     Linking.openURL(url).catch((err) =>
       console.error("An error occurred", err)
@@ -856,7 +830,7 @@ class Home extends Component {
           style={[
             styles.itemContainer,
             index === foundItemUser &&
-              foundItemUser.length - 1 && { marginRight: 16 },
+            foundItemUser.length - 1 && { marginRight: 16 },
             index === 0 && { marginLeft: 16 },
           ]}
         >
@@ -955,11 +929,10 @@ class Home extends Component {
                     <View style={styles.progressBar}>
                       <View
                         style={{
-                          width: `${
-                            (foundItemUser &&
+                          width: `${(foundItemUser &&
                               foundItemUser &&
                               foundItemUser.walk_step / item.walk_step) * 100
-                          }%`,
+                            }%`,
                           maxWidth: "100%",
                           height: 8,
                           borderRadius: 16,
@@ -1005,11 +978,10 @@ class Home extends Component {
                     <View style={styles.progressBar}>
                       <View
                         style={{
-                          width: `${
-                            (foundItemUser &&
+                          width: `${(foundItemUser &&
                               foundItemUser &&
                               foundItemUser.distance / item.distance) * 100
-                          }%`,
+                            }%`,
                           maxWidth: "100%",
                           height: 8,
                           borderRadius: 16,
@@ -1208,8 +1180,8 @@ class Home extends Component {
 
               (latest_nutrition_activity &&
                 latest_nutrition_activity.quiz_activities_number == null) ||
-              (latest_nutrition_activity &&
-                latest_nutrition_activity.assessment_kit_number == null) ? (
+                (latest_nutrition_activity &&
+                  latest_nutrition_activity.assessment_kit_number == null) ? (
                 <>
                   {latest_nutrition_activity.week_in_program == "4" &&
                     nutrition_knowledge_Act == 0 && (
@@ -1244,8 +1216,8 @@ class Home extends Component {
                               {
                                 backgroundColor:
                                   latest_nutrition_activity &&
-                                  latest_nutrition_activity.heading &&
-                                  latest_nutrition_activity.short_content
+                                    latest_nutrition_activity.heading &&
+                                    latest_nutrition_activity.short_content
                                     ? colors.secondaryOfSecondary
                                     : "#D4E0F0",
                               },
@@ -1263,8 +1235,8 @@ class Home extends Component {
                           </View>
                           <View style={styles.missionData}>
                             {latest_nutrition_activity &&
-                            latest_nutrition_activity.heading &&
-                            latest_nutrition_activity.short_content ? (
+                              latest_nutrition_activity.heading &&
+                              latest_nutrition_activity.short_content ? (
                               <>
                                 <Text style={styles.missionHead}>
                                   {i18next.language === "th"
@@ -1354,8 +1326,8 @@ class Home extends Component {
                             {
                               backgroundColor:
                                 latest_nutrition_activity &&
-                                latest_nutrition_activity.heading &&
-                                latest_nutrition_activity.short_content
+                                  latest_nutrition_activity.heading &&
+                                  latest_nutrition_activity.short_content
                                   ? colors.secondaryOfSecondary
                                   : "#D4E0F0",
                             },
@@ -1370,8 +1342,8 @@ class Home extends Component {
                         </View>
                         <View style={styles.missionData}>
                           {latest_nutrition_activity &&
-                          latest_nutrition_activity.heading &&
-                          latest_nutrition_activity.short_content ? (
+                            latest_nutrition_activity.heading &&
+                            latest_nutrition_activity.short_content ? (
                             <>
                               <Text style={styles.missionHead}>
                                 {i18next.language === "th"
@@ -1430,96 +1402,96 @@ class Home extends Component {
               /* exercise_activity */
 
               latest_exercise_activity &&
-                latest_exercise_activity.status_mission_activities !==
-                  "completed" && (
-                  <Pressable
-                    onPress={() =>
-                      latest_exercise_activity.short_content &&
-                      this.props.navigation.navigate("ExArticleTemplate", {
-                        id: latest_exercise_activity.week_in_program,
-                        mission_id: latest_exercise_activity.mission_id,
-                        heading:
-                          i18next.language === "th"
-                            ? latest_exercise_activity.heading
-                            : latest_exercise_activity.heading_eng,
-                        mission_activities:
-                          latest_exercise_activity.mission_activities,
-                        statusPags: "Home",
-                      })
-                    }
-                    key={latest_exercise_activity.week_in_program + "_ea"}
-                  >
-                    <View style={styles.row}>
-                      <View
-                        style={[
-                          styles.numberView,
-                          {
-                            backgroundColor:
-                              latest_exercise_activity.heading &&
+              latest_exercise_activity.status_mission_activities !==
+              "completed" && (
+                <Pressable
+                  onPress={() =>
+                    latest_exercise_activity.short_content &&
+                    this.props.navigation.navigate("ExArticleTemplate", {
+                      id: latest_exercise_activity.week_in_program,
+                      mission_id: latest_exercise_activity.mission_id,
+                      heading:
+                        i18next.language === "th"
+                          ? latest_exercise_activity.heading
+                          : latest_exercise_activity.heading_eng,
+                      mission_activities:
+                        latest_exercise_activity.mission_activities,
+                      statusPags: "Home",
+                    })
+                  }
+                  key={latest_exercise_activity.week_in_program + "_ea"}
+                >
+                  <View style={styles.row}>
+                    <View
+                      style={[
+                        styles.numberView,
+                        {
+                          backgroundColor:
+                            latest_exercise_activity.heading &&
                               latest_exercise_activity.short_content
-                                ? colors.primarySecondary
-                                : "#D4E0F0",
-                          },
-                        ]}
+                              ? colors.primarySecondary
+                              : "#D4E0F0",
+                        },
+                      ]}
+                    >
+                      <Text
+                        style={[styles.number, { color: colors.primary }]}
                       >
-                        <Text
-                          style={[styles.number, { color: colors.primary }]}
-                        >
-                          {latest_exercise_activity.week_in_program}
-                        </Text>
-                      </View>
-                      <View style={styles.missionData}>
-                        {latest_exercise_activity.heading &&
-                        latest_exercise_activity.short_content ? (
-                          <>
-                            <Text style={styles.missionHead}>
-                              {i18next.language === "th"
-                                ? latest_exercise_activity.heading
-                                : latest_exercise_activity.heading_eng}
-                            </Text>
-                            <Text
-                              style={[
-                                styles.missionContent,
-                                { marginRight: 16 },
-                              ]}
-                            >
-                              {substringText(
-                                i18next.language === "th"
-                                  ? latest_exercise_activity.short_content
-                                  : latest_exercise_activity.short_content_eng
-                              )}
-                            </Text>
-                          </>
-                        ) : (
-                          <>
-                            <Animated.View
-                              style={{ opacity, transform: [{ scale }] }}
-                            >
-                              <View style={styles.activityindicator}></View>
-                              <View style={styles.activityindicator1}></View>
-                              <View style={styles.activityindicator2}></View>
-                              <View style={styles.activityindicator2}></View>
-                            </Animated.View>
-                          </>
-                        )}
-                      </View>
-                      {latest_exercise_activity.heading &&
-                        latest_exercise_activity.short_content && (
-                          <View style={styles.viewIconRight}>
-                            <Image
-                              style={{
-                                height: 24,
-                                width: 24,
-                                zIndex: 1,
-                                marginRight: 8,
-                              }}
-                              source={require("../assets/images/icon/right.png")}
-                            />
-                          </View>
-                        )}
+                        {latest_exercise_activity.week_in_program}
+                      </Text>
                     </View>
-                  </Pressable>
-                )
+                    <View style={styles.missionData}>
+                      {latest_exercise_activity.heading &&
+                        latest_exercise_activity.short_content ? (
+                        <>
+                          <Text style={styles.missionHead}>
+                            {i18next.language === "th"
+                              ? latest_exercise_activity.heading
+                              : latest_exercise_activity.heading_eng}
+                          </Text>
+                          <Text
+                            style={[
+                              styles.missionContent,
+                              { marginRight: 16 },
+                            ]}
+                          >
+                            {substringText(
+                              i18next.language === "th"
+                                ? latest_exercise_activity.short_content
+                                : latest_exercise_activity.short_content_eng
+                            )}
+                          </Text>
+                        </>
+                      ) : (
+                        <>
+                          <Animated.View
+                            style={{ opacity, transform: [{ scale }] }}
+                          >
+                            <View style={styles.activityindicator}></View>
+                            <View style={styles.activityindicator1}></View>
+                            <View style={styles.activityindicator2}></View>
+                            <View style={styles.activityindicator2}></View>
+                          </Animated.View>
+                        </>
+                      )}
+                    </View>
+                    {latest_exercise_activity.heading &&
+                      latest_exercise_activity.short_content && (
+                        <View style={styles.viewIconRight}>
+                          <Image
+                            style={{
+                              height: 24,
+                              width: 24,
+                              zIndex: 1,
+                              marginRight: 8,
+                            }}
+                            source={require("../assets/images/icon/right.png")}
+                          />
+                        </View>
+                      )}
+                  </View>
+                </Pressable>
+              )
             }
           </View>
 
@@ -1640,10 +1612,10 @@ class Home extends Component {
                               {item.id === "light_intensity"
                                 ? t("do_low_intensity")
                                 : item.id === "moderate_intensity"
-                                ? t("do_moderate_intensity")
-                                : item.id === "vigorous_intensity"
-                                ? t("do_hight_intensity")
-                                : item.name}
+                                  ? t("do_moderate_intensity")
+                                  : item.id === "vigorous_intensity"
+                                    ? t("do_hight_intensity")
+                                    : item.name}
                             </Text>
                             <View
                               style={{ flexDirection: "row", marginLeft: 8 }}
@@ -1914,15 +1886,15 @@ class Home extends Component {
                       ? labelsWeek
                       : labelsWeekEng
                     : statusChart === 2
-                    ? labelsMonth
-                    : labelsYear,
+                      ? labelsMonth
+                      : labelsYear,
                 legend: [],
                 data:
                   statusChart === 1
                     ? weekData
                     : statusChart === 2
-                    ? monthData
-                    : yearData,
+                      ? monthData
+                      : yearData,
                 barColors: ["#59CBE4", "#FDAB44", "#F15E79"],
               }}
               width={Dimensions.get("window").width - 40} // from react-native
@@ -2060,8 +2032,8 @@ class Home extends Component {
                 {stipTeach === 1
                   ? `${t("see_nutrition_missions")}`
                   : stipTeach === 2
-                  ? `${t("see_exercise_mission")}`
-                  : `${t("log_exercises_submit")}`}
+                    ? `${t("see_exercise_mission")}`
+                    : `${t("log_exercises_submit")}`}
               </Text>
               <View
                 style={
@@ -2153,22 +2125,22 @@ class Home extends Component {
                       ? -10
                       : -20
                     : isNotchDevice
-                    ? heightDevice > 1079
-                      ? -30
+                      ? heightDevice > 1079
+                        ? -30
+                        : stipTeach === 3
+                          ? 17
+                          : 10
                       : stipTeach === 3
-                      ? 17
-                      : 10
-                    : stipTeach === 3
-                    ? -10
-                    : -20,
+                        ? -10
+                        : -20,
                 marginLeft:
                   stipTeach === 1
                     ? "-45%"
                     : stipTeach === 2
-                    ? heightDevice > 1079
-                      ? "43%"
-                      : "45%"
-                    : 0,
+                      ? heightDevice > 1079
+                        ? "43%"
+                        : "45%"
+                      : 0,
                 backgroundColor: "white",
                 width: 75,
                 height: 75,
