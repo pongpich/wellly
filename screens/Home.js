@@ -811,13 +811,18 @@ class Home extends Component {
         locale: th,
       });
 
-      const thaiYear = endDate.getFullYear() + 543; // เพิ่ม 543 เพื่อแปลงเป็น พ.ศ.
+      const thaiYearStart = startDate.getFullYear() + 543; // เพิ่ม 543 เพื่อแปลงเป็น พ.ศ.
+      const thaiYearEnd = endDate.getFullYear() + 543; // เพิ่ม 543 เพื่อแปลงเป็น พ.ศ.
 
-      const formattedStartDateWithThaiYear = `${formattedStartDate} ${thaiYear}`;
-      const formattedEndDateWithThaiYear = `${formattedEndDate} ${thaiYear}`;
+      const formattedStartDateWithThaiYear = `${formattedStartDate} ${thaiYearStart}`;
+      const formattedStartDateWithThaiNoYear = `${formattedStartDate}`;
+      const formattedEndDateWithThaiYear = `${formattedEndDate} ${thaiYearEnd}`;
+      const isSameThaiYear =
+        thaiYearStart == thaiYearEnd
+          ? formattedStartDateWithThaiNoYear
+          : formattedStartDateWithThaiYear;
 
-      let date =
-        formattedStartDateWithThaiYear + " - " + formattedEndDateWithThaiYear;
+      let date = isSameThaiYear + " - " + formattedEndDateWithThaiYear;
       return date;
     } catch (error) {
       return "Invalid Date Range";
