@@ -67,7 +67,7 @@ import Constants from "expo-constants";
 import { StackActions } from "@react-navigation/native";
 
 import garmin_run from "../assets/images/icon/garmin_run.png";
-import dateIcon from "../assets/images/icon/🗓️.png";
+import dateIcon from "../assets/images/icon/dateIcon.png";
 import Distance from "../assets/images/icon/Distance.png";
 import tick3x from "../assets/images/icon/tick3x.png";
 import Foot_step from "../assets/images/icon/Foot_step.png";
@@ -446,7 +446,10 @@ class Home extends Component {
           x: (currentIndex + 1) * 256,
           animated: true,
         });
-        if (currentIndex > this.state.eventUser.length - 1) {
+        if (
+          currentIndex >
+          (this.state.eventUser && this.state.eventUser.length - 1)
+        ) {
           this.setState({ currentIndex: 0 - 1 });
         } else {
           this.setState({ currentIndex: currentIndex + 1 });
@@ -804,11 +807,17 @@ class Home extends Component {
       const formattedStartDate = format(startDate, "d MMM", {
         locale: th,
       });
-      const formattedEndDate = format(endDate, "d MMM yyyy", {
+      const formattedEndDate = format(endDate, "d MMM", {
         locale: th,
       });
 
-      let date = formattedStartDate + " - " + formattedEndDate;
+      const thaiYear = endDate.getFullYear() + 543; // เพิ่ม 543 เพื่อแปลงเป็น พ.ศ.
+
+      const formattedStartDateWithThaiYear = `${formattedStartDate} ${thaiYear}`;
+      const formattedEndDateWithThaiYear = `${formattedEndDate} ${thaiYear}`;
+
+      let date =
+        formattedStartDateWithThaiYear + " - " + formattedEndDateWithThaiYear;
       return date;
     } catch (error) {
       return "Invalid Date Range";
