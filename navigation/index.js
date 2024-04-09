@@ -328,6 +328,7 @@ function MyStack(props) {
         options={{ headerShown: false }}
         initialRouteName="TestGPS"
       />
+
       <Stack.Screen
         name="TestGPS2"
         component={TestGPS2}
@@ -358,7 +359,6 @@ function MyStack(props) {
           ),
         }}
       />
-
       <Stack.Screen
         name="Walkthrough"
         component={Walkthrough}
@@ -368,7 +368,6 @@ function MyStack(props) {
           cardOverlayEnabled: false,
         }}
       />
-
       <Stack.Screen
         name="OnboardingName"
         component={OnboardingName}
@@ -389,7 +388,6 @@ function MyStack(props) {
           ),
         }}
       />
-
       <Stack.Screen
         name="PersonalData"
         component={PersonalData}
@@ -410,7 +408,6 @@ function MyStack(props) {
           ),
         }}
       />
-
       <Stack.Screen
         name="HealthData"
         component={HealthData}
@@ -431,7 +428,6 @@ function MyStack(props) {
           ),
         }}
       />
-
       <Stack.Screen
         name="OnboardingResults"
         component={OnboardingResults}
@@ -535,6 +531,9 @@ function getBottomTabse(route) {
     return "none";
   }
   if (routeName == "WebView") {
+    return "none";
+  }
+  if (routeName == "AllActivities") {
     return "none";
   }
 

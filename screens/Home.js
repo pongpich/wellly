@@ -71,6 +71,8 @@ import dateIcon from "../assets/images/icon/dateIcon.png";
 import Distance from "../assets/images/icon/Distance.png";
 import tick3x from "../assets/images/icon/tick3x.png";
 import Foot_step from "../assets/images/icon/Foot_step.png";
+import banner from "../assets/images/activity/banner.png";
+import banner_done from "../assets/images/activity/banner_done.png";
 
 import i18next from "i18next";
 
@@ -146,7 +148,6 @@ class Home extends Component {
     const currYear = currDate.getFullYear();
     const currMonth = currDate.getMonth() + 1; //ต้อง +1 เพราะ index เริ่มจาก 0
     const itemsYear = []; // สร้าง array เพื่อเก็บ object ปี
-
     this.setState({
       eventAll: event,
       eventUser: event_user,
@@ -271,7 +272,7 @@ class Home extends Component {
 
       if (!user) {
         // $student_two["Chemistry"] = 92
-        this.props.navigation.navigate("Login");
+        this.props.navigation.replace("Login");
       }
 
       this.props.getTeachUserHome(user && user.user_id);
@@ -524,7 +525,7 @@ class Home extends Component {
     }
 
     if (prevProps.user !== user && !user) {
-      this.props.navigation.navigate("Login");
+      this.props.navigation.replace("Login");
     }
 
     const { selectedYear, selectedMonth, statusChart } = this.state;
@@ -829,192 +830,355 @@ class Home extends Component {
     }
   };
 
-  renderActivityDetails = (item, tickData, foundItemUser, index) => {
-    const { eventUser } = this.state;
-    let tickId =
-      eventUser && eventUser.some((user) => user.event_id == item.id);
+  // renderActivityDetails = (item, tickData, foundItemUser, index) => {
+  //   const { eventUser } = this.state;
+  //   let tickId =
+  //     eventUser && eventUser.some((user) => user.event_id == item.id);
+  //   return (
+  //     <Pressable
+  //       //onPress={() => this.props.navigation.navigate("WebView")}
+  //       onPress={() => this.openInExternalBrowser()}
+  //     >
+  //       <View
+  //         key={index}
+  //         style={[
+  //           styles.itemContainer,
+  //           index === foundItemUser &&
+  //             foundItemUser.length - 1 && { marginRight: 16 },
+  //           index === 0 && { marginLeft: 16 },
+  //         ]}
+  //       >
+  //         <View
+  //           style={{
+  //             backgroundColor: colors.positive1,
+  //             height: 144,
+  //             width: "100%",
+  //             marginRight: 8,
+  //             borderTopLeftRadius: 16,
+  //             borderTopRightRadius: 16,
+  //             position: "relative",
+  //           }}
+  //         >
+  //           {tickData && (
+  //             <Image
+  //               style={{
+  //                 height: 21,
+  //                 width: 30,
+  //                 zIndex: 100,
+  //                 marginRight: 8,
+  //                 position: "absolute",
+  //                 top: "50%", // ให้ตำแหน่งของ top อยู่ที่ 50% ของพื้นที่ที่ถูกตั้ง
+  //                 left: "50%", // ให้ตำแหน่งของ left อยู่ที่ 50% ของพื้นที่ที่ถูกตั้ง
+  //                 transform: [{ translateX: -15 }, { translateY: -10 }], // ปรับตำแหน่งให้อยู่กลาง
+  //               }}
+  //               source={tick3x}
+  //             />
+  //           )}
+
+  //           <Image
+  //             style={{
+  //               height: 144,
+  //               width: "100%",
+  //               zIndex: 1,
+  //               marginRight: 8,
+  //               borderTopLeftRadius: 16,
+  //               borderTopRightRadius: 16,
+  //               opacity: tickData ? 0.5 : 1,
+  //             }}
+  //             source={{
+  //               uri: item && item.cover_Image.replace("http://", "https://"),
+  //             }}
+  //           />
+  //         </View>
+
+  //         <Text numberOfLines={2} ellipsizeMode="tail" style={styles.itemText}>
+  //           {item.event_name}
+  //         </Text>
+  //         <View style={styles.boxEv}>
+  //           <View style={styles.boxRow}>
+  //             <Image
+  //               style={{
+  //                 height: 16,
+  //                 width: 16,
+  //                 zIndex: 1,
+  //                 marginRight: 8,
+  //               }}
+  //               source={dateIcon}
+  //             />
+
+  //             <Text>{this.formattedDate(item.start_date, item.end_date)}</Text>
+  //           </View>
+
+  //           {tickId && (
+  //             <>
+  //               {item.criteria_walk_step == "true" && (
+  //                 <>
+  //                   <View style={styles.boxRow2}>
+  //                     <View style={styles.boxRow}>
+  //                       <Image
+  //                         style={{
+  //                           height: 16,
+  //                           width: 16,
+  //                           zIndex: 1,
+  //                           marginRight: 8,
+  //                         }}
+  //                         source={Foot_step}
+  //                       />
+  //                       <Text
+  //                         style={
+  //                           tickData ? styles.stepNumber2 : styles.stepNumber
+  //                         }
+  //                       >
+  //                         {foundItemUser &&
+  //                           parseInt(
+  //                             foundItemUser.walk_step,
+  //                             10
+  //                           ).toLocaleString()}
+  //                       </Text>
+  //                     </View>
+  //                     <Text style={styles.stepMax}>
+  //                       {parseInt(item.walk_step, 10).toLocaleString()} ก้าว
+  //                     </Text>
+  //                   </View>
+  //                   <View style={styles.progressBar}>
+  //                     <View
+  //                       style={{
+  //                         width: `${
+  //                           (foundItemUser &&
+  //                             foundItemUser &&
+  //                             foundItemUser.walk_step / item.walk_step) * 100
+  //                         }%`,
+  //                         maxWidth: "100%",
+  //                         height: 8,
+  //                         borderRadius: 16,
+  //                         backgroundColor: tickData
+  //                           ? colors.grey3
+  //                           : colors.persianBlue, // สีของ ProgressBar
+  //                       }}
+  //                     />
+  //                   </View>
+  //                 </>
+  //               )}
+  //               {item.criteria_distance == "true" && (
+  //                 <>
+  //                   <View style={styles.boxRow2}>
+  //                     <View style={styles.boxRow}>
+  //                       <Image
+  //                         style={{
+  //                           height: 16,
+  //                           width: 16,
+  //                           zIndex: 1,
+  //                           marginRight: 8,
+  //                         }}
+  //                         source={Distance}
+  //                       />
+  //                       <Text
+  //                         style={
+  //                           tickData ? styles.stepNumber2 : styles.stepNumber
+  //                         }
+  //                       >
+  //                         {" "}
+  //                         {foundItemUser &&
+  //                           parseInt(
+  //                             foundItemUser.distance,
+  //                             10
+  //                           ).toLocaleString()}
+  //                       </Text>
+  //                     </View>
+  //                     <Text style={styles.stepMax}>
+  //                       {" "}
+  //                       {parseInt(item.distance, 10).toLocaleString()} กิโลเมตร
+  //                     </Text>
+  //                   </View>
+  //                   <View style={styles.progressBar}>
+  //                     <View
+  //                       style={{
+  //                         width: `${
+  //                           (foundItemUser &&
+  //                             foundItemUser &&
+  //                             foundItemUser.distance / item.distance) * 100
+  //                         }%`,
+  //                         maxWidth: "100%",
+  //                         height: 8,
+  //                         borderRadius: 16,
+  //                         backgroundColor: tickData
+  //                           ? colors.grey3
+  //                           : colors.persianBlue, // สีของ ProgressBar
+  //                       }}
+  //                     />
+  //                   </View>
+  //                 </>
+  //               )}
+  //             </>
+  //           )}
+  //         </View>
+  //       </View>
+  //     </Pressable>
+  //   );
+  // };
+
+  renderActivityDetails() {
     return (
-      <Pressable
-        //onPress={() => this.props.navigation.navigate("WebView")}
-        onPress={() => this.openInExternalBrowser()}
-      >
-        <View
-          key={index}
-          style={[
-            styles.itemContainer,
-            index === foundItemUser &&
-              foundItemUser.length - 1 && { marginRight: 16 },
-            index === 0 && { marginLeft: 16 },
-          ]}
-        >
-          <View
+      <Pressable>
+        <View style={[styles.itemContainer]}>
+          <Image
+            source={banner}
             style={{
-              backgroundColor: colors.positive1,
               height: 144,
               width: "100%",
+              zIndex: 1,
               marginRight: 8,
               borderTopLeftRadius: 16,
               borderTopRightRadius: 16,
-              position: "relative",
+              opacity: 1,
             }}
-          >
-            {tickData && (
-              <Image
-                style={{
-                  height: 21,
-                  width: 30,
-                  zIndex: 100,
-                  marginRight: 8,
-                  position: "absolute",
-                  top: "50%", // ให้ตำแหน่งของ top อยู่ที่ 50% ของพื้นที่ที่ถูกตั้ง
-                  left: "50%", // ให้ตำแหน่งของ left อยู่ที่ 50% ของพื้นที่ที่ถูกตั้ง
-                  transform: [{ translateX: -15 }, { translateY: -10 }], // ปรับตำแหน่งให้อยู่กลาง
-                }}
-                source={tick3x}
-              />
-            )}
+          />
+          <View style={{ padding: 16 }}>
+            <Text style={{ fontWeight: "700", fontSize: 15.6, width: "100%" }}>
+              วิ่งเก็บระยะทางมาราธอน 10 ชั่วโมง ประจำปี 2566 ของ ABC...
+            </Text>
 
-            <Image
-              style={{
-                height: 144,
-                width: "100%",
-                zIndex: 1,
-                marginRight: 8,
-                borderTopLeftRadius: 16,
-                borderTopRightRadius: 16,
-                opacity: tickData ? 0.5 : 1,
-              }}
-              source={{
-                uri: item && item.cover_Image.replace("http://", "https://"),
-              }}
-            />
-          </View>
+            <View style={styles.boxEv}>
+              <View style={styles.boxRow}>
+                <Image
+                  style={{
+                    height: 16,
+                    width: 16,
+                    zIndex: 1,
+                    marginRight: 8,
+                  }}
+                  source={dateIcon}
+                />
 
-          <Text numberOfLines={2} ellipsizeMode="tail" style={styles.itemText}>
-            {item.event_name}
-          </Text>
-          <View style={styles.boxEv}>
-            <View style={styles.boxRow}>
-              <Image
-                style={{
-                  height: 16,
-                  width: 16,
-                  zIndex: 1,
-                  marginRight: 8,
-                }}
-                source={dateIcon}
-              />
-
-              <Text>{this.formattedDate(item.start_date, item.end_date)}</Text>
+                <Text>1 ม.ค. - 30 ม.ค. 2566</Text>
+              </View>
             </View>
 
-            {tickId && (
-              <>
-                {item.criteria_walk_step == "true" && (
-                  <>
-                    <View style={styles.boxRow2}>
-                      <View style={styles.boxRow}>
-                        <Image
-                          style={{
-                            height: 16,
-                            width: 16,
-                            zIndex: 1,
-                            marginRight: 8,
-                          }}
-                          source={Foot_step}
-                        />
-                        <Text
-                          style={
-                            tickData ? styles.stepNumber2 : styles.stepNumber
-                          }
-                        >
-                          {foundItemUser &&
-                            parseInt(
-                              foundItemUser.walk_step,
-                              10
-                            ).toLocaleString()}
-                        </Text>
-                      </View>
-                      <Text style={styles.stepMax}>
-                        {parseInt(item.walk_step, 10).toLocaleString()} ก้าว
-                      </Text>
-                    </View>
-                    <View style={styles.progressBar}>
-                      <View
-                        style={{
-                          width: `${
-                            (foundItemUser &&
-                              foundItemUser &&
-                              foundItemUser.walk_step / item.walk_step) * 100
-                          }%`,
-                          maxWidth: "100%",
-                          height: 8,
-                          borderRadius: 16,
-                          backgroundColor: tickData
-                            ? colors.grey3
-                            : colors.persianBlue, // สีของ ProgressBar
-                        }}
-                      />
-                    </View>
-                  </>
-                )}
-                {item.criteria_distance == "true" && (
-                  <>
-                    <View style={styles.boxRow2}>
-                      <View style={styles.boxRow}>
-                        <Image
-                          style={{
-                            height: 16,
-                            width: 16,
-                            zIndex: 1,
-                            marginRight: 8,
-                          }}
-                          source={Distance}
-                        />
-                        <Text
-                          style={
-                            tickData ? styles.stepNumber2 : styles.stepNumber
-                          }
-                        >
-                          {" "}
-                          {foundItemUser &&
-                            parseInt(
-                              foundItemUser.distance,
-                              10
-                            ).toLocaleString()}
-                        </Text>
-                      </View>
-                      <Text style={styles.stepMax}>
-                        {" "}
-                        {parseInt(item.distance, 10).toLocaleString()} กิโลเมตร
-                      </Text>
-                    </View>
-                    <View style={styles.progressBar}>
-                      <View
-                        style={{
-                          width: `${
-                            (foundItemUser &&
-                              foundItemUser &&
-                              foundItemUser.distance / item.distance) * 100
-                          }%`,
-                          maxWidth: "100%",
-                          height: 8,
-                          borderRadius: 16,
-                          backgroundColor: tickData
-                            ? colors.grey3
-                            : colors.persianBlue, // สีของ ProgressBar
-                        }}
-                      />
-                    </View>
-                  </>
-                )}
-              </>
-            )}
+            <View>
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  marginTop: 14,
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                  }}
+                >
+                  <Image
+                    style={{
+                      height: 16,
+                      width: 16,
+                      zIndex: 1,
+                      marginRight: 8,
+                    }}
+                    source={Foot_step}
+                  />
+                  <Text
+                    style={{
+                      color: colors.persianBlue,
+                      fontWeight: "700",
+                      fontSize: 14,
+                    }}
+                  >
+                    4000
+                  </Text>
+                </View>
+
+                <Text
+                  style={{
+                    color: colors.grey3,
+                    fontWeight: "700",
+                    fontSize: 12,
+                  }}
+                >
+                  400,000 ก้าว
+                </Text>
+              </View>
+              <View style={styles.progressBar}>
+                <View
+                  style={{
+                    width: 65,
+                    maxWidth: "100%",
+                    height: 8,
+                    borderRadius: 16,
+                    backgroundColor:
+                      // colors.grey3
+                      colors.persianBlue,
+                  }}
+                />
+              </View>
+            </View>
+            <View>
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  marginTop: 14,
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                  }}
+                >
+                  <Image
+                    style={{
+                      height: 16,
+                      width: 16,
+                      zIndex: 1,
+                      marginRight: 8,
+                    }}
+                    source={Distance}
+                  />
+                  <Text
+                    style={{
+                      color: colors.persianBlue,
+                      fontWeight: "700",
+                      fontSize: 14,
+                    }}
+                  >
+                    400
+                  </Text>
+                </View>
+
+                <Text
+                  style={{
+                    color: colors.grey3,
+                    fontWeight: "700",
+                    fontSize: 12,
+                  }}
+                >
+                  1,000 กิโลเมตร
+                </Text>
+              </View>
+              <View style={styles.progressBar}>
+                <View
+                  style={{
+                    width: 65,
+                    maxWidth: "100%",
+                    height: 8,
+                    borderRadius: 16,
+                    backgroundColor:
+                      // colors.grey3
+                      colors.persianBlue,
+                  }}
+                />
+              </View>
+            </View>
           </View>
         </View>
       </Pressable>
     );
-  };
+  }
 
   render() {
     const { user, activity_list, teachUserHome } = this.props;
@@ -1135,8 +1299,9 @@ class Home extends Component {
               <View style={styles.elevationBetween}>
                 <Text style={styles.elevationText}>กิจกรรม</Text>
                 <Pressable
-                  // onPress={() => this.props.navigation.navigate("WebView")}
-                  onPress={() => this.openInExternalBrowser()}
+                  onPress={() =>
+                    this.props.navigation.navigate("AllActivities")
+                  }
                 >
                   <Text style={styles.viewAll}>ดูทั้งหมด</Text>
                 </Pressable>
@@ -1146,7 +1311,8 @@ class Home extends Component {
                 horizontal
                 showsHorizontalScrollIndicator={false}
               >
-                {eventAll &&
+                {[1, 2, 3].map((item) => this.renderActivityDetails())}
+                {/* {eventAll &&
                   eventAll.map((item, index) => {
                     const formattedEndDate = parse(
                       item.end_date,
@@ -1184,7 +1350,7 @@ class Home extends Component {
                         index
                       )
                     );
-                  })}
+                  })} */}
               </ScrollView>
             </View>
           </ImageBackground>
@@ -2458,7 +2624,7 @@ const styles = StyleSheet.create({
     marginTop: 16,
     marginHorizontal: 8,
     borderRadius: 16,
-    paddingBottom: 16,
+    // paddingBottom: 16,
   },
   itemText: {
     fontSize: 16,
@@ -2470,8 +2636,7 @@ const styles = StyleSheet.create({
     marginTop: 16,
   },
   boxEv: {
-    marginTop: 12,
-    paddingHorizontal: 16,
+    marginTop: 14,
   },
   boxRow: {
     flexDirection: "row",
@@ -2501,6 +2666,7 @@ const styles = StyleSheet.create({
     color: colors.grey2,
   },
   progressBar: {
+    marginTop: 7,
     width: "100%",
     height: 8,
     backgroundColor: colors.grey6,
