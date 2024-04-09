@@ -37,7 +37,6 @@ import ChangePassword from "../screens/Profile/ChangePassword";
 import SetPassword from "../screens/Profile/SetPassword";
 import { useSelector, useDispatch } from "react-redux";
 import { StackActions } from "@react-navigation/native";
-import AllActivities from "../screens/All_Activity";
 import Distance from "../screens/GpsDistance/Distance";
 
 const HomeStack = createStackNavigator();
@@ -53,28 +52,6 @@ function HomeStackScreen() {
         options={{ headerShown: false }}
       />
 
-      <HomeStack.Screen
-        name="AllActivities"
-        component={AllActivities}
-        options={{
-          title: "",
-          showLabel: false,
-          headerShadowVisible: false,
-          headerStyle: {
-            backgroundColor: colors.white,
-          },
-          headerLeft: () => (
-            <View style={{ marginLeft: 16 }}>
-              <TouchableOpacity onPress={() => navigation.pop()}>
-                <Image
-                  style={{ width: 24, height: 24 }}
-                  source={require("../assets/images/icon/caret.png")}
-                />
-              </TouchableOpacity>
-            </View>
-          ),
-        }}
-      />
       <HomeStack.Screen
         name="ArticleTemplate"
         component={ArticleTemplate}

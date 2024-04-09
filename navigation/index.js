@@ -44,6 +44,7 @@ import ExerciseStackScreen from "../navigation/ExerciseStackScreen";
 import ActivityStackScreen from "../navigation/ActivityStackScreen";
 import { useSelector, useDispatch } from "react-redux";
 import { routeName, setSelectedTab } from "../redux/personalUser";
+import AllActivities from "../screens/All_Activity";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -322,6 +323,29 @@ function MyStack(props) {
         options={{ headerShown: false }}
         initialRouteName="Login"
       />
+
+      <Stack.Screen
+        name="AllActivities"
+        component={AllActivities}
+        options={{
+          title: "",
+          showLabel: false,
+          headerShadowVisible: false,
+          headerStyle: {
+            backgroundColor: colors.white,
+          },
+          headerLeft: () => (
+            <View style={{ marginLeft: 16 }}>
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                <Image
+                  style={{ width: 24, height: 24 }}
+                  source={require("../assets/images/icon/caret.png")}
+                />
+              </TouchableOpacity>
+            </View>
+          ),
+        }}
+      />
       <Stack.Screen
         name="TestGPS"
         component={TestGPS}
@@ -533,9 +557,9 @@ function getBottomTabse(route) {
   if (routeName == "WebView") {
     return "none";
   }
-  if (routeName == "AllActivities") {
-    return "none";
-  }
+  // if (routeName == "AllActivities") {
+  //   return "none";
+  // }
 
   return "flex";
 }
