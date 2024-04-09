@@ -38,6 +38,7 @@ import SetPassword from "../screens/Profile/SetPassword";
 import { useSelector, useDispatch } from "react-redux";
 import { StackActions } from "@react-navigation/native";
 import AllActivities from "../screens/All_Activity";
+import Distance from "../screens/GpsDistance/Distance";
 
 const HomeStack = createStackNavigator();
 
@@ -55,7 +56,7 @@ function HomeStackScreen() {
       <HomeStack.Screen
         name="AllActivities"
         component={AllActivities}
-        options={{ 
+        options={{
           title: "",
           showLabel: false,
           headerShadowVisible: false,
@@ -316,6 +317,28 @@ function HomeStackScreen() {
           headerLeft: () => (
             <View style={{ marginLeft: 16 }}>
               <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
+                <Image
+                  style={{ width: 24, height: 24 }}
+                  source={require("../assets/images/icon/caret.png")}
+                />
+              </TouchableOpacity>
+            </View>
+          ),
+        })}
+      />
+      <HomeStack.Screen
+        name="Distance"
+        component={Distance}
+        options={({ route, navigation }) => ({
+          title: "",
+          headerStyle: {
+            backgroundColor: colors.white,
+          },
+          showLabel: false,
+          headerShadowVisible: false,
+          headerLeft: () => (
+            <View style={{ marginLeft: 16 }}>
+              <TouchableOpacity onPress={() => navigation.pop()}>
                 <Image
                   style={{ width: 24, height: 24 }}
                   source={require("../assets/images/icon/caret.png")}

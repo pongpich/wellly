@@ -1352,6 +1352,12 @@ class Home extends Component {
                     );
                   })} */}
               </ScrollView>
+              <Text
+                style={{ margin: 16 }}
+                onPress={() => this.props.navigation.navigate("Distance")}
+              >
+                ระยะทาง GPS
+              </Text>
             </View>
           </ImageBackground>
 
