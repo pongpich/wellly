@@ -19,14 +19,17 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 import * as Location from "expo-location";
-
 import { getDistance } from "geolib";
+import { Pedometer } from "expo-sensors";
 
 const Distance = () => {
   const [location, setLocation] = useState(null);
   const [locationOld, setLocationOld] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
 
+  /**
+   * ! ระยะทาง
+   *  */
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
@@ -34,10 +37,9 @@ const Distance = () => {
         setErrorMsg("Permission to access location was denied");
         return;
       }
-      let getLocation = await Location.getCurrentPositionAsync({});
-      if (getLocation) {
-        setLocationOld(getLocation);
-      }
+      // Get current position and set it as the old location
+      const initialLocation = await Location.getCurrentPositionAsync();
+      setLocationOld(initialLocation);
 
       // Watch for location updates
       const locationSubscription = await Location.watchPositionAsync(
@@ -79,27 +81,8 @@ const Distance = () => {
         locationOld.coords.latitude +
         " " +
         locationOld.coords.longitude;
-
-      console.log("locationOld:", locationOld.coords.latitude);
-      console.log("locationOld:", locationOld.coords.longitude);
     }
-
-    console.log("locationOld", locationOld);
-    /*     console.log("latitude:", location.coords.latitude);
-    console.log("longitude:", location.coords.longitude); */
   }
-  // ตัวอย่างการใช้งานเรียกใช้งานพิกัดตำแหน่งอย่างต่อเนื่อง
-  // Example coordinates
-  /*   const coordinates1 = {
-    latitude: locationOld.coords.latitude,
-    longitude: locationOld.coords.longitude,
-  }; // London
-  const coordinates2 = {
-    latitude: location.coords.latitude,
-    longitude: location.coords.longitude,
-  }; // Paris
-    const distance = getDistance(coordinates1, coordinates2);
-  */
 
   const userLocation = {
     latitude: locationOld ? locationOld.coords.latitude : 0,
@@ -111,11 +94,39 @@ const Distance = () => {
   };
 
   const distanceInMeters = getDistance(userLocation, destination);
-  const distanceInKilometers = distanceInMeters / 1000;
-  console.log("Distance in kilometers:", distanceInKilometers);
-  console.log("Distance in meters:", distanceInMeters);
+  const distanceInKilometers = (distanceInMeters / 1000).toFixed(2);
 
-  // Calculate distance in meters
+  /**
+   * ! นับก้าว
+   *  */
+  const [isPedometerAvailable, setIsPedometerAvailable] = useState("checking");
+  const [pastStepCount, setPastStepCount] = useState(0);
+  const [currentStepCount, setCurrentStepCount] = useState(0);
+
+  const subscribe = async () => {
+    const isAvailable = await Pedometer.isAvailableAsync();
+    setIsPedometerAvailable(String(isAvailable));
+
+    if (isAvailable) {
+      const end = new Date();
+      const start = new Date();
+      start.setDate(end.getDate() - 1);
+
+      const pastStepCountResult = await Pedometer.getStepCountAsync(start, end);
+      if (pastStepCountResult) {
+        setPastStepCount(pastStepCountResult.steps);
+      }
+
+      return Pedometer.watchStepCount((result) => {
+        setCurrentStepCount(result.steps);
+      });
+    }
+  };
+
+  useEffect(() => {
+    const subscription = subscribe();
+    return () => subscription && subscription.remove();
+  }, []);
 
   return (
     <View>
@@ -123,7 +134,16 @@ const Distance = () => {
 
       <Text style={styles.paragraph}>{text}</Text>
       <Text style={styles.paragraph}>{Old}</Text>
-      <Text style={styles.paragraph}>ระยะทาง {distanceInKilometers} KG</Text>
+      <Text style={styles.paragraph}>ระยะทาง {distanceInKilometers} km</Text>
+      <Text style={styles.paragraph}>
+        Pedometer.isAvailableAsync(): {isPedometerAvailable}
+      </Text>
+      <Text style={styles.paragraph}>
+        Steps taken in the last 24 hours: {pastStepCount}
+      </Text>
+      <Text style={styles.paragraph}>
+        Walk! And watch this go up: {currentStepCount}
+      </Text>
     </View>
   );
 };
@@ -139,5 +159,25 @@ const styles = StyleSheet.create({
   paragraph: {
     fontSize: 18,
     textAlign: "center",
+  },
+  text: {
+    textAlign: "center",
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    alignItems: "stretch",
+    marginTop: 15,
+  },
+  button: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#eee",
+    padding: 10,
+  },
+  middleButton: {
+    borderLeftWidth: 1,
+    borderRightWidth: 1,
+    borderColor: "#ccc",
   },
 });
