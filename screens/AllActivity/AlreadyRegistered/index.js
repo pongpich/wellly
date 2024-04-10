@@ -12,9 +12,19 @@ import dateIcon from "../../../assets/images/icon/dateIcon.png";
 import Distance from "../../../assets/images/icon/Distance.png";
 import Foot_step from "../../../assets/images/icon/Foot_step.png";
 import banner from "../../../assets/images/activity/Frame13716.png";
+import Checked from "../../../assets/images/activity/Checked.png";
 import banner_done from "../../../assets/images/activity/banner_done.png";
+import { Snackbar } from "react-native-paper";
+import { useNavigation } from "@react-navigation/native";
 
-export default function AllAct() {
+export default function AlreadyRegistered() {
+  const navigate = useNavigation();
+
+  const [visible, setVisible] = React.useState(false);
+
+  const onToggleSnackBar = () => setVisible(!visible);
+
+  const onDismissSnackBar = () => setVisible(false);
   return (
     <View
       style={{
@@ -23,11 +33,18 @@ export default function AllAct() {
         paddingTop: 20,
       }}
     >
-      {[1, 2, 3].map((item) => (
+      {[1].map((item) => (
         <View>
-          <Pressable>
+          <Pressable
+            onPress={() =>
+              navigate.navigate("DetailsActivity", {
+                itemId: 86,
+                isRegis: true,
+              })
+            }
+          >
             <View style={[styles.itemContainer]}>
-              <ImageBackground
+              <Image
                 source={banner}
                 style={{
                   height: 193,
@@ -37,38 +54,8 @@ export default function AllAct() {
                   borderTopRightRadius: 16,
                   opacity: 1,
                 }}
-                resizeMode="stretch"
-              >
-                <View
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "flex-end",
-                    padding: 16,
-                  }}
-                >
-                  <View
-                    style={{
-                      backgroundColor: "#D43A3A",
-                      width: 50,
-                      height: 32,
-                      padding: 5,
-                      borderRadius: 50,
-                    }}
-                  >
-                    <Text
-                      style={{
-                        fontSize: 16,
-                        fontWeight: "700",
-                        color: "white",
-                        textAlign: "center",
-                      }}
-                    >
-                      ใหม่
-                    </Text>
-                  </View>
-                </View>
-              </ImageBackground>
+                resizeMode="cover"
+              />
 
               <View style={{ padding: 16 }}>
                 <Text
@@ -93,7 +80,7 @@ export default function AllAct() {
                   </View>
                 </View>
 
-                {/* <View>
+                <View>
                   <View
                     style={{
                       display: "flex",
@@ -212,12 +199,43 @@ export default function AllAct() {
                       }}
                     />
                   </View>
-                </View> */}
+                </View>
               </View>
             </View>
           </Pressable>
         </View>
       ))}
+
+      <Snackbar
+        visible={true}
+        onDismiss={onDismissSnackBar}
+        action={{
+          label: "",
+          onPress: () => {
+            // Do something
+          },
+        }}
+        style={{
+          backgroundColor: "white",
+          borderRadius: 8,
+          width: "100%",
+          marginHorizontal: 14,
+        }}
+      >
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+          }}
+        >
+          <Image
+            source={Checked}
+            style={{ width: 24, height: 24, marginRight: 8 }}
+          />
+          <Text style={{ fontWeight: "400" }}>ลงทะเบียนสำเร็จ</Text>
+        </View>
+      </Snackbar>
     </View>
   );
 }

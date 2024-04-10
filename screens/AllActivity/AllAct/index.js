@@ -13,8 +13,11 @@ import Distance from "../../../assets/images/icon/Distance.png";
 import Foot_step from "../../../assets/images/icon/Foot_step.png";
 import banner from "../../../assets/images/activity/Frame13716.png";
 import banner_done from "../../../assets/images/activity/banner_done.png";
+import { useNavigation } from "@react-navigation/native";
 
-export default function AlreadyRegistered() {
+export default function AllAct() {
+  const navigate = useNavigation();
+
   return (
     <View
       style={{
@@ -23,11 +26,17 @@ export default function AlreadyRegistered() {
         paddingTop: 20,
       }}
     >
-      {[1].map((item) => (
+      {[1, 2, 3].map((item) => (
         <View>
-          <Pressable>
+          <Pressable
+            onPress={() =>
+              navigate.navigate("DetailsActivity", {
+                itemId: 86,
+              })
+            }
+          >
             <View style={[styles.itemContainer]}>
-              <Image
+              <ImageBackground
                 source={banner}
                 style={{
                   height: 193,
@@ -37,8 +46,38 @@ export default function AlreadyRegistered() {
                   borderTopRightRadius: 16,
                   opacity: 1,
                 }}
-                resizeMode="cover"
-              />
+                resizeMode="stretch"
+              >
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "flex-end",
+                    padding: 16,
+                  }}
+                >
+                  <View
+                    style={{
+                      backgroundColor: "#D43A3A",
+                      width: 50,
+                      height: 32,
+                      padding: 5,
+                      borderRadius: 50,
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontSize: 16,
+                        fontWeight: "700",
+                        color: "white",
+                        textAlign: "center",
+                      }}
+                    >
+                      ใหม่
+                    </Text>
+                  </View>
+                </View>
+              </ImageBackground>
 
               <View style={{ padding: 16 }}>
                 <Text
@@ -63,7 +102,7 @@ export default function AlreadyRegistered() {
                   </View>
                 </View>
 
-                <View>
+                {/* <View>
                   <View
                     style={{
                       display: "flex",
@@ -182,7 +221,7 @@ export default function AlreadyRegistered() {
                       }}
                     />
                   </View>
-                </View>
+                </View> */}
               </View>
             </View>
           </Pressable>

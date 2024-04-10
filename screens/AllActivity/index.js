@@ -2,15 +2,21 @@ import { Text, View, TouchableOpacity, Image, ScrollView } from "react-native";
 import * as React from "react";
 import { useNavigation } from "@react-navigation/native";
 import history_img from "../../assets/images/activity/History.png";
-import AllAct from "./all_act";
-import AlreadyRegistered from "./already_registered";
+import AllAct from "./AllAct";
+import AlreadyRegistered from "./AlreadyRegistered";
 
-export default function AllActivities() {
+export default function AllActivities({ route }) {
   const navigation = useNavigation();
   const [activeColor, setActiveColor] = React.useState("all");
 
+  React.useEffect(() => {
+    if (route?.params?.isRegis) {
+      setActiveColor("registered");
+    }
+  }, [route?.params?.isRegis]);
+
   return (
-    <ScrollView style={{ backgroundColor: "white" }}>
+    <ScrollView style={{ backgroundColor: "white",height:'100%' }}>
       <View
         style={{
           padding: 16,
@@ -88,7 +94,9 @@ export default function AllActivities() {
       </View>
 
       {activeColor == "all" ? <AllAct /> : null}
-      {activeColor == "registered" ? <AlreadyRegistered /> : null}
+      {activeColor == "registered"  ? (
+        <AlreadyRegistered />
+      ) : null}
     </ScrollView>
   );
 }
