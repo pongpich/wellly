@@ -16,18 +16,31 @@ export default function AllActivities({ route }) {
   }, [route?.params?.isRegis]);
 
   return (
-    <ScrollView style={{ backgroundColor: "white",height:'100%' }}>
+    <View
+      style={{
+        backgroundColor: "white",
+        height: "100%",
+      }}
+    >
       <View
         style={{
           padding: 16,
+          paddingTop: 0,
           display: "flex",
           flexDirection: "row",
           justifyContent: "space-between",
           alignItems: "center",
         }}
       >
-        <Text style={{ fontWeight: "700", fontSize: 24 }}>กิจกรรม</Text>
-        <TouchableOpacity onPress={() => {}}>
+        <Text
+          style={{
+            fontSize: 24,
+            fontFamily: "IBMPlexSansThai-Bold",
+          }}
+        >
+          กิจกรรม
+        </Text>
+        <TouchableOpacity onPress={() => navigation.navigate("DoneActivity")}>
           <Image style={{ width: 24, height: 24 }} source={history_img} />
         </TouchableOpacity>
       </View>
@@ -58,7 +71,7 @@ export default function AllActivities({ route }) {
               style={{
                 width: 170,
                 fontSize: 16,
-                fontWeight: "700",
+                fontFamily: "IBMPlexSansThai-Bold",
                 textAlign: "center",
                 color: activeColor == "all" ? "#3762FC" : "#93A8C1",
               }}
@@ -81,7 +94,7 @@ export default function AllActivities({ route }) {
               style={{
                 width: 170,
                 fontSize: 16,
-                fontWeight: "700",
+                fontFamily: "IBMPlexSansThai-Bold",
                 textAlign: "center",
                 color: activeColor == "registered" ? "#3762FC" : "#93A8C1",
               }}
@@ -94,9 +107,7 @@ export default function AllActivities({ route }) {
       </View>
 
       {activeColor == "all" ? <AllAct /> : null}
-      {activeColor == "registered"  ? (
-        <AlreadyRegistered />
-      ) : null}
-    </ScrollView>
+      {activeColor == "registered" ? <AlreadyRegistered /> : null}
+    </View>
   );
 }

@@ -5,6 +5,7 @@ import {
   Pressable,
   Image,
   ImageBackground,
+  ScrollView,
 } from "react-native";
 import React from "react";
 import colors from "../../../constants/colors";
@@ -19,105 +20,80 @@ export default function AllAct() {
   const navigate = useNavigation();
 
   return (
-    <View
-      style={{
-        flex: 1,
-        padding: 16,
-        paddingTop: 20,
-      }}
-    >
-      {[1, 2, 3].map((item) => (
-        <View>
-          <Pressable
-            onPress={() =>
-              navigate.navigate("DetailsActivity", {
-                itemId: 86,
-              })
-            }
-          >
-            <View style={[styles.itemContainer]}>
-              <ImageBackground
-                source={banner}
-                style={{
-                  height: 193,
-                  width: "100%",
-                  marginRight: 8,
-                  borderTopLeftRadius: 16,
-                  borderTopRightRadius: 16,
-                  opacity: 1,
-                }}
-                resizeMode="stretch"
-              >
-                <View
+    <ScrollView>
+      <View
+        style={{
+          flex: 1,
+          padding: 16,
+          paddingTop: 20,
+        }}
+      >
+        {[1, 2, 3].map((item) => (
+          <View>
+            <Pressable
+              onPress={() =>
+                navigate.navigate("DetailsActivity", {
+                  itemId: 86,
+                })
+              }
+            >
+              <View style={[styles.itemContainer]}>
+                <ImageBackground
+                  source={banner}
                   style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "flex-end",
-                    padding: 16,
+                    height: 193,
+                    width: "100%",
+                    marginRight: 8,
+                    borderTopLeftRadius: 16,
+                    borderTopRightRadius: 16,
+                    opacity: 1,
                   }}
+                  resizeMode="stretch"
                 >
-                  <View
-                    style={{
-                      backgroundColor: "#D43A3A",
-                      width: 50,
-                      height: 32,
-                      padding: 5,
-                      borderRadius: 50,
-                    }}
-                  >
-                    <Text
-                      style={{
-                        fontSize: 16,
-                        fontWeight: "700",
-                        color: "white",
-                        textAlign: "center",
-                      }}
-                    >
-                      ใหม่
-                    </Text>
-                  </View>
-                </View>
-              </ImageBackground>
-
-              <View style={{ padding: 16 }}>
-                <Text
-                  style={{ fontWeight: "700", fontSize: 15.6, width: "100%" }}
-                >
-                  วิ่งเก็บระยะทางมาราธอน 10 ชั่วโมง ประจำปี 2566 ของ ABC...
-                </Text>
-
-                <View style={styles.boxEv}>
-                  <View style={styles.boxRow}>
-                    <Image
-                      style={{
-                        height: 16,
-                        width: 16,
-                        zIndex: 1,
-                        marginRight: 8,
-                      }}
-                      source={dateIcon}
-                    />
-
-                    <Text>1 ม.ค. - 30 ม.ค. 2566</Text>
-                  </View>
-                </View>
-
-                {/* <View>
                   <View
                     style={{
                       display: "flex",
                       flexDirection: "row",
-                      marginTop: 14,
-                      alignItems: "center",
-                      justifyContent: "space-between",
+                      justifyContent: "flex-end",
+                      padding: 16,
                     }}
                   >
                     <View
                       style={{
-                        display: "flex",
-                        flexDirection: "row",
+                        backgroundColor: "#D43A3A",
+                        width: 50,
+                        height: 32,
+                        padding: 5,
+                        borderRadius: 50,
                       }}
                     >
+                      <Text
+                        style={{
+                          fontSize: 16,
+                          fontFamily: "IBMPlexSansThai-Bold",
+                          color: "white",
+                          textAlign: "center",
+                        }}
+                      >
+                        ใหม่
+                      </Text>
+                    </View>
+                  </View>
+                </ImageBackground>
+
+                <View style={{ padding: 16 }}>
+                  <Text
+                    style={{
+                      fontFamily: "IBMPlexSansThai-Bold",
+                      fontSize: 15.6,
+                      width: "100%",
+                    }}
+                  >
+                    วิ่งเก็บระยะทางมาราธอน 10 ชั่วโมง ประจำปี 2566 ของ ABC...
+                  </Text>
+
+                  <View style={styles.boxEv}>
+                    <View style={styles.boxRow}>
                       <Image
                         style={{
                           height: 16,
@@ -125,109 +101,26 @@ export default function AllAct() {
                           zIndex: 1,
                           marginRight: 8,
                         }}
-                        source={Foot_step}
+                        source={dateIcon}
                       />
+
                       <Text
                         style={{
-                          color: colors.persianBlue,
-                          fontWeight: "700",
+                          fontFamily: "IBMPlexSansThai-Regular",
                           fontSize: 14,
                         }}
                       >
-                        4000
+                        1 ม.ค. - 30 ม.ค. 2566
                       </Text>
                     </View>
-
-                    <Text
-                      style={{
-                        color: colors.grey3,
-                        fontWeight: "700",
-                        fontSize: 12,
-                      }}
-                    >
-                      400,000 ก้าว
-                    </Text>
-                  </View>
-                  <View style={styles.progressBar}>
-                    <View
-                      style={{
-                        width: 65,
-                        maxWidth: "100%",
-                        height: 8,
-                        borderRadius: 16,
-                        backgroundColor:
-                          // colors.grey3
-                          colors.persianBlue,
-                      }}
-                    />
                   </View>
                 </View>
-                <View>
-                  <View
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      marginTop: 14,
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                    }}
-                  >
-                    <View
-                      style={{
-                        display: "flex",
-                        flexDirection: "row",
-                      }}
-                    >
-                      <Image
-                        style={{
-                          height: 16,
-                          width: 16,
-                          zIndex: 1,
-                          marginRight: 8,
-                        }}
-                        source={Distance}
-                      />
-                      <Text
-                        style={{
-                          color: colors.persianBlue,
-                          fontWeight: "700",
-                          fontSize: 14,
-                        }}
-                      >
-                        400
-                      </Text>
-                    </View>
-
-                    <Text
-                      style={{
-                        color: colors.grey3,
-                        fontWeight: "700",
-                        fontSize: 12,
-                      }}
-                    >
-                      1,000 กิโลเมตร
-                    </Text>
-                  </View>
-                  <View style={styles.progressBar}>
-                    <View
-                      style={{
-                        width: 65,
-                        maxWidth: "100%",
-                        height: 8,
-                        borderRadius: 16,
-                        backgroundColor:
-                          // colors.grey3
-                          colors.persianBlue,
-                      }}
-                    />
-                  </View>
-                </View> */}
               </View>
-            </View>
-          </Pressable>
-        </View>
-      ))}
-    </View>
+            </Pressable>
+          </View>
+        ))}
+      </View>
+    </ScrollView>
   );
 }
 
@@ -253,6 +146,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     position: "relative",
     display: "flex",
+    alignItems: "center",
   },
 
   progressBar: {

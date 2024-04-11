@@ -1034,7 +1034,12 @@ class Home extends Component {
             }}
           />
           <View style={{ padding: 16 }}>
-            <Text style={{ fontWeight: "700", fontSize: 15.6, width: "100%" }}>
+            <Text
+              style={{
+                fontSize: 15.6,
+                fontFamily: "IBMPlexSansThai-Bold",
+              }}
+            >
               วิ่งเก็บระยะทางมาราธอน 10 ชั่วโมง ประจำปี 2566 ของ ABC...
             </Text>
 
@@ -1050,7 +1055,14 @@ class Home extends Component {
                   source={dateIcon}
                 />
 
-                <Text>1 ม.ค. - 30 ม.ค. 2566</Text>
+                <Text
+                  style={{
+                    fontFamily: "IBMPlexSansThai-Regular",
+                    fontSize: 14,
+                  }}
+                >
+                  1 ม.ค. - 30 ม.ค. 2566
+                </Text>
               </View>
             </View>
 
@@ -1082,7 +1094,7 @@ class Home extends Component {
                   <Text
                     style={{
                       color: colors.persianBlue,
-                      fontWeight: "700",
+                      fontFamily: "IBMPlexSansThai-Bold",
                       fontSize: 14,
                     }}
                   >
@@ -1093,7 +1105,7 @@ class Home extends Component {
                 <Text
                   style={{
                     color: colors.grey3,
-                    fontWeight: "700",
+                    fontFamily: "IBMPlexSansThai-Medium",
                     fontSize: 12,
                   }}
                 >
@@ -1142,7 +1154,7 @@ class Home extends Component {
                   <Text
                     style={{
                       color: colors.persianBlue,
-                      fontWeight: "700",
+                      fontFamily: "IBMPlexSansThai-Bold",
                       fontSize: 14,
                     }}
                   >
@@ -1153,7 +1165,7 @@ class Home extends Component {
                 <Text
                   style={{
                     color: colors.grey3,
-                    fontWeight: "700",
+                    fontFamily: "IBMPlexSansThai-Medium",
                     fontSize: 12,
                   }}
                 >
@@ -2623,14 +2635,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   itemContainer: {
-    width: 256, // Adjust the width as needed
-    height: "auto", // Adjust the height as needed
-    maxHeight: 344,
+    width: 256,
+    height: "auto",
     backgroundColor: colors.white,
     marginTop: 16,
-    marginHorizontal: 8,
+    marginHorizontal: 16,
     borderRadius: 16,
-    // paddingBottom: 16,
   },
   itemText: {
     fontSize: 16,
@@ -2648,6 +2658,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     position: "relative",
     display: "flex",
+    alignItems: "center",
   },
   boxRow2: {
     marginTop: 12,

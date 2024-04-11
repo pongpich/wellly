@@ -71,15 +71,13 @@ export default function DetailsActivity({ route }) {
       height: 26,
       backgroundColor: activeColor == "detail" ? "#3762FC" : "#D7E0FE",
       borderRadius: 16,
-      paddingVertical: 2,
       paddingHorizontal: 8,
-      paddingBottom: 4,
       marginRight: 9,
     },
     txtDetail: {
       fontSize: 16,
       color: activeColor == "detail" ? "#FFFFFF" : "#3762FC",
-      fontWeight: "700",
+      fontFamily: "IBMPlexSansThai-Bold",
       textAlign: "center",
     },
     btnAward: {
@@ -87,15 +85,13 @@ export default function DetailsActivity({ route }) {
       height: 27,
       backgroundColor: activeColor == "award" ? "#3762FC" : "#D7E0FE",
       borderRadius: 16,
-      paddingVertical: 2,
       paddingHorizontal: 8,
-      paddingBottom: 4,
       marginRight: 9,
     },
     txtAward: {
       fontSize: 16,
       color: activeColor == "award" ? "#FFFFFF" : "#3762FC",
-      fontWeight: "700",
+      fontFamily: "IBMPlexSansThai-Bold",
       textAlign: "center",
     },
     btnScore: {
@@ -103,15 +99,13 @@ export default function DetailsActivity({ route }) {
       height: 27,
       backgroundColor: activeColor == "score" ? "#3762FC" : "#D7E0FE",
       borderRadius: 16,
-      paddingVertical: 2,
       paddingHorizontal: 8,
-      paddingBottom: 4,
       marginRight: 9,
     },
     txtScore: {
       fontSize: 16,
       color: activeColor == "score" ? "#FFFFFF" : "#3762FC",
-      fontWeight: "700",
+      fontFamily: "IBMPlexSansThai-Bold",
       textAlign: "center",
     },
     btnRegis: {
@@ -164,7 +158,7 @@ export default function DetailsActivity({ route }) {
       </ImageBackground>
 
       <View style={{ padding: 17 }}>
-        <Text style={{ fontSize: 20, fontWeight: "700" }}>
+        <Text style={{ fontSize: 20, fontFamily: "IBMPlexSansThai-Bold" }}>
           วิ่งเก็บระยะทางมาราธอน 10 ชั่วโมง ประจำปี 2566 ขององค์กร ABCDF group
         </Text>
         <View
@@ -177,6 +171,7 @@ export default function DetailsActivity({ route }) {
               flexDirection: "row",
               position: "relative",
               display: "flex",
+              alignItems: "center",
             }}
           >
             <Image
@@ -189,7 +184,11 @@ export default function DetailsActivity({ route }) {
               source={dateIcon}
             />
 
-            <Text>1 ม.ค. - 30 ม.ค. 2566</Text>
+            <Text
+              style={{ fontSize: 14, fontFamily: "IBMPlexSansThai-Regular" }}
+            >
+              1 ม.ค. - 30 ม.ค. 2566
+            </Text>
           </View>
         </View>
 
@@ -227,7 +226,9 @@ export default function DetailsActivity({ route }) {
 
         {activeColor == "detail" ? (
           <View>
-            <Text style={{ fontSize: 16, fontWeight: "300" }}>
+            <Text
+              style={{ fontSize: 16, fontFamily: "IBMPlexSansThai-Regular" }}
+            >
               Lorem Ipsum is simply dummy text of the printing and typesetting
               industry. Lorem Ipsum has been the industry's standard dummy text
               ever since the 1500s, when an unknown printer took a galley of
@@ -299,7 +300,7 @@ export default function DetailsActivity({ route }) {
                     <Text
                       style={{
                         color: "#2A323C",
-                        fontWeight: "700",
+                        fontFamily: "IBMPlexSansThai-Bold",
                         fontSize: 16,
                       }}
                     >
@@ -308,7 +309,7 @@ export default function DetailsActivity({ route }) {
                     <Text
                       style={{
                         color: "#93A8C1",
-                        fontWeight: "400",
+                        fontFamily: "IBMPlexSansThai-Regular",
                         fontSize: 12,
                       }}
                     >
@@ -319,7 +320,7 @@ export default function DetailsActivity({ route }) {
                     <Text
                       style={{
                         color: "#697D96",
-                        fontWeight: "400",
+                        fontFamily: "IBMPlexSansThai-Regular",
                         fontSize: 16,
                       }}
                     >
@@ -342,7 +343,9 @@ export default function DetailsActivity({ route }) {
                   justifyContent: "space-between",
                 }}
               >
-                <Text style={{ fontSize: 20, fontWeight: "700" }}>
+                <Text
+                  style={{ fontSize: 20, fontFamily: "IBMPlexSansThai-Bold" }}
+                >
                   คะแนนของฉัน
                 </Text>
                 <TouchableOpacity
@@ -355,7 +358,7 @@ export default function DetailsActivity({ route }) {
                   <Text
                     style={{
                       fontSize: 16,
-                      fontWeight: "400",
+                      fontFamily: "IBMPlexSansThai-Medium",
                       color: "#3762FC",
                     }}
                   >
@@ -392,7 +395,7 @@ export default function DetailsActivity({ route }) {
                       <Text
                         style={{
                           color: "#3762FC",
-                          fontWeight: "700",
+                          fontFamily: "IBMPlexSansThai-Bold",
                           fontSize: 14,
                         }}
                       >
@@ -403,7 +406,7 @@ export default function DetailsActivity({ route }) {
                     <Text
                       style={{
                         color: "#93ABC1",
-                        fontWeight: "700",
+                        fontFamily: "IBMPlexSansThai-Medium",
                         fontSize: 12,
                       }}
                     >
@@ -452,8 +455,7 @@ export default function DetailsActivity({ route }) {
                       <Text
                         style={{
                           color: "#3762FC",
-
-                          fontWeight: "700",
+                          fontFamily: "IBMPlexSansThai-Bold",
                           fontSize: 14,
                         }}
                       >
@@ -464,7 +466,7 @@ export default function DetailsActivity({ route }) {
                     <Text
                       style={{
                         color: "#93ABC1",
-                        fontWeight: "700",
+                        fontFamily: "IBMPlexSansThai-Medium",
                         fontSize: 12,
                       }}
                     >
@@ -508,7 +510,7 @@ export default function DetailsActivity({ route }) {
             railBorderColor="#FFFFFF"
             title="เริ่มออกกำลังกาย"
             titleColor="#697D96"
-            titleStyles={{ fontWeight: "700", fontSize: 16 }}
+            titleStyles={{ fontFamily: "IBMPlexSansThai-Bold", fontSize: 16 }}
             thumbIconBorderColor="#59CBE4"
             thumbIconWidth={72}
             thumbIconBackgroundColor="#59CBE4"

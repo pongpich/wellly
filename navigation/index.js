@@ -48,6 +48,9 @@ import AllActivities from "../screens/AllActivity";
 import DetailsActivity from "../screens/AllActivity/DetailAct";
 import StartTimerActivity from "../screens/AllActivity/StartTimer";
 import TableScoreOfActivity from "../screens/AllActivity/TableScoreDetailActivity";
+import DoneActivity from "../screens/AllActivity/DoneActivity";
+import DetailsActivityDone from "../screens/AllActivity/DetailActDone";
+import TableRankDone from "../screens/AllActivity/TableRankDone";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -331,6 +334,58 @@ function MyStack(props) {
         component={StartTimerActivity}
         options={{ headerShown: false }}
         initialRouteName="StartTimerActivity"
+      />
+
+      <Stack.Screen
+        name="DetailsActivityDone"
+        component={DetailsActivityDone}
+        options={{ headerShown: false }}
+        initialRouteName="StartTimerActivity"
+      />
+
+      <Stack.Screen
+        name="TableRankDone"
+        component={TableRankDone}
+        options={{
+          title: "",
+          showLabel: false,
+          headerShadowVisible: false,
+          headerStyle: {
+            backgroundColor: colors.white,
+          },
+          headerLeft: () => (
+            <View style={{ marginLeft: 16 }}>
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                <Image
+                  style={{ width: 24, height: 24 }}
+                  source={require("../assets/images/icon/caret.png")}
+                />
+              </TouchableOpacity>
+            </View>
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="DoneActivity"
+        component={DoneActivity}
+        options={{
+          title: "",
+          showLabel: false,
+          headerShadowVisible: false,
+          headerStyle: {
+            backgroundColor: colors.white,
+          },
+          headerLeft: () => (
+            <View style={{ marginLeft: 16 }}>
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                <Image
+                  style={{ width: 24, height: 24 }}
+                  source={require("../assets/images/icon/caret.png")}
+                />
+              </TouchableOpacity>
+            </View>
+          ),
+        }}
       />
 
       <Stack.Screen
