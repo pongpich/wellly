@@ -2,9 +2,41 @@ import { View, Text, ScrollView, Image } from "react-native";
 import * as React from "react";
 import { DataTable } from "react-native-paper";
 import AvartarImg from "../../../assets/images/activity/Group13719.png";
+import { useDispatch, useSelector } from "react-redux";
+import { getRankScoreEvent } from "../../../redux/get";
+import { Skeleton } from "@rneui/themed";
 
 export default function TableScoreOfActivity({ route }) {
   const itemId = route.params.itemId;
+  const dispatch = useDispatch();
+  const dataScores = useSelector(({ getData }) => getData.rank_event_score);
+  const statusScore = useSelector(
+    ({ getData }) => getData.status_rank_event_score
+  );
+  console.log("statusScore", statusScore);
+  React.useEffect(() => {
+    dispatch(getRankScoreEvent(itemId));
+  }, [itemId]);
+
+  if (statusScore !== "loading" || dataScores == undefined) {
+    return (
+      <View
+        style={{
+          flexGrow: 1,
+          backgroundColor: "white",
+          flexDirection: "column",
+        }}
+      >
+        <Skeleton width={"100%"} height={211} />
+        <View style={{ padding: 16 }}>
+          <Skeleton width={"100%"} height={60} />
+          <Skeleton width={"100%"} height={20} style={{ marginTop: 16 }} />
+          <Skeleton width={"100%"} height={30} style={{ marginTop: 24 }} />
+          <Skeleton width={"100%"} style={{ marginTop: 16 }} />
+        </View>
+      </View>
+    );
+  }
 
   return (
     <ScrollView

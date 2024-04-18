@@ -1,4 +1,4 @@
-import { Text, View, TouchableOpacity, Image, ScrollView } from "react-native";
+import { Text, View, TouchableOpacity, Image } from "react-native";
 import * as React from "react";
 import { useNavigation } from "@react-navigation/native";
 import history_img from "../../assets/images/activity/History.png";
@@ -8,12 +8,13 @@ import AlreadyRegistered from "./AlreadyRegistered";
 export default function AllActivities({ route }) {
   const navigation = useNavigation();
   const [activeColor, setActiveColor] = React.useState("all");
+  let isAlreadyRegisProps = route?.params?.isAlreadyRegis;
 
   React.useEffect(() => {
-    if (route?.params?.isRegis) {
+    if (isAlreadyRegisProps) {
       setActiveColor("registered");
     }
-  }, [route?.params?.isRegis]);
+  }, [route]);
 
   return (
     <View

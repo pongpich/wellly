@@ -1,243 +1,340 @@
-import { View, Text, ScrollView, Image } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  Image,
+  ImageBackground,
+  TouchableOpacity,
+} from "react-native";
 import * as React from "react";
 import { DataTable } from "react-native-paper";
 import AvartarImg from "../../../assets/images/activity/Group13719.png";
 import Distance from "../../../assets/images/icon/Distance.png";
 import Foot_step from "../../../assets/images/icon/Foot_step.png";
 import Medallions from "../../../assets/images/activity/Medallions.png";
+import BgRank from "../../../assets/images/activity/bg_ranking.png";
 import RankGoldImg from "../../../assets/images/activity/Group481452.png";
 import RankBronzeImg from "../../../assets/images/activity/Bronze.png";
 import { LinearGradient } from "expo-linear-gradient";
+import { useNavigation } from "@react-navigation/native";
 
 export default function TableRankDone({ route }) {
   const itemId = route.params.itemId;
+  const navigation = useNavigation();
 
   return (
     <View style={{ backgroundColor: "white" }}>
-      <View
+      <ImageBackground
+        source={BgRank}
         style={{
-          flexDirection: "row",
-          padding: 25,
-          paddingTop: 0,
-          paddingBottom: 0,
+          height: 200,
+          marginBottom: 1,
+          position: "relative",
+          marginBottom: 95,
         }}
+        resizeMode="stretch"
       >
-        <View style={{ flex: 1, marginTop: 60, alignItems: "center" }}>
-          <Image source={Medallions} style={{ width: 56, height: 56 }} />
-          <Text
-            style={{
-              fontFamily: "IBMPlexSansThai-Bold",
-              fontSize: 16,
-              marginTop: -15,
-            }}
-          >
-            Anna Baz.
-          </Text>
-          <LinearGradient
-            style={{
-              width: 88,
-              height: 117,
-              padding: 7,
-              marginTop: 18,
-            }}
-            colors={["#93A8C1CC", "#C2D2E700"]}
-          >
+        <View
+          style={{ marginLeft: 16, position: "absolute", top: 62, zIndex: 10 }}
+        >
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Image
+              style={{ width: 24, height: 24 }}
+              source={require("../../../assets/images/icon/caret.png")}
+            />
+          </TouchableOpacity>
+        </View>
+        <View
+          style={{
+            flexDirection: "row",
+            padding: 25,
+          }}
+        >
+          <View style={{ flex: 1, marginTop: 60, alignItems: "center" }}>
+            <ImageBackground
+              source={Medallions}
+              style={{ width: 56, height: 56 }}
+              resizeMode="stretch"
+            >
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Text
+                  style={{
+                    fontFamily: "IBMPlexSansThai-Bold",
+                    fontSize: 20,
+                    marginTop: -8,
+                    color: "white",
+                  }}
+                >
+                  A
+                </Text>
+              </View>
+            </ImageBackground>
             <Text
               style={{
                 fontFamily: "IBMPlexSansThai-Bold",
-                fontSize: 24,
-                color: "white",
-                textAlign: "center",
+                fontSize: 16,
+                marginTop: -15,
               }}
             >
-              2
+              Anna Baz.
             </Text>
-            <View
+            <LinearGradient
               style={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
+                width: 88,
+                height: 117,
+                padding: 7,
+                marginTop: 18,
               }}
+              colors={["#93A8C1CC", "#C2D2E700"]}
             >
-              <Image
-                source={Foot_step}
-                style={{ width: 16, height: 16, marginRight: 2 }}
-              />
               <Text
                 style={{
-                  fontFamily: "IBMPlexSansThai-Regular",
-                  fontSize: 14,
+                  fontFamily: "IBMPlexSansThai-Bold",
+                  fontSize: 24,
+                  color: "white",
+                  textAlign: "center",
                 }}
               >
-                320,023
+                2
               </Text>
-            </View>
-            <View
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-              }}
-            >
-              <Image
-                source={Distance}
-                style={{ width: 16, height: 16, marginRight: 2 }}
-              />
-              <Text
+              <View
                 style={{
-                  fontFamily: "IBMPlexSansThai-Regular",
-                  fontSize: 14,
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
                 }}
               >
-                980
-              </Text>
-            </View>
-          </LinearGradient>
-        </View>
-        <View style={{ flex: 1, alignItems: "center" }}>
-          <Image source={RankGoldImg} style={{ width: 72, height: 72 }} />
-          <Text
-            style={{
-              fontFamily: "IBMPlexSansThai-Bold",
-              fontSize: 16,
-            }}
-          >
-            Borpitbull
-          </Text>
-          <LinearGradient
-            style={{
-              width: 88,
-              height: 150,
-              padding: 7,
-              marginTop: 18,
-            }}
-            colors={["#D89E08CC", "#D89E0800"]}
-          >
+                <Image
+                  source={Foot_step}
+                  style={{ width: 16, height: 16, marginRight: 2 }}
+                />
+                <Text
+                  style={{
+                    fontFamily: "IBMPlexSansThai-Regular",
+                    fontSize: 14,
+                  }}
+                >
+                  320,023
+                </Text>
+              </View>
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                }}
+              >
+                <Image
+                  source={Distance}
+                  style={{ width: 16, height: 16, marginRight: 2 }}
+                />
+                <Text
+                  style={{
+                    fontFamily: "IBMPlexSansThai-Regular",
+                    fontSize: 14,
+                  }}
+                >
+                  980
+                </Text>
+              </View>
+            </LinearGradient>
+          </View>
+          <View style={{ flex: 1, alignItems: "center" }}>
+            <ImageBackground
+              source={RankGoldImg}
+              style={{ width: 72, height: 72 }}
+              resizeMode="stretch"
+            >
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Text
+                  style={{
+                    fontFamily: "IBMPlexSansThai-Bold",
+                    fontSize: 30,
+                    color: "white",
+                  }}
+                >
+                  B
+                </Text>
+              </View>
+            </ImageBackground>
             <Text
               style={{
                 fontFamily: "IBMPlexSansThai-Bold",
-                fontSize: 24,
-                color: "white",
-                textAlign: "center",
+                fontSize: 16,
               }}
             >
-              1
+              Borpitbull
             </Text>
-            <View
+            <LinearGradient
               style={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
+                width: 88,
+                height: 150,
+                padding: 7,
+                marginTop: 18,
               }}
+              colors={["#D89E08CC", "#D89E0800"]}
             >
-              <Image
-                source={Foot_step}
-                style={{ width: 16, height: 16, marginRight: 2 }}
-              />
               <Text
                 style={{
-                  fontFamily: "IBMPlexSansThai-Regular",
-                  fontSize: 14,
+                  fontFamily: "IBMPlexSansThai-Bold",
+                  fontSize: 24,
+                  color: "white",
+                  textAlign: "center",
                 }}
               >
-                320,023
+                1
               </Text>
-            </View>
-            <View
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-              }}
-            >
-              <Image
-                source={Distance}
-                style={{ width: 16, height: 16, marginRight: 2 }}
-              />
-              <Text
+              <View
                 style={{
-                  fontFamily: "IBMPlexSansThai-Regular",
-                  fontSize: 14,
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
                 }}
               >
-                980
-              </Text>
-            </View>
-          </LinearGradient>
-        </View>
-        <View style={{ flex: 1, marginTop: 60, alignItems: "center" }}>
-          <Image source={RankBronzeImg} style={{ width: 56, height: 56 }} />
-          <Text
-            style={{
-              fontFamily: "IBMPlexSansThai-Bold",
-              fontSize: 16,
-              marginTop: -15,
-            }}
-          >
-            Veddi Kia.
-          </Text>
-          <LinearGradient
-            style={{
-              width: 88,
-              height: 117,
-              padding: 7,
-              marginTop: 18,
-            }}
-            colors={["#DE9F83CC", "#EAD0B900"]}
-          >
+                <Image
+                  source={Foot_step}
+                  style={{ width: 16, height: 16, marginRight: 2 }}
+                />
+                <Text
+                  style={{
+                    fontFamily: "IBMPlexSansThai-Regular",
+                    fontSize: 14,
+                  }}
+                >
+                  320,023
+                </Text>
+              </View>
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                }}
+              >
+                <Image
+                  source={Distance}
+                  style={{ width: 16, height: 16, marginRight: 2 }}
+                />
+                <Text
+                  style={{
+                    fontFamily: "IBMPlexSansThai-Regular",
+                    fontSize: 14,
+                  }}
+                >
+                  980
+                </Text>
+              </View>
+            </LinearGradient>
+          </View>
+          <View style={{ flex: 1, marginTop: 60, alignItems: "center" }}>
+            <ImageBackground
+              source={RankBronzeImg}
+              style={{ width: 56, height: 56 }}
+              resizeMode="stretch"
+            >
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Text
+                  style={{
+                    fontFamily: "IBMPlexSansThai-Bold",
+                    fontSize: 20,
+                    marginTop: -8,
+                    color: "white",
+                  }}
+                >
+                  V
+                </Text>
+              </View>
+            </ImageBackground>
             <Text
               style={{
                 fontFamily: "IBMPlexSansThai-Bold",
-                fontSize: 24,
-                color: "white",
-                textAlign: "center",
+                fontSize: 16,
+                marginTop: -15,
               }}
             >
-              3
+              Veddi Kia.
             </Text>
-            <View
+            <LinearGradient
               style={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
+                width: 88,
+                height: 117,
+                padding: 7,
+                marginTop: 18,
               }}
+              colors={["#DE9F83CC", "#EAD0B900"]}
             >
-              <Image
-                source={Foot_step}
-                style={{ width: 16, height: 16, marginRight: 2 }}
-              />
               <Text
                 style={{
-                  fontFamily: "IBMPlexSansThai-Regular",
-                  fontSize: 14,
+                  fontFamily: "IBMPlexSansThai-Bold",
+                  fontSize: 24,
+                  color: "white",
+                  textAlign: "center",
                 }}
               >
-                320,023
+                3
               </Text>
-            </View>
-            <View
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-              }}
-            >
-              <Image
-                source={Distance}
-                style={{ width: 16, height: 16, marginRight: 2 }}
-              />
-              <Text
+              <View
                 style={{
-                  fontFamily: "IBMPlexSansThai-Regular",
-                  fontSize: 14,
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
                 }}
               >
-                980
-              </Text>
-            </View>
-          </LinearGradient>
+                <Image
+                  source={Foot_step}
+                  style={{ width: 16, height: 16, marginRight: 2 }}
+                />
+                <Text
+                  style={{
+                    fontFamily: "IBMPlexSansThai-Regular",
+                    fontSize: 14,
+                  }}
+                >
+                  320,023
+                </Text>
+              </View>
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                }}
+              >
+                <Image
+                  source={Distance}
+                  style={{ width: 16, height: 16, marginRight: 2 }}
+                />
+                <Text
+                  style={{
+                    fontFamily: "IBMPlexSansThai-Regular",
+                    fontSize: 14,
+                  }}
+                >
+                  980
+                </Text>
+              </View>
+            </LinearGradient>
+          </View>
         </View>
-      </View>
+      </ImageBackground>
 
       <ScrollView
         contentContainerStyle={{

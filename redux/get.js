@@ -81,10 +81,23 @@ export const types = {
   GET_EVENT_ACTIVITY: "GET_EVENT_ACTIVITY",
   GET_EVENT_ACTIVITY_SUCCESS: "GET_EVENT_ACTIVITY_SUCCESS",
   GET_EVENT_ACTIVITY_FAIL: "GET_EVENT_ACTIVITY_FAIL",
+  GET_EVENT_ACTIVITY_DETAIL: "GET_EVENT_ACTIVITY_DETAIL",
+  GET_EVENT_ACTIVITY_DETAIL_SUCCESS: "GET_EVENT_ACTIVITY_DETAIL_SUCCESS",
+  GET_EVENT_ACTIVITY_DETAIL_FAIL: "GET_EVENT_ACTIVITY_DETAIL_FAIL",
+
   GET_EVENT_USER: "GET_EVENT_USER",
   GET_EVENT_USER_SUCCESS: "GET_EVENT_USER_SUCCESS",
   GET_EVENT_USER_FAIL: "GET_EVENT_USER_FAIL",
+
+  GET_RANK_SCORE_EVENT: "GET_RANK_SCORE_EVENT",
+  GET_RANK_SCORE_EVENT_SUCCESS: "GET_RANK_SCORE_EVENT_SUCCESS",
+  GET_RANK_SCORE_EVENT_FAIL: "GET_RANK_SCORE_EVENT_FAIL",
 };
+
+export const getRankScoreEvent = (event_id) => ({
+  type: types.GET_RANK_SCORE_EVENT,
+  payload: { event_id },
+});
 
 export const checkEmailExisted = (email) => ({
   type: types.CHECK_EMAIL_EXISTED,
@@ -280,6 +293,11 @@ export const getEventActivity = () => ({
   type: types.GET_EVENT_ACTIVITY,
 });
 
+export const getEventActivityDetail = (event_id) => ({
+  type: types.GET_EVENT_ACTIVITY_DETAIL,
+  payload: { event_id },
+});
+
 export const getEventUser = (user_id) => ({
   type: types.GET_EVENT_USER,
   payload: {
@@ -299,6 +317,21 @@ const checkEmailExistedSagaAsync = async (email) => {
       },
     });
     /*  console.log("apiResult", apiResult); */
+    return apiResult;
+  } catch (error) {
+    return { error, messsage: error.message };
+  }
+};
+
+const getRankScoreEventSagaAsync = async (event_id) => {
+  try {
+    const apiResult = await API.get(
+      "planforfit",
+      "/getRankingScoreEventActivity",
+      {
+        queryStringParameters: { event_id },
+      }
+    );
     return apiResult;
   } catch (error) {
     return { error, messsage: error.message };
@@ -739,10 +772,19 @@ const getEventActivitySagaAsync = async () => {
     const apiResult = await API.get("planforfit", "/getEventActivity", {
       queryStringParameters: {},
     });
-    /* console.log("get_event_activity apiResult", apiResult); */
     return apiResult;
   } catch (error) {
-    /* console.log("error apiResult", error); */
+    return { error, messsage: error.message };
+  }
+};
+
+const getEventActivityDetailSagaAsync = async (event_id) => {
+  try {
+    const apiResult = await API.get("planforfit", "/getEventActivityDetails", {
+      queryStringParameters: { event_id },
+    });
+    return apiResult;
+  } catch (error) {
     return { error, messsage: error.message };
   }
 };
@@ -753,6 +795,20 @@ function* getProfanitySaga({}) {
     yield put({
       type: types.GET_PROFANITY_SUCCESS,
       payload: apiResult.results,
+    });
+  } catch (error) {
+    console.log("error form getProfanitySaga", error);
+  }
+}
+
+function* getRankScoreEventSaga(event_id) {
+  try {
+    const apiResult = yield call(getRankScoreEventSagaAsync, {
+      queryStringParameters: { event_id },
+    });
+    yield put({
+      type: types.GET_RANK_SCORE_EVENT_SUCCESS,
+      payload: apiResult.results.eventActivity,
     });
   } catch (error) {
     console.log("error form getProfanitySaga", error);
@@ -1209,11 +1265,24 @@ function* getEventActivitySaga({}) {
       type: types.GET_EVENT_ACTIVITY_SUCCESS,
       payload: apiResult.results.eventActivity,
     });
-    /* console.log("apiResult", apiResult); */
   } catch (error) {
     console.log("error from event_activity :", error);
   }
 }
+
+function* getEventActivityDetailSaga({ payload }) {
+  const { event_id } = payload;
+  try {
+    const apiResult = yield call(getEventActivityDetailSagaAsync, event_id);
+    yield put({
+      type: types.GET_EVENT_ACTIVITY_DETAIL_SUCCESS,
+      payload: apiResult.results.eventActivity,
+    });
+  } catch (error) {
+    console.log("error from event_activity :", error);
+  }
+}
+
 function* getEventUserSaga({ payload }) {
   const { user_id } = payload;
   try {
@@ -1341,9 +1410,18 @@ export function* watchCheckEmailExisted() {
   yield takeEvery(types.CHECK_EMAIL_EXISTED, checkEmailExistedSaga);
 }
 
+export function* watchGetRankScoreEventSaga() {
+  yield takeEvery(types.GET_RANK_SCORE_EVENT, getRankScoreEventSaga);
+}
+
 export function* watchGetEventActivity() {
   yield takeEvery(types.GET_EVENT_ACTIVITY, getEventActivitySaga);
 }
+
+export function* watchGetEventActivityDetail() {
+  yield takeEvery(types.GET_EVENT_ACTIVITY_DETAIL, getEventActivityDetailSaga);
+}
+
 export function* watchGetEventUser() {
   yield takeEvery(types.GET_EVENT_USER, getEventUserSaga);
 }
@@ -1359,6 +1437,7 @@ export function* saga() {
     fork(watchGetMemberActivityLogInWeek),
     fork(watchGetAllTrainingSet),
     fork(watchGetTrainingSet),
+    fork(watchGetRankScoreEventSaga),
     fork(watchGetMonthActivityLog),
     fork(watchGetYearActivityLogGraph),
     fork(watchGetMonthActivityLogGraph),
@@ -1380,6 +1459,7 @@ export function* saga() {
     fork(watchSetTeachUserExerciseProgram),
     fork(watchCheckEmailExisted),
     fork(watchGetEventActivity),
+    fork(watchGetEventActivityDetail),
     fork(watchGetEventUser),
   ]);
 }
@@ -1445,12 +1525,17 @@ const INIT_STATE = {
   statusGetTeachUserExerciseProgram: "default",
   statusTeachUserExercise: true,
   statusSetTeachUserExerciseProgram: "default",
+  //getActDetail
+  statusExerciserActivityDetail: "default",
+  exerciserActivityDetail: null,
 
   statusCheckEmailExist: "default",
   status_event: "default",
   event: null,
   status_event_user: "default",
   event_user: null,
+  status_rank_event_score: "default",
+  rank_event_score: null,
 };
 
 export function reducer(state = INIT_STATE, action) {
@@ -1656,6 +1741,19 @@ export function reducer(state = INIT_STATE, action) {
         status_month_act_log: "success",
         month_act_log: action.payload,
       };
+
+    case types.GET_RANK_SCORE_EVENT:
+      return {
+        ...state,
+        status_rank_event_score: "loading",
+      };
+    case types.GET_RANK_SCORE_EVENT_SUCCESS:
+      return {
+        ...state,
+        status_rank_event_score: "success",
+        rank_event_score: action.payload,
+      };
+
     case types.GET_PROFANITY:
       return {
         ...state,
@@ -1731,6 +1829,17 @@ export function reducer(state = INIT_STATE, action) {
         ...state,
         statusExerciserActivity: "success",
         exerciserActivity: action.payload,
+      };
+    case types.GET_EVENT_ACTIVITY_DETAIL:
+      return {
+        ...state,
+        statusExerciserActivityDetail: "loading",
+      };
+    case types.GET_EVENT_ACTIVITY_DETAIL_SUCCESS:
+      return {
+        ...state,
+        statusExerciserActivityDetail: "success",
+        exerciserActivityDetail: action.payload,
       };
     case types.GET_ALL_TRAINING_SET:
       return {

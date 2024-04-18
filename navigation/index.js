@@ -346,23 +346,9 @@ function MyStack(props) {
       <Stack.Screen
         name="TableRankDone"
         component={TableRankDone}
+        initialRouteName="TableRankDone"
         options={{
-          title: "",
-          showLabel: false,
-          headerShadowVisible: false,
-          headerStyle: {
-            backgroundColor: colors.white,
-          },
-          headerLeft: () => (
-            <View style={{ marginLeft: 16 }}>
-              <TouchableOpacity onPress={() => navigation.goBack()}>
-                <Image
-                  style={{ width: 24, height: 24 }}
-                  source={require("../assets/images/icon/caret.png")}
-                />
-              </TouchableOpacity>
-            </View>
-          ),
+          headerShown: false,
         }}
       />
       <Stack.Screen

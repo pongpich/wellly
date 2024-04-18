@@ -6,46 +6,35 @@ import {
   TouchableOpacity,
   StyleSheet,
   ScrollView,
+  Dimensions,
 } from "react-native";
 import * as React from "react";
-import banner from "../../../assets/images/activity/Ads.png";
 import Closebutton from "../../../assets/images/activity/Closebutton.png";
-import Reward from "../../../assets/images/activity/RewardBig1.png";
-import Reward1 from "../../../assets/images/activity/Reward1.png";
-import Reward2 from "../../../assets/images/activity/Reward2.png";
 import { useNavigation } from "@react-navigation/native";
 import dateIcon from "../../../assets/images/icon/dateIcon.png";
 import AvartarImg from "../../../assets/images/activity/Group13719.png";
-
-const data = [
-  {
-    id: 1,
-    title1: "รางวัลที่ 1",
-    title2: "1 รางวัล",
-    subtitle: "เครื่องอบขนมปังลายทหารอากาศจากอิตาลี",
-    img: Reward,
-  },
-  {
-    id: 2,
-    title1: "รางวัลที่ 2",
-    title2: "5 รางวัล",
-    subtitle: "เครื่องเขียนถ่านไฟฉายตากบอ๋บๆ",
-    img: Reward1,
-  },
-  {
-    id: 3,
-    title1: "รางวัลที่ 3",
-    title2: "300 รางวัล",
-    subtitle: "เงินจำนวน 10 บาท",
-    img: Reward2,
-  },
-];
+import { useDispatch, useSelector } from "react-redux";
+import { getEventActivityDetail } from "../../../redux/get";
+import { Skeleton } from "@rneui/themed";
+import dayjs from "dayjs";
+import "dayjs/locale/th";
 
 export default function DetailsActivityDone({ route }) {
-  const itemId = route.params.itemId;
-
+  const ScreenHeight = Dimensions.get("window").height;
+  const itemId = route?.params?.itemId;
   const navigate = useNavigation();
+  const dispatch = useDispatch();
+
   const [activeColor, setActiveColor] = React.useState("award");
+  const dataEvent = useSelector(
+    ({ getData }) => getData.exerciserActivityDetail
+  );
+  const statusEvents = useSelector(
+    ({ getData }) => getData.statusExerciserActivityDetail
+  );
+  const [dataReward, setDataReward] = React.useState(
+    JSON.parse(dataEvent[0]?.reward || null)
+  );
 
   const styles = StyleSheet.create({
     btnDetail: {
@@ -93,14 +82,37 @@ export default function DetailsActivityDone({ route }) {
     },
   });
 
+  React.useEffect(() => {
+    dispatch(getEventActivityDetail(itemId));
+  }, [itemId]);
+
+  if (statusEvents == "loading" || dataEvent[0] == undefined) {
+    return (
+      <View style={styles.containerMain}>
+        <Skeleton width={"100%"} height={211} />
+        <View style={{ padding: 16 }}>
+          <Skeleton width={"100%"} height={60} />
+          <Skeleton width={"100%"} height={20} style={{ marginTop: 16 }} />
+          <Skeleton width={"100%"} height={30} style={{ marginTop: 24 }} />
+          <Skeleton
+            width={"100%"}
+            height={ScreenHeight / 2}
+            style={{ marginTop: 16 }}
+          />
+        </View>
+      </View>
+    );
+  }
+
   return (
     <ScrollView contentContainerStyle={styles.containerMain}>
       <ImageBackground
-        source={banner}
+        source={{ uri: dataEvent[0].cover_Image }}
         style={{
           height: 211,
           width: "100%",
         }}
+        resizeMode="stretch"
       >
         <TouchableOpacity onPress={() => navigate.goBack()}>
           <Image
@@ -112,7 +124,7 @@ export default function DetailsActivityDone({ route }) {
 
       <View style={{ padding: 17 }}>
         <Text style={{ fontSize: 20, fontFamily: "IBMPlexSansThai-Bold" }}>
-          วิ่งเก็บระยะทางมาราธอน 10 ชั่วโมง ประจำปี 2566 ขององค์กร ABCDF group
+          {dataEvent[0].event_name}
         </Text>
         <View
           style={{
@@ -140,7 +152,18 @@ export default function DetailsActivityDone({ route }) {
             <Text
               style={{ fontSize: 14, fontFamily: "IBMPlexSansThai-Regular" }}
             >
-              1 ม.ค. - 30 ม.ค. 2566
+              {dayjs(dataEvent[0].start_date).year() ==
+              dayjs(dataEvent[0].end_date).year()
+                ? `${dayjs(dataEvent[0].start_date)
+                    .locale("th")
+                    .format("DD MMM")} - ${dayjs(dataEvent[0].end_date)
+                    .locale("th")
+                    .format("DD MMM BBBB")}`
+                : `${dayjs(dataEvent[0].start_date)
+                    .locale("th")
+                    .format("DD MMM BBBB")} - ${dayjs(dataEvent[0].end_date)
+                    .locale("th")
+                    .format("DD MMM BBBB")}`}
             </Text>
           </View>
         </View>
@@ -205,38 +228,18 @@ export default function DetailsActivityDone({ route }) {
             <Text
               style={{ fontSize: 16, fontFamily: "IBMPlexSansThai-Regular" }}
             >
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book. It has
-              survived not only five centuries, but also the leap into
-              electronic typesetting, remaining essentially unchanged. It was
-              popularised in the 1960s with the release of Letraset sheets
-              containing Lorem Ipsum passages, and more recently with desktop
-              publishing software like Aldus PageMaker including versions of
-              Lorem Ipsum Lorem Ipsum is simply dummy text of the printing and
-              typesetting industry. Lorem Ipsum has been the industry's standard
-              dummy text ever since the 1500s, when an unknown containing Lorem
-              Ipsum passages, and more recently with desktop publishing software
-              like Aldus PageMaker including versions of Lorem Ipsum Lorem Ipsum
-              is simply dummy text of the printing and typesetting industry.
-              Lorem Ipsum has been the industry's standard dummy text ever since
-              the 1500s, when an unknown containing Lorem Ipsum passages, and
-              more recently with desktop publishing software like Aldus
-              PageMaker including versions of Lorem Ipsum Lorem Ipsum is simply
-              dummy text of the printing and typesetting industry. Lorem Ipsum
-              has been the industry's standard dummy text ever since the 1500s,
-              when an unknown
+              {dataEvent[0].event_detail}
             </Text>
           </View>
         ) : null}
 
         {activeColor == "award"
-          ? data.map((item) => (
+          ? dataReward.map((item, i) => (
               <View
                 style={{
                   marginBottom: 24,
                 }}
+                key={i}
               >
                 <View
                   style={{
@@ -252,7 +255,7 @@ export default function DetailsActivityDone({ route }) {
                       fontSize: 16,
                     }}
                   >
-                    {item.title1}
+                    {`รางวัลที่ ${item.number}`}
                   </Text>
                   <Text
                     style={{
@@ -261,7 +264,7 @@ export default function DetailsActivityDone({ route }) {
                       fontSize: 14,
                     }}
                   >
-                    {item.title2}
+                    {`${item.quantity} รางวัล`}
                   </Text>
                 </View>
 
@@ -273,13 +276,13 @@ export default function DetailsActivityDone({ route }) {
                       fontSize: 16,
                     }}
                   >
-                    {item.subtitle}
+                    {`${item.name}`}
                   </Text>
                 </View>
 
                 <View>
                   <Image
-                    source={item.img}
+                    source={{ uri: item.image }}
                     style={{ width: "100%", height: 343, marginRight: 16 }}
                   />
                 </View>

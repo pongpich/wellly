@@ -6,51 +6,67 @@ import {
   TouchableOpacity,
   StyleSheet,
   ScrollView,
+  Dimensions,
 } from "react-native";
 import * as React from "react";
-import banner from "../../../assets/images/activity/Ads.png";
 import Closebutton from "../../../assets/images/activity/Closebutton.png";
-import Reward from "../../../assets/images/activity/Reward.png";
-import Reward1 from "../../../assets/images/activity/Reward1.png";
-import Reward2 from "../../../assets/images/activity/Reward2.png";
 import { useNavigation } from "@react-navigation/native";
 import dateIcon from "../../../assets/images/icon/dateIcon.png";
 import Distance from "../../../assets/images/icon/Distance.png";
 import Foot_step from "../../../assets/images/icon/Foot_step.png";
 import SwipeButtonImg from "../../../assets/images/activity/Frame13754.png";
 import SwipeButton from "rn-swipe-button";
-
-const data = [
-  {
-    id: 1,
-    title1: "รางวัลที่ 1",
-    title2: "1 รางวัล",
-    subtitle: "เครื่องอบขนมปังลายทหารอากาศจากอิตาลี",
-    img: Reward,
-  },
-  {
-    id: 2,
-    title1: "รางวัลที่ 2",
-    title2: "5 รางวัล",
-    subtitle: "เครื่องเขียนถ่านไฟฉายตากบอ๋บๆ",
-    img: Reward1,
-  },
-  {
-    id: 3,
-    title1: "รางวัลที่ 3",
-    title2: "300 รางวัล",
-    subtitle: "เงินจำนวน 10 บาท",
-    img: Reward2,
-  },
-];
+import { useDispatch, useSelector } from "react-redux";
+import { getEventActivityDetail } from "../../../redux/get";
+import { Skeleton } from "@rneui/themed";
+import dayjs from "dayjs";
+import "dayjs/locale/th";
+import { addEventActivity } from "../../../redux/update";
 
 export default function DetailsActivity({ route }) {
-  const itemId = route.params.itemId;
-
+  const ScreenHeight = Dimensions.get("window").height;
+  const itemId = route?.params?.itemId;
+  const isRegis = route?.params?.isRegis;
   const navigate = useNavigation();
+  const dispatch = useDispatch();
+  const dataEvent = useSelector(
+    ({ getData }) => getData.exerciserActivityDetail
+  );
+  const dataUser = useSelector(({ authUser }) => authUser.user);
+
+  const statusEvents = useSelector(
+    ({ getData }) => getData.statusExerciserActivityDetail
+  );
+  const updateData = useSelector(({ updateData }) => updateData);
+  const dataEventsUser = useSelector(({ getData }) => getData.event_user);
+  const dataEventOfuser = dataEventsUser.filter(
+    (item) => item.event_id == dataEvent[0]?.id
+  );
+
   const [activeColor, setActiveColor] = React.useState("detail");
+  const [dataReward, setDataReward] = React.useState(
+    JSON.parse(dataEvent[0]?.reward || null)
+  );
+  const now = dayjs();
+  const exipre = dayjs(dataEvent[0]?.end_date);
+  const isExpireDate = now > exipre;
+
+  const handleRegisterActivity = () => {
+    try {
+      dispatch(addEventActivity(dataEvent[0].id, dataUser.user_id, 0, 0));
+      navigate.navigate("AllActivities", {
+        isAlreadyRegis: true,
+      });
+    } catch (error) {
+      return error;
+    }
+  };
 
   React.useEffect(() => {
+    dispatch(getEventActivityDetail(itemId));
+  }, [itemId]);
+
+  React.useMemo(() => {
     if (!!route.params.isRegis) {
       setActiveColor("score");
     }
@@ -115,9 +131,6 @@ export default function DetailsActivity({ route }) {
       borderRadius: 24,
       paddingVertical: 12,
       marginTop: 20,
-      //   alignSelf: "center",
-      //   position: "absolute",
-      //   bottom: 0,
     },
     progressBar: {
       marginTop: 7,
@@ -134,20 +147,39 @@ export default function DetailsActivity({ route }) {
       flexDirection: "column",
     },
     bottomView: {
-      width: "100%",
+      // width: "100%",
+      width: Dimensions.get("window").width - 32,
       position: "absolute",
       bottom: 40,
     },
   });
+  if (statusEvents == "loading" || dataEvent[0] == undefined) {
+    return (
+      <View style={styles.containerMain}>
+        <Skeleton width={"100%"} height={211} />
+        <View style={{ padding: 16 }}>
+          <Skeleton width={"100%"} height={60} />
+          <Skeleton width={"100%"} height={20} style={{ marginTop: 16 }} />
+          <Skeleton width={"100%"} height={30} style={{ marginTop: 24 }} />
+          <Skeleton
+            width={"100%"}
+            height={ScreenHeight / 2}
+            style={{ marginTop: 16 }}
+          />
+        </View>
+      </View>
+    );
+  }
 
   return (
     <ScrollView contentContainerStyle={styles.containerMain}>
       <ImageBackground
-        source={banner}
+        source={{ uri: dataEvent[0].cover_Image }}
         style={{
           height: 211,
           width: "100%",
         }}
+        resizeMode="stretch"
       >
         <TouchableOpacity onPress={() => navigate.goBack()}>
           <Image
@@ -159,7 +191,7 @@ export default function DetailsActivity({ route }) {
 
       <View style={{ padding: 17 }}>
         <Text style={{ fontSize: 20, fontFamily: "IBMPlexSansThai-Bold" }}>
-          วิ่งเก็บระยะทางมาราธอน 10 ชั่วโมง ประจำปี 2566 ขององค์กร ABCDF group
+          {dataEvent[0].event_name}
         </Text>
         <View
           style={{
@@ -187,7 +219,18 @@ export default function DetailsActivity({ route }) {
             <Text
               style={{ fontSize: 14, fontFamily: "IBMPlexSansThai-Regular" }}
             >
-              1 ม.ค. - 30 ม.ค. 2566
+              {dayjs(dataEvent[0].start_date).year() ==
+              dayjs(dataEvent[0].end_date).year()
+                ? `${dayjs(dataEvent[0].start_date)
+                    .locale("th")
+                    .format("DD MMM")} - ${dayjs(dataEvent[0].end_date)
+                    .locale("th")
+                    .format("DD MMM BBBB")}`
+                : `${dayjs(dataEvent[0].start_date)
+                    .locale("th")
+                    .format("DD MMM BBBB")} - ${dayjs(dataEvent[0].end_date)
+                    .locale("th")
+                    .format("DD MMM BBBB")}`}
             </Text>
           </View>
         </View>
@@ -225,62 +268,51 @@ export default function DetailsActivity({ route }) {
         </View>
 
         {activeColor == "detail" ? (
-          <View>
+          <View
+            style={{
+              height: ScreenHeight / 2,
+            }}
+          >
             <Text
               style={{ fontSize: 16, fontFamily: "IBMPlexSansThai-Regular" }}
             >
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book. It has
-              survived not only five centuries, but also the leap into
-              electronic typesetting, remaining essentially unchanged. It was
-              popularised in the 1960s with the release of Letraset sheets
-              containing Lorem Ipsum passages, and more recently with desktop
-              publishing software like Aldus PageMaker including versions of
-              Lorem Ipsum Lorem Ipsum is simply dummy text of the printing and
-              typesetting industry. Lorem Ipsum has been the industry's standard
-              dummy text ever since the 1500s, when an unknown containing Lorem
-              Ipsum passages, and more recently with desktop publishing software
-              like Aldus PageMaker including versions of Lorem Ipsum Lorem Ipsum
-              is simply dummy text of the printing and typesetting industry.
-              Lorem Ipsum has been the industry's standard dummy text ever since
-              the 1500s, when an unknown containing Lorem Ipsum passages, and
-              more recently with desktop publishing software like Aldus
-              PageMaker including versions of Lorem Ipsum Lorem Ipsum is simply
-              dummy text of the printing and typesetting industry. Lorem Ipsum
-              has been the industry's standard dummy text ever since the 1500s,
-              when an unknown
+              {dataEvent[0].event_detail}
             </Text>
 
-            <View>
-              <TouchableOpacity
-                style={styles.btnRegis}
-                onPress={() =>
-                  navigate.navigate("AllActivities", {
-                    isRegis: true,
-                  })
-                }
+            {!isExpireDate && !isRegis && (
+              <View
+                style={{
+                  position: "absolute",
+                  bottom: 0,
+                  width: "100%",
+                }}
               >
-                <Text style={styles.txtDetail}>ลงทะเบียน</Text>
-              </TouchableOpacity>
-            </View>
+                <TouchableOpacity
+                  style={styles.btnRegis}
+                  onPress={handleRegisterActivity}
+                >
+                  <Text style={styles.txtDetail}>ลงทะเบียน</Text>
+                </TouchableOpacity>
+              </View>
+            )}
           </View>
         ) : null}
 
         {activeColor == "award"
-          ? data.map((item) => (
+          ? dataReward.map((item, i) => (
               <View
                 style={{
                   display: "flex",
                   flexDirection: "row",
                   marginBottom: 24,
                 }}
+                key={i}
               >
                 <View>
                   <Image
-                    source={item.img}
+                    source={{ uri: item.image }}
                     style={{ width: 80, height: 80, marginRight: 16 }}
+                    resizeMode="stretch"
                   />
                 </View>
 
@@ -304,7 +336,7 @@ export default function DetailsActivity({ route }) {
                         fontSize: 16,
                       }}
                     >
-                      {item.title1}
+                      {`รางวัลที่ ${item.number}`}
                     </Text>
                     <Text
                       style={{
@@ -313,7 +345,7 @@ export default function DetailsActivity({ route }) {
                         fontSize: 12,
                       }}
                     >
-                      {item.title2}
+                      {`${item.quantity} รางวัล`}
                     </Text>
                   </View>
                   <View style={{ marginTop: 8 }}>
@@ -324,7 +356,7 @@ export default function DetailsActivity({ route }) {
                         fontSize: 16,
                       }}
                     >
-                      {item.subtitle}
+                      {`${item.name}`}
                     </Text>
                   </View>
                 </View>
@@ -332,7 +364,9 @@ export default function DetailsActivity({ route }) {
             ))
           : null}
 
-        {activeColor == "score" ? (
+        {activeColor == "score" &&
+        isRegis &&
+        dataEventOfuser[0] != undefined ? (
           <View>
             <View>
               <View
@@ -351,7 +385,7 @@ export default function DetailsActivity({ route }) {
                 <TouchableOpacity
                   onPress={() =>
                     navigate.navigate("TableScoreOfActivity", {
-                      itemId: 86,
+                      itemId: itemId,
                     })
                   }
                 >
@@ -399,7 +433,7 @@ export default function DetailsActivity({ route }) {
                           fontSize: 14,
                         }}
                       >
-                        4000
+                        {dataEventOfuser[0].walk_step}
                       </Text>
                     </View>
 
@@ -410,13 +444,17 @@ export default function DetailsActivity({ route }) {
                         fontSize: 12,
                       }}
                     >
-                      400,000 ก้าว
+                      {dataEventOfuser[0].walkStepActivity} ก้าว
                     </Text>
                   </View>
                   <View style={styles.progressBar}>
                     <View
                       style={{
-                        width: 65,
+                        width: `${Math.ceil(
+                          (dataEventOfuser[0].walk_step /
+                            dataEventOfuser[0].walkStepActivity) *
+                            100
+                        )}%`,
                         maxWidth: "100%",
                         height: 16,
                         borderRadius: 16,
@@ -459,7 +497,7 @@ export default function DetailsActivity({ route }) {
                           fontSize: 14,
                         }}
                       >
-                        400
+                        {dataEventOfuser[0].distance}
                       </Text>
                     </View>
 
@@ -470,13 +508,17 @@ export default function DetailsActivity({ route }) {
                         fontSize: 12,
                       }}
                     >
-                      1,000 กิโลเมตร
+                      {dataEventOfuser[0].distanceActivity} กิโลเมตร
                     </Text>
                   </View>
                   <View style={styles.progressBar}>
                     <View
                       style={{
-                        width: 65,
+                        width: `${Math.ceil(
+                          (dataEventOfuser[0].distance /
+                            dataEventOfuser[0].distanceActivity) *
+                            100
+                        )}%`,
                         maxWidth: "100%",
                         height: 16,
                         borderRadius: 16,
@@ -494,25 +536,26 @@ export default function DetailsActivity({ route }) {
       </View>
 
       {activeColor == "score" && (
-        <View style={styles.bottomView}>
+        <View style={[styles.bottomView, { marginRight: 32, marginLeft: 16 }]}>
           <SwipeButton
             containerStyles={{ borderRadius: 32 }}
             width={"auto"}
-            height={56}
+            height={52}
             onSwipeSuccess={() => navigate.navigate("StartTimerActivity")}
             shouldResetAfterSuccess={true}
             railBackgroundColor="#E5EEF9"
             railStyles={{
               borderRadius: 32,
-              backgroundColor: "#59CBE4",
-              borderColor: "white",
+              backgroundColor: "#E5EEF9",
+              borderColor: "#E5EEF9",         
+              margin: 8,
             }}
             railBorderColor="#FFFFFF"
             title="เริ่มออกกำลังกาย"
             titleColor="#697D96"
             titleStyles={{ fontFamily: "IBMPlexSansThai-Bold", fontSize: 16 }}
             thumbIconBorderColor="#59CBE4"
-            thumbIconWidth={72}
+            thumbIconWidth={102}
             thumbIconBackgroundColor="#59CBE4"
             thumbIconComponent={renderSwipImg}
           />

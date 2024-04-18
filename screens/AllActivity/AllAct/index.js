@@ -7,17 +7,26 @@ import {
   ImageBackground,
   ScrollView,
 } from "react-native";
-import React from "react";
+import * as React from "react";
 import colors from "../../../constants/colors";
 import dateIcon from "../../../assets/images/icon/dateIcon.png";
-import Distance from "../../../assets/images/icon/Distance.png";
-import Foot_step from "../../../assets/images/icon/Foot_step.png";
-import banner from "../../../assets/images/activity/Frame13716.png";
-import banner_done from "../../../assets/images/activity/banner_done.png";
 import { useNavigation } from "@react-navigation/native";
+import { useSelector } from "react-redux";
+import dayjs from "dayjs";
+import "dayjs/locale/th";
+import buddhistEra from "dayjs/plugin/buddhistEra";
+dayjs.extend(buddhistEra);
 
-export default function AllAct() {
+export default function AllAct({ route }) {
   const navigate = useNavigation();
+  const dataEvents = useSelector(({ getData }) => getData.event);
+  const statusEvents = useSelector(({ getData }) => getData.status_event);
+  const dataEventsUser = useSelector(({ getData }) => getData.event_user);
+  const dataEventsWithOutRegis = dataEvents.filter(
+    (item) => !dataEventsUser.some((val) => item.id == val.event_id)
+  );
+
+  const now = dayjs();
 
   return (
     <ScrollView>
@@ -28,25 +37,27 @@ export default function AllAct() {
           paddingTop: 20,
         }}
       >
-        {[1, 2, 3].map((item) => (
-          <View>
+        {dataEventsWithOutRegis.map((item) => (
+          <View key={item.id}>
             <Pressable
               onPress={() =>
                 navigate.navigate("DetailsActivity", {
-                  itemId: 86,
+                  itemId: item.id,
                 })
               }
             >
               <View style={[styles.itemContainer]}>
                 <ImageBackground
-                  source={banner}
+                  source={{ uri: item.cover_Image }}
                   style={{
                     height: 193,
                     width: "100%",
                     marginRight: 8,
+                    opacity: 1,
+                  }}
+                  imageStyle={{
                     borderTopLeftRadius: 16,
                     borderTopRightRadius: 16,
-                    opacity: 1,
                   }}
                   resizeMode="stretch"
                 >
@@ -58,26 +69,28 @@ export default function AllAct() {
                       padding: 16,
                     }}
                   >
-                    <View
-                      style={{
-                        backgroundColor: "#D43A3A",
-                        width: 50,
-                        height: 32,
-                        padding: 5,
-                        borderRadius: 50,
-                      }}
-                    >
-                      <Text
+                    {dayjs(now).diff(item.created_at, "day") <= 5 && (
+                      <View
                         style={{
-                          fontSize: 16,
-                          fontFamily: "IBMPlexSansThai-Bold",
-                          color: "white",
-                          textAlign: "center",
+                          backgroundColor: "#D43A3A",
+                          width: 50,
+                          height: 32,
+                          padding: 5,
+                          borderRadius: 50,
                         }}
                       >
-                        ใหม่
-                      </Text>
-                    </View>
+                        <Text
+                          style={{
+                            fontSize: 16,
+                            fontFamily: "IBMPlexSansThai-Bold",
+                            color: "white",
+                            textAlign: "center",
+                          }}
+                        >
+                          ใหม่
+                        </Text>
+                      </View>
+                    )}
                   </View>
                 </ImageBackground>
 
@@ -89,7 +102,7 @@ export default function AllAct() {
                       width: "100%",
                     }}
                   >
-                    วิ่งเก็บระยะทางมาราธอน 10 ชั่วโมง ประจำปี 2566 ของ ABC...
+                    {item.event_name.slice(0, 75) + "..."}
                   </Text>
 
                   <View style={styles.boxEv}>
@@ -110,7 +123,18 @@ export default function AllAct() {
                           fontSize: 14,
                         }}
                       >
-                        1 ม.ค. - 30 ม.ค. 2566
+                        {dayjs(item.start_date).year() ==
+                        dayjs(item.end_date).year()
+                          ? `${dayjs(item.start_date)
+                              .locale("th")
+                              .format("DD MMM")} - ${dayjs(item.end_date)
+                              .locale("th")
+                              .format("DD MMM BBBB")}`
+                          : `${dayjs(item.start_date)
+                              .locale("th")
+                              .format("DD MMM BBBB")} - ${dayjs(item.end_date)
+                              .locale("th")
+                              .format("DD MMM BBBB")}`}
                       </Text>
                     </View>
                   </View>
@@ -136,6 +160,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 3,
     elevation: 3,
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 16,
   },
 
   boxEv: {
