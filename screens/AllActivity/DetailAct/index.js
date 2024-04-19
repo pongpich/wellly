@@ -549,6 +549,7 @@ export default function DetailsActivity({ route }) {
               backgroundColor: "#E5EEF9",
               borderColor: "#E5EEF9",
               margin: 8,
+              marginRight: -8,
             }}
             railBorderColor="#FFFFFF"
             title="เริ่มออกกำลังกาย"
