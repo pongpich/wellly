@@ -42,9 +42,9 @@ export default function DetailsActivity({ route }) {
   );
   const now = dayjs();
   const exipre = dayjs(dataEventDetail[0]?.end_date);
-  const isDateArrive = now <= dayjs(dataEventDetail[0]?.start_date); // false
+  const isDateArrive = now <= dayjs(dataEventDetail[0]?.start_date);
   const isExpireDate = now > exipre;
-  const isUserRegis = dataEventOfuser[0]?.event_id ? true : false;
+  const isUserRegis = dataEventOfuser.some((item) => item.event != itemId);
 
   const handleRegisterActivity = () => {
     try {
