@@ -6,6 +6,7 @@ import {
   Image,
   ScrollView,
   ImageBackground,
+  TouchableOpacity,
 } from "react-native";
 import * as React from "react";
 import colors from "../../../constants/colors";
@@ -287,6 +288,18 @@ export default function DoneActivity() {
                         />
                       </View>
                     </View>
+                    <Pressable style={{ marginTop: 16 }}>
+                      <Text
+                        style={{
+                          textAlign: "center",
+                          color: "#3762FC",
+                          fontFamily: "IBMPlexSansThai-Bold",
+                          fontSize: 16,
+                        }}
+                      >
+                        ดูผลคะแนน
+                      </Text>
+                    </Pressable>
                   </View>
                 </View>
               </Pressable>

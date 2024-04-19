@@ -19,14 +19,19 @@ dayjs.extend(buddhistEra);
 
 export default function AllAct({ route }) {
   const navigate = useNavigation();
+  const now = dayjs();
+
   const dataEvents = useSelector(({ getData }) => getData.event);
   const statusEvents = useSelector(({ getData }) => getData.status_event);
   const dataEventsUser = useSelector(({ getData }) => getData.event_user);
   const dataEventsWithOutRegis = dataEvents.filter(
     (item) => !dataEventsUser.some((val) => item.id == val.event_id)
   );
-
-  const now = dayjs();
+  const evntAllNow = dataEventsWithOutRegis.filter((item) => {
+    const startDate = dayjs(item.start_date_show);
+    const endDate = dayjs(item.end_date_show);
+    return now >= startDate && now <= endDate;
+  });
 
   return (
     <ScrollView>
@@ -37,7 +42,7 @@ export default function AllAct({ route }) {
           paddingTop: 20,
         }}
       >
-        {dataEventsWithOutRegis.map((item) => (
+        {evntAllNow.map((item) => (
           <View key={item.id}>
             <Pressable
               onPress={() =>

@@ -33,7 +33,6 @@ export default function DetailsActivity({ route }) {
     ({ getData }) => getData.exerciserActivityDetail || []
   );
   const dataUser = useSelector(({ authUser }) => authUser.user);
-
   const statusEvents = useSelector(
     ({ getData }) => getData.statusExerciserActivityDetail
   );
@@ -49,8 +48,9 @@ export default function DetailsActivity({ route }) {
   );
   const now = dayjs();
   const exipre = dayjs(dataEvent[0]?.end_date);
+  const isDateArrive = now <= dayjs(dataEvent[0]?.start_date); // false
   const isExpireDate = now > exipre;
-
+  console.log(isDateArrive);
   const handleRegisterActivity = () => {
     try {
       dispatch(addEventActivity(dataEvent[0].id, dataUser.user_id, 0, 0));
@@ -127,7 +127,7 @@ export default function DetailsActivity({ route }) {
     btnRegis: {
       width: "100%",
       height: 48,
-      backgroundColor: "#3762FC",
+      backgroundColor: isDateArrive  ? "#E5EEF9" : "#3762FC",
       borderRadius: 24,
       paddingVertical: 12,
       marginTop: 20,
@@ -147,10 +147,10 @@ export default function DetailsActivity({ route }) {
       flexDirection: "column",
     },
     bottomView: {
-      // width: "100%",
-      width: Dimensions.get("window").width - 32,
+      width: "100%",
+      // width: Dimensions.get("window").width - 32,
       position: "absolute",
-      bottom: 40,
+      bottom: ScreenHeight > 700 ? 40 : 0,
     },
   });
   if (statusEvents == "loading" || dataEvent[0] == undefined) {
@@ -290,6 +290,7 @@ export default function DetailsActivity({ route }) {
                 <TouchableOpacity
                   style={styles.btnRegis}
                   onPress={handleRegisterActivity}
+                  disabled={isDateArrive}
                 >
                   <Text style={styles.txtDetail}>ลงทะเบียน</Text>
                 </TouchableOpacity>
@@ -536,7 +537,9 @@ export default function DetailsActivity({ route }) {
       </View>
 
       {activeColor == "score" && (
-        <View style={[styles.bottomView, { marginRight: 32, marginLeft: 16 }]}>
+        <View
+          style={[styles.bottomView, { paddingRight: 24, paddingLeft: 16 }]}
+        >
           <SwipeButton
             containerStyles={{ borderRadius: 32 }}
             width={"auto"}
@@ -548,8 +551,9 @@ export default function DetailsActivity({ route }) {
               borderRadius: 32,
               backgroundColor: "#E5EEF9",
               borderColor: "#E5EEF9",
-              margin: 8,
-              marginRight: -8,
+              paddingVertical: 8,
+              // marginLeft: 8,
+              marginStart: 8, //left
             }}
             railBorderColor="#FFFFFF"
             title="เริ่มออกกำลังกาย"

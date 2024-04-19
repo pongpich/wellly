@@ -87,7 +87,7 @@ import {
 import { CommonActions } from "@react-navigation/native";
 import { BackHandler } from "react-native";
 import ModalActivity from "../components/ModalActivity";
-import AlreadyRegistered from "./AllActivity/AlreadyRegistered";
+import AllAct from "./AllActivity/AllAct";
 import dayjs from "dayjs";
 import "dayjs/locale/th";
 import buddhistEra from "dayjs/plugin/buddhistEra";
@@ -1089,7 +1089,18 @@ class Home extends Component {
 
     const { t } = this.props;
     const data = ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5"];
-console.log('eventAll', eventAll)
+    const eventsUserRegis = eventUser.filter(
+      (item) => now < dayjs(item.end_date)
+    );
+    const dataEventsWithOutRegis = eventAll.filter(
+      (item) => !eventsUserRegis.some((val) => item.id == val.event_id)
+    );
+    const evntAllNow = dataEventsWithOutRegis.filter((item) => {
+      const startDate = dayjs(item.start_date_show);
+      const endDate = dayjs(item.end_date_show);
+      return now >= startDate && now <= endDate;
+    });
+
     return (
       <View
         style={[
@@ -1152,38 +1163,39 @@ console.log('eventAll', eventAll)
                   <Text style={styles.viewAll}>ดูทั้งหมด</Text>
                 </Pressable>
               </View>
+
               <ScrollView
                 ref={this.scrollViewRef}
                 horizontal
                 showsHorizontalScrollIndicator={false}
               >
-                {eventUser &&
-                  eventUser
-                    .filter((item) => now < dayjs(item.end_date))
-                    .map((item, i, arr) => (
-                      <Pressable key={i}>
-                        <View
-                          style={[
-                            styles.itemContainer,
-                            {
-                              width: 256,
-                            },
-                          ]}
-                        >
-                          <Image
-                            source={{ uri: item.cover_Image }}
-                            style={{
-                              height: 144,
-                              width: "100%",
-                              zIndex: 1,
-                              marginRight: 8,
-                              borderTopLeftRadius: 16,
-                              borderTopRightRadius: 16,
-                              opacity: 1,
-                            }}
-                            resizeMode="stretch"
-                          />
-                          <View style={{ padding: 16 }}>
+                {eventUser
+                  .filter((item) => now < dayjs(item.end_date))
+                  .map((item, i, arr) => (
+                    <Pressable key={i}>
+                      <View
+                        style={[
+                          styles.itemContainer,
+                          {
+                            width: 256,
+                          },
+                        ]}
+                      >
+                        <Image
+                          source={{ uri: item.cover_Image }}
+                          style={{
+                            height: 144,
+                            width: "100%",
+                            zIndex: 1,
+                            marginRight: 8,
+                            borderTopLeftRadius: 16,
+                            borderTopRightRadius: 16,
+                            opacity: 1,
+                          }}
+                          resizeMode="stretch"
+                        />
+                        <View style={{ padding: 16 }}>
+                          <View style={{ height: 52 }}>
                             <Text
                               style={{
                                 fontSize: 15.6,
@@ -1192,9 +1204,64 @@ console.log('eventAll', eventAll)
                             >
                               {item.event_name.slice(0, 55) + "..."}
                             </Text>
+                          </View>
+                          <View style={styles.boxEv}>
+                            <View style={styles.boxRow}>
+                              <Image
+                                style={{
+                                  height: 16,
+                                  width: 16,
+                                  zIndex: 1,
+                                  marginRight: 8,
+                                }}
+                                source={dateIcon}
+                              />
 
-                            <View style={styles.boxEv}>
-                              <View style={styles.boxRow}>
+                              <Text
+                                style={{
+                                  fontFamily: "IBMPlexSansThai-Regular",
+                                  fontSize: 14,
+                                }}
+                              >
+                                {dayjs(item.start_date).year() ==
+                                dayjs(item.end_date).year()
+                                  ? `${dayjs(item.start_date)
+                                      .locale("th")
+                                      .format("DD MMM")} - ${dayjs(
+                                      item.end_date
+                                    )
+                                      .locale("th")
+                                      .format("DD MMM BBBB")}`
+                                  : `${dayjs(item.start_date)
+                                      .locale("th")
+                                      .format("DD MMM BBBB")} - ${dayjs(
+                                      item.end_date
+                                    )
+                                      .locale("th")
+                                      .format("DD MMM BBBB")}`}
+                              </Text>
+                            </View>
+                          </View>
+
+                          <View
+                            style={{
+                              marginTop: 14,
+                            }}
+                          >
+                            <View
+                              style={{
+                                display: "flex",
+                                flexDirection: "row",
+                                alignItems: "center",
+                                justifyContent: "space-between",
+                              }}
+                            >
+                              <View
+                                style={{
+                                  display: "flex",
+                                  flexDirection: "row",
+                                }}
+                              >
                                 <Image
                                   style={{
                                     height: 16,
@@ -1202,165 +1269,193 @@ console.log('eventAll', eventAll)
                                     zIndex: 1,
                                     marginRight: 8,
                                   }}
-                                  source={dateIcon}
+                                  source={Foot_step}
                                 />
-
                                 <Text
                                   style={{
-                                    fontFamily: "IBMPlexSansThai-Regular",
+                                    color: colors.persianBlue,
+                                    fontFamily: "IBMPlexSansThai-Bold",
                                     fontSize: 14,
                                   }}
                                 >
-                                  {dayjs(item.start_date).year() ==
-                                  dayjs(item.end_date).year()
-                                    ? `${dayjs(item.start_date)
-                                        .locale("th")
-                                        .format("DD MMM")} - ${dayjs(
-                                        item.end_date
-                                      )
-                                        .locale("th")
-                                        .format("DD MMM BBBB")}`
-                                    : `${dayjs(item.start_date)
-                                        .locale("th")
-                                        .format("DD MMM BBBB")} - ${dayjs(
-                                        item.end_date
-                                      )
-                                        .locale("th")
-                                        .format("DD MMM BBBB")}`}
+                                  {item.walk_step}
                                 </Text>
                               </View>
-                            </View>
 
-                            <View>
+                              <Text
+                                style={{
+                                  color: colors.grey3,
+                                  fontFamily: "IBMPlexSansThai-Medium",
+                                  fontSize: 12,
+                                }}
+                              >
+                                {item.walkStepActivity} ก้าว
+                              </Text>
+                            </View>
+                            <View style={styles.progressBar}>
+                              <View
+                                style={{
+                                  width: `${Math.ceil(
+                                    (item.walk_step / item.walkStepActivity) *
+                                      100
+                                  )}%`,
+                                  maxWidth: "100%",
+                                  height: 8,
+                                  borderRadius: 16,
+                                  backgroundColor:
+                                    // colors.grey3
+                                    colors.persianBlue,
+                                }}
+                              />
+                            </View>
+                          </View>
+                          <View
+                            style={{
+                              marginTop: 14,
+                            }}
+                          >
+                            <View
+                              style={{
+                                display: "flex",
+                                flexDirection: "row",
+                                alignItems: "center",
+                                justifyContent: "space-between",
+                              }}
+                            >
                               <View
                                 style={{
                                   display: "flex",
                                   flexDirection: "row",
-                                  marginTop: 14,
-                                  alignItems: "center",
-                                  justifyContent: "space-between",
                                 }}
                               >
-                                <View
+                                <Image
                                   style={{
-                                    display: "flex",
-                                    flexDirection: "row",
+                                    height: 16,
+                                    width: 16,
+                                    zIndex: 1,
+                                    marginRight: 8,
                                   }}
-                                >
-                                  <Image
-                                    style={{
-                                      height: 16,
-                                      width: 16,
-                                      zIndex: 1,
-                                      marginRight: 8,
-                                    }}
-                                    source={Foot_step}
-                                  />
-                                  <Text
-                                    style={{
-                                      color: colors.persianBlue,
-                                      fontFamily: "IBMPlexSansThai-Bold",
-                                      fontSize: 14,
-                                    }}
-                                  >
-                                    {item.walk_step}
-                                  </Text>
-                                </View>
-
+                                  source={Distance}
+                                />
                                 <Text
                                   style={{
-                                    color: colors.grey3,
-                                    fontFamily: "IBMPlexSansThai-Medium",
-                                    fontSize: 12,
+                                    color: colors.persianBlue,
+                                    fontFamily: "IBMPlexSansThai-Bold",
+                                    fontSize: 14,
                                   }}
                                 >
-                                  {item.walkStepActivity} ก้าว
+                                  {item.distance}
                                 </Text>
                               </View>
-                              <View style={styles.progressBar}>
-                                <View
-                                  style={{
-                                    width: `${Math.ceil(
-                                      (item.walk_step / item.walkStepActivity) *
-                                        100
-                                    )}%`,
-                                    maxWidth: "100%",
-                                    height: 8,
-                                    borderRadius: 16,
-                                    backgroundColor:
-                                      // colors.grey3
-                                      colors.persianBlue,
-                                  }}
-                                />
-                              </View>
+
+                              <Text
+                                style={{
+                                  color: colors.grey3,
+                                  fontFamily: "IBMPlexSansThai-Medium",
+                                  fontSize: 12,
+                                }}
+                              >
+                                {item.distanceActivity} กิโลเมตร
+                              </Text>
                             </View>
-                            <View>
+                            <View style={styles.progressBar}>
                               <View
                                 style={{
-                                  display: "flex",
-                                  flexDirection: "row",
-                                  marginTop: 14,
-                                  alignItems: "center",
-                                  justifyContent: "space-between",
+                                  width: `${Math.ceil(
+                                    (item.distance / item.distanceActivity) *
+                                      100
+                                  )}%`,
+                                  maxWidth: "100%",
+                                  height: 8,
+                                  borderRadius: 16,
+                                  backgroundColor:
+                                    // colors.grey3
+                                    colors.persianBlue,
                                 }}
-                              >
-                                <View
-                                  style={{
-                                    display: "flex",
-                                    flexDirection: "row",
-                                  }}
-                                >
-                                  <Image
-                                    style={{
-                                      height: 16,
-                                      width: 16,
-                                      zIndex: 1,
-                                      marginRight: 8,
-                                    }}
-                                    source={Distance}
-                                  />
-                                  <Text
-                                    style={{
-                                      color: colors.persianBlue,
-                                      fontFamily: "IBMPlexSansThai-Bold",
-                                      fontSize: 14,
-                                    }}
-                                  >
-                                    {item.distance}
-                                  </Text>
-                                </View>
-
-                                <Text
-                                  style={{
-                                    color: colors.grey3,
-                                    fontFamily: "IBMPlexSansThai-Medium",
-                                    fontSize: 12,
-                                  }}
-                                >
-                                  {item.distanceActivity} กิโลเมตร
-                                </Text>
-                              </View>
-                              <View style={styles.progressBar}>
-                                <View
-                                  style={{
-                                    width: `${Math.ceil(
-                                      (item.distance / item.distanceActivity) *
-                                        100
-                                    )}%`,
-                                    maxWidth: "100%",
-                                    height: 8,
-                                    borderRadius: 16,
-                                    backgroundColor:
-                                      // colors.grey3
-                                      colors.persianBlue,
-                                  }}
-                                />
-                              </View>
+                              />
                             </View>
                           </View>
                         </View>
-                      </Pressable>
-                    ))}
+                      </View>
+                    </Pressable>
+                  ))}
+
+                {evntAllNow.map((item, i) => (
+                  <Pressable key={i}>
+                    <View
+                      style={[
+                        styles.itemContainer,
+                        {
+                          width: 256,
+                          height: "auto",
+                        },
+                      ]}
+                    >
+                      <Image
+                        source={{ uri: item.cover_Image }}
+                        style={{
+                          height: 144,
+                          width: "100%",
+                          zIndex: 1,
+                          marginRight: 8,
+                          borderTopLeftRadius: 16,
+                          borderTopRightRadius: 16,
+                          opacity: 1,
+                        }}
+                        resizeMode="stretch"
+                      />
+                      <View style={{ padding: 16 }}>
+                        <View style={{ height: 52 }}>
+                          <Text
+                            style={{
+                              fontSize: 15.6,
+                              fontFamily: "IBMPlexSansThai-Bold",
+                            }}
+                          >
+                            {item.event_name.slice(0, 55) + "..."}
+                          </Text>
+                        </View>
+
+                        <View style={styles.boxEv}>
+                          <View style={styles.boxRow}>
+                            <Image
+                              style={{
+                                height: 16,
+                                width: 16,
+                                zIndex: 1,
+                                marginRight: 8,
+                              }}
+                              source={dateIcon}
+                            />
+
+                            <Text
+                              style={{
+                                fontFamily: "IBMPlexSansThai-Regular",
+                                fontSize: 14,
+                              }}
+                            >
+                              {dayjs(item.start_date).year() ==
+                              dayjs(item.end_date).year()
+                                ? `${dayjs(item.start_date)
+                                    .locale("th")
+                                    .format("DD MMM")} - ${dayjs(item.end_date)
+                                    .locale("th")
+                                    .format("DD MMM BBBB")}`
+                                : `${dayjs(item.start_date)
+                                    .locale("th")
+                                    .format("DD MMM BBBB")} - ${dayjs(
+                                    item.end_date
+                                  )
+                                    .locale("th")
+                                    .format("DD MMM BBBB")}`}
+                            </Text>
+                          </View>
+                        </View>
+                      </View>
+                    </View>
+                  </Pressable>
+                ))}
+
                 {/* {eventAll &&
                   eventAll.map((item, index) => {
                     const formattedEndDate = parse(
