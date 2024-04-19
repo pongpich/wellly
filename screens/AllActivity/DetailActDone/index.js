@@ -27,24 +27,25 @@ export default function DetailsActivityDone({ route }) {
   const dispatch = useDispatch();
 
   const [activeColor, setActiveColor] = React.useState("award");
-  const dataEvent = useSelector(
-    ({ getData }) => getData.exerciserActivityDetail
-  );
+
+  const dataEvents = useSelector(({ getData }) => getData.event);
+  const dataEventDetail = dataEvents.filter((item) => item.id == itemId);
+  // const dataEvent = useSelector(
+  //   ({ getData }) => getData.exerciserActivityDetail
+  // );
   const statusEvents = useSelector(
     ({ getData }) => getData.statusExerciserActivityDetail
   );
   const dataScores = useSelector(({ getData }) => getData.rank_event_score);
-  const dataScoresTopThree = dataScores
-    .sort((a, b) => b.walk_step - a.walk_step)
-    .slice(0, 3);
+  const dataScoresTopThree =
+    dataScores.sort((a, b) => b.walk_step - a.walk_step).slice(0, 3) ?? [];
 
   const [dataReward, setDataReward] = React.useState(
-    JSON.parse(dataEvent[0]?.reward || null)
+    JSON.parse(dataEventDetail[0]?.reward || null)
   );
-  console.log(dataScoresTopThree);
 
   React.useEffect(() => {
-    dispatch(getEventActivityDetail(itemId));
+    // dispatch(getEventActivityDetail(itemId));
     dispatch(getRankScoreEvent(itemId));
   }, [itemId]);
 
@@ -94,7 +95,7 @@ export default function DetailsActivityDone({ route }) {
     },
   });
 
-  if (statusEvents == "loading" || dataEvent[0] == undefined) {
+  if (statusEvents == "loading" || dataEventDetail[0] == undefined) {
     return (
       <View style={styles.containerMain}>
         <Skeleton width={"100%"} height={211} />
@@ -115,7 +116,7 @@ export default function DetailsActivityDone({ route }) {
   return (
     <ScrollView contentContainerStyle={styles.containerMain}>
       <ImageBackground
-        source={{ uri: dataEvent[0].cover_Image }}
+        source={{ uri: dataEventDetail[0].cover_Image }}
         style={{
           height: 211,
           width: "100%",
@@ -132,7 +133,7 @@ export default function DetailsActivityDone({ route }) {
 
       <View style={{ padding: 17 }}>
         <Text style={{ fontSize: 20, fontFamily: "IBMPlexSansThai-Bold" }}>
-          {dataEvent[0].event_name}
+          {dataEventDetail[0].event_name}
         </Text>
         <View
           style={{
@@ -160,16 +161,16 @@ export default function DetailsActivityDone({ route }) {
             <Text
               style={{ fontSize: 14, fontFamily: "IBMPlexSansThai-Regular" }}
             >
-              {dayjs(dataEvent[0].start_date).year() ==
-              dayjs(dataEvent[0].end_date).year()
-                ? `${dayjs(dataEvent[0].start_date)
+              {dayjs(dataEventDetail[0].start_date).year() ==
+              dayjs(dataEventDetail[0].end_date).year()
+                ? `${dayjs(dataEventDetail[0].start_date)
                     .locale("th")
-                    .format("DD MMM")} - ${dayjs(dataEvent[0].end_date)
+                    .format("DD MMM")} - ${dayjs(dataEventDetail[0].end_date)
                     .locale("th")
                     .format("DD MMM BBBB")}`
-                : `${dayjs(dataEvent[0].start_date)
+                : `${dayjs(dataEventDetail[0].start_date)
                     .locale("th")
-                    .format("DD MMM BBBB")} - ${dayjs(dataEvent[0].end_date)
+                    .format("DD MMM BBBB")} - ${dayjs(dataEventDetail[0].end_date)
                     .locale("th")
                     .format("DD MMM BBBB")}`}
             </Text>
@@ -236,7 +237,7 @@ export default function DetailsActivityDone({ route }) {
             <Text
               style={{ fontSize: 16, fontFamily: "IBMPlexSansThai-Regular" }}
             >
-              {dataEvent[0].event_detail}
+              {dataEventDetail[0].event_detail}
             </Text>
           </View>
         ) : null}

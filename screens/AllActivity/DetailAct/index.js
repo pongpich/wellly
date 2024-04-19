@@ -17,7 +17,6 @@ import Foot_step from "../../../assets/images/icon/Foot_step.png";
 import SwipeButtonImg from "../../../assets/images/activity/Frame13754.png";
 import SwipeButton from "rn-swipe-button";
 import { useDispatch, useSelector } from "react-redux";
-import { getEventActivityDetail } from "../../../redux/get";
 import { Skeleton } from "@rneui/themed";
 import dayjs from "dayjs";
 import "dayjs/locale/th";
@@ -29,31 +28,27 @@ export default function DetailsActivity({ route }) {
   const isRegis = route?.params?.isRegis;
   const navigate = useNavigation();
   const dispatch = useDispatch();
-  const dataEvent = useSelector(
-    ({ getData }) => getData.exerciserActivityDetail || []
-  );
+
+  const dataEvents = useSelector(({ getData }) => getData.event);
+  const dataEventDetail = dataEvents.filter((item) => item.id == itemId);
   const dataUser = useSelector(({ authUser }) => authUser.user);
-  const statusEvents = useSelector(
-    ({ getData }) => getData.statusExerciserActivityDetail
-  );
-  const updateData = useSelector(({ updateData }) => updateData);
   const dataEventsUser = useSelector(({ getData }) => getData.event_user);
   const dataEventOfuser = dataEventsUser.filter(
-    (item) => item.event_id == dataEvent[0]?.id
+    (item) => item.event_id == dataEventDetail[0]?.id
   );
-
   const [activeColor, setActiveColor] = React.useState("detail");
   const [dataReward, setDataReward] = React.useState(
-    JSON.parse(dataEvent[0]?.reward || null)
+    JSON.parse(dataEventDetail[0]?.reward || null)
   );
   const now = dayjs();
-  const exipre = dayjs(dataEvent[0]?.end_date);
-  const isDateArrive = now <= dayjs(dataEvent[0]?.start_date); // false
+  const exipre = dayjs(dataEventDetail[0]?.end_date);
+  const isDateArrive = now <= dayjs(dataEventDetail[0]?.start_date); // false
   const isExpireDate = now > exipre;
-  
+  const isUserRegis = dataEventOfuser[0]?.event_id ? true : false;
+
   const handleRegisterActivity = () => {
     try {
-      dispatch(addEventActivity(dataEvent[0].id, dataUser.user_id, 0, 0));
+      dispatch(addEventActivity(dataEventDetail[0].id, dataUser.user_id, 0, 0));
       navigate.navigate("AllActivities", {
         isAlreadyRegis: true,
       });
@@ -61,10 +56,6 @@ export default function DetailsActivity({ route }) {
       return error;
     }
   };
-
-  React.useEffect(() => {
-    dispatch(getEventActivityDetail(itemId));
-  }, [itemId]);
 
   React.useMemo(() => {
     if (!!route.params.isRegis) {
@@ -159,28 +150,28 @@ export default function DetailsActivity({ route }) {
       bottom: ScreenHeight > 700 ? 40 : 0,
     },
   });
-  if (statusEvents == "loading" || dataEvent[0] == undefined) {
-    return (
-      <View style={styles.containerMain}>
-        <Skeleton width={"100%"} height={211} />
-        <View style={{ padding: 16 }}>
-          <Skeleton width={"100%"} height={60} />
-          <Skeleton width={"100%"} height={20} style={{ marginTop: 16 }} />
-          <Skeleton width={"100%"} height={30} style={{ marginTop: 24 }} />
-          <Skeleton
-            width={"100%"}
-            height={ScreenHeight / 2}
-            style={{ marginTop: 16 }}
-          />
-        </View>
-      </View>
-    );
-  }
+  // if (statusEvents == "loading" || dataEventDetail[0] == undefined) {
+  //   return (
+  //     <View style={styles.containerMain}>
+  //       <Skeleton width={"100%"} height={211} />
+  //       <View style={{ padding: 16 }}>
+  //         <Skeleton width={"100%"} height={60} />
+  //         <Skeleton width={"100%"} height={20} style={{ marginTop: 16 }} />
+  //         <Skeleton width={"100%"} height={30} style={{ marginTop: 24 }} />
+  //         <Skeleton
+  //           width={"100%"}
+  //           height={ScreenHeight / 2}
+  //           style={{ marginTop: 16 }}
+  //         />
+  //       </View>
+  //     </View>
+  //   );
+  // }
 
   return (
     <ScrollView contentContainerStyle={styles.containerMain}>
       <ImageBackground
-        source={{ uri: dataEvent[0].cover_Image }}
+        source={{ uri: dataEventDetail[0].cover_Image }}
         style={{
           height: 211,
           width: "100%",
@@ -197,7 +188,7 @@ export default function DetailsActivity({ route }) {
 
       <View style={{ padding: 17 }}>
         <Text style={{ fontSize: 20, fontFamily: "IBMPlexSansThai-Bold" }}>
-          {dataEvent[0].event_name}
+          {dataEventDetail[0].event_name}
         </Text>
         <View
           style={{
@@ -225,16 +216,18 @@ export default function DetailsActivity({ route }) {
             <Text
               style={{ fontSize: 14, fontFamily: "IBMPlexSansThai-Regular" }}
             >
-              {dayjs(dataEvent[0].start_date).year() ==
-              dayjs(dataEvent[0].end_date).year()
-                ? `${dayjs(dataEvent[0].start_date)
+              {dayjs(dataEventDetail[0].start_date).year() ==
+              dayjs(dataEventDetail[0].end_date).year()
+                ? `${dayjs(dataEventDetail[0].start_date)
                     .locale("th")
-                    .format("DD MMM")} - ${dayjs(dataEvent[0].end_date)
+                    .format("DD MMM")} - ${dayjs(dataEventDetail[0].end_date)
                     .locale("th")
                     .format("DD MMM BBBB")}`
-                : `${dayjs(dataEvent[0].start_date)
+                : `${dayjs(dataEventDetail[0].start_date)
                     .locale("th")
-                    .format("DD MMM BBBB")} - ${dayjs(dataEvent[0].end_date)
+                    .format("DD MMM BBBB")} - ${dayjs(
+                    dataEventDetail[0].end_date
+                  )
                     .locale("th")
                     .format("DD MMM BBBB")}`}
             </Text>
@@ -282,10 +275,10 @@ export default function DetailsActivity({ route }) {
             <Text
               style={{ fontSize: 16, fontFamily: "IBMPlexSansThai-Regular" }}
             >
-              {dataEvent[0].event_detail}
+              {dataEventDetail[0].event_detail}
             </Text>
 
-            {!isExpireDate && !isRegis && (
+            {!isExpireDate && !isRegis && !isUserRegis && (
               <View
                 style={{
                   position: "absolute",
