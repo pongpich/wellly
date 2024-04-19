@@ -322,6 +322,7 @@ export default function AlreadyRegistered() {
 const styles = StyleSheet.create({
   itemContainer: {
     width: "100%",
+    maxWidth: 393,
     height: "auto",
     backgroundColor: "#ffffff",
     borderRadius: 16,

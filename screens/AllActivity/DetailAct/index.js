@@ -50,7 +50,7 @@ export default function DetailsActivity({ route }) {
   const exipre = dayjs(dataEvent[0]?.end_date);
   const isDateArrive = now <= dayjs(dataEvent[0]?.start_date); // false
   const isExpireDate = now > exipre;
-  console.log(isDateArrive);
+  
   const handleRegisterActivity = () => {
     try {
       dispatch(addEventActivity(dataEvent[0].id, dataUser.user_id, 0, 0));
@@ -127,10 +127,16 @@ export default function DetailsActivity({ route }) {
     btnRegis: {
       width: "100%",
       height: 48,
-      backgroundColor: isDateArrive  ? "#E5EEF9" : "#3762FC",
+      backgroundColor: isDateArrive ? "#E5EEF9" : "#3762FC",
       borderRadius: 24,
       paddingVertical: 12,
       marginTop: 20,
+    },
+    txtRegis: {
+      fontSize: 16,
+      color: isDateArrive ? "#93A8C1" : "#FFFFFF",
+      fontFamily: "IBMPlexSansThai-Bold",
+      textAlign: "center",
     },
     progressBar: {
       marginTop: 7,
@@ -292,7 +298,7 @@ export default function DetailsActivity({ route }) {
                   onPress={handleRegisterActivity}
                   disabled={isDateArrive}
                 >
-                  <Text style={styles.txtDetail}>ลงทะเบียน</Text>
+                  <Text style={styles.txtRegis}>ลงทะเบียน</Text>
                 </TouchableOpacity>
               </View>
             )}

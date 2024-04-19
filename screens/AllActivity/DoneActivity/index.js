@@ -6,7 +6,6 @@ import {
   Image,
   ScrollView,
   ImageBackground,
-  TouchableOpacity,
 } from "react-native";
 import * as React from "react";
 import colors from "../../../constants/colors";
@@ -23,10 +22,11 @@ import NotAct from "../../../assets/images/activity/NotAct.png";
 export default function DoneActivity() {
   const navigate = useNavigation();
   const dispatch = useDispatch();
+  const now = dayjs();
+
   const dataEventsUser = useSelector(({ getData }) => getData.event_user);
   const userId = useSelector(({ authUser }) => authUser.user.user_id);
 
-  const now = dayjs();
 
   React.useEffect(() => {
     dispatch(getEventUser(userId));
@@ -38,7 +38,7 @@ export default function DoneActivity() {
         padding: 16,
         paddingTop: 0,
         backgroundColor: "white",
-        height: "100%",
+        minHeight: "100%",
       }}
     >
       <Text
@@ -313,6 +313,7 @@ export default function DoneActivity() {
 const styles = StyleSheet.create({
   itemContainer: {
     width: "100%",
+    maxWidth: 393,
     height: "auto",
     backgroundColor: "#ffffff",
     borderRadius: 16,

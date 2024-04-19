@@ -156,6 +156,7 @@ export default function AllAct({ route }) {
 const styles = StyleSheet.create({
   itemContainer: {
     width: "100%",
+    maxWidth: 393,
     height: "auto",
     backgroundColor: "#ffffff",
     borderRadius: 16,
