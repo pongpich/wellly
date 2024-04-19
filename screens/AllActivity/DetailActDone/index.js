@@ -14,10 +14,11 @@ import { useNavigation } from "@react-navigation/native";
 import dateIcon from "../../../assets/images/icon/dateIcon.png";
 import AvartarImg from "../../../assets/images/activity/Group13719.png";
 import { useDispatch, useSelector } from "react-redux";
-import { getEventActivityDetail } from "../../../redux/get";
+import { getEventActivityDetail, getRankScoreEvent } from "../../../redux/get";
 import { Skeleton } from "@rneui/themed";
 import dayjs from "dayjs";
 import "dayjs/locale/th";
+import { checkFistChar } from "../../../helpers/utils";
 
 export default function DetailsActivityDone({ route }) {
   const ScreenHeight = Dimensions.get("window").height;
@@ -32,9 +33,20 @@ export default function DetailsActivityDone({ route }) {
   const statusEvents = useSelector(
     ({ getData }) => getData.statusExerciserActivityDetail
   );
+  const dataScores = useSelector(({ getData }) => getData.rank_event_score);
+  const dataScoresTopThree = dataScores
+    .sort((a, b) => b.walk_step - a.walk_step)
+    .slice(0, 3);
+
   const [dataReward, setDataReward] = React.useState(
     JSON.parse(dataEvent[0]?.reward || null)
   );
+  console.log(dataScoresTopThree);
+
+  React.useEffect(() => {
+    dispatch(getEventActivityDetail(itemId));
+    dispatch(getRankScoreEvent(itemId));
+  }, [itemId]);
 
   const styles = StyleSheet.create({
     btnDetail: {
@@ -81,10 +93,6 @@ export default function DetailsActivityDone({ route }) {
       flexDirection: "column",
     },
   });
-
-  React.useEffect(() => {
-    dispatch(getEventActivityDetail(itemId));
-  }, [itemId]);
 
   if (statusEvents == "loading" || dataEvent[0] == undefined) {
     return (
@@ -206,7 +214,7 @@ export default function DetailsActivityDone({ route }) {
             <TouchableOpacity
               onPress={() =>
                 navigate.navigate("TableRankDone", {
-                  itemId: 86,
+                  itemId: itemId,
                 })
               }
             >
@@ -294,17 +302,45 @@ export default function DetailsActivityDone({ route }) {
                     marginTop: 16,
                   }}
                 >
-                  <Image
-                    source={AvartarImg}
-                    style={{ width: 32, height: 32, marginRight: 6 }}
-                  />
+                  <View
+                    style={{
+                      backgroundColor: "#3762FC",
+                      borderRadius: 50,
+                      width: 32,
+                      height: 32,
+                      marginRight: 8,
+                    }}
+                  >
+                    <Text
+                      style={{
+                        color: "white",
+                        fontFamily: "IBMPlexSansThai-Bold",
+                        fontSize: 14,
+                        textAlign: "center",
+                        marginTop: 5,
+                        marginBottom: 4,
+                      }}
+                    >
+                      {i == 0
+                        ? checkFistChar(dataScoresTopThree[0]?.display_name)
+                        : ""}
+                      {i == 1
+                        ? checkFistChar(dataScoresTopThree[1]?.display_name)
+                        : ""}
+                      {i == 2
+                        ? checkFistChar(dataScoresTopThree[2]?.display_name)
+                        : ""}
+                    </Text>
+                  </View>
                   <Text
                     style={{
                       fontSize: 16,
                       fontFamily: "IBMPlexSansThai-Medium",
                     }}
                   >
-                    Sorawit Kri.
+                    {i == 0 ? dataScoresTopThree[0]?.display_name : ""}
+                    {i == 1 ? dataScoresTopThree[1]?.display_name : ""}
+                    {i == 2 ? dataScoresTopThree[2]?.display_name : ""}
                   </Text>
                 </View>
               </View>

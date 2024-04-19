@@ -1,11 +1,11 @@
-import moment from 'moment';
-import i18next from 'i18next';
+import moment from "moment";
+import i18next from "i18next";
 
 export const calculateWeekInProgram = (startDate, endDate) => {
-  let startDateMoment = moment(startDate).startOf('isoWeek');
+  let startDateMoment = moment(startDate).startOf("isoWeek");
   let endDateMoment = endDate ? moment(endDate) : moment();
-  return endDateMoment.diff(startDateMoment, 'week') + 1
-}
+  return endDateMoment.diff(startDateMoment, "week") + 1;
+};
 
 export function str_pad_left(string, pad, length) {
   return (new Array(length + 1).join(pad) + string).slice(-length);
@@ -14,108 +14,159 @@ export function str_pad_left(string, pad, length) {
 export function convertSecondsToMinutes(time) {
   const minutes = Math.floor(time / 60);
   const seconds = time - minutes * 60;
-  var finalTime = str_pad_left(minutes, '0', 2) + ':' + str_pad_left(parseInt(seconds), '0', 2);
+  var finalTime =
+    str_pad_left(minutes, "0", 2) +
+    ":" +
+    str_pad_left(parseInt(seconds), "0", 2);
   return finalTime;
 }
 
 export function convertFormatTime(time) {
   const minutes = (time + "").split(".")[0];
-  const seconds = ((time + "").split(".")[1]) ?
-    ((time + "").split(".")[1].length < 2) ?
-      ((time + "").split(".")[1]) + "0"
-      :
-      ((time + "").split(".")[1])
-    : "00"
+  const seconds = (time + "").split(".")[1]
+    ? (time + "").split(".")[1].length < 2
+      ? (time + "").split(".")[1] + "0"
+      : (time + "").split(".")[1]
+    : "00";
   return `${minutes}:${seconds}`;
 }
 
 export function convertFormatDate() {
-
   const d = new Date();
-  var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  var days = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
 
-
-  return days[d.getDay()]
+  return days[d.getDay()];
 }
-
 
 export function checkStar(mission_activities, activities_level) {
   var sumScoreInWeek = 0;
-  mission_activities && mission_activities.map((itemMa, i) => {
-    var sumItem = itemMa.number_completed * itemMa.score
-    sumScoreInWeek = sumScoreInWeek + sumItem
-
-  })
+  mission_activities &&
+    mission_activities.map((itemMa, i) => {
+      var sumItem = itemMa.number_completed * itemMa.score;
+      sumScoreInWeek = sumScoreInWeek + sumItem;
+    });
   var star_numb = 0;
   var trophy = 0;
-  activities_level && activities_level.map((item, i) => {
-    if (sumScoreInWeek >= item.pts_length_min && sumScoreInWeek <= item.pts_length_max) {
-      star_numb = item.star_numb;
-    }
-    if ((star_numb === 3) && (sumScoreInWeek > item.pts_length_min)) {
-      trophy = 1;
-    }
-
-  });
+  activities_level &&
+    activities_level.map((item, i) => {
+      if (
+        sumScoreInWeek >= item.pts_length_min &&
+        sumScoreInWeek <= item.pts_length_max
+      ) {
+        star_numb = item.star_numb;
+      }
+      if (star_numb === 3 && sumScoreInWeek > item.pts_length_min) {
+        trophy = 1;
+      }
+    });
   return star_numb;
-};
+}
 
 export function checkTrophy(mission_activities, activities_level) {
   var sumScoreInWeek = 0;
-  mission_activities && mission_activities.map((itemMa, i) => {
-    var sumItem = itemMa.number_completed * itemMa.score
-    let sumScoreMax = itemMa.number * itemMa.score
+  mission_activities &&
+    mission_activities.map((itemMa, i) => {
+      var sumItem = itemMa.number_completed * itemMa.score;
+      let sumScoreMax = itemMa.number * itemMa.score;
 
-    if (itemMa.number_completed > itemMa.number) {
-      sumScoreInWeek = sumScoreMax + sumScoreInWeek
-    } else {
-      sumScoreInWeek = sumScoreInWeek + sumItem
-    }
-
-  })
-
+      if (itemMa.number_completed > itemMa.number) {
+        sumScoreInWeek = sumScoreMax + sumScoreInWeek;
+      } else {
+        sumScoreInWeek = sumScoreInWeek + sumItem;
+      }
+    });
 
   var star_numb = 0;
   var trophy = 0;
-  activities_level && activities_level.map((item, i) => {
-
-    if (sumScoreInWeek >= item.pts_length_min && sumScoreInWeek <= item.pts_length_max) {
-      star_numb = item.star_numb;
-    }
-    if ((star_numb === 3) && (sumScoreInWeek > item.pts_length_min)) {
-      trophy = 1;
-    }
-
-  });
+  activities_level &&
+    activities_level.map((item, i) => {
+      if (
+        sumScoreInWeek >= item.pts_length_min &&
+        sumScoreInWeek <= item.pts_length_max
+      ) {
+        star_numb = item.star_numb;
+      }
+      if (star_numb === 3 && sumScoreInWeek > item.pts_length_min) {
+        trophy = 1;
+      }
+    });
   return trophy;
 }
 
 export function currentTime() {
   const date = new Date();
-  const options = { day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: 'numeric' };
-  const currentDate = (i18next.language === 'th') ? date.toLocaleDateString('th-TH', options) : date.toLocaleDateString('en-US', options);
+  const options = {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+  };
+  const currentDate =
+    i18next.language === "th"
+      ? date.toLocaleDateString("th-TH", options)
+      : date.toLocaleDateString("en-US", options);
 
   return currentDate;
 }
 export function currentTimeActivity(e) {
   const date = new Date(e);
-  const options = { day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: 'numeric' };
-  const currentDate = (i18next.language === 'th') ? date.toLocaleDateString('th-TH', options) : date.toLocaleDateString('en-US', options);
+  const options = {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+  };
+  const currentDate =
+    i18next.language === "th"
+      ? date.toLocaleDateString("th-TH", options)
+      : date.toLocaleDateString("en-US", options);
 
   return currentDate;
 }
 export function currentDate() {
   const date = new Date();
-  const options = { day: 'numeric', month: 'short', year: 'numeric' };
-  const currentDate = date.toLocaleDateString('th-TH', options);
+  const options = { day: "numeric", month: "short", year: "numeric" };
+  const currentDate = date.toLocaleDateString("th-TH", options);
 
   return currentDate;
 }
 export function currentDateActivity(e) {
   const date = new Date(e);
-  const options = { day: 'numeric', month: 'short', year: 'numeric' };
-  const currentDate = (i18next.language === 'th') ? date.toLocaleDateString('th-TH', options) : date.toLocaleDateString('en-US', options);
+  const options = { day: "numeric", month: "short", year: "numeric" };
+  const currentDate =
+    i18next.language === "th"
+      ? date.toLocaleDateString("th-TH", options)
+      : date.toLocaleDateString("en-US", options);
 
   return currentDate;
 }
 
+export const numberWithComma = (number) => {
+  return isNaN(number)
+    ? 0
+    : Number(number)
+        .toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};
+
+export const checkFistChar = (name) => {
+  let firstChar;
+  if (name == "" || name == undefined) return "";
+  if (name.match(/^[\u0E00-\u0E7F\s]+$/)) {
+    let consonants = name.match(/[ก-ฮ]/g);
+    firstChar = consonants[0];
+  } else {
+    firstChar = name.charAt(0);
+  }
+  return firstChar;
+};

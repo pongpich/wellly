@@ -801,11 +801,10 @@ function* getProfanitySaga({}) {
   }
 }
 
-function* getRankScoreEventSaga(event_id) {
+function* getRankScoreEventSaga({ payload }) {
+  const { event_id } = payload;
   try {
-    const apiResult = yield call(getRankScoreEventSagaAsync, {
-      queryStringParameters: { event_id },
-    });
+    const apiResult = yield call(getRankScoreEventSagaAsync, event_id);
     yield put({
       type: types.GET_RANK_SCORE_EVENT_SUCCESS,
       payload: apiResult.results.eventActivity,

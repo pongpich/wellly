@@ -141,7 +141,7 @@ class Home extends Component {
       nutrition_knowledge_Act: 0,
       modalVisible: false,
       modalVisible: false,
-      eventAll: null,
+      eventAll: [],
       eventUser: [],
     };
   }
@@ -1089,7 +1089,7 @@ class Home extends Component {
 
     const { t } = this.props;
     const data = ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5"];
-
+console.log('eventAll', eventAll)
     return (
       <View
         style={[

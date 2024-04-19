@@ -30,7 +30,7 @@ export default function DetailsActivity({ route }) {
   const navigate = useNavigation();
   const dispatch = useDispatch();
   const dataEvent = useSelector(
-    ({ getData }) => getData.exerciserActivityDetail
+    ({ getData }) => getData.exerciserActivityDetail || []
   );
   const dataUser = useSelector(({ authUser }) => authUser.user);
 
@@ -547,7 +547,7 @@ export default function DetailsActivity({ route }) {
             railStyles={{
               borderRadius: 32,
               backgroundColor: "#E5EEF9",
-              borderColor: "#E5EEF9",         
+              borderColor: "#E5EEF9",
               margin: 8,
             }}
             railBorderColor="#FFFFFF"
