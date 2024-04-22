@@ -26,8 +26,6 @@ export default function AllAct({ route }) {
 
   const dataEvents = useSelector(({ getData }) => getData.event);
   const dataEventsUser = useSelector(({ getData }) => getData.event_user);
-  const arrALL = [1, 2, 3];
-  const arrUserRegis = [1, 2]; // check now >= start_date ถึงยัง end_date <= now
 
   const newDataEvents = dataEvents.map((item) => {
     const isRegis = dataEventsUser.some((val) => val.event_id == item.id);

@@ -540,8 +540,10 @@ export default function DetailsActivity({ route }) {
           style={[styles.bottomView, { paddingRight: 24, paddingLeft: 16 }]}
         >
           <SwipeButton
-            containerStyles={{ borderRadius: 32 }}
-            width={"auto"}
+            containerStyles={{
+              borderRadius: 32,
+            }}
+            width={"100%"}
             height={52}
             onSwipeSuccess={() => navigate.navigate("StartTimerActivity")}
             shouldResetAfterSuccess={true}
@@ -550,9 +552,6 @@ export default function DetailsActivity({ route }) {
               borderRadius: 32,
               backgroundColor: "#E5EEF9",
               borderColor: "#E5EEF9",
-              paddingVertical: 8,
-              // marginLeft: 8,
-              marginStart: 8, //left
             }}
             railBorderColor="#FFFFFF"
             title="เริ่มออกกำลังกาย"

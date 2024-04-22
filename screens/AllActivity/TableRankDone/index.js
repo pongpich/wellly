@@ -26,14 +26,15 @@ export default function TableRankDone({ route }) {
   const itemId = route?.params?.itemId;
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const dataScores = useSelector(({ getData }) => getData.rank_event_score);
+  const dataScores = useSelector(
+    ({ getData }) => getData.rank_event_score ?? []
+  );
   const statusScore = useSelector(
     ({ getData }) => getData.status_rank_event_score
   );
   const dataScoresTopThree = dataScores
     .sort((a, b) => b.walk_step - a.walk_step)
     .slice(0, 3);
-
   React.useEffect(() => {
     dispatch(getRankScoreEvent(itemId));
   }, [itemId]);

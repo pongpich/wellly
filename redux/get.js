@@ -1530,11 +1530,11 @@ const INIT_STATE = {
 
   statusCheckEmailExist: "default",
   status_event: "default",
-  event: null,
+  event: [],
   status_event_user: "default",
-  event_user: null,
+  event_user: [],
   status_rank_event_score: "default",
-  rank_event_score: null,
+  rank_event_score: [],
 };
 
 export function reducer(state = INIT_STATE, action) {
