@@ -1090,19 +1090,29 @@ class Home extends Component {
 
     const { t } = this.props;
     const data = ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5"];
-    const newDataEvents = eventAll.map((item) => {
-      const isRegis = eventUser.some((val) => val.event_id == item.id);
-      const filterData = eventUser.filter((val) => val.event_id == item.id);
-      const walk_step_user =
-        filterData.length > 0 ? filterData[0].walk_step : 0;
-      const distance_user = filterData.length > 0 ? filterData[0].distance : 0;
-      return {
-        ...item,
-        isRegis,
-        walk_step_user,
-        distance_user,
-      };
-    }) ?? [];
+    const newDataEvents =
+      eventAll
+        .map((item) => {
+          const isRegis = eventUser.some((val) => val.event_id == item.id);
+          const filterData = eventUser.filter((val) => val.event_id == item.id);
+          const walk_step_user =
+            filterData.length > 0 ? filterData[0].walk_step : 0;
+          const distance_user =
+            filterData.length > 0 ? filterData[0].distance : 0;
+          return {
+            ...item,
+            isRegis,
+            walk_step_user,
+            distance_user,
+          };
+        })
+        .sort((a, b) => {
+          if (b.isRegis !== a.isRegis) {
+            return b.isRegis - a.isRegis;
+          } else {
+            return new Date(b.end_date) - new Date(a.end_date);
+          }
+        }) ?? [];
 
     return (
       <View
@@ -1171,7 +1181,7 @@ class Home extends Component {
                 ref={this.scrollViewRef}
                 horizontal
                 showsHorizontalScrollIndicator={false}
-              >     
+              >
                 {newDataEvents.map((item, i) => (
                   <Pressable
                     onPress={() =>
@@ -1236,6 +1246,8 @@ class Home extends Component {
                             fontFamily: "IBMPlexSansThai-Bold",
                             fontSize: 15.6,
                             width: "100%",
+                            height: 52,
+                            maxHeight: 52,
                           }}
                         >
                           {item.event_name.slice(0, 53) + "..."}
