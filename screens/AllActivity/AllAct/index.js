@@ -55,6 +55,7 @@ export default function AllAct({ route }) {
               onPress={() =>
                 navigate.navigate("DetailsActivity", {
                   itemId: item.id,
+                  isNavigateFromAllAct: true,
                 })
               }
             >

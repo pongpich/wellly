@@ -26,6 +26,9 @@ export default function DetailsActivity({ route }) {
   const ScreenHeight = Dimensions.get("window").height;
   const itemId = route?.params?.itemId;
   const isRegis = route?.params?.isRegis;
+  const isNavigateFromHome = route?.params?.isNavigateFromHome;
+  const isNavigateFromAllAct = route?.params?.isNavigateFromAllAct;
+
   const navigate = useNavigation();
   const dispatch = useDispatch();
 
@@ -59,6 +62,14 @@ export default function DetailsActivity({ route }) {
 
   React.useMemo(() => {
     if (!!route.params.isRegis) {
+      setActiveColor("score");
+    }
+
+    if (
+      (isNavigateFromHome || isNavigateFromAllAct) &&
+      isUserRegis &&
+      !isExpireDate
+    ) {
       setActiveColor("score");
     }
   }, [route.params]);
@@ -150,23 +161,6 @@ export default function DetailsActivity({ route }) {
       bottom: ScreenHeight > 700 ? 40 : 0,
     },
   });
-  // if (statusEvents == "loading" || dataEventDetail[0] == undefined) {
-  //   return (
-  //     <View style={styles.containerMain}>
-  //       <Skeleton width={"100%"} height={211} />
-  //       <View style={{ padding: 16 }}>
-  //         <Skeleton width={"100%"} height={60} />
-  //         <Skeleton width={"100%"} height={20} style={{ marginTop: 16 }} />
-  //         <Skeleton width={"100%"} height={30} style={{ marginTop: 24 }} />
-  //         <Skeleton
-  //           width={"100%"}
-  //           height={ScreenHeight / 2}
-  //           style={{ marginTop: 16 }}
-  //         />
-  //       </View>
-  //     </View>
-  //   );
-  // }
 
   return (
     <ScrollView contentContainerStyle={styles.containerMain}>
@@ -242,7 +236,7 @@ export default function DetailsActivity({ route }) {
             marginBottom: 16,
           }}
         >
-          {route.params.isRegis && (
+          {(route.params.isRegis || activeColor == "score") && (
             <TouchableOpacity
               style={styles.btnScore}
               onPress={() => setActiveColor("score")}
@@ -364,9 +358,8 @@ export default function DetailsActivity({ route }) {
             ))
           : null}
 
-        {activeColor == "score" &&
-        isRegis &&
-        dataEventOfuser[0] != undefined ? (
+        {activeColor == "score" ||
+        (isRegis && dataEventOfuser[0] != undefined) ? (
           <View>
             <View>
               <View

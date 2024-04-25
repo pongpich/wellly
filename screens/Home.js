@@ -1187,6 +1187,7 @@ class Home extends Component {
                     onPress={() =>
                       this.props.navigation.navigate("DetailsActivity", {
                         itemId: item.id,
+                        isNavigateFromHome: true,
                       })
                     }
                     key={i}
