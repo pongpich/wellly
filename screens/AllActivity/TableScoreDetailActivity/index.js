@@ -4,7 +4,6 @@ import { DataTable } from "react-native-paper";
 import AvartarImg from "../../../assets/images/activity/Group13719.png";
 import { useDispatch, useSelector } from "react-redux";
 import { getRankScoreEvent } from "../../../redux/get";
-import { Skeleton } from "@rneui/themed";
 import { checkFistChar, numberWithComma } from "../../../helpers/utils";
 
 export default function TableScoreOfActivity({ route }) {
@@ -27,10 +26,7 @@ export default function TableScoreOfActivity({ route }) {
           flexDirection: "column",
           paddingHorizontal: 16,
         }}
-      >
-        <Skeleton width={"100%"} height={31} />
-        <Skeleton width={"100%"} height={"90%"} style={{ marginTop: 16 }} />
-      </View>
+      ></View>
     );
   }
 

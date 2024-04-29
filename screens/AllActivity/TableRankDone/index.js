@@ -19,7 +19,6 @@ import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import { getRankScoreEvent } from "../../../redux/get";
-import { Skeleton } from "@rneui/themed";
 import { numberWithComma, checkFistChar } from "../../../helpers/utils";
 
 export default function TableRankDone({ route }) {
@@ -46,28 +45,7 @@ export default function TableRankDone({ route }) {
           backgroundColor: "white",
           paddingHorizontal: 16,
         }}
-      >
-        <View
-          style={{
-            paddingHorizontal: 25,
-            flexDirection: "row",
-          }}
-        >
-          <View style={{ flex: 1, alignItems: "center" }}>
-            <Skeleton width={56} height={56} circle style={{ marginTop: 60 }} />
-            <Skeleton width={80} height={80} style={{ marginTop: 10 }} />
-          </View>
-          <View style={{ flex: 1, alignItems: "center" }}>
-            <Skeleton width={56} height={56} circle />
-            <Skeleton width={80} height={140} style={{ marginTop: 10 }} />
-          </View>
-          <View style={{ flex: 1, alignItems: "center" }}>
-            <Skeleton width={56} height={56} circle style={{ marginTop: 60 }} />
-            <Skeleton width={80} height={80} style={{ marginTop: 10 }} />
-          </View>
-        </View>
-        <Skeleton width={"100%"} height={"70%"} style={{ marginTop: 20 }} />
-      </View>
+      ></View>
     );
   }
 

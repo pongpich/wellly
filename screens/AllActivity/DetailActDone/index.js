@@ -15,7 +15,6 @@ import dateIcon from "../../../assets/images/icon/dateIcon.png";
 import AvartarImg from "../../../assets/images/activity/Group13719.png";
 import { useDispatch, useSelector } from "react-redux";
 import { getEventActivityDetail, getRankScoreEvent } from "../../../redux/get";
-import { Skeleton } from "@rneui/themed";
 import dayjs from "dayjs";
 import "dayjs/locale/th";
 import { checkFistChar } from "../../../helpers/utils";
@@ -96,21 +95,7 @@ export default function DetailsActivityDone({ route }) {
   });
 
   if (statusEvents == "loading" || dataEventDetail[0] == undefined) {
-    return (
-      <View style={styles.containerMain}>
-        <Skeleton width={"100%"} height={211} />
-        <View style={{ padding: 16 }}>
-          <Skeleton width={"100%"} height={60} />
-          <Skeleton width={"100%"} height={20} style={{ marginTop: 16 }} />
-          <Skeleton width={"100%"} height={30} style={{ marginTop: 24 }} />
-          <Skeleton
-            width={"100%"}
-            height={ScreenHeight / 2}
-            style={{ marginTop: 16 }}
-          />
-        </View>
-      </View>
-    );
+    return <View style={styles.containerMain}></View>;
   }
 
   return (
@@ -170,7 +155,9 @@ export default function DetailsActivityDone({ route }) {
                     .format("DD MMM BBBB")}`
                 : `${dayjs(dataEventDetail[0].start_date)
                     .locale("th")
-                    .format("DD MMM BBBB")} - ${dayjs(dataEventDetail[0].end_date)
+                    .format("DD MMM BBBB")} - ${dayjs(
+                    dataEventDetail[0].end_date
+                  )
                     .locale("th")
                     .format("DD MMM BBBB")}`}
             </Text>

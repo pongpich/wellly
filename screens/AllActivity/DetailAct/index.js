@@ -17,7 +17,6 @@ import Foot_step from "../../../assets/images/icon/Foot_step.png";
 import SwipeButtonImg from "../../../assets/images/activity/Frame13754.png";
 import SwipeButton from "rn-swipe-button";
 import { useDispatch, useSelector } from "react-redux";
-import { Skeleton } from "@rneui/themed";
 import dayjs from "dayjs";
 import "dayjs/locale/th";
 import { addEventActivity } from "../../../redux/update";
