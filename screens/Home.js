@@ -938,7 +938,7 @@ class Home extends Component {
             style={styles.logo}
           />
 
-          <View style={{ marginBottom: 100, marginTop: -40 }}>
+          <View style={{ marginBottom: 100, marginTop: -10 }}>
             <View style={{ height: 44, width: "100%" }}>
               <StatusBar barStyle="dark-content" />
             </View>
