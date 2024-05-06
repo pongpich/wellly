@@ -21,12 +21,14 @@ const androidkey =
 const webClientExpoKey =
   "860210111844-b9qc0fi6hm6s82vs1n8ksf07u00b4k7p.apps.googleusercontent.com";
 
-const StartTime = () => {
+const StartTime = ({ navigation }) => {
   const [stepCount, setStepCount] = useState(0);
   const [distance, setDistance] = useState(0);
   const [statusStop, setStatusStop] = useState(true);
-  const [modalVisible, setModalVisible] = useState(true);
-
+  const [modalVisible, setModalVisible] = useState(false);
+  const [time, setTime] = useState(0);
+  const [isRunning, setIsRunning] = useState(false);
+  let timer;
   const [req, res, promptAsync] = GoogleSignIn.useAuthRequest({
     androidClientId: androidkey,
     iosClientId: iosKey,
@@ -89,6 +91,9 @@ const StartTime = () => {
   };
 
   const handleSignGoogle = async () => {
+    console.log('====================================');
+    console.log("aaa");
+    console.log('====================================');
     if (res?.type == "success") {
       const startDate = new Date("2024-05-02");
       const endDate = new Date("2024-05-03");
@@ -106,13 +111,53 @@ const StartTime = () => {
     handleSignGoogle();
   }, [res]);
 
+  const onStop = (e) => {
+    setStatusStop(e)
+    stopTimer()
+  }
+  const onFinish = () => {
+    navigation.goBack();
+  }
+
+  useEffect(() => {
+    startTimer();
+    return () => clearInterval(timer);
+  }, []);
+
+
+  const startTimer = () => {
+    setIsRunning(true);
+    timer = setInterval(() => {
+      setTime(prevTime => prevTime + 1);
+    }, 1000);
+  };
+
+  const stopTimer = () => {
+    setIsRunning(false);
+    clearInterval(timer);
+  };
+
+  const resetTimer = () => {
+    setTime(0);
+  };
+  const formatTime = (totalSeconds) => {
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+
+    const formattedHours = String(hours).padStart(2, '0');
+    const formattedMinutes = String(minutes).padStart(2, '0');
+    const formattedSeconds = String(seconds).padStart(2, '0');
+
+    return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+  };
+
+
   return (
-
-
     <View style={styles.container} source={IconRun} >
       <View style={styles.boxTime}>
         <Text style={styles.textTime}>เวลา</Text>
-        <Text style={styles.times}>00:12:45</Text>
+        <Text style={styles.times}>{formatTime(time)}</Text>
       </View>
       <View style={styles.boxStep}>
         <View style={styles.boxStepText}>
@@ -130,23 +175,26 @@ const StartTime = () => {
       </View>
       <View style={styles.boxSop}>
         {statusStop == true ?
-          <Image style={styles.stop} source={IconStop} />
+          <Pressable onPress={() => handleSignGoogle()/* onStop(false) */}>
+            <Image style={styles.stop} source={IconStop} />
+          </Pressable>
+
           :
-          <>
+          <View >
             <View style={styles.circle}>
-              <View style={styles.circlePlay}>
+              <Pressable style={styles.circlePlay} onPress={() => onStop(true)}>
                 <Text style={styles.textPlay}>เล่นต่อ</Text>
-              </View>
-              <View style={styles.circleFinish}>
+              </Pressable>
+              <Pressable style={styles.circleFinish} onPress={() => onFinish()}>
                 <Text style={styles.textFinish}>เสร็จ</Text>
-              </View>
+              </Pressable>
             </View>
 
             <Pressable onPress={() => setModalVisible(true)}>
               <Text style={styles.abandon}>ละทิ้ง</Text>
             </Pressable>
 
-          </>
+          </View>
         }
 
       </View>
@@ -155,21 +203,18 @@ const StartTime = () => {
         animationType="slide"
         transparent={true}
         visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
-          setModalVisible(!modalVisible);
-        }}>
+      >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <Image style={styles.contextual} source={Contextual} />
             <Text style={styles.modalText}>ยืนยันการละทิ้งกิจกรรม</Text>
             <View style={styles.modalBoxButton}>
-              <View style={styles.buttonBack}>
+              <Pressable style={styles.buttonBack} onPress={() => setModalVisible(false)}>
                 <Text style={styles.buttonTextBack}>กลับ</Text>
-              </View>
-              <View style={styles.buttonAbandon}>
+              </Pressable>
+              <Pressable style={styles.buttonAbandon}>
                 <Text style={styles.buttonTextAbandon}>ละทิ้ง</Text>
-              </View>
+              </Pressable>
             </View>
           </View>
         </View>
@@ -283,6 +328,7 @@ const styles = StyleSheet.create({
     color: colors.grey2,
     fontSize: 16,
     fontFamily: "IBMPlexSansThai-Bold",
+    textAlign: "center"
   },
   centeredView: {
     flex: 1,

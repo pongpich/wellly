@@ -73,6 +73,8 @@ export default function DetailsActivity({ route }) {
     }
   }, [route.params]);
 
+
+
   const renderSwipImg = () => {
     return (
       <Image
