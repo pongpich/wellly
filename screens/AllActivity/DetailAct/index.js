@@ -354,7 +354,7 @@ export default function DetailsActivity({ route }) {
               ))
             : null}
 
-          {activeColor == "score" && !isExpireDate ? (
+          {activeColor == "score" && !isExpireDate && isUserRegis ? (
             <View>
               <View>
                 <View
@@ -523,7 +523,7 @@ export default function DetailsActivity({ route }) {
           ) : null}
         </View>
 
-        {activeColor == "score" && !isExpireDate && (
+        {activeColor == "score" && !isExpireDate && isUserRegis && (
           <View
             style={[styles.bottomView, { paddingRight: 24, paddingLeft: 16 }]}
           >
