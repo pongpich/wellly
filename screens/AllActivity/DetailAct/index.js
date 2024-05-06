@@ -60,20 +60,10 @@ export default function DetailsActivity({ route }) {
   };
 
   React.useMemo(() => {
-    if (!!route.params.isRegis) {
-      setActiveColor("score");
-    }
-
-    if (
-      (isNavigateFromHome || isNavigateFromAllAct) &&
-      isUserRegis &&
-      !isExpireDate
-    ) {
+    if (!!route.params.isRegis || isNavigateFromHome || isNavigateFromAllAct) {
       setActiveColor("score");
     }
   }, [route.params]);
-
-
 
   const renderSwipImg = () => {
     return (
@@ -152,16 +142,14 @@ export default function DetailsActivity({ route }) {
     container: {
       flexGrow: 1,
       backgroundColor: "white",
-
     },
     containerMain: {
       flexGrow: 1,
       backgroundColor: "white",
       flexDirection: "column",
-      marginBottom: 16
+      marginBottom: 16,
     },
     bottomView: {
-
       width: "100%",
       position: "absolute",
 
@@ -219,15 +207,15 @@ export default function DetailsActivity({ route }) {
                 style={{ fontSize: 14, fontFamily: "IBMPlexSansThai-Regular" }}
               >
                 {dayjs(dataEventDetail[0].start_date).year() ==
-                  dayjs(dataEventDetail[0].end_date).year()
+                dayjs(dataEventDetail[0].end_date).year()
                   ? `${dayjs(dataEventDetail[0].start_date)
-                    .locale("th")
-                    .format("DD MMM")} - ${dayjs(dataEventDetail[0].end_date)
+                      .locale("th")
+                      .format("DD MMM")} - ${dayjs(dataEventDetail[0].end_date)
                       .locale("th")
                       .format("DD MMM BBBB")}`
                   : `${dayjs(dataEventDetail[0].start_date)
-                    .locale("th")
-                    .format("DD MMM BBBB")} - ${dayjs(
+                      .locale("th")
+                      .format("DD MMM BBBB")} - ${dayjs(
                       dataEventDetail[0].end_date
                     )
                       .locale("th")
@@ -244,7 +232,7 @@ export default function DetailsActivity({ route }) {
               marginBottom: 16,
             }}
           >
-            {(route.params.isRegis || activeColor == "score") && (
+            {isUserRegis && !isExpireDate && (
               <TouchableOpacity
                 style={styles.btnScore}
                 onPress={() => setActiveColor("score")}
@@ -302,72 +290,71 @@ export default function DetailsActivity({ route }) {
 
           {activeColor == "award"
             ? dataReward.map((item, i) => (
-              <View
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  marginBottom: 24,
-                }}
-                key={i}
-              >
-                <View>
-                  <Image
-                    source={{ uri: item.image }}
-                    style={{ width: 80, height: 80, marginRight: 16 }}
-                    resizeMode="stretch"
-                  />
-                </View>
-
                 <View
                   style={{
-                    flex: 1,
                     display: "flex",
+                    flexDirection: "row",
+                    marginBottom: 24,
                   }}
+                  key={i}
                 >
+                  <View>
+                    <Image
+                      source={{ uri: item.image }}
+                      style={{ width: 80, height: 80, marginRight: 16 }}
+                      resizeMode="stretch"
+                    />
+                  </View>
+
                   <View
                     style={{
+                      flex: 1,
                       display: "flex",
-                      flexDirection: "row",
-                      justifyContent: "space-between",
                     }}
                   >
-                    <Text
+                    <View
                       style={{
-                        color: "#2A323C",
-                        fontFamily: "IBMPlexSansThai-Bold",
-                        fontSize: 16,
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "space-between",
                       }}
                     >
-                      {`รางวัลที่ ${item.number}`}
-                    </Text>
-                    <Text
-                      style={{
-                        color: "#93A8C1",
-                        fontFamily: "IBMPlexSansThai-Regular",
-                        fontSize: 12,
-                      }}
-                    >
-                      {`${item.quantity} รางวัล`}
-                    </Text>
-                  </View>
-                  <View style={{ marginTop: 8 }}>
-                    <Text
-                      style={{
-                        color: "#697D96",
-                        fontFamily: "IBMPlexSansThai-Regular",
-                        fontSize: 16,
-                      }}
-                    >
-                      {`${item.name}`}
-                    </Text>
+                      <Text
+                        style={{
+                          color: "#2A323C",
+                          fontFamily: "IBMPlexSansThai-Bold",
+                          fontSize: 16,
+                        }}
+                      >
+                        {`รางวัลที่ ${item.number}`}
+                      </Text>
+                      <Text
+                        style={{
+                          color: "#93A8C1",
+                          fontFamily: "IBMPlexSansThai-Regular",
+                          fontSize: 12,
+                        }}
+                      >
+                        {`${item.quantity} รางวัล`}
+                      </Text>
+                    </View>
+                    <View style={{ marginTop: 8 }}>
+                      <Text
+                        style={{
+                          color: "#697D96",
+                          fontFamily: "IBMPlexSansThai-Regular",
+                          fontSize: 16,
+                        }}
+                      >
+                        {`${item.name}`}
+                      </Text>
+                    </View>
                   </View>
                 </View>
-              </View>
-            ))
+              ))
             : null}
 
-          {activeColor == "score" ||
-            (isRegis && dataEventOfuser[0] != undefined) ? (
+          {activeColor == "score" && !isExpireDate ? (
             <View>
               <View>
                 <View
@@ -454,7 +441,7 @@ export default function DetailsActivity({ route }) {
                           width: `${Math.ceil(
                             (dataEventOfuser[0].walk_step /
                               dataEventOfuser[0].walkStepActivity) *
-                            100
+                              100
                           )}%`,
                           maxWidth: "100%",
                           height: 16,
@@ -518,7 +505,7 @@ export default function DetailsActivity({ route }) {
                           width: `${Math.ceil(
                             (dataEventOfuser[0].distance /
                               dataEventOfuser[0].distanceActivity) *
-                            100
+                              100
                           )}%`,
                           maxWidth: "100%",
                           height: 16,
@@ -536,7 +523,7 @@ export default function DetailsActivity({ route }) {
           ) : null}
         </View>
 
-        {activeColor == "score" && (
+        {activeColor == "score" && !isExpireDate && (
           <View
             style={[styles.bottomView, { paddingRight: 24, paddingLeft: 16 }]}
           >

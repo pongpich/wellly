@@ -389,6 +389,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     position: "relative",
     display: "flex",
+    alignItems: "center",
   },
 
   progressBar: {
