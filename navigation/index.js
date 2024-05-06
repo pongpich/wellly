@@ -334,9 +334,10 @@ function MyStack(props) {
         component={StartTimerActivity}
         options={{
           title: "",
+          headerShown: false,
           showLabel: false,
           headerShadowVisible: false,
-          headerStyle: {
+       /*    headerStyle: {
             backgroundColor: colors.white,
           },
           headerLeft: () => (
@@ -348,7 +349,7 @@ function MyStack(props) {
                 />
               </TouchableOpacity>
             </View>
-          ),
+          ), */
         }}
         initialRouteName="StartTimerActivity"
       />

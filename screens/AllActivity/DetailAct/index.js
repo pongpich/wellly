@@ -147,152 +147,159 @@ export default function DetailsActivity({ route }) {
       borderRadius: 16,
       zIndex: 0,
     },
+    container: {
+      flexGrow: 1,
+      backgroundColor: "white",
 
+    },
     containerMain: {
       flexGrow: 1,
       backgroundColor: "white",
       flexDirection: "column",
+      marginBottom: 16
     },
     bottomView: {
+
       width: "100%",
-      // width: Dimensions.get("window").width - 32,
       position: "absolute",
-      bottom: ScreenHeight > 700 ? 40 : 0,
+
+      bottom: ScreenHeight > 700 ? 40 : -16,
     },
   });
 
   return (
-    <ScrollView contentContainerStyle={styles.containerMain}>
-      <ImageBackground
-        source={{ uri: dataEventDetail[0].cover_Image }}
-        style={{
-          height: 211,
-          width: "100%",
-        }}
-        resizeMode="stretch"
-      >
-        <TouchableOpacity onPress={() => navigate.goBack()}>
-          <Image
-            source={Closebutton}
-            style={{ width: 32, height: 32, marginTop: 60, marginLeft: 16 }}
-          />
-        </TouchableOpacity>
-      </ImageBackground>
-
-      <View style={{ padding: 17 }}>
-        <Text style={{ fontSize: 20, fontFamily: "IBMPlexSansThai-Bold" }}>
-          {dataEventDetail[0].event_name}
-        </Text>
-        <View
+    <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.containerMain}>
+        <ImageBackground
+          source={{ uri: dataEventDetail[0].cover_Image }}
           style={{
-            marginTop: 14,
+            height: 211,
+            width: "100%",
           }}
+          resizeMode="stretch"
         >
+          <TouchableOpacity onPress={() => navigate.goBack()}>
+            <Image
+              source={Closebutton}
+              style={{ width: 32, height: 32, marginTop: 60, marginLeft: 16 }}
+            />
+          </TouchableOpacity>
+        </ImageBackground>
+
+        <View style={{ padding: 17 }}>
+          <Text style={{ fontSize: 20, fontFamily: "IBMPlexSansThai-Bold" }}>
+            {dataEventDetail[0].event_name}
+          </Text>
           <View
             style={{
-              flexDirection: "row",
-              position: "relative",
-              display: "flex",
-              alignItems: "center",
+              marginTop: 14,
             }}
           >
-            <Image
+            <View
               style={{
-                height: 16,
-                width: 16,
-                zIndex: 1,
-                marginRight: 8,
+                flexDirection: "row",
+                position: "relative",
+                display: "flex",
+                alignItems: "center",
               }}
-              source={dateIcon}
-            />
-
-            <Text
-              style={{ fontSize: 14, fontFamily: "IBMPlexSansThai-Regular" }}
             >
-              {dayjs(dataEventDetail[0].start_date).year() ==
-              dayjs(dataEventDetail[0].end_date).year()
-                ? `${dayjs(dataEventDetail[0].start_date)
+              <Image
+                style={{
+                  height: 16,
+                  width: 16,
+                  zIndex: 1,
+                  marginRight: 8,
+                }}
+                source={dateIcon}
+              />
+
+              <Text
+                style={{ fontSize: 14, fontFamily: "IBMPlexSansThai-Regular" }}
+              >
+                {dayjs(dataEventDetail[0].start_date).year() ==
+                  dayjs(dataEventDetail[0].end_date).year()
+                  ? `${dayjs(dataEventDetail[0].start_date)
                     .locale("th")
                     .format("DD MMM")} - ${dayjs(dataEventDetail[0].end_date)
-                    .locale("th")
-                    .format("DD MMM BBBB")}`
-                : `${dayjs(dataEventDetail[0].start_date)
+                      .locale("th")
+                      .format("DD MMM BBBB")}`
+                  : `${dayjs(dataEventDetail[0].start_date)
                     .locale("th")
                     .format("DD MMM BBBB")} - ${dayjs(
-                    dataEventDetail[0].end_date
-                  )
-                    .locale("th")
-                    .format("DD MMM BBBB")}`}
-            </Text>
+                      dataEventDetail[0].end_date
+                    )
+                      .locale("th")
+                      .format("DD MMM BBBB")}`}
+              </Text>
+            </View>
           </View>
-        </View>
 
-        <View
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            marginTop: 24,
-            marginBottom: 16,
-          }}
-        >
-          {(route.params.isRegis || activeColor == "score") && (
-            <TouchableOpacity
-              style={styles.btnScore}
-              onPress={() => setActiveColor("score")}
-            >
-              <Text style={styles.txtScore}>คะแนน</Text>
-            </TouchableOpacity>
-          )}
-
-          <TouchableOpacity
-            style={styles.btnDetail}
-            onPress={() => setActiveColor("detail")}
-          >
-            <Text style={styles.txtDetail}>รายละเอียด</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.btnAward}
-            onPress={() => setActiveColor("award")}
-          >
-            <Text style={styles.txtAward}>รางวัล</Text>
-          </TouchableOpacity>
-        </View>
-
-        {activeColor == "detail" ? (
           <View
             style={{
-              height: ScreenHeight / 2,
+              display: "flex",
+              flexDirection: "row",
+              marginTop: 24,
+              marginBottom: 16,
             }}
           >
-            <Text
-              style={{ fontSize: 16, fontFamily: "IBMPlexSansThai-Regular" }}
-            >
-              {dataEventDetail[0].event_detail}
-            </Text>
-
-            {!isExpireDate && !isRegis && !isUserRegis && (
-              <View
-                style={{
-                  position: "absolute",
-                  bottom: 0,
-                  width: "100%",
-                }}
+            {(route.params.isRegis || activeColor == "score") && (
+              <TouchableOpacity
+                style={styles.btnScore}
+                onPress={() => setActiveColor("score")}
               >
-                <TouchableOpacity
-                  style={styles.btnRegis}
-                  onPress={handleRegisterActivity}
-                  disabled={isDateArrive}
-                >
-                  <Text style={styles.txtRegis}>ลงทะเบียน</Text>
-                </TouchableOpacity>
-              </View>
+                <Text style={styles.txtScore}>คะแนน</Text>
+              </TouchableOpacity>
             )}
-          </View>
-        ) : null}
 
-        {activeColor == "award"
-          ? dataReward.map((item, i) => (
+            <TouchableOpacity
+              style={styles.btnDetail}
+              onPress={() => setActiveColor("detail")}
+            >
+              <Text style={styles.txtDetail}>รายละเอียด</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.btnAward}
+              onPress={() => setActiveColor("award")}
+            >
+              <Text style={styles.txtAward}>รางวัล</Text>
+            </TouchableOpacity>
+          </View>
+
+          {activeColor == "detail" ? (
+            <View
+              style={{
+                height: ScreenHeight / 2,
+              }}
+            >
+              <Text
+                style={{ fontSize: 16, fontFamily: "IBMPlexSansThai-Regular" }}
+              >
+                {dataEventDetail[0].event_detail}
+              </Text>
+
+              {!isExpireDate && !isRegis && !isUserRegis && (
+                <View
+                  style={{
+                    position: "absolute",
+                    bottom: 0,
+                    width: "100%",
+                  }}
+                >
+                  <TouchableOpacity
+                    style={styles.btnRegis}
+                    onPress={handleRegisterActivity}
+                    disabled={isDateArrive}
+                  >
+                    <Text style={styles.txtRegis}>ลงทะเบียน</Text>
+                  </TouchableOpacity>
+                </View>
+              )}
+            </View>
+          ) : null}
+
+          {activeColor == "award"
+            ? dataReward.map((item, i) => (
               <View
                 style={{
                   display: "flex",
@@ -355,207 +362,208 @@ export default function DetailsActivity({ route }) {
                 </View>
               </View>
             ))
-          : null}
+            : null}
 
-        {activeColor == "score" ||
-        (isRegis && dataEventOfuser[0] != undefined) ? (
-          <View>
+          {activeColor == "score" ||
+            (isRegis && dataEventOfuser[0] != undefined) ? (
             <View>
-              <View
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                }}
-              >
-                <Text
-                  style={{ fontSize: 20, fontFamily: "IBMPlexSansThai-Bold" }}
-                >
-                  คะแนนของฉัน
-                </Text>
-                <TouchableOpacity
-                  onPress={() =>
-                    navigate.navigate("TableScoreOfActivity", {
-                      itemId: itemId,
-                    })
-                  }
+              <View>
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                  }}
                 >
                   <Text
-                    style={{
-                      fontSize: 16,
-                      fontFamily: "IBMPlexSansThai-Medium",
-                      color: "#3762FC",
-                    }}
+                    style={{ fontSize: 20, fontFamily: "IBMPlexSansThai-Bold" }}
                   >
-                    ตารางคะแนน
+                    คะแนนของฉัน
                   </Text>
-                </TouchableOpacity>
-              </View>
-              <View>
-                <View>
-                  <View
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      marginTop: 14,
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                    }}
+                  <TouchableOpacity
+                    onPress={() =>
+                      navigate.navigate("TableScoreOfActivity", {
+                        itemId: itemId,
+                      })
+                    }
                   >
-                    <View
-                      style={{
-                        display: "flex",
-                        flexDirection: "row",
-                      }}
-                    >
-                      <Image
-                        style={{
-                          height: 16,
-                          width: 16,
-                          zIndex: 1,
-                          marginRight: 8,
-                        }}
-                        source={Foot_step}
-                      />
-                      <Text
-                        style={{
-                          color: "#3762FC",
-                          fontFamily: "IBMPlexSansThai-Bold",
-                          fontSize: 14,
-                        }}
-                      >
-                        {dataEventOfuser[0].walk_step}
-                      </Text>
-                    </View>
-
                     <Text
                       style={{
-                        color: "#93ABC1",
+                        fontSize: 16,
                         fontFamily: "IBMPlexSansThai-Medium",
-                        fontSize: 12,
+                        color: "#3762FC",
                       }}
                     >
-                      {dataEventOfuser[0].walkStepActivity} ก้าว
+                      ตารางคะแนน
                     </Text>
-                  </View>
-                  <View style={styles.progressBar}>
-                    <View
-                      style={{
-                        width: `${Math.ceil(
-                          (dataEventOfuser[0].walk_step /
-                            dataEventOfuser[0].walkStepActivity) *
-                            100
-                        )}%`,
-                        maxWidth: "100%",
-                        height: 16,
-                        borderRadius: 16,
-                        backgroundColor:
-                          // #93ABC1
-                          "#3762FC",
-                      }}
-                    />
-                  </View>
+                  </TouchableOpacity>
                 </View>
                 <View>
-                  <View
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      marginTop: 14,
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                    }}
-                  >
+                  <View>
                     <View
                       style={{
                         display: "flex",
                         flexDirection: "row",
+                        marginTop: 14,
+                        alignItems: "center",
+                        justifyContent: "space-between",
                       }}
                     >
-                      <Image
+                      <View
                         style={{
-                          height: 16,
-                          width: 16,
-                          zIndex: 1,
-                          marginRight: 8,
-                        }}
-                        source={Distance}
-                      />
-                      <Text
-                        style={{
-                          color: "#3762FC",
-                          fontFamily: "IBMPlexSansThai-Bold",
-                          fontSize: 14,
+                          display: "flex",
+                          flexDirection: "row",
                         }}
                       >
-                        {dataEventOfuser[0].distance}
+                        <Image
+                          style={{
+                            height: 16,
+                            width: 16,
+                            zIndex: 1,
+                            marginRight: 8,
+                          }}
+                          source={Foot_step}
+                        />
+                        <Text
+                          style={{
+                            color: "#3762FC",
+                            fontFamily: "IBMPlexSansThai-Bold",
+                            fontSize: 14,
+                          }}
+                        >
+                          {dataEventOfuser[0].walk_step}
+                        </Text>
+                      </View>
+
+                      <Text
+                        style={{
+                          color: "#93ABC1",
+                          fontFamily: "IBMPlexSansThai-Medium",
+                          fontSize: 12,
+                        }}
+                      >
+                        {dataEventOfuser[0].walkStepActivity} ก้าว
                       </Text>
                     </View>
-
-                    <Text
-                      style={{
-                        color: "#93ABC1",
-                        fontFamily: "IBMPlexSansThai-Medium",
-                        fontSize: 12,
-                      }}
-                    >
-                      {dataEventOfuser[0].distanceActivity} กิโลเมตร
-                    </Text>
+                    <View style={styles.progressBar}>
+                      <View
+                        style={{
+                          width: `${Math.ceil(
+                            (dataEventOfuser[0].walk_step /
+                              dataEventOfuser[0].walkStepActivity) *
+                            100
+                          )}%`,
+                          maxWidth: "100%",
+                          height: 16,
+                          borderRadius: 16,
+                          backgroundColor:
+                            // #93ABC1
+                            "#3762FC",
+                        }}
+                      />
+                    </View>
                   </View>
-                  <View style={styles.progressBar}>
+                  <View>
                     <View
                       style={{
-                        width: `${Math.ceil(
-                          (dataEventOfuser[0].distance /
-                            dataEventOfuser[0].distanceActivity) *
-                            100
-                        )}%`,
-                        maxWidth: "100%",
-                        height: 16,
-                        borderRadius: 16,
-                        backgroundColor:
-                          // #93ABC1
-                          "#3762FC",
+                        display: "flex",
+                        flexDirection: "row",
+                        marginTop: 14,
+                        alignItems: "center",
+                        justifyContent: "space-between",
                       }}
-                    />
+                    >
+                      <View
+                        style={{
+                          display: "flex",
+                          flexDirection: "row",
+                        }}
+                      >
+                        <Image
+                          style={{
+                            height: 16,
+                            width: 16,
+                            zIndex: 1,
+                            marginRight: 8,
+                          }}
+                          source={Distance}
+                        />
+                        <Text
+                          style={{
+                            color: "#3762FC",
+                            fontFamily: "IBMPlexSansThai-Bold",
+                            fontSize: 14,
+                          }}
+                        >
+                          {dataEventOfuser[0].distance}
+                        </Text>
+                      </View>
+
+                      <Text
+                        style={{
+                          color: "#93ABC1",
+                          fontFamily: "IBMPlexSansThai-Medium",
+                          fontSize: 12,
+                        }}
+                      >
+                        {dataEventOfuser[0].distanceActivity} กิโลเมตร
+                      </Text>
+                    </View>
+                    <View style={styles.progressBar}>
+                      <View
+                        style={{
+                          width: `${Math.ceil(
+                            (dataEventOfuser[0].distance /
+                              dataEventOfuser[0].distanceActivity) *
+                            100
+                          )}%`,
+                          maxWidth: "100%",
+                          height: 16,
+                          borderRadius: 16,
+                          backgroundColor:
+                            // #93ABC1
+                            "#3762FC",
+                        }}
+                      />
+                    </View>
                   </View>
                 </View>
               </View>
             </View>
-          </View>
-        ) : null}
-      </View>
-
-      {activeColor == "score" && (
-        <View
-          style={[styles.bottomView, { paddingRight: 24, paddingLeft: 16 }]}
-        >
-          <SwipeButton
-            containerStyles={{
-              borderRadius: 32,
-            }}
-            width={"100%"}
-            height={52}
-            onSwipeSuccess={() => navigate.navigate("StartTimerActivity")}
-            shouldResetAfterSuccess={true}
-            railBackgroundColor="#E5EEF9"
-            railStyles={{
-              borderRadius: 32,
-              backgroundColor: "#E5EEF9",
-              borderColor: "#E5EEF9",
-            }}
-            railBorderColor="#FFFFFF"
-            title="เริ่มออกกำลังกาย"
-            titleColor="#697D96"
-            titleStyles={{ fontFamily: "IBMPlexSansThai-Bold", fontSize: 16 }}
-            thumbIconBorderColor="#59CBE4"
-            thumbIconWidth={102}
-            thumbIconBackgroundColor="#59CBE4"
-            thumbIconComponent={renderSwipImg}
-          />
+          ) : null}
         </View>
-      )}
-    </ScrollView>
+
+        {activeColor == "score" && (
+          <View
+            style={[styles.bottomView, { paddingRight: 24, paddingLeft: 16 }]}
+          >
+            <SwipeButton
+              containerStyles={{
+                borderRadius: 32,
+              }}
+              width={"100%"}
+              height={52}
+              onSwipeSuccess={() => navigate.navigate("StartTimerActivity")}
+              shouldResetAfterSuccess={true}
+              railBackgroundColor="#E5EEF9"
+              railStyles={{
+                borderRadius: 32,
+                backgroundColor: "#E5EEF9",
+                borderColor: "#E5EEF9",
+              }}
+              railBorderColor="#FFFFFF"
+              title="เริ่มออกกำลังกาย"
+              titleColor="#697D96"
+              titleStyles={{ fontFamily: "IBMPlexSansThai-Bold", fontSize: 16 }}
+              thumbIconBorderColor="#59CBE4"
+              thumbIconWidth={102}
+              thumbIconBackgroundColor="#59CBE4"
+              thumbIconComponent={renderSwipImg}
+            />
+          </View>
+        )}
+      </ScrollView>
+    </View>
   );
 }
