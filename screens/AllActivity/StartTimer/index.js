@@ -94,23 +94,27 @@ const StartTime = ({ navigation }) => {
 
   const handleSignGoogle = async () => {
 
-    console.log("res", res);
-
-    if (res?.type == "success") {
-      const startDate = new Date("2024-05-02");
-      const endDate = new Date("2024-05-03");
-      /* const startDate = new Date("2024-05-02T13:00:00");
-      const endDate = new Date("2024-05-02T14:00:00"); */
-      await getMyGoogleFit(
-        res.authentication.accessToken,
-        startDate.getTime(),
-        endDate.getTime()
-      );
+    try {
+      if (res?.type == "success") {
+        const startDate = new Date("2024-04-25");
+        const endDate = new Date("2024-04-26");
+        await getMyGoogleFit(
+          res.authentication.accessToken,
+          startDate.getTime(),
+          endDate.getTime()
+        );
+      }
+    } catch (error) {
+      console.error("Error handling Google sign-in:", error);
     }
   };
 
   useEffect(() => {
-    handleSignGoogle();
+
+
+    console.log("res", res);
+
+    /* handleSignGoogle(); */
 
   }, [res]);
 
@@ -121,9 +125,7 @@ const StartTime = ({ navigation }) => {
   const onFinish = () => {
     navigation.goBack();
   }
-  useEffect(() => {
-    promptAsync({});
-  }, []);
+
   /* useEffect(() => {
    
       startTimer();
@@ -186,7 +188,7 @@ const StartTime = ({ navigation }) => {
 
       <View style={styles.boxSop}>
         {statusStop == true ?
-          <Pressable onPress={() => onStop(false)}>
+          <Pressable onPress={() => promptAsync({})/* onStop(false) */}>
             <Image style={styles.stop} source={IconStop} />
           </Pressable>
 

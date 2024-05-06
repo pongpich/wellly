@@ -23,10 +23,17 @@ export const types = {
   RESET_STATUS_DELETE_ACC: "RESET_STATUS_DELETE_ACC",
   UPDATE_PASSWORD: "UPDATE_PASSWORD",
   UPDATE_PASSWORD_SUCCESS: "UPDATE_PASSWORD_SUCCESS",
+  AUTHENTICATION_TOKEN: "AUTHENTICATION_TOKEN",
 };
 
 export const resetStatusRegister = () => ({
   type: types.RESET_STATUS_REGISTER
+})
+export const authenticationToken = (authentication) => ({
+  type: types.AUTHENTICATION_TOKEN,
+  payload: {
+    authentication,
+  }
 })
 
 
@@ -452,7 +459,9 @@ const INIT_STATE = {
   statusUpdateHealthData: "default",
   statusRegister: "default",
   statusDeleteAcc: "default",
-  statusUpdatePassword: "default"
+  statusUpdatePassword: "default",
+  authentication: null
+
 };
 
 export function reducer(state = INIT_STATE, action) {
@@ -562,6 +571,14 @@ export function reducer(state = INIT_STATE, action) {
         user: {
           ...state.user,
           password: action.payload
+        }
+      };
+    case types.AUTHENTICATION_TOKEN:
+      return {
+        ...state,
+        user: {
+          ...state,
+          authentication: action.payload.authentication
         }
       };
     case types.LOGOUT_USER:

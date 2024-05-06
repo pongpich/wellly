@@ -662,7 +662,7 @@ class Home extends Component {
 
     if (
       prevProps.statusNutritionKnowledgeActivity !==
-        statusNutritionKnowledgeActivity &&
+      statusNutritionKnowledgeActivity &&
       statusNutritionKnowledgeActivity === "success"
     ) {
       this.setState({
@@ -683,7 +683,7 @@ class Home extends Component {
 
     if (
       prevProps.statusInsertNutritionActivity !==
-        statusInsertNutritionActivity &&
+      statusInsertNutritionActivity &&
       statusInsertNutritionActivity === "success"
     ) {
       this.props.getNutritionActivity(user && user.user_id);
@@ -796,9 +796,8 @@ class Home extends Component {
 
   openInExternalBrowser = () => {
     const { user } = this.props;
-    const url = `https://wellly.planforfit.com/#/events?params=${
-      user && user.user_id
-    }`;
+    const url = `https://wellly.planforfit.com/#/events?params=${user && user.user_id
+      }`;
 
     Linking.openURL(url).catch((err) =>
       console.error("An error occurred", err)
@@ -836,192 +835,6 @@ class Home extends Component {
     }
   };
 
-  // renderActivityDetails = (item, tickData, foundItemUser, index) => {
-  //   const { eventUser } = this.state;
-  //   let tickId =
-  //     eventUser && eventUser.some((user) => user.event_id == item.id);
-  //   return (
-  //     <Pressable
-  //       //onPress={() => this.props.navigation.navigate("WebView")}
-  //       onPress={() => this.openInExternalBrowser()}
-  //     >
-  //       <View
-  //         key={index}
-  //         style={[
-  //           styles.itemContainer,
-  //           index === foundItemUser &&
-  //             foundItemUser.length - 1 && { marginRight: 16 },
-  //           index === 0 && { marginLeft: 16 },
-  //         ]}
-  //       >
-  //         <View
-  //           style={{
-  //             backgroundColor: colors.positive1,
-  //             height: 144,
-  //             width: "100%",
-  //             marginRight: 8,
-  //             borderTopLeftRadius: 16,
-  //             borderTopRightRadius: 16,
-  //             position: "relative",
-  //           }}
-  //         >
-  //           {tickData && (
-  //             <Image
-  //               style={{
-  //                 height: 21,
-  //                 width: 30,
-  //                 zIndex: 100,
-  //                 marginRight: 8,
-  //                 position: "absolute",
-  //                 top: "50%", // ให้ตำแหน่งของ top อยู่ที่ 50% ของพื้นที่ที่ถูกตั้ง
-  //                 left: "50%", // ให้ตำแหน่งของ left อยู่ที่ 50% ของพื้นที่ที่ถูกตั้ง
-  //                 transform: [{ translateX: -15 }, { translateY: -10 }], // ปรับตำแหน่งให้อยู่กลาง
-  //               }}
-  //               source={tick3x}
-  //             />
-  //           )}
-
-  //           <Image
-  //             style={{
-  //               height: 144,
-  //               width: "100%",
-  //               zIndex: 1,
-  //               marginRight: 8,
-  //               borderTopLeftRadius: 16,
-  //               borderTopRightRadius: 16,
-  //               opacity: tickData ? 0.5 : 1,
-  //             }}
-  //             source={{
-  //               uri: item && item.cover_Image.replace("http://", "https://"),
-  //             }}
-  //           />
-  //         </View>
-
-  //         <Text numberOfLines={2} ellipsizeMode="tail" style={styles.itemText}>
-  //           {item.event_name}
-  //         </Text>
-  //         <View style={styles.boxEv}>
-  //           <View style={styles.boxRow}>
-  //             <Image
-  //               style={{
-  //                 height: 16,
-  //                 width: 16,
-  //                 zIndex: 1,
-  //                 marginRight: 8,
-  //               }}
-  //               source={dateIcon}
-  //             />
-
-  //             <Text>{this.formattedDate(item.start_date, item.end_date)}</Text>
-  //           </View>
-
-  //           {tickId && (
-  //             <>
-  //               {item.criteria_walk_step == "true" && (
-  //                 <>
-  //                   <View style={styles.boxRow2}>
-  //                     <View style={styles.boxRow}>
-  //                       <Image
-  //                         style={{
-  //                           height: 16,
-  //                           width: 16,
-  //                           zIndex: 1,
-  //                           marginRight: 8,
-  //                         }}
-  //                         source={Foot_step}
-  //                       />
-  //                       <Text
-  //                         style={
-  //                           tickData ? styles.stepNumber2 : styles.stepNumber
-  //                         }
-  //                       >
-  //                         {foundItemUser &&
-  //                           parseInt(
-  //                             foundItemUser.walk_step,
-  //                             10
-  //                           ).toLocaleString()}
-  //                       </Text>
-  //                     </View>
-  //                     <Text style={styles.stepMax}>
-  //                       {parseInt(item.walk_step, 10).toLocaleString()} ก้าว
-  //                     </Text>
-  //                   </View>
-  //                   <View style={styles.progressBar}>
-  //                     <View
-  //                       style={{
-  //                         width: `${
-  //                           (foundItemUser &&
-  //                             foundItemUser &&
-  //                             foundItemUser.walk_step / item.walk_step) * 100
-  //                         }%`,
-  //                         maxWidth: "100%",
-  //                         height: 8,
-  //                         borderRadius: 16,
-  //                         backgroundColor: tickData
-  //                           ? colors.grey3
-  //                           : colors.persianBlue, // สีของ ProgressBar
-  //                       }}
-  //                     />
-  //                   </View>
-  //                 </>
-  //               )}
-  //               {item.criteria_distance == "true" && (
-  //                 <>
-  //                   <View style={styles.boxRow2}>
-  //                     <View style={styles.boxRow}>
-  //                       <Image
-  //                         style={{
-  //                           height: 16,
-  //                           width: 16,
-  //                           zIndex: 1,
-  //                           marginRight: 8,
-  //                         }}
-  //                         source={Distance}
-  //                       />
-  //                       <Text
-  //                         style={
-  //                           tickData ? styles.stepNumber2 : styles.stepNumber
-  //                         }
-  //                       >
-  //                         {" "}
-  //                         {foundItemUser &&
-  //                           parseInt(
-  //                             foundItemUser.distance,
-  //                             10
-  //                           ).toLocaleString()}
-  //                       </Text>
-  //                     </View>
-  //                     <Text style={styles.stepMax}>
-  //                       {" "}
-  //                       {parseInt(item.distance, 10).toLocaleString()} กิโลเมตร
-  //                     </Text>
-  //                   </View>
-  //                   <View style={styles.progressBar}>
-  //                     <View
-  //                       style={{
-  //                         width: `${
-  //                           (foundItemUser &&
-  //                             foundItemUser &&
-  //                             foundItemUser.distance / item.distance) * 100
-  //                         }%`,
-  //                         maxWidth: "100%",
-  //                         height: 8,
-  //                         borderRadius: 16,
-  //                         backgroundColor: tickData
-  //                           ? colors.grey3
-  //                           : colors.persianBlue, // สีของ ProgressBar
-  //                       }}
-  //                     />
-  //                   </View>
-  //                 </>
-  //               )}
-  //             </>
-  //           )}
-  //         </View>
-  //       </View>
-  //     </Pressable>
-  //   );
-  // };
 
   render() {
     const { user, activity_list, teachUserHome } = this.props;
@@ -1147,12 +960,6 @@ class Home extends Component {
                     {t("hello")} {user && user.display_name}
                   </Text>
 
-                  {/*  <Text style={styles.content}>{t("mission_this_week")}</Text>
-                  <Pressable
-                    onPress={() => this.props.navigation.navigate("WebView")}
-                  >
-                    <Text>get WebView</Text>
-                  </Pressable> */}
                 </View>
                 <View style={{ marginRight: 8 }}>
                   <Pressable
@@ -1273,15 +1080,15 @@ class Home extends Component {
                               }}
                             >
                               {dayjs(item.start_date).year() ==
-                              dayjs(item.end_date).year()
+                                dayjs(item.end_date).year()
                                 ? `${dayjs(item.start_date)
-                                    .locale("th")
-                                    .format("DD MMM")} - ${dayjs(item.end_date)
+                                  .locale("th")
+                                  .format("DD MMM")} - ${dayjs(item.end_date)
                                     .locale("th")
                                     .format("DD MMM BBBB")}`
                                 : `${dayjs(item.start_date)
-                                    .locale("th")
-                                    .format("DD MMM BBBB")} - ${dayjs(
+                                  .locale("th")
+                                  .format("DD MMM BBBB")} - ${dayjs(
                                     item.end_date
                                   )
                                     .locale("th")
@@ -1346,7 +1153,7 @@ class Home extends Component {
                                   style={{
                                     width: `${Math.ceil(
                                       (item.walk_step_user / item.walk_step) *
-                                        100
+                                      100
                                     )}%`,
                                     maxWidth: "100%",
                                     height: 8,
@@ -1432,52 +1239,7 @@ class Home extends Component {
                   </Pressable>
                 ))}
 
-                {/* {eventAll &&
-                  eventAll.map((item, index) => {
-                    const formattedEndDate = parse(
-                      item.end_date,
-                      "dd-MM-yyyy",
-                      new Date()
-                    );
-                    const formattedStartDateShow = parse(
-                      item.start_date_show,
-                      "dd-MM-yyyy",
-                      new Date()
-                    );
-                    const formattedEndDateShow = parse(
-                      item.end_date_show,
-                      "dd-MM-yyyy",
-                      new Date()
-                    );
-                    const foundItemUser =
-                      eventUser &&
-                      eventUser.find(
-                        (itemUser) => item.id == itemUser.event_id
-                      );
-
-                    let dateNow = new Date();
-                    const tickData = dateNow > new Date(formattedEndDate);
-                    const isDateInRange =
-                      dateNow >= formattedStartDateShow &&
-                      dateNow <= formattedEndDateShow;
-
-                    return (
-                      isDateInRange &&
-                      this.renderActivityDetails(
-                        item,
-                        tickData,
-                        foundItemUser,
-                        index
-                      )
-                    );
-                  })} */}
               </ScrollView>
-              <Text
-                style={{ margin: 16 }}
-                onPress={() => this.props.navigation.navigate("Distance")}
-              >
-                ระยะทาง GPS
-              </Text>
             </View>
           </ImageBackground>
 
@@ -1487,8 +1249,8 @@ class Home extends Component {
 
               (latest_nutrition_activity &&
                 latest_nutrition_activity.quiz_activities_number == null) ||
-              (latest_nutrition_activity &&
-                latest_nutrition_activity.assessment_kit_number == null) ? (
+                (latest_nutrition_activity &&
+                  latest_nutrition_activity.assessment_kit_number == null) ? (
                 <>
                   {latest_nutrition_activity.week_in_program == "4" &&
                     nutrition_knowledge_Act == 0 && (
@@ -1523,8 +1285,8 @@ class Home extends Component {
                               {
                                 backgroundColor:
                                   latest_nutrition_activity &&
-                                  latest_nutrition_activity.heading &&
-                                  latest_nutrition_activity.short_content
+                                    latest_nutrition_activity.heading &&
+                                    latest_nutrition_activity.short_content
                                     ? colors.secondaryOfSecondary
                                     : "#D4E0F0",
                               },
@@ -1542,8 +1304,8 @@ class Home extends Component {
                           </View>
                           <View style={styles.missionData}>
                             {latest_nutrition_activity &&
-                            latest_nutrition_activity.heading &&
-                            latest_nutrition_activity.short_content ? (
+                              latest_nutrition_activity.heading &&
+                              latest_nutrition_activity.short_content ? (
                               <>
                                 <Text style={styles.missionHead}>
                                   {i18next.language === "th"
@@ -1633,8 +1395,8 @@ class Home extends Component {
                             {
                               backgroundColor:
                                 latest_nutrition_activity &&
-                                latest_nutrition_activity.heading &&
-                                latest_nutrition_activity.short_content
+                                  latest_nutrition_activity.heading &&
+                                  latest_nutrition_activity.short_content
                                   ? colors.secondaryOfSecondary
                                   : "#D4E0F0",
                             },
@@ -1649,8 +1411,8 @@ class Home extends Component {
                         </View>
                         <View style={styles.missionData}>
                           {latest_nutrition_activity &&
-                          latest_nutrition_activity.heading &&
-                          latest_nutrition_activity.short_content ? (
+                            latest_nutrition_activity.heading &&
+                            latest_nutrition_activity.short_content ? (
                             <>
                               <Text style={styles.missionHead}>
                                 {i18next.language === "th"
@@ -1709,96 +1471,96 @@ class Home extends Component {
               /* exercise_activity */
 
               latest_exercise_activity &&
-                latest_exercise_activity.status_mission_activities !==
-                  "completed" && (
-                  <Pressable
-                    onPress={() =>
-                      latest_exercise_activity.short_content &&
-                      this.props.navigation.navigate("ExArticleTemplate", {
-                        id: latest_exercise_activity.week_in_program,
-                        mission_id: latest_exercise_activity.mission_id,
-                        heading:
-                          i18next.language === "th"
-                            ? latest_exercise_activity.heading
-                            : latest_exercise_activity.heading_eng,
-                        mission_activities:
-                          latest_exercise_activity.mission_activities,
-                        statusPags: "Home",
-                      })
-                    }
-                    key={latest_exercise_activity.week_in_program + "_ea"}
-                  >
-                    <View style={styles.row}>
-                      <View
-                        style={[
-                          styles.numberView,
-                          {
-                            backgroundColor:
-                              latest_exercise_activity.heading &&
+              latest_exercise_activity.status_mission_activities !==
+              "completed" && (
+                <Pressable
+                  onPress={() =>
+                    latest_exercise_activity.short_content &&
+                    this.props.navigation.navigate("ExArticleTemplate", {
+                      id: latest_exercise_activity.week_in_program,
+                      mission_id: latest_exercise_activity.mission_id,
+                      heading:
+                        i18next.language === "th"
+                          ? latest_exercise_activity.heading
+                          : latest_exercise_activity.heading_eng,
+                      mission_activities:
+                        latest_exercise_activity.mission_activities,
+                      statusPags: "Home",
+                    })
+                  }
+                  key={latest_exercise_activity.week_in_program + "_ea"}
+                >
+                  <View style={styles.row}>
+                    <View
+                      style={[
+                        styles.numberView,
+                        {
+                          backgroundColor:
+                            latest_exercise_activity.heading &&
                               latest_exercise_activity.short_content
-                                ? colors.primarySecondary
-                                : "#D4E0F0",
-                          },
-                        ]}
+                              ? colors.primarySecondary
+                              : "#D4E0F0",
+                        },
+                      ]}
+                    >
+                      <Text
+                        style={[styles.number, { color: colors.primary }]}
                       >
-                        <Text
-                          style={[styles.number, { color: colors.primary }]}
-                        >
-                          {latest_exercise_activity.week_in_program}
-                        </Text>
-                      </View>
-                      <View style={styles.missionData}>
-                        {latest_exercise_activity.heading &&
-                        latest_exercise_activity.short_content ? (
-                          <>
-                            <Text style={styles.missionHead}>
-                              {i18next.language === "th"
-                                ? latest_exercise_activity.heading
-                                : latest_exercise_activity.heading_eng}
-                            </Text>
-                            <Text
-                              style={[
-                                styles.missionContent,
-                                { marginRight: 16 },
-                              ]}
-                            >
-                              {substringText(
-                                i18next.language === "th"
-                                  ? latest_exercise_activity.short_content
-                                  : latest_exercise_activity.short_content_eng
-                              )}
-                            </Text>
-                          </>
-                        ) : (
-                          <>
-                            <Animated.View
-                              style={{ opacity, transform: [{ scale }] }}
-                            >
-                              <View style={styles.activityindicator}></View>
-                              <View style={styles.activityindicator1}></View>
-                              <View style={styles.activityindicator2}></View>
-                              <View style={styles.activityindicator2}></View>
-                            </Animated.View>
-                          </>
-                        )}
-                      </View>
-                      {latest_exercise_activity.heading &&
-                        latest_exercise_activity.short_content && (
-                          <View style={styles.viewIconRight}>
-                            <Image
-                              style={{
-                                height: 24,
-                                width: 24,
-                                zIndex: 1,
-                                marginRight: 8,
-                              }}
-                              source={require("../assets/images/icon/right.png")}
-                            />
-                          </View>
-                        )}
+                        {latest_exercise_activity.week_in_program}
+                      </Text>
                     </View>
-                  </Pressable>
-                )
+                    <View style={styles.missionData}>
+                      {latest_exercise_activity.heading &&
+                        latest_exercise_activity.short_content ? (
+                        <>
+                          <Text style={styles.missionHead}>
+                            {i18next.language === "th"
+                              ? latest_exercise_activity.heading
+                              : latest_exercise_activity.heading_eng}
+                          </Text>
+                          <Text
+                            style={[
+                              styles.missionContent,
+                              { marginRight: 16 },
+                            ]}
+                          >
+                            {substringText(
+                              i18next.language === "th"
+                                ? latest_exercise_activity.short_content
+                                : latest_exercise_activity.short_content_eng
+                            )}
+                          </Text>
+                        </>
+                      ) : (
+                        <>
+                          <Animated.View
+                            style={{ opacity, transform: [{ scale }] }}
+                          >
+                            <View style={styles.activityindicator}></View>
+                            <View style={styles.activityindicator1}></View>
+                            <View style={styles.activityindicator2}></View>
+                            <View style={styles.activityindicator2}></View>
+                          </Animated.View>
+                        </>
+                      )}
+                    </View>
+                    {latest_exercise_activity.heading &&
+                      latest_exercise_activity.short_content && (
+                        <View style={styles.viewIconRight}>
+                          <Image
+                            style={{
+                              height: 24,
+                              width: 24,
+                              zIndex: 1,
+                              marginRight: 8,
+                            }}
+                            source={require("../assets/images/icon/right.png")}
+                          />
+                        </View>
+                      )}
+                  </View>
+                </Pressable>
+              )
             }
           </View>
 
@@ -1916,10 +1678,10 @@ class Home extends Component {
                               {item.id === "light_intensity"
                                 ? t("do_low_intensity")
                                 : item.id === "moderate_intensity"
-                                ? t("do_moderate_intensity")
-                                : item.id === "vigorous_intensity"
-                                ? t("do_hight_intensity")
-                                : item.name}
+                                  ? t("do_moderate_intensity")
+                                  : item.id === "vigorous_intensity"
+                                    ? t("do_hight_intensity")
+                                    : item.name}
                             </Text>
                             <View
                               style={{ flexDirection: "row", marginLeft: 8 }}
@@ -2190,15 +1952,15 @@ class Home extends Component {
                       ? labelsWeek
                       : labelsWeekEng
                     : statusChart === 2
-                    ? labelsMonth
-                    : labelsYear,
+                      ? labelsMonth
+                      : labelsYear,
                 legend: [],
                 data:
                   statusChart === 1
                     ? weekData
                     : statusChart === 2
-                    ? monthData
-                    : yearData,
+                      ? monthData
+                      : yearData,
                 barColors: ["#59CBE4", "#FDAB44", "#F15E79"],
               }}
               width={Dimensions.get("window").width - 40} // from react-native
@@ -2336,8 +2098,8 @@ class Home extends Component {
                 {stipTeach === 1
                   ? `${t("see_nutrition_missions")}`
                   : stipTeach === 2
-                  ? `${t("see_exercise_mission")}`
-                  : `${t("log_exercises_submit")}`}
+                    ? `${t("see_exercise_mission")}`
+                    : `${t("log_exercises_submit")}`}
               </Text>
               <View
                 style={
@@ -2429,22 +2191,22 @@ class Home extends Component {
                       ? -10
                       : -20
                     : isNotchDevice
-                    ? heightDevice > 1079
-                      ? -30
+                      ? heightDevice > 1079
+                        ? -30
+                        : stipTeach === 3
+                          ? 17
+                          : 10
                       : stipTeach === 3
-                      ? 17
-                      : 10
-                    : stipTeach === 3
-                    ? -10
-                    : -20,
+                        ? -10
+                        : -20,
                 marginLeft:
                   stipTeach === 1
                     ? "-45%"
                     : stipTeach === 2
-                    ? heightDevice > 1079
-                      ? "43%"
-                      : "45%"
-                    : 0,
+                      ? heightDevice > 1079
+                        ? "43%"
+                        : "45%"
+                      : 0,
                 backgroundColor: "white",
                 width: 75,
                 height: 75,
