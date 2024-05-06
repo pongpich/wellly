@@ -217,7 +217,7 @@ const StartTime = ({ navigation }) => {
 
       <View style={styles.boxSop}>
         {statusStop == true ?
-          <Pressable onPress={() => promptAsync({})/* onStop(false) */}>
+          <Pressable onPress={() => onStop(false)}>
             <Image style={styles.stop} source={IconStop} />
           </Pressable>
 
