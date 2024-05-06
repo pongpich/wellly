@@ -576,10 +576,7 @@ export function reducer(state = INIT_STATE, action) {
     case types.AUTHENTICATION_TOKEN:
       return {
         ...state,
-        user: {
-          ...state,
-          authentication: action.payload.authentication
-        }
+        authentication: action.payload.authentication
       };
     case types.LOGOUT_USER:
       return INIT_STATE;

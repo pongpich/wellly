@@ -13,6 +13,10 @@ import IconRun from "../../../assets/images/icon/run.png";
 import IconStop from "../../../assets/images/icon/stop.png";
 import Contextual from "../../../assets/images/icon/Contextual2.png";
 import colors from "../../../constants/colors";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  authenticationToken
+} from "../../../redux/auth";
 
 const iosKey =
   "860210111844-7f56c79ti04is1ld9juuhhb2mhlf4olq.apps.googleusercontent.com";
@@ -29,6 +33,12 @@ const StartTime = ({ navigation }) => {
   const [time, setTime] = useState(0);
   const [statusToken, setStatusToken] = useState(false);
   const [isRunning, setIsRunning] = useState(false);
+  const dispatch = useDispatch();
+
+  const { authentication } = useSelector(({ authUser }) => (authUser ? authUser : ""));
+
+
+
   let timer;
   const [req, res, promptAsync] = GoogleSignIn.useAuthRequest({
     androidClientId: androidkey,
@@ -44,7 +54,7 @@ const StartTime = ({ navigation }) => {
 
   const getMyGoogleFit = async (token, startTimeMillis, endTimeMillis) => {
     console.log("token", token);
-    if (!token) return;
+
     try {
       console.log("token", token);
       const dataTypeName = "com.google.step_count.delta";
@@ -92,31 +102,50 @@ const StartTime = ({ navigation }) => {
     }
   };
 
-  const handleSignGoogle = async () => {
+  const handleSignGoogle = async (event) => {
 
-    try {
-      if (res?.type == "success") {
-        const startDate = new Date("2024-04-25");
-        const endDate = new Date("2024-04-26");
-        await getMyGoogleFit(
-          res.authentication.accessToken,
-          startDate.getTime(),
-          endDate.getTime()
-        );
-      }
-    } catch (error) {
-      console.error("Error handling Google sign-in:", error);
-    }
+
+
+    const startDate = new Date("2024-04-25");
+    const endDate = new Date("2024-04-26");
+
+    const token = event != null ? event.authentication.accessToken : res.authentication.accessToken;
+
+
+    await getMyGoogleFit(
+      token,
+      startDate.getTime(),
+      endDate.getTime()
+    );
+
+
   };
 
   useEffect(() => {
+    /*     handleSignGoogle(); */
+    if (res && res.type == "cancel") {
+      navigation.goBack();
+    } else {
 
-
-    console.log("res", res);
-
-    /* handleSignGoogle(); */
+      handleSignGoogle(null);
+    }
 
   }, [res]);
+
+  useEffect(() => {
+    if (authentication == null) {
+      if (req) {
+        promptAsync({});
+      }
+    } else {
+      console.log("authentication", authentication);
+      handleSignGoogle(authentication);
+    }
+
+
+
+  }, [req]);
+
 
   const onStop = (e) => {
     setStatusStop(e)
