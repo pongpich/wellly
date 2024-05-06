@@ -27,6 +27,7 @@ const StartTime = ({ navigation }) => {
   const [statusStop, setStatusStop] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
   const [time, setTime] = useState(0);
+  const [statusToken, setStatusToken] = useState(false);
   const [isRunning, setIsRunning] = useState(false);
   let timer;
   const [req, res, promptAsync] = GoogleSignIn.useAuthRequest({
@@ -42,9 +43,10 @@ const StartTime = ({ navigation }) => {
   });
 
   const getMyGoogleFit = async (token, startTimeMillis, endTimeMillis) => {
+    console.log("token", token);
     if (!token) return;
     try {
-      console.log("fitnessApi.js 49 | getting steps data with token", token);
+      console.log("token", token);
       const dataTypeName = "com.google.step_count.delta";
       const dataTypeName2 = "com.google.distance.delta";
 
@@ -91,9 +93,9 @@ const StartTime = ({ navigation }) => {
   };
 
   const handleSignGoogle = async () => {
-    console.log('====================================');
-    console.log("aaa");
-    console.log('====================================');
+
+    console.log("res", res);
+
     if (res?.type == "success") {
       const startDate = new Date("2024-05-02");
       const endDate = new Date("2024-05-03");
@@ -109,6 +111,7 @@ const StartTime = ({ navigation }) => {
 
   useEffect(() => {
     handleSignGoogle();
+
   }, [res]);
 
   const onStop = (e) => {
@@ -118,11 +121,18 @@ const StartTime = ({ navigation }) => {
   const onFinish = () => {
     navigation.goBack();
   }
-
   useEffect(() => {
-    startTimer();
-    return () => clearInterval(timer);
+    promptAsync({});
   }, []);
+  /* useEffect(() => {
+   
+      startTimer();
+      return () => clearInterval(timer);
+    
+
+  }, []); */
+
+
 
 
   const startTimer = () => {
@@ -162,20 +172,21 @@ const StartTime = ({ navigation }) => {
       <View style={styles.boxStep}>
         <View style={styles.boxStepText}>
           <Text style={styles.textTime}>ก้าวเดิน (ก้าว)</Text>
-          <Text style={styles.stepData}>200</Text>
+          <Text style={styles.stepData}>{stepCount}</Text>
         </View>
         <View style={styles.boxStepText}>
           <Text style={styles.textTime}>ระยะทาง (กม.)</Text>
-          <Text style={styles.stepData}>1.40</Text>
+          <Text style={styles.stepData}>{distance}</Text>
         </View>
 
       </View>
       <View style={styles.boxImage}>
         <Image style={styles.image} source={IconRun} />
       </View>
+
       <View style={styles.boxSop}>
         {statusStop == true ?
-          <Pressable onPress={() => handleSignGoogle()/* onStop(false) */}>
+          <Pressable onPress={() => onStop(false)}>
             <Image style={styles.stop} source={IconStop} />
           </Pressable>
 
@@ -227,7 +238,6 @@ const StartTime = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "red"
   },
   boxTime: {
     zIndex: 1,
