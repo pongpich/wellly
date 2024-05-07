@@ -24,6 +24,7 @@ export const types = {
   UPDATE_PASSWORD: "UPDATE_PASSWORD",
   UPDATE_PASSWORD_SUCCESS: "UPDATE_PASSWORD_SUCCESS",
   AUTHENTICATION_TOKEN: "AUTHENTICATION_TOKEN",
+  AUTHENTICATION_ID_TOKEN: "AUTHENTICATION_ID_TOKEN",
 };
 
 export const resetStatusRegister = () => ({
@@ -33,6 +34,12 @@ export const authenticationToken = (authentication) => ({
   type: types.AUTHENTICATION_TOKEN,
   payload: {
     authentication,
+  }
+})
+export const authenticationIdToken = (id_token) => ({
+  type: types.AUTHENTICATION_ID_TOKEN,
+  payload: {
+    id_token,
   }
 })
 
@@ -460,7 +467,8 @@ const INIT_STATE = {
   statusRegister: "default",
   statusDeleteAcc: "default",
   statusUpdatePassword: "default",
-  authentication: null
+  authentication: null,
+  idToken: null
 
 };
 
@@ -577,6 +585,11 @@ export function reducer(state = INIT_STATE, action) {
       return {
         ...state,
         authentication: action.payload.authentication
+      };
+    case types.AUTHENTICATION_ID_TOKEN:
+      return {
+        ...state,
+        idToken: action.payload.id_token
       };
     case types.LOGOUT_USER:
       return INIT_STATE;

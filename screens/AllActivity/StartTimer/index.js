@@ -15,7 +15,8 @@ import Contextual from "../../../assets/images/icon/Contextual2.png";
 import colors from "../../../constants/colors";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  authenticationToken
+  authenticationToken,
+  authenticationIdToken
 } from "../../../redux/auth";
 
 
@@ -30,7 +31,7 @@ const StartTime = ({ navigation }) => {
   const [isRunning, setIsRunning] = useState(false);
   const dispatch = useDispatch();
 
-  const { authentication } = useSelector(({ authUser }) => (authUser ? authUser : ""));
+  const { authentication, idToken } = useSelector(({ authUser }) => (authUser ? authUser : ""));
 
   let timer;
 
@@ -49,8 +50,8 @@ const StartTime = ({ navigation }) => {
     expoClientId: webClientExpoKey,
     scopes: [
       "https://www.googleapis.com/auth/fitness.activity.read",
-      "https://www.googleapis.com/auth/fitness.location.read",
-    ],
+      "https://www.googleapis.com/auth/fitness.location.read"
+    ]
   });
 
   const getMyGoogleFit = async (token, startTimeMillis, endTimeMillis) => {
@@ -91,11 +92,9 @@ const StartTime = ({ navigation }) => {
       setDistance(
         (data.bucket[0].dataset[1].point[0].value[0].fpVal / 1000).toFixed(2)
       );
-
       return data;
     } catch (error) {
       console.log("fitnessApi.js 35 | error getting steps data", error);
-
       return error.message;
     }
   };
@@ -134,8 +133,11 @@ const StartTime = ({ navigation }) => {
 
   useEffect(() => {
 
-    console.log("authe", authentication);
+    if (req) {
+      promptAsync({});
+    }
 
+    console.log("auth", authentication);
     if (authentication == null) {
 
       if (req) {
@@ -149,6 +151,18 @@ const StartTime = ({ navigation }) => {
 
 
   }, [req]);
+
+
+
+
+
+
+
+
+
+  // ใช้โค้ดด้านบนเพื่อขอ refresh token โดยมี accessToken เป็นอาร์กิวเมนต์
+  // เรียกใช้ requestRefreshToken(accessToken).then(refreshToken => { // ดำเนินการต่อไป });
+
 
 
   const onStop = (e) => {
