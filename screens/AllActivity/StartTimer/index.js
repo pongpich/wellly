@@ -98,6 +98,7 @@ const StartTime = ({ navigation }) => {
       return data;
     } catch (error) {
       console.log("fitnessApi.js 35 | error getting steps data", error);
+
       return error.message;
     }
   };
@@ -110,7 +111,9 @@ const StartTime = ({ navigation }) => {
     const endDate = new Date("2024-04-26");
 
     const token = event != null ? event.authentication.accessToken : res.authentication.accessToken;
-
+    if (event == null) {
+      dispatch(authenticationToken(res))
+    }
 
     await getMyGoogleFit(
       token,
@@ -122,7 +125,7 @@ const StartTime = ({ navigation }) => {
   };
 
   useEffect(() => {
-    /*     handleSignGoogle(); */
+
     if (res && res.type == "cancel") {
       navigation.goBack();
     } else {
@@ -133,12 +136,15 @@ const StartTime = ({ navigation }) => {
   }, [res]);
 
   useEffect(() => {
+
+    console.log("authe", authentication);
     if (authentication == null) {
+
       if (req) {
         promptAsync({});
       }
     } else {
-      console.log("authentication", authentication);
+
       handleSignGoogle(authentication);
     }
 
@@ -225,7 +231,7 @@ const StartTime = ({ navigation }) => {
           <View >
             <View style={styles.circle}>
               <Pressable style={styles.circlePlay} onPress={() => onStop(true)}>
-                <Text style={styles.textPlay}>เล่นต่อ</Text>
+                <Text style={styles.textPlay}>กลับ</Text>
               </Pressable>
               <Pressable style={styles.circleFinish} onPress={() => onFinish()}>
                 <Text style={styles.textFinish}>เสร็จ</Text>
