@@ -133,11 +133,6 @@ const StartTime = ({ navigation }) => {
 
   useEffect(() => {
 
-    if (req) {
-      promptAsync({});
-    }
-
-    console.log("auth", authentication);
     if (authentication == null) {
 
       if (req) {
@@ -152,13 +147,48 @@ const StartTime = ({ navigation }) => {
 
   }, [req]);
 
+  useEffect(() => {
+    if (authentication != null) {
+      requestRefreshToken(authentication.authentication.accessToken);
+
+    }
+
+
+
+  }, [])
 
 
 
 
+  const requestRefreshToken = async (refreshToken) => {
+    try {
+      const response = await fetch('https://www.googleapis.com/oauth2/v4/token', {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: new URLSearchParams({
+          'grant_type': 'refresh_token',
+          'client_id': webClientExpoKey,
+          'client_secret': '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',
+          'refresh_token': refreshToken,
+        }).toString(),
+      });
 
+      if (!response.ok) {
+        throw new Error('Failed to request refresh token');
+      }
 
+      const data = await response.json();
 
+      console.log("data", data);
+      /*  dispatch(authenticationIdToken(data.id_token)) */
+
+    } catch (error) {
+      console.error('Error requesting refresh token:', error);
+      throw error;
+    }
+  };
 
   // ใช้โค้ดด้านบนเพื่อขอ refresh token โดยมี accessToken เป็นอาร์กิวเมนต์
   // เรียกใช้ requestRefreshToken(accessToken).then(refreshToken => { // ดำเนินการต่อไป });
