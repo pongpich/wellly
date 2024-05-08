@@ -19,6 +19,7 @@ import {
   authenticationToken,
   authenticationIdToken
 } from "../../../redux/auth";
+import { useRef } from "react";
 
 
 
@@ -65,7 +66,6 @@ const StartTime = ({ navigation }) => {
     try {
       const dataTypeName = "com.google.step_count.delta";
       const dataTypeName2 = "com.google.distance.delta";
-
       const dataSourceId =
         "derived:com.google.step_count.delta:com.google.android.gms:merge_step_deltas";
       const dataSourceId2 =
@@ -75,7 +75,7 @@ const StartTime = ({ navigation }) => {
           { dataTypeName: dataTypeName, dataSourceId: dataSourceId },
           { dataTypeName: dataTypeName2, dataSourceId: dataSourceId2 },
         ],
-        bucketByTime: { durationMillis: 35 * 24 * 60 * 60 * 1000 }, //35 * 24 * 60 * 60 * 1000 คือ 35วัน กำหนดกว้างๆเผื่อไว้ก่อน
+        bucketByTime: { durationMillis: 35 * 24 * 60 * 60 * 1000 },
         startTimeMillis: startTimeMillis,
         endTimeMillis: endTimeMillis,
       };
@@ -89,43 +89,99 @@ const StartTime = ({ navigation }) => {
         },
         body: JSON.stringify(query),
       });
-
       const data = await response.json();
-      setStepCount(data.bucket[0].dataset[0].point[0].value[0].intVal);
-      setDistance(
-        (data.bucket[0].dataset[1].point[0].value[0].fpVal / 1000).toFixed(2)
-      );
-      return data;
-    } catch (error) {
 
+
+      if (data.bucket && data.bucket.length > 0) {
+        const bucket = data.bucket[0];
+
+        if (bucket.dataset && bucket.dataset.length > 0) {
+          const datasetIntVal = bucket.dataset[0];
+          const datasetFpVal = bucket.dataset[1];
+
+
+          if (datasetIntVal.point && datasetIntVal.point.length > 0) {
+            const intVal = datasetIntVal.point[0].value[0].intVal;
+            setStepCount(intVal);
+            console.log("intVal", intVal);
+          } else {
+            console.log('no intVal');
+          }
+
+          if (datasetFpVal.point && datasetFpVal.point.length > 0) {
+            const fpVal = (datasetFpVal.point[0].value[0].fpVal / 1000).toFixed(2);
+            setDistance(fpVal);
+            console.log("fpVal", fpVal);
+          } else {
+            console.log("no fpVal");
+          }
+
+        } else {
+          console.log("no bucket");
+        }
+      } else {
+        console.log("no data");
+      }
+      /* if (data.bucket[0].dataset[0].length > 0) {
+        let intVal = data.bucket[0].dataset[0].point[0].value[0].intVal;
+        setStepCount(intVal);
+
+        console.log("intVal", intVal);
+      } else {
+        console.log("no intVal");
+      }
+      if (data.bucket[0].dataset[1].length > 0) {
+        let fpVal = (data.bucket[0].dataset[1].point[0].value[0].fpVal / 1000).toFixed(2)
+        setDistance(fpVal);
+        console.log("fpVal", fpVal);
+      } else {
+        console.log("no fpVal");
+      } */
+
+
+
+
+
+    } catch (error) {
       console.log("fitnessApi.js 35 |", error.message);
       return error.message;
     }
   };
-
   const handleSignGoogle = async (event) => {
 
     if (res) {
       dispatch(authenticationToken(res))
     }
 
-    const startDate2 = new Date("2024-05-08")// new Date("2024-05-08T00:22:22") ระบุเเบบช่าวงเวลา;
-    const endDate2 = new Date("2024-05-09")// new Date("2024-05-08T00:22:22") ระบุเเบบช่าวงเวลา;
-    const startDate3 = new Date(formattedStartDate);
-    const endDate3 = new Date(formattedEndDate);
-    const token = event != null ? event.authentication.accessToken : res.authentication.accessToken;
-    await getMyGoogleFit(
-      token,
-      startDate3.getTime(),
-      endDate3.getTime()
-    );
+
+
     if (seconds == 0) {
       setIsActive(true);
     }
 
-
-
   };
+
+  const startDate2 = new Date("2024-05-08T19:30:00")// new Date("2024-05-08T00:22:22") ระบุเเบบช่าวงเวลา;
+  const endDate2 = new Date("2024-05-09")// new Date("2024-05-08T00:22:22") ระบุเเบบช่าวงเวลา;
+  const startDate3 = new Date(formattedStartDate);
+  const endDate3 = new Date(formattedEndDate);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (authentication) {
+          const token = authentication.authentication.accessToken;
+          await getMyGoogleFit(token, startDate3.getTime(), endDate3.getTime());
+        }
+
+      } catch (error) {
+        console.error("Error fetching Google Fit data:", error);
+      }
+    };
+
+
+    fetchData(); // เรียกใช้งาน fetchData เพื่อดึงข้อมูล Google Fit เมื่อค่า seconds เปลี่ยนแปลง
+  }, [seconds])
 
   useEffect(() => {
     if (res && res.type == "cancel") {
