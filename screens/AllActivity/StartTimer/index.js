@@ -27,16 +27,16 @@ const StartTime = ({ navigation }) => {
   const [distance, setDistance] = useState(0);
   const [statusStop, setStatusStop] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
-  const [time, setTime] = useState(0);
   const [startTime, setStartTime] = useState(new Date().getTime());
-
   const [statusToken, setStatusToken] = useState(false);
   const [isRunning, setIsRunning] = useState(false);
+  const [seconds, setSeconds] = useState(0);
+  const [isActive, setIsActive] = useState(false);
   const dispatch = useDispatch();
 
   const { authentication, idToken } = useSelector(({ authUser }) => (authUser ? authUser : ""));
 
-  let timer;
+
 
   const iosKey =
     "860210111844-7f56c79ti04is1ld9juuhhb2mhlf4olq.apps.googleusercontent.com";
@@ -112,16 +112,13 @@ const StartTime = ({ navigation }) => {
       startDate.getTime(),
       endDate.getTime()
     );
-
-    if (time === 0) {
-      clearInterval(timer); // เพิ่มบรรทัดนี้เพื่อให้หยุด interval ที่ก่อนหน้านี้ (ถ้ามี)
-      startTimer();
-      return () => clearInterval(timer);
+    if (seconds == 0) {
+      setIsActive(true);
     }
 
+
+
   };
-
-
 
   useEffect(() => {
     if (res && res.type == "cancel") {
@@ -142,35 +139,33 @@ const StartTime = ({ navigation }) => {
     }
   }, [req]);
 
-
-
-  const onStop = (e) => {
-    setStatusStop(e);
-    stopTimer();
-
-  }
   const onFinish = () => {
     navigation.goBack();
   }
 
+  useEffect(() => {
+    let interval = null;
+    if (isActive) {
+      interval = setInterval(() => {
+        setSeconds(seconds => seconds + 1);
+      }, 1000);
+    } else if (!isActive && seconds !== 0) {
+      clearInterval(interval);
+    }
+    return () => clearInterval(interval);
+  }, [isActive, seconds]);
 
-  const startTimer = () => {
-    setIsRunning(true);
-    clearInterval(timer); // เพิ่มบรรทัดนี้เพื่อให้หยุด interval ที่ก่อนหน้านี้ (ถ้ามี)ช
-    timer = setInterval(() => {
-      setTime(prevTime => prevTime + 1);
-    }, 1000); // 1 วินาที
+  const onStop = (event) => {
+    setStatusStop(event)
+    setIsActive(!isActive);
   };
 
-  console.log("888");
-  const stopTimer = () => {
-    setIsRunning(false);
-
+  const resetTimer = (event) => {
+    setSeconds(event);
+    setIsActive(false);
   };
 
-  const resetTimer = () => {
-    setTime(0);
-  };
+
   const formatTime = (totalSeconds) => {
     const hours = Math.floor(totalSeconds / 3600);
     const minutes = Math.floor((totalSeconds % 3600) / 60);
@@ -188,8 +183,8 @@ const StartTime = ({ navigation }) => {
     <View style={styles.container} source={IconRun} >
       <View style={styles.boxTime}>
         <Text style={styles.textTime}>เวลา</Text>
-        <Text style={styles.times}>{formatTime(time)}</Text>
-        <Text style={styles.times}>{time}</Text>
+        <Text style={styles.times}>{formatTime(seconds)}</Text>
+        <Text style={styles.times}>{seconds}</Text>
       </View>
       <View style={styles.boxStep}>
         <View style={styles.boxStepText}>
@@ -208,7 +203,7 @@ const StartTime = ({ navigation }) => {
 
       <View style={styles.boxSop}>
         {statusStop == true ?
-          <Pressable onPress={() => startTimer() /*  onStop(false) */}>
+          <Pressable onPress={() => onStop(false)}>
             <Image style={styles.stop} source={IconStop} />
           </Pressable>
 
