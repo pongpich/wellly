@@ -22,12 +22,14 @@ import {
 
 
 
+const utcPlus7Offset = 7 * 60 * 60 * 1000; // 7 hours offset in milliseconds
+const startDate = new Date(Date.now() + utcPlus7Offset);
+
 const StartTime = ({ navigation }) => {
   const [stepCount, setStepCount] = useState(0);
   const [distance, setDistance] = useState(0);
   const [statusStop, setStatusStop] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
-  const [startTime, setStartTime] = useState(new Date().getTime());
   const [statusToken, setStatusToken] = useState(false);
   const [isRunning, setIsRunning] = useState(false);
   const [seconds, setSeconds] = useState(0);
@@ -36,6 +38,9 @@ const StartTime = ({ navigation }) => {
 
   const { authentication, idToken } = useSelector(({ authUser }) => (authUser ? authUser : ""));
 
+  const formattedStartDate = startDate.toISOString().slice(0, 19).replace(".", " ");
+  const endDate = new Date(Date.now() + utcPlus7Offset);
+  const formattedEndDate = endDate.toISOString().slice(0, 19).replace(".", " ");
 
 
   const iosKey =
@@ -104,13 +109,15 @@ const StartTime = ({ navigation }) => {
       dispatch(authenticationToken(res))
     }
 
-    const startDate = new Date("2024-04-25");
-    const endDate = new Date("2024-04-26");
+    const startDate2 = new Date("2024-05-08");
+    const endDate2 = new Date("2024-05-09");
+    const startDate3 = new Date(formattedStartDate);
+    const endDate3 = new Date(formattedEndDate);
     const token = event != null ? event.authentication.accessToken : res.authentication.accessToken;
     await getMyGoogleFit(
       token,
-      startDate.getTime(),
-      endDate.getTime()
+      startDate3.getTime(),
+      endDate3.getTime()
     );
     if (seconds == 0) {
       setIsActive(true);
@@ -185,6 +192,8 @@ const StartTime = ({ navigation }) => {
         <Text style={styles.textTime}>เวลา</Text>
         <Text style={styles.times}>{formatTime(seconds)}</Text>
         <Text style={styles.times}>{seconds}</Text>
+        <Text style={styles.startTime}>StartTime: {formattedStartDate}</Text>
+        <Text style={styles.startTime}>EndTime: {formattedEndDate}</Text>
       </View>
       <View style={styles.boxStep}>
         <View style={styles.boxStepText}>
@@ -192,6 +201,7 @@ const StartTime = ({ navigation }) => {
           <Text style={styles.stepData}>{stepCount}</Text>
         </View>
         <View style={styles.boxStepText}>
+
           <Text style={styles.textTime}>ระยะทาง (กม.)</Text>
           <Text style={styles.stepData}>{distance}</Text>
         </View>
@@ -203,10 +213,15 @@ const StartTime = ({ navigation }) => {
 
       <View style={styles.boxSop}>
         {statusStop == true ?
-          <Pressable onPress={() => onStop(false)}>
-            <Image style={styles.stop} source={IconStop} />
-          </Pressable>
+          <View>
 
+            <Pressable onPress={() => promptAsync({})}>
+              <Image style={styles.stop} source={IconStop} />
+            </Pressable>
+            <Pressable onPress={() => onStop(false)}>
+              <Image style={styles.stop} source={IconStop} />
+            </Pressable>
+          </View>
           :
           <View >
             <View style={styles.circle}>
@@ -426,6 +441,12 @@ const styles = StyleSheet.create({
     color: colors.primary,
     fontSize: 16,
     fontFamily: "IBMPlexSansThai-Bold",
+  },
+  startTime: {
+    color: colors.grey2,
+    fontSize: 16,
+    fontFamily: "IBMPlexSansThai-Bold",
+    textAlign: "center"
   }
 });
 export default StartTime;
