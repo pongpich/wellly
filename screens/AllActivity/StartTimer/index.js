@@ -28,7 +28,8 @@ const StartTime = ({ navigation }) => {
   const [statusStop, setStatusStop] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
   const [time, setTime] = useState(0);
-  const [timeStart, setTimeStart] = useState(false);
+  const [startTime, setStartTime] = useState(new Date().getTime());
+
   const [statusToken, setStatusToken] = useState(false);
   const [isRunning, setIsRunning] = useState(false);
   const dispatch = useDispatch();
@@ -43,7 +44,6 @@ const StartTime = ({ navigation }) => {
     "860210111844-mkvdh1hlg762mm3fms4vnbgiahje7pd2.apps.googleusercontent.com";
   const webClientExpoKey =
     "860210111844-b9qc0fi6hm6s82vs1n8ksf07u00b4k7p.apps.googleusercontent.com";
-
   const [req, res, promptAsync] = Google.useAuthRequest({
     androidClientId: androidkey,
     iosClientId: iosKey,
@@ -57,7 +57,6 @@ const StartTime = ({ navigation }) => {
   });
 
   const getMyGoogleFit = async (token, startTimeMillis, endTimeMillis) => {
-
     try {
       const dataTypeName = "com.google.step_count.delta";
       const dataTypeName2 = "com.google.distance.delta";
@@ -66,7 +65,6 @@ const StartTime = ({ navigation }) => {
         "derived:com.google.step_count.delta:com.google.android.gms:merge_step_deltas";
       const dataSourceId2 =
         "derived:com.google.distance.delta:com.google.android.gms:merge_distance_delta";
-
       const query = {
         aggregateBy: [
           { dataTypeName: dataTypeName, dataSourceId: dataSourceId },
@@ -78,46 +76,34 @@ const StartTime = ({ navigation }) => {
       };
       const endpoint =
         "https://www.googleapis.com/fitness/v1/users/me/dataset:aggregate";
-
       const response = await fetch(endpoint, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
-
         },
         body: JSON.stringify(query),
       });
 
       const data = await response.json();
-
       setStepCount(data.bucket[0].dataset[0].point[0].value[0].intVal);
       setDistance(
         (data.bucket[0].dataset[1].point[0].value[0].fpVal / 1000).toFixed(2)
       );
       return data;
     } catch (error) {
-      if (req) {
-        promptAsync({});
-      }
-      console.log("fitnessApi.js 35 | error getting steps data", error);
+
+      console.log("fitnessApi.js 35 |", error.message);
       return error.message;
     }
   };
 
   const handleSignGoogle = async (event) => {
 
-
-    if (event == null) {
+    if (res) {
       dispatch(authenticationToken(res))
     }
-    console.log("4444");
 
-    setTimeStart(true);
-
-
-  };
-  const fetchData = async (event) => {
     const startDate = new Date("2024-04-25");
     const endDate = new Date("2024-04-26");
     const token = event != null ? event.authentication.accessToken : res.authentication.accessToken;
@@ -127,24 +113,26 @@ const StartTime = ({ navigation }) => {
       endDate.getTime()
     );
 
+    if (time === 0) {
+      clearInterval(timer); // เพิ่มบรรทัดนี้เพื่อให้หยุด interval ที่ก่อนหน้านี้ (ถ้ามี)
+      startTimer();
+      return () => clearInterval(timer);
+    }
+
   };
 
 
-  /*   useEffect(async () => {
-
-      fetchData();
-  
-    }, [time]), */
-
-  /*   useEffect(() => {
-      if (res && res.type == "cancel") {
-        navigation.goBack();
-      } else {
-        handleSignGoogle(null);
-      }
-    }, [res]); */
 
   useEffect(() => {
+    if (res && res.type == "cancel") {
+      navigation.goBack();
+    } else {
+      handleSignGoogle(null);
+    }
+  }, [res]);
+
+  useEffect(() => {
+    console.log("authentication", authentication);
     if (authentication == null) {
       if (req) {
         promptAsync({});
@@ -156,39 +144,28 @@ const StartTime = ({ navigation }) => {
 
 
 
-
   const onStop = (e) => {
-    setStatusStop(e)
-    stopTimer()
+    setStatusStop(e);
+    stopTimer();
+
   }
   const onFinish = () => {
     navigation.goBack();
   }
 
-  useEffect(() => {
-    if (timeStart == true) {
-      startTimer();
-      return () => clearInterval(timer);
-    }
-
-
-  }, [timeStart]);
-
-
-  console.log("timeStart", timeStart);
-
-
 
   const startTimer = () => {
     setIsRunning(true);
+    clearInterval(timer); // เพิ่มบรรทัดนี้เพื่อให้หยุด interval ที่ก่อนหน้านี้ (ถ้ามี)ช
     timer = setInterval(() => {
       setTime(prevTime => prevTime + 1);
-    }, 1000);
+    }, 1000); // 1 วินาที
   };
 
+  console.log("888");
   const stopTimer = () => {
     setIsRunning(false);
-    clearInterval(timer);
+
   };
 
   const resetTimer = () => {
@@ -212,6 +189,7 @@ const StartTime = ({ navigation }) => {
       <View style={styles.boxTime}>
         <Text style={styles.textTime}>เวลา</Text>
         <Text style={styles.times}>{formatTime(time)}</Text>
+        <Text style={styles.times}>{time}</Text>
       </View>
       <View style={styles.boxStep}>
         <View style={styles.boxStepText}>
@@ -230,7 +208,7 @@ const StartTime = ({ navigation }) => {
 
       <View style={styles.boxSop}>
         {statusStop == true ?
-          <Pressable onPress={() => onStop(false)}>
+          <Pressable onPress={() => startTimer() /*  onStop(false) */}>
             <Image style={styles.stop} source={IconStop} />
           </Pressable>
 
