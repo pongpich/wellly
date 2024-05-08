@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import * as GoogleSignIn from "expo-auth-session/providers/google";
+import * as Google from "expo-auth-session/providers/google";
 import IconRun from "../../../assets/images/icon/run.png";
 import IconStop from "../../../assets/images/icon/stop.png";
 import Contextual from "../../../assets/images/icon/Contextual2.png";
@@ -27,6 +28,7 @@ const StartTime = ({ navigation }) => {
   const [statusStop, setStatusStop] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
   const [time, setTime] = useState(0);
+  const [timeStart, setTimeStart] = useState(false);
   const [statusToken, setStatusToken] = useState(false);
   const [isRunning, setIsRunning] = useState(false);
   const dispatch = useDispatch();
@@ -42,7 +44,7 @@ const StartTime = ({ navigation }) => {
   const webClientExpoKey =
     "860210111844-b9qc0fi6hm6s82vs1n8ksf07u00b4k7p.apps.googleusercontent.com";
 
-  const [req, res, promptAsync] = GoogleSignIn.useAuthRequest({
+  const [req, res, promptAsync] = Google.useAuthRequest({
     androidClientId: androidkey,
     iosClientId: iosKey,
     webClientId: webClientExpoKey,
@@ -50,7 +52,7 @@ const StartTime = ({ navigation }) => {
     expoClientId: webClientExpoKey,
     scopes: [
       "https://www.googleapis.com/auth/fitness.activity.read",
-      "https://www.googleapis.com/auth/fitness.location.read"
+      "https://www.googleapis.com/auth/fitness.location.read",
     ]
   });
 
@@ -82,6 +84,7 @@ const StartTime = ({ navigation }) => {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
+
         },
         body: JSON.stringify(query),
       });
@@ -94,6 +97,9 @@ const StartTime = ({ navigation }) => {
       );
       return data;
     } catch (error) {
+      if (req) {
+        promptAsync({});
+      }
       console.log("fitnessApi.js 35 | error getting steps data", error);
       return error.message;
     }
@@ -102,96 +108,52 @@ const StartTime = ({ navigation }) => {
   const handleSignGoogle = async (event) => {
 
 
-
-    const startDate = new Date("2024-04-25");
-    const endDate = new Date("2024-04-26");
-
-    const token = event != null ? event.authentication.accessToken : res.authentication.accessToken;
     if (event == null) {
       dispatch(authenticationToken(res))
     }
+    console.log("4444");
 
+    setTimeStart(true);
+
+
+  };
+  const fetchData = async (event) => {
+    const startDate = new Date("2024-04-25");
+    const endDate = new Date("2024-04-26");
+    const token = event != null ? event.authentication.accessToken : res.authentication.accessToken;
     await getMyGoogleFit(
       token,
       startDate.getTime(),
       endDate.getTime()
     );
 
-
   };
 
+
+  /*   useEffect(async () => {
+
+      fetchData();
+  
+    }, [time]), */
+
+  /*   useEffect(() => {
+      if (res && res.type == "cancel") {
+        navigation.goBack();
+      } else {
+        handleSignGoogle(null);
+      }
+    }, [res]); */
+
   useEffect(() => {
-
-    if (res && res.type == "cancel") {
-      navigation.goBack();
-    } else {
-
-      handleSignGoogle(null);
-    }
-
-  }, [res]);
-
-  useEffect(() => {
-
     if (authentication == null) {
-
       if (req) {
         promptAsync({});
       }
     } else {
-
       handleSignGoogle(authentication);
     }
-
-
-
   }, [req]);
 
-  useEffect(() => {
-    if (authentication != null) {
-      requestRefreshToken(authentication.authentication.accessToken);
-
-    }
-
-
-
-  }, [])
-
-
-
-
-  const requestRefreshToken = async (refreshToken) => {
-    try {
-      const response = await fetch('https://www.googleapis.com/oauth2/v4/token', {
-        method: 'POST',
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: new URLSearchParams({
-          'grant_type': 'refresh_token',
-          'client_id': webClientExpoKey,
-          'client_secret': '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',
-          'refresh_token': refreshToken,
-        }).toString(),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to request refresh token');
-      }
-
-      const data = await response.json();
-
-      console.log("data", data);
-      /*  dispatch(authenticationIdToken(data.id_token)) */
-
-    } catch (error) {
-      console.error('Error requesting refresh token:', error);
-      throw error;
-    }
-  };
-
-  // ใช้โค้ดด้านบนเพื่อขอ refresh token โดยมี accessToken เป็นอาร์กิวเมนต์
-  // เรียกใช้ requestRefreshToken(accessToken).then(refreshToken => { // ดำเนินการต่อไป });
 
 
 
@@ -203,14 +165,17 @@ const StartTime = ({ navigation }) => {
     navigation.goBack();
   }
 
-  /* useEffect(() => {
-   
+  useEffect(() => {
+    if (timeStart == true) {
       startTimer();
       return () => clearInterval(timer);
-    
+    }
 
-  }, []); */
 
+  }, [timeStart]);
+
+
+  console.log("timeStart", timeStart);
 
 
 
