@@ -23,10 +23,10 @@ import { useRef } from "react";
 
 
 
-const utcPlus7Offset = 7 * 60 * 60 * 1000; // 7 hours offset in milliseconds
-const startDate = new Date(Date.now() + utcPlus7Offset);
+
 
 const StartTime = ({ navigation }) => {
+  const utcPlus7Offset = 7 * 60 * 60 * 1000;
   const [stepCount, setStepCount] = useState(0);
   const [distance, setDistance] = useState(0);
   const [statusStop, setStatusStop] = useState(true);
@@ -34,7 +34,9 @@ const StartTime = ({ navigation }) => {
   const [seconds, setSeconds] = useState(0);
   const [errorMessage, setErrorMessage] = useState(null);
   const [isActive, setIsActive] = useState(false);
+  const [startDate, setStartDate] = useState(new Date(Date.now() + utcPlus7Offset));
   const dispatch = useDispatch();
+
 
   const { authentication, idToken } = useSelector(({ authUser }) => (authUser ? authUser : ""));
 
@@ -105,9 +107,9 @@ const StartTime = ({ navigation }) => {
             const intVal = datasetIntVal.point[0].value[0].intVal;
             setStepCount(intVal);
             console.log("intVal", intVal);
-            setErrorMessage("Get IntVal FpVal")
+            setErrorMessage(" Get IntVal FpVal")
           } else {
-            setErrorMessage("no IntVal FpVal")
+            setErrorMessage(" No IntVal FpVal")
             console.log('no intVal');
           }
 
@@ -115,9 +117,9 @@ const StartTime = ({ navigation }) => {
             const fpVal = (datasetFpVal.point[0].value[0].fpVal / 1000).toFixed(2);
             setDistance(fpVal);
             console.log("fpVal", fpVal);
-            setErrorMessage("Get IntVal FpVal")
+            setErrorMessage(" Get IntVal FpVal")
           } else {
-            setErrorMessage("no  IntVal FpVal")
+            setErrorMessage(" No  IntVal FpVal")
             console.log("no fpVal");
           }
 
@@ -125,7 +127,7 @@ const StartTime = ({ navigation }) => {
           console.log("no bucket");
         }
       } else {
-        setErrorMessage("Error Token Expired")
+        setErrorMessage(" Error Token Expired")
         console.log("Error Token Expired");
       }
 
@@ -153,7 +155,7 @@ const StartTime = ({ navigation }) => {
 
   };
 
-  const startDate2 = new Date("2024-05-08")// new Date("2024-05-08T00:22:22") ระบุเเบบช่าวงเวลา;
+  const startDate2 = new Date("2024-05-09T18:29:14")// new Date("2024-05-08T00:22:22") ระบุเเบบช่าวงเวลา;
   const endDate2 = new Date("2024-05-09")// new Date("2024-05-08T00:22:22") ระบุเเบบช่าวงเวลา;
   const startDate3 = new Date(formattedStartDate);
   const endDate3 = new Date(formattedEndDate);
@@ -163,7 +165,11 @@ const StartTime = ({ navigation }) => {
       try {
         if (authentication) {
           const token = authentication.authentication.accessToken;
-          await getMyGoogleFit(token, startDate3.getTime(), endDate3.getTime());
+          await getMyGoogleFit(
+            token,
+            startDate3.getTime(),
+            endDate3.getTime()
+          )
         }
 
       } catch (error) {
