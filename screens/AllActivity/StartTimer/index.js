@@ -27,6 +27,7 @@ import { useRef } from "react";
 
 const StartTime = ({ navigation }) => {
   const utcPlus7Offset = 7 * 60 * 60 * 1000;
+  const utcPlus9Offset = 9 * 60 * 60 * 1000;
   const [stepCount, setStepCount] = useState(0);
   const [distance, setDistance] = useState(0);
   const [statusStop, setStatusStop] = useState(true);
@@ -41,7 +42,7 @@ const StartTime = ({ navigation }) => {
   const { authentication, idToken } = useSelector(({ authUser }) => (authUser ? authUser : ""));
 
   const formattedStartDate = startDate.toISOString().slice(0, 19).replace(".", " ");
-  const endDate = new Date(Date.now() + utcPlus7Offset);
+  const endDate = new Date(Date.now() + utcPlus9Offset);
   const formattedEndDate = endDate.toISOString().slice(0, 19).replace(".", " ");
 
 
@@ -130,11 +131,6 @@ const StartTime = ({ navigation }) => {
         setErrorMessage(" Error Token Expired")
         console.log("Error Token Expired");
       }
-
-
-
-
-
 
     } catch (error) {
       console.log("fitnessApi.js 35 |", error.message);
@@ -247,8 +243,8 @@ const StartTime = ({ navigation }) => {
         <Text style={styles.textTime}>เวลา</Text>
         <Text style={styles.times}>{formatTime(seconds)}</Text>
         <Text style={styles.startTime}>Message:{errorMessage}</Text>
-        <Text style={styles.startTime}>StartTime: {formattedStartDate}</Text>
-        <Text style={styles.startTime}>EndTime: {formattedEndDate}</Text>
+        <Text style={styles.startTime}>StartTime UTC+7: {formattedStartDate}</Text>
+        <Text style={styles.startTime}>EndTime UTC+9: {formattedEndDate}</Text>
       </View>
       <View style={styles.boxStep}>
         <View style={styles.boxStepText}>
