@@ -138,6 +138,7 @@ const StartTime = ({ navigation }) => {
 
     } catch (error) {
       console.log("fitnessApi.js 35 |", error.message);
+      setErrorMessage(" Error Api 35")
       return error.message;
     }
   };
