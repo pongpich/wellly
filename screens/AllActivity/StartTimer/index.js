@@ -107,7 +107,7 @@ const StartTime = ({ navigation }) => {
             console.log("intVal", intVal);
             setErrorMessage("Get IntVal FpVal")
           } else {
-            setErrorMessage("Error IntVal FpVal")
+            setErrorMessage("no IntVal FpVal")
             console.log('no intVal');
           }
 
@@ -117,7 +117,7 @@ const StartTime = ({ navigation }) => {
             console.log("fpVal", fpVal);
             setErrorMessage("Get IntVal FpVal")
           } else {
-            setErrorMessage("Error  IntVal FpVal")
+            setErrorMessage("no  IntVal FpVal")
             console.log("no fpVal");
           }
 
