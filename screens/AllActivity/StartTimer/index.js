@@ -31,9 +31,8 @@ const StartTime = ({ navigation }) => {
   const [distance, setDistance] = useState(0);
   const [statusStop, setStatusStop] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
-  const [statusToken, setStatusToken] = useState(false);
-  const [isRunning, setIsRunning] = useState(false);
   const [seconds, setSeconds] = useState(0);
+  const [errorMessage, setErrorMessage] = useState(null);
   const [isActive, setIsActive] = useState(false);
   const dispatch = useDispatch();
 
@@ -104,7 +103,9 @@ const StartTime = ({ navigation }) => {
             const intVal = datasetIntVal.point[0].value[0].intVal;
             setStepCount(intVal);
             console.log("intVal", intVal);
+            setErrorMessage("Get IntVal FpVal")
           } else {
+            setErrorMessage("Error IntVal FpVal")
             console.log('no intVal');
           }
 
@@ -112,7 +113,9 @@ const StartTime = ({ navigation }) => {
             const fpVal = (datasetFpVal.point[0].value[0].fpVal / 1000).toFixed(2);
             setDistance(fpVal);
             console.log("fpVal", fpVal);
+            setErrorMessage("Get IntVal FpVal")
           } else {
+            setErrorMessage("Error  IntVal FpVal")
             console.log("no fpVal");
           }
 
@@ -120,23 +123,10 @@ const StartTime = ({ navigation }) => {
           console.log("no bucket");
         }
       } else {
-        console.log("no data");
+        setErrorMessage("Error Token Expired")
+        console.log("Error Token Expired");
       }
-      /* if (data.bucket[0].dataset[0].length > 0) {
-        let intVal = data.bucket[0].dataset[0].point[0].value[0].intVal;
-        setStepCount(intVal);
 
-        console.log("intVal", intVal);
-      } else {
-        console.log("no intVal");
-      }
-      if (data.bucket[0].dataset[1].length > 0) {
-        let fpVal = (data.bucket[0].dataset[1].point[0].value[0].fpVal / 1000).toFixed(2)
-        setDistance(fpVal);
-        console.log("fpVal", fpVal);
-      } else {
-        console.log("no fpVal");
-      } */
 
 
 
@@ -247,7 +237,7 @@ const StartTime = ({ navigation }) => {
       <View style={styles.boxTime}>
         <Text style={styles.textTime}>เวลา</Text>
         <Text style={styles.times}>{formatTime(seconds)}</Text>
-        <Text style={styles.times}>{seconds}</Text>
+        <Text style={styles.startTime}>Message:{errorMessage}</Text>
         <Text style={styles.startTime}>StartTime: {formattedStartDate}</Text>
         <Text style={styles.startTime}>EndTime: {formattedEndDate}</Text>
       </View>
