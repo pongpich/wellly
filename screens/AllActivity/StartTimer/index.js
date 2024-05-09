@@ -153,8 +153,8 @@ const StartTime = ({ navigation }) => {
 
   };
 
-  const startDate2 = new Date("2024-05-25")// new Date("2024-05-08T00:22:22") ระบุเเบบช่าวงเวลา;
-  const endDate2 = new Date("2024-05-26")// new Date("2024-05-08T00:22:22") ระบุเเบบช่าวงเวลา;
+  const startDate2 = new Date("2024-05-08")// new Date("2024-05-08T00:22:22") ระบุเเบบช่าวงเวลา;
+  const endDate2 = new Date("2024-05-09")// new Date("2024-05-08T00:22:22") ระบุเเบบช่าวงเวลา;
   const startDate3 = new Date(formattedStartDate);
   const endDate3 = new Date(formattedEndDate);
 
@@ -163,7 +163,7 @@ const StartTime = ({ navigation }) => {
       try {
         if (authentication) {
           const token = authentication.authentication.accessToken;
-          await getMyGoogleFit(token, startDate2.getTime(), endDate2.getTime());
+          await getMyGoogleFit(token, startDate3.getTime(), endDate3.getTime());
         }
 
       } catch (error) {
