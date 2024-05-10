@@ -69,6 +69,7 @@ const StartTime = ({ navigation }) => {
     expoClientId: webClientExpoKey,
     scopes: [
       "https://www.googleapis.com/auth/fitness.activity.read",
+      "https://www.googleapis.com/auth/fitness.activity.write",
       "https://www.googleapis.com/auth/fitness.location.read"
     ]
   });
@@ -126,17 +127,21 @@ const StartTime = ({ navigation }) => {
             setDistance(fpVal);
             console.log("fpVal", fpVal);
             setErrorMessage(" Get IntVal FpVal")
+            setErrorMessage("noIntVal", error.message)
           } else {
-            setErrorMessage(" No  IntVal FpVal")
+            s/* etErrorMessage(" No  IntVal FpVal") */
             console.log("no fpVal");
+            setErrorMessage("noFpVal", error.message)
           }
 
         } else {
+          setErrorMessage("noBucket", error.message)
           console.log("no bucket");
         }
       } else {
         setErrorMessage(" Error Token Expired")
         console.log("Error Token Expired");
+        setErrorMessage("Expired", error.message)
       }
 
     } catch (error) {
@@ -247,7 +252,7 @@ const StartTime = ({ navigation }) => {
   return (
     <View style={styles.container} source={IconRun} >
       <View style={styles.boxTime}>
-        <Text style={styles.textTime}>เวลา</Text>
+        <Text style={styles.textTime}>เวลา 6</Text>
         <Text style={styles.times}>{formatTime(seconds)}</Text>
         <Text style={styles.startTime}>Message:{errorMessage}</Text>
         <Text style={styles.startTime}>StartTime UTC+7: {formattedStartDate}</Text>
