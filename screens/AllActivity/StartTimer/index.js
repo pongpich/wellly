@@ -22,12 +22,13 @@ import {
 import { useRef } from "react";
 
 
+const utcPlus7Offset = 7 * 60 * 60 * 1000;
+const utcPlus9Offset = 9 * 60 * 60 * 1000;
 
-
+const startDate = new Date(Date.now() + utcPlus7Offset)
 
 const StartTime = ({ navigation }) => {
-  const utcPlus7Offset = 7 * 60 * 60 * 1000;
-  const utcPlus9Offset = 9 * 60 * 60 * 1000;
+
   const [stepCount, setStepCount] = useState(0);
   const [distance, setDistance] = useState(0);
   const [statusStop, setStatusStop] = useState(true);
@@ -35,7 +36,6 @@ const StartTime = ({ navigation }) => {
   const [seconds, setSeconds] = useState(0);
   const [errorMessage, setErrorMessage] = useState(null);
   const [isActive, setIsActive] = useState(false);
-  const [startDate, setStartDate] = useState(new Date(Date.now() + utcPlus7Offset));
   const dispatch = useDispatch();
 
 
@@ -152,7 +152,7 @@ const StartTime = ({ navigation }) => {
 
   };
 
-  const startDate2 = new Date("2024-05-09T18:29:14")// new Date("2024-05-08T00:22:22") ระบุเเบบช่าวงเวลา;
+  const startDate2 = new Date("2024-05-10T10:01:54")// new Date("2024-05-08T00:22:22") ระบุเเบบช่าวงเวลา;
   const endDate2 = new Date("2024-05-09")// new Date("2024-05-08T00:22:22") ระบุเเบบช่าวงเวลา;
   const startDate3 = new Date(formattedStartDate);
   const endDate3 = new Date(formattedEndDate);
@@ -164,7 +164,7 @@ const StartTime = ({ navigation }) => {
           const token = authentication.authentication.accessToken;
           await getMyGoogleFit(
             token,
-            startDate3.getTime(),
+            startDate2.getTime(),
             endDate3.getTime()
           )
         }
