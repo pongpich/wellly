@@ -102,8 +102,8 @@ const StartTime = ({ navigation }) => {
       });
       const data = await response.json();
 
-      console.log("data", data)
-      /* if (data.bucket && data.bucket.length > 0) {
+
+      if (data.bucket && data.bucket.length > 0) {
         const bucket = data.bucket[0];
 
         if (bucket.dataset && bucket.dataset.length > 0) {
@@ -138,7 +138,7 @@ const StartTime = ({ navigation }) => {
         setErrorMessage(" Error Token Expired")
         console.log("Error Token Expired");
       }
-*/
+
     } catch (error) {
       console.log("fitnessApi.js 35 |", error.message);
       setErrorMessage(" Error Api 35")
