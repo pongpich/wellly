@@ -46,12 +46,19 @@ const StartTime = ({ navigation }) => {
   const formattedEndDate = endDate.toISOString().slice(0, 19).replace(".", " ");
 
 
-  const iosKey =
+  /* const iosKey =
     "860210111844-7f56c79ti04is1ld9juuhhb2mhlf4olq.apps.googleusercontent.com";
   const androidkey =
     "860210111844-mkvdh1hlg762mm3fms4vnbgiahje7pd2.apps.googleusercontent.com";//
   const webClientExpoKey =
-    "860210111844-b9qc0fi6hm6s82vs1n8ksf07u00b4k7p.apps.googleusercontent.com";
+    "860210111844-b9qc0fi6hm6s82vs1n8ksf07u00b4k7p.apps.googleusercontent.com"; */
+
+  const iosKey =
+    "437818993892-ksult5nfvdn8b8vqblohputt1dht471m.apps.googleusercontent.com";
+  const androidkey =
+    "437818993892-u4680sg7o8mhs4qi8gsi3551ul5b1gt0.apps.googleusercontent.com";
+  const webClientExpoKey =
+    "437818993892-3688vh0k2j8teefn9j8n9m99qhv132p2.apps.googleusercontent.com";
 
 
   const [req, res, promptAsync] = GoogleSignIn.useAuthRequest({
