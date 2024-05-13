@@ -22,7 +22,7 @@ import {
 import { useRef } from "react";
 
 
-const utcPlus7Offset = 7 * 60 * 60 * 1000;
+const utcPlus7Offset = 6 * 60 * 60 * 1000;
 const utcPlus9Offset = 9 * 60 * 60 * 1000;
 
 const startDate = new Date(Date.now() + utcPlus7Offset)
@@ -169,10 +169,13 @@ const StartTime = ({ navigation }) => {
 
   };
 
-  const startDate2 = new Date("2024-05-10T10:01:54")// new Date("2024-05-08T00:22:22") ระบุเเบบช่าวงเวลา;
+  const startDate2 = new Date("2024-05-13T16:15:23")// new Date("2024-05-08T00:22:22") ระบุเเบบช่าวงเวลา;
   const endDate2 = new Date("2024-05-09")// new Date("2024-05-08T00:22:22") ระบุเเบบช่าวงเวลา;
   const startDate3 = new Date(formattedStartDate);
-  const endDate3 = new Date(formattedEndDate);
+  const endDate3 = endDate;
+
+  console.log("startDate3", startDate3);
+  console.log("endDate3", endDate3);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -180,7 +183,7 @@ const StartTime = ({ navigation }) => {
         const token = authentication != null ? authentication.authentication.accessToken : res.authentication.accessToken;
         await getMyGoogleFit(
           token,
-          startDate2.getTime(),
+          startDate3.getTime(),
           endDate3.getTime()
         )
 
