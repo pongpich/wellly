@@ -55,7 +55,7 @@ const StartTime = ({ navigation }) => {
 
 
 
-  const [req, res, promptAsync] = GoogleSignIn.useAuthRequest({
+  const [req, res, promptAsync] = Google.useIdTokenAuthRequest({
     androidClientId: androidkey,
     iosClientId: iosKey,
     webClientId: webClientExpoKey,
@@ -141,7 +141,7 @@ const StartTime = ({ navigation }) => {
         const token = authentication != null ? authentication.authentication.accessToken : res.authentication.accessToken;
         await getMyGoogleFit(
           token,
-          startDate3.getTime(),
+          startDate2.getTime(),
           endDate3.getTime()
         )
 
