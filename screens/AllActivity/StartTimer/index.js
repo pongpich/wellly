@@ -49,13 +49,19 @@ const StartTime = ({ navigation }) => {
   const iosKey =
     "860210111844-7f56c79ti04is1ld9juuhhb2mhlf4olq.apps.googleusercontent.com";
   const androidkey =
-    "860210111844-mkvdh1hlg762mm3fms4vnbgiahje7pd2.apps.googleusercontent.com";//
+    "860210111844-mkvdh1hlg762mm3fms4vnbgiahje7pd2.apps.googleusercontent.com";
   const webClientExpoKey =
     "860210111844-b9qc0fi6hm6s82vs1n8ksf07u00b4k7p.apps.googleusercontent.com";
 
+  /* const iosKey =
+    "437818993892-ksult5nfvdn8b8vqblohputt1dht471m.apps.googleusercontent.com";
+  const androidkey =
+    "437818993892-u4680sg7o8mhs4qi8gsi3551ul5b1gt0.apps.googleusercontent.com";
+  const webClientExpoKey =
+    "437818993892-3688vh0k2j8teefn9j8n9m99qhv132p2.apps.googleusercontent.com"; */
 
 
-  const [req, res, promptAsync] = Google.useIdTokenAuthRequest({
+  const [req, res, promptAsync] = GoogleSignIn.useAuthRequest({
     androidClientId: androidkey,
     iosClientId: iosKey,
     webClientId: webClientExpoKey,
@@ -96,20 +102,53 @@ const StartTime = ({ navigation }) => {
         body: JSON.stringify(query),
       });
       const data = await response.json();
-
-      if (data.bucket && data.bucket.length > 0) {
-        setErrorMessage("Add")
-        setStepCount(data.bucket[0].dataset[0].point[0].value[0].intVal);
-        setDistance((data.bucket[0].dataset[1].point[0].value[0].fpVal / 1000).toFixed(2));
-      } else {
-        setErrorMessage(" Error Token Expired")
-        console.log("Error Token Expired");
-
-      }
+      setErrorMessage("Add")
+      setStepCount(data.bucket[0].dataset[0].point[0].value[0].intVal);
+      setDistance((data.bucket[0].dataset[1].point[0].value[0].fpVal / 1000).toFixed(2));
 
       return data;
 
+      // data.bucket[0].point[0].value[0].intVal
+      /* if (data.bucket && data.bucket.length > 0) {
+        const bucket = data.bucket[0].dataset[0];
 
+        if (bucket.dataset && bucket.dataset.length > 0) {
+          const datasetIntVal = bucket.dataset[0];
+          const datasetFpVal = bucket.dataset[1];
+
+
+          if (datasetIntVal.point && datasetIntVal.point.length > 0) {
+            const intVal = datasetIntVal.point[0].value[0].intVal;
+            setStepCount(intVal);
+            console.log("intVal", intVal);
+            setErrorMessage(" Get IntVal FpVal")
+          } else {
+            setErrorMessage(" No IntVal FpVal")
+            console.log('no intVal');
+          }
+
+          if (datasetFpVal.point && datasetFpVal.point.length > 0) {
+            const fpVal = (datasetFpVal.point[0].value[0].fpVal / 1000).toFixed(2);
+            setDistance(fpVal);
+            console.log("fpVal", fpVal);
+            setErrorMessage(" Get IntVal FpVal")
+            setErrorMessage("noIntVal", error.message)
+          } else {
+            setErrorMessage(" No  IntVal FpVal")
+            console.log("no fpVal");
+            setErrorMessage("noFpVal", error.message)
+          }
+
+        } else {
+          setErrorMessage("noBucket", error.message)
+          console.log("no bucket");
+        }
+      } else {
+        setErrorMessage(" Error Token Expired")
+        console.log("Error Token Expired");
+        setErrorMessage("Expired", error.message)
+      }
+ */
     } catch (error) {
       console.log("fitnessApi.js 35 |", error.message);
       setErrorMessage("35 |", error.message)
