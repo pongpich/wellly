@@ -43,7 +43,9 @@ const StartTime = ({ navigation }) => {
   const { authentication, idToken } = useSelector(({ authUser }) => (authUser ? authUser : ""));
 
   const utcOffset = date.getTimezoneOffset();
-  const formattedStartDate = new Date(date.getTime() + utcOffset * 60000 + 3600000);
+
+
+  const formattedStartDate = new Date(date.getTime() + utcOffset * 60000 + 7 * 3600000)/* new Date(date.getTime() + utcOffset * 60000 + 3600000) */;
 
 
   const formattedEndDate = new Date(Date.now() + utcPlus9Offset);
