@@ -23,9 +23,10 @@ import { useRef } from "react";
 
 
 const utcPlus7Offset = 6 * 60 * 60 * 1000;
-const utcPlus9Offset = 9 * 60 * 60 * 1000;
+const utcPlus9Offset = 2 * 60 * 60 * 1000;
 
-const startDate = new Date(Date.now() + utcPlus7Offset)
+
+const date = new Date()
 
 const StartTime = ({ navigation }) => {
 
@@ -41,9 +42,12 @@ const StartTime = ({ navigation }) => {
 
   const { authentication, idToken } = useSelector(({ authUser }) => (authUser ? authUser : ""));
 
-  const formattedStartDate = startDate.toISOString().slice(0, 19).replace(".", " ");
-  const endDate = new Date(Date.now() + utcPlus9Offset);
-  const formattedEndDate = endDate.toISOString().slice(0, 19).replace(".", " ");
+  const utcOffset = date.getTimezoneOffset();
+  const formattedStartDate = new Date(date.getTime() + utcOffset * 60000 + 3600000);
+
+
+  const formattedEndDate = new Date(Date.now() + utcPlus9Offset);
+
 
 
   const iosKey =
@@ -169,13 +173,16 @@ const StartTime = ({ navigation }) => {
 
   };
 
-  const startDate2 = new Date("2024-05-13T16:15:23")// new Date("2024-05-08T00:22:22") ระบุเเบบช่าวงเวลา;
+  const startDate2 = new Date("2024-05-13T19:02:00")// new Date("2024-05-08T00:22:22") ระบุเเบบช่าวงเวลา;
   const endDate2 = new Date("2024-05-09")// new Date("2024-05-08T00:22:22") ระบุเเบบช่าวงเวลา;
-  const startDate3 = new Date(formattedStartDate);
-  const endDate3 = endDate;
+  const startDate3 = formattedStartDate;
+  const endDate3 = formattedEndDate;
+
+  const formattedStart = startDate3.toISOString().slice(0, 19).replace(".", " ");
+  const formattedEnd = endDate3.toISOString().slice(0, 19).replace(".", " ");
 
   console.log("startDate3", startDate3);
-  console.log("endDate3", endDate3);
+  console.log("startDate2", startDate2);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -262,8 +269,8 @@ const StartTime = ({ navigation }) => {
         <Text style={styles.textTime}>เวลา 10</Text>
         <Text style={styles.times}>{formatTime(seconds)}</Text>
         {/* <Text style={styles.startTime}>Message:{errorMessage}</Text> */}
-        <Text style={styles.startTime}>StartTime UTC+7: {formattedStartDate}</Text>
-        <Text style={styles.startTime}>EndTime UTC+9: {formattedEndDate}</Text>
+        <Text style={styles.startTime}>StartTime UTC+7: {formattedStart}</Text>
+        <Text style={styles.startTime}>EndTime UTC+9: {formattedEnd}</Text>
       </View>
       <Text style={styles.startTime}>{errorMessage}</Text>
       <View style={styles.boxStep}>
