@@ -23,7 +23,7 @@ import { useRef } from "react";
 
 
 const utcPlus7Offset = 6 * 60 * 60 * 1000;
-const utcPlus9Offset = 2 * 60 * 60 * 1000;
+const utcPlus9Offset = 8 * 60 * 60 * 1000;
 
 
 const date = new Date()
@@ -45,7 +45,7 @@ const StartTime = ({ navigation }) => {
   const utcOffset = date.getTimezoneOffset();
 
 
-  const formattedStartDate = new Date(date.getTime() + utcOffset * 60000 + 5 * 3600000)/* new Date(date.getTime() + utcOffset * 60000 + 3600000) */;
+  const formattedStartDate = new Date(date.getTime() + utcOffset * 60000 + 6 * 3600000)/* new Date(date.getTime() + utcOffset * 60000 + 3600000) */;
 
 
   const formattedEndDate = new Date(Date.now() + utcPlus9Offset);
