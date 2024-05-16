@@ -20,6 +20,10 @@ import { useDispatch, useSelector } from "react-redux";
 import dayjs from "dayjs";
 import "dayjs/locale/th";
 import { addEventActivity } from "../../../redux/update";
+import {
+  getEventUser,
+  clearStatusEventUser
+} from "../../../redux/get";
 
 export default function DetailsActivity({ route }) {
   const ScreenHeight = Dimensions.get("window").height;
@@ -30,11 +34,13 @@ export default function DetailsActivity({ route }) {
 
   const navigate = useNavigation();
   const dispatch = useDispatch();
+  const { user } = useSelector(({ authUser }) => (authUser ? authUser : ""));
 
   const dataEvents = useSelector(({ getData }) => getData.event);
   const dataEventDetail = dataEvents.filter((item) => item.id == itemId);
   const dataUser = useSelector(({ authUser }) => authUser.user);
   const dataEventsUser = useSelector(({ getData }) => getData.event_user);
+  const { status_event_user } = useSelector(({ getData }) => getData);
   const dataEventOfuser = dataEventsUser.filter(
     (item) => item.event_id == dataEventDetail[0]?.id
   );
@@ -59,11 +65,19 @@ export default function DetailsActivity({ route }) {
     }
   };
 
+
+
   React.useMemo(() => {
     if (!!route.params.isRegis || isNavigateFromHome || isNavigateFromAllAct) {
       setActiveColor("score");
     }
   }, [route.params]);
+
+
+
+
+
+
 
   const renderSwipImg = () => {
     return (
@@ -73,6 +87,15 @@ export default function DetailsActivity({ route }) {
       />
     );
   };
+
+
+
+  const startTime = () => {
+    const distance_goal = dataEventDetail && dataEventDetail[0].distance;
+    const walk_step_goal = dataEventDetail && dataEventDetail[0].walk_step;
+
+    navigate.navigate("StartTimerActivity", { eventId: itemId && itemId, distance_goal: distance_goal, stepCount_goal: walk_step_goal })
+  }
 
   const styles = StyleSheet.create({
     btnDetail: {
@@ -207,15 +230,15 @@ export default function DetailsActivity({ route }) {
                 style={{ fontSize: 14, fontFamily: "IBMPlexSansThai-Regular" }}
               >
                 {dayjs(dataEventDetail[0].start_date).year() ==
-                dayjs(dataEventDetail[0].end_date).year()
+                  dayjs(dataEventDetail[0].end_date).year()
                   ? `${dayjs(dataEventDetail[0].start_date)
-                      .locale("th")
-                      .format("DD MMM")} - ${dayjs(dataEventDetail[0].end_date)
+                    .locale("th")
+                    .format("DD MMM")} - ${dayjs(dataEventDetail[0].end_date)
                       .locale("th")
                       .format("DD MMM BBBB")}`
                   : `${dayjs(dataEventDetail[0].start_date)
-                      .locale("th")
-                      .format("DD MMM BBBB")} - ${dayjs(
+                    .locale("th")
+                    .format("DD MMM BBBB")} - ${dayjs(
                       dataEventDetail[0].end_date
                     )
                       .locale("th")
@@ -290,68 +313,68 @@ export default function DetailsActivity({ route }) {
 
           {activeColor == "award"
             ? dataReward.map((item, i) => (
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  marginBottom: 24,
+                }}
+                key={i}
+              >
+                <View>
+                  <Image
+                    source={{ uri: item.image }}
+                    style={{ width: 80, height: 80, marginRight: 16 }}
+                    resizeMode="stretch"
+                  />
+                </View>
+
                 <View
                   style={{
+                    flex: 1,
                     display: "flex",
-                    flexDirection: "row",
-                    marginBottom: 24,
                   }}
-                  key={i}
                 >
-                  <View>
-                    <Image
-                      source={{ uri: item.image }}
-                      style={{ width: 80, height: 80, marginRight: 16 }}
-                      resizeMode="stretch"
-                    />
-                  </View>
-
                   <View
                     style={{
-                      flex: 1,
                       display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "space-between",
                     }}
                   >
-                    <View
+                    <Text
                       style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        justifyContent: "space-between",
+                        color: "#2A323C",
+                        fontFamily: "IBMPlexSansThai-Bold",
+                        fontSize: 16,
                       }}
                     >
-                      <Text
-                        style={{
-                          color: "#2A323C",
-                          fontFamily: "IBMPlexSansThai-Bold",
-                          fontSize: 16,
-                        }}
-                      >
-                        {`รางวัลที่ ${item.number}`}
-                      </Text>
-                      <Text
-                        style={{
-                          color: "#93A8C1",
-                          fontFamily: "IBMPlexSansThai-Regular",
-                          fontSize: 12,
-                        }}
-                      >
-                        {`${item.quantity} รางวัล`}
-                      </Text>
-                    </View>
-                    <View style={{ marginTop: 8 }}>
-                      <Text
-                        style={{
-                          color: "#697D96",
-                          fontFamily: "IBMPlexSansThai-Regular",
-                          fontSize: 16,
-                        }}
-                      >
-                        {`${item.name}`}
-                      </Text>
-                    </View>
+                      {`รางวัลที่ ${item.number}`}
+                    </Text>
+                    <Text
+                      style={{
+                        color: "#93A8C1",
+                        fontFamily: "IBMPlexSansThai-Regular",
+                        fontSize: 12,
+                      }}
+                    >
+                      {`${item.quantity} รางวัล`}
+                    </Text>
+                  </View>
+                  <View style={{ marginTop: 8 }}>
+                    <Text
+                      style={{
+                        color: "#697D96",
+                        fontFamily: "IBMPlexSansThai-Regular",
+                        fontSize: 16,
+                      }}
+                    >
+                      {`${item.name}`}
+                    </Text>
                   </View>
                 </View>
-              ))
+              </View>
+            ))
             : null}
 
           {activeColor == "score" && !isExpireDate && isUserRegis ? (
@@ -441,7 +464,7 @@ export default function DetailsActivity({ route }) {
                           width: `${Math.ceil(
                             (dataEventOfuser[0].walk_step /
                               dataEventOfuser[0].walkStepActivity) *
-                              100
+                            100
                           )}%`,
                           maxWidth: "100%",
                           height: 16,
@@ -505,7 +528,7 @@ export default function DetailsActivity({ route }) {
                           width: `${Math.ceil(
                             (dataEventOfuser[0].distance /
                               dataEventOfuser[0].distanceActivity) *
-                              100
+                            100
                           )}%`,
                           maxWidth: "100%",
                           height: 16,
@@ -533,7 +556,7 @@ export default function DetailsActivity({ route }) {
               }}
               width={"100%"}
               height={52}
-              onSwipeSuccess={() => navigate.navigate("StartTimerActivity")}
+              onSwipeSuccess={() => startTime()}
               shouldResetAfterSuccess={true}
               railBackgroundColor="#E5EEF9"
               railStyles={{

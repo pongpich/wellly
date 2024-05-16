@@ -15,10 +15,19 @@ import IconStop from "../../../assets/images/icon/stop.png";
 import Contextual from "../../../assets/images/icon/Contextual2.png";
 import colors from "../../../constants/colors";
 import { useSelector, useDispatch } from "react-redux";
+import { useRoute } from '@react-navigation/native';
 import {
   authenticationToken,
   authenticationIdToken
 } from "../../../redux/auth";
+import {
+  updateEventStepCount_Distance,
+  statusEventStepCount_Distance
+} from "../../../redux/update";
+import {
+  getEventUser,
+  clearStatusEventUser
+} from "../../../redux/get";
 import { useRef } from "react";
 
 
@@ -26,7 +35,7 @@ const utcPlus7Offset = 6 * 60 * 60 * 1000;
 const utcPlus9Offset = 8 * 60 * 60 * 1000;
 
 
-const date = new Date()
+/* const date = new Date() */
 
 const StartTime = ({ navigation }) => {
 
@@ -37,16 +46,18 @@ const StartTime = ({ navigation }) => {
   const [seconds, setSeconds] = useState(0);
   const [errorMessage, setErrorMessage] = useState(null);
   const [isActive, setIsActive] = useState(false);
+  const [date, setDate] = useState(new Date());
+  const [statusFinish, setStatusFinish] = useState(false);
   const dispatch = useDispatch();
+  const route = useRoute();
+  const { eventId, distance_goal, stepCount_goal } = route.params;
 
 
-  const { authentication, idToken } = useSelector(({ authUser }) => (authUser ? authUser : ""));
-
+  const { authentication, idToken, user, } = useSelector(({ authUser }) => (authUser ? authUser : ""));
+  const { statusStepCountDistace } = useSelector(({ updateData }) => (updateData ? updateData : ""));
+  const { status_event_user, event_user } = useSelector(({ getData }) => (getData ? getData : ""));
   const utcOffset = date.getTimezoneOffset();
-
-
   const formattedStartDate = new Date(date.getTime() + utcOffset * 60000 + 6 * 3600000);
-
 
   const formattedEndDate = new Date(Date.now() + utcOffset * 60000 + 7 * 3600000);
 
@@ -103,16 +114,10 @@ const StartTime = ({ navigation }) => {
         body: JSON.stringify(query),
       });
       const data = await response.json();
-      setErrorMessage("Add")
-
       if (data.bucket && data.bucket.length > 0) {
         setStepCount(data.bucket[0].dataset[0].point[0].value[0].intVal);
         setDistance((data.bucket[0].dataset[1].point[0].value[0].fpVal / 1000).toFixed(2));
       } else {
-        setStepCount(0);
-        setDistance(0);
-        setErrorMessage(" Error Token Expired")
-        console.log("Error Token Expired");
         if (req) {
           promptAsync({});
         }
@@ -125,8 +130,6 @@ const StartTime = ({ navigation }) => {
     } catch (error) {
       setStepCount(0);
       setDistance(0);
-      console.log("fitnessApi.js 35 |", error.message);
-      setErrorMessage("35 |", error.message)
       return error.message;
     }
   };
@@ -152,8 +155,7 @@ const StartTime = ({ navigation }) => {
   const formattedStart = startDate3.toISOString().slice(0, 19).replace(".", " ");
   const formattedEnd = endDate3.toISOString().slice(0, 19).replace(".", " ");
 
-  console.log("startDate3", startDate3);
-  console.log("startDate2", startDate2);
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -171,8 +173,11 @@ const StartTime = ({ navigation }) => {
       }
     };
 
+    if (seconds % 30 === 0) {
 
-    fetchData(); // เรียกใช้งาน fetchData เพื่อดึงข้อมูล Google Fit เมื่อค่า seconds เปลี่ยนแปลง
+      fetchData();
+    }
+
   }, [seconds])
 
   useEffect(() => {
@@ -184,7 +189,6 @@ const StartTime = ({ navigation }) => {
   }, [res]);
 
   useEffect(() => {
-    console.log("authentication", authentication);
     if (authentication == null) {
       if (req) {
         promptAsync({});
@@ -195,8 +199,32 @@ const StartTime = ({ navigation }) => {
   }, [req]);
 
   const onFinish = () => {
-    navigation.goBack();
+    setStatusFinish(true);
+    //dispatch(updateEventStepCount_Distance(user && user.user_id, eventId,stepCount, distance,distance_goal, stepCount_goal))
+    dispatch(updateEventStepCount_Distance(user && user.user_id, eventId, "100", "3.33", distance_goal, stepCount_goal))
+
+
+
   }
+
+
+  useEffect(() => {
+
+    if (statusStepCountDistace == "success" && statusFinish == true) {
+
+      dispatch(getEventUser(user && user.user_id));
+    }
+
+  }, [statusStepCountDistace]);
+
+
+  useEffect(() => {
+    if (status_event_user == "success" && statusFinish == true) {
+
+      navigation.goBack();
+    }
+  }, [status_event_user]);
+
 
   useEffect(() => {
     let interval = null;
@@ -234,14 +262,12 @@ const StartTime = ({ navigation }) => {
   };
 
 
+
   return (
     <View style={styles.container} source={IconRun} >
       <View style={styles.boxTime}>
-        <Text style={styles.textTime}>เวลา 10</Text>
+        <Text style={styles.textTime}>เวลา</Text>
         <Text style={styles.times}>{formatTime(seconds)}</Text>
-        {/* <Text style={styles.startTime}>Message:{errorMessage}</Text> */}
-        <Text style={styles.startTime}>StartTime UTC+7: {formattedStart}</Text>
-        <Text style={styles.startTime}>EndTime UTC+9: {formattedEnd}</Text>
       </View>
       <Text style={styles.startTime}>{errorMessage}</Text>
       <View style={styles.boxStep}>

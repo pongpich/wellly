@@ -35,6 +35,10 @@ export const types = {
   INSERT_EVENT_ACTIVITY: "INSERT_EVENT_ACTIVITY",
   INSERT_EVENT_ACTIVITY_SUCCESS: "INSERT_EVENT_ACTIVITY_SUCCESS",
   INSERT_EVENT_ACTIVITY_DONE: "INSERT_EVENT_ACTIVITY_DONE",
+  UPDATE_EVENT_STEPCOUNT_DISTANCE: "UPDATE_EVENT_STEPCOUNT_DISTANCE",
+  UPDATE_EVENT_STEPCOUNT_DISTANCE_SUCCESS: "UPDATE_EVENT_STEPCOUNT_DISTANCE_SUCCESS",
+  UPDATE_EVENT_STEPCOUNT_DISTANCE_FILE: "UPDATE_EVENT_STEPCOUNT_DISTANCE_FILE",
+  STATUS_EVENT_STEPCOUNT_DISTANCE: "STATUS_EVENT_STEPCOUNT_DISTANCE",
 };
 
 export const checkUpdateBadgeWin = (user_id) => ({
@@ -56,6 +60,22 @@ export const editActivityListAddOn = (
     activity_id,
     activity_name,
     intensity,
+  },
+});
+export const updateEventStepCount_Distance = (
+  user_id, event_id, stepCount, distance, distance_goal, stepCount_goal
+) => ({
+  type: types.UPDATE_EVENT_STEPCOUNT_DISTANCE,
+  payload: {
+    user_id, event_id, stepCount, distance, distance_goal, stepCount_goal
+  },
+});
+
+export const statusEventStepCount_Distance = (
+) => ({
+  type: types.STATUS_EVENT_STEPCOUNT_DISTANCE,
+  payload: {
+
   },
 });
 
@@ -209,6 +229,23 @@ const update_quiz_activitiesSagaAsync = async (
         week_in_program,
         quiz_activities,
         quiz_activities_number,
+      },
+    });
+
+    return apiResult;
+  } catch (error) {
+    return { error, messsage: error.message };
+  }
+};
+
+const updateEventStepCount_DistanceSagaAsync = async (
+  user_id, event_id, stepCount, distance, distance_goal, stepCount_goal
+
+) => {
+  try {
+    const apiResult = await API.post("planforfit", "/updateEventStepCountDistance", {
+      body: {
+        user_id, event_id, stepCount, distance, distance_goal, stepCount_goal
       },
     });
 
@@ -479,6 +516,24 @@ function* update_quiz_activitiesSaga({ payload }) {
   }
 }
 
+
+function* updateEventStepCount_DistanceSaga({ payload }) {
+  const { user_id, event_id, stepCount, distance, distance_goal, stepCount_goal } =
+    payload;
+
+  try {
+    const apiResult = yield call(
+      updateEventStepCount_DistanceSagaAsync,
+      user_id, event_id, stepCount, distance, distance_goal, stepCount_goal
+    );
+    yield put({
+      type: types.UPDATE_EVENT_STEPCOUNT_DISTANCE_SUCCESS
+    });
+  } catch (error) {
+    console.log("error form updateEventStepCount_DistanceSaga", error);
+  }
+}
+
 function* update_assessment_kit_activtiesSaga({ payload }) {
   const {
     user_id,
@@ -643,7 +698,7 @@ function* addEventActivitySaga({ payload }) {
       user_id,
       walk_step,
       distance
-    );   
+    );
     yield put({
       type: types.INSERT_EVENT_ACTIVITY_SUCCESS,
       payload: apiResult.results,
@@ -707,6 +762,9 @@ function* checkUpdateBadgeWinSaga({ payload }) {
 
 export function* watchUpdate_quiz_activities() {
   yield takeEvery(types.UPDATE_QUIZ_ACTIVITIES, update_quiz_activitiesSaga);
+}
+export function* watchUpdateEventStepCount_Distance() {
+  yield takeEvery(types.UPDATE_EVENT_STEPCOUNT_DISTANCE, updateEventStepCount_DistanceSaga);
 }
 export function* watchUpdate_assessment_kit_activties() {
   yield takeEvery(
@@ -778,6 +836,7 @@ export function* saga() {
     fork(watchInsertNutritionKnowledgeActivity),
     fork(watchCheckUpdateBadgeWin),
     fork(watchUpdateReadExerciserActivity),
+    fork(watchUpdateEventStepCount_Distance),
   ]);
 }
 
@@ -798,6 +857,7 @@ const INIT_STATE = {
   statusInsertNutritionKnowledgeActivity: "default",
   statusReadExerciseActivty: "default",
   statusInsertEventActivity: "default",
+  statusStepCountDistace: "statusStepCountDistace",
 };
 
 export function reducer(state = INIT_STATE, action) {
@@ -937,6 +997,21 @@ export function reducer(state = INIT_STATE, action) {
       return {
         ...state,
         statusReadExerciseActivty: "success",
+      };
+    case types.UPDATE_EVENT_STEPCOUNT_DISTANCE:
+      return {
+        ...state,
+        statusStepCountDistace: "loading",
+      };
+    case types.UPDATE_EVENT_STEPCOUNT_DISTANCE_SUCCESS:
+      return {
+        ...state,
+        statusStepCountDistace: "success",
+      };
+    case types.STATUS_EVENT_STEPCOUNT_DISTANCE:
+      return {
+        ...state,
+        statusStepCountDistace: "default",
       };
     default:
       return { ...state };

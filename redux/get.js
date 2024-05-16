@@ -92,6 +92,7 @@ export const types = {
   GET_RANK_SCORE_EVENT: "GET_RANK_SCORE_EVENT",
   GET_RANK_SCORE_EVENT_SUCCESS: "GET_RANK_SCORE_EVENT_SUCCESS",
   GET_RANK_SCORE_EVENT_FAIL: "GET_RANK_SCORE_EVENT_FAIL",
+  CLEAR_GET_EVENT_USER: "CLEAR_GET_EVENT_USER",
 };
 
 export const getRankScoreEvent = (event_id) => ({
@@ -110,6 +111,12 @@ export const getTeachUserExArtTemp = (user_id) => ({
   type: types.GET_TEACH_USER_EX_ART_TEMP,
   payload: {
     user_id,
+  },
+});
+export const clearStatusEventUser = () => ({
+  type: types.CLEAR_GET_EVENT_USER,
+  payload: {
+    
   },
 });
 export const setTeachUserExArticleTemplate = (user_id, status) => ({
@@ -789,7 +796,7 @@ const getEventActivityDetailSagaAsync = async (event_id) => {
   }
 };
 
-function* getProfanitySaga({}) {
+function* getProfanitySaga({ }) {
   try {
     const apiResult = yield call(getProfanitySagaAsync);
     yield put({
@@ -1022,7 +1029,7 @@ function* getMonthActivityLogSaga({ payload }) {
 }
 
 function* getNutritionKnowledgeSaga({ payload }) {
-  const {} = payload;
+  const { } = payload;
 
   try {
     const apiResult = yield call(getNutritionKnowledgeSagaAsync);
@@ -1256,7 +1263,7 @@ function* setTeachUserExerciseProgramSaga({ payload }) {
   }
 }
 
-function* getEventActivitySaga({}) {
+function* getEventActivitySaga({ }) {
   try {
     const apiResult = yield call(getEventActivitySagaAsync);
     /*  console.log("apiResult", apiResult); */
@@ -1925,6 +1932,11 @@ export function reducer(state = INIT_STATE, action) {
       return {
         ...state,
         status_event_user: "loading",
+      };
+    case types.CLEAR_GET_EVENT_USER:
+      return {
+        ...state,
+        status_event_user: "default",
       };
     case types.GET_EVENT_USER_SUCCESS:
       return {
