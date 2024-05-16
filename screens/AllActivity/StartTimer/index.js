@@ -200,10 +200,7 @@ const StartTime = ({ navigation }) => {
 
   const onFinish = () => {
     setStatusFinish(true);
-    //dispatch(updateEventStepCount_Distance(user && user.user_id, eventId,stepCount, distance,distance_goal, stepCount_goal))
-    dispatch(updateEventStepCount_Distance(user && user.user_id, eventId, "100", "3.33", distance_goal, stepCount_goal))
-
-
+    dispatch(updateEventStepCount_Distance(user && user.user_id, eventId, stepCount, distance, distance_goal, stepCount_goal))
 
   }
 
