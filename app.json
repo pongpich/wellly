@@ -35,7 +35,8 @@
       "permissions": [
         "ACTIVITY_RECOGNITION",
         "INTERNET",
-        "ACCESS_FINE_LOCATION"
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION"
       ]
     },
     "web": {

@@ -29,9 +29,8 @@ import {
     clearStatusEventUser
 } from "../../../redux/get";
 import { useRef } from "react";
-
-import { Pedometer } from 'expo-sensors';
-import * as Permissions from 'expo-permissions';
+import { Pedometer, DeviceMotion, Accelerometer } from 'expo-sensors';
+import { getDistance } from 'geolib';
 
 
 async function requestPermission() {
@@ -76,7 +75,7 @@ async function requestPermission() {
         }
     } else if (Platform.OS === 'ios') {
         console.log("Requesting iOS permission");
-        const { status } = await Permissions.askAsync(Permissions.MOTION);
+        const { status } = await DeviceMotion.requestPermissionsAsync();
         if (status !== 'granted') {
             alert('Permission to access motion data is required!');
         }
@@ -86,10 +85,9 @@ async function requestPermission() {
 
 
 const StartTime = ({ navigation }) => {
-
+    // นับก้าวเดิน 
     const [steps, setSteps] = useState(0);
     const [isPedometerAvailable, setIsPedometerAvailable] = useState('checking');
-
     const [distance, setDistance] = useState(0);
     const [statusStop, setStatusStop] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
@@ -98,6 +96,17 @@ const StartTime = ({ navigation }) => {
     const [isActive, setIsActive] = useState(false);
     const [date, setDate] = useState(new Date());
     const [statusFinish, setStatusFinish] = useState(false);
+
+    // ระยะทาง 
+    const [currentLocation, setCurrentLocation] = useState(null);
+    const [previousLocation, setPreviousLocation] = useState(null);
+    const [startLocation, setStartLocation] = useState(null);
+    const [isTracking, setIsTracking] = useState(false);
+    const [totalDistance, setTotalDistance] = useState(0);
+    const [locationSubscription, setLocationSubscription] = useState(null);
+    const [speed, setSpeed] = useState(null);
+    const [movementDetected, setMovementDetected] = useState(false);
+
     const dispatch = useDispatch();
     const route = useRoute();
     const { eventId, distance_goal, stepCount_goal } = route.params;
@@ -113,39 +122,39 @@ const StartTime = ({ navigation }) => {
 
     }
 
-
     const forsake = () => {
         setModalVisible(!modalVisible);
+        setStartLocation(null);
+        setTotalDistance(0);
+        locationSubscription?.remove();
+        setIsTracking(false);
         navigation.goBack();
 
+
+
     }
-
-
-
-
-
-
-    useEffect(() => {
-        let interval = null;
-        if (isActive) {
-            interval = setInterval(() => {
-                setSeconds(seconds => seconds + 1);
-            }, 1000);
-        } else if (!isActive && seconds !== 0) {
-            clearInterval(interval);
-        }
-        return () => clearInterval(interval);
-    }, [isActive, seconds]);
 
     const onStop = () => {
         setStatusStop(!statusStop)
         setIsActive(!isActive);
+        startStopHandler();
     };
 
-    const resetTimer = (event) => {
-        setSeconds(event);
-        setIsActive(false);
-    };
+
+
+
+    // จับเวลา
+    useEffect(() => {
+        let interval = null;
+        if (!isActive) {
+            interval = setInterval(() => {
+                setSeconds(seconds => seconds + 1);
+            }, 1000);
+        } else if (isActive && seconds !== 0) {
+            clearInterval(interval);
+        }
+        return () => clearInterval(interval);
+    }, [isActive, seconds]);
 
 
     const formatTime = (totalSeconds) => {
@@ -160,29 +169,26 @@ const StartTime = ({ navigation }) => {
         return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
     };
 
+
+    // นับก้าวเดิน
     useEffect(() => {
         if (statusStop == 'false') {
             let subscription;
-            console.log("Calling requestPermission");
-            requestPermission().then(() => {
-                console.log("Checking Pedometer availability");
-                Pedometer.isAvailableAsync().then(
-                    (result) => {
-                        console.log("Pedometer available:", result);
-                        setIsPedometerAvailable(String(result));
-                        if (result) {
-                            subscription = Pedometer.watchStepCount(result => {
-                                setSteps(result.steps);
-                            });
-                        }
+            requestPermission();
+
+            Pedometer.isAvailableAsync().then(
+                (result) => {
+                    setIsPedometerAvailable(String(result));
+                    if (result) {
+                        subscription = Pedometer.watchStepCount(result => {
+                            setSteps(result.steps);
+                        });
                     }
-                ).catch((error) => {
-                    console.error('Could not get isPedometerAvailable:', error);
+                },
+                (error) => {
                     setIsPedometerAvailable('Could not get isPedometerAvailable: ' + error);
-                });
-            }).catch((error) => {
-                console.error("Error in requestPermission:", error);
-            });
+                }
+            );
 
             return () => {
                 if (subscription) {
@@ -191,6 +197,85 @@ const StartTime = ({ navigation }) => {
             };
         }
     }, [statusStop]);
+
+    useEffect(() => {
+        let subscription;
+        requestPermission();
+
+        Pedometer.isAvailableAsync().then(
+            (result) => {
+                setIsPedometerAvailable(String(result));
+                if (result) {
+                    subscription = Pedometer.watchStepCount(result => {
+                        setSteps(result.steps);
+                    });
+                }
+            },
+            (error) => {
+                setIsPedometerAvailable('Could not get isPedometerAvailable: ' + error);
+            }
+        );
+
+        return () => {
+            if (subscription) {
+                subscription.remove();
+            }
+        };
+    }, []);
+
+
+
+    //นับระยะทาง
+
+    useEffect(() => {
+        (async () => {
+            let { status } = await Location.requestForegroundPermissionsAsync();
+            if (status !== 'granted') {
+                setErrorMsg('Permission to access location was denied');
+                return;
+            }
+            setCurrentLocation(await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Highest }));
+        })();
+
+        const subscription = Accelerometer.addListener(({ x, y, z }) => {
+            setMovementDetected(Math.sqrt(x ** 2 + y ** 2 + z ** 2) > 1.3);
+        });
+        return () => subscription && subscription.remove();
+    }, []);
+
+    const startStopHandler = async () => {
+        if (isTracking) {
+            locationSubscription?.remove();
+            setIsTracking(false);
+        } else {
+            const location = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Highest });
+            setStartLocation(location.coords);
+            setPreviousLocation(location);
+            const subscription = await Location.watchPositionAsync(
+                { accuracy: Location.Accuracy.Highest, timeInterval: 500, distanceInterval: 0.5 },
+                setCurrentLocation
+            );
+            setLocationSubscription(subscription);
+            setIsTracking(true);
+        }
+    };
+
+    useEffect(() => {
+        if (isTracking && currentLocation && previousLocation && movementDetected) {
+            const newDistance = getDistance(previousLocation.coords, currentLocation.coords);
+            const timeDifference = (currentLocation.timestamp - previousLocation.timestamp) / 1000;
+            if (timeDifference > 0 && newDistance > 0 && newDistance < 100) {
+                setSpeed(newDistance / timeDifference);
+                setTotalDistance(totalDistance + newDistance);
+                setPreviousLocation(currentLocation);
+            }
+        }
+    }, [currentLocation, isTracking, previousLocation, movementDetected]);
+
+    useEffect(() => {
+        startStopHandler();
+    }, [])
+
 
 
     return (
@@ -208,6 +293,10 @@ const StartTime = ({ navigation }) => {
 
                     <Text style={styles.textTime}>ระยะทาง (กม.)</Text>
                     <Text style={styles.stepData}>{distance}</Text>
+                    <Text style={styles.textTime}>Speed: {speed?.toFixed(2)} m/s</Text>
+                    <Text style={styles.textTime}>Total Distance: {totalDistance.toFixed(2)} meters </Text>
+                    <Text style={styles.textTime}>Total Distance: {(totalDistance / 1000).toFixed(2)} kilometers</Text>
+                    <Text style={styles.textTime}>Movement Detected: {movementDetected ? "Yes" : "No"}</Text>
                 </View>
 
             </View>
@@ -216,7 +305,7 @@ const StartTime = ({ navigation }) => {
             </View>
 
             <View style={styles.boxSop}>
-                {statusStop == true ?
+                {statusStop == false ?
                     <View>
                         <Pressable onPress={() => onStop()}>
                             <Image style={styles.stop} source={IconStop} />
