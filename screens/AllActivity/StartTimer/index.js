@@ -1,36 +1,29 @@
 import {
     View,
     Text,
-    Button,
     StyleSheet,
-    ImageBackground,
     Modal, Platform, PermissionsAndroid, Alert, Linking, Pressable,
     Image,
 } from "react-native";
 import React, { useState, useEffect } from "react";
-import * as GoogleSignIn from "expo-auth-session/providers/google";
-import * as Google from "expo-auth-session/providers/google";
 import IconRun from "../../../assets/images/icon/run.png";
 import IconStop from "../../../assets/images/icon/stop.png";
 import Contextual from "../../../assets/images/icon/Contextual2.png";
 import colors from "../../../constants/colors";
-import { useSelector, useDispatch } from "react-redux";
 import { useRoute } from '@react-navigation/native';
-import {
-    authenticationToken,
-    authenticationIdToken
-} from "../../../redux/auth";
+import { Pedometer, DeviceMotion, Accelerometer } from 'expo-sensors';
+import { getDistance } from 'geolib';
+import * as Location from 'expo-location';
 import {
     updateEventStepCount_Distance,
     statusEventStepCount_Distance
 } from "../../../redux/update";
+import { useSelector, useDispatch } from "react-redux";
 import {
     getEventUser,
     clearStatusEventUser
 } from "../../../redux/get";
-import { Pedometer, DeviceMotion, Accelerometer } from 'expo-sensors';
-import { getDistance } from 'geolib';
-import * as Location from 'expo-location';
+import { useRef } from "react";
 
 async function requestActivityRecognitionPermission() {
     if (Platform.OS === 'android') {
@@ -84,7 +77,6 @@ async function requestLocationPermission() {
 const StartTime = ({ navigation }) => {
     const [steps, setSteps] = useState(0);
     const [isPedometerAvailable, setIsPedometerAvailable] = useState('checking');
-    const [distance, setDistance] = useState(0);
     const [statusStop, setStatusStop] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
     const [seconds, setSeconds] = useState(0);
@@ -96,14 +88,24 @@ const StartTime = ({ navigation }) => {
     const [locationSubscription, setLocationSubscription] = useState(null);
     const [speed, setSpeed] = useState(null);
     const [movementDetected, setMovementDetected] = useState(false);
+    const [statusFinish, setStatusFinish] = useState(false);
 
     const dispatch = useDispatch();
     const route = useRoute();
     const { eventId, distance_goal, stepCount_goal } = route.params;
 
+    const { authentication, idToken, user, } = useSelector(({ authUser }) => (authUser ? authUser : ""));
+    const { statusStepCountDistace } = useSelector(({ updateData }) => (updateData ? updateData : ""));
+    const { status_event_user, event_user } = useSelector(({ getData }) => (getData ? getData : ""));
+
     const onFinish = () => {
-        navigation.goBack();
+
+        const distanceKg = (totalDistance / 1000).toFixed(2);
+        setStatusFinish(true);
+        dispatch(updateEventStepCount_Distance(user && user.user_id, eventId, steps, distanceKg, distance_goal, stepCount_goal));
+
     };
+
 
     const forsake = () => {
         setModalVisible(!modalVisible);
@@ -116,8 +118,26 @@ const StartTime = ({ navigation }) => {
     const onStop = () => {
         setStatusStop(!statusStop);
         setIsActive(!isActive);
-        startStopHandler();
+
     };
+
+    useEffect(() => {
+
+        if (statusStepCountDistace == "success" && statusFinish == true) {
+
+            dispatch(getEventUser(user && user.user_id));
+        }
+
+
+
+    }, [statusStepCountDistace]);
+    useEffect(() => {
+        if (status_event_user == "success" && statusFinish == true) {
+
+            navigation.goBack();
+        }
+    }, [status_event_user]);
+
 
     useEffect(() => {
         const interval = !isActive ? setInterval(() => setSeconds(seconds => seconds + 1), 1000) : null;
@@ -131,48 +151,69 @@ const StartTime = ({ navigation }) => {
         return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
     };
 
+
     useEffect(() => {
-        const initializePedometer = async () => {
-            await requestActivityRecognitionPermission();
-            const isAvailable = await Pedometer.isAvailableAsync();
-            setIsPedometerAvailable(String(isAvailable));
-            if (isAvailable) {
-                const subscription = Pedometer.watchStepCount(result => setSteps(result.steps));
-                return () => subscription?.remove();
+        const initializePermissions = async () => {
+            try {
+                await requestActivityRecognitionPermission();
+                await requestLocationPermission();
+            } catch (error) {
+                console.error("Error requesting permissions", error);
             }
         };
-        initializePedometer().catch(console.error);
-    }, []);
 
-    useEffect(() => {
-        const initializeLocation = async () => {
-            await requestLocationPermission();
-            const location = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Highest });
-            setStartLocation(location.coords);
-            setPreviousLocation(location);
-            const subscription = await Location.watchPositionAsync(
-                { accuracy: Location.Accuracy.Highest, timeInterval: 500, distanceInterval: 0.5 },
-                setCurrentLocation
-            );
-            setLocationSubscription(subscription);
-
-            Accelerometer.addListener(({ x, y, z }) => {
-                setMovementDetected(Math.sqrt(x ** 2 + y ** 2 + z ** 2) > 1.3);
-            });
+        const initializePedometer = async () => {
+            try {
+                const isAvailable = await Pedometer.isAvailableAsync();
+                setIsPedometerAvailable(String(isAvailable));
+                if (isAvailable) {
+                    const subscription = Pedometer.watchStepCount(result => setSteps(result.steps));
+                    return () => subscription?.remove();
+                }
+            } catch (error) {
+                console.error("Error initializing pedometer", error);
+            }
         };
-        initializeLocation().catch(console.error);
+
+        const initializeLocation = async () => {
+            try {
+                const location = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Highest });
+                setStartLocation(location.coords);
+                setPreviousLocation(location);
+                const subscription = await Location.watchPositionAsync(
+                    { accuracy: Location.Accuracy.Highest, timeInterval: 500, distanceInterval: 0.5 },
+                    setCurrentLocation
+                );
+                setLocationSubscription(subscription);
+
+                Accelerometer.addListener(({ x, y, z }) => {
+                    setMovementDetected(Math.sqrt(x ** 2 + y ** 2 + z ** 2) > 1.3);
+                });
+            } catch (error) {
+                console.error("Error initializing location", error);
+                Alert.alert("Error", "Unable to initialize location services. Please check your permissions and try again.");
+            }
+        };
+
+        const initialize = async () => {
+            try {
+                await initializePermissions();
+                await Promise.all([initializePedometer(), initializeLocation()]);
+            } catch (error) {
+                console.error("Error during initialization", error);
+            }
+        };
+
+        initialize();
     }, []);
+
+
+
 
     const startStopHandler = async () => {
         if (statusStop) {
             locationSubscription?.remove();
-
-
-            console.log("444");
-
         } else {
-            console.log("555");
-
             const location = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Highest });
             setStartLocation(location.coords);
             setPreviousLocation(location);
@@ -186,7 +227,6 @@ const StartTime = ({ navigation }) => {
 
     useEffect(() => {
         if (!statusStop && currentLocation && previousLocation && movementDetected) {
-            console.log("666");
             const newDistance = getDistance(previousLocation.coords, currentLocation.coords);
             const timeDifference = (currentLocation.timestamp - previousLocation.timestamp) / 1000;
             if (timeDifference > 0 && newDistance > 0 && newDistance < 100) {
@@ -196,9 +236,6 @@ const StartTime = ({ navigation }) => {
             }
         }
     }, [currentLocation, !statusStop, previousLocation, movementDetected]);
-    useEffect(() => {
-        startStopHandler()
-    }, [])
 
     return (
         <View style={styles.container} source={IconRun} >
@@ -210,23 +247,21 @@ const StartTime = ({ navigation }) => {
                 <View style={styles.boxStepText}>
                     <Text style={styles.textTime}>ก้าวเดิน (ก้าว)</Text>
                     <Text style={styles.stepData}>{steps}</Text>
+                    {/*                    <Text>Pedometer available: {isPedometerAvailable}</Text> */}
                 </View>
                 <View style={styles.boxStepText}>
-
                     <Text style={styles.textTime}>ระยะทาง (กม.)</Text>
-                    <Text style={styles.stepData}>{distance}</Text>
-                    <Text style={styles.textTime}>Speed: {speed?.toFixed(2)} m/s</Text>
+                    <Text style={styles.stepData}>{(totalDistance / 1000).toFixed(2)}</Text>
+                    {/*  <Text style={styles.textTime}>Speed: {speed?.toFixed(2)} m/s</Text>
                     {startLocation && <Text style={styles.textTime}>Start Location: {startLocation.latitude}, {startLocation.longitude}</Text>}
                     <Text style={styles.textTime}>Total Distance: {totalDistance.toFixed(2)} meters </Text>
                     <Text style={styles.textTime}>Total Distance: {(totalDistance / 1000).toFixed(2)} kilometers</Text>
-                    <Text style={styles.textTime}>Movement Detected: {movementDetected ? "Yes" : "No"}</Text>
+                    <Text style={styles.textTime}>Movement Detected: {movementDetected ? "Yes" : "No"}</Text> */}
                 </View>
-
             </View>
             <View style={styles.boxImage}>
                 <Image style={styles.image} source={IconRun} />
             </View>
-
             <View style={styles.boxSop}>
                 {statusStop == false ?
                     <View>
@@ -244,16 +279,12 @@ const StartTime = ({ navigation }) => {
                                 <Text style={styles.textFinish}>เสร็จ</Text>
                             </Pressable>
                         </View>
-
                         <Pressable onPress={() => setModalVisible(true)}>
                             <Text style={styles.abandon}>ละทิ้ง</Text>
                         </Pressable>
-
                     </View>
                 }
-
             </View>
-
             <Modal
                 animationType="slide"
                 transparent={true}
@@ -274,8 +305,7 @@ const StartTime = ({ navigation }) => {
                     </View>
                 </View>
             </Modal>
-        </View >
-
+        </View>
     );
 };
 
@@ -317,10 +347,8 @@ const styles = StyleSheet.create({
     boxImage: {
         zIndex: 0,
         flex: 1,
-        alignItems: "center", // จัดการให้ content อยู่กึ่งกลางตามแนวแกน X
+        alignItems: "center",
         bottom: 64,
-
-
     },
     image: {
         zIndex: 0,
@@ -328,7 +356,6 @@ const styles = StyleSheet.create({
         maxWidth: 438,
         maxHeight: 559,
         resizeMode: "contain",
-
     },
     boxSop: {
         zIndex: 10,
@@ -346,10 +373,10 @@ const styles = StyleSheet.create({
         zIndex: 2,
         width: 80,
         height: 80,
-        borderRadius: 50, // ค่านี้จะทำให้มันเป็นวงกลม 50% ของความกว้างหรือความสูง
-        backgroundColor: colors.white, // เปลี่ยนสีตามที่ต้องการ
-        borderColor: colors.secondary_MayaBlue, // เปลี่ยนสีขอบตามที่ต้องการ
-        borderWidth: 2, // เปลี่ยนขนาดของเส้นขอบตามต้องการ
+        borderRadius: 50,
+        backgroundColor: colors.white,
+        borderColor: colors.secondary_MayaBlue,
+        borderWidth: 2,
         justifyContent: "center",
         alignItems: "center"
     },
@@ -363,8 +390,8 @@ const styles = StyleSheet.create({
         marginLeft: 16,
         width: 80,
         height: 80,
-        borderRadius: 50, // ค่านี้จะทำให้มันเป็นวงกลม 50% ของความกว้างหรือความสูง
-        backgroundColor: colors.secondary_MayaBlue, // เปลี่ยนสีตามที่ต้องการ
+        borderRadius: 50,
+        backgroundColor: colors.secondary_MayaBlue,
         justifyContent: "center",
         alignItems: "center"
     },
@@ -386,14 +413,12 @@ const styles = StyleSheet.create({
     },
     centeredView: {
         flex: 1,
-        justifyContent: "flex-end", // ให้อยู่ชิดด้านล่าง
-
+        justifyContent: "flex-end",
     },
     modalView: {
         backgroundColor: 'white',
         borderTopLeftRadius: 16,
         borderTopRightRadius: 16,
-
         alignItems: "center",
         paddingTop: 32,
         paddingBottom: 40,
@@ -407,7 +432,6 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
         elevation: 5,
     },
-
     contextual: {
         width: 120,
         height: 120
@@ -427,11 +451,10 @@ const styles = StyleSheet.create({
         height: 48,
         backgroundColor: colors.white,
         borderRadius: 50,
-        borderColor: colors.primary, // เปลี่ยนสีขอบตามที่ต้องการ
+        borderColor: colors.primary,
         borderWidth: 2,
         justifyContent: "center",
         alignItems: "center"
-
     },
     buttonAbandon: {
         marginLeft: 16,
@@ -439,7 +462,7 @@ const styles = StyleSheet.create({
         height: 48,
         backgroundColor: colors.primary,
         borderRadius: 50,
-        borderColor: colors.primary, // เปลี่ยนสีขอบตามที่ต้องการ
+        borderColor: colors.primary,
         borderWidth: 2,
         justifyContent: "center",
         alignItems: "center"
@@ -461,4 +484,5 @@ const styles = StyleSheet.create({
         textAlign: "center"
     }
 });
+
 export default StartTime;
