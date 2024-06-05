@@ -995,6 +995,8 @@ class Home extends Component {
                   }
                   key={i}
                 >
+
+
                   <View style={[styles.itemContainer, { width: 256 }]}>
                     {now > dayjs(item.end_date) ? (
                       <ImageBackground
@@ -1123,14 +1125,20 @@ class Home extends Component {
                                 <Text
                                   style={{
                                     color:
+
                                       now > dayjs(item.end_date)
                                         ? colors.grey3
-                                        : colors.persianBlue,
+                                        : item.criteria_walk_step == "false" ? colors.grey3 : colors.persianBlue,
+
                                     fontFamily: "IBMPlexSansThai-Bold",
                                     fontSize: 14,
                                   }}
                                 >
                                   {item.walk_step_user}
+
+
+
+
                                 </Text>
                               </View>
 
@@ -1157,7 +1165,7 @@ class Home extends Component {
                                   backgroundColor:
                                     now > dayjs(item.end_date)
                                       ? colors.grey3
-                                      : colors.persianBlue,
+                                      : item.criteria_walk_step == "false" ? colors.grey3 : colors.persianBlue,
                                 }}
                               />
                             </View>
@@ -1192,7 +1200,7 @@ class Home extends Component {
                                     color:
                                       now > dayjs(item.end_date)
                                         ? colors.grey3
-                                        : colors.persianBlue,
+                                        : item.criteria_walk_step == "false" ? colors.grey3 : colors.persianBlue,
                                     fontFamily: "IBMPlexSansThai-Bold",
                                     fontSize: 14,
                                   }}
@@ -1223,7 +1231,7 @@ class Home extends Component {
                                   backgroundColor:
                                     now > dayjs(item.end_date)
                                       ? colors.grey3
-                                      : colors.persianBlue,
+                                      : item.criteria_walk_step == "false" ? colors.grey3 : colors.persianBlue,
                                 }}
                               />
                             </View>
@@ -1560,198 +1568,200 @@ class Home extends Component {
             }
           </View>
 
-          {latest_exercise_mission.length > 0 ? (
-            <>
-              <View style={styles.boxRowView}>
-                <View style={styles.line}>
-                  <View style={styles.line1} />
-                  <View style={styles.line2} />
-                  <View style={styles.line2} />
-                  <View style={styles.line2} />
-                  <View style={styles.line2} />
-                  <View style={styles.line2} />
-                  <View style={styles.line2} />
-                  <View style={styles.line2} />
-                  <View style={styles.line2} />
-                  <View style={styles.line2} />
-                  <View style={styles.line2} />
-                  <View style={styles.line2} />
-                  <View style={styles.line2} />
-                  <View style={styles.line2} />
-                  <View style={styles.line2} />
-                  <View style={styles.line2} />
+          {
+            latest_exercise_mission.length > 0 ? (
+              <>
+                <View style={styles.boxRowView}>
+                  <View style={styles.line}>
+                    <View style={styles.line1} />
+                    <View style={styles.line2} />
+                    <View style={styles.line2} />
+                    <View style={styles.line2} />
+                    <View style={styles.line2} />
+                    <View style={styles.line2} />
+                    <View style={styles.line2} />
+                    <View style={styles.line2} />
+                    <View style={styles.line2} />
+                    <View style={styles.line2} />
+                    <View style={styles.line2} />
+                    <View style={styles.line2} />
+                    <View style={styles.line2} />
+                    <View style={styles.line2} />
+                    <View style={styles.line2} />
+                    <View style={styles.line2} />
 
-                  <View style={[styles.line1, { marginLeft: 15 }]} />
-                </View>
-                <Text style={styles.challenge}>{t("challenge")}</Text>
+                    <View style={[styles.line1, { marginLeft: 15 }]} />
+                  </View>
+                  <Text style={styles.challenge}>{t("challenge")}</Text>
 
-                {latest_exercise_mission.map((item, i) => {
-                  var dataLength = latest_exercise_mission.length;
-                  const multiple = (100 / item.number) * item.number_completed;
-                  var maxScore = item.number * item.score;
-                  var score_completed = item.number_completed * item.score;
+                  {latest_exercise_mission.map((item, i) => {
+                    var dataLength = latest_exercise_mission.length;
+                    const multiple = (100 / item.number) * item.number_completed;
+                    var maxScore = item.number * item.score;
+                    var score_completed = item.number_completed * item.score;
 
-                  return (
-                    <View key={i + "rv"}>
-                      <Pressable
-                        onPress={() => this.actionPress(item.id, item.name)}
-                        key={i + "tfb"}
-                      >
-                        <View
-                          key={i + "h"}
-                          style={{ flexDirection: "row", marginBottom: 16 }}
+                    return (
+                      <View key={i + "rv"}>
+                        <Pressable
+                          onPress={() => this.actionPress(item.id, item.name)}
+                          key={i + "tfb"}
                         >
-                          <View style={styles.numberView} key={i + "hom"}>
-                            <AnimatedCircularProgress
-                              size={64}
-                              width={6}
-                              fill={multiple}
-                              tintTransparency={true}
-                              rotation={360}
-                              tintColor={colors.positive1}
-                              backgroundColor={colors.grey6}
-                              key={i + "hom2"}
-                            >
-                              {(fill) => (
-                                <>
-                                  <View
-                                    style={{
-                                      flexDirection: "row",
-                                      marginTop: 10,
-                                    }}
-                                    key={i + "an"}
-                                  >
-                                    <Text
+                          <View
+                            key={i + "h"}
+                            style={{ flexDirection: "row", marginBottom: 16 }}
+                          >
+                            <View style={styles.numberView} key={i + "hom"}>
+                              <AnimatedCircularProgress
+                                size={64}
+                                width={6}
+                                fill={multiple}
+                                tintTransparency={true}
+                                rotation={360}
+                                tintColor={colors.positive1}
+                                backgroundColor={colors.grey6}
+                                key={i + "hom2"}
+                              >
+                                {(fill) => (
+                                  <>
+                                    <View
                                       style={{
-                                        color: colors.grey1,
-                                        fontSize: 16,
-                                        fontFamily:
-                                          item.number_completed == 0
-                                            ? "IBMPlexSansThai-Regular"
-                                            : "IBMPlexSansThai-Bold",
-                                        marginTop: 0,
+                                        flexDirection: "row",
+                                        marginTop: 10,
                                       }}
-                                      key={i + "an2"}
+                                      key={i + "an"}
                                     >
-                                      {item.number_completed}
-                                    </Text>
+                                      <Text
+                                        style={{
+                                          color: colors.grey1,
+                                          fontSize: 16,
+                                          fontFamily:
+                                            item.number_completed == 0
+                                              ? "IBMPlexSansThai-Regular"
+                                              : "IBMPlexSansThai-Bold",
+                                          marginTop: 0,
+                                        }}
+                                        key={i + "an2"}
+                                      >
+                                        {item.number_completed}
+                                      </Text>
+                                      <Text
+                                        style={{
+                                          color: colors.grey1,
+                                          fontSize: 12,
+                                          fontFamily: "IBMPlexSansThai-Regular",
+                                          marginTop: 4,
+                                        }}
+                                        key={i + "an3"}
+                                      >
+                                        {" "}
+                                        /{item.number}
+                                      </Text>
+                                    </View>
                                     <Text
                                       style={{
-                                        color: colors.grey1,
+                                        color: colors.grey2,
                                         fontSize: 12,
                                         fontFamily: "IBMPlexSansThai-Regular",
-                                        marginTop: 4,
+                                        marginTop: -5,
                                       }}
-                                      key={i + "an3"}
+                                      key={i + "an4"}
                                     >
-                                      {" "}
-                                      /{item.number}
+                                      {t("episode")}
                                     </Text>
-                                  </View>
-                                  <Text
-                                    style={{
-                                      color: colors.grey2,
-                                      fontSize: 12,
-                                      fontFamily: "IBMPlexSansThai-Regular",
-                                      marginTop: -5,
-                                    }}
-                                    key={i + "an4"}
-                                  >
-                                    {t("episode")}
-                                  </Text>
-                                </>
-                              )}
-                            </AnimatedCircularProgress>
-                          </View>
-                          <View style={styles.missionData2} key={i + "home3"}>
-                            <Text
-                              style={[
-                                styles.missionHead,
-                                { marginLeft: 8, marginRight: 8 },
-                              ]}
-                              key={i + "home4"}
-                            >
-                              {item.id === "light_intensity"
-                                ? t("do_low_intensity")
-                                : item.id === "moderate_intensity"
-                                  ? t("do_moderate_intensity")
-                                  : item.id === "vigorous_intensity"
-                                    ? t("do_hight_intensity")
-                                    : item.name}
-                            </Text>
-                            <View
-                              style={{ flexDirection: "row", marginLeft: 8 }}
-                              key={i + "home5"}
-                            >
-                              {Array.from({ length: maxScore }) &&
-                                Array.from({ length: maxScore }).map(
-                                  (item, i) => {
-                                    return (
-                                      <Image
-                                        style={[
-                                          i > 0 ? { marginLeft: 4 } : null,
-                                          {
-                                            width: 16,
-                                            height: 16,
-                                            marginTop: 8,
-                                          },
-                                        ]}
-                                        source={
-                                          score_completed >= ++i
-                                            ? require("../assets/images/icon/Firepoint.png")
-                                            : require("../assets/images/icon/Firepoint2.png")
-                                        }
-                                        key={i + "img"}
-                                      />
-                                    );
-                                  }
+                                  </>
                                 )}
+                              </AnimatedCircularProgress>
                             </View>
+                            <View style={styles.missionData2} key={i + "home3"}>
+                              <Text
+                                style={[
+                                  styles.missionHead,
+                                  { marginLeft: 8, marginRight: 8 },
+                                ]}
+                                key={i + "home4"}
+                              >
+                                {item.id === "light_intensity"
+                                  ? t("do_low_intensity")
+                                  : item.id === "moderate_intensity"
+                                    ? t("do_moderate_intensity")
+                                    : item.id === "vigorous_intensity"
+                                      ? t("do_hight_intensity")
+                                      : item.name}
+                              </Text>
+                              <View
+                                style={{ flexDirection: "row", marginLeft: 8 }}
+                                key={i + "home5"}
+                              >
+                                {Array.from({ length: maxScore }) &&
+                                  Array.from({ length: maxScore }).map(
+                                    (item, i) => {
+                                      return (
+                                        <Image
+                                          style={[
+                                            i > 0 ? { marginLeft: 4 } : null,
+                                            {
+                                              width: 16,
+                                              height: 16,
+                                              marginTop: 8,
+                                            },
+                                          ]}
+                                          source={
+                                            score_completed >= ++i
+                                              ? require("../assets/images/icon/Firepoint.png")
+                                              : require("../assets/images/icon/Firepoint2.png")
+                                          }
+                                          key={i + "img"}
+                                        />
+                                      );
+                                    }
+                                  )}
+                              </View>
+                            </View>
+                            {
+                              <View
+                                style={styles.viewIconRight}
+                                key={i + "home6"}
+                              >
+                                <Image
+                                  style={{
+                                    height: 24,
+                                    width: 24,
+                                    zIndex: 1,
+                                    marginRight: -8,
+                                  }}
+                                  source={require("../assets/images/icon/right.png")}
+                                  key={i + "home7"}
+                                />
+                              </View>
+                            }
                           </View>
-                          {
-                            <View
-                              style={styles.viewIconRight}
-                              key={i + "home6"}
-                            >
-                              <Image
-                                style={{
-                                  height: 24,
-                                  width: 24,
-                                  zIndex: 1,
-                                  marginRight: -8,
-                                }}
-                                source={require("../assets/images/icon/right.png")}
-                                key={i + "home7"}
-                              />
-                            </View>
-                          }
-                        </View>
-                      </Pressable>
-                    </View>
-                  );
-                })}
-              </View>
-            </>
-          ) : (
-            <View
-              style={{
-                flex: 1,
-                backgroundColor: "#F3F7FB",
-                marginTop: 24,
-                borderTopLeftRadius: 16,
-                borderTopRightRadius: 16,
-              }}
-            >
+                        </Pressable>
+                      </View>
+                    );
+                  })}
+                </View>
+              </>
+            ) : (
               <View
                 style={{
-                  width: "100%",
-                  height: 674,
                   flex: 1,
-                  justifyContent: "flex-end",
+                  backgroundColor: "#F3F7FB",
+                  marginTop: 24,
+                  borderTopLeftRadius: 16,
+                  borderTopRightRadius: 16,
                 }}
-              />
-            </View>
-          )}
+              >
+                <View
+                  style={{
+                    width: "100%",
+                    height: 674,
+                    flex: 1,
+                    justifyContent: "flex-end",
+                  }}
+                />
+              </View>
+            )
+          }
 
           {/*   {user && user.email === "akkewach@planforfit.com" && ( */}
           <Pressable onPress={() => this.props.navigation.navigate("TestGPS")}>
@@ -2050,7 +2060,7 @@ class Home extends Component {
               </View>
             </View>
           </View>
-        </ScrollView>
+        </ScrollView >
         <Modal isVisible={teachUserHome} style={{ zIndex: 1 }}>
           <TouchableWithoutFeedback onPress={() => this.setTeachHome()}>
             <Text
@@ -2253,7 +2263,7 @@ class Home extends Component {
             </View>
           </View>
         </Modal>
-      </View>
+      </View >
     );
   }
 }

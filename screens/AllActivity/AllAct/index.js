@@ -138,15 +138,15 @@ export default function AllAct({ route }) {
                         }}
                       >
                         {dayjs(item.start_date).year() ==
-                        dayjs(item.end_date).year()
+                          dayjs(item.end_date).year()
                           ? `${dayjs(item.start_date)
-                              .locale("th")
-                              .format("DD MMM")} - ${dayjs(item.end_date)
+                            .locale("th")
+                            .format("DD MMM")} - ${dayjs(item.end_date)
                               .locale("th")
                               .format("DD MMM BBBB")}`
                           : `${dayjs(item.start_date)
-                              .locale("th")
-                              .format("DD MMM BBBB")} - ${dayjs(item.end_date)
+                            .locale("th")
+                            .format("DD MMM BBBB")} - ${dayjs(item.end_date)
                               .locale("th")
                               .format("DD MMM BBBB")}`}
                       </Text>
@@ -185,7 +185,7 @@ export default function AllAct({ route }) {
                                 color:
                                   now > dayjs(item.end_date)
                                     ? colors.grey3
-                                    : colors.persianBlue,
+                                    : item.criteria_walk_step == "false" ? colors.grey3 : colors.persianBlue,
                                 fontFamily: "IBMPlexSansThai-Bold",
                                 fontSize: 14,
                               }}
@@ -216,7 +216,7 @@ export default function AllAct({ route }) {
                               backgroundColor:
                                 now > dayjs(item.end_date)
                                   ? colors.grey3
-                                  : colors.persianBlue,
+                                  : item.criteria_walk_step == "false" ? colors.grey3 : colors.persianBlue,
                             }}
                           />
                         </View>
@@ -251,7 +251,7 @@ export default function AllAct({ route }) {
                                 color:
                                   now > dayjs(item.end_date)
                                     ? colors.grey3
-                                    : colors.persianBlue,
+                                    : item.criteria_walk_step == "false" ? colors.grey3 : colors.persianBlue,
                                 fontFamily: "IBMPlexSansThai-Bold",
                                 fontSize: 14,
                               }}
@@ -282,7 +282,7 @@ export default function AllAct({ route }) {
                               backgroundColor:
                                 now > dayjs(item.end_date)
                                   ? colors.grey3
-                                  : colors.persianBlue,
+                                  : item.criteria_walk_step == "false" ? colors.grey3 : colors.persianBlue,
                             }}
                           />
                         </View>

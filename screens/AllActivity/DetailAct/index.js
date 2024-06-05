@@ -19,6 +19,7 @@ import SwipeButton from "rn-swipe-button";
 import { useDispatch, useSelector } from "react-redux";
 import dayjs from "dayjs";
 import "dayjs/locale/th";
+import colors from "../../../constants/colors";
 import { addEventActivity } from "../../../redux/update";
 import {
   getEventUser,
@@ -439,7 +440,7 @@ export default function DetailsActivity({ route }) {
                         />
                         <Text
                           style={{
-                            color: "#3762FC",
+                            color: dataEventOfuser[0].criteria_walk_step == "false" ? colors.grey3 : colors.persianBlue,
                             fontFamily: "IBMPlexSansThai-Bold",
                             fontSize: 14,
                           }}
@@ -470,8 +471,7 @@ export default function DetailsActivity({ route }) {
                           height: 16,
                           borderRadius: 16,
                           backgroundColor:
-                            // #93ABC1
-                            "#3762FC",
+                            dataEventOfuser[0].criteria_walk_step == "false" ? colors.grey3 : colors.persianBlue
                         }}
                       />
                     </View>
@@ -503,7 +503,7 @@ export default function DetailsActivity({ route }) {
                         />
                         <Text
                           style={{
-                            color: "#3762FC",
+                            color: dataEventOfuser[0].criteria_walk_step == "false" ? colors.grey3 : colors.persianBlue,
                             fontFamily: "IBMPlexSansThai-Bold",
                             fontSize: 14,
                           }}
@@ -534,8 +534,7 @@ export default function DetailsActivity({ route }) {
                           height: 16,
                           borderRadius: 16,
                           backgroundColor:
-                            // #93ABC1
-                            "#3762FC",
+                            dataEventOfuser[0].criteria_walk_step == "false" ? colors.grey3 : colors.persianBlue
                         }}
                       />
                     </View>

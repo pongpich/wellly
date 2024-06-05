@@ -165,15 +165,15 @@ export default function AlreadyRegistered() {
                         }}
                       >
                         {dayjs(item.start_date).year() ==
-                        dayjs(item.end_date).year()
+                          dayjs(item.end_date).year()
                           ? `${dayjs(item.start_date)
-                              .locale("th")
-                              .format("DD MMM")} - ${dayjs(item.end_date)
+                            .locale("th")
+                            .format("DD MMM")} - ${dayjs(item.end_date)
                               .locale("th")
                               .format("DD MMM BBBB")}`
                           : `${dayjs(item.start_date)
-                              .locale("th")
-                              .format("DD MMM BBBB")} - ${dayjs(item.end_date)
+                            .locale("th")
+                            .format("DD MMM BBBB")} - ${dayjs(item.end_date)
                               .locale("th")
                               .format("DD MMM BBBB")}`}
                       </Text>
@@ -210,7 +210,7 @@ export default function AlreadyRegistered() {
                             color:
                               now > dayjs(item.end_date)
                                 ? colors.grey3
-                                : colors.persianBlue,
+                                : item.criteria_walk_step == "false" ? colors.grey3 : colors.persianBlue,
                             fontFamily: "IBMPlexSansThai-Bold",
                             fontSize: 14,
                           }}
@@ -241,7 +241,7 @@ export default function AlreadyRegistered() {
                           backgroundColor:
                             now > dayjs(item.end_date)
                               ? colors.grey3
-                              : colors.persianBlue,
+                              : item.criteria_walk_step == "false" ? colors.grey3 : colors.persianBlue,
                         }}
                       />
                     </View>
@@ -276,7 +276,7 @@ export default function AlreadyRegistered() {
                             color:
                               now > dayjs(item.end_date)
                                 ? colors.grey3
-                                : colors.persianBlue,
+                                : item.criteria_walk_step == "false" ? colors.grey3 : colors.persianBlue,
                             fontFamily: "IBMPlexSansThai-Bold",
                             fontSize: 14,
                           }}
@@ -307,7 +307,7 @@ export default function AlreadyRegistered() {
                           backgroundColor:
                             now > dayjs(item.end_date)
                               ? colors.grey3
-                              : colors.persianBlue,
+                              : item.criteria_walk_step == "false" ? colors.grey3 : colors.persianBlue,
                         }}
                       />
                     </View>

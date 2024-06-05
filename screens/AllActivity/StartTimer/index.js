@@ -166,7 +166,7 @@ const StartTime = ({ navigation }) => {
             try {
                 const isAvailable = await Pedometer.isAvailableAsync();
                 setIsPedometerAvailable(String(isAvailable));
-                if (isAvailable) {
+                if (isAvailable && !statusStop) {
                     const subscription = Pedometer.watchStepCount(result => setSteps(result.steps));
                     return () => subscription?.remove();
                 }
