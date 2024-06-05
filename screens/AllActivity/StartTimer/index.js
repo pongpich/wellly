@@ -92,7 +92,7 @@ const StartTime = ({ navigation }) => {
 
     const dispatch = useDispatch();
     const route = useRoute();
-    const { eventId, distance_goal, stepCount_goal } = route.params;
+    const { eventId, distance_goal, stepCount_goal, criteria_walk_step, criteria_distance } = route.params;
 
     const { authentication, idToken, user, } = useSelector(({ authUser }) => (authUser ? authUser : ""));
     const { statusStepCountDistace } = useSelector(({ updateData }) => (updateData ? updateData : ""));
@@ -100,9 +100,12 @@ const StartTime = ({ navigation }) => {
 
     const onFinish = () => {
 
-        const distanceKg = (totalDistance / 1000).toFixed(2);
+
+
+        const distanceKg = criteria_distance == "false" ? 0 : (totalDistance / 1000).toFixed(2);
+        const step = criteria_walk_step == "false" ? 0 : steps;
         setStatusFinish(true);
-        dispatch(updateEventStepCount_Distance(user && user.user_id, eventId, steps, distanceKg, distance_goal, stepCount_goal));
+        dispatch(updateEventStepCount_Distance(user && user.user_id, eventId, step, distanceKg, distance_goal, stepCount_goal));
 
     };
 

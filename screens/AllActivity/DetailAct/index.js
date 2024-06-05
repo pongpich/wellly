@@ -94,8 +94,10 @@ export default function DetailsActivity({ route }) {
   const startTime = () => {
     const distance_goal = dataEventDetail && dataEventDetail[0].distance;
     const walk_step_goal = dataEventDetail && dataEventDetail[0].walk_step;
+    const criteria_walk_step = dataEventDetail && dataEventDetail[0].criteria_walk_step;
+    const criteria_distance = dataEventDetail && dataEventDetail[0].criteria_distance;
 
-    navigate.navigate("StartTimerActivity", { eventId: itemId && itemId, distance_goal: distance_goal, stepCount_goal: walk_step_goal })
+    navigate.navigate("StartTimerActivity", { eventId: itemId && itemId, distance_goal: distance_goal, stepCount_goal: walk_step_goal, criteria_walk_step: criteria_walk_step, criteria_distance: criteria_distance })
   }
 
   const styles = StyleSheet.create({
