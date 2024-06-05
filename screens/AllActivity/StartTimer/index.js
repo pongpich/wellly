@@ -104,8 +104,8 @@ const StartTime = ({ navigation }) => {
         setIndicator(true);
 
         console.log("444");
-        const distanceKg = criteria_distance == "false" ? 0 : 500/* (totalDistance / 1000).toFixed(2) */;
-        const step = criteria_walk_step == "false" ? 0 : 5/* steps */;
+        const distanceKg = criteria_distance == "false" ? 0 : (totalDistance / 1000).toFixed(2);
+        const step = criteria_walk_step == "false" ? 0 : steps;
         setStatusFinish(true);
         dispatch(updateEventStepCount_Distance(user && user.user_id, eventId, step, distanceKg, distance_goal, stepCount_goal));
 
