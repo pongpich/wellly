@@ -3,6 +3,7 @@ import {
     Text,
     StyleSheet,
     Modal, Platform, PermissionsAndroid, Alert, Linking, Pressable,
+    ActivityIndicator,
     Image,
 } from "react-native";
 import React, { useState, useEffect } from "react";
@@ -89,6 +90,7 @@ const StartTime = ({ navigation }) => {
     const [speed, setSpeed] = useState(null);
     const [movementDetected, setMovementDetected] = useState(false);
     const [statusFinish, setStatusFinish] = useState(false);
+    const [indicator, setIndicator] = useState(false);
 
     const dispatch = useDispatch();
     const route = useRoute();
@@ -99,11 +101,11 @@ const StartTime = ({ navigation }) => {
     const { status_event_user, event_user } = useSelector(({ getData }) => (getData ? getData : ""));
 
     const onFinish = () => {
+        setIndicator(true);
 
-
-
-        const distanceKg = criteria_distance == "false" ? 0 : (totalDistance / 1000).toFixed(2);
-        const step = criteria_walk_step == "false" ? 0 : steps;
+        console.log("444");
+        const distanceKg = criteria_distance == "false" ? 0 : 500/* (totalDistance / 1000).toFixed(2) */;
+        const step = criteria_walk_step == "false" ? 0 : 5/* steps */;
         setStatusFinish(true);
         dispatch(updateEventStepCount_Distance(user && user.user_id, eventId, step, distanceKg, distance_goal, stepCount_goal));
 
@@ -278,8 +280,12 @@ const StartTime = ({ navigation }) => {
                             <Pressable style={styles.circlePlay} onPress={() => onStop()}>
                                 <Text style={styles.textPlay}>กลับ</Text>
                             </Pressable>
-                            <Pressable style={styles.circleFinish} onPress={() => onFinish()}>
-                                <Text style={styles.textFinish}>เสร็จ</Text>
+                            <Pressable style={styles.circleFinish} onPress={() => !indicator && onFinish()}>
+                                {indicator ?
+                                    <ActivityIndicator size="large" color="#FFF" />
+                                    :
+                                    <Text style={styles.textFinish}>เสร็จ</Text>}
+
                             </Pressable>
                         </View>
                         <Pressable onPress={() => setModalVisible(true)}>
@@ -308,7 +314,7 @@ const StartTime = ({ navigation }) => {
                     </View>
                 </View>
             </Modal>
-        </View>
+        </View >
     );
 };
 
