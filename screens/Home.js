@@ -1200,7 +1200,7 @@ class Home extends Component {
                                     color:
                                       now > dayjs(item.end_date)
                                         ? colors.grey3
-                                        : item.criteria_walk_step == "false" ? colors.grey3 : colors.persianBlue,
+                                        : item.criteria_distance == "false" ? colors.grey3 : colors.persianBlue,
                                     fontFamily: "IBMPlexSansThai-Bold",
                                     fontSize: 14,
                                   }}
@@ -1231,7 +1231,7 @@ class Home extends Component {
                                   backgroundColor:
                                     now > dayjs(item.end_date)
                                       ? colors.grey3
-                                      : item.criteria_walk_step == "false" ? colors.grey3 : colors.persianBlue,
+                                      : item.criteria_distance == "false" ? colors.grey3 : colors.persianBlue,
                                 }}
                               />
                             </View>

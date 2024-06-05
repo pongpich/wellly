@@ -503,7 +503,7 @@ export default function DetailsActivity({ route }) {
                         />
                         <Text
                           style={{
-                            color: dataEventOfuser[0].criteria_walk_step == "false" ? colors.grey3 : colors.persianBlue,
+                            color: dataEventOfuser[0].criteria_distance == "false" ? colors.grey3 : colors.persianBlue,
                             fontFamily: "IBMPlexSansThai-Bold",
                             fontSize: 14,
                           }}
@@ -534,7 +534,7 @@ export default function DetailsActivity({ route }) {
                           height: 16,
                           borderRadius: 16,
                           backgroundColor:
-                            dataEventOfuser[0].criteria_walk_step == "false" ? colors.grey3 : colors.persianBlue
+                            dataEventOfuser[0].criteria_distance == "false" ? colors.grey3 : colors.persianBlue
                         }}
                       />
                     </View>
